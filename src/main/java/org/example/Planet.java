@@ -1,11 +1,12 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Planet extends PlanetsCard{
     private int planetNumber;
     private boolean isOccupied;
-    private List<Goods> goodsList = new ArrayList<Goods>();
+    private final List<Goods> goodsList = new ArrayList<Goods>();
 
     public boolean getIsOccupied() {
         return isOccupied;

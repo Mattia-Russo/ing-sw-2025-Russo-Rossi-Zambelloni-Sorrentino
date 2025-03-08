@@ -6,7 +6,7 @@ import java.util.List;
 public class MeteorCard implements AdventureCard{
     private final CardEnum cardEnum;
     private final int cardLevel;
-    private List<Meteor> meteorList = new ArrayList<Meteor>();
+    private final List<Meteor> meteorList = new ArrayList<Meteor>();
 
     public MeteorCard(){
         this.cardEnum = CardEnum.MeteorCard;
