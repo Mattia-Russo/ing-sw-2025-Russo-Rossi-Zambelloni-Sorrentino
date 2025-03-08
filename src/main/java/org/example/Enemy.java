@@ -1,4 +1,9 @@
 package org.example;
 
-public class Enemy {
+public abstract class Enemy extends LoseDays{
+    private int cannonPower;
+
+    public int getCannonPower() {
+        return cannonPower;
+    }
 }

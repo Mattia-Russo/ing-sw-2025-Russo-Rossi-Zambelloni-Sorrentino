@@ -1,4 +1,9 @@
 package org.example;
 
-public class LoseDays {
+public abstract class LoseDays implements AdventureCard{
+    private int numDays;
+
+    public int getNumDays() {
+        return numDays;
+    }
 }

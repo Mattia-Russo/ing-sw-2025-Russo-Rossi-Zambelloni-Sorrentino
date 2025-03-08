@@ -1,4 +1,34 @@
 package org.example;
 
-public class Smugglers {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Smugglers extends Enemy{
+    private final CardEnum cardEnum;
+    private final int cardLevel;
+    private List<Goods> goodsWinList = new ArrayList<Goods>(); // forse va creata una classe Goods
+    private int goodsLose;
+
+    public Smugglers(){
+        this.cardEnum = CardEnum.Smugglers;
+        this.cardLevel = 123;
+    }
+
+    @Override
+    public CardEnum getCardEnum() {
+        return cardEnum;
+    }
+
+    @Override
+    public int getCardLevel() {
+        return cardLevel;
+    }
+
+    public List<Goods> getGoodsWinList() {
+        return goodsWinList;
+    }
+
+    public int getGoodsLose() {
+        return goodsLose;
+    }
 }

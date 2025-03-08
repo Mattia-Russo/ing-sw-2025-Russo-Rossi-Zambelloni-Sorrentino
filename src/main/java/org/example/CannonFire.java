@@ -1,4 +1,19 @@
 package org.example;
 
-public class CannonFire {
+public class CannonFire extends Pirates{
+    private final int type;
+    private final int direction;
+
+    public CannonFire(int type, int direction) {
+        this.direction = direction;
+        this.type = type;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public int getType() {
+        return type;
+    }
 }
