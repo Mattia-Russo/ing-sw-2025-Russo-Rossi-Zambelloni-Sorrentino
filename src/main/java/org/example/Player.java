@@ -5,6 +5,7 @@ public class Player {
     private ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
+    private int numCredits;
 
     public Player(ShipBoard shipBoard){
         this.position=0;
@@ -44,6 +45,10 @@ public class Player {
 
     public void changePosition(int val){
         this.position+=val;
+    }
+
+    public int getNumCredits(){
+        return numCredits;
     }
 
 }
