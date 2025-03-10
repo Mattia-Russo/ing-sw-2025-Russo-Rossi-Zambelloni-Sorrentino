@@ -26,4 +26,17 @@ public class MeteorCard implements AdventureCard{
     public List<Meteor> getMeteorList() {
         return meteorList;
     }
+
+    @Override
+    public void playCard(ArrayList<Player> players) {
+        int[] rowOrCol = new int[meteorList.size()];
+        for(int i=0; i<meteorList.size(); i++){
+            rowOrCol[i] = players.get(0).shoot();
+        }
+
+        for (Player p : players) {
+            
+        }
+
+    }
 }

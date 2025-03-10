@@ -6,7 +6,7 @@ import java.util.List;
 public class Smugglers extends Enemy{
     private final CardEnum cardEnum;
     private final int cardLevel;
-    private List<Goods> goodsWinList = new ArrayList<Goods>(); // forse va creata una classe Goods
+    private final List<Goods> goodsWinList = new ArrayList<Goods>();
     private int goodsLose;
 
     public Smugglers(){

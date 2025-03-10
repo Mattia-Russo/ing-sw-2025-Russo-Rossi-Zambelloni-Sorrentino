@@ -1,10 +1,14 @@
 package org.example;
 
+import java.util.Random;
+
 public class Player {
+    private Random random;
     private int position;
     private ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
+    private int numCredits;
 
     public Player(ShipBoard shipBoard){
         this.position=0;
@@ -44,6 +48,16 @@ public class Player {
 
     public void changePosition(int val){
         this.position+=val;
+    }
+
+    public int getNumCredits(){
+        return numCredits;
+    }
+
+    public int shoot() {
+        int die1 = random.nextInt(6) + 1;
+        int die2 = random.nextInt(6) + 1;
+        return die1 + die2;
     }
 
 }
