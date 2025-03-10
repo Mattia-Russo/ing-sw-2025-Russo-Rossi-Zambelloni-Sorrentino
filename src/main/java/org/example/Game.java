@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class Game {
     private int numPlayer;
@@ -15,13 +17,16 @@ public class Game {
 
     public void checkShips() {}
 
-    // se teniamo l'array players ordinato in base alla position allora va bene
-    // altrimenti va cambiato
+    public void adjustPlayerPositions() {
+        players.sort(Comparator.comparingInt(Player::getPosition).reversed()); // metodo per ordinare i player in base alla posizione
+    }
+
+
     public int getOccupiedPositions(Player player, int numPos) {
         int i = 0;
-        for (Player p : players) {
-            int diff = p.getPosition() + i - player.getPosition();
-            if (p != player &&  diff <= numPos && diff >= 0) {
+        for (int j=players.indexOf(player)-1; j<=0; j--) {
+            int diff = players.get(j).getPosition() + i - player.getPosition();
+            if (diff <= numPos) {
                 i++;
             }
         }

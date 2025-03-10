@@ -34,9 +34,12 @@ public class MeteorCard implements AdventureCard{
             rowOrCol[i] = players.get(0).shoot();
         }
 
-        for (Player p : players) {
-            
+        for (Meteor m : meteorList) {
+            for (Player p : players) {
+
+            }
         }
+
 
     }
 }
