@@ -52,4 +52,10 @@ public class Game {
         }
         return winner;
     }
+
+    public void playCard(AdventureCard card) {
+
+        card.playCard(players);
+
+    }
 }

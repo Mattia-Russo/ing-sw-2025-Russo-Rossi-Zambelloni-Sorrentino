@@ -1,6 +1,9 @@
 package org.example;
 
+import java.util.Random;
+
 public class Player {
+    private Random random;
     private int position;
     private ShipBoard playerShipBoard;
     private boolean abandoned;
@@ -49,6 +52,12 @@ public class Player {
 
     public int getNumCredits(){
         return numCredits;
+    }
+
+    public int shoot() {
+        int die1 = random.nextInt(6) + 1;
+        int die2 = random.nextInt(6) + 1;
+        return die1 + die2;
     }
 
 }
