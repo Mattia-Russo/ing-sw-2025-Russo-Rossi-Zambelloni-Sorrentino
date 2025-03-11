@@ -60,4 +60,7 @@ public class Player {
         return die1 + die2;
     }
 
+    public void changeCredits(int num){
+        numCredits+=num;
+    }
 }

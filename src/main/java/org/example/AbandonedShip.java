@@ -1,6 +1,6 @@
 package org.example;
 
-public class AbandonedShip extends LoseDays{
+public abstract class AbandonedShip extends LoseDays{
     private final int cardLevel;
     private final CardEnum cardEnum;
     private int Credits;
@@ -21,11 +21,17 @@ public class AbandonedShip extends LoseDays{
         return cardEnum;
     }
 
-    public int getAstronauts() {
-        return Astronauts;
+    @Override
+    public void playCard(Player p) {
+        p.changeCredits(Credits);
     }
 
-    public int getCredits() {
+    public int getCredits(){
         return Credits;
+    }
+
+    @Override
+    public int getNumAstronauts(){
+        return Astronauts;
     }
 }
