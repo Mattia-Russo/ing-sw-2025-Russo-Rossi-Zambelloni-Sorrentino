@@ -1,4 +1,4 @@
-package org.example;
+package org.example.CardPack;
 
 public enum CardEnum {
     MeteorCard,

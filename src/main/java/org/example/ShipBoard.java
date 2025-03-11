@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.ComponentsPack.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class ShipBoard {
         int totalBattery = 0;
         for(int i = 0; i < dimension; i++){
             for(int j = 0; j < dimension; j++){
-                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()==TileType.BATTERYCOMPONENTS){
+                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()== TileType.BATTERYCOMPONENTS){
                     ContainersComponent container=(ContainersComponent) componentMatrix[i][j];
                     totalBattery+=container.getQuantity();
                 }

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.CardPack;
 
 public abstract class Enemy extends LoseDays{
     private int cannonPower;

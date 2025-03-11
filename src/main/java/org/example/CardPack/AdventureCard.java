@@ -1,5 +1,6 @@
-package org.example;
+package org.example.CardPack;
 
+import org.example.Player;
 import java.util.ArrayList;
 
 public interface AdventureCard {

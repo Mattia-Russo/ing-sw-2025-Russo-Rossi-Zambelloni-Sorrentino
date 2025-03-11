@@ -1,6 +1,4 @@
-package org.example;
-
-import java.awt.*;
+package org.example.ComponentsPack;
 
 public class ContainersComponent extends Components {
     private int quantity;

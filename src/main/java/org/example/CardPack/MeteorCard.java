@@ -1,9 +1,13 @@
-package org.example;
+package org.example.CardPack;
+
+import org.example.ComponentsPack.Components;
+import org.example.ComponentsPack.Connector;
+import org.example.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MeteorCard implements AdventureCard{
+public abstract class MeteorCard implements AdventureCard {
     private final CardEnum cardEnum;
     private final int cardLevel;
     private final List<Meteor> meteorList = new ArrayList<Meteor>();

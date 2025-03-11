@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ComponentsPack;
 
 
 public class Components {
@@ -11,11 +11,11 @@ public class Components {
     private int posY;
 
 
-    public Components(TileType tileType, Direction direction, Connector[] connectors){
-        this.tileType = tileType;
-        this.direction = direction;
-        this.connectors = connectors;
-    }
+//    public Components(TileType tileType, Direction direction, Connector[] connectors){
+//        this.tileType = tileType;
+//        this.direction = direction;
+//        this.connectors = connectors;
+//    }
 
     public void leftRotate(){
         switch(direction){

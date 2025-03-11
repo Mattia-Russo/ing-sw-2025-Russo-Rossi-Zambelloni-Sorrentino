@@ -1,4 +1,6 @@
-package org.example;
+package org.example.CardPack;
+
+import org.example.Player;
 
 public abstract class AbandonedShip extends LoseDays{
     private final int cardLevel;

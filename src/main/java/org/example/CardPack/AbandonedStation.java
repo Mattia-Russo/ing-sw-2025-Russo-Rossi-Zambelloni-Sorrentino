@@ -1,4 +1,7 @@
-package org.example;
+package org.example.CardPack;
+
+import org.example.ComponentsPack.Goods;
+import org.example.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,7 @@ public abstract class AbandonedStation extends LoseDays{
     private final CardEnum cardEnum;
     private int numAstronauts;
     private List<Goods> goodsList = new ArrayList<Goods>();
+
 
     public AbandonedStation(){
         this.cardEnum = CardEnum.AbandonedStation;
@@ -35,6 +39,10 @@ public abstract class AbandonedStation extends LoseDays{
 
     @Override
     public void playCard(Player p) { // il controller mi dice quale giocatore ha deciso di attraccare
-        
+
+        // bhooooo
+
+
+        p.changePosition(getNumDays());
     }
 }

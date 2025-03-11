@@ -1,4 +1,6 @@
-package org.example;
+package org.example.CardPack;
+
+import org.example.ComponentsPack.Goods;
 
 import java.util.ArrayList;
 import java.util.List;

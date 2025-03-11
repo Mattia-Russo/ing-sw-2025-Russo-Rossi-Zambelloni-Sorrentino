@@ -1,10 +1,10 @@
-package org.example;
+package org.example.CardPack;
 
-public abstract class Meteor extends MeteorCard {
+public class CannonFire extends Pirates{
+    private final int type;
     private final int direction;
-    private final int type; // 0 è piccolo, 1 è grande
 
-    public Meteor(int type, int direction) {
+    public CannonFire(int type, int direction) {
         this.direction = direction;
         this.type = type;
     }

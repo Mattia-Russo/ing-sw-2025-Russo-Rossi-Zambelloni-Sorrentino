@@ -8,5 +8,7 @@ public class Controller {
 
     public void GoodsChoice() {}
 
-    public int[] getNewPosition(int posX, int posY) {}
+    public int[] getNewPosition(int posX, int posY) {
+        return new int[]{posX, posY};
+    }
 }

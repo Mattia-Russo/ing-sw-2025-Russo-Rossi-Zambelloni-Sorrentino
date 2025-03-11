@@ -1,4 +1,4 @@
-package org.example;
+package org.example.CardPack;
 
 public class Slavers extends Enemy{
     private final CardEnum cardEnum;

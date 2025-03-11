@@ -1,9 +1,15 @@
 package org.example;
 
+import org.example.CardPack.AdventureCard;
+import org.example.CardPack.CardEnum;
+import org.example.ComponentsPack.Components;
+import org.example.ComponentsPack.Goods;
+import org.example.ComponentsPack.Storage;
+import org.example.ComponentsPack.TileType;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Comparator;
-import java.util.Collections;
 
 public class Game extends Controller{
     private int numPlayer;
@@ -58,30 +64,22 @@ public class Game extends Controller{
         return winner;
     }
 
-    public boolean playCard(AdventureCard card) {
+    public void playCard(AdventureCard card, Player player) {
+        card.playCard(player);
+    }
 
-        switch (card.getCardEnum()) {
-            case MeteorCard:
-                card.playCard(players);
-            case AbandonedStation:
-                Player p = waitForPlayer();
-                if(p.getPlayerShipBoard().getTotalAstronauts() < card.getNumAstronauts()){
-                    return false;
-                }
-                card.playCard(p);
-            case AbandonedShip:
-                Player pl = waitForPlayer();
-                if (pl.getPlayerShipBoard().getTotalAstronauts() < card.getNumAstronauts()) {
-                    return false;
-                }
-                card.playCard(pl);
-                int credit = 0 - card.getCredits();
-                gameBank.changeCredit(credit); // la banca ha abbastanza crediti?
+    public void playCard(AdventureCard card, ArrayList<Player> players){
+        card.playCard(players);
+    }
+
+    public void swapGoodPosition(Goods good, Storage storage) {
+        if (!(good.getColour()== 1 && storage.getTileType() != TileType.SPECIALCARGOHOLDS)) {
 
         }
-        return true;
+        for (int i=0; i<storage.getGoodsList().length; i++){
 
 
+        }
 
     }
 }

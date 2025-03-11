@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ComponentsPack;
 
 public enum Connector {
     SINGLE,

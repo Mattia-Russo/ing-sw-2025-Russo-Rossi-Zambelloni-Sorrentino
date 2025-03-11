@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ComponentsPack;
 
 public class PowerComponent extends Components{
     private int power;
