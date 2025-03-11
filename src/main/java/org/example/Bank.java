@@ -1,6 +1,8 @@
 package org.example;
 
-public class Bank {
+import javax.smartcardio.Card;
+
+public class Bank extends Game {
     private int creditsRemaining;
     private int energyRemaining;
     private int redGoodsRemaining;

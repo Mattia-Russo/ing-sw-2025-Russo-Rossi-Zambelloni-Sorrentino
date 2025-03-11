@@ -24,6 +24,7 @@ public abstract class AbandonedStation extends LoseDays{
         return cardLevel;
     }
 
+    @Override
     public int getNumAstronauts() {
         return numAstronauts;
     }

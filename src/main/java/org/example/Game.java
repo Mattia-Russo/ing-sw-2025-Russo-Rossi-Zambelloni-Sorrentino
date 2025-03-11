@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Comparator;
 import java.util.Collections;
 
-public class Game {
+public class Game extends Controller{
     private int numPlayer;
     private ArrayList<Player> players;
     private ArrayList<AdventureCard> adventureCards;
@@ -58,9 +58,30 @@ public class Game {
         return winner;
     }
 
-    public void playCard(AdventureCard card) {
+    public boolean playCard(AdventureCard card) {
 
-        card.playCard(players);
+        switch (card.getCardEnum()) {
+            case MeteorCard:
+                card.playCard(players);
+            case AbandonedStation:
+                Player p = waitForPlayer();
+                if(p.getPlayerShipBoard().getTotalAstronauts() < card.getNumAstronauts()){
+                    return false;
+                }
+                card.playCard(p);
+            case AbandonedShip:
+                Player pl = waitForPlayer();
+                if (pl.getPlayerShipBoard().getTotalAstronauts() < card.getNumAstronauts()) {
+                    return false;
+                }
+                card.playCard(pl);
+                int credit = 0 - card.getCredits();
+                gameBank.changeCredit(credit); // la banca ha abbastanza crediti?
+
+        }
+        return true;
+
+
 
     }
 }
