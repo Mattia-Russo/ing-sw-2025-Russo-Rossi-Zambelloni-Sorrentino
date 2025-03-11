@@ -3,7 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbandonedStation extends LoseDays{
+public abstract class AbandonedStation extends LoseDays{
     private final int cardLevel;
     private final CardEnum cardEnum;
     private int numAstronauts;
@@ -30,5 +30,10 @@ public class AbandonedStation extends LoseDays{
 
     public List<Goods> getGoodsList() {
         return goodsList;
+    }
+
+    @Override
+    public void playCard(Player p) { // il controller mi dice quale giocatore ha deciso di attraccare
+        
     }
 }

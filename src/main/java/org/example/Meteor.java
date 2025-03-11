@@ -1,8 +1,8 @@
 package org.example;
 
-public class Meteor extends MeteorCard {
+public abstract class Meteor extends MeteorCard {
     private final int direction;
-    private final int type;
+    private final int type; // 0 è piccolo, 1 è grande
 
     public Meteor(int type, int direction) {
         this.direction = direction;
