@@ -2,10 +2,8 @@ package org.example;
 
 import org.example.CardPack.AdventureCard;
 import org.example.CardPack.CardEnum;
-import org.example.ComponentsPack.Components;
 import org.example.ComponentsPack.Goods;
 import org.example.ComponentsPack.Storage;
-import org.example.ComponentsPack.TileType;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -73,13 +71,6 @@ public class Game extends Controller{
     }
 
     public void swapGoodPosition(Goods good, Storage storage) {
-        if (!(good.getColour()== 1 && storage.getTileType() != TileType.SPECIALCARGOHOLDS)) {
-
-        }
-        for (int i=0; i<storage.getGoodsList().length; i++){
-
-
-        }
 
     }
 }

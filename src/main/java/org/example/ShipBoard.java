@@ -43,7 +43,7 @@ public class ShipBoard {
         for(int i = 0; i < dimension; i++){
             for(int j = 0; j < dimension; j++){
                 if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()== TileType.BATTERYCOMPONENTS){
-                    ContainersComponent container=(ContainersComponent) componentMatrix[i][j];
+                    Cabin container=(Cabin) componentMatrix[i][j];
                     totalBattery+=container.getQuantity();
                 }
             }
@@ -58,7 +58,7 @@ public class ShipBoard {
         for(int i = 0; i < dimension; i++){
             for(int j = 0; j < dimension; j++){
                 if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()==TileType.CARGOHOLDS || componentMatrix[i][j].getTileType()==TileType.SPECIALCARGOHOLDS ){
-                    ContainersComponent container=(ContainersComponent) componentMatrix[i][j];
+                    Cabin container=(Cabin) componentMatrix[i][j];
                     totalGoods+=container.getQuantity();
 
 
@@ -73,7 +73,7 @@ public class ShipBoard {
         for(int i = 0; i < dimension; i++){
             for(int j = 0; j < dimension; j++){
                 if (componentMatrix[i][j] != null && componentMatrix[i][j].getTileType()==TileType.CABINS) {
-                    ContainersComponent container=(ContainersComponent) componentMatrix[i][j];
+                    Cabin container=(Cabin) componentMatrix[i][j];
                     totalAstronauts+=container.getQuantity();
                 }
             }

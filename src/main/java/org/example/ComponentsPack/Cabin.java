@@ -1,9 +1,9 @@
 package org.example.ComponentsPack;
 
-public class ContainersComponent extends Components {
+public class Cabin extends Components {
     private int quantity;
     private int capacity;
-    public ContainersComponent(TileType tileType, Direction direction, Connector[] connectors, int quantity, int capacity) {
+    public Cabin(TileType tileType, Direction direction, Connector[] connectors, int quantity, int capacity) {
         super(tileType,direction,connectors);
         this.quantity = quantity;
         this.capacity = capacity;
