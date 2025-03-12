@@ -3,6 +3,7 @@ package org.example;
 import org.example.ComponentsPack.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ShipBoard {
@@ -39,95 +40,117 @@ public class ShipBoard {
 
     public int getTotalBattery(){
         int totalBattery = 0;
-
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(componentMatrix[i][j] instanceof BatteryStorage){
-                    Cabin container=(Cabin) componentMatrix[i][j];
-                    totalBattery+=container.getQuantity();
+                if(availablePositionMatrix[i][j]){
+                    Components c = getComponent(i, j);
+                    if(c instanceof BatteryStorage){
+                        totalBattery += ((BatteryStorage) c).getQuantity();
+                    }
                 }
+
             }
 
         }
         return totalBattery;
     }
 
-    public List<Goods> getTotalGoods(){
-        int totalGoods = 0;
-        List<Goods> goodsList = new ArrayList<>();
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()==TileType.CARGOHOLDS || componentMatrix[i][j].getTileType()==TileType.SPECIALCARGOHOLDS ){
-                    Cabin container=(Cabin) componentMatrix[i][j];
-                    totalGoods+=container.getQuantity();
-
-
+    public ArrayList<Goods> getTotalGoods(){
+        ArrayList<Goods> totalGoodsList = new ArrayList<>();
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]) {
+                    Components c = getComponent(i, j);
+                    if (c instanceof Storage) {
+                        totalGoodsList.addAll(Arrays.asList(((Storage) c).getGoodsList()));
+                    }
                 }
             }
         }
-        return goodsList;
+        return totalGoodsList;
     }
 
     public int getTotalAstronauts(){
         int totalAstronauts = 0;
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if (componentMatrix[i][j] != null && componentMatrix[i][j].getTileType()==TileType.CABINS) {
-                    Cabin container=(Cabin) componentMatrix[i][j];
-                    totalAstronauts+=container.getQuantity();
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]) {
+                    Components c = getComponent(i, j);
+                    if (c instanceof Cabin) {
+                        totalAstronauts += ((Cabin) c).getNumAstronauts();
+                    }
                 }
             }
         }
         return totalAstronauts;
     }
 
-    public int getTotalCannonPower(){
+    public int getTotalCannonPower(int NumDoubleCannon){
+        int doubleCannonCounter = NumDoubleCannon;
         int totalCannonPower = 0;
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if(componentMatrix!=null && componentMatrix[i][j].getTileType()==TileType.CANNON || componentMatrix[i][j].getTileType()==TileType.DOUBLECANNON){
-                    PowerComponent power=(PowerComponent) componentMatrix[i][j];
-                    totalCannonPower+=power.getPower();
-
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]){
+                    Components c = getComponent(i, j);
+                    if(c instanceof Cannon){
+                        if (((Cannon) c).getPower() == 2 && doubleCannonCounter > 0){
+                            totalCannonPower += 2;
+                            doubleCannonCounter -= 1;   // compito del controller di ridurre l'energia
+                        } else if (((Cannon) c).getPower() == 1){
+                            totalCannonPower += 1;
+                        }
+                    }
                 }
             }
         }
         return totalCannonPower;
     }
 
-    public int getTotalEngineStrenght(){
-        int totalEngineStrenght = 0;
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()==TileType.ENGINE || componentMatrix[i][j].getTileType()==TileType.DOUBLEENGINE){
-                    PowerComponent power=(PowerComponent) componentMatrix[i][j];
-                    totalEngineStrenght+=power.getPower();
+    public int getTotalEngineStrenght(int NumDoubleEngine){
+        int doubleEngineCounter = NumDoubleEngine;
+        int totalEnginePower = 0;
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]){
+                    Components c = getComponent(i, j);
+                    if(c instanceof Engine){
+                        if (((Engine) c).getPower() == 2 && doubleEngineCounter > 0){
+                            totalEnginePower += 2;
+                            doubleEngineCounter -= 1;   // compito del controller di ridurre l'energia
+                        } else if (((Cannon) c).getPower() == 1){
+                            totalEnginePower += 1;
+                        }
+                    }
                 }
             }
         }
-        return totalEngineStrenght;
+        return totalEnginePower;
     }
 
     public int getNumDoubleCannon(){
         int totalDoubleCannon = 0;
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()==TileType.DOUBLECANNON){
-                    totalDoubleCannon++;
-
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]){
+                    Components c = getComponent(i, j);
+                    if (c instanceof Cannon && ((Cannon) c).getPower() == 2){
+                        totalDoubleCannon += 1;
+                    }
                 }
             }
         }
         return totalDoubleCannon;
     }
 
-    // da riscrivere
     public int getNumDoubleEngine(){
         int totalDoubleEngine = 0;
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()==TileType.DOUBLEENGINE){
-                    totalDoubleEngine++;
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]){
+                    Components c = getComponent(i, j);
+                    if (c instanceof Engine && ((Engine) c).getPower() == 2){
+                        totalDoubleEngine += 1;
+                    }
                 }
             }
         }
@@ -139,14 +162,17 @@ public class ShipBoard {
     }
 
     public void removeComponent(int x, int y){
-        if(x<0 || y<0 || x>=componentMatrix[0].length || y>=componentMatrix.length){
-            return;
+        if(availablePositionMatrix[x][y]){
+            if(x<0 || y<0 || x>=componentMatrix.length || y>=componentMatrix[0].length){
+                return;
+            }
+            if(componentMatrix[x][y]==null){
+                return;
+            }
+            componentMatrix[x][y]=null;
+            deletedComponentsCounter++;
         }
-        if(componentMatrix[x][y]==null){
-            return;
-        }
-        componentMatrix[x][y]=null;
-        deletedComponentsCounter++;
+
 
         // CONTROLLARE SE ALTRI PEZZI DELLA NAVE SALTANO,
         // SE CI SONO DUE PEZZI PLAYER DEVE DECIDERE QUALE DEI DUE SCEGLIERE
@@ -154,47 +180,30 @@ public class ShipBoard {
 
     }
 
-    public Components[][] getComponentMatrix(){
-        if(componentMatrix==null){
-            return null;
-        }
-        int numRows=componentMatrix.length;
-        Components[][] copyMatrix = new Components[numRows][];
-        for(int i = 0; i<numRows; i++){
-            int numCols=componentMatrix[i].length;
-            copyMatrix[i]=new Components[numCols];
-
-            for(int j = 0; j<numCols; j++){
-                copyMatrix[i][j]=componentMatrix[i][j];
-            }
-        }
-        return copyMatrix;
-    }
-
     public Components getFirstComponent(int direction, int rowOrCol){
         switch (direction) {
             case 0:
-                for (int i = 0; i < dimension; i++) {
+                for (int i = 0; i < componentMatrix[0].length; i++) {
                     if (validPosition(i, rowOrCol)) {
                         return componentMatrix[i][rowOrCol];
                     }
                 }
 
             case 1:
-                for (int i = dimension-1; i >= 0 ; i--) {
+                for (int i = componentMatrix.length; i > 0 ; i--) {
                     if (validPosition(rowOrCol, i)) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
             case 2:
-                for (int i = dimension-1; i >= 0 ; i--) {
+                for (int i = componentMatrix[0].length; i > 0 ; i--) {
                     if (validPosition(i, rowOrCol)) {
                         return componentMatrix[i][rowOrCol];
                     }
                 }
 
             case 3:
-                for (int i = 0; i < dimension; i++) {
+                for (int i = 0; i < componentMatrix.length; i++) {
                     if (validPosition(rowOrCol, i)) {
                         return componentMatrix[rowOrCol][i];
                     }

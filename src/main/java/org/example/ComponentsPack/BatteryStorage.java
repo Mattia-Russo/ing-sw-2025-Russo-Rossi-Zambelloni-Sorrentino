@@ -1,6 +1,6 @@
 package org.example.ComponentsPack;
 
-public class BatteryStorage {
+public class BatteryStorage extends Components{
     private  int Capacity;
     private  int Quantity;
 
