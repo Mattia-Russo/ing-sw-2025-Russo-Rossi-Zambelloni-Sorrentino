@@ -9,11 +9,6 @@ public class Components {
     private int posX;
     private int posY;
 
-    public Components(Direction direction, Connector[] connectors){
-        this.direction = direction;
-        this.connectors = connectors;
-    }
-
     public void leftRotate(){
         switch(direction){
             case NORTH:
