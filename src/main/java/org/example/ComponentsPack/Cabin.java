@@ -1,21 +1,33 @@
 package org.example.ComponentsPack;
 
 public class Cabin extends Components {
-    private int quantity;
-    private int capacity;
+    private int numAstronauts;
+    private boolean withLifeSupport;
+    private boolean isCentral;
+    private Alien alien;
 
-    public int getQuantity() {
-        return quantity;
+    public int getNumAstronauts() {
+        return numAstronauts;
     }
-    public int getCapacity() {
-        return capacity;
+
+    public Alien getAlien(){
+        return alien;
     }
-    public int changeQuantity(int amount) {
-        int newQuantity = quantity + amount;
-        if(newQuantity<0) {
-            throw new IllegalArgumentException("Not enough quantity to remove");
-        }
-        quantity = newQuantity;
-        return newQuantity;
+
+    public boolean getWithLifeSupport() {
+        return withLifeSupport;
     }
+
+    public boolean getIsCentral() {
+        return isCentral;
+    }
+
+    public void changeNumAstronauts(int amount) {
+        numAstronauts = numAstronauts + amount;
+    }
+
+    public void addAlien(Alien change){
+        alien = change;
+    }
+
 }
