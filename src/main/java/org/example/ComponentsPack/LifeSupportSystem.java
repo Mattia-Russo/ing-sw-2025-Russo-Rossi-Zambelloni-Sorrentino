@@ -1,9 +1,9 @@
 package org.example.ComponentsPack;
 
 public class LifeSupportSystem extends Components{
-    private int colour;
+    private AlienColour colour;
 
-    public int getColour() {
+    public AlienColour getColour() {
         return colour;
     }
 }

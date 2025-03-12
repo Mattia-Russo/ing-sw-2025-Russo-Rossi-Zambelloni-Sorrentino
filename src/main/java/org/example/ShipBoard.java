@@ -6,43 +6,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShipBoard {
-    private int dimension;
+
     private int deletedComponentsCounter;
+    private boolean[][] availablePositionMatrix;
     private Components[][] componentMatrix;
+    private Components[] bookedComponents;  // da 2 elementi
     private boolean[] shieldedDirections;
 
-    public ShipBoard(int dimension){
-        this.dimension = dimension;
-        this.deletedComponentsCounter = 0;
-        this.componentMatrix = new Components[dimension][dimension];
-
+    public boolean validPosition(int posX, int posY){
+        if(posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length){
+            return false;
+        } else if (!availablePositionMatrix[posX][posY]) {
+            return false;
+        } else return componentMatrix[posX][posY] == null;
     }
 
-    public boolean validPosition(int posX, int posY){
-        if(posX < 0 || posX >= dimension || posY < 0 || posY >= dimension){
-            return false;
-        } else if (componentMatrix[posX][posY] != null) {
-            return false;
-        }else{
-            return true;
-        }
-
+    public Components getComponent(int posX, int posY){
+        return componentMatrix[posX][posY];
     }
 
     public int getCounter(){
         return deletedComponentsCounter;
     }
-    public void bookComponents(int x, int y, Components component){
-        if(validPosition(x, y)){
-            componentMatrix[x][y] = component;
+
+    public void bookComponents(Components component){
+        if(bookedComponents[0] == null){
+            bookedComponents[0] = component;
+        } else if(bookedComponents[1] == null){
+            bookedComponents[1] = component;
         }
     }
 
     public int getTotalBattery(){
         int totalBattery = 0;
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; j++){
-                if(componentMatrix[i][j]!=null && componentMatrix[i][j].getTileType()== TileType.BATTERYCOMPONENTS){
+
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(componentMatrix[i][j] instanceof BatteryStorage){
                     Cabin container=(Cabin) componentMatrix[i][j];
                     totalBattery+=container.getQuantity();
                 }
