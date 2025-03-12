@@ -2,7 +2,13 @@ package org.example.ComponentsPack;
 
 public class Storage extends Components {
     private Goods[] goodsList = new Goods[3];
-    private boolean isSpecial;
+    private final boolean isSpecial;
+
+    public Storage(boolean isSpecial, Direction direction, Connector[] connectors) {
+        super(direction, connectors);
+        this.isSpecial = isSpecial;
+        goodsList = null;
+    }
 
     public Goods[] getGoodsList() {
         return goodsList;

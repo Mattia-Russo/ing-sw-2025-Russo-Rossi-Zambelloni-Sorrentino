@@ -6,6 +6,7 @@ public class Goods {
 
     public Goods(int colour) {
         this.colour = colour;
+        this.storage = null;
     }
 
     public int getColour() {

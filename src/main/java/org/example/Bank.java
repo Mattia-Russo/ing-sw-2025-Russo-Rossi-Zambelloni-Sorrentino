@@ -2,7 +2,7 @@ package org.example;
 
 import javax.smartcardio.Card;
 
-public class Bank extends Game {
+public class Bank {
     private int creditsRemaining;
     private int energyRemaining;
     private int redGoodsRemaining;
