@@ -121,6 +121,7 @@ public class ShipBoard {
         return totalDoubleCannon;
     }
 
+    // da riscrivere
     public int getNumDoubleEngine(){
         int totalDoubleEngine = 0;
         for(int i = 0; i < dimension; i++){
