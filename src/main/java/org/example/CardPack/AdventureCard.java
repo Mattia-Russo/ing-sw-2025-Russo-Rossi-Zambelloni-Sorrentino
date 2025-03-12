@@ -3,11 +3,16 @@ package org.example.CardPack;
 import org.example.Player;
 import java.util.ArrayList;
 
-public interface AdventureCard {
+public abstract class AdventureCard {
+    private final int cardLevel;
+    private int lostDays;
 
-    public int getCardLevel();
+    public AdventureCard(int cardLevel, int lostDays) {
+        this.cardLevel = cardLevel;
+        this.lostDays = lostDays;
+    }
 
-    public void playCard(ArrayList<Player> p);
-
-    public void playCard(Player p);
+    public int getCardLevel(){return cardLevel;}
+    public int getLostDays(){return lostDays;}
+    public void playCard(Player player){}
 }
