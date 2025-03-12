@@ -1,7 +1,12 @@
 package org.example.ComponentsPack;
 
 public class LifeSupportSystem extends Components{
-    private AlienColour colour;
+    private final AlienColour colour;
+
+    public LifeSupportSystem(AlienColour colour, Direction direction, Connector[] connectors) {
+        super(direction, connectors);
+        this.colour = colour;
+    }
 
     public AlienColour getColour() {
         return colour;

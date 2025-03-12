@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.CardPack.AdventureCard;
-import org.example.CardPack.CardEnum;
 import org.example.ComponentsPack.Goods;
 import org.example.ComponentsPack.Storage;
 
@@ -10,14 +9,19 @@ import java.util.Random;
 import java.util.Comparator;
 
 public class Game extends Controller{
-    private int numPlayer;
+    private final int numPlayer;
     private ArrayList<Player> players;
-    private ArrayList<AdventureCard> adventureCards;
-    private int gameMode;
-    private Bank gameBank;
     private ArrayList<AdventureCard> deck;
+    private int gameMode;
+    private final Bank gameBank;
 
-    public Game() {}
+    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, Bank gameBank) {
+        this.numPlayer = numPlayer;
+        this.players = players;
+        this.deck = deck;
+        this.gameMode = gameMode;
+        this.gameBank = gameBank;
+    }
 
     public void checkShips() {}
 
@@ -37,15 +41,15 @@ public class Game extends Controller{
         return i;
     }
 
-    public CardEnum pickCard() {
+    public AdventureCard pickCard() {
         Random rand = new Random();
-        int index = rand.nextInt(adventureCards.size()-1);  // prende un numero randomico tra 0 e card.length-1
+        int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
 
-        AdventureCard card = adventureCards.get(index);
+        AdventureCard card = deck.get(index);
 
-        adventureCards.remove(index);
+        deck.remove(index);
 
-        return card.getCardEnum();
+        return card;
     }
 
     public boolean checkGiveUp(Player p) {

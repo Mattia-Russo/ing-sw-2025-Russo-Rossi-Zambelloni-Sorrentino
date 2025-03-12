@@ -14,6 +14,15 @@ public class ShipBoard {
     private Components[] bookedComponents;  // da 2 elementi
     private boolean[] shieldedDirections;
 
+    public ShipBoard(boolean[][] availablePositionMatrix, int matrixDimension) {
+        this.deletedComponentsCounter = 0;
+        this.availablePositionMatrix = availablePositionMatrix;
+        this.componentMatrix = new Components[matrixDimension][matrixDimension];
+        this.bookedComponents = new Components[2];
+        this.shieldedDirections = new boolean[4];
+
+    }
+
     public boolean validPosition(int posX, int posY){
         if(posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length){
             return false;

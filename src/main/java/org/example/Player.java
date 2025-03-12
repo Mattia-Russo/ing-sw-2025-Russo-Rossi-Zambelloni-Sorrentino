@@ -34,12 +34,7 @@ public class Player {
     }
 
     public void changeOnPlanet(){
-        if(onPlanet){
-            this.onPlanet=false;
-        }
-        else{
-            this.onPlanet=true;
-        }
+        this.onPlanet = !onPlanet;
     }
 
     public void abandon(){
