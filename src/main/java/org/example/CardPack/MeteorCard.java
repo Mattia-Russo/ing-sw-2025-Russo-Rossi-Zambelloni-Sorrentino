@@ -59,6 +59,10 @@ public abstract class MeteorCard implements AdventureCard {
             }
         }
 
+        // controllo se scudi
+        // controllo se connettore esposto
+        // controllo se cannoni puntati
+
 
     }
 }

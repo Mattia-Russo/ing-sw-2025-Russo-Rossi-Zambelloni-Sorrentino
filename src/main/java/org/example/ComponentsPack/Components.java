@@ -18,6 +18,10 @@ public class Components {
         this.posY = 0;
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
     public void leftRotate(){
         switch(direction){
             case NORTH:
@@ -31,6 +35,7 @@ public class Components {
         }
 
     }
+
     public void rightRotate() {
         switch (direction) {
             case NORTH:
@@ -46,6 +51,18 @@ public class Components {
 
     public Connector[] getConnectors(){
         return connectors;
+    }
+
+    public boolean getIfExposed(Direction dir, Components component){   // dir è la direnzione in cui vogliamo capire se c'è conn esposto
+        if (component.getDirection() == dir) {
+            return component.getConnectors()[0] != Connector.EMPTY;
+        } else if ((component.getDirection().ordinal()+1)%4 == dir.ordinal()) { // ordinal() converte il nome dell'enum in un int in base alla posizione
+            return component.getConnectors()[1] != Connector.EMPTY;
+        } else if ((component.getDirection().ordinal()+2)%4 == dir.ordinal()) {
+            return component.getConnectors()[2] != Connector.EMPTY;
+        } else {
+            return component.getConnectors()[3] != Connector.EMPTY;
+        }
     }
 
     public int getPosX() {

@@ -1,16 +1,17 @@
 package org.example.ComponentsPack;
 
 public class Shield extends Components {
-    private final int direction1;
-    private final int direction2;
+    private final Direction direction2;
 
-    public Shield(int direction1, int direction2) {
-        this.direction1 = direction1;
+    public Shield(Direction direction, Connector[] connectors, Direction direction2) {
+        super(direction, connectors);
         this.direction2 = direction2;
     }
 
-    public int[] getDirection(){
-
-        return new int[]{direction1, direction2};
+    public Direction[] getDirections(){
+        Direction[] directions = new Direction[2];
+        directions[0] = super.getDirection();
+        directions[1] = direction2;
+        return directions;
     }
 }
