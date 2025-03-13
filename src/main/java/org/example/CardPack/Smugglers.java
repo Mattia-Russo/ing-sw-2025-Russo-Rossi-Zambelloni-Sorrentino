@@ -1,36 +1,37 @@
 package org.example.CardPack;
 
-import org.example.ComponentsPack.Goods;
+import org.example.ComponentsPack.*;
+import org.example.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Smugglers extends Enemy{
-    private final CardEnum cardEnum;
-    private final int cardLevel;
-    private final List<Goods> goodsWinList = new ArrayList<Goods>();
+    private List<Goods> goodsWinList = new ArrayList<Goods>();
     private int goodsLose;
 
-    public Smugglers(){
-        this.cardEnum = CardEnum.Smugglers;
-        this.cardLevel = 123;
+    public Smugglers(int cardLevel, int lostDays, int cannonPower, int goodsLose, List<Goods> goodsWinList) {
+        super(cardLevel,  lostDays, cannonPower);
+        this.goodsLose = goodsLose;
+        this.goodsWinList=goodsWinList;
     }
 
-    @Override
-    public CardEnum getCardEnum() {
-        return cardEnum;
+    public int getCannonPower() {
+        return super.getCannonPower();
     }
 
-    @Override
     public int getCardLevel() {
-        return cardLevel;
+        return super.getCardLevel();
     }
 
-    public List<Goods> getGoodsWinList() {
+    public List<Goods> getGoodsWin() {
         return goodsWinList;
     }
 
-    public int getGoodsLose() {
+    public int getGoodsLost() {
         return goodsLose;
     }
+
+    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
+    // CONFRONTA POI O CHIAMA GOODSWIN O LOSE E CAMBIA LE RISORSE
 }

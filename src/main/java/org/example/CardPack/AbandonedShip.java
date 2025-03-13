@@ -20,9 +20,8 @@ public class AbandonedShip extends AdventureCard {
         return super.getLostDays();
     }
 
-    @Override
-    public void playCard(Player p) {
-        p.changeCredits(Credits);
+    public int getCredits(){
+        return Credits;
     }
 
     public int getNumAstronauts(){
