@@ -6,29 +6,21 @@ import org.example.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbandonedStation extends LoseDays{
-    private final int cardLevel;
-    private final CardEnum cardEnum;
-    private int numAstronauts;
+public abstract class AbandonedStation extends AdventureCard{
+    private final int numAstronauts;
     private List<Goods> goodsList = new ArrayList<Goods>();
 
 
-    public AbandonedStation(){
-        this.cardEnum = CardEnum.AbandonedStation;
-        this.cardLevel = 123;
+    public AbandonedStation(int cardLevel, int lostDays, int numAstronauts, List<Goods> goodsList) {
+        super(cardLevel, lostDays);
+        this.numAstronauts = numAstronauts;
+        this.goodsList = goodsList;
     }
 
-    @Override
-    public CardEnum getCardEnum() {
-        return cardEnum;
-    }
-
-    @Override
     public int getCardLevel() {
-        return cardLevel;
+        return super.getCardLevel();
     }
 
-    @Override
     public int getNumAstronauts() {
         return numAstronauts;
     }
@@ -37,12 +29,9 @@ public abstract class AbandonedStation extends LoseDays{
         return goodsList;
     }
 
-    @Override
-    public void playCard(Player p) { // il controller mi dice quale giocatore ha deciso di attraccare
 
-        // bhooooo
-
-
-        p.changePosition(getNumDays());
-    }
+        // il controller passa il giocatore che vuole attraccare
+        // redistribuzione gestita dal controller (addGood, removeGood)
+        // scarico merci gestita dal controller (shipboard.removeGoods(good, storage))
+        // il controller sposta la posizione del player (p.changePosition)
 }

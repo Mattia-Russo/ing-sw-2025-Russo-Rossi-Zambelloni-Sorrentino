@@ -64,6 +64,14 @@ public class ShipBoard {
         return totalBattery;
     }
 
+    public void addBatteries(int amount, BatteryStorage batteryStorage){
+        batteryStorage.setQuantity(amount);
+    }
+
+    public void removeBatteries(int amount, BatteryStorage batteryStorage){
+        batteryStorage.setQuantity(-amount);
+    }
+
     public ArrayList<Goods> getTotalGoods(){
         ArrayList<Goods> totalGoodsList = new ArrayList<>();
         for(int i = 0; i < componentMatrix.length; i++){
@@ -220,5 +228,13 @@ public class ShipBoard {
             default:
                 return null;
         }
+    }
+
+    public void addGood(Goods good, Storage storage){
+        storage.addGood(good);
+    }
+
+    public void removeGood(Goods good, Storage storage){
+        storage.removeGood(good);
     }
 }
