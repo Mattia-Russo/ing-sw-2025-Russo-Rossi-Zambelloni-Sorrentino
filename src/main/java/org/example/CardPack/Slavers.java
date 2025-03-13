@@ -1,24 +1,21 @@
 package org.example.CardPack;
 
 public class Slavers extends Enemy{
-    private final CardEnum cardEnum;
-    private final int cardLevel;
     private int numAstronauts;
     private int credits;
 
-    public Slavers(){
-        this.cardEnum = CardEnum.Slavers;
-        this.cardLevel = 123;
+    public Slavers(int cardLevel, int lostDays, int cannonPower, int numAstronauts, int credits) {
+        super(cardLevel, lostDays, cannonPower);
+        this.numAstronauts = numAstronauts;
+        this.credits = credits;
     }
 
-    @Override
+    public int getCannonPower() {
+        return super.getCannonPower();
+    }
+
     public int getCardLevel() {
-        return cardLevel;
-    }
-
-    @Override
-    public CardEnum getCardEnum() {
-        return cardEnum;
+        return super.getCardLevel();
     }
 
     public int getNumAstronauts() {
@@ -29,5 +26,6 @@ public class Slavers extends Enemy{
         return credits;
     }
 
-
+    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
+    // CONFRONTA POI O CHIAMA getCredit O numAstronauts
 }

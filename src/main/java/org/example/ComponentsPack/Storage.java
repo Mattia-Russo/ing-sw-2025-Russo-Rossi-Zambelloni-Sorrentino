@@ -26,7 +26,7 @@ public class Storage extends Components {
         }
     }
 
-    public void add(Goods good){
+    public void addGood(Goods good){
         if(goodsList[goodsList.length-1] == null){
             for (int i = 0; i < goodsList.length-1; i++) {
                 if(goodsList[i] == null){

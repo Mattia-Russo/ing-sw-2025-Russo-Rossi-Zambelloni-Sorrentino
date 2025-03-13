@@ -64,6 +64,14 @@ public class ShipBoard {
         return totalBattery;
     }
 
+    public void addBatteries(int amount, BatteryStorage batteryStorage){
+        batteryStorage.setQuantity(amount);
+    }
+
+    public void removeBatteries(int amount, BatteryStorage batteryStorage){
+        batteryStorage.setQuantity(-amount);
+    }
+
     public ArrayList<Goods> getTotalGoods(){
         ArrayList<Goods> totalGoodsList = new ArrayList<>();
         for(int i = 0; i < componentMatrix.length; i++){
@@ -221,4 +229,67 @@ public class ShipBoard {
                 return null;
         }
     }
+
+    public void addGood(Goods good, Storage storage){
+        storage.addGood(good);
+    }
+
+    public void removeGood(Goods good, Storage storage){
+        storage.removeGood(good);
+    }
+
+    public boolean getIfSingleCannon(Direction dir, int rowOrCol){
+        if (dir.ordinal()%2 == 0){
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                if(availablePositionMatrix[i][rowOrCol]){
+                    Components c = getComponent(i, rowOrCol);
+                    if(c instanceof Cannon){
+                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                            return true;
+                        }
+                    }
+                }
+            }
+        } else {
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                if(availablePositionMatrix[rowOrCol][i]){
+                    Components c = getComponent(rowOrCol, i);
+                    if(c instanceof Cannon){
+                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }   // come fa a capire l'utente se è  meteor swarm o stray big meteor (l'immagine è la stessa, la gestione è diversa)
+
+    public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
+        if (dir.ordinal()%2 == 0){
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                if(availablePositionMatrix[i][rowOrCol]){
+                    Components c = getComponent(i, rowOrCol);
+                    if(c instanceof Cannon){
+                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                            return true;
+                        }
+                    }
+                }
+            }
+        } else {
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                if(availablePositionMatrix[rowOrCol][i]){
+                    Components c = getComponent(rowOrCol, i);
+                    if(c instanceof Cannon){
+                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }

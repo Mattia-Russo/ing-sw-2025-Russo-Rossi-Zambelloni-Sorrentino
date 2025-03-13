@@ -14,5 +14,4 @@ public abstract class AdventureCard {
 
     public int getCardLevel(){return cardLevel;}
     public int getLostDays(){return lostDays;}
-    public void playCard(Player player){}
 }

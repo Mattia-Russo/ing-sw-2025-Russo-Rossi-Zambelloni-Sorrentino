@@ -22,9 +22,7 @@ public class BatteryStorage extends Components{
         int newQuantity = quantity + amount;
         if(newQuantity >= capacity) {
             quantity = capacity;
-        } else if(newQuantity < 0){
-            // se ho 2 batterie ma ne chiede 3, gli consumo i 2 o no?
-        } else {
+        } else if(newQuantity > 0){
             quantity = newQuantity;
         }
     }
