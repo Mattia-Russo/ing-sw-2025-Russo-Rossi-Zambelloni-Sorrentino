@@ -1,6 +1,6 @@
 package org.example.CardPack;
 
-public abstract class Meteor extends MeteorCard {
+public class Meteor {
     private final int direction;
     private final int type; // 0 è piccolo, 1 è grande
 
