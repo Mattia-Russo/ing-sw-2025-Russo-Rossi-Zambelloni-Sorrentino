@@ -13,14 +13,12 @@ public class Game extends Controller{
     private ArrayList<Player> players;
     private ArrayList<AdventureCard> deck;
     private int gameMode;
-    private final Bank gameBank;
 
-    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, Bank gameBank) {
+    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode) {
         this.numPlayer = numPlayer;
         this.players = players;
         this.deck = deck;
         this.gameMode = gameMode;
-        this.gameBank = gameBank;
     }
 
     public void checkShips() {}
