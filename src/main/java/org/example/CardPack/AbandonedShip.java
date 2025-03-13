@@ -2,7 +2,7 @@ package org.example.CardPack;
 
 import org.example.Player;
 
-public abstract class AbandonedShip extends AdventureCard {
+public class AbandonedShip extends AdventureCard {
     private int Credits;
     private int Astronauts;
 
