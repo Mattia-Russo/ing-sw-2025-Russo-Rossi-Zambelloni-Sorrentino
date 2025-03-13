@@ -4,28 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pirates extends Enemy{
-    private CardEnum cardEnum;
-    private int cardLevel;
-    private int coord;
     private int credit;
     private List<CannonFire> cannonFiresList = new ArrayList<CannonFire>();
 
-    public Pirates() {
-        this.cardEnum = CardEnum.Pirates;
-        this.cardLevel = 123;
+    public Pirates(int credit, List<CannonFire> cannonFiresList, int cardLevel, int lostDays, int cannonPower) {
+        super(cardLevel, lostDays, cannonPower);
+        this.cannonFiresList = cannonFiresList;
+        this.credit = credit;
     }
 
-    @Override
+    public int getCannonPower() {
+        return super.getCannonPower();
+    }
+
     public int getCardLevel() {
-        return cardLevel;
+        return super.getCardLevel();
     }
-
-    @Override
-    public CardEnum getCardEnum() {
-        return cardEnum;
-    }
-
-    //public boolean checkShield{} --> lo metterei nel game
 
     public int getCredit() {
         return credit;
@@ -34,4 +28,7 @@ public class Pirates extends Enemy{
     public List<CannonFire> getCannonFireList() {
         return cannonFiresList;
     }
+
+    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
+    // CONFRONTA POI O CHIAMA credit O prende lista colpi
 }
