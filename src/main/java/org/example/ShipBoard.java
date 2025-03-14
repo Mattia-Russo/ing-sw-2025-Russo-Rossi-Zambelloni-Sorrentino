@@ -11,7 +11,7 @@ public class ShipBoard {
     private int deletedComponentsCounter;
     private boolean[][] availablePositionMatrix;
     private Components[][] componentMatrix;
-    private Components[] bookedComponents;  // da 2 elementi
+    private Components[] bookedComponents;
     private boolean[] shieldedDirections;
 
     public ShipBoard(boolean[][] availablePositionMatrix, int matrixDimension) {
