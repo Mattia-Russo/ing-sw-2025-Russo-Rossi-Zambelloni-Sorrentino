@@ -3,26 +3,14 @@ package org.example.CardPack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetsCard extends LoseDays {
-    private final int cardLevel;
-    private final CardEnum cardEnum;
-    private final List<Planet> planetsList = new ArrayList<Planet>();
+public class PlanetsCard extends AdventureCard {
+    private List<Planet> planets = new ArrayList<Planet>();
 
-    public PlanetsCard() {
-        this.cardEnum = CardEnum.PlanetCard;
-        this.cardLevel = 123;
+    public PlanetsCard(int cardLevel, int numDays, List<Planet> planets) {
+        super(cardLevel, numDays);
+        this.planets=planets;
     }
-
-    @Override
-    public CardEnum getCardEnum() {
-        return cardEnum;
-    }
-
-    public int getCardLevel() {
-        return cardLevel;
-    }
-
-    public List<Planet> getPlanetList() {
-        return planetsList;
+    public List<Planet> getPlanets(){
+        return planets;
     }
 }
