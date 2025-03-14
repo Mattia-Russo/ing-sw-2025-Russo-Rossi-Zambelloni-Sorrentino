@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.ComponentsPack.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -294,6 +295,14 @@ public class ShipBoard {
             }
         }
         return false;
+    }
+
+    public void placeComponent(int x, int y, Components component){
+        if (availablePositionMatrix[x][y]){
+            if(componentMatrix[x][y]==null){
+                componentMatrix[x][y] = component;
+            }
+        }
     }
 
 }
