@@ -27,7 +27,6 @@ public class Game extends Controller{
         players.sort(Comparator.comparingInt(Player::getPosition).reversed()); // metodo per ordinare i player in base alla posizione
     }
 
-
     public int getOccupiedPositions(Player player, int numPos) {
         int i = 0;
         for (int j=players.indexOf(player)-1; j<=0; j--) {
@@ -62,17 +61,5 @@ public class Game extends Controller{
             }
         }
         return winner;
-    }
-
-    public void swapGoodPosition(Goods good, Storage storage) {
-
-    }
-
-    public void removeGoods(Goods good){
-
-    }
-
-    public void addGoods(Goods good, Storage storage){
-
     }
 }

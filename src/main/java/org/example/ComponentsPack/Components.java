@@ -49,19 +49,6 @@ public class Components {
         }
     }
 
-    public void leftRotate() {
-        switch (direction) {
-            case NORTH:
-                direction = Direction.WEST;
-            case WEST:
-                direction = Direction.SOUTH;
-            case SOUTH:
-                direction = Direction.EAST;
-            case EAST:
-                direction = Direction.NORTH;
-        }
-    }
-
     public Connector[] getConnectors(){
         return connectors;
     }

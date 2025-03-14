@@ -313,4 +313,8 @@ public class ShipBoard {
         }
     }
 
+    public boolean getIfAlienSupported(Cabin cabin){
+
+    }
+
 }
