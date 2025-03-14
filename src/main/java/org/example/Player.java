@@ -1,9 +1,11 @@
 package org.example;
 
+import org.example.ComponentsPack.Components;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
-    private Random random;
     private int position;
     private ShipBoard playerShipBoard;
     private boolean abandoned;
@@ -50,6 +52,7 @@ public class Player {
     }
 
     public int rollDice() {
+        Random random = new Random();
         int die1 = random.nextInt(6) + 1;
         int die2 = random.nextInt(6) + 1;
         return die1 + die2;
@@ -57,5 +60,10 @@ public class Player {
 
     public void changeCredits(int num){
         numCredits+=num;
+    }
+
+    public Components pickComponent(ArrayList<Components> components){
+        Random random = new Random();
+        return components.get(random.nextInt(components.size()));
     }
 }
