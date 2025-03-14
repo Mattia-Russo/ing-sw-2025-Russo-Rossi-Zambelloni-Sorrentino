@@ -107,19 +107,27 @@ public class ShipBoard {
         return totalAstronauts;
     }
 
-    public int getTotalCannonPower(int NumDoubleCannon){
+    public float getTotalCannonPower(int NumDoubleCannon){
         int doubleCannonCounter = NumDoubleCannon;
-        int totalCannonPower = 0;
+        float totalCannonPower = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]){
                     Components c = getComponent(i, j);
                     if(c instanceof Cannon){
                         if (((Cannon) c).getPower() == 2 && doubleCannonCounter > 0){
-                            totalCannonPower += 2;
+                            if (c.getDirection() != Direction.NORTH){
+                                totalCannonPower += 1;
+                            } else {
+                                totalCannonPower += 2;
+                            }
                             doubleCannonCounter -= 1;   // compito del controller di ridurre l'energia
                         } else if (((Cannon) c).getPower() == 1){
-                            totalCannonPower += 1;
+                            if (c.getDirection() != Direction.NORTH){
+                                totalCannonPower += 0.5;
+                            } else {
+                                totalCannonPower += 1;
+                            }
                         }
                     }
                 }
