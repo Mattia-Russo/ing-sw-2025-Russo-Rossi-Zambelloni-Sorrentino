@@ -41,9 +41,22 @@ public class Components {
             case NORTH:
                 direction = Direction.EAST;
             case WEST:
-                direction = Direction.SOUTH;
+                direction = Direction.NORTH;
             case SOUTH:
                 direction = Direction.WEST;
+            case EAST:
+                direction = Direction.SOUTH;
+        }
+    }
+
+    public void leftRotate() {
+        switch (direction) {
+            case NORTH:
+                direction = Direction.WEST;
+            case WEST:
+                direction = Direction.SOUTH;
+            case SOUTH:
+                direction = Direction.EAST;
             case EAST:
                 direction = Direction.NORTH;
         }

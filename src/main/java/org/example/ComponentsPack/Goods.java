@@ -2,7 +2,7 @@ package org.example.ComponentsPack;
 
 public class Goods {
     private final int colour;
-    private Components storage;
+    private Storage storage;
 
     public Goods(int colour) {
         this.colour = colour;
@@ -13,7 +13,7 @@ public class Goods {
         return colour;
     }
 
-    public Components getStorage() {
+    public Storage getStorage() {
         return storage;
     }
 }

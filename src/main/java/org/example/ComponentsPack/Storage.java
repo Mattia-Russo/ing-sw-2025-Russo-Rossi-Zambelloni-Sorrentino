@@ -10,7 +10,7 @@ public class Storage extends Components {
         goodsList = null;
     }
 
-    public Goods[] getGoodsList() {
+    public Goods[] getGoods() {
         return goodsList;
     }
 

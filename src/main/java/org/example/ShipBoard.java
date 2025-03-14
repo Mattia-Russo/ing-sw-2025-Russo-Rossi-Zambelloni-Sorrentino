@@ -39,6 +39,10 @@ public class ShipBoard {
         return deletedComponentsCounter;
     }
 
+    public void changeCounter(int deletedComponentsCounter){
+        this.deletedComponentsCounter+= deletedComponentsCounter;
+    }
+
     public void bookComponents(Components component){
         if(bookedComponents[0] == null){
             bookedComponents[0] = component;

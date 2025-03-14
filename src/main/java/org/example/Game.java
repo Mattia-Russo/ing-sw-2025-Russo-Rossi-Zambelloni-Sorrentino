@@ -64,15 +64,15 @@ public class Game extends Controller{
         return winner;
     }
 
-    public void playCard(AdventureCard card, Player player) {
-        card.playCard(player);
-    }
-
-    public void playCard(AdventureCard card, ArrayList<Player> players){
-        card.playCard(players);
-    }
-
     public void swapGoodPosition(Goods good, Storage storage) {
+
+    }
+
+    public void removeGoods(Goods good){
+
+    }
+
+    public void addGoods(Goods good, Storage storage){
 
     }
 }
