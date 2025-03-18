@@ -371,7 +371,7 @@ public class ShipBoard {
                             case NORTH:
                                 this.singleCannonPower += 1;
                             default:
-                                this.singleCannonPower += 0.5;
+                                this.singleCannonPower += 0.5F;
                         }
                     }
                 } else if (component instanceof Engine){
