@@ -1,6 +1,6 @@
 package org.example.CardPack;
 
-public class CannonFire extends Pirates{
+public class CannonFire {
     private final int type;
     private final int direction;
 
