@@ -12,10 +12,18 @@ public class Components {
     public Components(Direction direction, Connector[] connectors) {
         this.direction = direction;
         this.connectors = connectors;
-        this.covered = false;
+        this.covered = true;
         this.isPositoned = false;
         this.posX = 0;
         this.posY = 0;
+    }
+
+    public void uncover(){
+        this.covered = false;
+    }
+
+    public void putPosition() {
+        this.isPositoned = true;
     }
 
     public Direction getDirection() {
@@ -50,7 +58,6 @@ public class Components {
     }
 
     public Connector[] getConnectors(){
-
         return connectors;
     }
 
