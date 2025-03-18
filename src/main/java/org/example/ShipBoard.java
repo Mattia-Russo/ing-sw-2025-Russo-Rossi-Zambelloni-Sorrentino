@@ -262,14 +262,11 @@ public class ShipBoard {
                 if(componentMatrix[x][y].getDirection()!=Direction.NORTH){
                     singleCannonPower -=1;
                 }else
-                    singleCannonPower -=0.5;
+                    singleCannonPower -= 0.5F;
             }
 
             if(componentMatrix[x][y] instanceof Engine && ((Engine) componentMatrix[x][y]).getPower()==1){
-                if(componentMatrix[x][y].getDirection()!=Direction.NORTH){
-                    singleEnginePower -=1;
-                }else
-                    singleEnginePower -=0.5;
+                singleEnginePower-=1;
             }
 
             componentMatrix[x][y] = null;
