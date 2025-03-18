@@ -21,7 +21,8 @@ public class Game{
         this.gameMode = gameMode;
     }
 
-    public void checkShips() {}
+    public void checkShips() {
+    }
 
     public void adjustPlayerPositions() {
         players.sort(Comparator.comparingInt(Player::getPosition).reversed()); // metodo per ordinare i player in base alla posizione

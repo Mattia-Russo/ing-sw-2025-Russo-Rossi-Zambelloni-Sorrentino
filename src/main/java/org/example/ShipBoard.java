@@ -199,6 +199,76 @@ public class ShipBoard {
             if(componentMatrix[x][y]==null){
                 return;
             }
+            if(componentMatrix[x][y] instanceof LifeSupportSystem){
+                if(componentMatrix[x][y+1] instanceof Cabin){
+                    if(componentMatrix[x][y+2] instanceof LifeSupportSystem){
+                        if(componentMatrix[x][y+2].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x][y+1].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                                componentMatrix[x][y+1].addAlien(null);
+                        }
+                    }else if(componentMatrix[x+1][y+1] instanceof LifeSupportSystem){
+                        if(componentMatrix[x+1][y+1].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x][y+1].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x][y+1].addAlien(null);
+                        }
+                    }else if(componentMatrix[x-1][y+1] instanceof LifeSupportSystem){
+                        if(componentMatrix[x-1][y+1].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x][y+1].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x][y+1].addAlien(null);
+                        }
+                    }else{
+                        componentMatrix[x][y+1].addAlien(null);
+                        componentMatrix[x][y+1].changeWithLifeSupport(false);
+                    }
+                }else if(componentMatrix[x-1][y] instanceof Cabin){
+                    if(componentMatrix[x-1][y+1] instanceof LifeSupportSystem){
+                        if(componentMatrix[x-1][y+1].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x-1][y].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x-1][y].addAlien(null);
+                        }
+                    }else if(componentMatrix[x-1][y-1] instanceof LifeSupportSystem){
+                        if(componentMatrix[x+1][y-1].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x-1][y].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x-1][y].addAlien(null);
+                        }
+                    }else if(componentMatrix[x-2][y] instanceof LifeSupportSystem){
+                        if(componentMatrix[x-2][y].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x-1][y].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x-1][y].addAlien(null);
+                        }
+                    }else{
+                        componentMatrix[x-1][y].addAlien(null);
+                        componentMatrix[x-1][y].changeWithLifeSupport(false);
+                    }
+                }else if(componentMatrix[x][y-1] instanceof Cabin){
+                    if(componentMatrix[x-1][y-1] instanceof LifeSupportSystem){
+                        if(componentMatrix[x-1][y-1].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x][y-1].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x][y-1].addAlien(null);
+                        }
+                    }else if(componentMatrix[x][y-2] instanceof LifeSupportSystem){
+                        if(componentMatrix[x][y-2].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x][y-1].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x][y-1].addAlien(null);
+                        }
+                    }else if(componentMatrix[x+1][y-1] instanceof LifeSupportSystem){
+                        if(componentMatrix[x+1][y-1].getColour()!=componentMatrix[x][y].getColour() && componentMatrix[x][y-1].getAlien().getColour()==componentMatrix[x][y].getColour()){
+                            componentMatrix[x][y-1].addAlien(null);
+                        }
+                    }else{
+                        componentMatrix[x][y-1].addAlien(null);
+                        componentMatrix[x][y-1].changeWithLifeSupport(false);
+                    }
+                }else if(componentMatrix[x+1][y] instanceof Cabin) {
+                    if (componentMatrix[x + 1][y + 1] instanceof LifeSupportSystem) {
+                        if (componentMatrix[x + 1][y + 1].getColour() != componentMatrix[x][y].getColour() && componentMatrix[x + 1][y].getAlien().getColour() == componentMatrix[x][y].getColour()) {
+                            componentMatrix[x + 1][y].addAlien(null);
+                        }
+                    } else if (componentMatrix[x + 1][y - 1] instanceof LifeSupportSystem) {
+                        if (componentMatrix[x + 1][y - 1].getColour() != componentMatrix[x][y].getColour() && componentMatrix[x + 1][y].getAlien().getColour() == componentMatrix[x][y].getColour()) {
+                            componentMatrix[x + 1][y].addAlien(null);
+                        }
+                    } else if (componentMatrix[x + 2][y] instanceof LifeSupportSystem) {
+                        if (componentMatrix[x + 2][y].getColour() != componentMatrix[x][y].getColour() && componentMatrix[x + 1][y].getAlien().getColour() == componentMatrix[x][y].getColour()) {
+                            componentMatrix[x + 1][y].addAlien(null);
+                        }
+                    }else{
+                        componentMatrix[x+1][y].addAlien(null);
+                        componentMatrix[x+1][y].changeWithLifeSupport(false);
+                    }
+                }
             componentMatrix[x][y]=null;
             deletedComponentsCounter++;
         }
