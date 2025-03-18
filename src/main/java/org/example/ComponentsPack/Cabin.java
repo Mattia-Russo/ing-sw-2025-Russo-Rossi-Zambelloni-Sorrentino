@@ -26,6 +26,10 @@ public class Cabin extends Components {
         return withLifeSupport;
     }
 
+    public void changeWithLifeSupport(boolean withLifeSupport) {
+        this.withLifeSupport=withLifeSupport;
+    }
+
     public boolean getIsCentral() {
         return isCentral;
     }
