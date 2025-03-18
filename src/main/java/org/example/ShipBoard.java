@@ -24,6 +24,14 @@ public class ShipBoard {
 
     }
 
+    public Components[][] getComponentMatrix() {
+        return componentMatrix;
+    }
+
+    public boolean[][] getAvailablePositionMatrix(){
+        return availablePositionMatrix;
+    }
+
     public boolean validPosition(int posX, int posY){
         if(posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length){
             return false;

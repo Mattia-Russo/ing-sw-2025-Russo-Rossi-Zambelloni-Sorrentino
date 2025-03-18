@@ -50,6 +50,7 @@ public class Components {
     }
 
     public Connector[] getConnectors(){
+
         return connectors;
     }
 
@@ -72,4 +73,20 @@ public class Components {
     public int getPosY() {
         return posY;
     }
+
+    public Connector getDirConnector(Direction dir){ //restituisce il connettore che cè nella direzione passata in modo assoluto
+        switch(this.direction){
+            case NORTH:
+                return connectors[dir.ordinal()];
+            case EAST:
+                return connectors[(dir.ordinal()+3)%4];
+            case SOUTH:
+                return connectors[(dir.ordinal()+2)%4];
+            case WEST:
+                return connectors[(dir.ordinal()+1)%4];
+            default:
+                return null;
+        }
+    }
+
 }
