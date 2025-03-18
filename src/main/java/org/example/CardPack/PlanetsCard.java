@@ -10,7 +10,12 @@ public class PlanetsCard extends AdventureCard {
         super(cardLevel, numDays);
         this.planets=planets;
     }
+
     public List<Planet> getPlanets(){
         return planets;
+    }
+
+    public int getLostDays(){
+        return super.getLostDays();
     }
 }
