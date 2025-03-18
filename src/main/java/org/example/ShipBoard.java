@@ -13,6 +13,8 @@ public class ShipBoard {
     private Components[][] componentMatrix;
     private Components[] bookedComponents;
     private boolean[] shieldedDirections;
+    private float singleCannonPower;
+    private int singleEnginePower;
 
     public ShipBoard(boolean[][] availablePositionMatrix, int matrixDimension) {
         this.deletedComponentsCounter = 0;
@@ -20,6 +22,8 @@ public class ShipBoard {
         this.componentMatrix = new Components[matrixDimension][matrixDimension];
         this.bookedComponents = new Components[2];
         this.shieldedDirections = new boolean[4];
+        this.singleCannonPower = 0;
+        this.singleEnginePower = 0;
 
     }
 
@@ -114,54 +118,24 @@ public class ShipBoard {
         return totalAstronauts;
     }
 
-    public float getTotalCannonPower(int NumDoubleCannon){
-        int doubleCannonCounter = NumDoubleCannon;
+    public float getTotalCannonPower(ArrayList<Cannon> cannons){
         float totalCannonPower = 0;
-        for(int i = 0; i < componentMatrix.length; i++){
-            for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]){
-                    Components c = getComponent(i, j);
-                    if(c instanceof Cannon){
-                        if (((Cannon) c).getPower() == 2 && doubleCannonCounter > 0){
-                            if (c.getDirection() != Direction.NORTH){
-                                totalCannonPower += 1;
-                            } else {
-                                totalCannonPower += 2;
-                            }
-                            doubleCannonCounter -= 1;   // compito del controller di ridurre l'energia
-                        } else if (((Cannon) c).getPower() == 1){
-                            if (c.getDirection() != Direction.NORTH){
-                                totalCannonPower += 0.5;
-                            } else {
-                                totalCannonPower += 1;
-                            }
-                        }
-                    }
-                }
+        for (Cannon c : cannons) {
+            if (c.getDirection()==Direction.NORTH){
+                totalCannonPower += 2;
+            } else {
+                totalCannonPower += 1;
             }
         }
-        return totalCannonPower;
+        return totalCannonPower + this.singleCannonPower;
     }
 
-    public int getTotalEngineStrenght(int NumDoubleEngine){
-        int doubleEngineCounter = NumDoubleEngine;
+    public int getTotalEngineStrenght(ArrayList<Engine> engines){
         int totalEnginePower = 0;
-        for(int i = 0; i < componentMatrix.length; i++){
-            for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]){
-                    Components c = getComponent(i, j);
-                    if(c instanceof Engine){
-                        if (((Engine) c).getPower() == 2 && doubleEngineCounter > 0){
-                            totalEnginePower += 2;
-                            doubleEngineCounter -= 1;   // compito del controller di ridurre l'energia
-                        } else if (((Cannon) c).getPower() == 1){
-                            totalEnginePower += 1;
-                        }
-                    }
-                }
-            }
+        for (Engine c : engines) {
+            totalEnginePower += 2;
         }
-        return totalEnginePower;
+        return totalEnginePower + this.singleEnginePower;
     }
 
     public int getNumDoubleCannon(){
@@ -386,6 +360,43 @@ public class ShipBoard {
         if (availablePositionMatrix[x][y]){
             if(componentMatrix[x][y]==null){
                 componentMatrix[x][y] = component;
+                if (component instanceof Cannon){
+                    if (((Cannon) component).getPower() == 1){
+                        switch (((Cannon) component).getDirection()){
+                            case NORTH:
+                                this.singleCannonPower += 1;
+                            default:
+                                this.singleCannonPower += 0.5;
+                        }
+                    }
+                } else if (component instanceof Engine){
+                    if (((Engine) component).getPower() == 1){
+                        this.singleEnginePower += 1;
+                    }
+                } else if (component instanceof LifeSupportSystem){
+                    if (validPosition(x+1, y) && componentMatrix[x+1][y] instanceof Cabin){
+                        ((Cabin) componentMatrix[x+1][y]).changeWithLifeSupport(true);
+                    }
+                    if (validPosition(x-1, y) && componentMatrix[x-1][y] instanceof Cabin){
+                        ((Cabin) componentMatrix[x-1][y]).changeWithLifeSupport(true);
+                    }
+                    if (validPosition(x, y+1) && componentMatrix[x][y+1] instanceof Cabin){
+                        ((Cabin) componentMatrix[x][y+1]).changeWithLifeSupport(true);
+                    }
+                    if (validPosition(x, y-1) && componentMatrix[x][y-1] instanceof Cabin){
+                        ((Cabin) componentMatrix[x][y-1]).changeWithLifeSupport(true);
+                    }
+                } else if (component instanceof Cabin){
+                    if (validPosition(x+1, y) && componentMatrix[x+1][y] instanceof LifeSupportSystem){
+                        ((Cabin) component).changeWithLifeSupport(true);
+                    } else if (validPosition(x-1, y) && componentMatrix[x-1][y] instanceof LifeSupportSystem){
+                        ((Cabin) component).changeWithLifeSupport(true);
+                    } else if (validPosition(x, y+1) && componentMatrix[x][y+1] instanceof LifeSupportSystem){
+                        ((Cabin) component).changeWithLifeSupport(true);
+                    } else if (validPosition(x, y-1) && componentMatrix[x][y-1] instanceof LifeSupportSystem){
+                        ((Cabin) component).changeWithLifeSupport(true);
+                    }
+                }
             }
         }
     }
