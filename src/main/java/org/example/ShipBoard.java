@@ -224,7 +224,8 @@ public class ShipBoard {
                         ((Cabin) componentMatrix[x][y + 1]).addAlien(null);
                         ((Cabin) componentMatrix[x][y + 1]).changeWithLifeSupport(false);
                     }
-                } else if (componentMatrix[x - 1][y] instanceof Cabin) {
+                }
+                if (componentMatrix[x - 1][y] instanceof Cabin) {
                     if (componentMatrix[x - 1][y + 1] instanceof LifeSupportSystem) {
                         if (((LifeSupportSystem) componentMatrix[x - 1][y + 1]).getColour() != ((LifeSupportSystem) componentMatrix[x][y]).getColour() && ((Cabin) componentMatrix[x - 1][y]).getAlien().getColour() == ((LifeSupportSystem) componentMatrix[x][y]).getColour()) {
                             ((Cabin) componentMatrix[x - 1][y]).addAlien(null);
@@ -241,7 +242,8 @@ public class ShipBoard {
                         ((Cabin) componentMatrix[x - 1][y]).addAlien(null);
                         ((Cabin) componentMatrix[x - 1][y]).changeWithLifeSupport(false);
                     }
-                } else if (componentMatrix[x][y - 1] instanceof Cabin) {
+                }
+                if (componentMatrix[x][y - 1] instanceof Cabin) {
                     if (componentMatrix[x - 1][y - 1] instanceof LifeSupportSystem) {
                         if (((LifeSupportSystem) componentMatrix[x - 1][y - 1]).getColour() != ((LifeSupportSystem) componentMatrix[x][y]).getColour() && ((Cabin) componentMatrix[x][y - 1]).getAlien().getColour() == ((LifeSupportSystem) componentMatrix[x][y]).getColour()) {
                             ((Cabin) componentMatrix[x][y - 1]).addAlien(null);
@@ -258,7 +260,8 @@ public class ShipBoard {
                         ((Cabin) componentMatrix[x][y - 1]).addAlien(null);
                         ((Cabin) componentMatrix[x][y - 1]).changeWithLifeSupport(false);
                     }
-                } else if (componentMatrix[x + 1][y] instanceof Cabin) {
+                }
+                if (componentMatrix[x + 1][y] instanceof Cabin) {
                     if (componentMatrix[x + 1][y + 1] instanceof LifeSupportSystem) {
                         if (((LifeSupportSystem) componentMatrix[x + 1][y + 1]).getColour() != ((LifeSupportSystem) componentMatrix[x][y]).getColour() && ((Cabin) componentMatrix[x + 1][y]).getAlien().getColour() == ((LifeSupportSystem) componentMatrix[x][y]).getColour()) {
                             ((Cabin) componentMatrix[x + 1][y]).addAlien(null);
@@ -278,7 +281,11 @@ public class ShipBoard {
                 }
                 componentMatrix[x][y] = null;
                 deletedComponentsCounter++;
+            } else if (componentMatrix[x][y] instanceof Shield){
+                shieldedDirections[((Shield) componentMatrix[x][y]).getDirection1().ordinal()] = false;
+                shieldedDirections[((Shield) componentMatrix[x][y]).getDirection2().ordinal()] = false;
             }
+
 
 
             // CONTROLLARE SE ALTRI PEZZI DELLA NAVE SALTANO,

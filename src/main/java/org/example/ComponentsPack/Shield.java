@@ -8,10 +8,11 @@ public class Shield extends Components {
         this.direction2 = direction2;
     }
 
-    public Direction[] getDirections(){
-        Direction[] directions = new Direction[2];
-        directions[0] = super.getDirection();
-        directions[1] = direction2;
-        return directions;
+    public Direction getDirection1() {
+        return super.getDirection();
+    }
+
+    public Direction getDirection2(){
+        return direction2;
     }
 }
