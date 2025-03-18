@@ -279,8 +279,6 @@ public class ShipBoard {
                         ((Cabin) componentMatrix[x + 1][y]).changeWithLifeSupport(false);
                     }
                 }
-                componentMatrix[x][y] = null;
-                deletedComponentsCounter++;
             } else if (componentMatrix[x][y] instanceof Shield){
                 shieldedDirections[((Shield) componentMatrix[x][y]).getDirection1().ordinal()] = false;
                 shieldedDirections[((Shield) componentMatrix[x][y]).getDirection2().ordinal()] = false;
@@ -291,7 +289,9 @@ public class ShipBoard {
             // CONTROLLARE SE ALTRI PEZZI DELLA NAVE SALTANO,
             // SE CI SONO DUE PEZZI PLAYER DEVE DECIDERE QUALE DEI DUE SCEGLIERE
             // SE RIMUOVO UNO SHIELD DEVO MODIFICARE L'ARRAY CHE SALVA I LATI PROTETTI
-
+            
+            componentMatrix[x][y] = null;
+            deletedComponentsCounter++;
         }
     }
 
