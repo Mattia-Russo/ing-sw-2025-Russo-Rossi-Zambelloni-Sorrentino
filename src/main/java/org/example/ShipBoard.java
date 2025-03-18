@@ -258,11 +258,19 @@ public class ShipBoard {
                 shieldedDirections[((Shield) componentMatrix[x][y]).getDirection2().ordinal()] = false;
             }
 
+            if(componentMatrix[x][y] instanceof Cannon && ((Cannon) componentMatrix[x][y]).getPower()==1){
+                if(componentMatrix[x][y].getDirection()!=Direction.NORTH){
+                    singleCannonPower -=1;
+                }else
+                    singleCannonPower -=0.5;
+            }
 
-
-            // CONTROLLARE SE ALTRI PEZZI DELLA NAVE SALTANO,
-            // SE CI SONO DUE PEZZI PLAYER DEVE DECIDERE QUALE DEI DUE SCEGLIERE
-            // SE RIMUOVO UNO SHIELD DEVO MODIFICARE L'ARRAY CHE SALVA I LATI PROTETTI
+            if(componentMatrix[x][y] instanceof Engine && ((Engine) componentMatrix[x][y]).getPower()==1){
+                if(componentMatrix[x][y].getDirection()!=Direction.NORTH){
+                    singleEnginePower -=1;
+                }else
+                    singleEnginePower -=0.5;
+            }
 
             componentMatrix[x][y] = null;
             deletedComponentsCounter++;
