@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Comparator;
 
-public class Game extends Controller{
+public class Game{
     private final int numPlayer;
     private ArrayList<Player> players;
     private ArrayList<AdventureCard> deck;

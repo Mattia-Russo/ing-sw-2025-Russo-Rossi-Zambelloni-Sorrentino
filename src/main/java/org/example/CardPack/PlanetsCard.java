@@ -18,4 +18,5 @@ public class PlanetsCard extends AdventureCard {
     public int getLostDays(){
         return super.getLostDays();
     }
+
 }
