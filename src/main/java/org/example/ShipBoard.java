@@ -6,7 +6,7 @@ import org.example.ComponentsPack.Direction;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ShipBoard {
+public class ShipBoard {        // controllare se gli utilizzi di validPosition() sono giusti (guarda implementazione di validPos)
 
     private int deletedComponentsCounter;
     private boolean[][] availablePositionMatrix;
@@ -67,7 +67,7 @@ public class ShipBoard {
         int totalBattery = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]){
+                if(validPosition(i, j)){
                     Components c = getComponent(i, j);
                     if(c instanceof BatteryStorage){
                         totalBattery += ((BatteryStorage) c).getQuantity();
@@ -92,7 +92,7 @@ public class ShipBoard {
         ArrayList<Goods> totalGoodsList = new ArrayList<>();
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]) {
+                if(validPosition(i, j)) {
                     Components c = getComponent(i, j);
                     if (c instanceof Storage) {
                         totalGoodsList.addAll(Arrays.asList(((Storage) c).getGoods()));
@@ -107,7 +107,7 @@ public class ShipBoard {
         int totalAstronauts = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]) {
+                if(validPosition(i, j)) {
                     Components c = getComponent(i, j);
                     if (c instanceof Cabin) {
                         totalAstronauts += ((Cabin) c).getNumAstronauts();
@@ -142,7 +142,7 @@ public class ShipBoard {
         int totalDoubleCannon = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]){
+                if(validPosition(i, j)) {
                     Components c = getComponent(i, j);
                     if (c instanceof Cannon && ((Cannon) c).getPower() == 2){
                         totalDoubleCannon += 1;
@@ -157,7 +157,7 @@ public class ShipBoard {
         int totalDoubleEngine = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]){
+                if(validPosition(i, j)) {
                     Components c = getComponent(i, j);
                     if (c instanceof Engine && ((Engine) c).getPower() == 2){
                         totalDoubleEngine += 1;
@@ -173,7 +173,7 @@ public class ShipBoard {
     }
 
     public void removeComponent(int x, int y) {
-        if (availablePositionMatrix[x][y]) {
+        if (validPosition(x, y)) {
             if (x < 0 || y < 0 || x >= componentMatrix.length || y >= componentMatrix[0].length) {
                 return;
             }
@@ -274,6 +274,44 @@ public class ShipBoard {
         }
     }
 
+    public ArrayList<Components> findConnectedComponents(int row, int col) {
+        ArrayList<Components> connectedComponents = new ArrayList<>();
+        boolean[][] visited = new boolean[componentMatrix.length][componentMatrix[0].length];
+        dfs(row, col, visited, connectedComponents);
+        return connectedComponents;
+    }
+
+    private void dfs(int row, int col, boolean[][] visited, ArrayList<Components> result) {
+
+        if (row < 0 || row >= componentMatrix.length || col < 0 || col >= componentMatrix[0].length || visited[row][col] || componentMatrix[row][col] == null) {
+            return;
+        }
+
+        visited[row][col] = true;
+        result.add(componentMatrix[row][col]);
+
+        exploreNear(row, col, row - 1, col, Direction.NORTH, visited, result);
+        exploreNear(row, col, row + 1, col, Direction.SOUTH, visited, result);
+        exploreNear(row, col, row, col - 1, Direction.WEST, visited, result);
+        exploreNear(row, col, row, col + 1, Direction.EAST, visited, result);
+    }
+
+    private void exploreNear(int row, int col, int newRow, int newCol, Direction dir, boolean[][] visited, ArrayList<Components> result) {
+
+        if (newRow >= 0 && newRow < componentMatrix.length && newCol >= 0 && newCol < componentMatrix[0].length && !visited[newRow][newCol] && componentMatrix[newRow][newCol] != null) {
+            if (getIfConnected(componentMatrix[row][col], componentMatrix[newRow][newCol], dir)) {
+                dfs(newRow, newCol, visited, result);
+            }
+        }
+    }
+
+    private boolean getIfConnected(Components c1, Components c2, Direction dir) {
+        Connector conn1 = c1.getDirConnector(dir);
+        Connector conn2 = c2.getDirConnector(Direction.values()[(dir.ordinal()+2)%4]);
+
+        return (conn1 == conn2 && conn1 != Connector.EMPTY) || (conn1 == Connector.UNIVERSAL && conn2 != Connector.EMPTY) || (conn2 == Connector.UNIVERSAL && conn1 != Connector.EMPTY);
+    }
+
     public Components getFirstComponent(int direction, int rowOrCol){
         switch (direction) {
             case 0:
@@ -310,7 +348,7 @@ public class ShipBoard {
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0){
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
+                if(validPosition(i, rowOrCol)){
                     Components c = getComponent(i, rowOrCol);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
@@ -321,7 +359,7 @@ public class ShipBoard {
             }
         } else {
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
+                if(validPosition(rowOrCol, i)){
                     Components c = getComponent(rowOrCol, i);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
@@ -337,7 +375,7 @@ public class ShipBoard {
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0){
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
+                if(validPosition(i, rowOrCol)){
                     Components c = getComponent(i, rowOrCol);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
@@ -348,7 +386,7 @@ public class ShipBoard {
             }
         } else {
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
+                if(validPosition(rowOrCol, i)){
                     Components c = getComponent(rowOrCol, i);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
@@ -362,7 +400,7 @@ public class ShipBoard {
     }
 
     public void placeComponent(int x, int y, Components component){
-        if (availablePositionMatrix[x][y]){
+        if (validPosition(x, y)){
             if(componentMatrix[x][y]==null){
                 componentMatrix[x][y] = component;
                 if (component instanceof Cannon){
@@ -424,7 +462,4 @@ public class ShipBoard {
         }
         return lifeSupportList;
     }
-
-
-
 }

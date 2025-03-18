@@ -1,6 +1,5 @@
 package org.example.ComponentsPack;
 
-
 public class Components {
     private Direction direction;
     private boolean covered;
@@ -95,5 +94,4 @@ public class Components {
                 return null;
         }
     }
-
 }
