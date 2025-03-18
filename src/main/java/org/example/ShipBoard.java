@@ -289,7 +289,7 @@ public class ShipBoard {
             // CONTROLLARE SE ALTRI PEZZI DELLA NAVE SALTANO,
             // SE CI SONO DUE PEZZI PLAYER DEVE DECIDERE QUALE DEI DUE SCEGLIERE
             // SE RIMUOVO UNO SHIELD DEVO MODIFICARE L'ARRAY CHE SALVA I LATI PROTETTI
-            
+
             componentMatrix[x][y] = null;
             deletedComponentsCounter++;
         }
@@ -408,5 +408,7 @@ public class ShipBoard {
         }
         return lifeSupportList;
     }
+
+
 
 }
