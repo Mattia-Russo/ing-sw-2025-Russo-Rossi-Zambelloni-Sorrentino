@@ -19,7 +19,7 @@ public class BatteryStorage extends Components{
     }
 
     public void setQuantity(int amount){
-        int newQuantity = quantity + amount;
+        int newQuantity = quantity + amount;    // lanciare eccezione
         if(newQuantity >= capacity) {
             quantity = capacity;
         } else if(newQuantity > 0){
