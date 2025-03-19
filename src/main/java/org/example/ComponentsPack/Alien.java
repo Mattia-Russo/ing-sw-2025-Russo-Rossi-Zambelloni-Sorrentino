@@ -15,4 +15,6 @@ public class Alien {
 
     public Cabin getCabin() {return cabin;}
 
+    public void setCabin(Cabin cabin) {this.cabin = cabin;}
+
 }
