@@ -21,8 +21,18 @@ public class Components {
         this.covered = false;
     }
 
-    public void putPosition() {
+    public boolean getIfCovered() {
+        return this.covered;
+    }
+
+    public boolean getIfPositioned() {
+        return this.isPositoned;
+    }
+
+    public void setPosition(int x, int y) { // controllo se posizioni valide va fatto prima di chiamare questo metodo
         this.isPositoned = true;
+        this.posX = x;
+        this.posY = y;
     }
 
     public Direction getDirection() {
@@ -30,46 +40,15 @@ public class Components {
     }
 
     public void leftRotate(){
-        switch(direction){
-            case NORTH:
-                direction=Direction.WEST;
-            case WEST:
-                direction=Direction.SOUTH;
-            case SOUTH:
-                direction=Direction.EAST;
-            case EAST:
-                direction=Direction.NORTH;
-        }
-
+        this.direction = Direction.values()[(this.direction.ordinal()+3)%4];
     }
 
     public void rightRotate() {
-        switch (direction) {
-            case NORTH:
-                direction = Direction.EAST;
-            case WEST:
-                direction = Direction.NORTH;
-            case SOUTH:
-                direction = Direction.WEST;
-            case EAST:
-                direction = Direction.SOUTH;
-        }
+        this.direction = Direction.values()[(this.direction.ordinal()+1)%4];
     }
 
     public Connector[] getConnectors(){
         return connectors;
-    }
-
-    public boolean getIfExposed(Direction dir, Components component){   // dir è la direnzione in cui vogliamo capire se c'è conn esposto
-        if (component.getDirection() == dir) {
-            return component.getConnectors()[0] != Connector.EMPTY;
-        } else if ((component.getDirection().ordinal()+1)%4 == dir.ordinal()) { // ordinal() converte il nome dell'enum in un int in base alla posizione
-            return component.getConnectors()[1] != Connector.EMPTY;
-        } else if ((component.getDirection().ordinal()+2)%4 == dir.ordinal()) {
-            return component.getConnectors()[2] != Connector.EMPTY;
-        } else {
-            return component.getConnectors()[3] != Connector.EMPTY;
-        }
     }
 
     public int getPosX() {
@@ -80,7 +59,7 @@ public class Components {
         return posY;
     }
 
-    public Connector getDirConnector(Direction dir){ //restituisce il connettore che cè nella direzione passata in modo assoluto
+    public Connector getDirConnector(Direction dir){ //restituisce il connettore che c'è nella direzione passata in modo assoluto
         switch(this.direction){
             case NORTH:
                 return connectors[dir.ordinal()];
