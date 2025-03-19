@@ -6,7 +6,7 @@ import org.example.ComponentsPack.Direction;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ShipBoard {        // controllare se gli utilizzi di validPosition() sono giusti (guarda implementazione di validPos)
+public class ShipBoard {
 
     private int deletedComponentsCounter;
     private boolean[][] availablePositionMatrix;
@@ -67,7 +67,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         int totalBattery = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(validPosition(i, j)){
+                if(availablePositionMatrix[i][j]){
                     Components c = getComponent(i, j);
                     if(c instanceof BatteryStorage){
                         totalBattery += ((BatteryStorage) c).getQuantity();
@@ -92,7 +92,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         ArrayList<Goods> totalGoodsList = new ArrayList<>();
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(validPosition(i, j)) {
+                if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
                     if (c instanceof Storage) {
                         totalGoodsList.addAll(Arrays.asList(((Storage) c).getGoods()));
@@ -107,7 +107,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         int totalAstronauts = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(validPosition(i, j)) {
+                if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
                     if (c instanceof Cabin) {
                         totalAstronauts += ((Cabin) c).getNumAstronauts();
@@ -142,7 +142,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         int totalDoubleCannon = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(validPosition(i, j)) {
+                if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
                     if (c instanceof Cannon && ((Cannon) c).getPower() == 2){
                         totalDoubleCannon += 1;
@@ -157,7 +157,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         int totalDoubleEngine = 0;
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(validPosition(i, j)) {
+                if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
                     if (c instanceof Engine && ((Engine) c).getPower() == 2){
                         totalDoubleEngine += 1;
@@ -173,10 +173,10 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
     }
 
     public void removeComponent(int x, int y) {
-        if (validPosition(x, y)) {
-            if (x < 0 || y < 0 || x >= componentMatrix.length || y >= componentMatrix[0].length) {
-                return;
-            }
+        if (x < 0 || y < 0 || x >= componentMatrix.length || y >= componentMatrix[0].length) {
+            return;
+        }
+        if (availablePositionMatrix[x][y]) {
             if (componentMatrix[x][y] == null) {
                 return;
             }
@@ -316,27 +316,27 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         switch (direction) {
             case 0:
                 for (int i = 0; i < componentMatrix[0].length; i++) {
-                    if (validPosition(i, rowOrCol)) {
+                    if (availablePositionMatrix[i][rowOrCol]) {
                         return componentMatrix[i][rowOrCol];
                     }
                 }
 
             case 1:
                 for (int i = componentMatrix.length; i > 0 ; i--) {
-                    if (validPosition(rowOrCol, i)) {
+                    if (availablePositionMatrix[rowOrCol][i]) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
             case 2:
                 for (int i = componentMatrix[0].length; i > 0 ; i--) {
-                    if (validPosition(i, rowOrCol)) {
+                    if (availablePositionMatrix[i][rowOrCol]) {
                         return componentMatrix[i][rowOrCol];
                     }
                 }
 
             case 3:
                 for (int i = 0; i < componentMatrix.length; i++) {
-                    if (validPosition(rowOrCol, i)) {
+                    if (availablePositionMatrix[rowOrCol][i]) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
@@ -348,7 +348,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0){
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(validPosition(i, rowOrCol)){
+                if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
@@ -359,7 +359,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
             }
         } else {
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(validPosition(rowOrCol, i)){
+                if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
@@ -375,7 +375,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0){
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(validPosition(i, rowOrCol)){
+                if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
@@ -386,7 +386,7 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
             }
         } else {
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(validPosition(rowOrCol, i)){
+                if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
                     if(c instanceof Cannon){
                         if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
@@ -401,44 +401,42 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
 
     public void placeComponent(int x, int y, Components component){
         if (validPosition(x, y)){
-            if(componentMatrix[x][y]==null){
-                componentMatrix[x][y] = component;
-                if (component instanceof Cannon){
-                    if (((Cannon) component).getPower() == 1){
-                        switch (((Cannon) component).getDirection()){
-                            case NORTH:
-                                this.singleCannonPower += 1;
-                            default:
-                                this.singleCannonPower += 0.5F;
-                        }
+            componentMatrix[x][y] = component;
+            if (component instanceof Cannon){
+                if (((Cannon) component).getPower() == 1){
+                    switch (((Cannon) component).getDirection()){
+                        case NORTH:
+                            this.singleCannonPower += 1;
+                        default:
+                            this.singleCannonPower += 0.5F;
                     }
-                } else if (component instanceof Engine){
-                    if (((Engine) component).getPower() == 1){
-                        this.singleEnginePower += 1;
-                    }
-                } else if (component instanceof LifeSupportSystem){
-                    if (validPosition(x+1, y) && componentMatrix[x+1][y] instanceof Cabin){
-                        ((Cabin) componentMatrix[x+1][y]).changeWithLifeSupport(true);
-                    }
-                    if (validPosition(x-1, y) && componentMatrix[x-1][y] instanceof Cabin){
-                        ((Cabin) componentMatrix[x-1][y]).changeWithLifeSupport(true);
-                    }
-                    if (validPosition(x, y+1) && componentMatrix[x][y+1] instanceof Cabin){
-                        ((Cabin) componentMatrix[x][y+1]).changeWithLifeSupport(true);
-                    }
-                    if (validPosition(x, y-1) && componentMatrix[x][y-1] instanceof Cabin){
-                        ((Cabin) componentMatrix[x][y-1]).changeWithLifeSupport(true);
-                    }
-                } else if (component instanceof Cabin){
-                    if (validPosition(x+1, y) && componentMatrix[x+1][y] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                    } else if (validPosition(x-1, y) && componentMatrix[x-1][y] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                    } else if (validPosition(x, y+1) && componentMatrix[x][y+1] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                    } else if (validPosition(x, y-1) && componentMatrix[x][y-1] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                    }
+                }
+            } else if (component instanceof Engine){
+                if (((Engine) component).getPower() == 1){
+                    this.singleEnginePower += 1;
+                }
+            } else if (component instanceof LifeSupportSystem){
+                if (availablePositionMatrix[x+1][y] && componentMatrix[x+1][y] instanceof Cabin){
+                    ((Cabin) componentMatrix[x+1][y]).changeWithLifeSupport(true);
+                }
+                if (availablePositionMatrix[x-1][y] && componentMatrix[x-1][y] instanceof Cabin){
+                    ((Cabin) componentMatrix[x-1][y]).changeWithLifeSupport(true);
+                }
+                if (availablePositionMatrix[x][y+1] && componentMatrix[x][y+1] instanceof Cabin){
+                    ((Cabin) componentMatrix[x][y+1]).changeWithLifeSupport(true);
+                }
+                if (availablePositionMatrix[x][y-1] && componentMatrix[x][y-1] instanceof Cabin){
+                    ((Cabin) componentMatrix[x][y-1]).changeWithLifeSupport(true);
+                }
+            } else if (component instanceof Cabin){
+                if (availablePositionMatrix[x+1][y] && componentMatrix[x+1][y] instanceof LifeSupportSystem){
+                    ((Cabin) component).changeWithLifeSupport(true);
+                } else if (availablePositionMatrix[x-1][y] && componentMatrix[x-1][y] instanceof LifeSupportSystem){
+                    ((Cabin) component).changeWithLifeSupport(true);
+                } else if (availablePositionMatrix[x][y+1] && componentMatrix[x][y+1] instanceof LifeSupportSystem){
+                    ((Cabin) component).changeWithLifeSupport(true);
+                } else if (availablePositionMatrix[x][y-1] && componentMatrix[x][y-1] instanceof LifeSupportSystem){
+                    ((Cabin) component).changeWithLifeSupport(true);
                 }
             }
         }
@@ -448,16 +446,16 @@ public class ShipBoard {        // controllare se gli utilizzi di validPosition(
         int x = cabin.getPosX();
         int y = cabin.getPosY();
         ArrayList<LifeSupportSystem> lifeSupportList = new ArrayList<>();
-        if(validPosition(x+1, y) && componentMatrix[x+1][y] instanceof LifeSupportSystem){
+        if(availablePositionMatrix[x+1][y] && componentMatrix[x+1][y] instanceof LifeSupportSystem){
             lifeSupportList.add((LifeSupportSystem) componentMatrix[x+1][y]);
         }
-        if(validPosition(x-1, y) && componentMatrix[x-1][y] instanceof LifeSupportSystem){
+        if(availablePositionMatrix[x-1][y] && componentMatrix[x-1][y] instanceof LifeSupportSystem){
             lifeSupportList.add((LifeSupportSystem) componentMatrix[x-1][y]);
         }
-        if(validPosition(x, y+1) && componentMatrix[x][y+1] instanceof LifeSupportSystem){
+        if(availablePositionMatrix[x][y+1] && componentMatrix[x][y+1] instanceof LifeSupportSystem){
             lifeSupportList.add((LifeSupportSystem) componentMatrix[x][y+1]);
         }
-        if(validPosition(x, y-1) && componentMatrix[x][y-1] instanceof LifeSupportSystem){
+        if(availablePositionMatrix[x][y-1] && componentMatrix[x][y-1] instanceof LifeSupportSystem){
             lifeSupportList.add((LifeSupportSystem) componentMatrix[x][y-1]);
         }
         return lifeSupportList;
