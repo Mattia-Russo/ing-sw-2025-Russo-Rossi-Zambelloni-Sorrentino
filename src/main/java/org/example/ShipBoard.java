@@ -16,10 +16,10 @@ public class ShipBoard {
     private float singleCannonPower;
     private int singleEnginePower;
 
-    public ShipBoard(boolean[][] availablePositionMatrix, int matrixDimension) {
+    public ShipBoard(boolean[][] availablePositionMatrix, int matrixWidth, int matrixHeight) {
         this.deletedComponentsCounter = 0;
         this.availablePositionMatrix = availablePositionMatrix;
-        this.componentMatrix = new Components[matrixDimension][matrixDimension];
+        this.componentMatrix = new Components[matrixWidth][matrixHeight];
         this.bookedComponents = new Components[2];
         this.shieldedDirections = new boolean[4];
         this.singleCannonPower = 0;
