@@ -16,4 +16,8 @@ public class Goods {
     public Storage getStorage() {
         return storage;
     }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
 }

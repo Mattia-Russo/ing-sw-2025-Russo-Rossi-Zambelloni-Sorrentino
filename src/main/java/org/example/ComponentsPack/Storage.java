@@ -1,13 +1,18 @@
 package org.example.ComponentsPack;
 
+import java.util.Arrays;
+
 public class Storage extends Components {
     private Goods[] goodsList = new Goods[3];
     private final boolean isSpecial;
+    private final int capacity;
 
-    public Storage(boolean isSpecial, Direction direction, Connector[] connectors) {
+    public Storage(boolean isSpecial, Direction direction, Connector[] connectors, int capacity) {
         super(direction, connectors);
         this.isSpecial = isSpecial;
-        goodsList = null;
+        this.capacity = capacity;
+        this.goodsList = new Goods[capacity];
+        Arrays.fill(goodsList, null);
     }
 
     public Goods[] getGoods() {
@@ -27,12 +32,10 @@ public class Storage extends Components {
     }
 
     public void addGood(Goods good){
-        if(goodsList[goodsList.length-1] == null){
-            for (int i = 0; i < goodsList.length-1; i++) {
-                if(goodsList[i] == null){
-                    goodsList[i] = good;
-                    return;
-                }
+        for (int i = 0; i < goodsList.length; i++) {
+            if(goodsList[i] == null){
+                goodsList[i] = good;
+                return;
             }
         }
     }
