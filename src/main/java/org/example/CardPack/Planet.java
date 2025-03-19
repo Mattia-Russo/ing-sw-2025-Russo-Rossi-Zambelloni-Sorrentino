@@ -14,7 +14,6 @@ public class Planet {
         this.goods=goods;
         this.isOccupied=false;
     }
-
     public int getPlanetNumber() {
         return planetNumber;
     }
