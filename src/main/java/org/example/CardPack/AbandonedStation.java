@@ -6,7 +6,7 @@ import org.example.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbandonedStation extends AdventureCard{
+public class AbandonedStation extends AdventureCard{
     private final int numAstronauts;
     private List<Goods> goodsList = new ArrayList<Goods>();
 
@@ -19,6 +19,10 @@ public abstract class AbandonedStation extends AdventureCard{
 
     public int getCardLevel() {
         return super.getCardLevel();
+    }
+
+    public int getLostDays() {
+        return super.getLostDays();
     }
 
     public int getNumAstronauts() {

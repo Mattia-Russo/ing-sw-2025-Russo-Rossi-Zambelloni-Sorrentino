@@ -18,6 +18,8 @@ public class Slavers extends Enemy{
         return super.getCardLevel();
     }
 
+    public int getLostDays() {return super.getLostDays();}
+
     public int getNumAstronauts() {
         return numAstronauts;
     }

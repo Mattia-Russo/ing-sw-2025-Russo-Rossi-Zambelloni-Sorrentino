@@ -24,6 +24,8 @@ public class Smugglers extends Enemy{
         return super.getCardLevel();
     }
 
+    public int getLostDays() {return super.getLostDays();}
+
     public List<Goods> getGoodsWin() {
         return goodsWinList;
     }

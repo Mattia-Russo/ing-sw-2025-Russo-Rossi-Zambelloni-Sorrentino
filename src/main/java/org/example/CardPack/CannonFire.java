@@ -1,15 +1,17 @@
 package org.example.CardPack;
 
+import org.example.ComponentsPack.Direction;
+
 public class CannonFire {
     private final int type;
-    private final int direction;
+    private final Direction direction;
 
-    public CannonFire(int type, int direction) {
+    public CannonFire(int type, Direction direction) {
         this.direction = direction;
         this.type = type;
     }
 
-    public int getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 

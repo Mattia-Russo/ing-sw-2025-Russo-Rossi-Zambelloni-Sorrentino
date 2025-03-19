@@ -25,6 +25,8 @@ public class Pirates extends Enemy{
         return credit;
     }
 
+    public int getLostDays() {return super.getLostDays();}
+
     public List<CannonFire> getCannonFireList() {
         return cannonFiresList;
     }
