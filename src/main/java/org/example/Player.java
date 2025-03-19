@@ -6,14 +6,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
-    private int id;
+    private final int id;
     private int position;
-    private ShipBoard playerShipBoard;
+    private final ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
     private int numCredits;
 
-    public Player(ShipBoard shipBoard){
+    public Player(ShipBoard shipBoard, int id){
+        this.id = id;
         this.position=0;
         this.playerShipBoard=shipBoard;
         this.abandoned=false;
