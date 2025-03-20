@@ -35,7 +35,7 @@ public class ShipBoard {
         return availablePositionMatrix;
     }
 
-    public Components validPosition(int posX, int posY){
+    public boolean validPosition(int posX, int posY){
         try {
             if (posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length) {
                 throw new IllegalArgumentException("Posizione fuori dai limiti della matrice!");
@@ -44,9 +44,10 @@ public class ShipBoard {
             if (!availablePositionMatrix[posX][posY]) {
                 throw new IllegalStateException("Posizione non disponibile!");
             }
-            return componentMatrix[posX][posY];
+            return true;
         }catch (Exception e) {
             System.out.println("Errore: " + e.getMessage());
+            return false;
         }
     }
 
