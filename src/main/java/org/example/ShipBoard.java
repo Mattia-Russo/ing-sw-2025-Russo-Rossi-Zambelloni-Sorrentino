@@ -172,6 +172,23 @@ public class ShipBoard {
         return shieldedDirections[direction];
     }
 
+    public void addShieldedDirections(Direction direction){
+        switch(direction){
+            case NORTH:
+                shieldedDirections[0] = true;
+                return;
+            case EAST:
+                shieldedDirections[1] = true;
+                return;
+            case SOUTH:
+                shieldedDirections[2] = true;
+                return;
+            case WEST:
+                shieldedDirections[3] = true;
+        }
+
+    }
+
     public void removeComponent(int x, int y) {
         if (x < 0 || y < 0 || x >= componentMatrix.length || y >= componentMatrix[0].length) {
             return;
