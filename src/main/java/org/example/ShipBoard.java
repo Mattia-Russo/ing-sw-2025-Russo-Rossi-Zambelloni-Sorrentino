@@ -63,6 +63,8 @@ public class ShipBoard {
         }
     }
 
+    public Components[] getBookedComponents(){return bookedComponents;}
+
     public int getTotalBattery(){
         int totalBattery = 0;
         for(int i = 0; i < componentMatrix.length; i++){
@@ -78,14 +80,6 @@ public class ShipBoard {
 
         }
         return totalBattery;
-    }
-
-    public void addBatteries(int amount, BatteryStorage batteryStorage){
-        batteryStorage.setQuantity(amount);
-    }
-
-    public void removeBatteries(int amount, BatteryStorage batteryStorage){
-        batteryStorage.setQuantity(-amount);
     }
 
     public ArrayList<Goods> getTotalGoods(){
