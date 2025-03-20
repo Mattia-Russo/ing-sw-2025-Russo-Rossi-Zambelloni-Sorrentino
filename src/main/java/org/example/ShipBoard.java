@@ -35,12 +35,19 @@ public class ShipBoard {
         return availablePositionMatrix;
     }
 
-    public boolean validPosition(int posX, int posY){
-        if(posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length){
-            return false;
-        } else if (!availablePositionMatrix[posX][posY]) {
-            return false;
-        } else return componentMatrix[posX][posY] == null;
+    public Components validPosition(int posX, int posY){
+        try {
+            if (posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length) {
+                throw new IllegalArgumentException("Posizione fuori dai limiti della matrice!");
+            }
+
+            if (!availablePositionMatrix[posX][posY]) {
+                throw new IllegalStateException("Posizione non disponibile!");
+            }
+            return componentMatrix[posX][posY];
+        }catch (Exception e) {
+            System.out.println("Errore: " + e.getMessage());
+        }
     }
 
     public Components getComponent(int posX, int posY){
