@@ -21,13 +21,17 @@ public class Game{
         this.gameMode = gameMode;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public void adjustPlayerPositions() {
         players.sort(Comparator.comparingInt(Player::getPosition).reversed()); // metodo per ordinare i player in base alla posizione
     }
 
     public int getOccupiedPositions(Player player, int numPos) {
         int i = 0;
-        for (int j=players.indexOf(player)-1; j<=0; j--) {
+        for (int j=players.indexOf(player)-1; j>=0; j--) {
             int diff = players.get(j).getPosition() + i - player.getPosition();
             if (diff <= numPos) {
                 i++;
