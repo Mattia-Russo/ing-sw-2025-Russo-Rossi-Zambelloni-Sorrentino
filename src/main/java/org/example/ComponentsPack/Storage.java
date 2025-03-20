@@ -41,4 +41,6 @@ public class Storage extends Components {
             }
         }
     }
+
+    public int getCapacity() {return capacity;}
 }

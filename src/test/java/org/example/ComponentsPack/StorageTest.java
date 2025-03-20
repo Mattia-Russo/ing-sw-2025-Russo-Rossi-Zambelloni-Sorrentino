@@ -50,4 +50,9 @@ public class StorageTest extends TestCase {
     public void testAddGood() {
 
     }
+
+    public void testgetCapacity(){
+        Storage s = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE}, 3);
+        assertEquals(3, s.getCapacity());
+    }
 }

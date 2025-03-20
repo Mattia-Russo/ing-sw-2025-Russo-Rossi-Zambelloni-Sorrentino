@@ -91,7 +91,11 @@ public class ShipBoard {
                 if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
                     if (c instanceof Storage) {
-                        totalGoodsList.addAll(Arrays.asList(((Storage) c).getGoods()));
+                        int z=0;
+                        while(z<((Storage) c).getCapacity() && ((Storage) c).getGoods()[z]!=null) {
+                            totalGoodsList.add((((Storage) c).getGoods()[z]));
+                            z++;
+                        }
                     }
                 }
             }

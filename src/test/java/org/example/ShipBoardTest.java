@@ -3,6 +3,8 @@ package org.example;
 import junit.framework.TestCase;
 import org.example.ComponentsPack.*;
 
+import java.util.ArrayList;
+
 public class ShipBoardTest extends TestCase {
 
     public void testGetComponentMatrix() {
@@ -206,7 +208,10 @@ public class ShipBoardTest extends TestCase {
         s.placeComponent(1,1,storage1);
         storage1.addGood(new Goods(2));
         storage1.addGood(new Goods(3));
-
+        ArrayList<Goods> goods= new ArrayList<Goods>();
+        goods.add(storage1.getGoods()[0]);
+        goods.add(storage1.getGoods()[1]);
+        assertEquals(goods,s.getTotalGoods());
 
     }
 
