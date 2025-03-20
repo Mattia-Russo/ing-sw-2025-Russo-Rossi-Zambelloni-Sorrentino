@@ -1,15 +1,17 @@
 package org.example.CardPack;
 
+import org.example.ComponentsPack.Direction;
+
 public class Meteor {
-    private final int direction;
+    private final Direction direction;
     private final int type; // 0 è piccolo, 1 è grande
 
-    public Meteor(int type, int direction) {
+    public Meteor(int type, Direction direction) {
         this.direction = direction;
         this.type = type;
     }
 
-    public int getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
