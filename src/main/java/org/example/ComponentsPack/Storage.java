@@ -27,6 +27,7 @@ public class Storage extends Components {
         for (int i = 0; i < goodsList.length; i++) {
             if(goodsList[i] == good){
                 goodsList[i] = null;
+                good.setStorage(null);
             }
         }
     }
@@ -35,6 +36,7 @@ public class Storage extends Components {
         for (int i = 0; i < goodsList.length; i++) {
             if(goodsList[i] == null){
                 goodsList[i] = good;
+                good.setStorage(this);
                 return;
             }
         }

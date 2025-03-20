@@ -19,6 +19,7 @@ public class Player {
         this.playerShipBoard=shipBoard;
         this.abandoned=false;
         this.onPlanet=false;
+        this.numCredits=0;
     }
 
     public int getPosition(){
