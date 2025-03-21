@@ -118,22 +118,6 @@ public class ShipBoardTest extends TestCase {
         assertEquals(0,s.getCounter());
     }
 
-    public void testChangeCounter() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
-            }
-        }
-        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        s.changeCounter(1);
-        assertEquals(1,s.getCounter());
-    }
-
     public void testBookComponents() {
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
@@ -329,12 +313,64 @@ public class ShipBoardTest extends TestCase {
     }
 
     public void testaddShieldedDirection(){
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        s.placeComponent(1,1,shield);
+        s.addShieldedDirections(shield.getDirection1());
+        s.addShieldedDirections(shield.getDirection2());
+        assertTrue(s.getIfShielded(0));
+        assertTrue(s.getIfShielded(3));
+        assertFalse(s.getIfShielded(1));
+        assertFalse(s.getIfShielded(2));
+
     }
 
     public void testRemoveComponent() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        s.placeComponent(1,1,shield);
+        s.addShieldedDirections(shield.getDirection1());
+        s.addShieldedDirections(shield.getDirection2());
+        s.removeComponent(1,1);
+        assertFalse(s.getIfShielded(0));
+        assertFalse(s.getIfShielded(3));
+        assertEquals(1, s.getCounter());
+
     }
 
     public void testFindConnectedComponents() {
+    }
+
+    public void testdfs(){
+
+    }
+
+    public void testexploreNear(){
+
+    }
+
+    public void testifConnected(){
+
     }
 
     public void testGetFirstComponent() {
