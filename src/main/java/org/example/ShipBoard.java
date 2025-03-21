@@ -416,9 +416,10 @@ public class ShipBoard {
         return false;
     }
 
-    public void placeComponent(int x, int y, Components component){
-        if (validPosition(x, y)){
-            componentMatrix[x][y] = component;
+    public void placeComponent(int row, int col, Components component){
+        if (validPosition(row, col)){
+            componentMatrix[row][col] = component;
+            component.setPosition(row, col);
             if (component instanceof Cannon){
                 if (((Cannon) component).getPower() == 1){
                     switch (((Cannon) component).getDirection()){
@@ -433,26 +434,26 @@ public class ShipBoard {
                     this.singleEnginePower += 1;
                 }
             } else if (component instanceof LifeSupportSystem){
-                if (validPosition(x+1,y) && componentMatrix[x+1][y] instanceof Cabin){
-                    ((Cabin) componentMatrix[x+1][y]).changeWithLifeSupport(true);
+                if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof Cabin){
+                    ((Cabin) componentMatrix[row+1][col]).changeWithLifeSupport(true);
                 }
-                if (validPosition(x-1,y) && componentMatrix[x-1][y] instanceof Cabin){
-                    ((Cabin) componentMatrix[x-1][y]).changeWithLifeSupport(true);
+                if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof Cabin){
+                    ((Cabin) componentMatrix[row-1][col]).changeWithLifeSupport(true);
                 }
-                if (validPosition(x,y+1) && componentMatrix[x][y+1] instanceof Cabin){
-                    ((Cabin) componentMatrix[x][y+1]).changeWithLifeSupport(true);
+                if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof Cabin){
+                    ((Cabin) componentMatrix[row][col+1]).changeWithLifeSupport(true);
                 }
-                if (validPosition(x,y-1) && componentMatrix[x][y-1] instanceof Cabin){
-                    ((Cabin) componentMatrix[x][y-1]).changeWithLifeSupport(true);
+                if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof Cabin){
+                    ((Cabin) componentMatrix[row][col-1]).changeWithLifeSupport(true);
                 }
             } else if (component instanceof Cabin){
-                if (validPosition(x+1,y) && componentMatrix[x+1][y] instanceof LifeSupportSystem){
+                if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof LifeSupportSystem){
                     ((Cabin) component).changeWithLifeSupport(true);
-                } else if (validPosition(x-1,y) && componentMatrix[x-1][y] instanceof LifeSupportSystem){
+                } else if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof LifeSupportSystem){
                     ((Cabin) component).changeWithLifeSupport(true);
-                } else if (validPosition(x,y+1) && componentMatrix[x][y+1] instanceof LifeSupportSystem){
+                } else if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof LifeSupportSystem){
                     ((Cabin) component).changeWithLifeSupport(true);
-                } else if (validPosition(x,y-1) && componentMatrix[x][y-1] instanceof LifeSupportSystem){
+                } else if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof LifeSupportSystem){
                     ((Cabin) component).changeWithLifeSupport(true);
                 }
             }
