@@ -173,13 +173,13 @@ public class ShipBoard {
         switch(direction){
             case NORTH:
                 shieldedDirections[0] = true;
-                return;
+                break;
             case EAST:
                 shieldedDirections[1] = true;
-                return;
+                break;
             case SOUTH:
                 shieldedDirections[2] = true;
-                return;
+                break;
             case WEST:
                 shieldedDirections[3] = true;
         }
@@ -273,7 +273,7 @@ public class ShipBoard {
             }
 
             if(componentMatrix[x][y] instanceof Cannon && ((Cannon) componentMatrix[x][y]).getPower()==1){
-                if(componentMatrix[x][y].getDirection()!=Direction.NORTH){
+                if(componentMatrix[x][y].getDirection()==Direction.NORTH||componentMatrix[x][y].getDirection()==Direction.SOUTH){
                     singleCannonPower -=1;
                 }else
                     singleCannonPower -= 0.5F;
@@ -288,7 +288,35 @@ public class ShipBoard {
         }
     }
 
-    public ArrayList<Components> findConnectedComponents(int row, int col) {
+    public boolean checkIfSplitted(int row,int col){
+        ArrayList<Components> connectedComponents = findConnectedComponents(row,col);
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]) {
+                    if(!connectedComponents.contains(componentMatrix[i][j])){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void removeWreck(int row,int col){
+        ArrayList<Components> connectedComponents = findConnectedComponents(row,col);
+        for(int i = 0; i < componentMatrix.length; i++){
+            for(int j = 0; j < componentMatrix[0].length; j++){
+                if(availablePositionMatrix[i][j]) {
+                    if(!connectedComponents.contains(componentMatrix[i][j])){
+                        removeComponent(i,j);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private ArrayList<Components> findConnectedComponents(int row, int col) {
         ArrayList<Components> connectedComponents = new ArrayList<>();
         boolean[][] visited = new boolean[componentMatrix.length][componentMatrix[0].length];
         dfs(row, col, visited, connectedComponents);
@@ -326,57 +354,62 @@ public class ShipBoard {
         return (conn1 == conn2 && conn1 != Connector.EMPTY) || (conn1 == Connector.UNIVERSAL && conn2 != Connector.EMPTY) || (conn2 == Connector.UNIVERSAL && conn1 != Connector.EMPTY);
     }
 
-    public Components getFirstComponent(int direction, int rowOrCol){
+    public Components getFirstComponent(Direction direction, int rowOrCol){
         switch (direction) {
-            case 0:
-                for (int i = 0; i < componentMatrix[0].length; i++) {
-                    if (availablePositionMatrix[i][rowOrCol]) {
-                        return componentMatrix[i][rowOrCol];
-                    }
-                }
-
-            case 1:
-                for (int i = componentMatrix.length; i > 0 ; i--) {
-                    if (availablePositionMatrix[rowOrCol][i]) {
-                        return componentMatrix[rowOrCol][i];
-                    }
-                }
-            case 2:
-                for (int i = componentMatrix[0].length; i > 0 ; i--) {
-                    if (availablePositionMatrix[i][rowOrCol]) {
-                        return componentMatrix[i][rowOrCol];
-                    }
-                }
-
-            case 3:
+            case WEST:
                 for (int i = 0; i < componentMatrix.length; i++) {
-                    if (availablePositionMatrix[rowOrCol][i]) {
+                    if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
+                        return componentMatrix[i][rowOrCol];
+                    }
+                }
+                break;
+
+            case NORTH:
+                for (int i = componentMatrix[0].length-1; i < 0 ; i--) {
+                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[i][rowOrCol]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
+                break;
+            case EAST:
+                for (int i = componentMatrix.length-1; i < 0 ; i--) {
+                    if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
+                        return componentMatrix[i][rowOrCol];
+                    }
+                }
+                break;
+
+            case SOUTH:
+                for (int i = 0; i < componentMatrix[0].length; i++) {
+                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[i][rowOrCol]!=null) {
+                        return componentMatrix[rowOrCol][i];
+                    }
+                }
+                break;
             default:
                 return null;
         }
+        return null;
     }
 
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0){
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
-                    Components c = getComponent(i, rowOrCol);
+                if(availablePositionMatrix[rowOrCol][i]){
+                    Components c = getComponent(rowOrCol, i);
                     if(c instanceof Cannon){
-                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 1){
                             return true;
                         }
                     }
                 }
             }
         } else {
-            for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
-                    Components c = getComponent(rowOrCol, i);
+            for(int i = 0; i < componentMatrix.length; i++){
+                if(availablePositionMatrix[i][rowOrCol]){
+                    Components c = getComponent(i, rowOrCol);
                     if(c instanceof Cannon){
-                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 1){
                             return true;
                         }
                     }
@@ -389,21 +422,21 @@ public class ShipBoard {
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0){
             for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
-                    Components c = getComponent(i, rowOrCol);
+                if(availablePositionMatrix[rowOrCol][i]){
+                    Components c = getComponent(rowOrCol, i);
                     if(c instanceof Cannon){
-                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 2){
                             return true;
                         }
                     }
                 }
             }
         } else {
-            for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
-                    Components c = getComponent(rowOrCol, i);
+            for(int i = 0; i < componentMatrix.length; i++){
+                if(availablePositionMatrix[i][rowOrCol]){
+                    Components c = getComponent(i, rowOrCol);
                     if(c instanceof Cannon){
-                        if ((c.getDirection().ordinal()+2) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 2){
                             return true;
                         }
                     }
@@ -422,6 +455,10 @@ public class ShipBoard {
                     switch (((Cannon) component).getDirection()){
                         case NORTH:
                             this.singleCannonPower += 1;
+                            break;
+                        case SOUTH:
+                            this.singleCannonPower += 1;
+                            break;
                         default:
                             this.singleCannonPower += 0.5F;
                     }
@@ -453,6 +490,9 @@ public class ShipBoard {
                 } else if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof LifeSupportSystem){
                     ((Cabin) component).changeWithLifeSupport(true);
                 }
+            }else if(component instanceof Shield){
+                addShieldedDirections(((Shield) component).getDirection1());
+                addShieldedDirections(((Shield) component).getDirection2());
             }
         }
     }
