@@ -468,16 +468,16 @@ public class ShipBoard {
                     this.singleEnginePower += 1;
                 }
             } else if (component instanceof LifeSupportSystem){
-                if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof Cabin){
+                if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof Cabin && !((Cabin) componentMatrix[row+1][col]).getIsCentral()){
                     ((Cabin) componentMatrix[row+1][col]).changeWithLifeSupport(true);
                 }
-                if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof Cabin){
+                if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof Cabin && !((Cabin) componentMatrix[row-1][col]).getIsCentral()){
                     ((Cabin) componentMatrix[row-1][col]).changeWithLifeSupport(true);
                 }
-                if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof Cabin){
+                if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof Cabin && !((Cabin) componentMatrix[row][col+1]).getIsCentral()){
                     ((Cabin) componentMatrix[row][col+1]).changeWithLifeSupport(true);
                 }
-                if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof Cabin){
+                if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof Cabin && !((Cabin) componentMatrix[row][col-1]).getIsCentral()){
                     ((Cabin) componentMatrix[row][col-1]).changeWithLifeSupport(true);
                 }
             } else if (component instanceof Cabin){
