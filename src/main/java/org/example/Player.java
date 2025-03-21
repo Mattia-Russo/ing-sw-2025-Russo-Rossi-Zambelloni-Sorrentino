@@ -70,10 +70,10 @@ public class Player {
         return components.get(random.nextInt(components.size()));
     }
 
-    public boolean checkShip() {
+    public boolean checkShip() {    // devo controllare solo se i connettori in basso e a dx sono giusti
         for(int i = 0; i < playerShipBoard.getComponentMatrix().length; i++){
             for(int j = 0; j < playerShipBoard.getComponentMatrix()[i].length; j++){
-                if (playerShipBoard.validPosition(i,j)) {
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
                     Components c = playerShipBoard.getComponentMatrix()[i][j];
                     for (int k = 0; k < 4; k++) {
                         if (c.getConnectors()[k] != Connector.EMPTY) {
@@ -85,18 +85,21 @@ public class Player {
                                                 return false;
                                             }
                                         }
+                                        break;
                                     case 1:
                                         if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i+1][j]!=null) {
                                             if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
                                                 return false;
                                             }
                                         }
+                                        break;
                                     case 2:
                                         if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j+1]!=null) {
                                             if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
                                                 return false;
                                             }
                                         }
+                                        break;
                                     case 3:
                                         if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i-1][j]!=null) {
                                             if (playerShipBoard.getComponentMatrix()[i - 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
@@ -106,30 +109,26 @@ public class Player {
                                 }
                             } else {
                                 switch ((c.getDirection().ordinal() + k) % 4) {
-                                    case 0:
-                                        if (playerShipBoard.validPosition(i, j - 1) && playerShipBoard.getComponentMatrix()[i][j-1]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i][j - 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
-                                                return false;
-                                            }
-                                        }
                                     case 1:
                                         if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i+1][j]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
+                                            if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
+                                                    && playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
+                                                    c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
                                                 return false;
                                             }
                                         }
+                                        break;
                                     case 2:
                                         if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j+1]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
+                                            if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
+                                                    && playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
+                                                    c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
                                                 return false;
                                             }
                                         }
-                                    case 3:
-                                        if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i-1][j]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i - 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
-                                                return false;
-                                            }
-                                        }
+                                        break;
+                                    default:
+                                        break;
                                 }
                             }
                         }
@@ -141,14 +140,17 @@ public class Player {
                                 if (playerShipBoard.validPosition(i, j - 1) && playerShipBoard.getComponentMatrix()[i][j - 1] != null) {
                                     return false;
                                 }
+                                break;
                             case EAST:
                                 if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i + 1][j] != null) {
                                     return false;
                                 }
+                                break;
                             case SOUTH:
                                 if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j + 1] != null) {
                                     return false;
                                 }
+                                break;
                             case WEST:
                                 if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i - 1][j] != null) {
                                     return false;
@@ -156,7 +158,7 @@ public class Player {
                         }
                     }
                     if (c instanceof Engine) {
-                        if (c.getDirection() != Direction.SOUTH) {
+                        if (c.getDirection() != Direction.NORTH) {
                             return false;
                         }
                         if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j + 1] != null) {
