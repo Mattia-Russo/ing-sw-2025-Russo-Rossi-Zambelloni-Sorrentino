@@ -23,7 +23,7 @@ public class Storage extends Components {
         return isSpecial;
     }
 
-    public void removeGood(Goods good){
+    public void removeGood(Goods good){     // exception se vuole aggiungere un red e non è speciale o se storage è pieno
         for (int i = 0; i < goodsList.length; i++) {
             if(goodsList[i] == good){
                 goodsList[i] = null;
@@ -33,13 +33,16 @@ public class Storage extends Components {
     }
 
     public void addGood(Goods good){
-        for (int i = 0; i < goodsList.length; i++) {
-            if(goodsList[i] == null){
-                goodsList[i] = good;
-                good.setStorage(this);
-                return;
+        if (good.getColour() != GoodsColour.RED || this.isSpecial){
+            for (int i = 0; i < goodsList.length; i++) {
+                if(goodsList[i] == null){
+                    goodsList[i] = good;
+                    good.setStorage(this);
+                    return;
+                }
             }
         }
+
     }
 
     public int getCapacity() {return capacity;}

@@ -1,15 +1,15 @@
 package org.example.ComponentsPack;
 
 public class Goods {
-    private final int colour;
+    private final GoodsColour colour;
     private Storage storage;
 
-    public Goods(int colour) {
+    public Goods(GoodsColour colour) {
         this.colour = colour;
         this.storage = null;
     }
 
-    public int getColour() {
+    public GoodsColour getColour() {
         return colour;
     }
 

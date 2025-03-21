@@ -190,8 +190,8 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Storage storage1 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         s.placeComponent(1,1,storage1);
-        storage1.addGood(new Goods(2));
-        storage1.addGood(new Goods(3));
+        storage1.addGood(new Goods(GoodsColour.GREEN));
+        storage1.addGood(new Goods(GoodsColour.BLUE));
         ArrayList<Goods> goods= new ArrayList<Goods>();
         goods.add(storage1.getGoods()[0]);
         goods.add(storage1.getGoods()[1]);

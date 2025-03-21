@@ -76,61 +76,46 @@ public class Player {
                 if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
                     Components c = playerShipBoard.getComponentMatrix()[i][j];
                     for (int k = 0; k < 4; k++) {
-                        if (c.getConnectors()[k] != Connector.EMPTY) {
-                            if (c.getConnectors()[k] == Connector.UNIVERSAL) {
-                                switch ((c.getDirection().ordinal() + k) % 4) {
-                                    case 0:
-                                        if (playerShipBoard.validPosition(i, j - 1) && playerShipBoard.getComponentMatrix()[i][j-1]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i][j - 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) { //prende il connettore del componente di fianco che punta al componente che stiamo controllando
-                                                return false;
-                                            }
-                                        }
-                                        break;
-                                    case 1:
-                                        if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i+1][j]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
-                                                return false;
-                                            }
-                                        }
-                                        break;
-                                    case 2:
-                                        if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j+1]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
-                                                return false;
-                                            }
-                                        }
-                                        break;
-                                    case 3:
-                                        if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i-1][j]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i - 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
-                                                return false;
-                                            }
-                                        }
+                        switch ((c.getDirection().ordinal() + k) % 4) {
+                            case 0:
+                                if (playerShipBoard.validPosition(i, j - 1) && playerShipBoard.getComponentMatrix()[i][j-1]!=null) {
+                                    if (playerShipBoard.getComponentMatrix()[i][j - 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) { //prende il connettore del componente di fianco che punta al componente che stiamo controllando
+                                        return false;
+                                    }
                                 }
-                            } else {
-                                switch ((c.getDirection().ordinal() + k) % 4) {
-                                    case 1:
-                                        if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i+1][j]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
-                                                    && playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
-                                                    c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
-                                                return false;
-                                            }
-                                        }
-                                        break;
-                                    case 2:
-                                        if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j+1]!=null) {
-                                            if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
-                                                    && playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
-                                                    c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
-                                                return false;
-                                            }
-                                        }
-                                        break;
-                                    default:
-                                        break;
+                                break;
+                            case 1:
+                                if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i+1][j]!=null) {
+                                    if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
+                                        return false;
+                                    }
+                                    if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
+                                            && c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4]) != Connector.UNIVERSAL
+                                            && playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
+                                            c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
+                                        return false;
+                                    }
                                 }
-                            }
+                                break;
+                            case 2:
+                                if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j+1]!=null) {
+                                    if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
+                                        return false;
+                                    }
+                                    if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
+                                            && c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4]) != Connector.UNIVERSAL
+                                            && playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
+                                            c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
+                                        return false;
+                                    }
+                                }
+                                break;
+                            case 3:
+                                if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i-1][j]!=null) {
+                                    if (playerShipBoard.getComponentMatrix()[i - 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
+                                        return false;
+                                    }
+                                }
                         }
                     }
 
