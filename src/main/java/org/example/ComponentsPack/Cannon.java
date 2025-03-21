@@ -11,4 +11,5 @@ public class Cannon extends Components {
     public int getPower() {
         return power;
     }
+
 }
