@@ -4,7 +4,6 @@ import org.example.ComponentsPack.*;
 import org.example.ComponentsPack.Direction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ShipBoard {
 
