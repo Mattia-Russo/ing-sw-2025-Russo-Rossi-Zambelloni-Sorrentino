@@ -1,8 +1,11 @@
 package org.example.ComponentsPack;
 
+import java.util.ArrayList;
+
 public class Cabin extends Components {
     private int numAstronauts;
     private boolean withLifeSupport;
+    private ArrayList<LifeSupportSystem> lifeSupportSystemArrayList;
     private final boolean isCentral;
     private Alien alien;
 
@@ -10,6 +13,7 @@ public class Cabin extends Components {
         super(direction, connectors);
         this.numAstronauts = 0;
         this.withLifeSupport = false;
+        this.lifeSupportSystemArrayList= new ArrayList<>();
         this.isCentral = isCentral;
         this.alien = null;
     }
@@ -35,11 +39,35 @@ public class Cabin extends Components {
     }
 
     public void changeNumAstronauts(int amount) {
-        numAstronauts = numAstronauts + amount;
+        if(numAstronauts+amount<=2) {
+            numAstronauts+=amount;
+        }
+    }
+
+    public void addLifeSupport(LifeSupportSystem l) {
+        this.lifeSupportSystemArrayList.add(l);
+    }
+
+    public void removeLifeSupport(LifeSupportSystem l) {
+        this.lifeSupportSystemArrayList.remove(l);
+    }
+
+    public ArrayList<LifeSupportSystem> getLifeSupportSystemArrayList() {
+        return lifeSupportSystemArrayList;
     }
 
     public void addAlien(Alien change){
-        alien = change;
+        if(withLifeSupport){
+            boolean check=false;
+            for(int i=0; i<getLifeSupportSystemArrayList().size() && !check; i++){
+                if (getLifeSupportSystemArrayList().get(i).getColour() == change.getColour()) {
+                    check = true;
+                }
+            }
+            if(check){
+                alien = change;
+            }
+        }
     }
 
 }

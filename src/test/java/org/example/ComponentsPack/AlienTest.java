@@ -13,7 +13,7 @@ public class AlienTest extends TestCase {
     }
 
     public void testSetCabin(){
-        Alien a = new Alien(AlienColour.ORANGE);
+        Alien a = new Alien(AlienColour.BROWN);
         Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         assertNull(a.getCabin());
         a.setCabin(c);

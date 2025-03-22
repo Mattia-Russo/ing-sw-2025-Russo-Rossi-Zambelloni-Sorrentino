@@ -1,6 +1,6 @@
 package org.example.ComponentsPack;
 
 public enum AlienColour {
-    ORANGE,
+    BROWN,
     PURPLE;
 }
