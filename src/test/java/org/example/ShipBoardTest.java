@@ -233,7 +233,12 @@ public class ShipBoardTest extends TestCase {
         s.placeComponent(1,2,cannon2);
         ArrayList<Cannon> cannons= new ArrayList<Cannon>();
         cannons.add(cannon2);
-        assertEquals(2.0F, s.getTotalCannonPower(cannons));
+        LifeSupportSystem l = new LifeSupportSystem(AlienColour.PURPLE, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        s.placeComponent(1,1, c);
+        s.placeComponent(1,2, l);
+        c.addAlien(new Alien(AlienColour.PURPLE));
+        assertEquals(4.0F, s.getTotalCannonPower(cannons));
     }
 
     public void testGetTotalEngineStrenght() {
@@ -252,7 +257,12 @@ public class ShipBoardTest extends TestCase {
         s.placeComponent(1,2,engine);
         ArrayList<Engine> engines = new ArrayList<Engine>();
         engines.add(engine);
-        assertEquals(2, s.getTotalEngineStrenght(engines));
+        LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        s.placeComponent(1,1, c);
+        s.placeComponent(1,2, l);
+        c.addAlien(new Alien(AlienColour.BROWN));
+        assertEquals(4, s.getTotalEngineStrenght(engines));
 
     }
 
@@ -348,6 +358,25 @@ public class ShipBoardTest extends TestCase {
         s.removeComponent(1,1);
         assertFalse(s.getIfShielded(0));
         assertFalse(s.getIfShielded(3));
+        assertEquals(1, s.getCounter());
+
+    }
+
+    public void testremoveBookedComponents(){
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        s.bookComponents(cabin1);
+        s.removeBookedComponents();
         assertEquals(1, s.getCounter());
 
     }
