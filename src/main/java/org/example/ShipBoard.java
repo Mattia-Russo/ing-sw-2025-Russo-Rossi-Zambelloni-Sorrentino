@@ -48,10 +48,9 @@ public class ShipBoard {
         return componentMatrix[posX][posY];
     }
 
-    public int getCounter(){
+    public int getDeletedComponentsCounterCounter(){
         return deletedComponentsCounter;
     }
-
 
     public void bookComponents(Components component){
         if(bookedComponents[0] == null){
@@ -557,5 +556,36 @@ public class ShipBoard {
             lifeSupportList.add((LifeSupportSystem) componentMatrix[x][y-1]);
         }
         return lifeSupportList;
+    }
+
+    public boolean getIfExposed(Direction dir, Components c){
+        switch(dir){
+            case NORTH:
+                return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && validPosition(c.getPosX(), c.getPosY()-1) && componentMatrix[c.getPosX()][c.getPosY()-1] == null;
+            case EAST:
+                return c.getDirConnector(Direction.EAST) != Connector.EMPTY && validPosition(c.getPosX() +1, c.getPosY()) && componentMatrix[c.getPosX()+1][c.getPosY()] == null;
+            case SOUTH:
+                return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && validPosition(c.getPosX(), c.getPosY()+1) && componentMatrix[c.getPosX()][c.getPosY()+1] == null;
+            case WEST:
+                return c.getDirConnector(Direction.WEST) != Connector.EMPTY && validPosition(c.getPosX()-1, c.getPosY()) && componentMatrix[c.getPosX()-1][c.getPosY()] == null;
+            default:
+                return false;
+        }
+    }
+
+    public int getTotalExposedConnectors() {
+        int totalExposedConnectors = 0;
+        for (int i=0; i < componentMatrix.length; i++) {
+            for (int j=0; j < componentMatrix[i].length; j++) {
+                if (availablePositionMatrix[i][j] && componentMatrix[i][j] != null) {
+                    for(Direction d : Direction.values()) {     // in alcuni casi controllo la connessione 2 volte, può essere ottimizzato
+                        if (getIfExposed(d, componentMatrix[i][j])) {
+                            totalExposedConnectors++;
+                        }
+                    }
+                }
+            }
+        }
+        return totalExposedConnectors;
     }
 }

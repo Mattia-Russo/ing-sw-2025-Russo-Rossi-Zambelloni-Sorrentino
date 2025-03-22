@@ -103,7 +103,7 @@ public class ShipBoardTest extends TestCase {
         }
     }
 
-    public void testGetCounter() {
+    public void testGetDeletedComponentsCounterCounter() {
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
             for(int j=0; j<5; j++){
@@ -115,7 +115,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        assertEquals(0,s.getCounter());
+        assertEquals(0,s.getDeletedComponentsCounterCounter());
     }
 
     public void testBookComponents() {
@@ -358,7 +358,7 @@ public class ShipBoardTest extends TestCase {
         s.removeComponent(1,1);
         assertFalse(s.getIfShielded(0));
         assertFalse(s.getIfShielded(3));
-        assertEquals(1, s.getCounter());
+        assertEquals(1, s.getDeletedComponentsCounterCounter());
 
     }
 
