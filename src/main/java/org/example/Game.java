@@ -55,13 +55,57 @@ public class Game{
         return p.isAbandoned();
     }
 
-    public Player calculateWinner() {
-        Player winner = players.get(0);
+    public ArrayList<Player> calculateWinner() {
+
+        ArrayList<Player> winners = new ArrayList<>();
         for (Player p : players) {
-            if (p.getNumCredits() > winner.getNumCredits()) {
-                winner = p;
+            if (p.getNumCredits() > 0) {
+                winners.add(p);
             }
         }
-        return winner;
+        return winners;
+    }
+
+    public void calculateFinalCredits() {
+        int i = 4;
+        ArrayList<Player> bestShips = new ArrayList<>();
+        for (Player p : players) {
+            double tmp_credits = 0;
+            for (Goods g : p.getPlayerShipBoard().getTotalGoods()){     // vendita delle merci
+                switch (g.getColour()){
+                    case RED:
+                        tmp_credits += 4;
+                        break;
+                    case YELLOW:
+                        tmp_credits += 3;
+                        break;
+                    case GREEN:
+                        tmp_credits += 2;
+                        break;
+                    case BLUE:
+                        tmp_credits += 1;
+                        break;
+                }
+            }
+            if(!p.isAbandoned()){
+                p.changeCredits(i);     // aumento crediti in base all'ordine di arrivo
+                i--;
+                if(bestShips.isEmpty()){    // selezione giocatori con nave con meno connettori esposti
+                    bestShips.add(p);
+                } else if(p.getPlayerShipBoard().getTotalExposedConnectors() < bestShips.get(0).getPlayerShipBoard().getTotalExposedConnectors()){
+                    bestShips.clear();
+                    bestShips.add(p);
+                } else if (p.getPlayerShipBoard().getTotalExposedConnectors() == bestShips.get(0).getPlayerShipBoard().getTotalExposedConnectors()){
+                    bestShips.add(p);
+                }
+                p.changeCredits((int) tmp_credits);     // vendita a prezzo intero
+            } else {    // giocatori non arrivati
+                p.changeCredits((int) Math.ceil(tmp_credits/2));    // vendita a metà prezzo, arrotondata per eccesso
+            }
+            p.changeCredits(-p.getPlayerShipBoard().getDeletedComponentsCounterCounter());  // togli crediti in base a quanti componenti sono stati rimossi
+        }
+        for (Player p : bestShips) {    // aggiungi crediti in base alla nave con meno connettori esposti
+            p.changeCredits(2);
+        }
     }
 }
