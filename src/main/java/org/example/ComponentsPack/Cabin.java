@@ -39,9 +39,10 @@ public class Cabin extends Components {
     }
 
     public void changeNumAstronauts(int amount) {
-        if(numAstronauts+amount<=2) {
-            numAstronauts+=amount;
-        }
+            if (numAstronauts + amount > 2) {
+                throw new IllegalArgumentException("Cabin full!");
+            }
+            numAstronauts += amount;
     }
 
     public void addLifeSupport(LifeSupportSystem l) {
@@ -58,13 +59,13 @@ public class Cabin extends Components {
 
     public void addAlien(Alien change){
         if(withLifeSupport){
-            boolean check=false;
-            for(int i=0; i<getLifeSupportSystemArrayList().size() && !check; i++){
+            boolean found = false;
+            for(int i=0; i<getLifeSupportSystemArrayList().size() && !found; i++){
                 if (getLifeSupportSystemArrayList().get(i).getColour() == change.getColour()) {
-                    check = true;
+                    found = true;
                 }
             }
-            if(check){
+            if(found){
                 alien = change;
             }
         }

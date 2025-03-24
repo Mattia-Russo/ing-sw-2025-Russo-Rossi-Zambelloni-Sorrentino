@@ -32,8 +32,6 @@ public class Game{
         return temp;
     }
 
-
-
     public ArrayList<Player> getPlayers() {
         return players;
     }
