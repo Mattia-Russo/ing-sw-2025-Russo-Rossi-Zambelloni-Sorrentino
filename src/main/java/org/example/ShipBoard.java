@@ -56,7 +56,7 @@ public class ShipBoard {
         return componentMatrix[posX][posY];
     }
 
-    public int getDeletedComponentsCounterCounter(){
+    public int getDeletedComponentsCounter(){
         return deletedComponentsCounter;
     }
 

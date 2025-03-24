@@ -1,20 +1,15 @@
 package org.example.ComponentsPack;
 
-public class Alien {
-    private Cabin cabin;
+public class Alien { ;
     private final AlienColour colour;
 
     public Alien(AlienColour colour) {
         this.colour = colour;
-        this.cabin = null;
     }
 
     public AlienColour getColour() {
         return colour;
     }
 
-    public Cabin getCabin() {return cabin;}
-
-    public void setCabin(Cabin cabin) {this.cabin = cabin;}
 
 }

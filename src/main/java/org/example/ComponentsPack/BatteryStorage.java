@@ -19,11 +19,13 @@ public class BatteryStorage extends Components{
     }
 
     public void setQuantity(int amount){
-        int newQuantity = quantity + amount;    // lanciare eccezione
-        if(newQuantity >= capacity) {
-            quantity = capacity;
-        } else if(newQuantity > 0){
-            quantity = newQuantity;
+        try{
+            if(amount >= capacity || amount + quantity >= capacity){
+                throw new IllegalArgumentException("Invalid Amount");
+            }
+            quantity += amount;
+        }catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
         }
     }
 }
