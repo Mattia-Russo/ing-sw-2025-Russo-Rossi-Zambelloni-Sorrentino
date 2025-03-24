@@ -54,6 +54,10 @@ public class Game{
     }
 
     public AdventureCard pickCard() {
+        if (deck == null || deck.isEmpty()) {
+            throw new IllegalStateException("Il mazzo è vuoto, non è possibile pescare una carta.");
+        }
+
         Random rand = new Random();
         int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
 

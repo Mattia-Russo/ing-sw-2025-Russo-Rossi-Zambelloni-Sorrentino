@@ -66,6 +66,9 @@ public class Player {
     }
 
     public Components pickComponent(ArrayList<Components> components){
+        if (components == null || components.isEmpty()) {
+            throw new IllegalArgumentException("La lista dei componenti è vuota o nulla.");
+        }
         Random random = new Random();
         return components.get(random.nextInt(components.size()));
     }
