@@ -115,7 +115,7 @@ public class Game{
             } else {    // giocatori non arrivati
                 p.changeCredits((int) Math.ceil(tmp_credits/2));    // vendita a metà prezzo, arrotondata per eccesso
             }
-            p.changeCredits(-p.getPlayerShipBoard().getDeletedComponentsCounterCounter());  // togli crediti in base a quanti componenti sono stati rimossi
+            p.changeCredits(-p.getPlayerShipBoard().getDeletedComponentsCounter());  // togli crediti in base a quanti componenti sono stati rimossi
         }
         for (Player p : bestShips) {    // aggiungi crediti in base alla nave con meno connettori esposti
             p.changeCredits(2);

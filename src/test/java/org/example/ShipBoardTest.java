@@ -115,7 +115,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        assertEquals(0,s.getDeletedComponentsCounterCounter());
+        assertEquals(0,s.getDeletedComponentsCounter());
     }
 
     public void testBookComponents() {
@@ -358,7 +358,7 @@ public class ShipBoardTest extends TestCase {
         s.removeComponent(1,1);
         assertFalse(s.getIfShielded(0));
         assertFalse(s.getIfShielded(3));
-        assertEquals(1, s.getDeletedComponentsCounterCounter());
+        assertEquals(1, s.getDeletedComponentsCounter());
 
     }
 
@@ -377,7 +377,7 @@ public class ShipBoardTest extends TestCase {
         Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.bookComponents(cabin1);
         s.removeBookedComponents();
-        assertEquals(1, s.getCounter());
+        assertEquals(1, s.getDeletedComponentsCounter());
 
     }
 
