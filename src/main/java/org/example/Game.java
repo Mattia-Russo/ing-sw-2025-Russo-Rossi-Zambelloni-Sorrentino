@@ -13,12 +13,14 @@ public class Game{
     private ArrayList<Player> players;
     private ArrayList<AdventureCard> deck;
     private int gameMode;
+    private int lapLength;
 
-    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode) {
+    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, int lapLength) {
         this.numPlayer = numPlayer;
         this.players = players;
         this.deck = deck;
         this.gameMode = gameMode;
+        this.lapLength = lapLength;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -32,9 +34,11 @@ public class Game{
     public int getOccupiedPositions(Player player, int numPos) {
         int i = 0;
         for (int j=players.indexOf(player)-1; j>=0; j--) {
-            int diff = players.get(j).getPosition() + i - player.getPosition();
-            if (diff <= numPos) {
-                i++;
+            if(!players.get(j).isAbandoned()){
+                int diff = players.get(j).getPosition() + i - player.getPosition();
+                if (diff <= numPos) {
+                    i++;
+                }
             }
         }
         return i;
@@ -106,6 +110,14 @@ public class Game{
         }
         for (Player p : bestShips) {    // aggiungi crediti in base alla nave con meno connettori esposti
             p.changeCredits(2);
+        }
+    }
+
+    public void checkForcedAbandon() {
+        for(Player p : players) {
+            if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.get(0) && p.getPosition()<players.get(0).getPosition()-lapLength))) {
+                    p.abandon();
+            }
         }
     }
 }

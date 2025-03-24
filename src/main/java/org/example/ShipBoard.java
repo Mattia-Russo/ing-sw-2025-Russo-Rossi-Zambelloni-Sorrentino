@@ -26,6 +26,14 @@ public class ShipBoard {
 
     }
 
+    public float getSingleCannonPower() {
+        return singleCannonPower;
+    }
+
+    public int getSingleEnginePower() {
+        return singleEnginePower;
+    }
+
     public Components[][] getComponentMatrix() {
         return componentMatrix;
     }

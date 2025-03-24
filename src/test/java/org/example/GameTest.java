@@ -36,7 +36,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(s1);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         assertArrayEquals(players.toArray(),g.getPlayers().toArray());
     }
@@ -67,7 +67,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(s1);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -107,7 +107,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(s1);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -144,7 +144,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(s1);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         AdventureCard pickedCard = g.pickCard();
         assertFalse(deck.contains(pickedCard));
@@ -177,7 +177,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(s1);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         p1.abandon();
         p3.abandon();
@@ -328,7 +328,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(sl);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         ArrayList<Player> win  = new ArrayList<>();
 
@@ -484,7 +484,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(sl);
 
-        Game g=new Game(4, players, deck,1);
+        Game g=new Game(4, players, deck,1, 30);
 
         ArrayList<Player> win  = new ArrayList<>();
 
