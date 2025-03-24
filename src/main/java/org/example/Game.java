@@ -23,6 +23,17 @@ public class Game{
         this.lapLength = lapLength;
     }
 
+    //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
+    public ArrayList<AdventureCard> getDeck(int deck_pos) {
+        ArrayList<AdventureCard> temp = new ArrayList<>();
+        for(int i=0; i<3; i++) {
+           temp.add(deck.get(deck_pos*3 + i));
+        }
+        return temp;
+    }
+
+
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
