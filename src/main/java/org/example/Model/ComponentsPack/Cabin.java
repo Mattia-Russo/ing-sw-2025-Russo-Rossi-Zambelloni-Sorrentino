@@ -102,5 +102,13 @@ public class Cabin extends Components {
         }
     }
 
+    @Override
+    public void addCabin(LifeSupportSystem life) {
+        if(!getIsCentral()){
+            this.changeWithLifeSupport(true);
+            this.addLifeSupport(life);
+        }
+    }
+
 
 }

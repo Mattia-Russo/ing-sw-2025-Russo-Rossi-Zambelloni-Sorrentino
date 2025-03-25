@@ -426,40 +426,6 @@ public class ShipBoard {
                 componentMatrix[row][col] = component;
                 component.setPosition(row, col);
                 component.place(this);
-                if (component instanceof LifeSupportSystem){
-                    if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof Cabin && !((Cabin) componentMatrix[row+1][col]).getIsCentral()){
-                        ((Cabin) componentMatrix[row+1][col]).changeWithLifeSupport(true);
-                        ((Cabin) componentMatrix[row+1][col]).addLifeSupport(((LifeSupportSystem) component));
-                    }
-                    if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof Cabin && !((Cabin) componentMatrix[row-1][col]).getIsCentral()){
-                        ((Cabin) componentMatrix[row-1][col]).changeWithLifeSupport(true);
-                        ((Cabin) componentMatrix[row-1][col]).addLifeSupport(((LifeSupportSystem) component));
-                    }
-                    if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof Cabin && !((Cabin) componentMatrix[row][col+1]).getIsCentral()){
-                        ((Cabin) componentMatrix[row][col+1]).changeWithLifeSupport(true);
-                        ((Cabin) componentMatrix[row][col+1]).addLifeSupport(((LifeSupportSystem) component));
-                    }
-                    if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof Cabin && !((Cabin) componentMatrix[row][col-1]).getIsCentral()){
-                        ((Cabin) componentMatrix[row][col-1]).changeWithLifeSupport(true);
-                        ((Cabin) componentMatrix[row][col-1]).addLifeSupport(((LifeSupportSystem) component));
-                    }
-                } else if (component instanceof Cabin){
-                    this.totalAstronauts +=2;
-                    if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                        ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row+1][col]));
-
-                    } else if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                        ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row-1][col]));
-                    } else if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                        ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col+1]));
-                    } else if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof LifeSupportSystem){
-                        ((Cabin) component).changeWithLifeSupport(true);
-                        ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col-1]));
-                    }
-                }
             } else {
                 throw new OccupiedPositionException("Position already occupied!");
             }

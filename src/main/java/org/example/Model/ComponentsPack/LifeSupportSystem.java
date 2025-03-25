@@ -95,21 +95,17 @@ public class LifeSupportSystem extends Components {
 
     @Override
     public void place(ShipBoard ship) {
-        if (ship.validPosition(getPosX()+1,getPosY()) && ship.getComponent(getPosX()+1,getPosY()) instanceof Cabin && !((Cabin) ship.getComponent(getPosX()+1,getPosY())).getIsCentral()) {
-            ((Cabin) ship.getComponent(getPosX()+1,getPosY())).changeWithLifeSupport(true);
-            ((Cabin) ship.getComponent(getPosX()+1,getPosY())).addLifeSupport(this);
+        if (ship.validPosition(getPosX()+1,getPosY())) {
+            ship.getComponent(getPosX()+1,getPosY()).addCabin(this);
         }
-        if (ship.validPosition(getPosX()-1,getPosY()) && ship.getComponent(getPosX()-1,getPosY()) instanceof Cabin && !((Cabin) ship.getComponent(getPosX()-1,getPosY())).getIsCentral()) {
-            ((Cabin) ship.getComponent(getPosX()-1,getPosY())).changeWithLifeSupport(true);
-            ((Cabin) ship.getComponent(getPosX()-1,getPosY())).addLifeSupport(this);
+        if (ship.validPosition(getPosX()-1,getPosY())){
+            ship.getComponent(getPosX()-1,getPosY()).addCabin(this);
         }
-        if (ship.validPosition(getPosX(),getPosY()+1) && ship.getComponent(getPosX(),getPosY()+1) instanceof Cabin && !((Cabin) ship.getComponent(getPosX(),getPosY()+1)).getIsCentral()) {
-            ((Cabin) ship.getComponent(getPosX(),getPosY()+1)).changeWithLifeSupport(true);
-            ((Cabin) ship.getComponent(getPosX(),getPosY()+1)).addLifeSupport(this);
+        if (ship.validPosition(getPosX(),getPosY()+1)) {
+           ship.getComponent(getPosX(),getPosY()+1).addCabin(this);
         }
-        if (ship.validPosition(getPosX(),getPosY()+1) && ship.getComponent(getPosX(),getPosY()-1) instanceof Cabin && !((Cabin) ship.getComponent(getPosX(),getPosY()-1)).getIsCentral()) {
-            ((Cabin) ship.getComponent(getPosX(),getPosY()-1)).changeWithLifeSupport(true);
-            ((Cabin) ship.getComponent(getPosX(),getPosY()-1)).addLifeSupport(this);
+        if (ship.validPosition(getPosX(),getPosY()+1)) {
+            ship.getComponent(getPosX(),getPosY()-1).addCabin(this);
         }
     }
 
