@@ -227,9 +227,11 @@ public class ShipBoard {
         if (!validPosition(x, y)) {
             throw new InvalidPositionException("Position is invalid");
         }
+
         if (componentMatrix[x][y] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
+
         componentMatrix[x][y].remove(this);
         componentMatrix[x][y] = null;
         deletedComponentsCounter++;
