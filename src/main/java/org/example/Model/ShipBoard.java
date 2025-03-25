@@ -15,7 +15,7 @@ public class ShipBoard {
     private boolean[][] availablePositionMatrix;
     private Components[][] componentMatrix;
     private Components[] bookedComponents;
-    private boolean[] shieldedDirections;
+    private int[] shieldedDirections;
     private float singleCannonPower;
     private int numDoubleCannons;
     private int singleEnginePower;
@@ -29,7 +29,7 @@ public class ShipBoard {
         this.availablePositionMatrix = availablePositionMatrix;
         this.componentMatrix = new Components[matrixWidth][matrixHeight];
         this.bookedComponents = new Components[2];
-        this.shieldedDirections = new boolean[4];
+        this.shieldedDirections = new int[4];
         this.singleCannonPower = 0;
         this.singleEnginePower = 0;
         this.numDoubleCannons = 0;
@@ -173,24 +173,42 @@ public class ShipBoard {
     }
 
     public boolean getIfShielded(int direction){
-        return shieldedDirections[direction];
+        if(shieldedDirections[direction]>0){
+            return true;
+        }
+        return false;
     }
 
-    public void addShieldedDirections(Direction direction){
-        switch(direction){
+    public void addShieldInDirection(Direction direction) {
+        switch (direction) {
             case NORTH:
-                shieldedDirections[0] = true;
+                shieldedDirections[0] += 1;
                 break;
             case EAST:
-                shieldedDirections[1] = true;
+                shieldedDirections[1] += 1;
                 break;
             case SOUTH:
-                shieldedDirections[2] = true;
+                shieldedDirections[2] += 1;
                 break;
             case WEST:
-                shieldedDirections[3] = true;
+                shieldedDirections[3] += 1;
         }
+    }
 
+    public void decreaseShieldInDirection(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                shieldedDirections[0] -= 1;
+                break;
+            case EAST:
+                shieldedDirections[1] -= 1;
+                break;
+            case SOUTH:
+                shieldedDirections[2] -= 1;
+                break;
+            case WEST:
+                shieldedDirections[3] -= 1;
+        }
     }
 
     /*
@@ -209,106 +227,7 @@ public class ShipBoard {
         if (componentMatrix[x][y] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
-        componentMatrix[x][y].remove();
-
-
-        if (componentMatrix[x][y] instanceof LifeSupportSystem) {
-            boolean check = false;
-            if (componentMatrix[x][y + 1] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check) {
-                    if (((Cabin) componentMatrix[x][y + 1]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x][y + 1]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x][y + 1]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x][y + 1]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-            if (componentMatrix[x - 1][y] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x-1][y]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x-1][y]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x-1][y]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check){
-                    if (((Cabin) componentMatrix[x-1][y]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x-1][y]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x-1][y]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x-1][y]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x-1][y]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-            if (componentMatrix[x][y - 1] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check) {
-                    if (((Cabin) componentMatrix[x][y - 1]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x][y - 1]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x][y - 1]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x][y - 1]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-            if (componentMatrix[x + 1][y] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x+1][y]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x+1][y]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x+1][y]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check){
-                    if (((Cabin) componentMatrix[x+1][y]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x+1][y]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x+1][y]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x+1][y]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x-1][y]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-        } else if (componentMatrix[x][y] instanceof Shield){
-            shieldedDirections[((Shield) componentMatrix[x][y]).getDirection1().ordinal()] = false;
-            shieldedDirections[((Shield) componentMatrix[x][y]).getDirection2().ordinal()] = false;
-        } else if (componentMatrix[x][y] instanceof Cannon){
-            if(((Cannon) componentMatrix[x][y]).getPower()==1){
-                if(componentMatrix[x][y].getDirection()==Direction.NORTH||componentMatrix[x][y].getDirection()==Direction.SOUTH){
-                    singleCannonPower -=1;
-                }else {
-                    singleCannonPower -= 0.5F;
-                }
-            } else {
-                numDoubleCannons--;
-            }
-        } else if(componentMatrix[x][y] instanceof Engine){
-            if (((Engine) componentMatrix[x][y]).getPower()==1){
-                singleEnginePower-=1;
-            } else {
-                numDoubleEngines--;
-            }
-        } else if (componentMatrix[x][y] instanceof Cabin) {
-            this.setNumAstronauts(((Cabin) componentMatrix[x][y]).getNumAstronauts());
-            this.aliens.remove(((Cabin) componentMatrix[x][y]).getAlien());
-        }
+        componentMatrix[x][y].remove(this);
 
         componentMatrix[x][y] = null;
         deletedComponentsCounter++;
