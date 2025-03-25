@@ -48,7 +48,11 @@ public class Player {
     }
 
     public void changePosition(int val){
-        this.position+=val;
+        if (!this.abandoned) {
+            this.position += val;
+        } else {
+            throw new IllegalStateException("The player has abandoned");
+        }
     }
 
     public int getNumCredits(){
@@ -68,7 +72,7 @@ public class Player {
 
     public Components pickComponent(ArrayList<Components> components){
         if (components == null || components.isEmpty()) {
-            throw new IllegalArgumentException("La lista dei componenti è vuota o nulla.");
+            throw new IllegalArgumentException("No more components available");
         }
         Random random = new Random();
         return components.get(random.nextInt(components.size()));

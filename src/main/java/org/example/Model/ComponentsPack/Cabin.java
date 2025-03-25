@@ -57,18 +57,22 @@ public class Cabin extends Components {
         return lifeSupportSystemArrayList;
     }
 
-    public void addAlien(Alien change){
-        if(withLifeSupport){
-            boolean found = false;
-            for(int i=0; i<getLifeSupportSystemArrayList().size() && !found; i++){
-                if (getLifeSupportSystemArrayList().get(i).getColour() == change.getColour()) {
-                    found = true;
-                }
-            }
-            if(found){
-                alien = change;
-            }
+    public void addAlien(Alien newAlien) {
+        if (this.alien != null) {
+            throw new IllegalArgumentException("This cabin already contains an alien!");
         }
+        if (!withLifeSupport) {
+            throw new IllegalArgumentException("This cabin does not have life support!");
+        }
+        boolean hasMatchingLifeSupport = getLifeSupportSystemArrayList().stream().anyMatch(lss -> lss.getColour() == newAlien.getColour());
+        if (!hasMatchingLifeSupport) {
+            throw new IllegalStateException("This cabin has life support, but of a different colour!");
+        }
+        this.alien = newAlien;
+    }
+
+    public void removeAlien() {
+        this.alien = null;
     }
 
 }
