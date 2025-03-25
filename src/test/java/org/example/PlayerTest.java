@@ -44,7 +44,7 @@ public class PlayerTest extends TestCase {
         s.placeComponent(4,4, c8);
         s.placeComponent(4,5, c9);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertEquals(0, p.getPosition());
     }
@@ -58,7 +58,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertFalse(p.isAbandoned());
     }
@@ -72,7 +72,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertFalse(p.isOnPlanet());
     }
@@ -112,7 +112,7 @@ public class PlayerTest extends TestCase {
         sh1.placeComponent(4,4, c8);
         sh1.placeComponent(4,5, c9);
 
-        Player p = new Player(sh1, 12);
+        Player p = new Player(sh1, 12, "a");
 
         for(int i = 0; i<7; i++){
             for(int j = 0; j<7; j++){
@@ -134,7 +134,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertFalse(p.isOnPlanet());
         p.changeOnPlanet();
@@ -150,7 +150,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertFalse(p.isAbandoned());
         p.abandon();
@@ -193,7 +193,7 @@ public class PlayerTest extends TestCase {
         s.placeComponent(4,4, c8);
         s.placeComponent(4,5, c9);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertEquals(0, p.getPosition());
 
@@ -213,7 +213,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertEquals(0, p.getNumCredits());
     }
@@ -227,7 +227,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         for (int i=0; i<20; i++){
             int res = p.rollDice();
@@ -247,7 +247,7 @@ public class PlayerTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertEquals(0, p.getNumCredits());
         p.changeCredits(10);
@@ -285,7 +285,7 @@ public class PlayerTest extends TestCase {
 
         boolean[][] availablePositionMatrix = new boolean[7][5];
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         for (int i=0; i< 20; i++){
             Components c = p.pickComponent(deck);
@@ -330,7 +330,7 @@ public class PlayerTest extends TestCase {
         s.placeComponent(5,4, c9);
         s.placeComponent(3,3, c8);
 
-        Player p = new Player(s, 12);
+        Player p = new Player(s, 12, "a");
 
         assertFalse(p.checkShip());
     }

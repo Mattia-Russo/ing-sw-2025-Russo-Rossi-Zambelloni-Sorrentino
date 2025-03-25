@@ -9,19 +9,21 @@ import java.util.Random;
 
 public class Player {
     private final int id;
+    private final String name;
     private int position;
     private final ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
     private int numCredits;
 
-    public Player(ShipBoard shipBoard, int id){
+    public Player(ShipBoard shipBoard, int id, String name){
         this.id = id;
         this.position=0;
         this.playerShipBoard=shipBoard;
         this.abandoned=false;
         this.onPlanet=false;
         this.numCredits=0;
+        this.name=name;
     }
 
     public int getPosition(){

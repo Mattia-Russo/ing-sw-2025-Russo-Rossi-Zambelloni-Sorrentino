@@ -24,10 +24,10 @@ public class GameTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p1 = new Player(s, 12);
-        Player p2 = new Player(s, 7);
-        Player p3 = new Player(s, 14);
-        Player p4 = new Player(s, 9);
+        Player p1 = new Player(s, 12, "a");
+        Player p2 = new Player(s, 7, "a");
+        Player p3 = new Player(s, 14, "a");
+        Player p4 = new Player(s, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -55,10 +55,10 @@ public class GameTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p1 = new Player(s, 12);
-        Player p2 = new Player(s, 7);
-        Player p3 = new Player(s, 14);
-        Player p4 = new Player(s, 9);
+        Player p1 = new Player(s, 12, "a");
+        Player p2 = new Player(s, 7, "a");
+        Player p3 = new Player(s, 14, "a");
+        Player p4 = new Player(s, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -95,10 +95,10 @@ public class GameTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p1 = new Player(s, 12);
-        Player p2 = new Player(s, 7);
-        Player p3 = new Player(s, 14);
-        Player p4 = new Player(s, 9);
+        Player p1 = new Player(s, 12, "a");
+        Player p2 = new Player(s, 7, "a");
+        Player p3 = new Player(s, 14, "a");
+        Player p4 = new Player(s, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -132,10 +132,10 @@ public class GameTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p1 = new Player(s, 12);
-        Player p2 = new Player(s, 7);
-        Player p3 = new Player(s, 14);
-        Player p4 = new Player(s, 9);
+        Player p1 = new Player(s, 12, "a");
+        Player p2 = new Player(s, 7, "a");
+        Player p3 = new Player(s, 14, "a");
+        Player p4 = new Player(s, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -165,10 +165,10 @@ public class GameTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        Player p1 = new Player(s, 12);
-        Player p2 = new Player(s, 7);
-        Player p3 = new Player(s, 14);
-        Player p4 = new Player(s, 9);
+        Player p1 = new Player(s, 12, "a");
+        Player p2 = new Player(s, 7, "a");
+        Player p3 = new Player(s, 14, "a");
+        Player p4 = new Player(s, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -316,10 +316,10 @@ public class GameTest extends TestCase {
         sp4.placeComponent(5,4, c94);
         sp4.placeComponent(3,3, c84);
 
-        Player p1 = new Player(sp1, 12);
-        Player p2 = new Player(sp2, 7);
-        Player p3 = new Player(sp3, 14);
-        Player p4 = new Player(sp4, 9);
+        Player p1 = new Player(sp1, 12, "a");
+        Player p2 = new Player(sp2, 7, "a");
+        Player p3 = new Player(sp3, 14, "a");
+        Player p4 = new Player(sp4, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -472,10 +472,10 @@ public class GameTest extends TestCase {
         sp4.placeComponent(5,4, c94);
         sp4.placeComponent(3,3, c84);
 
-        Player p1 = new Player(sp1, 12);
-        Player p2 = new Player(sp2, 7);
-        Player p3 = new Player(sp3, 14);
-        Player p4 = new Player(sp4, 9);
+        Player p1 = new Player(sp1, 12, "a");
+        Player p2 = new Player(sp2, 7, "a");
+        Player p3 = new Player(sp3, 14, "a");
+        Player p4 = new Player(sp4, 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
