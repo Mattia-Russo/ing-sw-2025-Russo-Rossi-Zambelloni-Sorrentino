@@ -5,6 +5,7 @@ import org.example.Model.ComponentsPack.*;
 import org.example.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Model.Exceptions.FullBookedSlotsException;
 import org.example.Model.Exceptions.InvalidPositionException;
+import org.example.Model.Exceptions.OccupiedPositionException;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -39,6 +40,10 @@ public class ShipBoard {
         this.aliens = new ArrayList<>();
     }
 
+    public ArrayList<Alien> getAliens() {
+        return aliens;
+    }
+
     public float getSingleCannonPower() {
         return singleCannonPower;
     }
@@ -49,6 +54,22 @@ public class ShipBoard {
 
     public int getSingleEnginePower() {
         return singleEnginePower;
+    }
+
+    public void setDoubleEnginePower(int singleEnginePower) {
+        this.singleEnginePower += singleEnginePower;
+    }
+
+    public void setDoubleCannonPower(int singleCannonPower) {
+        this.singleCannonPower += singleCannonPower;
+    }
+
+    public void setSingleEnginePower(int singleEnginePower) {
+        this.singleEnginePower += singleEnginePower;
+    }
+
+    public void setSingleCannonPower(float singleCannonPower) {
+        this.singleCannonPower += singleCannonPower;
     }
 
     public Components[][] getComponentMatrix() {
@@ -224,14 +245,13 @@ public class ShipBoard {
         if (!validPosition(x, y)) {
             throw new InvalidPositionException("Position is invalid");
         }
+
         if (componentMatrix[x][y] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
         componentMatrix[x][y].remove(this);
-
         componentMatrix[x][y] = null;
         deletedComponentsCounter++;
-
     }
 
     public void removeBookedComponents(){
@@ -405,24 +425,8 @@ public class ShipBoard {
             if (componentMatrix[row][col] == null) {
                 componentMatrix[row][col] = component;
                 component.setPosition(row, col);
-                if (component instanceof Cannon){
-                    if (((Cannon) component).getPower() == 1){
-                        if (component.getDirection() == Direction.NORTH) {
-                            this.singleCannonPower += 1;
-                        } else {
-                            this.singleCannonPower += 0.5F;
-                        }
-                    } else {
-                        this.numDoubleCannons++;
-                    }
-
-                } else if (component instanceof Engine){
-                    if (((Engine) component).getPower() == 1){
-                        this.singleEnginePower += 1;
-                    } else {
-                        this.numDoubleEngines++;
-                    }
-                } else if (component instanceof LifeSupportSystem){
+                component.place(this);
+                if (component instanceof LifeSupportSystem){
                     if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof Cabin && !((Cabin) componentMatrix[row+1][col]).getIsCentral()){
                         ((Cabin) componentMatrix[row+1][col]).changeWithLifeSupport(true);
                         ((Cabin) componentMatrix[row+1][col]).addLifeSupport(((LifeSupportSystem) component));
@@ -455,16 +459,13 @@ public class ShipBoard {
                         ((Cabin) component).changeWithLifeSupport(true);
                         ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col-1]));
                     }
-                }else if(component instanceof Shield){
-                    addShieldedDirections(((Shield) component).getDirection1());
-                    addShieldedDirections(((Shield) component).getDirection2());
                 }
             } else {
-                throw new IllegalStateException("Position already occupied!");
+                throw new OccupiedPositionException("Position already occupied!");
             }
 
         } else {
-            throw new IllegalArgumentException("Invalid position");
+            throw new InvalidPositionException("Invalid position");
         }
     }
 
