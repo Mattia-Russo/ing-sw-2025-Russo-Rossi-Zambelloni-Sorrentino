@@ -1,5 +1,9 @@
 package org.example.Model.ComponentsPack;
 
+import jdk.internal.joptsimple.ValueConversionException;
+import org.example.Model.Exceptions.OverloadedCapacityException;
+import org.example.Model.Exceptions.ValueUnderZeroException;
+
 public class BatteryStorage extends Components{
     private final int capacity;
     private int quantity;
@@ -18,14 +22,14 @@ public class BatteryStorage extends Components{
         return capacity;
     }
 
-    public void setQuantity(int amount){
-        try{
-            if(amount >= capacity || amount + quantity >= capacity){
-                throw new IllegalArgumentException("Invalid Amount");
-            }
-            quantity += amount;
-        }catch(IllegalArgumentException e){
-            System.out.println(e.getMessage());
+    public void setQuantity(int amount) {
+        if (amount <= 0) {
+            throw new ValueUnderZeroException("Amount must be greater than zero.");
         }
+        if (amount + quantity > capacity) {
+            throw new OverloadedCapacityException("Invalid amount: exceeds capacity.");
+        }
+        quantity += amount;
     }
+
 }

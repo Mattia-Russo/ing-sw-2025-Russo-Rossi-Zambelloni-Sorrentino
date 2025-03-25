@@ -2,6 +2,7 @@ package org.example.Model;
 
 import org.example.Model.CardPack.AdventureCard;
 import org.example.Model.ComponentsPack.Goods;
+import org.example.Model.Exceptions.EmptyDeckException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -54,7 +55,7 @@ public class Game{
 
     public AdventureCard pickCard() {
         if (deck == null || deck.isEmpty()) {
-            throw new IllegalStateException("Il mazzo è vuoto, non è possibile pescare una carta.");
+            throw new EmptyDeckException("Deck is empty");
         }
 
         Random rand = new Random();

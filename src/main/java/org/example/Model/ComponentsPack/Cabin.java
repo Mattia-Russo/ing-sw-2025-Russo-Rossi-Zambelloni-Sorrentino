@@ -1,5 +1,7 @@
 package org.example.Model.ComponentsPack;
 
+import org.example.Model.Exceptions.*;
+
 import java.util.ArrayList;
 
 public class Cabin extends Components {
@@ -40,8 +42,11 @@ public class Cabin extends Components {
 
     public void changeNumAstronauts(int amount) {
             if (numAstronauts + amount > 2) {
-                throw new IllegalArgumentException("Cabin full!");
+                throw new OverloadedCapacityException("Cabin full!");
+            } else if (numAstronauts + amount < 0) {
+                throw new UnderloadedCapacityException("There are not enough Astronauts in this cabin!");
             }
+
             numAstronauts += amount;
     }
 
@@ -59,15 +64,16 @@ public class Cabin extends Components {
 
     public void addAlien(Alien newAlien) {
         if (this.alien != null) {
-            throw new IllegalArgumentException("This cabin already contains an alien!");
+            throw new AlreadyAlienException("This cabin already contains an alien!");
         }
         if (!withLifeSupport) {
-            throw new IllegalArgumentException("This cabin does not have life support!");
+            throw new WithoutLifeSupportException("This cabin does not have life support!");
         }
         boolean hasMatchingLifeSupport = getLifeSupportSystemArrayList().stream().anyMatch(lss -> lss.getColour() == newAlien.getColour());
         if (!hasMatchingLifeSupport) {
             throw new IllegalStateException("This cabin has life support, but of a different colour!");
         }
+        this.numAstronauts = 0;
         this.alien = newAlien;
     }
 

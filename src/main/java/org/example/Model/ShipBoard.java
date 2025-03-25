@@ -2,6 +2,9 @@ package org.example.Model;
 
 import org.example.ComponentsPack.*;
 import org.example.Model.ComponentsPack.*;
+import org.example.Model.Exceptions.AlreadyEmptyPositionException;
+import org.example.Model.Exceptions.FullBookedSlotsException;
+import org.example.Model.Exceptions.InvalidPositionException;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -81,7 +84,7 @@ public class ShipBoard {
                 return;
             }
         }
-        throw new IllegalStateException("All booked component slots are full!");
+        throw new FullBookedSlotsException("All booked component slots are full!");
     }
 
     public Components[] getBookedComponents(){
@@ -201,10 +204,10 @@ public class ShipBoard {
     * */
     public void removeComponent(int x, int y) {
         if (!validPosition(x, y)) {
-            throw new IllegalArgumentException("Position is invalid");
+            throw new InvalidPositionException("Position is invalid");
         }
         if (componentMatrix[x][y] == null) {
-            throw new IllegalStateException("Position already empty");
+            throw new AlreadyEmptyPositionException("Position already empty");
         }
         if (componentMatrix[x][y] instanceof LifeSupportSystem) {
             boolean check = false;

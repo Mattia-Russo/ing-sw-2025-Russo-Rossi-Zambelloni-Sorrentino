@@ -1,7 +1,8 @@
 package org.example.Model;
 
-import org.example.ComponentsPack.*;
 import org.example.Model.ComponentsPack.*;
+import org.example.Model.Exceptions.PlayerAbandonedException;
+import org.example.Model.Exceptions.TilesEndedExceptions;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -51,7 +52,7 @@ public class Player {
         if (!this.abandoned) {
             this.position += val;
         } else {
-            throw new IllegalStateException("The player has abandoned");
+            throw new PlayerAbandonedException("The player has abandoned");
         }
     }
 
@@ -72,7 +73,7 @@ public class Player {
 
     public Components pickComponent(ArrayList<Components> components){
         if (components == null || components.isEmpty()) {
-            throw new IllegalArgumentException("No more components available");
+            throw new TilesEndedExceptions("No more components tiles available");
         }
         Random random = new Random();
         return components.get(random.nextInt(components.size()));
