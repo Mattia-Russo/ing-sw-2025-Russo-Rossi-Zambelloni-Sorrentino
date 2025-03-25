@@ -1,10 +1,11 @@
 package org.example.CardPack;
 
 import junit.framework.TestCase;
-import org.example.ComponentsPack.Cabin;
-import org.example.ComponentsPack.Connector;
-import org.example.ComponentsPack.Direction;
-import org.example.ShipBoard;
+import org.example.Model.ComponentsPack.Cabin;
+import org.example.Model.ComponentsPack.Connector;
+import org.example.Model.ComponentsPack.Direction;
+import org.example.Model.CardPack.Epidemic;
+import org.example.Model.ShipBoard;
 
 public class EpidemicTest extends TestCase {
 

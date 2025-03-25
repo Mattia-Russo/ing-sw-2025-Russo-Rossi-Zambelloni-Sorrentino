@@ -1,7 +1,9 @@
 package org.example.CardPack;
 
 import junit.framework.TestCase;
-import org.example.ComponentsPack.Direction;
+import org.example.Model.ComponentsPack.Direction;
+import org.example.Model.CardPack.Meteor;
+import org.example.Model.CardPack.MeteorCard;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,8 @@
 package org.example.ComponentsPack;
 
 import junit.framework.TestCase;
+import org.example.Model.ComponentsPack.*;
+
 public class StorageTest extends TestCase {
 
     public void testGetGoods() {

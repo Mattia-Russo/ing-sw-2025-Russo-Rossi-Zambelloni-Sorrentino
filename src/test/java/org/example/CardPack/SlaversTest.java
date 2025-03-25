@@ -1,6 +1,8 @@
 package org.example.CardPack;
 
 import junit.framework.TestCase;
+import org.example.Model.CardPack.Slavers;
+
 public class SlaversTest extends TestCase {
 
     public void testGetCannonPower() {

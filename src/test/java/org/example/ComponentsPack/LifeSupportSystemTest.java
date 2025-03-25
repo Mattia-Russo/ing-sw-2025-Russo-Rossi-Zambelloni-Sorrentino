@@ -1,6 +1,10 @@
 package org.example.ComponentsPack;
 
 import junit.framework.TestCase;
+import org.example.Model.ComponentsPack.AlienColour;
+import org.example.Model.ComponentsPack.Connector;
+import org.example.Model.ComponentsPack.Direction;
+import org.example.Model.ComponentsPack.LifeSupportSystem;
 
 public class LifeSupportSystemTest extends TestCase {
 
