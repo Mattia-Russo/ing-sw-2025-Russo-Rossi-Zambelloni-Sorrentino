@@ -112,4 +112,10 @@ public class LifeSupportSystem extends Components {
             ((Cabin) ship.getComponent(getPosX(),getPosY()-1)).addLifeSupport(this);
         }
     }
+
+    @Override
+    public void addLifeSupport(Cabin cabin) {
+        cabin.changeWithLifeSupport(true);
+        cabin.getLifeSupportSystemArrayList().add(this);
+    }
 }
