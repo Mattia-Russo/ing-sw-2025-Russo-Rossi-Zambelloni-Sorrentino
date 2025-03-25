@@ -95,21 +95,21 @@ public class LifeSupportSystem extends Components {
 
     @Override
     public void place(ShipBoard ship) {
-        if (ship.validPosition(getPosX()+1,getPosY()) && ship.getComponent(getPosX()+1,getPosY()) instanceof Cabin && !((Cabin) componentMatrix[row + 1][col]).getIsCentral()) {
-            ((Cabin) componentMatrix[row + 1][col]).changeWithLifeSupport(true);
-            ((Cabin) componentMatrix[row + 1][col]).addLifeSupport(((LifeSupportSystem) component));
+        if (ship.validPosition(getPosX()+1,getPosY()) && ship.getComponent(getPosX()+1,getPosY()) instanceof Cabin && !((Cabin) ship.getComponent(getPosX()+1,getPosY())).getIsCentral()) {
+            ((Cabin) ship.getComponent(getPosX()+1,getPosY())).changeWithLifeSupport(true);
+            ((Cabin) ship.getComponent(getPosX()+1,getPosY())).addLifeSupport(this);
         }
-        if (validPosition(row - 1, col) && componentMatrix[row - 1][col] instanceof Cabin && !((Cabin) componentMatrix[row - 1][col]).getIsCentral()) {
-            ((Cabin) componentMatrix[row - 1][col]).changeWithLifeSupport(true);
-            ((Cabin) componentMatrix[row - 1][col]).addLifeSupport(((LifeSupportSystem) component));
+        if (ship.validPosition(getPosX()-1,getPosY()) && ship.getComponent(getPosX()-1,getPosY()) instanceof Cabin && !((Cabin) ship.getComponent(getPosX()-1,getPosY())).getIsCentral()) {
+            ((Cabin) ship.getComponent(getPosX()-1,getPosY())).changeWithLifeSupport(true);
+            ((Cabin) ship.getComponent(getPosX()-1,getPosY())).addLifeSupport(this);
         }
-        if (validPosition(row, col + 1) && componentMatrix[row][col + 1] instanceof Cabin && !((Cabin) componentMatrix[row][col + 1]).getIsCentral()) {
-            ((Cabin) componentMatrix[row][col + 1]).changeWithLifeSupport(true);
-            ((Cabin) componentMatrix[row][col + 1]).addLifeSupport(((LifeSupportSystem) component));
+        if (ship.validPosition(getPosX(),getPosY()+1) && ship.getComponent(getPosX(),getPosY()+1) instanceof Cabin && !((Cabin) ship.getComponent(getPosX(),getPosY()+1)).getIsCentral()) {
+            ((Cabin) ship.getComponent(getPosX(),getPosY()+1)).changeWithLifeSupport(true);
+            ((Cabin) ship.getComponent(getPosX(),getPosY()+1)).addLifeSupport(this);
         }
-        if (validPosition(row, col - 1) && componentMatrix[row][col - 1] instanceof Cabin && !((Cabin) componentMatrix[row][col - 1]).getIsCentral()) {
-            ((Cabin) componentMatrix[row][col - 1]).changeWithLifeSupport(true);
-            ((Cabin) componentMatrix[row][col - 1]).addLifeSupport(((LifeSupportSystem) component));
+        if (ship.validPosition(getPosX(),getPosY()+1) && ship.getComponent(getPosX(),getPosY()-1) instanceof Cabin && !((Cabin) ship.getComponent(getPosX(),getPosY()-1)).getIsCentral()) {
+            ((Cabin) ship.getComponent(getPosX(),getPosY()-1)).changeWithLifeSupport(true);
+            ((Cabin) ship.getComponent(getPosX(),getPosY()-1)).addLifeSupport(this);
         }
     }
 }
