@@ -79,6 +79,4 @@ public class Components {
     public void remove(ShipBoard ship){}
 
     public void place(ShipBoard ship){}
-
-
 }
