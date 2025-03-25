@@ -5,6 +5,7 @@ import org.example.Model.ComponentsPack.*;
 import org.example.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Model.Exceptions.FullBookedSlotsException;
 import org.example.Model.Exceptions.InvalidPositionException;
+import org.example.Model.Exceptions.OccupiedPositionException;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -39,6 +40,10 @@ public class ShipBoard {
         this.aliens = new ArrayList<>();
     }
 
+    public ArrayList<Alien> getAliens() {
+        return aliens;
+    }
+
     public float getSingleCannonPower() {
         return singleCannonPower;
     }
@@ -49,6 +54,22 @@ public class ShipBoard {
 
     public int getSingleEnginePower() {
         return singleEnginePower;
+    }
+
+    public void setDoubleEnginePower(int singleEnginePower) {
+        this.singleEnginePower += singleEnginePower;
+    }
+
+    public void setDoubleCannonPower(int singleCannonPower) {
+        this.singleCannonPower += singleCannonPower;
+    }
+
+    public void setSingleEnginePower(int singleEnginePower) {
+        this.singleEnginePower += singleEnginePower;
+    }
+
+    public void setSingleCannonPower(float singleCannonPower) {
+        this.singleCannonPower += singleCannonPower;
     }
 
     public Components[][] getComponentMatrix() {
@@ -209,110 +230,9 @@ public class ShipBoard {
         if (componentMatrix[x][y] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
-        componentMatrix[x][y].remove();
-
-
-        if (componentMatrix[x][y] instanceof LifeSupportSystem) {
-            boolean check = false;
-            if (componentMatrix[x][y + 1] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check) {
-                    if (((Cabin) componentMatrix[x][y + 1]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x][y + 1]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x][y + 1]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x][y + 1]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x][y + 1]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-            if (componentMatrix[x - 1][y] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x-1][y]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x-1][y]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x-1][y]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check){
-                    if (((Cabin) componentMatrix[x-1][y]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x-1][y]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x-1][y]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x-1][y]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x-1][y]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-            if (componentMatrix[x][y - 1] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check) {
-                    if (((Cabin) componentMatrix[x][y - 1]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x][y - 1]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x][y - 1]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x][y - 1]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x][y - 1]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-            if (componentMatrix[x + 1][y] instanceof Cabin) {
-                for(int i=0; i<((Cabin)componentMatrix[x+1][y]).getLifeSupportSystemArrayList().size() && !check; i++){
-                    if(((Cabin)componentMatrix[x+1][y]).getLifeSupportSystemArrayList().get(i) != componentMatrix[x][y]) {
-                        if (((Cabin) componentMatrix[x+1][y]).getLifeSupportSystemArrayList().get(i).getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                            check=true;
-                        }
-                    }
-                }
-                if(!check){
-                    if (((Cabin) componentMatrix[x+1][y]).getAlien().getColour() == (((LifeSupportSystem) componentMatrix[x][y]).getColour())) {
-                        ((Cabin) componentMatrix[x+1][y]).removeAlien();
-                    }
-                    if(((Cabin) componentMatrix[x+1][y]).getLifeSupportSystemArrayList().isEmpty()){
-                        ((Cabin) componentMatrix[x+1][y]).changeWithLifeSupport(false);
-                    }
-                }
-                ((Cabin) componentMatrix[x-1][y]).removeLifeSupport((LifeSupportSystem) componentMatrix[x][y]);
-            }
-        } else if (componentMatrix[x][y] instanceof Shield){
-            shieldedDirections[((Shield) componentMatrix[x][y]).getDirection1().ordinal()] = false;
-            shieldedDirections[((Shield) componentMatrix[x][y]).getDirection2().ordinal()] = false;
-        } else if (componentMatrix[x][y] instanceof Cannon){
-            if(((Cannon) componentMatrix[x][y]).getPower()==1){
-                if(componentMatrix[x][y].getDirection()==Direction.NORTH||componentMatrix[x][y].getDirection()==Direction.SOUTH){
-                    singleCannonPower -=1;
-                }else {
-                    singleCannonPower -= 0.5F;
-                }
-            } else {
-                numDoubleCannons--;
-            }
-        } else if(componentMatrix[x][y] instanceof Engine){
-            if (((Engine) componentMatrix[x][y]).getPower()==1){
-                singleEnginePower-=1;
-            } else {
-                numDoubleEngines--;
-            }
-        } else if (componentMatrix[x][y] instanceof Cabin) {
-            this.setNumAstronauts(((Cabin) componentMatrix[x][y]).getNumAstronauts());
-            this.aliens.remove(((Cabin) componentMatrix[x][y]).getAlien());
-        }
-
+        componentMatrix[x][y].remove(this);
         componentMatrix[x][y] = null;
         deletedComponentsCounter++;
-
     }
 
     public void removeBookedComponents(){
@@ -486,24 +406,8 @@ public class ShipBoard {
             if (componentMatrix[row][col] == null) {
                 componentMatrix[row][col] = component;
                 component.setPosition(row, col);
-                if (component instanceof Cannon){
-                    if (((Cannon) component).getPower() == 1){
-                        if (component.getDirection() == Direction.NORTH) {
-                            this.singleCannonPower += 1;
-                        } else {
-                            this.singleCannonPower += 0.5F;
-                        }
-                    } else {
-                        this.numDoubleCannons++;
-                    }
-
-                } else if (component instanceof Engine){
-                    if (((Engine) component).getPower() == 1){
-                        this.singleEnginePower += 1;
-                    } else {
-                        this.numDoubleEngines++;
-                    }
-                } else if (component instanceof LifeSupportSystem){
+                component.place(this);
+                if (component instanceof LifeSupportSystem){
                     if (validPosition(row+1,col) && componentMatrix[row+1][col] instanceof Cabin && !((Cabin) componentMatrix[row+1][col]).getIsCentral()){
                         ((Cabin) componentMatrix[row+1][col]).changeWithLifeSupport(true);
                         ((Cabin) componentMatrix[row+1][col]).addLifeSupport(((LifeSupportSystem) component));
@@ -536,16 +440,13 @@ public class ShipBoard {
                         ((Cabin) component).changeWithLifeSupport(true);
                         ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col-1]));
                     }
-                }else if(component instanceof Shield){
-                    addShieldedDirections(((Shield) component).getDirection1());
-                    addShieldedDirections(((Shield) component).getDirection2());
                 }
             } else {
-                throw new IllegalStateException("Position already occupied!");
+                throw new OccupiedPositionException("Position already occupied!");
             }
 
         } else {
-            throw new IllegalArgumentException("Invalid position");
+            throw new InvalidPositionException("Invalid position");
         }
     }
 

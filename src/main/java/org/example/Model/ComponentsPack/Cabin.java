@@ -72,7 +72,7 @@ public class Cabin extends Components {
         }
         boolean hasMatchingLifeSupport = getLifeSupportSystemArrayList().stream().anyMatch(lss -> lss.getColour() == newAlien.getColour());
         if (!hasMatchingLifeSupport) {
-            throw new IllegalStateException("This cabin has life support, but of a different colour!");
+            throw new DifferentLifeSupportColourException("This cabin has life support, but of a different colour!");
         }
         this.numAstronauts = 0;
         this.alien = newAlien;
@@ -80,5 +80,31 @@ public class Cabin extends Components {
 
     public void removeAlien() {
         this.alien = null;
+    }
+
+    @Override
+    public void remove(ShipBoard ship) {
+        ship.setNumAstronauts(this.numAstronauts);
+        ship.getAliens().remove(this.alien);
+    }
+
+    @Override
+    public void place(ShipBoard ship) {
+        ship.setNumAstronauts(2);
+
+        if (ship.validPosition(row+1,col) && componentMatrix[row+1][col] instanceof LifeSupportSystem){
+            ((Cabin) component).changeWithLifeSupport(true);
+            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row+1][col]));
+
+        } else if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof LifeSupportSystem){
+            ((Cabin) component).changeWithLifeSupport(true);
+            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row-1][col]));
+        } else if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof LifeSupportSystem){
+            ((Cabin) component).changeWithLifeSupport(true);
+            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col+1]));
+        } else if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof LifeSupportSystem){
+            ((Cabin) component).changeWithLifeSupport(true);
+            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col-1]));
+        }
     }
 }
