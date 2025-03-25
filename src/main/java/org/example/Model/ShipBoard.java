@@ -16,7 +16,7 @@ public class ShipBoard {
     private boolean[][] availablePositionMatrix;
     private Components[][] componentMatrix;
     private Components[] bookedComponents;
-    private boolean[] shieldedDirections;
+    private int[] shieldedDirections;
     private float singleCannonPower;
     private int numDoubleCannons;
     private int singleEnginePower;
@@ -30,7 +30,7 @@ public class ShipBoard {
         this.availablePositionMatrix = availablePositionMatrix;
         this.componentMatrix = new Components[matrixWidth][matrixHeight];
         this.bookedComponents = new Components[2];
-        this.shieldedDirections = new boolean[4];
+        this.shieldedDirections = new int[4];
         this.singleCannonPower = 0;
         this.singleEnginePower = 0;
         this.numDoubleCannons = 0;
@@ -194,24 +194,42 @@ public class ShipBoard {
     }
 
     public boolean getIfShielded(int direction){
-        return shieldedDirections[direction];
+        if(shieldedDirections[direction]>0){
+            return true;
+        }
+        return false;
     }
 
-    public void addShieldedDirections(Direction direction){
-        switch(direction){
+    public void addShieldInDirection(Direction direction) {
+        switch (direction) {
             case NORTH:
-                shieldedDirections[0] = true;
+                shieldedDirections[0] += 1;
                 break;
             case EAST:
-                shieldedDirections[1] = true;
+                shieldedDirections[1] += 1;
                 break;
             case SOUTH:
-                shieldedDirections[2] = true;
+                shieldedDirections[2] += 1;
                 break;
             case WEST:
-                shieldedDirections[3] = true;
+                shieldedDirections[3] += 1;
         }
+    }
 
+    public void decreaseShieldInDirection(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                shieldedDirections[0] -= 1;
+                break;
+            case EAST:
+                shieldedDirections[1] -= 1;
+                break;
+            case SOUTH:
+                shieldedDirections[2] -= 1;
+                break;
+            case WEST:
+                shieldedDirections[3] -= 1;
+        }
     }
 
     /*
@@ -231,7 +249,6 @@ public class ShipBoard {
         if (componentMatrix[x][y] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
-
         componentMatrix[x][y].remove(this);
         componentMatrix[x][y] = null;
         deletedComponentsCounter++;

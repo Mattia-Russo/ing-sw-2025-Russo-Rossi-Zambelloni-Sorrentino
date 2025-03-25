@@ -1,5 +1,7 @@
 package org.example.Model.ComponentsPack;
 
+import org.example.Model.ShipBoard;
+
 public class Shield extends Components {
     private final Direction direction2;
 
@@ -14,5 +16,17 @@ public class Shield extends Components {
 
     public Direction getDirection2(){
         return direction2;
+    }
+
+    @Override
+    public void remove(ShipBoard ship){
+        ship.decreaseShieldInDirection(this.getDirection1());
+        ship.decreaseShieldInDirection(this.getDirection2());
+    }
+
+    @Override
+    public void place(ShipBoard ship){
+        ship.addShieldInDirection(this.getDirection1());
+        ship.addShieldInDirection(this.getDirection2());
     }
 }
