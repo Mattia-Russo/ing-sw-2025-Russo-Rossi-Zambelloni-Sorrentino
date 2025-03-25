@@ -112,4 +112,10 @@ public class LifeSupportSystem extends Components {
             ((Cabin) componentMatrix[row][col - 1]).addLifeSupport(((LifeSupportSystem) component));
         }
     }
+
+    @Override
+    public void addLifeSupport(Cabin cabin) {
+        cabin.changeWithLifeSupport(true);
+        cabin.getLifeSupportSystemArrayList().add(this);
+    }
 }

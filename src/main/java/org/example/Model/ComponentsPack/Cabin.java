@@ -91,20 +91,16 @@ public class Cabin extends Components {
     @Override
     public void place(ShipBoard ship) {
         ship.setNumAstronauts(2);
-
-        if (ship.validPosition(row+1,col) && componentMatrix[row+1][col] instanceof LifeSupportSystem){
-            ((Cabin) component).changeWithLifeSupport(true);
-            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row+1][col]));
-
-        } else if (validPosition(row-1,col) && componentMatrix[row-1][col] instanceof LifeSupportSystem){
-            ((Cabin) component).changeWithLifeSupport(true);
-            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row-1][col]));
-        } else if (validPosition(row,col+1) && componentMatrix[row][col+1] instanceof LifeSupportSystem){
-            ((Cabin) component).changeWithLifeSupport(true);
-            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col+1]));
-        } else if (validPosition(row,col-1) && componentMatrix[row][col-1] instanceof LifeSupportSystem){
-            ((Cabin) component).changeWithLifeSupport(true);
-            ((Cabin) component).addLifeSupport(((LifeSupportSystem) componentMatrix[row][col-1]));
+        if (ship.validPosition(this.getPosX()+1, this.getPosY())){
+            ship.getComponent(this.getPosX()+1, this.getPosY()).addLifeSupport(this);
+        } else if (ship.validPosition(this.getPosX()-1, this.getPosY())){
+            ship.getComponent(this.getPosX()-1, this.getPosY()).addLifeSupport(this);
+        } else if (ship.validPosition(this.getPosX(), this.getPosY()+1)){
+            ship.getComponent(this.getPosX(), this.getPosY()+1).addLifeSupport(this);
+        } else if (ship.validPosition(this.getPosX(), this.getPosY()-1)){
+            ship.getComponent(this.getPosX(), this.getPosY()-1).addLifeSupport(this);
         }
     }
+
+
 }
