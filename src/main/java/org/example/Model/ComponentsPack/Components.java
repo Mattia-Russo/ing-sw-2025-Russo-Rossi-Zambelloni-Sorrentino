@@ -1,5 +1,7 @@
 package org.example.Model.ComponentsPack;
 
+import org.example.Model.ShipBoard;
+
 public class Components {
     private Direction direction;
     private boolean covered;
@@ -73,4 +75,10 @@ public class Components {
                 return null;
         }
     }
+
+    public void remove(){
+
+    }
+
+
 }

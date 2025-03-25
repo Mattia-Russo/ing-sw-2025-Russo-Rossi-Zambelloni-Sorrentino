@@ -209,6 +209,9 @@ public class ShipBoard {
         if (componentMatrix[x][y] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
+        componentMatrix[x][y].remove();
+
+
         if (componentMatrix[x][y] instanceof LifeSupportSystem) {
             boolean check = false;
             if (componentMatrix[x][y + 1] instanceof Cabin) {
@@ -296,7 +299,6 @@ public class ShipBoard {
             } else {
                 numDoubleCannons--;
             }
-
         } else if(componentMatrix[x][y] instanceof Engine){
             if (((Engine) componentMatrix[x][y]).getPower()==1){
                 singleEnginePower-=1;

@@ -1,6 +1,7 @@
 package org.example.Model.ComponentsPack;
 
 import org.example.Model.Exceptions.*;
+import org.example.Model.ShipBoard;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class Cabin extends Components {
     private final boolean isCentral;
     private Alien alien;
 
-    public Cabin(boolean isCentral, Direction direction, Connector[] connectors ) {
+    public Cabin(boolean isCentral, Direction direction, Connector[] connectors) {
         super(direction, connectors);
         this.numAstronauts = 0;
         this.withLifeSupport = false;
@@ -80,5 +81,4 @@ public class Cabin extends Components {
     public void removeAlien() {
         this.alien = null;
     }
-
 }
