@@ -26,7 +26,21 @@ public class ShipBoardTest extends TestCase {
     }
 
     public void testgetSingleEnginePower(){
-
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        Components[][] ComponentMatrix = new Components[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Engine engine = new Engine(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        s.placeComponent(1,2,engine);
+        assertEquals(1,s.getSingleEnginePower());
     }
 
     public void testGetComponentMatrix() {

@@ -43,5 +43,6 @@ public class LifeSupportSystem extends Components {
     public void addLifeSupport(Cabin cabin) {
         cabin.changeWithLifeSupport(true);
         cabin.getLifeSupportSystemArrayList().add(this);
+        cabin.addLifeSupport(this);
     }
 }
