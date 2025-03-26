@@ -49,7 +49,7 @@ public class Cannon extends Components {
     }
 
     @Override
-    public boolean checkRightCannon(ShipBoard ship){
+    public boolean checkRightCannon(ShipBoard ship){    // rotirna true se non va bene, false se va bene
         switch (this.getDirection()) {
             case NORTH:
                 if (ship.validPosition(this.getPosX(), this.getPosY() - 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() - 1] != null) {
@@ -75,7 +75,7 @@ public class Cannon extends Components {
       }
 
     @Override
-    public Cannon isCannon(){
+    public Cannon isSingleCannon(){
         if(this.getPower()==1){
             return this;
         }

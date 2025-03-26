@@ -36,6 +36,10 @@ public class ShipBoard {
         this.numDoubleEngines = 0;
     }
 
+    public int[] getShieldedDirections() {
+        return shieldedDirections;
+    }
+
     public void setNumAstronauts(int numAstronauts) {
         this.totalAstronauts += numAstronauts;
     }
@@ -171,7 +175,7 @@ public class ShipBoard {
             } else {
                 totalCannonPower += 1;
             }
-            batteryStorages.get(i).setQuantity(-1);
+            batteryStorages.get(i).setQuantity(-1, this);
         }
         int alienPower=0;
         if(totalCannonPower + this.singleCannonPower > 0){
@@ -211,7 +215,7 @@ public class ShipBoard {
 
         for (int i=0; i<engines.size(); i++) {
             totalEnginePower += 2;
-            batteryStorages.get(i).setQuantity(-1);
+            batteryStorages.get(i).setQuantity(-1, this);
         }
 
         int alienPower = 0;
@@ -405,7 +409,7 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c.isCannon()!=null){
+                    if(c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
@@ -416,7 +420,7 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c.isCannon()!=null){
+                    if(c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }

@@ -11,7 +11,7 @@ public class BatteryStorage extends Components{
     public BatteryStorage(int capacity, Direction direction, Connector[] connectors){
         super(direction, connectors);
         this.capacity = capacity;
-        this.quantity = 0;
+        this.quantity = capacity;
     }
 
     public int getQuantity(){
@@ -22,13 +22,14 @@ public class BatteryStorage extends Components{
         return capacity;
     }
 
-    public void setQuantity(int amount) {
+    public void setQuantity(int amount, ShipBoard s) {
         if (quantity + amount < 0) {
             throw new ValueUnderZeroException("Not enough batteries in this Battery Storage!");
         }
         if (amount + quantity > capacity) {
             throw new OverloadedCapacityException("Invalid amount: exceeds capacity.");
         }
+        s.setTotalBattery(amount);
         quantity += amount;
     }
 

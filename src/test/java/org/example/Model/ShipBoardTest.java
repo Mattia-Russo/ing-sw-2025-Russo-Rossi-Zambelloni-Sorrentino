@@ -204,8 +204,8 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         BatteryStorage b1 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         BatteryStorage b2 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
-        b1.setQuantity(3);
-        b2.setQuantity(2);
+        b1.setQuantity(3, s);
+        b2.setQuantity(2, s);
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
         assertEquals(5,s.getTotalBattery());

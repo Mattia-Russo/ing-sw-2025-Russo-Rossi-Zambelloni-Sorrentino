@@ -62,7 +62,9 @@ public class Storage extends Components {
         throw new StorageFullException("Storage full!");
     }
 
-    public int getCapacity() {return capacity;}
+    public int getCapacity() {
+        return capacity;
+    }
 
     @Override
     public void addStorage(ArrayList<Goods> list){
