@@ -47,4 +47,30 @@ public class Cannon extends Components {
         }
         return null;
     }
+
+    @Override
+    public boolean checkRightCannon(ShipBoard ship){
+        switch (this.getDirection()) {
+            case NORTH:
+                if (ship.validPosition(this.getPosX(), this.getPosY() - 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() - 1] != null) {
+                    return true;
+                }
+                break;
+            case EAST:
+                if (ship.validPosition(this.getPosX() +1, this.getPosY()) && ship.getComponentMatrix()[this.getPosX()+1][this.getPosY()] != null) {
+                    return true;
+                }
+                break;
+            case SOUTH:
+                if (ship.validPosition(this.getPosX(), this.getPosY() + 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() + 1] != null) {
+                    return true;
+                }
+                break;
+            case WEST:
+                if (ship.validPosition(this.getPosX() -1, this.getPosY()) && ship.getComponentMatrix()[this.getPosX()-1][this.getPosY()] != null) {
+                    return true;
+                }
+        }
+        return false;
+    }
 }

@@ -106,4 +106,12 @@ public class Components {
 
     public void addStorage(ArrayList<Goods> list){}
 
+    public boolean checkRightCannon(ShipBoard ship){
+        return false;
+    }
+
+    public boolean checkRightEngine(ShipBoard ship){
+        return false;
+    }
+
 }

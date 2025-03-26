@@ -129,37 +129,11 @@ public class Player {
                                 }
                         }
                     }
-
-                    if (c instanceof Cannon) {
-                        switch (c.getDirection()) {
-                            case NORTH:
-                                if (playerShipBoard.validPosition(i, j - 1) && playerShipBoard.getComponentMatrix()[i][j - 1] != null) {
-                                    return false;
-                                }
-                                break;
-                            case EAST:
-                                if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i + 1][j] != null) {
-                                    return false;
-                                }
-                                break;
-                            case SOUTH:
-                                if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j + 1] != null) {
-                                    return false;
-                                }
-                                break;
-                            case WEST:
-                                if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i - 1][j] != null) {
-                                    return false;
-                                }
-                        }
+                    if(c.checkRightCannon(this.playerShipBoard)){
+                        return false;
                     }
-                    if (c instanceof Engine) {
-                        if (c.getDirection() != Direction.NORTH) {
-                            return false;
-                        }
-                        if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j + 1] != null) {
-                            return false;
-                        }
+                    if(c.checkRightEngine(this.playerShipBoard)){
+                        return false;
                     }
                 }
             }

@@ -39,4 +39,9 @@ public class Engine extends Components{
         }
         return null;
     }
+
+    @Override
+    public boolean checkRightEngine(ShipBoard ship){
+        return this.getDirection() != Direction.NORTH || (ship.validPosition(this.getPosX(), this.getPosY() + 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() + 1] != null);
+    }
 }
