@@ -1,14 +1,11 @@
 package org.example.Model;
 
-import org.example.ComponentsPack.*;
 import org.example.Model.ComponentsPack.*;
 import org.example.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Model.Exceptions.FullBookedSlotsException;
 import org.example.Model.Exceptions.InvalidPositionException;
 import org.example.Model.Exceptions.OccupiedPositionException;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ShipBoard {
 
@@ -23,7 +20,6 @@ public class ShipBoard {
     private int numDoubleEngines;
     private int totalBattery;
     private int totalAstronauts;
-    private ArrayList<Alien> aliens;
 
     public ShipBoard(boolean[][] availablePositionMatrix, int matrixWidth, int matrixHeight) {
         this.deletedComponentsCounter = 0;
@@ -37,11 +33,6 @@ public class ShipBoard {
         this.numDoubleEngines = 0;
         this.totalBattery = 0;
         this.totalAstronauts = 0;
-        this.aliens = new ArrayList<>();
-    }
-
-    public ArrayList<Alien> getAliens() {
-        return aliens;
     }
 
     public float getSingleCannonPower() {
@@ -122,13 +113,7 @@ public class ShipBoard {
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
-                    if (c instanceof Storage) {
-                        int z=0;
-                        while(z<((Storage) c).getCapacity() && ((Storage) c).getGoods()[z]!=null) {
-                            totalGoodsList.add((((Storage) c).getGoods()[z]));
-                            z++;
-                        }
-                    }
+                    c.addStorage(totalGoodsList);
                 }
             }
         }
@@ -483,11 +468,5 @@ public class ShipBoard {
             }
         }
         return totalExposedConnectors;
-    }
-
-    public void addAlien(Cabin cabin, Alien alien){
-        cabin.addAlien(alien);
-        this.totalAstronauts -= cabin.getNumAstronauts();
-        aliens.add(alien);
     }
 }
