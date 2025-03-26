@@ -23,7 +23,7 @@ public class BatteryStorage extends Components{
 
     public void setQuantity(int amount) {
         if (amount <= 0) {
-            throw new ValueUnderZeroException("Amount must be greater than zero.");
+            throw new ValueUnderZeroException("Not enough batteries here");
         }
         if (amount + quantity > capacity) {
             throw new OverloadedCapacityException("Invalid amount: exceeds capacity.");

@@ -69,12 +69,12 @@ public class Cannon extends Components {
         }
       return false;
       }
-  
-      public Cannon isCannon(){
-            if(this.getPower()==1){
-                return this;
-            }
-            return null;
 
+    @Override
+    public Cannon isCannon(){
+        if(this.getPower()==1){
+            return this;
         }
+        return null;
+    }
 }
