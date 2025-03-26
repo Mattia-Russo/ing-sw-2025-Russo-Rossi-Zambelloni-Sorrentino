@@ -447,24 +447,6 @@ public class ShipBoard {
         }
     }
 
-    public ArrayList<LifeSupportSystem> getIfAlienSupported(Cabin cabin){
-        int x = cabin.getPosX();
-        int y = cabin.getPosY();
-        ArrayList<LifeSupportSystem> lifeSupportList = new ArrayList<>();
-        if(availablePositionMatrix[x+1][y] && componentMatrix[x+1][y] instanceof LifeSupportSystem){
-            lifeSupportList.add((LifeSupportSystem) componentMatrix[x+1][y]);
-        }
-        if(availablePositionMatrix[x-1][y] && componentMatrix[x-1][y] instanceof LifeSupportSystem){
-            lifeSupportList.add((LifeSupportSystem) componentMatrix[x-1][y]);
-        }
-        if(availablePositionMatrix[x][y+1] && componentMatrix[x][y+1] instanceof LifeSupportSystem){
-            lifeSupportList.add((LifeSupportSystem) componentMatrix[x][y+1]);
-        }
-        if(availablePositionMatrix[x][y-1] && componentMatrix[x][y-1] instanceof LifeSupportSystem){
-            lifeSupportList.add((LifeSupportSystem) componentMatrix[x][y-1]);
-        }
-        return lifeSupportList;
-    }
 
     public boolean getIfExposed(Direction dir, Components c){
         switch(dir){

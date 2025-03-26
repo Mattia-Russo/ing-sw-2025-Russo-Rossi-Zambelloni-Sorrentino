@@ -496,25 +496,6 @@ public class ShipBoardTest extends TestCase {
         assertFalse(s.getIfShielded(2));
     }
 
-    public void testGetIfAlienSupported() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
-            }
-        }
-        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin= new Cabin(false, Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,1,cabin);
-        LifeSupportSystem lifeSupportSystem= new LifeSupportSystem(AlienColour.PURPLE,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,2,lifeSupportSystem);
-        ArrayList<LifeSupportSystem> lifeSupportSystemArrayList=new ArrayList<LifeSupportSystem>();
-        lifeSupportSystemArrayList.add(lifeSupportSystem);
-        assertEquals(lifeSupportSystemArrayList, s.getIfAlienSupported(cabin));
-    }
+
 
 }
