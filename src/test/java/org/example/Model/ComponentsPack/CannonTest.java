@@ -50,9 +50,9 @@ public class CannonTest extends TestCase {
         s.placeComponent(3,3, c8);
 
         int pow = s.getSingleEnginePower();
-        assertEquals(2, pow);
+        assertEquals(1.5, pow);
         cannon.remove(s);
-        assertEquals(1, pow);
+        assertEquals(0.5, pow);
     }
 
     public void testPlace() {
