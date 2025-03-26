@@ -519,5 +519,6 @@ public class GameTest extends TestCase {
         assertEquals(8, p2.getNumCredits());
         assertEquals(11, p3.getNumCredits());
         assertEquals(9, p4.getNumCredits());
+
     }
 }
