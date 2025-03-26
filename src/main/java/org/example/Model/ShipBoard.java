@@ -19,6 +19,8 @@ public class ShipBoard {
     private int singleEnginePower;
     private int totalBattery;
     private int totalAstronauts;
+    private int numDoubleCannons;
+    private int numDoubleEngines;
 
     public ShipBoard(boolean[][] availablePositionMatrix, int matrixWidth, int matrixHeight) {
         this.deletedComponentsCounter = 0;
@@ -30,10 +32,8 @@ public class ShipBoard {
         this.singleEnginePower = 0;
         this.totalBattery = 0;
         this.totalAstronauts = 0;
-    }
-
-    public float getSingleCannonPower() {
-        return singleCannonPower;
+        this.numDoubleCannons = 0;
+        this.numDoubleEngines = 0;
     }
 
     public void setNumAstronauts(int numAstronauts) {
@@ -48,8 +48,28 @@ public class ShipBoard {
         this.singleEnginePower += singleEnginePower;
     }
 
+    public int getNumDoubleEngines(){
+        return numDoubleEngines;
+    }
+
+    public void setNumDoubleEngines(int numDoubleEngines) {
+        this.numDoubleEngines += numDoubleEngines;
+    }
+
+    public float getSingleCannonPower() {
+        return singleCannonPower;
+    }
+
     public void setSingleCannonPower(float singleCannonPower) {
         this.singleCannonPower += singleCannonPower;
+    }
+
+    public int getNumDoubleCannon() {
+        return numDoubleCannons;
+    }
+
+    public void setNumDoubleCannon(int numDoubleCannon) {
+        this.numDoubleCannons += numDoubleCannon;
     }
 
     public Components[][] getComponentMatrix() {
@@ -88,6 +108,10 @@ public class ShipBoard {
 
     public int getTotalBattery(){
         return totalBattery;
+    }
+
+    public void setTotalBattery(int totalBattery){
+        this.totalBattery += totalBattery;
     }
 
     public ArrayList<Goods> getTotalGoods(){

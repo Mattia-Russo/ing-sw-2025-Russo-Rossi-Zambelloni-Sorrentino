@@ -2,6 +2,7 @@ package org.example.Model.ComponentsPack;
 
 import org.example.Model.Exceptions.OverloadedCapacityException;
 import org.example.Model.Exceptions.ValueUnderZeroException;
+import org.example.Model.ShipBoard;
 
 public class BatteryStorage extends Components{
     private final int capacity;
@@ -34,5 +35,15 @@ public class BatteryStorage extends Components{
     @Override
     public BatteryStorage isBatteryStorage(){
         return this;
+    }
+
+    @Override
+    public void place(ShipBoard ship){
+        ship.setTotalBattery(this.capacity);
+    }
+
+    @Override
+    public void remove(ShipBoard ship){
+        ship.setTotalBattery(-this.quantity);
     }
 }

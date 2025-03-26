@@ -84,8 +84,7 @@ public class Cabin extends Components {
 
     @Override
     public void remove(ShipBoard ship) {
-        ship.setNumAstronauts(this.numAstronauts);
-        ship.getAliens().remove(this.alien);
+        ship.setNumAstronauts(-this.numAstronauts);
     }
 
     @Override
