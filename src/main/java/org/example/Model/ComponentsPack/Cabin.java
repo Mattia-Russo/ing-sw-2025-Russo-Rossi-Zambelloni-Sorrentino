@@ -110,5 +110,23 @@ public class Cabin extends Components {
         }
     }
 
-
+    @Override
+    public void removeCabin(LifeSupportSystem life, ShipBoard ship) {
+        boolean check = true;
+        for (LifeSupportSystem l : this.getLifeSupportSystemArrayList()) {
+            if (l != life && l.getColour() == life.getColour()) {
+                check = false;
+                break;
+            }
+        }
+        if (check) {
+            if (this.getAlien().getColour() == life.getColour()) {
+                this.removeAlien();
+            }
+            if (this.getLifeSupportSystemArrayList().isEmpty()) {
+                this.changeWithLifeSupport(false);
+            }
+        }
+        this.removeLifeSupport(life);
+    }
 }

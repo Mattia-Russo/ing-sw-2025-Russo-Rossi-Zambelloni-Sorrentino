@@ -83,4 +83,6 @@ public class Components {
     public void addLifeSupport(Cabin cabin) {}
 
     public void addCabin(LifeSupportSystem life){}
+
+    public void removeCabin(LifeSupportSystem life, ShipBoard ship) {}
 }
