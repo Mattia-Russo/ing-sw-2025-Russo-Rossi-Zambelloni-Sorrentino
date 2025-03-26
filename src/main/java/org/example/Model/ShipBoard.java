@@ -186,10 +186,7 @@ public class ShipBoard {
     }
 
     public boolean getIfShielded(int direction){
-        if(shieldedDirections[direction]>0){
-            return true;
-        }
-        return false;
+        return shieldedDirections[direction] > 0;
     }
 
     public void addShieldInDirection(Direction direction) {
