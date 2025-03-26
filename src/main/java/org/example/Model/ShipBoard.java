@@ -8,8 +8,8 @@ import org.example.Model.Exceptions.OccupiedPositionException;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ShipBoard {
 
@@ -117,13 +117,7 @@ public class ShipBoard {
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
-                    if (c instanceof Storage) {
-                        int z=0;
-                        while(z<((Storage) c).getCapacity() && ((Storage) c).getGoods()[z]!=null) {
-                            totalGoodsList.add((((Storage) c).getGoods()[z]));
-                            z++;
-                        }
-                    }
+                    c.addStorage(totalGoodsList);
                 }
             }
         }

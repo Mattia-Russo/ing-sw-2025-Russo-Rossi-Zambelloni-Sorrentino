@@ -137,4 +137,43 @@ public class Cabin extends Components {
         }
         return null;
     }
+  
+    public void manageEpidemic(boolean[][] visited, int dimX, int dimY){
+        ArrayList <Cabin> cabins = new ArrayList<Cabin>();
+        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);
+
+        if(cabins.size()>1){
+            for (Cabin c : cabins) {
+                if(c.getAlien()!=null){
+                    c.removeAlien();
+                } else {
+                    c.changeNumAstronauts(-1);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){
+        if(!visited[x][y]){
+            visited[x][y] = true;
+            if (this.alien == null && this.getNumAstronauts() == 0) {
+                return;
+            } else {
+                cabins.add(this);
+            }
+            if(x+1 < dimX && visited[x+1][y]){
+                addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY);
+            }
+            if (x-1 > 0 && visited[x-1][y]){
+                addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY);
+            }
+            if (y+1 < dimY && visited[x][y+1]){
+                addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY);
+            }
+            if (y-1 > 0 && visited[x][y-1]){
+                addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY);
+            }
+        }
+    }
 }

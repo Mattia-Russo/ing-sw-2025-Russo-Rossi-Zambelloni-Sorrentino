@@ -2,6 +2,8 @@ package org.example.Model.ComponentsPack;
 
 import org.example.Model.ShipBoard;
 
+import java.util.ArrayList;
+
 public class Components {
     private Direction direction;
     private boolean covered;
@@ -97,4 +99,11 @@ public class Components {
     public Alien hasAlien(){
         return null;
     }
+
+    public void manageEpidemic(boolean[][] visited, int dimX, int dimY){}
+
+    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){}
+
+    public void addStorage(ArrayList<Goods> list){}
+
 }

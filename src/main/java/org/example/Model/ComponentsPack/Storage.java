@@ -3,6 +3,7 @@ package org.example.Model.ComponentsPack;
 import org.example.Model.Exceptions.RedGoodsNotAllowedException;
 import org.example.Model.Exceptions.StorageFullException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Storage extends Components {
@@ -62,4 +63,13 @@ public class Storage extends Components {
     }
 
     public int getCapacity() {return capacity;}
+
+    @Override
+    public void addStorage(ArrayList<Goods> list){
+        for (Goods goods : goodsList) {
+            if (goods != null) {
+                list.add(goods);
+            }
+        }
+    }
 }
