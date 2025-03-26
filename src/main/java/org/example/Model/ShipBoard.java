@@ -427,7 +427,6 @@ public class ShipBoard {
         }
     }
 
-
     public boolean getIfExposed(Direction dir, Components c){
         switch(dir){
             case NORTH:
