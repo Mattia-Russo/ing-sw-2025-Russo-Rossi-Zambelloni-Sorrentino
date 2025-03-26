@@ -383,8 +383,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                    if(c.isCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -394,8 +394,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                    if(c.isCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -410,8 +410,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                    if(c.isDoubleCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -421,8 +421,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                    if(c.isDoubleCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }

@@ -92,6 +92,10 @@ public class Components {
         return null;
     }
 
+    public Cannon isCannon(){
+        return null;
+    }
+
     public Engine isDoubleEngine(){
         return null;
     }
