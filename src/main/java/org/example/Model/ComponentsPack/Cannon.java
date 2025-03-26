@@ -22,8 +22,6 @@ public class Cannon extends Components {
             } else {
                 ship.setSingleCannonPower(-0.5F);
             }
-        } else {
-            ship.setDoubleCannonPower(-1);
         }
     }
 
@@ -35,8 +33,6 @@ public class Cannon extends Components {
             } else {
                 ship.setSingleCannonPower(0.5F);
             }
-        } else {
-            ship.setDoubleCannonPower(1);
         }
     }
 
@@ -71,6 +67,14 @@ public class Cannon extends Components {
                     return true;
                 }
         }
-        return false;
-    }
+      return false;
+      }
+  
+      public Cannon isCannon(){
+            if(this.getPower()==1){
+                return this;
+            }
+            return null;
+
+        }
 }

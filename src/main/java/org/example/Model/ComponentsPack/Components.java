@@ -8,7 +8,7 @@ public class Components {
     private Direction direction;
     private boolean covered;
     private boolean isPositoned;
-    private Connector[] connectors;
+    private final Connector[] connectors;
     private int posX;
     private int posY;
 
@@ -89,6 +89,10 @@ public class Components {
     public void removeCabin(LifeSupportSystem life, ShipBoard ship) {}
 
     public Cannon isDoubleCannon(){
+        return null;
+    }
+
+    public Cannon isCannon(){
         return null;
     }
 

@@ -18,8 +18,6 @@ public class Engine extends Components{
     public void remove(ShipBoard ship) {
         if (this.power==1){
             ship.setSingleEnginePower(-1);
-        } else {
-            ship.setDoubleEnginePower(-1);
         }
     }
 
@@ -27,8 +25,6 @@ public class Engine extends Components{
     public void place(ShipBoard ship) {
         if (this.power == 1){
             ship.setSingleEnginePower(1);
-        } else {
-            ship.setDoubleEnginePower(1);
         }
     }
 

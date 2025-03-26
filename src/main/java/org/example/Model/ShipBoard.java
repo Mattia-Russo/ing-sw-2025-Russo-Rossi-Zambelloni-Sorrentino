@@ -19,9 +19,7 @@ public class ShipBoard {
     private Components[] bookedComponents;
     private int[] shieldedDirections;
     private float singleCannonPower;
-    private int numDoubleCannons;
     private int singleEnginePower;
-    private int numDoubleEngines;
     private int totalBattery;
     private int totalAstronauts;
 
@@ -33,8 +31,6 @@ public class ShipBoard {
         this.shieldedDirections = new int[4];
         this.singleCannonPower = 0;
         this.singleEnginePower = 0;
-        this.numDoubleCannons = 0;
-        this.numDoubleEngines = 0;
         this.totalBattery = 0;
         this.totalAstronauts = 0;
     }
@@ -49,14 +45,6 @@ public class ShipBoard {
 
     public int getSingleEnginePower() {
         return singleEnginePower;
-    }
-
-    public void setDoubleEnginePower(int singleEnginePower) {
-        this.singleEnginePower += singleEnginePower;
-    }
-
-    public void setDoubleCannonPower(int singleCannonPower) {
-        this.singleCannonPower += singleCannonPower;
     }
 
     public void setSingleEnginePower(int singleEnginePower) {
@@ -195,14 +183,6 @@ public class ShipBoard {
             }
         }
         return alienPower + totalEnginePower + this.singleEnginePower;
-    }
-
-    public int getNumDoubleCannon(){
-        return this.numDoubleCannons;
-    }
-
-    public int getNumDoubleEngine(){
-        return this.numDoubleEngines;
     }
 
     public boolean getIfShielded(int direction){
@@ -383,8 +363,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                    if(c.isCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -394,8 +374,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 1){
+                    if(c.isCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -410,8 +390,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                    if(c.isDoubleCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -421,8 +401,8 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c instanceof Cannon){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal() && ((Cannon) c).getPower() == 2){
+                    if(c.isDoubleCannon()!=null){
+                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
