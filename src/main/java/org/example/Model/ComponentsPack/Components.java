@@ -8,7 +8,7 @@ public class Components {
     private Direction direction;
     private boolean covered;
     private boolean isPositoned;
-    private Connector[] connectors;
+    private final Connector[] connectors;
     private int posX;
     private int posY;
 
