@@ -152,7 +152,7 @@ public class ShipBoard {
         return alienPower + totalCannonPower + this.singleCannonPower;
     }
 
-    public int getTotalEngineStrenght(ArrayList<Point> pos){
+    public int getTotalEnginePower(ArrayList<Point> pos){
         int totalEnginePower = 0;
         ArrayList<Engine> engines = new ArrayList<>();
         for(Point p : pos){
