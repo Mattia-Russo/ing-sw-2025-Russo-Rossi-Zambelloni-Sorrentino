@@ -22,8 +22,8 @@ public class BatteryStorage extends Components{
     }
 
     public void setQuantity(int amount) {
-        if (amount <= 0) {
-            throw new ValueUnderZeroException("Not enough batteries here");
+        if (quantity + amount < 0) {
+            throw new ValueUnderZeroException("Not enough batteries in this Battery Storage!");
         }
         if (amount + quantity > capacity) {
             throw new OverloadedCapacityException("Invalid amount: exceeds capacity.");
@@ -31,4 +31,8 @@ public class BatteryStorage extends Components{
         quantity += amount;
     }
 
+    @Override
+    public BatteryStorage isBatteryStorage(){
+        return this;
+    }
 }

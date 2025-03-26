@@ -1,10 +1,7 @@
 package org.example.Model;
 
 import org.example.Model.ComponentsPack.*;
-import org.example.Model.Exceptions.AlreadyEmptyPositionException;
-import org.example.Model.Exceptions.FullBookedSlotsException;
-import org.example.Model.Exceptions.InvalidPositionException;
-import org.example.Model.Exceptions.OccupiedPositionException;
+import org.example.Model.Exceptions.*;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
@@ -110,10 +107,25 @@ public class ShipBoard {
         return totalAstronauts;
     }
 
-    public float getTotalCannonPower(ArrayList<Point> pos){
+    private ArrayList<BatteryStorage> getBatteryStorageFromPosition(ArrayList<Point> pos){
+        ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
+        for(Point p : pos){
+            if(!availablePositionMatrix[p.x][p.y]) {
+                throw new InvalidPositionException("Position is invalid");
+            }
+            if(getComponent(p.x,p.y).isBatteryStorage()==null) {
+                throw new InvalidParameterException("Is not a Battery Storage");
+            }
+            batteryStorages.add(getComponent(p.x,p.y).isBatteryStorage());
+        }
+        return batteryStorages;
+    }
+
+    public float getTotalCannonPower(ArrayList<Point> cannonPos, ArrayList<Point> batteriesPos){
         float totalCannonPower = 0;
         ArrayList<Cannon> cannons = new ArrayList<>();
-        for(Point p : pos){
+        ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
+        for(Point p : cannonPos){
             if(!availablePositionMatrix[p.x][p.y]) {
                 throw new InvalidPositionException("Position is invalid");
             }
@@ -123,12 +135,19 @@ public class ShipBoard {
             cannons.add(getComponent(p.x,p.y).isDoubleCannon());
         }
 
-        for (Cannon c : cannons) {
-            if (c.getDirection()== Direction.NORTH){
+        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
+        if(batteryStorages.size()<cannons.size()) {
+            throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
+        }
+
+        for (int i = 0; i < cannons.size(); i++) {
+            if (cannons.get(i).getDirection() == Direction.NORTH){
                 totalCannonPower += 2;
             } else {
                 totalCannonPower += 1;
             }
+            batteryStorages.get(i).setQuantity(-1);
         }
         int alienPower=0;
         if(totalCannonPower + this.singleCannonPower > 0){
@@ -146,10 +165,11 @@ public class ShipBoard {
         return alienPower + totalCannonPower + this.singleCannonPower;
     }
 
-    public int getTotalEnginePower(ArrayList<Point> pos){
+    public int getTotalEnginePower(ArrayList<Point> enginesPos, ArrayList<Point> batteriesPos){
         int totalEnginePower = 0;
+        ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
         ArrayList<Engine> engines = new ArrayList<>();
-        for(Point p : pos){
+        for(Point p : enginesPos){
             if(!availablePositionMatrix[p.x][p.y]) {
                 throw new InvalidPositionException("Position is invalid");
             }
@@ -159,8 +179,15 @@ public class ShipBoard {
             engines.add(getComponent(p.x,p.y).isDoubleEngine());
         }
 
-        for (Engine e: engines) {
+        batteryStorages = getBatteryStorageFromPosition(enginesPos);
+
+        if(batteryStorages.size()<engines.size()) {
+            throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
+        }
+
+        for (int i=0; i<engines.size(); i++) {
             totalEnginePower += 2;
+            batteryStorages.get(i).setQuantity(-1);
         }
 
         int alienPower = 0;

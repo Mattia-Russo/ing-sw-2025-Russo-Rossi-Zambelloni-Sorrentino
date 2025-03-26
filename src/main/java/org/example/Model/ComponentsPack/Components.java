@@ -118,4 +118,7 @@ public class Components {
         return false;
     }
 
+    public BatteryStorage isBatteryStorage(){
+        return null;
+    }
 }
