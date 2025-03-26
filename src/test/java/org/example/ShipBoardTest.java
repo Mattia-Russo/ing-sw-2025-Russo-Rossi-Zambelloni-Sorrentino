@@ -25,6 +25,10 @@ public class ShipBoardTest extends TestCase {
         assertEquals(5, s.getTotalAstronauts());
     }
 
+    public void testgetSingleEnginePower(){
+
+    }
+
     public void testGetComponentMatrix() {
         boolean[][] availablePositionMatrix = new boolean[7][5];
         Components[][] ComponentMatrix = new Components[7][5];

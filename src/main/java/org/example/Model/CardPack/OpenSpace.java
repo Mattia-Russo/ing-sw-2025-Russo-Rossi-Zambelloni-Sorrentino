@@ -11,7 +11,7 @@ public class OpenSpace extends AdventureCard{
 
     public void checkEnginePower(ArrayList<Player> players){
         for (Player p : players) {
-            if (!p.isAbandoned() && ((p.getPlayerShipBoard().getSingleCannonPower() == 0 && (p.getPlayerShipBoard().getNumDoubleCannon()==0 || p.getPlayerShipBoard().getTotalBattery() == 0)))){
+            if (!p.isAbandoned() && ((p.getPlayerShipBoard().getSingleEnginePower() == 0 && (p.getPlayerShipBoard().getNumDoubleEngines()==0 || p.getPlayerShipBoard().getTotalBattery() == 0)))){
                 p.abandon();
             }
         }
