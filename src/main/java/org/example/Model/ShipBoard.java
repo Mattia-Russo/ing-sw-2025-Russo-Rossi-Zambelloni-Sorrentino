@@ -64,13 +64,7 @@ public class ShipBoard {
     }
 
     public boolean validPosition(int posX, int posY){
-        if (posX < 0 || posX >= componentMatrix.length || posY < 0 || posY >= componentMatrix[0].length) {
-            return false;
-        }
-        if (!availablePositionMatrix[posX][posY]) {
-            return false;
-        }
-        return true;
+        return (posX >= 0 && posX < componentMatrix.length && posY >= 0 && posY < componentMatrix[0].length) && availablePositionMatrix[posX][posY];
     }
 
     public Components getComponent(int posX, int posY){
