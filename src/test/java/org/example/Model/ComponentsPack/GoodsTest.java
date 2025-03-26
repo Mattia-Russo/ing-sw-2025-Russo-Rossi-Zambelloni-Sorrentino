@@ -1,8 +1,6 @@
-package org.example.ComponentsPack;
+package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
-import org.example.Model.ComponentsPack.Goods;
-import org.example.Model.ComponentsPack.GoodsColour;
 
 public class GoodsTest extends TestCase {
 

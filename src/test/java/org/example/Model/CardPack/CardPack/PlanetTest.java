@@ -1,4 +1,4 @@
-package org.example.CardPack;
+package org.example.Model.CardPack.CardPack;
 
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.Goods;

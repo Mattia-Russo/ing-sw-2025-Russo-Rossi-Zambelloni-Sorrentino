@@ -1,13 +1,10 @@
-package org.example;
+package org.example.Model;
 
 import junit.framework.TestCase;
 import org.example.Model.CardPack.AbandonedShip;
 import org.example.Model.CardPack.AdventureCard;
 import org.example.Model.CardPack.Slavers;
 import org.example.Model.ComponentsPack.*;
-import org.example.Model.Game;
-import org.example.Model.Player;
-import org.example.Model.ShipBoard;
 
 import java.util.ArrayList;
 
