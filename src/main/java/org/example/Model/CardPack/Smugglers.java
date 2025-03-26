@@ -1,6 +1,5 @@
 package org.example.Model.CardPack;
 
-import org.example.ComponentsPack.*;
 import org.example.Model.ComponentsPack.Goods;
 
 import java.util.ArrayList;

@@ -129,4 +129,12 @@ public class Cabin extends Components {
         }
         this.removeLifeSupport(life);
     }
+
+    @Override
+    public Alien hasAlien() {
+        if(this.alien != null){
+            return this.alien;
+        }
+        return null;
+    }
 }

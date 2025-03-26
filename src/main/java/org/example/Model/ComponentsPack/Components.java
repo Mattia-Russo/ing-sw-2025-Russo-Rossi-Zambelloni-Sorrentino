@@ -85,4 +85,16 @@ public class Components {
     public void addCabin(LifeSupportSystem life){}
 
     public void removeCabin(LifeSupportSystem life, ShipBoard ship) {}
+
+    public Cannon isDoubleCannon(){
+        return null;
+    }
+
+    public Engine isDoubleEngine(){
+        return null;
+    }
+
+    public Alien hasAlien(){
+        return null;
+    }
 }

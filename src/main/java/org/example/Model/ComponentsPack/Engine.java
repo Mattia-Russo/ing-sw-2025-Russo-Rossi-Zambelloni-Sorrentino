@@ -31,4 +31,12 @@ public class Engine extends Components{
             ship.setDoubleEnginePower(1);
         }
     }
+
+    @Override
+    public Engine isDoubleEngine() {
+        if(this.power==2){
+            return this;
+        }
+        return null;
+    }
 }

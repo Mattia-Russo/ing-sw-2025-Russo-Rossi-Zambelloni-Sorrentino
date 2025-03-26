@@ -39,4 +39,12 @@ public class Cannon extends Components {
             ship.setDoubleCannonPower(1);
         }
     }
+
+    @Override
+    public Cannon isDoubleCannon(){
+        if(this.getPower()==2){
+            return this;
+        }
+        return null;
+    }
 }

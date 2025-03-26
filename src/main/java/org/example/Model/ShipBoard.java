@@ -1,12 +1,13 @@
 package org.example.Model;
 
-import org.example.ComponentsPack.*;
 import org.example.Model.ComponentsPack.*;
 import org.example.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Model.Exceptions.FullBookedSlotsException;
 import org.example.Model.Exceptions.InvalidPositionException;
 import org.example.Model.Exceptions.OccupiedPositionException;
 
+import java.awt.*;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -23,7 +24,6 @@ public class ShipBoard {
     private int numDoubleEngines;
     private int totalBattery;
     private int totalAstronauts;
-    private ArrayList<Alien> aliens;
 
     public ShipBoard(boolean[][] availablePositionMatrix, int matrixWidth, int matrixHeight) {
         this.deletedComponentsCounter = 0;
@@ -37,11 +37,6 @@ public class ShipBoard {
         this.numDoubleEngines = 0;
         this.totalBattery = 0;
         this.totalAstronauts = 0;
-        this.aliens = new ArrayList<>();
-    }
-
-    public ArrayList<Alien> getAliens() {
-        return aliens;
     }
 
     public float getSingleCannonPower() {
@@ -139,8 +134,19 @@ public class ShipBoard {
         return totalAstronauts;
     }
 
-    public float getTotalCannonPower(ArrayList<Cannon> cannons){
+    public float getTotalCannonPower(ArrayList<Point> pos){
         float totalCannonPower = 0;
+        ArrayList<Cannon> cannons = new ArrayList<>();
+        for(Point p : pos){
+            if(!availablePositionMatrix[p.x][p.y]) {
+                throw new InvalidPositionException("Position is invalid");
+            }
+            if(getComponent(p.x,p.y).isDoubleCannon()==null) {
+                throw new InvalidParameterException("Is not a Double Cannon");
+            }
+            cannons.add(getComponent(p.x,p.y).isDoubleCannon());
+        }
+
         for (Cannon c : cannons) {
             if (c.getDirection()== Direction.NORTH){
                 totalCannonPower += 2;
@@ -154,7 +160,7 @@ public class ShipBoard {
                 for(int j = 0; j < componentMatrix[0].length; j++){
                     if(availablePositionMatrix[i][j]) {
                         Components c = getComponent(i, j);
-                        if (c instanceof Cabin && ((Cabin)c).getAlien().getColour()==AlienColour.PURPLE){
+                        if(c.hasAlien() != null && c.hasAlien().getColour() == AlienColour.PURPLE){
                             alienPower+=2;
                         }
                     }
@@ -164,18 +170,30 @@ public class ShipBoard {
         return alienPower + totalCannonPower + this.singleCannonPower;
     }
 
-    public int getTotalEngineStrenght(ArrayList<Engine> engines){
+    public int getTotalEngineStrenght(ArrayList<Point> pos){
         int totalEnginePower = 0;
-        for (int i=0; i<engines.size(); i++) {
+        ArrayList<Engine> engines = new ArrayList<>();
+        for(Point p : pos){
+            if(!availablePositionMatrix[p.x][p.y]) {
+                throw new InvalidPositionException("Position is invalid");
+            }
+            if(getComponent(p.x,p.y).isDoubleEngine()==null) {
+                throw new InvalidParameterException("Is not a Double engine");
+            }
+            engines.add(getComponent(p.x,p.y).isDoubleEngine());
+        }
+
+        for (Engine e: engines) {
             totalEnginePower += 2;
         }
+
         int alienPower = 0;
         if(totalEnginePower + this.singleEnginePower > 0){
             for(int i = 0; i < componentMatrix.length; i++){
                 for(int j = 0; j < componentMatrix[0].length; j++){
                     if(availablePositionMatrix[i][j]) {
                         Components c = getComponent(i, j);
-                        if (c instanceof Cabin && ((Cabin)c).getAlien().getColour()==AlienColour.BROWN){
+                        if (c.hasAlien() != null && c.hasAlien().getColour()==AlienColour.BROWN){
                             alienPower+=2;
                         }
                     }
@@ -483,11 +501,5 @@ public class ShipBoard {
             }
         }
         return totalExposedConnectors;
-    }
-
-    public void addAlien(Cabin cabin, Alien alien){
-        cabin.addAlien(alien);
-        this.totalAstronauts -= cabin.getNumAstronauts();
-        aliens.add(alien);
     }
 }
