@@ -131,6 +131,13 @@ public class Cabin extends Components {
     }
 
     @Override
+    public Alien hasAlien() {
+        if(this.alien != null){
+            return this.alien;
+        }
+        return null;
+    }
+  
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY){
         ArrayList <Cabin> cabins = new ArrayList<Cabin>();
         addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);

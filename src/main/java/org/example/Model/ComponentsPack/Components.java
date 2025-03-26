@@ -88,9 +88,22 @@ public class Components {
 
     public void removeCabin(LifeSupportSystem life, ShipBoard ship) {}
 
+    public Cannon isDoubleCannon(){
+        return null;
+    }
+
+    public Engine isDoubleEngine(){
+        return null;
+    }
+
+    public Alien hasAlien(){
+        return null;
+    }
+
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY){}
 
     public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){}
 
     public void addStorage(ArrayList<Goods> list){}
+
 }
