@@ -14,7 +14,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList);
+        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(3, w.getNumAstronauts());
     }
@@ -23,7 +23,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList);
+        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(2, w.getNumGoods());
     }
@@ -32,7 +32,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList);
+        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(cannonFireList, w.getCannonFireList());
         assertEquals(2, w.getCannonFireList().size());
