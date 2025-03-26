@@ -1,6 +1,9 @@
 package org.example.ComponentsPack;
 
 import junit.framework.TestCase;
+import org.example.Model.ComponentsPack.BatteryStorage;
+import org.example.Model.ComponentsPack.Connector;
+import org.example.Model.ComponentsPack.Direction;
 
 public class BatteryStorageTest extends TestCase {
 
