@@ -51,7 +51,7 @@ public class Cabin extends Components {
             numAstronauts += amount;
     }
 
-    public void addLifeSupport(LifeSupportSystem l) {
+    public void addLifeSupportList(LifeSupportSystem l) {
         this.lifeSupportSystemArrayList.add(l);
     }
 
@@ -113,7 +113,8 @@ public class Cabin extends Components {
     public void addCabin(LifeSupportSystem life) {
         if(!getIsCentral()){
             this.changeWithLifeSupport(true);
-            this.addLifeSupport(life);
+            this.addLifeSupportList(life);
+            this.getLifeSupportSystemArrayList().add(life);
         }
     }
 
@@ -127,14 +128,16 @@ public class Cabin extends Components {
             }
         }
         if (check) {
-            if (this.getAlien().getColour() == life.getColour()) {
+            if (this.getAlien()!=null && this.getAlien().getColour() == life.getColour()) {
                 this.removeAlien();
             }
+            this.removeLifeSupport(life);
             if (this.getLifeSupportSystemArrayList().isEmpty()) {
                 this.changeWithLifeSupport(false);
             }
+        }else {
+            this.removeLifeSupport(life);
         }
-        this.removeLifeSupport(life);
     }
 
     @Override
@@ -147,7 +150,7 @@ public class Cabin extends Components {
   
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY){
         ArrayList <Cabin> cabins = new ArrayList<Cabin>();
-        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);
+        cabins = addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);
 
         if(cabins.size()>1){
             for (Cabin c : cabins) {
@@ -161,26 +164,28 @@ public class Cabin extends Components {
     }
 
     @Override
-    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){
+    public ArrayList<Cabin> addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){
         if(!visited[x][y]){
             visited[x][y] = true;
             if (this.alien == null && this.getNumAstronauts() == 0) {
-                return;
-            } else {
-                cabins.add(this);
+                return cabins;
             }
-            if(x+1 < dimX && visited[x+1][y]){
+
+            cabins.add(this);
+
+            if(x+1 < dimX && !visited[x+1][y]){
                 addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY);
             }
-            if (x-1 > 0 && visited[x-1][y]){
+            if (x-1 >= 0 && !visited[x-1][y]){
                 addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY);
             }
-            if (y+1 < dimY && visited[x][y+1]){
+            if (y+1 < dimY && !visited[x][y+1]){
                 addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY);
             }
-            if (y-1 > 0 && visited[x][y-1]){
+            if (y-1 >= 0 && !visited[x][y-1]){
                 addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY);
             }
         }
+        return cabins;
     }
 }
