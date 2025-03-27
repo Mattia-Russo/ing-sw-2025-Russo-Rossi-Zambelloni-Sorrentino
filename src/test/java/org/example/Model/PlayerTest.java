@@ -29,18 +29,18 @@ public class PlayerTest extends TestCase {
 
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        s.placeComponent(2,3, c1);
         s.placeComponent(2,2, s2);
-        s.placeComponent(2,4, s1);
-        s.placeComponent(1,4, cannon);
-        s.placeComponent(3,1, c5);
-        s.placeComponent(3,2, c2);
-        s.placeComponent(4,1, c4);
-        s.placeComponent(4,2, c3);
-        s.placeComponent(3,4, c6);
-        s.placeComponent(3,5, c7);
+        //s.placeComponent(2,4, s1);
+        //s.placeComponent(1,4, cannon);
+        s.placeComponent(3,2, c1);
+        s.placeComponent(1,3, c5);
+        s.placeComponent(2,3, c2);
+        s.placeComponent(1,4, c4);
+        s.placeComponent(2,4, c3);
+        s.placeComponent(4,3, c6);
+        s.placeComponent(5,3, c7);
         s.placeComponent(4,4, c8);
-        s.placeComponent(4,5, c9);
+        s.placeComponent(5,4, c9);
 
         Player p = new Player(s, 12, "a");
 

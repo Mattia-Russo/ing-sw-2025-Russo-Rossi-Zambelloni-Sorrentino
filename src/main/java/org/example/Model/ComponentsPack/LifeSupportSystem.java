@@ -17,32 +17,47 @@ public class LifeSupportSystem extends Components {
 
     @Override
     public void remove(ShipBoard ship) {
-        ship.getComponent(getPosX(), getPosY() + 1).removeCabin(this, ship);
-        ship.getComponent(getPosX(), getPosY() - 1).removeCabin(this, ship);
-        ship.getComponent(getPosX() + 1, getPosY()).removeCabin(this, ship);
-        ship.getComponent(getPosX() - 1, getPosY()).removeCabin(this, ship);
+        if(ship.getComponent(getPosX(), getPosY() + 1)!=null) {
+            ship.getComponent(getPosX(), getPosY() + 1).removeCabin(this, ship);
+        }
+        if(ship.getComponent(getPosX(), getPosY() - 1)!=null) {
+            ship.getComponent(getPosX(), getPosY() - 1).removeCabin(this, ship);
+        }
+        if(ship.getComponent(getPosX()+1, getPosY())!=null) {
+            ship.getComponent(getPosX() + 1, getPosY()).removeCabin(this, ship);
+        }
+        if(ship.getComponent(getPosX()-1, getPosY())!=null) {
+            ship.getComponent(getPosX() - 1, getPosY()).removeCabin(this, ship);
+        }
     }
 
     @Override
     public void place(ShipBoard ship) {
         if (ship.validPosition(getPosX()+1,getPosY())) {
-            ship.getComponent(getPosX()+1,getPosY()).addCabin(this);
+            if(ship.getComponent(getPosX()+1,getPosY())!=null) {
+                ship.getComponent(getPosX() + 1, getPosY()).addCabin(this);
+            }
         }
         if (ship.validPosition(getPosX()-1,getPosY())){
-            ship.getComponent(getPosX()-1,getPosY()).addCabin(this);
+            if(ship.getComponent(getPosX()-1,getPosY())!=null) {
+                ship.getComponent(getPosX() - 1, getPosY()).addCabin(this);
+            }
         }
         if (ship.validPosition(getPosX(),getPosY()+1)) {
-           ship.getComponent(getPosX(),getPosY()+1).addCabin(this);
+            if(ship.getComponent(getPosX(),getPosY()+1)!=null) {
+                ship.getComponent(getPosX(), getPosY()+1).addCabin(this);
+            }
         }
-        if (ship.validPosition(getPosX(),getPosY()+1)) {
-            ship.getComponent(getPosX(),getPosY()-1).addCabin(this);
+        if (ship.validPosition(getPosX(),getPosY()-1)) {
+            if(ship.getComponent(getPosX(),getPosY()-1)!=null) {
+                ship.getComponent(getPosX(), getPosY()-1).addCabin(this);
+            }
         }
     }
 
     @Override
     public void addLifeSupport(Cabin cabin) {
         cabin.changeWithLifeSupport(true);
-        cabin.getLifeSupportSystemArrayList().add(this);
-        cabin.addLifeSupport(this);
+        cabin.addLifeSupportList(this);
     }
 }

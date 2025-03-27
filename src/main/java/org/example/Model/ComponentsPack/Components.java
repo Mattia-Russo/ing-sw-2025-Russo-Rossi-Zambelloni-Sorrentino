@@ -106,7 +106,7 @@ public class Components {
 
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY){}
 
-    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){}
+    public ArrayList<Cabin> addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){return null;}
 
     public void addStorage(ArrayList<Goods> list){}
 
