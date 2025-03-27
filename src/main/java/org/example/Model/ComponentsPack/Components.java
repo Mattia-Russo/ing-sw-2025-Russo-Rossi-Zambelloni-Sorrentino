@@ -104,9 +104,9 @@ public class Components {
         return null;
     }
 
-    public void manageEpidemic(boolean[][] visited, int dimX, int dimY){}
+    public void manageEpidemic(boolean[][] visited, int dimX, int dimY, ShipBoard ship){}
 
-    public ArrayList<Cabin> addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){return null;}
+    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY, ShipBoard ship){}
 
     public void addStorage(ArrayList<Goods> list){}
 

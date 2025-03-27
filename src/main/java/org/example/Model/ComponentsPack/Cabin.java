@@ -63,7 +63,7 @@ public class Cabin extends Components {
         return lifeSupportSystemArrayList;
     }
 
-    public void addAlien(Alien newAlien) {
+    public void addAlien(Alien newAlien, ShipBoard ship) {
         if (this.alien != null) {
             throw new AlreadyAlienException("This cabin already contains an alien!");
         }
@@ -75,6 +75,7 @@ public class Cabin extends Components {
             throw new DifferentLifeSupportColourException("This cabin has life support, but of a different colour!");
         }
         this.numAstronauts = 0;
+        ship.setNumAstronauts(-2);
         this.alien = newAlien;
     }
 
@@ -90,6 +91,7 @@ public class Cabin extends Components {
     @Override
     public void place(ShipBoard ship) {
         ship.setNumAstronauts(2);
+        this.numAstronauts = 2;
         if (ship.validPosition(this.getPosX()+1, this.getPosY())){
             if(ship.getComponent(this.getPosX()+1, this.getPosY())!=null){
                 ship.getComponent(this.getPosX()+1, this.getPosY()).addLifeSupport(this);
@@ -148,9 +150,9 @@ public class Cabin extends Components {
         return null;
     }
   
-    public void manageEpidemic(boolean[][] visited, int dimX, int dimY){
+    public void manageEpidemic(boolean[][] visited, int dimX, int dimY, ShipBoard s){
         ArrayList <Cabin> cabins = new ArrayList<Cabin>();
-        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);
+        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY, s);
 
         if(cabins.size()>1){
             for (Cabin c : cabins) {
@@ -164,7 +166,7 @@ public class Cabin extends Components {
     }
 
     @Override
-    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){
+    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY, ShipBoard s){
         if(!visited[x][y]){
             visited[x][y] = true;
             if (this.alien == null && this.getNumAstronauts() == 0) {
@@ -173,17 +175,17 @@ public class Cabin extends Components {
 
             cabins.add(this);
 
-            if(x+1 < dimX && !visited[x+1][y]){
-                addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY);
+            if(x+1 < dimX && !visited[x+1][y] && s.getComponentMatrix()[x+1][y] != null){
+                s.getComponentMatrix()[x+1][y].addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY, s);
             }
-            if (x-1 >= 0 && !visited[x-1][y]){
-                addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY);
+            if (x-1 >= 0 && !visited[x-1][y] && s.getComponentMatrix()[x-1][y] != null){
+                s.getComponentMatrix()[x-1][y].addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY, s);
             }
-            if (y+1 < dimY && !visited[x][y+1]){
-                addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY);
+            if (y+1 < dimY && !visited[x][y+1] && s.getComponentMatrix()[x][y+1] != null){
+                s.getComponentMatrix()[x][y+1].addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY, s);
             }
-            if (y-1 >= 0 && !visited[x][y-1]){
-                addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY);
+            if (y-1 >= 0 && !visited[x][y-1] && s.getComponentMatrix()[x][y-1] != null){
+                s.getComponentMatrix()[x][y-1].addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY, s);
             }
         }
     }

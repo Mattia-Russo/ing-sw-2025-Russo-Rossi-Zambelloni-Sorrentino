@@ -124,7 +124,9 @@ public class ShipBoard {
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
                     Components c = getComponent(i, j);
-                    c.addStorage(totalGoodsList);
+                    if(c!=null) {
+                        c.addStorage(totalGoodsList);
+                    }
                 }
             }
         }
@@ -320,7 +322,7 @@ public class ShipBoard {
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
-                    if(!connectedComponents.contains(componentMatrix[i][j])){
+                    if(!connectedComponents.contains(componentMatrix[i][j])&&componentMatrix[i][j]!=null){
                         removeComponent(i,j);
                     }
                 }
@@ -377,14 +379,14 @@ public class ShipBoard {
                 break;
 
             case NORTH:
-                for (int i = componentMatrix[0].length; i > 0 ; i--) {
+                for (int i = componentMatrix[0].length-1; i > 0 ; i--) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[i][rowOrCol]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
                 break;
             case EAST:
-                for (int i = componentMatrix.length; i > 0 ; i--) {
+                for (int i = componentMatrix.length-1; i > 0 ; i--) {
                     if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
                         return componentMatrix[i][rowOrCol];
                     }

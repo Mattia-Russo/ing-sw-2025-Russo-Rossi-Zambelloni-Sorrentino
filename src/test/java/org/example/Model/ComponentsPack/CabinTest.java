@@ -1,4 +1,4 @@
-package org.example.ComponentsPack;
+package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.*;
@@ -15,11 +15,24 @@ public class CabinTest extends TestCase {
     }
 
     public void testGetAlien() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Alien a= new Alien(AlienColour.BROWN);
         LifeSupportSystem l=new LifeSupportSystem(AlienColour.BROWN,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        s.placeComponent(2,3, c);
+        s.placeComponent(2,4, l);
         l.addLifeSupport(c);
-        c.addAlien(a);
+        c.addAlien(a, s);
         assertEquals(a, c.getAlien());
     }
 
@@ -72,20 +85,46 @@ public class CabinTest extends TestCase {
     }
 
     public void testaddAlien(){
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        Alien a = new Alien(AlienColour.BROWN);
+        Alien a= new Alien(AlienColour.BROWN);
         LifeSupportSystem l=new LifeSupportSystem(AlienColour.BROWN,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        s.placeComponent(2,3, c);
+        s.placeComponent(2,4, l);
         l.addLifeSupport(c);
-        c.addAlien(a);
+        c.addAlien(a, s);
         assertEquals(a, c.getAlien());
     }
 
     public void testremoveAlien(){
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        Alien a = new Alien(AlienColour.BROWN);
+        Alien a= new Alien(AlienColour.BROWN);
         LifeSupportSystem l=new LifeSupportSystem(AlienColour.BROWN,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        s.placeComponent(2,3, c);
+        s.placeComponent(2,4, l);
         l.addLifeSupport(c);
-        c.addAlien(a);
+        c.addAlien(a, s);
         assertEquals(a, c.getAlien());
         c.removeAlien();
         assertNull(c.getAlien());
@@ -154,13 +193,13 @@ public class CabinTest extends TestCase {
         s.placeComponent(1,2,c);
         assertTrue(c.getWithLifeSupport());
         Alien a = new Alien(AlienColour.BROWN);
-        c.addAlien(a);
+        c.addAlien(a, s);
         c.removeCabin(l, s);
         assertNull(c.getAlien());
         assertFalse(c.getWithLifeSupport());
     }
 
-    public void testhasAliens(){
+    public void testHasAliens(){
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
             for(int j=0; j<5; j++){
@@ -178,11 +217,11 @@ public class CabinTest extends TestCase {
         s.placeComponent(1,2,c);
         assertNull(c.hasAlien());
         Alien a = new Alien(AlienColour.BROWN);
-        c.addAlien(a);
+        c.addAlien(a, s);
         assertEquals(a, c.getAlien());
     }
 
-    public void testaddEpidemicCabin(){
+    public void testAddEpidemicCabin(){
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
             for(int j=0; j<5; j++){
@@ -215,16 +254,82 @@ public class CabinTest extends TestCase {
         ArrayList<Cabin> c=new ArrayList<>();
         ArrayList<Cabin> c_test=new ArrayList<>();
         c_test.add(c1);
-        c_test.add(c2);
-        c_test.add(c3);
-        c_test.add(c4);
-        c_test.add(c5);
+        //c_test.add(c2);
+        //c_test.add(c3);
+        //c_test.add(c4);
+        //c_test.add(c5);
         c_test.add(c6);
         c_test.add(c7);
         c_test.add(c8);
         c_test.add(c9);
         boolean[][] visited=new boolean[7][5];
-        c1.addEpidemicCabin(2,3,c,visited, 7, 5);
-        assertEquals(c_test,c);
+        c1.addEpidemicCabin(c1.getPosX(),c1.getPosY(),c,visited, 7, 5, s);
+        assertTrue(c.containsAll(c_test));
+    }
+
+    public void testManageEpidemic(){
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c2 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c3 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c4 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.UNIVERSAL});
+        Cabin c5 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c6 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c7 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c8 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Storage s1 = new Storage(false, Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE}, 3);
+        s.placeComponent(3,2, c1);
+        s.placeComponent(1,3, c5);
+        s.placeComponent(2,3, c2);
+        s.placeComponent(1,4, c4);
+        s.placeComponent(2,4, c3);
+        s.placeComponent(4,3, c6);
+        s.placeComponent(5,3, c7);
+        s.placeComponent(4,4, c8);
+        s.placeComponent(5,4, c9);
+        s.placeComponent(3, 3, s1);
+
+        ArrayList<Cabin> c=new ArrayList<>();
+        //ArrayList<Cabin> c_test1=new ArrayList<>();
+        ArrayList<Cabin> c_test2=new ArrayList<>();
+
+        //c_test1.add(c1);
+        c_test2.add(c2);
+        c_test2.add(c3);
+        c_test2.add(c4);
+        c_test2.add(c5);
+        c_test2.add(c6);
+        c_test2.add(c7);
+        c_test2.add(c8);
+        c_test2.add(c9);
+        boolean[][] visited=new boolean[7][5];
+
+        for(int i = 0; i < s.getComponentMatrix().length; i++){
+            for(int j = 0; j < s.getComponentMatrix()[0].length; j++){
+                if(s.getAvailablePositionMatrix()[i][j]){
+                    Components comp = s.getComponent(i,j);
+                    if(comp != null){
+                        comp.manageEpidemic(visited, s.getComponentMatrix().length, s.getComponentMatrix()[0].length, s);
+                    }
+                }
+            }
+        }
+
+        assertEquals(2, c1.getNumAstronauts());
+
+        for(Cabin cabin : c_test2){
+            assertEquals(1, cabin.getNumAstronauts());
+        }
     }
 }

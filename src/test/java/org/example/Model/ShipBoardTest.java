@@ -204,11 +204,9 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         BatteryStorage b1 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         BatteryStorage b2 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
-        b1.setQuantity(3, s);
-        b2.setQuantity(2, s);
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
-        assertEquals(5,s.getTotalBattery());
+        assertEquals(6,s.getTotalBattery());
     }
 
     public void testGetTotalGoods() {
@@ -265,14 +263,14 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
        Cannon cannon2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,2,cannon2);
+        s.placeComponent(2,2,cannon2);
         ArrayList<Cannon> cannons= new ArrayList<Cannon>();
         cannons.add(cannon2);
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.PURPLE, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
         s.placeComponent(1,2, l);
-        c.addAlien(new Alien(AlienColour.PURPLE));
+        c.addAlien(new Alien(AlienColour.PURPLE), s);
         //assertEquals(4.0F, s.getTotalCannonPower(cannons));
     }
 
@@ -289,14 +287,14 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Engine engine = new Engine(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,2,engine);
+        s.placeComponent(2,2,engine);
         ArrayList<Engine> engines = new ArrayList<Engine>();
         engines.add(engine);
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
         s.placeComponent(1,2, l);
-        c.addAlien(new Alien(AlienColour.BROWN));
+        c.addAlien(new Alien(AlienColour.BROWN), s);
         //assertEquals(4, s.getTotalEngineStrenght(engines));
 
     }
@@ -531,5 +529,171 @@ public class ShipBoardTest extends TestCase {
     }
 
 
+    public void testGetShieldedDirections() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0) || (i == 3 && j == 0) || (i == 5 && j == 0) || (i == 6 && j == 0) || (i == 6 && j == 1) || (i == 3 && j == 4)) {
+                    availablePositionMatrix[i][j] = false;
+                } else {
+                    availablePositionMatrix[i][j] = true;
+                }
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        Shield shield = new Shield(Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        s.placeComponent(1, 1, shield);
+        assertEquals(1,s.getShieldedDirections()[0]);
+        assertEquals(0,s.getShieldedDirections()[1]);
+        assertEquals(0,s.getShieldedDirections()[2]);
+        assertEquals(1, s.getShieldedDirections()[3]);
 
+    }
+
+    public void testTestSetNumAstronauts() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0) || (i == 3 && j == 0) || (i == 5 && j == 0) || (i == 6 && j == 0) || (i == 6 && j == 1) || (i == 3 && j == 4)) {
+                    availablePositionMatrix[i][j] = false;
+                } else {
+                    availablePositionMatrix[i][j] = true;
+                }
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        s.placeComponent(1, 1, cabin1);
+        assertEquals(2,s.getTotalAstronauts());
+}
+
+    public void testTestGetSingleEnginePower() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0) || (i == 3 && j == 0) || (i == 5 && j == 0) || (i == 6 && j == 0) || (i == 6 && j == 1) || (i == 3 && j == 4)) {
+                    availablePositionMatrix[i][j] = false;
+                } else {
+                    availablePositionMatrix[i][j] = true;
+                }
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        Engine engine = new Engine(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        s.placeComponent(1, 1, engine);
+        assertEquals(1,s.getSingleEnginePower());
+    }
+
+    public void testSetSingleEnginePower() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0) || (i == 3 && j == 0) || (i == 5 && j == 0) || (i == 6 && j == 0) || (i == 6 && j == 1) || (i == 3 && j == 4)) {
+                    availablePositionMatrix[i][j] = false;
+                } else {
+                    availablePositionMatrix[i][j] = true;
+                }
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        Engine engine = new Engine(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        s.placeComponent(1, 1, engine);
+        assertEquals(1,s.getSingleEnginePower());
+    }
+
+    public void testGetNumDoubleEngines() {
+    }
+
+    public void testSetNumDoubleEngines() {
+    }
+
+    public void testGetSingleCannonPower() {
+    }
+
+    public void testSetSingleCannonPower() {
+    }
+
+    public void testTestGetNumDoubleCannon() {
+    }
+
+    public void testSetNumDoubleCannon() {
+    }
+
+    public void testTestGetComponentMatrix() {
+    }
+
+    public void testTestGetAvailablePositionMatrix() {
+    }
+
+    public void testTestValidPosition() {
+    }
+
+    public void testTestGetComponent() {
+    }
+
+    public void testGetDeletedComponentsCounter() {
+    }
+
+    public void testTestBookComponents() {
+    }
+
+    public void testTestGetBookedComponents() {
+    }
+
+    public void testTestGetTotalBattery() {
+    }
+
+    public void testSetTotalBattery() {
+    }
+
+    public void testTestGetTotalGoods() {
+    }
+
+    public void testTestGetTotalAstronauts() {
+    }
+
+    public void testTestGetTotalCannonPower() {
+    }
+
+    public void testGetTotalEnginePower() {
+    }
+
+    public void testTestGetIfShielded() {
+    }
+
+    public void testAddShieldInDirection() {
+    }
+
+    public void testDecreaseShieldInDirection() {
+    }
+
+    public void testTestRemoveComponent() {
+    }
+
+    public void testTestRemoveBookedComponents() {
+    }
+
+    public void testTestCheckIfSplitted() {
+    }
+
+    public void testTestRemoveWreck() {
+    }
+
+    public void testTestGetFirstComponent() {
+    }
+
+    public void testTestGetIfSingleCannon() {
+    }
+
+    public void testTestGetIfDoubleCannon() {
+    }
+
+    public void testTestPlaceComponent() {
+    }
+
+    public void testGetIfExposed() {
+    }
+
+    public void testGetTotalExposedConnectors() {
+    }
 }

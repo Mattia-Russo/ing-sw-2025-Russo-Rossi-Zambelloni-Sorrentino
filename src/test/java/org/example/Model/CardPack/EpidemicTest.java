@@ -24,11 +24,9 @@ public class EpidemicTest extends TestCase {
         Cabin cabin2 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.placeComponent(1,1, cabin1);
         s.placeComponent(2,1, cabin2);
-        cabin1.changeNumAstronauts(1);
-        cabin2.changeNumAstronauts(1);
         Epidemic epidemic = new Epidemic(1, 0);
         epidemic.checkAdjacentCabins(s);
-        assertEquals(0, cabin1.getNumAstronauts());
-        assertEquals(0, cabin2.getNumAstronauts());
+        assertEquals(1, cabin1.getNumAstronauts());
+        assertEquals(1, cabin2.getNumAstronauts());
     }
 }
