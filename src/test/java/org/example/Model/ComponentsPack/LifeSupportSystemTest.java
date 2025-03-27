@@ -22,7 +22,7 @@ public class LifeSupportSystemTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin c = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,2,c);
         s.placeComponent(2,2,l);
@@ -42,7 +42,7 @@ public class LifeSupportSystemTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin c = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,2,c);
         s.placeComponent(2,2,l);
@@ -50,5 +50,9 @@ public class LifeSupportSystemTest extends TestCase {
     }
 
     public void testAddLifeSupport() {
+        Cabin c = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        l.addLifeSupport(c);
+        assertTrue(c.getLifeSupportSystemArrayList().contains(l));
     }
 }

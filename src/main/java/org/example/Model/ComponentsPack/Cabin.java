@@ -115,7 +115,6 @@ public class Cabin extends Components {
     public void addCabin(LifeSupportSystem life) {
         if(!getIsCentral()){
             this.changeWithLifeSupport(true);
-            this.addLifeSupportList(life);
             this.getLifeSupportSystemArrayList().add(life);
         }
     }

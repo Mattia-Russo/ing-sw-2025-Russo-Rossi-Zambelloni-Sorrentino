@@ -3,6 +3,7 @@ package org.example.Model;
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ShipBoardTest extends TestCase {
@@ -262,19 +263,23 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-       Cannon cannon2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon cannon2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(2,2,cannon2);
-        ArrayList<Cannon> cannons= new ArrayList<Cannon>();
-        cannons.add(cannon2);
+        ArrayList<Point> cannons= new ArrayList<Point>();
+        cannons.add(new Point(2,2));
+        BatteryStorage b = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        s.placeComponent(3,3,b);
+        ArrayList<Point> batteries = new ArrayList<Point>();
+        batteries.add(new Point(3,3));
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.PURPLE, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
         s.placeComponent(1,2, l);
         c.addAlien(new Alien(AlienColour.PURPLE), s);
-        //assertEquals(4.0F, s.getTotalCannonPower(cannons));
+        assertEquals(4.0F, s.getTotalCannonPower(cannons, batteries));
     }
 
-    public void testGetTotalEngineStrenght() {
+    public void testGetTotalEnginePower() {
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
             for(int j=0; j<5; j++){
@@ -288,14 +293,18 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Engine engine = new Engine(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(2,2,engine);
-        ArrayList<Engine> engines = new ArrayList<Engine>();
-        engines.add(engine);
+        ArrayList<Point> engines= new ArrayList<Point>();
+        engines.add(new Point(2,2));
+        BatteryStorage b = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        s.placeComponent(3,3,b);
+        ArrayList<Point> batteries = new ArrayList<Point>();
+        batteries.add(new Point(3,3));
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
         s.placeComponent(1,2, l);
         c.addAlien(new Alien(AlienColour.BROWN), s);
-        //assertEquals(4, s.getTotalEngineStrenght(engines));
+        assertEquals(4, s.getTotalEnginePower(engines, batteries));
 
     }
 
@@ -567,23 +576,6 @@ public class ShipBoardTest extends TestCase {
         assertEquals(2,s.getTotalAstronauts());
 }
 
-    public void testTestGetSingleEnginePower() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 5; j++) {
-                if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0) || (i == 3 && j == 0) || (i == 5 && j == 0) || (i == 6 && j == 0) || (i == 6 && j == 1) || (i == 3 && j == 4)) {
-                    availablePositionMatrix[i][j] = false;
-                } else {
-                    availablePositionMatrix[i][j] = true;
-                }
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Engine engine = new Engine(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        s.placeComponent(1, 1, engine);
-        assertEquals(1,s.getSingleEnginePower());
-    }
-
     public void testSetSingleEnginePower() {
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for (int i = 0; i < 7; i++) {
@@ -635,29 +627,159 @@ public class ShipBoardTest extends TestCase {
     }
 
     public void testGetSingleCannonPower() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Cannon c=new Cannon(1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        s.placeComponent(1,1,c);
+        assertEquals(0.5F,s.getSingleCannonPower());
     }
 
     public void testSetSingleCannonPower() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        s.setSingleCannonPower(1);
+        assertEquals(1F,s.getSingleCannonPower());
+
     }
 
     public void testSetNumDoubleCannon() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        s.setNumDoubleCannon(1);
+        assertEquals(1,s.getNumDoubleCannon());
+
     }
 
     public void testGetDeletedComponentsCounter() {
-    }
-
-    public void testGetTotalEnginePower() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Cannon c=new Cannon(1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        s.placeComponent(1,1,c);
+        s.removeComponent(1,1);
+        assertEquals(1, s.getDeletedComponentsCounter());
     }
 
     public void testAddShieldInDirection() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        s.addShieldInDirection(Direction.NORTH);
+        assertEquals(1, s.getShieldedDirections()[0]);
+
     }
 
     public void testDecreaseShieldInDirection() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        s.addShieldInDirection(Direction.NORTH);
+        s.decreaseShieldInDirection(Direction.NORTH);
+        assertEquals(0, s.getShieldedDirections()[0]);
     }
 
     public void testGetIfExposed() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Cannon c=new Cannon(1,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        s.placeComponent(1,2,c);
+        Cannon c1=new Cannon(1,Direction.NORTH,new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
+        s.placeComponent(1,1,c1);
+        assertTrue(s.getIfExposed(Direction.WEST, c));
+        assertFalse(s.getIfExposed(Direction.SOUTH, c1));
+
     }
 
     public void testGetTotalExposedConnectors() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
+        Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c2 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c3 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c4 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.UNIVERSAL});
+        Cabin c5 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c6 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c7 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c8 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        s.placeComponent(3,2, c1);
+        s.placeComponent(2,3, c2);
+        s.placeComponent(2,4, c3);
+        s.placeComponent(1,4, c4);
+        s.placeComponent(1,3, c5);
+        s.placeComponent(4,3, c6);
+        s.placeComponent(5,3, c7);
+        s.placeComponent(3,3, c8);
+        s.placeComponent(5,4, c9);
+        assertEquals(11, s.getTotalExposedConnectors());
     }
 }
