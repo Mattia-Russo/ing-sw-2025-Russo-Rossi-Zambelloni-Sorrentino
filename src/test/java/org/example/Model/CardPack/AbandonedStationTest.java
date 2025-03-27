@@ -1,31 +1,40 @@
-package org.example.CardPack;
+package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.Goods;
 import org.example.Model.ComponentsPack.GoodsColour;
-import org.example.Model.CardPack.Smugglers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmugglersTest extends TestCase {
-
-    public void testGetCannonPower() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
-        Smugglers s= new Smugglers(1,2,10, 5, goods);
-        assertEquals(10,s.getCannonPower());
-    }
+public class AbandonedStationTest extends TestCase {
 
     public void testGetCardLevel() {
         List<Goods> goods= new ArrayList<Goods>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
-        Smugglers s= new Smugglers(1,2,10, 5, goods);
-        assertEquals(1,s.getCardLevel());
+        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        assertEquals(1,a.getCardLevel());
+    }
+
+    public void testGetNumAstronauts() {
+        List<Goods> goods= new ArrayList<Goods>();
+        goods.add(new Goods(GoodsColour.RED));
+        goods.add(new Goods(GoodsColour.YELLOW));
+        goods.add(new Goods(GoodsColour.GREEN));
+        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        assertEquals(5,a.getNumAstronauts());
+    }
+
+    public void testGetGoodsList() {
+        List<Goods> goods= new ArrayList<Goods>();
+        goods.add(new Goods(GoodsColour.RED));
+        goods.add(new Goods(GoodsColour.YELLOW));
+        goods.add(new Goods(GoodsColour.GREEN));
+        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        assertEquals(goods,a.getGoodsList());
+        assertEquals(3,a.getGoodsList().size());
     }
 
     public void testGetLostDays() {
@@ -33,26 +42,7 @@ public class SmugglersTest extends TestCase {
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
-        Smugglers s= new Smugglers(1,2,10, 5, goods);
-        assertEquals(2,s.getLostDays());
-    }
-
-    public void testGetGoodsWin() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
-        Smugglers s= new Smugglers(1,2,10, 5, goods);
-        assertEquals(goods,s.getGoodsWin());
-        assertEquals(3,s.getGoodsWin().size());
-    }
-
-    public void testGetGoodsLost() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
-        Smugglers s= new Smugglers(1,2,10, 5, goods);
-        assertEquals(5,s.getGoodsLost());
+        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        assertEquals(1,a.getLostDays());
     }
 }

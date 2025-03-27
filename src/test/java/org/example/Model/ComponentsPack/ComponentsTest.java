@@ -1,9 +1,6 @@
-package org.example.ComponentsPack;
+package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
-import org.example.Model.ComponentsPack.Components;
-import org.example.Model.ComponentsPack.Connector;
-import org.example.Model.ComponentsPack.Direction;
 
 public class ComponentsTest extends TestCase {
 

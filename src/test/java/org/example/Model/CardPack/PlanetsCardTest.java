@@ -1,10 +1,8 @@
-package org.example.CardPack;
+package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.Goods;
 import org.example.Model.ComponentsPack.GoodsColour;
-import org.example.Model.CardPack.Planet;
-import org.example.Model.CardPack.PlanetsCard;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
-package org.example.CardPack;
+package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Model.CardPack.Slavers;
 
 public class SlaversTest extends TestCase {
 

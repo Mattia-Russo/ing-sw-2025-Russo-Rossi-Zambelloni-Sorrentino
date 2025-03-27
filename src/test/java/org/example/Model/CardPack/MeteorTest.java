@@ -1,8 +1,7 @@
-package org.example.CardPack;
+package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.Direction;
-import org.example.Model.CardPack.Meteor;
 
 public class MeteorTest extends TestCase {
 
