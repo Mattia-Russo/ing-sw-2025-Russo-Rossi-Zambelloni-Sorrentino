@@ -224,7 +224,7 @@ public class CabinTest extends TestCase {
         c_test.add(c8);
         c_test.add(c9);
         boolean[][] visited=new boolean[7][5];
-        c=c1.addEpidemicCabin(2,3,c,visited, 7, 5);
+        c1.addEpidemicCabin(2,3,c,visited, 7, 5);
         assertEquals(c_test,c);
     }
 }

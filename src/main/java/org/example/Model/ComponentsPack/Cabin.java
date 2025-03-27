@@ -150,7 +150,7 @@ public class Cabin extends Components {
   
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY){
         ArrayList <Cabin> cabins = new ArrayList<Cabin>();
-        cabins = addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);
+        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY);
 
         if(cabins.size()>1){
             for (Cabin c : cabins) {
@@ -164,11 +164,11 @@ public class Cabin extends Components {
     }
 
     @Override
-    public ArrayList<Cabin> addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){
+    public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY){
         if(!visited[x][y]){
             visited[x][y] = true;
             if (this.alien == null && this.getNumAstronauts() == 0) {
-                return cabins;
+                return;
             }
 
             cabins.add(this);
@@ -186,6 +186,5 @@ public class Cabin extends Components {
                 addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY);
             }
         }
-        return cabins;
     }
 }
