@@ -40,7 +40,7 @@ public class WarZoneTest extends TestCase {
         assertEquals(2, w.getCannonFireList().size());
     }
 
-    public void testGetLostDays() {
+    public void testGetLoseDays() {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
