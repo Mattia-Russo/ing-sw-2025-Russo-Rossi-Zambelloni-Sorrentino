@@ -602,9 +602,36 @@ public class ShipBoardTest extends TestCase {
     }
 
     public void testGetNumDoubleEngines() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        Engine engine1 = new Engine(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine engine2 = new Engine(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine engine3 = new Engine(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        s.placeComponent(1, 1, engine1);
+        assertEquals(1,s.getNumDoubleEngines());
+        s.placeComponent(1, 2, engine2);
+        assertEquals(2,s.getNumDoubleEngines());
+        s.placeComponent(1, 3, engine3);
+        assertEquals(3,s.getNumDoubleEngines());
     }
 
     public void testSetNumDoubleEngines() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        s.setNumDoubleEngines(2);
+        assertEquals(2,s.getNumDoubleEngines());
+        s.setNumDoubleEngines(-1);
+        assertEquals(1, s.getNumDoubleEngines());
     }
 
     public void testGetSingleCannonPower() {

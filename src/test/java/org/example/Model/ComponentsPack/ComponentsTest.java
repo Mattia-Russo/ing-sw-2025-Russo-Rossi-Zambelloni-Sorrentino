@@ -1,6 +1,7 @@
 package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
+import org.example.Model.ShipBoard;
 
 public class ComponentsTest extends TestCase {
 
@@ -79,40 +80,8 @@ public class ComponentsTest extends TestCase {
         assertEquals(Connector.DOUBLE, c4.getDirConnector(Direction.SOUTH));
     }
 
-    public void testTestUncover() {
-    }
-
-    public void testTestGetIfCovered() {
-    }
-
-    public void testTestGetIfPositioned() {
-    }
-
-    public void testTestSetPosition() {
-    }
-
-    public void testTestGetDirection() {
-    }
-
-    public void testTestLeftRotate() {
-    }
-
-    public void testTestRightRotate() {
-    }
-
-    public void testTestGetConnectors() {
-    }
-
-    public void testTestGetPosX() {
-    }
-
-    public void testTestGetPosY() {
-    }
-
-    public void testTestGetDirConnector() {
-    }
-
     public void testRemove() {
+
     }
 
     public void testPlace() {
@@ -128,32 +97,62 @@ public class ComponentsTest extends TestCase {
     }
 
     public void testIsDoubleCannon() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isDoubleCannon());
     }
 
     public void testIsSingleCannon() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isSingleCannon());
     }
 
     public void testIsDoubleEngine() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isDoubleEngine());
     }
 
     public void testHasAlien() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.hasAlien());
     }
 
     public void testManageEpidemic() {
+
     }
 
     public void testAddEpidemicCabin() {
     }
 
     public void testAddStorage() {
+
     }
 
     public void testCheckRightCannon() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        assertFalse(c.checkRightCannon(s));
     }
 
     public void testCheckRightEngine() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+            }
+        }
+        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
+        assertFalse(c.checkRightEngine(s));
     }
 
     public void testIsBatteryStorage() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isBatteryStorage());
     }
 }
