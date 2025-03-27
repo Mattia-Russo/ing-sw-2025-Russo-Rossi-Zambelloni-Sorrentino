@@ -78,4 +78,82 @@ public class ComponentsTest extends TestCase {
         assertEquals(Connector.SINGLE, c3.getDirConnector(Direction.NORTH));
         assertEquals(Connector.DOUBLE, c4.getDirConnector(Direction.SOUTH));
     }
+
+    public void testTestUncover() {
+    }
+
+    public void testTestGetIfCovered() {
+    }
+
+    public void testTestGetIfPositioned() {
+    }
+
+    public void testTestSetPosition() {
+    }
+
+    public void testTestGetDirection() {
+    }
+
+    public void testTestLeftRotate() {
+    }
+
+    public void testTestRightRotate() {
+    }
+
+    public void testTestGetConnectors() {
+    }
+
+    public void testTestGetPosX() {
+    }
+
+    public void testTestGetPosY() {
+    }
+
+    public void testTestGetDirConnector() {
+    }
+
+    public void testRemove() {
+    }
+
+    public void testPlace() {
+    }
+
+    public void testAddLifeSupport() {
+    }
+
+    public void testAddCabin() {
+    }
+
+    public void testRemoveCabin() {
+    }
+
+    public void testIsDoubleCannon() {
+    }
+
+    public void testIsSingleCannon() {
+    }
+
+    public void testIsDoubleEngine() {
+    }
+
+    public void testHasAlien() {
+    }
+
+    public void testManageEpidemic() {
+    }
+
+    public void testAddEpidemicCabin() {
+    }
+
+    public void testAddStorage() {
+    }
+
+    public void testCheckRightCannon() {
+    }
+
+    public void testCheckRightEngine() {
+    }
+
+    public void testIsBatteryStorage() {
+    }
 }

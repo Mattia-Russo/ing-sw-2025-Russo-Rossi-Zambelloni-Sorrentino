@@ -613,82 +613,19 @@ public class ShipBoardTest extends TestCase {
     public void testSetSingleCannonPower() {
     }
 
-    public void testTestGetNumDoubleCannon() {
-    }
-
     public void testSetNumDoubleCannon() {
-    }
-
-    public void testTestGetComponentMatrix() {
-    }
-
-    public void testTestGetAvailablePositionMatrix() {
-    }
-
-    public void testTestValidPosition() {
-    }
-
-    public void testTestGetComponent() {
     }
 
     public void testGetDeletedComponentsCounter() {
     }
 
-    public void testTestBookComponents() {
-    }
-
-    public void testTestGetBookedComponents() {
-    }
-
-    public void testTestGetTotalBattery() {
-    }
-
-    public void testSetTotalBattery() {
-    }
-
-    public void testTestGetTotalGoods() {
-    }
-
-    public void testTestGetTotalAstronauts() {
-    }
-
-    public void testTestGetTotalCannonPower() {
-    }
-
     public void testGetTotalEnginePower() {
-    }
-
-    public void testTestGetIfShielded() {
     }
 
     public void testAddShieldInDirection() {
     }
 
     public void testDecreaseShieldInDirection() {
-    }
-
-    public void testTestRemoveComponent() {
-    }
-
-    public void testTestRemoveBookedComponents() {
-    }
-
-    public void testTestCheckIfSplitted() {
-    }
-
-    public void testTestRemoveWreck() {
-    }
-
-    public void testTestGetFirstComponent() {
-    }
-
-    public void testTestGetIfSingleCannon() {
-    }
-
-    public void testTestGetIfDoubleCannon() {
-    }
-
-    public void testTestPlaceComponent() {
     }
 
     public void testGetIfExposed() {
