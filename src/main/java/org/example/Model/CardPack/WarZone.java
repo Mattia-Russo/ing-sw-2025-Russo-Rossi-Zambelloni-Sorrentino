@@ -32,7 +32,7 @@ public class WarZone extends AdventureCard{
         return cannonFireList;
     }
 
-    public int getLoseDays() {
+    public int getLostDays() {
         return super.getLostDays();
     }
 

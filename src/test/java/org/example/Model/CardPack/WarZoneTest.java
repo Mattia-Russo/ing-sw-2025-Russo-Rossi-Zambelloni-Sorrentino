@@ -1,9 +1,7 @@
-package org.example.Model.CardPack.CardPack;
+package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
 import org.example.Model.ComponentsPack.Direction;
-import org.example.Model.CardPack.CannonFire;
-import org.example.Model.CardPack.WarZone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ public class WarZoneTest extends TestCase {
         assertEquals(2, w.getCannonFireList().size());
     }
 
-    public void testGetLoseDays() {
+    public void testGetLostDays() {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));

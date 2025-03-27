@@ -92,7 +92,7 @@ public class Components {
         return null;
     }
 
-    public Cannon isCannon(){
+    public Cannon isSingleCannon(){
         return null;
     }
 
