@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ExcludeFromValidation">
-    <file url="file://$PROJECT_DIR$/src/test/java/org/example/GameTest.java" />
-  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MaterialThemeProjectNewConfig">
+    <option name="metadata">
+      <MTProjectMetadataState>
+        <option name="userId" value="-6e762a6c:1957668cd86:-7f82" />
+      </MTProjectMetadataState>
+    </option>
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -11,10 +15,5 @@
       </list>
     </option>
   </component>
-  <component name="PWA">
-    <option name="wasEnabledAtLeastOnce" value="true" />
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out" />
-  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK" />
 </project>

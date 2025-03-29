@@ -1,0 +1,590 @@
+[
+  {
+    "cardname": "SLAVERS",
+    "lostDays": 1,
+    "credits": 5,
+    "cardLevel": 1,
+    "cannonPower": 6,
+    "numAstronauts": 3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_01.jpg"
+
+  },
+  {
+    "cardname": "SLAVERS",
+    "lostDays": 2,
+    "credits": 8,
+    "cardLevel": 2,
+    "cannonPower": 7,
+    "numAstronauts": 4,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_01.jpg"
+
+  },
+
+  {
+    "cardname": "SMUGGLERS",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "cannonPower": 4,
+    "goodsLose": 2,
+    "goodsWinList": [
+      { "colour": "YELLOW" },
+      { "colour": "GREEN" },
+      { "colour": "BLUE" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_012.jpg"
+  },
+  {
+    "cardname": "SMUGGLERS",
+    "cardLevel": 2,
+    "lostDays": 1,
+    "cannonPower": 8,
+    "goodsLose": 3,
+    "goodsWinList": [
+      { "colour": "RED" },
+      { "colour": "YELLOW" },
+      { "colour": "YELLOW" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_012.jpg"
+  },
+
+  {
+    "cardname": "PIRATES",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "cannonPower": 5,
+    "credit": 4,
+    "cannonFiresList": [
+      { "type": 0, "direction": "NORTH" },
+      { "type": 1, "direction": "NORTH" },
+      { "type": 0, "direction": "NORTH" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_013.jpg"
+  },
+  {
+    "cardname": "PIRATES",
+    "cardLevel": 2,
+    "lostDays": 2,
+    "cannonPower": 6,
+    "credit": 7,
+    "cannonFiresList": [
+      { "type": 1, "direction": "NORTH" },
+      { "type": 0, "direction": "NORTH" },
+      { "type": 1, "direction": "NORTH" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_013.jpg"
+  },
+  {
+    "cardname": "STARDUST",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_014.jpg"
+  },
+  {
+    "cardname": "STARDUST",
+    "cardLevel": 2,
+    "lostDays": 1,
+    "state": "covered",
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_014.jpg"
+  },
+  {
+    "cardname": "EPIDEMIC",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_015.jpg"
+  },
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_015.jpg"
+  },
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_16.jpg"
+  },
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_16.jpg"
+  },
+
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_17.jpg"
+  },
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_17.jpg"
+  },
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_18.jpg"
+  },
+  {
+    "cardname": "OPENSPACE",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_18.jpg"
+  },
+  {
+    "cardname": "METEORCARD",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "meteorList": [
+      { "type": 0, "direction": "EAST" },
+      { "type": 1, "direction": "NORTH" },
+      { "type": 0, "direction":  "WEST"}
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_019.jpg"
+
+  },
+  {
+    "cardname": "METEORCARD",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "meteorList": [
+      { "type": 1, "direction": "WEST" },
+      { "type": 0, "direction": "WEST" },
+      { "type ":0, "direction":  "WEST"},
+      { "type": 0, "direction": "NORTH" },
+      { "type ": 0, "direction":  "NOTH"}
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_019.jpg"
+
+  },
+  {
+    "cardname": "METEORCARD",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "meteorList": [
+      { "type": 0, "direction": "EAST" },
+      { "type": 0, "direction": "NORTH" },
+      { "type": 0, "direction": "NORTH" },
+      { "type": 0, "direction":  "WEST"},
+      { "type": 0, "direction": "SOUTH" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0110.jpg"
+  },
+  {
+    "cardname": "METEORCARD",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "meteorList": [
+      { "type": 1, "direction": "NORTH" },
+      { "type": 1, "direction": "NORTH" },
+      { "type": 0, "direction":  "SOUTH"},
+      { "type": 0, "direction": "SOUTH" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0110.jpg"
+  },
+  {
+    "cardname": "METEORCARD",
+    "cardLevel": 1,
+    "lostDays": 0,
+    "meteorList": [
+      { "type": 0, "direction": "NORTH" },
+      { "type": 1, "direction": "NORTH" },
+      { "type": 1, "direction": "NORTH" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0111.jpg"
+  },
+  {
+    "cardname": "METEORCARD",
+    "cardLevel": 2,
+    "lostDays": 0,
+    "meteorList": [
+      { "type": 0, "direction": "NORTH" },
+      { "type": 0, "direction": "NORTH" },
+      { "type": 1, "direction": "EAST" },
+      { "type": 0, "direction": "EAST" },
+      { "type": 0, "direction": "EAST" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0111.jpg"
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 1,
+    "lostDays": 3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0112.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "GREEN" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "YELLOW" },
+          { "colour": "BLUE" }
+        ]
+      },
+      {
+        "planetNumber": 3,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      },
+      {
+        "planetNumber": 4,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "GREEN" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 1,
+    "lostDays": 4,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0112.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "RED" },
+          { "colour": "RED" },
+          { "colour": "YELLOW" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "RED" },
+          { "colour": "GREEN" },
+          { "colour": "GREEN" }
+        ]
+      },
+      {
+        "planetNumber": 3,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 1,
+    "lostDays": 2,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0113.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "RED" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      },
+      {
+        "planetNumber": 3,
+        "goods": [
+          { "colour": "YELLOW" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 2,
+    "lostDays": 3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0113.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "RED" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "GREEN" },
+          { "colour": "GREEN" },
+          { "colour": "GREEN" },
+          { "colour": "GREEN" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 1,
+    "lostDays": -3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0114.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "YELLOW" },
+          { "colour": "GREEN" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "YELLOW" },
+          { "colour": "YELLOW" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 2,
+    "lostDays": -3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0114.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "RED" },
+          { "colour": "YELLOW" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "YELLOW" },
+          { "colour": "GREEN" },
+          { "colour": "BLUE" }
+        ]
+      },
+      {
+        "planetNumber": 3,
+        "goods": [
+          { "colour": "GREEN" },
+          { "colour": "GREEN" }
+        ]
+      },
+      {
+        "planetNumber": 4,
+        "goods": [
+          { "colour": "YELLOW" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0115.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "GREEN" },
+          { "colour": "GREEN" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "YELLOW" }
+        ]
+      },
+      {
+        "planetNumber": 3,
+        "goods": [
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "PLANETSCARD",
+    "cardLevel": 2,
+    "lostDays": 3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0115.jpg",
+    "planets": [
+      {
+        "planetNumber": 1,
+        "goods": [
+          { "colour": "GREEN" },
+          { "colour": "GREEN" },
+          { "colour": "GREEN" },
+          { "colour": "GREEN" }
+        ]
+      },
+      {
+        "planetNumber": 2,
+        "goods": [
+          { "colour": "YELLOW" },
+          { "colour": "YELLOW" }
+        ]
+      },
+      {
+        "planetNumber": 3,
+        "goods": [
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" },
+          { "colour": "BLUE" }
+        ]
+      }
+    ]
+  },
+  {
+    "cardname": "WARZONE",
+    "cardLevel": 1,
+    "lostDays": 3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0116.jpg",
+    "numAstronauts": 2,
+    "numGoods": 0,
+    "cannonFireList": [
+      { "type": 1, "direction": "SOUTH" },
+      { "type": 0, "direction": "SOUTH" }
+    ],
+    "penalities": ["LoseDays", "LoseAstronauts","cannonFire"],
+    "criteria": ["FewestAstronauts", "lessCannonpower","Shield"]
+  },
+  {
+    "cardname": "WARZONE",
+    "cardLevel": 2,
+    "lostDays": 4,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0116.jpg",
+    "numAstronauts": 0,
+    "numGoods": 3,
+    "cannonFireList": [
+      { "type": 0, "direction": "NORTH" },
+      { "type": 0, "direction": "EAST" },
+      { "type": 0, "direction": "WEST" },
+      { "type": 1, "direction": "SOUTH" }
+    ],
+    "penalities": ["LoseDays", "LoseGoods","cannonFire"],
+    "criteria": ["Shield", "lessCannonpower","FewestAstronauts"]
+  },
+  {
+    "cardname": "ABANDONEDSHIP",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "credits": 3,
+    "numAstronauts": 2,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0117.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSHIP",
+    "cardLevel": 2,
+    "lostDays": 1,
+    "credits": 6,
+    "numAstronauts": 4,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0117.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSHIP",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "credits": 4,
+    "numAstronauts": 3,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0118.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSHIP",
+    "cardLevel": 2,
+    "lostDays": 2,
+    "credits": 8,
+    "numAstronauts": 5,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0118.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSTATION",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "numAstronauts": 5,
+    "goods": [
+      { "colour": "YELLOW" },
+      { "colour": "GREEN" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0119.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSTATION",
+    "cardLevel": 2,
+    "lostDays": 1,
+    "numAstronauts": 7,
+    "goods": [
+      { "colour": "RED" },
+      { "colour": "YELLOW" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0119.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSTATION",
+    "cardLevel": 1,
+    "lostDays": 1,
+    "numAstronauts": 6,
+    "goods": [
+      { "colour": "RED" },
+      { "colour": "RED" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0120.jpg"
+  },
+  {
+    "cardname": "ABANDONEDSTATION",
+    "cardLevel": 2,
+    "lostDays": 2,
+    "numAstronauts": 8,
+    "goods": [
+      { "colour": "YELLOW" },
+      { "colour": "YELLOW" },
+      { "colour": "GREEN" }
+    ],
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0120.jpg"
+  },
+  {
+    "cardname": "BACK",
+    "cardLevel": 1,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0121.jpg"
+  },
+  {
+    "cardname": "BACK",
+    "cardLevel": 2,
+    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0121.jpg"
+  }
+
+
+
+
+
+
+
+]
