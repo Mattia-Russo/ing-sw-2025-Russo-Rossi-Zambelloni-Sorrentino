@@ -1,6 +1,5 @@
 package org.example.Server.Model;
 
-import org.example.Model.ComponentsPack.*;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Connector;
 import org.example.Server.Model.ComponentsPack.Direction;
