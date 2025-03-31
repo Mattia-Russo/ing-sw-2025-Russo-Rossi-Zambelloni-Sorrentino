@@ -1,9 +1,9 @@
 package org.example.Model.CardPack.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Model.CardPack.OpenSpace;
-import org.example.Model.Player;
-import org.example.Model.ShipBoard;
+import org.example.Server.Model.CardPack.OpenSpace;
+import org.example.Server.Model.Player;
+import org.example.Server.Model.ShipBoard;
 
 import java.util.ArrayList;
 

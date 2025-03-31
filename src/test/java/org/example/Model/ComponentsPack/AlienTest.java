@@ -1,6 +1,8 @@
 package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
+import org.example.Server.Model.ComponentsPack.Alien;
+import org.example.Server.Model.ComponentsPack.AlienColour;
 
 public class AlienTest extends TestCase {
 

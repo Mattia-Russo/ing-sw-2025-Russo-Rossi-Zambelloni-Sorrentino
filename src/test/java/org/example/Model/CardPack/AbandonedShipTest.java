@@ -1,6 +1,7 @@
 package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
+import org.example.Server.Model.CardPack.AbandonedShip;
 
 public class AbandonedShipTest extends TestCase {
 

@@ -1,7 +1,8 @@
 package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Model.ComponentsPack.Direction;
+import org.example.Server.Model.CardPack.CannonFire;
+import org.example.Server.Model.ComponentsPack.Direction;
 
 public class CannonFireTest extends TestCase {
 

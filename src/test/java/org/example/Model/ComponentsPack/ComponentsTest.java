@@ -1,7 +1,10 @@
 package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
-import org.example.Model.ShipBoard;
+import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.ComponentsPack.Connector;
+import org.example.Server.Model.ComponentsPack.Direction;
+import org.example.Server.Model.ShipBoard;
 
 public class ComponentsTest extends TestCase {
 

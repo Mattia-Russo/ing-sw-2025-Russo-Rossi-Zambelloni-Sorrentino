@@ -1,7 +1,8 @@
 package org.example.Model.ComponentsPack;
 
 import junit.framework.TestCase;
-import org.example.Model.ShipBoard;
+import org.example.Server.Model.ComponentsPack.*;
+import org.example.Server.Model.ShipBoard;
 
 public class LifeSupportSystemTest extends TestCase {
 

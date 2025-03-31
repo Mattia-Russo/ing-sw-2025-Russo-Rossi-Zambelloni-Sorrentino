@@ -1,8 +1,9 @@
 package org.example.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Model.ComponentsPack.Goods;
-import org.example.Model.ComponentsPack.GoodsColour;
+import org.example.Server.Model.CardPack.AbandonedStation;
+import org.example.Server.Model.ComponentsPack.Goods;
+import org.example.Server.Model.ComponentsPack.GoodsColour;
 
 import java.util.ArrayList;
 import java.util.List;
