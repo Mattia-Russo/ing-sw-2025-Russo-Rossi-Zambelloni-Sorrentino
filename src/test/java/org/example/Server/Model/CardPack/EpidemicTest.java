@@ -1,7 +1,6 @@
-package org.example.Model.CardPack;
+package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Model.CardPack.Epidemic;
 import org.example.Server.Model.ComponentsPack.Cabin;
 import org.example.Server.Model.ComponentsPack.Connector;
 import org.example.Server.Model.ComponentsPack.Direction;

@@ -1,8 +1,6 @@
-package org.example.Model.CardPack;
+package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Model.CardPack.CannonFire;
-import org.example.Server.Model.CardPack.Pirates;
 import org.example.Server.Model.ComponentsPack.Direction;
 
 import java.util.ArrayList;

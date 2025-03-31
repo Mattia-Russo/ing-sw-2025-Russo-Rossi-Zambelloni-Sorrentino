@@ -1,7 +1,6 @@
-package org.example.Model.CardPack;
+package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Model.CardPack.Planet;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.ComponentsPack.GoodsColour;
 

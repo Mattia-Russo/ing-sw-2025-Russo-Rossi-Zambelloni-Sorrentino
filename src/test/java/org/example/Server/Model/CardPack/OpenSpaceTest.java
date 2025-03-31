@@ -1,7 +1,6 @@
-package org.example.Model.CardPack.CardPack;
+package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Model.CardPack.OpenSpace;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.ShipBoard;
 
