@@ -154,7 +154,7 @@ public class ShipBoard {
     public float getTotalCannonPower(ArrayList<Points> cannonPos, ArrayList<Points> batteriesPos){
         float totalCannonPower = 0;
         ArrayList<Cannon> cannons = new ArrayList<>();
-        ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
+        ArrayList<BatteryStorage> batteryStorages;
         for(Points p : cannonPos){
             if(!availablePositionMatrix[p.getX()][p.getY()]) {
                 throw new InvalidPositionException("Position is invalid");
@@ -197,7 +197,7 @@ public class ShipBoard {
 
     public int getTotalEnginePower(ArrayList<Points> enginesPos, ArrayList<Points> batteriesPos){
         int totalEnginePower = 0;
-        ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
+        ArrayList<BatteryStorage> batteryStorages;
         ArrayList<Engine> engines = new ArrayList<>();
         for(Points p : enginesPos){
             if(!availablePositionMatrix[p.getX()][p.getY()]) {
