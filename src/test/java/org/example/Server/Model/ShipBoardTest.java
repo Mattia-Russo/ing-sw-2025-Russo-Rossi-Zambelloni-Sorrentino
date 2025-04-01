@@ -3,7 +3,7 @@ package org.example.Server.Model;
 import junit.framework.TestCase;
 import org.example.Server.Model.ComponentsPack.*;
 
-import java.awt.*;
+import org.example.Server.Model.Points;
 import java.util.ArrayList;
 
 public class ShipBoardTest extends TestCase {
@@ -265,12 +265,12 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cannon cannon2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(2,2,cannon2);
-        ArrayList<Point> cannons= new ArrayList<Point>();
-        cannons.add(new Point(2,2));
+        ArrayList<Points> cannons= new ArrayList<Points>();
+        cannons.add(new Points(2,2));
         BatteryStorage b = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(3,3,b);
-        ArrayList<Point> batteries = new ArrayList<Point>();
-        batteries.add(new Point(3,3));
+        ArrayList<Points> batteries = new ArrayList<Points>();
+        batteries.add(new Points(3,3));
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.PURPLE, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
@@ -293,12 +293,12 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Engine engine = new Engine(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(2,2,engine);
-        ArrayList<Point> engines= new ArrayList<Point>();
-        engines.add(new Point(2,2));
+        ArrayList<Points> engines= new ArrayList<Points>();
+        engines.add(new Points(2,2));
         BatteryStorage b = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(3,3,b);
-        ArrayList<Point> batteries = new ArrayList<Point>();
-        batteries.add(new Point(3,3));
+        ArrayList<Points> batteries = new ArrayList<Points>();
+        batteries.add(new Points(3,3));
         LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
