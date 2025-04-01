@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.time.Duration;
 
 public class Timer {
-    private int countdownValue;
+    private final int countdownValue;
 
     public Timer(int countdownValue) {
         this.countdownValue = countdownValue;
