@@ -5,34 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ff29d43-717f-4daf-9d16-481fe7b9674d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Timer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Timer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/AbandonedShipTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/AbandonedShipTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/AbandonedStationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/AbandonedStationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/CannonFireTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/CannonFireTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/EpidemicTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/EpidemicTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/MeteorCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/MeteorCardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/MeteorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/MeteorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/OpenSpaceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/OpenSpaceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/PiratesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/PiratesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/PlanetTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/PlanetTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/PlanetsCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/PlanetsCardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/SlaversTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/SlaversTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/SmugglersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/SmugglersTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/CardPack/WarZoneTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/WarZoneTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/AlienTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/AlienTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/BatteryStorageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/BatteryStorageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/CabinTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/CabinTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/CannonTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/CannonTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/ComponentsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/ComponentsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/EngineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/EngineTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/GoodsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/GoodsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/LifeSupportSystemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/LifeSupportSystemTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/ShieldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/ShieldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ComponentsPack/StorageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/StorageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/GameTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/PlayerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Model/ShipBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ShipBoardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/MeteorCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/MeteorCard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +21,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -95,6 +82,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.example.Server" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Progetto" />
@@ -137,7 +129,8 @@
       <workItem from="1743259545248" duration="2178000" />
       <workItem from="1743270571752" duration="906000" />
       <workItem from="1743416274866" duration="24000" />
-      <workItem from="1743430585642" duration="900000" />
+      <workItem from="1743430585642" duration="4210000" />
+      <workItem from="1743507572847" duration="507000" />
     </task>
     <servers />
   </component>
