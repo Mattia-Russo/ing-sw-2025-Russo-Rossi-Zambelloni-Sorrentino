@@ -150,7 +150,7 @@ public class Player {
         return this.state;
     }
 
-    public void setState(PlayerState state) {
+    public void setPlayerState(PlayerState state) {
         this.state = state;
     }
 }
