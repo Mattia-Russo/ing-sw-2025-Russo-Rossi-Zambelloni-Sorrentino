@@ -1,11 +1,12 @@
 package org.example.Server.Model;
 
+import org.example.Server.Controller.States.PlayerState;
+import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Connector;
 import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.PlayerAbandonedException;
 import org.example.Server.Model.Exceptions.TilesEndedExceptions;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,6 +18,7 @@ public class Player {
     private boolean abandoned;
     private boolean onPlanet;
     private int numCredits;
+    private PlayerState state;
 
     public Player(ShipBoard shipBoard, int id, String name){
         this.id = id;
@@ -26,6 +28,7 @@ public class Player {
         this.onPlanet=false;
         this.numCredits=0;
         this.name=name;
+        this.state = new WaitingState();
     }
 
     public int getPosition(){
@@ -141,5 +144,13 @@ public class Player {
             }
         }
         return true;
+    }
+
+    public PlayerState getState() {
+        return this.state;
+    }
+
+    public void setState(PlayerState state) {
+        this.state = state;
     }
 }

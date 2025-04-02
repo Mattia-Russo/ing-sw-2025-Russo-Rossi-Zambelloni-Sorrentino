@@ -148,7 +148,9 @@ public class GameTest extends TestCase {
 
         Game g=new Game(4, players, deck,1, 30);
 
-        AdventureCard pickedCard = g.pickCard();
+        g.pickCard();
+
+        AdventureCard pickedCard = g.getCurrentCard();
         assertFalse(deck.contains(pickedCard));
         assertEquals(1, deck.size());
     }

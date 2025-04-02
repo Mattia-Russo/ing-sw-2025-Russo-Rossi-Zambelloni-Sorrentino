@@ -3,7 +3,6 @@ package org.example.Server.Model;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Exceptions.EmptyDeckException;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Comparator;
@@ -14,6 +13,7 @@ public class Game{
     private ArrayList<AdventureCard> deck;
     private int gameMode;
     private int lapLength;
+    private AdventureCard currentCard;
 
     public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, int lapLength) {
         this.numPlayer = numPlayer;
@@ -21,6 +21,7 @@ public class Game{
         this.deck = deck;
         this.gameMode = gameMode;
         this.lapLength = lapLength;
+        this.currentCard = null;
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
@@ -53,7 +54,7 @@ public class Game{
         return i;
     }
 
-    public AdventureCard pickCard() {
+    public void pickCard() {
         if (deck == null || deck.isEmpty()) {
             throw new EmptyDeckException("Deck is empty");
         }
@@ -61,11 +62,9 @@ public class Game{
         Random rand = new Random();
         int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
 
-        AdventureCard card = deck.get(index);
+        this.currentCard = deck.get(index);
 
         deck.remove(index);
-
-        return card;
     }
 
     public boolean checkGiveUp(Player p) {
@@ -132,5 +131,9 @@ public class Game{
                     p.abandon();
             }
         }
+    }
+
+    public AdventureCard getCurrentCard(){
+        return this.currentCard;
     }
 }
