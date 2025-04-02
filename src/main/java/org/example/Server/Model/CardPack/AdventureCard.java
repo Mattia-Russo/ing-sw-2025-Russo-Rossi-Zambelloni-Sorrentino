@@ -14,7 +14,7 @@ public abstract class AdventureCard {
     }
 
     public void setStateCard(ArrayList<Player> players) {};
-    public void playCardCard(ArrayList<Player> players){};
+    public void playCard(ArrayList<Player> players){};
     public int getCardLevel(){return cardLevel;}
     public int getLostDays(){return lostDays;}
 }

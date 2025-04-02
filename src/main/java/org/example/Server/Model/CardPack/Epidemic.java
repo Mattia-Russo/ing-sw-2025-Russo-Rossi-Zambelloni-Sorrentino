@@ -18,12 +18,14 @@ public class Epidemic extends AdventureCard{
         players.get(1).setPlayerState(new WaitingState());
         players.get(2).setPlayerState(new WaitingState());
         players.get(3).setPlayerState(new WaitingState());
-        this.playCardCard(players);
+        this.playCard(players);
     }
 
     @Override
-    public void playCardCard(ArrayList<Player> players){
+    public void playCard(ArrayList<Player> players){
+        for(int i = 0; i<players.size(); i++){
 
+        }
     }
 
     public void checkAdjacentCabins(ShipBoard s){
