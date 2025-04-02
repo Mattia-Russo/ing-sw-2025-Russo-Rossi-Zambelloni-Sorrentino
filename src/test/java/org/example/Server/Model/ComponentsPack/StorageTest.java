@@ -54,7 +54,7 @@ public class StorageTest extends TestCase {
             assertEquals(goods.get(i), s1.getGoods()[i]);
         }
 
-        s1.removeGood(g1);
+        s1.removeGood(1);
         goods.remove(g1);
 
     }

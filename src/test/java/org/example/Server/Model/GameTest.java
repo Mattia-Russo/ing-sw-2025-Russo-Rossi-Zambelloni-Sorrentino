@@ -32,7 +32,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
+        AbandonedShip as=new AbandonedShip(1, 2, 3, 2, new Game);
         Slavers s1=new Slavers(1,3, 2, 4, 2);
         ArrayList<AdventureCard> deck = new ArrayList<>();
         deck.add(as);

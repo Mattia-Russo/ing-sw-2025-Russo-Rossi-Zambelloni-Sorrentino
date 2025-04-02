@@ -54,7 +54,7 @@ public class Game{
         return i;
     }
 
-    public void pickCard() {
+    private void pickCard() {
         if (deck == null || deck.isEmpty()) {
             throw new EmptyDeckException("Deck is empty");
         }
@@ -135,5 +135,13 @@ public class Game{
 
     public AdventureCard getCurrentCard(){
         return this.currentCard;
+    }
+
+    public void Turn() {
+        if(currentCard != null) {
+            deck.remove(currentCard);
+        }
+        pickCard();
+        currentCard.setCardState(this);
     }
 }
