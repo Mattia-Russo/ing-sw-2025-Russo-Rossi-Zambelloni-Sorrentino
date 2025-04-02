@@ -10,38 +10,38 @@ import java.util.List;
 public class AbandonedStationTest extends TestCase {
 
     public void testGetCardLevel() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         AbandonedStation a=new AbandonedStation(1,1, 5, goods);
         assertEquals(1,a.getCardLevel());
     }
 
     public void testGetNumAstronauts() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         AbandonedStation a=new AbandonedStation(1,1, 5, goods);
         assertEquals(5,a.getNumAstronauts());
     }
 
     public void testGetGoodsList() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         AbandonedStation a=new AbandonedStation(1,1, 5, goods);
         assertEquals(goods,a.getGoodsList());
-        assertEquals(3,a.getGoodsList().size());
+        assertEquals(3,a.getGoodsList().length);
     }
 
     public void testGetLostDays() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         AbandonedStation a=new AbandonedStation(1,1, 5, goods);
         assertEquals(1,a.getLostDays());
     }

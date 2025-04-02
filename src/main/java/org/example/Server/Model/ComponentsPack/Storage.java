@@ -27,25 +27,13 @@ public class Storage extends Components {
         return isSpecial;
     }
 
-    public void removeGood(Goods good){
-        for (int i = 0; i < goodsList.length; i++) {
-            if(goodsList[i] == good){
-                goodsList[i] = null;
-                good.setStorage(null);
-            }
+    public void removeGood(int i){
+        if(goodsList[i]!=null){
+            goodsList[i].setStorage(null);
         }
+        goodsList[i] = null;
     }
 
-    /*
-    NEL CONTROLLER DOBBIAMO SCRIVERE QUESTO:
-    try {
-        storage.addGood(redGood);
-    } catch (RedGoodsNotAllowedException e) {
-        System.out.println("Errore: " + e.getMessage());
-    } catch (StorageFullException e) {
-        System.out.println("Errore: " + e.getMessage());
-    }
-    * */
     public void addGood(Goods good) throws RedGoodsNotAllowedException, StorageFullException {
         if (good.getColour() == GoodsColour.RED && !this.isSpecial) {
             throw new RedGoodsNotAllowedException("Red good not allowed in a normal storage!");
@@ -73,5 +61,10 @@ public class Storage extends Components {
                 list.add(goods);
             }
         }
+    }
+
+    @Override
+    public Storage isStorage(){
+        return this;
     }
 }

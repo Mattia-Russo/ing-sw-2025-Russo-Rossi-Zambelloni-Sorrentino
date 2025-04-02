@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ff29d43-717f-4daf-9d16-481fe7b9674d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Controller/States/ChangeGoodsState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Controller/States/LandState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Exceptions/NotEnoughAstronautsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Exceptions/NotStorageException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/Epidemic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/Epidemic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/MeteorCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/MeteorCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/OpenSpace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/OpenSpace.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/Stardust.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/Stardust.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/AbandonedShip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/AbandonedShip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/AbandonedStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/AbandonedStation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/AdventureCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/CardPack/AdventureCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/ComponentsPack/Components.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/ComponentsPack/Components.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/ComponentsPack/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/ComponentsPack/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server/Model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/AbandonedStationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/CardPack/AbandonedStationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/StorageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/ComponentsPack/StorageTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/GameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Server/Model/PlayerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +31,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -195,8 +207,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -226,6 +238,7 @@
       <workItem from="1743510912913" duration="723000" />
       <workItem from="1743604528594" duration="82000" />
       <workItem from="1743604619746" duration="121000" />
+      <workItem from="1743606941015" duration="7722000" />
     </task>
     <servers />
   </component>
