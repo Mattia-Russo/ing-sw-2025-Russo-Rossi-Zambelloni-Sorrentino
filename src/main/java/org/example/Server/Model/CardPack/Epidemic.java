@@ -14,10 +14,10 @@ public class Epidemic extends AdventureCard{
 
     @Override
     public void setStateCard(ArrayList<Player> players){
-        players.get(0).setState(new WaitingState());
-        players.get(1).setState(new WaitingState());
-        players.get(2).setState(new WaitingState());
-        players.get(3).setState(new WaitingState());
+        players.get(0).setPlayerState(new WaitingState());
+        players.get(1).setPlayerState(new WaitingState());
+        players.get(2).setPlayerState(new WaitingState());
+        players.get(3).setPlayerState(new WaitingState());
         this.playCardCard(players);
     }
 
