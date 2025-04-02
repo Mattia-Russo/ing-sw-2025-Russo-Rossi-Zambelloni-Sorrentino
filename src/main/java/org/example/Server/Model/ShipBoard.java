@@ -2,9 +2,7 @@ package org.example.Server.Model;
 
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Exceptions.*;
-
 import java.security.InvalidParameterException;
-
 import java.util.ArrayList;
 
 public class ShipBoard {
