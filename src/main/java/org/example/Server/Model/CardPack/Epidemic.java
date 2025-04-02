@@ -5,6 +5,7 @@ import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.ShipBoard;
 
+import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 public class Epidemic extends AdventureCard{
@@ -13,18 +14,21 @@ public class Epidemic extends AdventureCard{
     }
 
     @Override
-    public void setStateCard(ArrayList<Player> players){
-        players.get(0).setPlayerState(new WaitingState());
-        players.get(1).setPlayerState(new WaitingState());
-        players.get(2).setPlayerState(new WaitingState());
-        players.get(3).setPlayerState(new WaitingState());
-        this.playCard(players);
+    public void setCardState(ArrayList<Player> players){
+        ArrayList<Player> activePlayers = new ArrayList<Player>();
+        for(Player p : players){
+           if(!p.isAbandoned()){
+               p.setPlayerState(new WaitingState());
+               activePlayers.add(p);
+           }
+        }
+        this.playCard(activePlayers);
     }
 
     @Override
     public void playCard(ArrayList<Player> players){
-        for(int i = 0; i<players.size(); i++){
-
+        for(Player player : players){
+            checkAdjacentCabins(player.getPlayerShipBoard());
         }
     }
 

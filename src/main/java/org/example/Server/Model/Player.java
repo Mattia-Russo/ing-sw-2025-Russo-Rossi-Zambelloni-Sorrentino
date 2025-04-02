@@ -1,5 +1,6 @@
 package org.example.Server.Model;
 
+import org.example.Server.Controller.States.AbandonedState;
 import org.example.Server.Controller.States.PlayerState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
@@ -53,6 +54,7 @@ public class Player {
 
     public void abandon(){
         this.abandoned=true;
+        this.state = new AbandonedState();
     }
 
     public void changePosition(int val){
