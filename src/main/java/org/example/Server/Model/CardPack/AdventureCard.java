@@ -1,5 +1,9 @@
 package org.example.Server.Model.CardPack;
 
+import org.example.Server.Model.Player;
+
+import java.util.ArrayList;
+
 public abstract class AdventureCard {
     private final int cardLevel;
     private int lostDays;
@@ -9,6 +13,8 @@ public abstract class AdventureCard {
         this.lostDays = lostDays;
     }
 
+    public void setState(ArrayList<Player> players) {};
+    public void playCard(ArrayList<Player> players){};
     public int getCardLevel(){return cardLevel;}
     public int getLostDays(){return lostDays;}
 }
