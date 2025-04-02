@@ -2,6 +2,7 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.ShipBoard;
 
@@ -14,22 +15,18 @@ public class Epidemic extends AdventureCard{
     }
 
     @Override
-    public void setCardState(ArrayList<Player> players){
-        ArrayList<Player> activePlayers = new ArrayList<Player>();
-        for(Player p : players){
-           if(!p.isAbandoned()){
-               p.setPlayerState(new WaitingState());
-               activePlayers.add(p);
-           }
-        }
-        this.playCard(activePlayers);
+    public void setCardState(Game g){
+        this.playCard(g);
     }
 
     @Override
-    public void playCard(ArrayList<Player> players){
-        for(Player player : players){
-            checkAdjacentCabins(player.getPlayerShipBoard());
+    public void playCard(Game g){
+        for(int i=0; i<g.getPlayers().size(); i++){
+            if(!g.getPlayers().get(i).isAbandoned()){
+                checkAdjacentCabins(g.getPlayers().get(i).getPlayerShipBoard());
+            }
         }
+        g.Turn();
     }
 
     public void checkAdjacentCabins(ShipBoard s){
