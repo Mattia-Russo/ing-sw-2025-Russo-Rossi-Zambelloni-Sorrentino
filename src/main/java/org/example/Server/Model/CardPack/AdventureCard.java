@@ -13,8 +13,8 @@ public abstract class AdventureCard {
         this.lostDays = lostDays;
     }
 
-    public void setState(ArrayList<Player> players) {};
-    public void playCard(ArrayList<Player> players){};
+    public void setStateCard(ArrayList<Player> players) {};
+    public void playCardCard(ArrayList<Player> players){};
     public int getCardLevel(){return cardLevel;}
     public int getLostDays(){return lostDays;}
 }
