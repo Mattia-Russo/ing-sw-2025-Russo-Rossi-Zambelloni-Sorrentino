@@ -150,32 +150,35 @@ public class ShipBoard {
 
     public float getTotalCannonPower(ArrayList<Points> cannonPos, ArrayList<Points> batteriesPos){
         float totalCannonPower = 0;
-        ArrayList<Cannon> cannons = new ArrayList<>();
-        ArrayList<BatteryStorage> batteryStorages;
-        for(Points p : cannonPos){
-            if(!availablePositionMatrix[p.getX()][p.getY()]) {
-                throw new InvalidPositionException("Position is invalid");
+        if(cannonPos!=null&&batteriesPos!=null) {
+            ArrayList<Cannon> cannons = new ArrayList<>();
+            ArrayList<BatteryStorage> batteryStorages;
+            for (Points p : cannonPos) {
+                if (!availablePositionMatrix[p.getX()][p.getY()]) {
+                    throw new InvalidPositionException("Position is invalid");
+                }
+                if (getComponent(p.getX(), p.getY()).isDoubleCannon() == null) {
+                    throw new InvalidParameterException("Is not a Double Cannon");
+                }
+                cannons.add(getComponent(p.getX(), p.getY()).isDoubleCannon());
             }
-            if(getComponent(p.getX(),p.getY()).isDoubleCannon()==null) {
-                throw new InvalidParameterException("Is not a Double Cannon");
+
+            batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
+            if (batteryStorages.size() < cannons.size()) {
+                throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
             }
-            cannons.add(getComponent(p.getX(),p.getY()).isDoubleCannon());
+
+            for (int i = 0; i < cannons.size(); i++) {
+                if (cannons.get(i).getDirection() == Direction.NORTH) {
+                    totalCannonPower += 2;
+                } else {
+                    totalCannonPower += 1;
+                }
+                batteryStorages.get(i).setQuantity(-1, this);
+            }
         }
 
-        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
-        if(batteryStorages.size()<cannons.size()) {
-            throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
-        }
-
-        for (int i = 0; i < cannons.size(); i++) {
-            if (cannons.get(i).getDirection() == Direction.NORTH){
-                totalCannonPower += 2;
-            } else {
-                totalCannonPower += 1;
-            }
-            batteryStorages.get(i).setQuantity(-1, this);
-        }
         int alienPower=0;
         if(totalCannonPower + this.singleCannonPower > 0){
             for(int i = 0; i < componentMatrix.length; i++){
@@ -194,27 +197,29 @@ public class ShipBoard {
 
     public int getTotalEnginePower(ArrayList<Points> enginesPos, ArrayList<Points> batteriesPos){
         int totalEnginePower = 0;
-        ArrayList<BatteryStorage> batteryStorages;
-        ArrayList<Engine> engines = new ArrayList<>();
-        for(Points p : enginesPos){
-            if(!availablePositionMatrix[p.getX()][p.getY()]) {
-                throw new InvalidPositionException("Position is invalid");
+        if(enginesPos!=null&&batteriesPos!=null) {
+            ArrayList<BatteryStorage> batteryStorages;
+            ArrayList<Engine> engines = new ArrayList<>();
+            for (Points p : enginesPos) {
+                if (!availablePositionMatrix[p.getX()][p.getY()]) {
+                    throw new InvalidPositionException("Position is invalid");
+                }
+                if (getComponent(p.getX(), p.getY()).isDoubleEngine() == null) {
+                    throw new InvalidParameterException("Is not a Double engine");
+                }
+                engines.add(getComponent(p.getX(), p.getY()).isDoubleEngine());
             }
-            if(getComponent(p.getX(),p.getY()).isDoubleEngine()==null) {
-                throw new InvalidParameterException("Is not a Double engine");
+
+            batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
+            if (batteryStorages.size() < engines.size()) {
+                throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
             }
-            engines.add(getComponent(p.getX(),p.getY()).isDoubleEngine());
-        }
 
-        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
-        if(batteryStorages.size()<engines.size()) {
-            throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
-        }
-
-        for (int i=0; i<engines.size(); i++) {
-            totalEnginePower += 2;
-            batteryStorages.get(i).setQuantity(-1, this);
+            for (int i = 0; i < engines.size(); i++) {
+                totalEnginePower += 2;
+                batteryStorages.get(i).setQuantity(-1, this);
+            }
         }
 
         int alienPower = 0;
