@@ -41,7 +41,13 @@ public abstract class AdventureCard {
         return null;
     }
 
-    public int getCurrentPlanetIndex(){
+    public int getCurrentPlayerIndex(){
+        return -1;
+    }
+
+    public void setAccept(boolean accept) {}
+
+    public int getNumGoodsLose(){
         return -1;
     }
 }

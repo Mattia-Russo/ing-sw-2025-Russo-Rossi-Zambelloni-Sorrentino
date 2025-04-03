@@ -2,6 +2,7 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.ChangeGoodsState;
 import org.example.Server.Controller.States.LandOnAbandonState;
+import org.example.Server.Controller.States.LandOnPlanetsState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Game;
@@ -13,7 +14,7 @@ public class PlanetsCard extends AdventureCard {
     private List<Planet> planets = new ArrayList<Planet>();
     private int playersIndex;
     private boolean planetsVisited[];
-    boolean changeGoodsFlag;
+    private boolean changeGoodsFlag;
     private int currentPlanet;
 
     public PlanetsCard(int cardLevel, int numDays, List<Planet> planets) {
@@ -43,7 +44,7 @@ public class PlanetsCard extends AdventureCard {
             playersIndex = 0;
             game.Turn();
         } else {
-            game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new LandOnPlanetsState(game));
         }
 
         playersIndex++;
@@ -81,7 +82,7 @@ public class PlanetsCard extends AdventureCard {
     }
 
     @Override
-    public int getCurrentPlanetIndex(){
+    public int getCurrentPlayerIndex(){
         return playersIndex;
     }
 }

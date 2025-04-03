@@ -74,7 +74,7 @@ public class AbandonedStation extends AdventureCard{
     }
 
     @Override
-    public int getCurrentPlanetIndex(){
+    public int getCurrentPlayerIndex(){
         return playersIndex;
     }
 }

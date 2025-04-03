@@ -3,7 +3,6 @@ package org.example.Server.Controller.States;
 import org.example.Server.Model.ComponentsPack.Storage;
 import org.example.Server.Model.Exceptions.*;
 import org.example.Server.Model.Game;
-import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 public class ChangeGoodsState extends PlayerState{
@@ -15,7 +14,7 @@ public class ChangeGoodsState extends PlayerState{
 
     // player è il chiamante, point è la coordinata dello storage, numGood è la posizione del good da rimuovere
     public void removeGood(Points point, int numGood){
-        Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlanetIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
+        Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             storage.removeGood(numGood);
         } else {
@@ -24,7 +23,7 @@ public class ChangeGoodsState extends PlayerState{
     }
 
     public void addGood(Points point, int numGood){
-        Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlanetIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
+        Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             try {
                 storage.addGood(game.getCurrentCard().getGoodsList()[numGood]);
