@@ -356,10 +356,10 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
-        assertTrue(s.getIfShielded(0));
-        assertTrue(s.getIfShielded(3));
-        assertFalse(s.getIfShielded(1));
-        assertFalse(s.getIfShielded(2));
+        assertTrue(s.getIfShielded(Direction.NORTH));
+        assertTrue(s.getIfShielded(Direction.WEST));
+        assertFalse(s.getIfShielded(Direction.EAST));
+        assertFalse(s.getIfShielded(Direction.SOUTH));
     }
 
     public void testaddShieldedDirection(){
@@ -376,10 +376,10 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
-        assertTrue(s.getIfShielded(0));
-        assertTrue(s.getIfShielded(3));
-        assertFalse(s.getIfShielded(1));
-        assertFalse(s.getIfShielded(2));
+        assertTrue(s.getIfShielded(Direction.NORTH));
+        assertTrue(s.getIfShielded(Direction.WEST));
+        assertFalse(s.getIfShielded(Direction.EAST));
+        assertFalse(s.getIfShielded(Direction.SOUTH));
 
     }
 
@@ -398,8 +398,8 @@ public class ShipBoardTest extends TestCase {
         Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         s.removeComponent(1,1);
-        assertFalse(s.getIfShielded(0));
-        assertFalse(s.getIfShielded(3));
+        assertFalse(s.getIfShielded(Direction.NORTH));
+        assertFalse(s.getIfShielded(Direction.WEST));
         assertEquals(1, s.getDeletedComponentsCounter());
 
     }
@@ -496,7 +496,7 @@ public class ShipBoardTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cannon c=new Cannon(1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1,c);
-        assertTrue(s.getIfSingleCannon(Direction.EAST,1));
+        assertTrue(s.getIfSingleCannon(Direction.EAST, 1));
     }
 
     public void testGetIfDoubleCannon() {
@@ -531,10 +531,10 @@ public class ShipBoardTest extends TestCase {
         Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         assertEquals(shield,s.getComponent(1,1));
-        assertTrue(s.getIfShielded(0));
-        assertTrue(s.getIfShielded(3));
-        assertFalse(s.getIfShielded(1));
-        assertFalse(s.getIfShielded(2));
+        assertTrue(s.getIfShielded(Direction.NORTH));
+        assertTrue(s.getIfShielded(Direction.WEST));
+        assertFalse(s.getIfShielded(Direction.EAST));
+        assertFalse(s.getIfShielded(Direction.SOUTH));
     }
 
 

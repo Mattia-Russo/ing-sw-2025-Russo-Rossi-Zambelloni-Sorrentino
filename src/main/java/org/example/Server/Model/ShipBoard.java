@@ -233,8 +233,95 @@ public class ShipBoard {
         return alienPower + totalEnginePower + this.singleEnginePower;
     }
 
-    public boolean getIfShielded(int direction){
-        return shieldedDirections[direction] > 0;
+    public boolean ShieldProtects(Direction dir, ArrayList<Points> shield, ArrayList<Points> batteriesPos) {
+        ArrayList<BatteryStorage> batteryStorages;
+        ArrayList<Shield> user_shields = new ArrayList<>();
+        for(Points p : shield){
+            if(!availablePositionMatrix[p.getX()][p.getY()]) {
+                throw new InvalidPositionException("Position is invalid");
+            }
+            if(getComponent(p.getX(),p.getY()).isShield()==null) {
+                throw new InvalidParameterException("Is not a Shield");
+            }
+            user_shields.add(getComponent(p.getX(),p.getY()).isShield());
+        }
+
+        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
+        if(batteryStorages.size()< user_shields.size()) {
+            throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate Shield protection!");
+        }
+
+        for (int i = 0; i< user_shields.size(); i++) {
+            batteryStorages.get(i).setQuantity(-1, this);
+            if(user_shields.get(i).getDirection1()==dir||user_shields.get(i).getDirection2()==dir) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean CannonProtects(Direction dir, int rowOrCol,  ArrayList<Points> cannon, ArrayList<Points> batteriesPos) {
+        ArrayList<Cannon> cannons = new ArrayList<>();
+        ArrayList<BatteryStorage> batteryStorages;
+        for(Points p : cannon){
+            if(!availablePositionMatrix[p.getX()][p.getY()]) {
+                throw new InvalidPositionException("Position is invalid");
+            }
+            if(getComponent(p.getX(),p.getY()).isDoubleCannon()==null) {
+                throw new InvalidParameterException("Is not a Double Cannon");
+            }
+            cannons.add(getComponent(p.getX(),p.getY()).isDoubleCannon());
+        }
+
+        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
+        if(batteryStorages.size()<cannons.size()) {
+            throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
+        }
+
+        for (int i = 0; i < cannons.size(); i++) {
+            batteryStorages.get(i).setQuantity(-1, this);
+            Cannon c=cannons.get(i);
+            switch(dir){
+                case NORTH:
+                    if(c.getDirection()==Direction.NORTH && c.getPosX()==rowOrCol) {
+                        return true;
+                    }
+                    break;
+                case EAST:
+                    if(c.getDirection()==Direction.EAST && (c.getPosY()==rowOrCol||c.getPosY()-1==rowOrCol||c.getPosY()+1==rowOrCol)){
+                        return true;
+                    }
+                    break;
+                case SOUTH:
+                    if(c.getDirection()==Direction.SOUTH && (c.getPosX()==rowOrCol||c.getPosX()-1==rowOrCol||c.getPosX()+1==rowOrCol)){
+                        return true;
+                    }
+                    break;
+                case WEST:
+                    if(c.getDirection()==Direction.WEST && (c.getPosY()==rowOrCol||c.getPosY()-1==rowOrCol||c.getPosY()+1==rowOrCol)){
+                        return true;
+                    }
+                    break;
+            }
+        }
+        return false;
+    }
+
+    public boolean getIfShielded(Direction direction){
+        switch(direction) {
+            case NORTH:
+                return getShieldedDirections()[0] > 0;
+            case EAST:
+                return getShieldedDirections()[1] > 0;
+            case SOUTH:
+                return getShieldedDirections()[2] > 0;
+            case WEST:
+                return getShieldedDirections()[3] > 0;
+            default:
+                return false;
+        }
     }
 
     public void addShieldInDirection(Direction direction) {

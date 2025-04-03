@@ -5,8 +5,6 @@ import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.ShipBoard;
-
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 public class Epidemic extends AdventureCard{

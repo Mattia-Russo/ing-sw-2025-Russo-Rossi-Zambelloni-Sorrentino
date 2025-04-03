@@ -6,8 +6,6 @@ import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
-
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 public class OpenSpace extends AdventureCard{

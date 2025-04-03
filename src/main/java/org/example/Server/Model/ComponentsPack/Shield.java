@@ -29,4 +29,9 @@ public class Shield extends Components {
         ship.addShieldInDirection(this.getDirection1());
         ship.addShieldInDirection(this.getDirection2());
     }
+
+    @Override
+    public Shield isShield(){
+        return this;
+    }
 }

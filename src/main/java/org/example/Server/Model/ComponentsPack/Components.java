@@ -104,6 +104,8 @@ public class Components {
         return null;
     }
 
+    public Shield isShield(){return null;}
+
     public Alien hasAlien(){
         return null;
     }
