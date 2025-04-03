@@ -10,20 +10,20 @@ import java.util.List;
 public class PlanetTest extends TestCase {
 
     public void testGetPlanetNumber() {
-            List<Goods> goods= new ArrayList<Goods>();
-            goods.add(new Goods(GoodsColour.RED));
-            goods.add(new Goods(GoodsColour.YELLOW));
-            goods.add(new Goods(GoodsColour.GREEN));
-            Planet s= new Planet(1,goods);
-            assertEquals(1,s.getPlanetNumber());
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
+        Planet s= new Planet(1,goods);
+        assertEquals(1,s.getPlanetNumber());
 
     }
 
     public void testGetIsOccupied() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         Planet s= new Planet(1,goods);
         Planet o= new Planet(2,goods);
         o.changeIsOccupied(true);
@@ -33,10 +33,10 @@ public class PlanetTest extends TestCase {
     }
 
     public void testChangeIsOccupied() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         Planet s= new Planet(1,goods);
         Planet o= new Planet(2,goods);
         o.changeIsOccupied(true);
@@ -47,12 +47,12 @@ public class PlanetTest extends TestCase {
     }
 
     public void testGetGoodsList() {
-        List<Goods> goods= new ArrayList<Goods>();
-        goods.add(new Goods(GoodsColour.RED));
-        goods.add(new Goods(GoodsColour.YELLOW));
-        goods.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods = new Goods[3];
+        goods[0] = new Goods(GoodsColour.RED);
+        goods[1] = new Goods(GoodsColour.YELLOW);
+        goods[2] = new Goods(GoodsColour.GREEN);
         Planet s= new Planet(1,goods);
         assertEquals(goods,s.getGoodsList());
-        assertEquals(3,s.getGoodsList().size());
+        assertEquals(3,s.getGoodsList().length);
     }
 }

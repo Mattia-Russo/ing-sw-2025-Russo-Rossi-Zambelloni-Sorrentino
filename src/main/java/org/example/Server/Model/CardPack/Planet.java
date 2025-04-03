@@ -2,14 +2,12 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Model.ComponentsPack.Goods;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Planet {
     private int planetNumber;
-    private List<Goods> goods = new ArrayList<Goods>();
+    private Goods[] goods;
     private boolean isOccupied;
-    public Planet(int planetNum, List<Goods> goods){
+
+    public Planet(int planetNum, Goods[] goods){
         this.planetNumber=planetNum;
         this.goods=goods;
         this.isOccupied=false;
@@ -21,10 +19,12 @@ public class Planet {
     public boolean getIsOccupied() {
         return isOccupied;
     }
+
     public void changeIsOccupied(boolean isOccupied) {
         this.isOccupied = isOccupied;
     }
-    public List<Goods> getGoodsList() {
+
+    public Goods[] getGoodsList() {
         return goods;
     }
 
