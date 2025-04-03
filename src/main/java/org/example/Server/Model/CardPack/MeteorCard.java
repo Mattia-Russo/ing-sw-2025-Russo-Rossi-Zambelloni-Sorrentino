@@ -59,8 +59,10 @@ public class MeteorCard extends AdventureCard {
                 check=true;
             }
         }
+
         if(!check){
             if(meteorList.iterator().hasNext()){
+                currentMeteor++;
                 boolean player=false;
                 for(int i=0; i<g.getPlayers().size()&&!player; i++){
                     if(!g.getPlayers().get(i).isAbandoned()){
