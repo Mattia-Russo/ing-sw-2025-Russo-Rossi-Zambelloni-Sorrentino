@@ -61,6 +61,8 @@ public class AbandonedStation extends AdventureCard{
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
+            game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
+            playersIndex = 0;
             game.Turn();
         }
 
