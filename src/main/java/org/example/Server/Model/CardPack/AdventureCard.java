@@ -2,7 +2,6 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Game;
-import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 public abstract class AdventureCard {
     private final int cardLevel;
     private int lostDays;
-    private int playerIndex;
 
     public AdventureCard(int cardLevel, int lostDays) {
         this.cardLevel = cardLevel;
@@ -41,5 +39,9 @@ public abstract class AdventureCard {
 
     public boolean[] isPlanetsVisited(){
         return null;
+    }
+
+    public int getCurrentPlanetIndex(){
+        return -1;
     }
 }

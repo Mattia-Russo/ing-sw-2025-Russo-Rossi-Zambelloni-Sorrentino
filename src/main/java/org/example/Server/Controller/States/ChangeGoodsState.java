@@ -14,8 +14,8 @@ public class ChangeGoodsState extends PlayerState{
     }
 
     // player è il chiamante, point è la coordinata dello storage, numGood è la posizione del good da rimuovere
-    public void removeGood(Player player, Points point, int numGood){
-        Storage storage = player.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
+    public void removeGood(Points point, int numGood){
+        Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlanetIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             storage.removeGood(numGood);
         } else {
@@ -23,8 +23,8 @@ public class ChangeGoodsState extends PlayerState{
         }
     }
 
-    public void addGood(Player player, Points point, int numGood){
-        Storage storage = player.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
+    public void addGood(Points point, int numGood){
+        Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlanetIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             try {
                 storage.addGood(game.getCurrentCard().getGoodsList()[numGood]);

@@ -11,7 +11,7 @@ public class LandOnPlanetsState extends PlayerState {
         this.game = game;
     }
 
-    public void landOnPlanet(Player p, boolean landed, int numPlanet){
+    public void landOnPlanet(boolean landed, int numPlanet){
         if(landed){
             if(game.getCurrentCard().isPlanetsVisited()[numPlanet]){
                throw new PlanetAlreadyVisitedException("Planet " + numPlanet + " already visited, choose another one");

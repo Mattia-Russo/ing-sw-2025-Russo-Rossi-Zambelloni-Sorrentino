@@ -58,4 +58,9 @@ public class AbandonedShip extends AdventureCard {
         this.playersIndex=0;
         game.Turn();
     }
+
+    @Override
+    public int getCurrentPlanetIndex(){
+        return playersIndex;
+    }
 }

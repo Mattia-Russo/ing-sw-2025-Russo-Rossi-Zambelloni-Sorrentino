@@ -79,4 +79,9 @@ public class PlanetsCard extends AdventureCard {
     public boolean[] isPlanetsVisited(){
         return planetsVisited;
     }
+
+    @Override
+    public int getCurrentPlanetIndex(){
+        return playersIndex;
+    }
 }

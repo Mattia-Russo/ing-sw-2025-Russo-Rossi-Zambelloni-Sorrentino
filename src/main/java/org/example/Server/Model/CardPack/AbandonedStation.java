@@ -66,7 +66,6 @@ public class AbandonedStation extends AdventureCard{
             this.changeGoodsFlag = true;
             game.Turn();
         }
-
     }
 
     @Override
@@ -74,4 +73,8 @@ public class AbandonedStation extends AdventureCard{
         this.changeGoodsFlag = changeGoodsFlag;
     }
 
+    @Override
+    public int getCurrentPlanetIndex(){
+        return playersIndex;
+    }
 }

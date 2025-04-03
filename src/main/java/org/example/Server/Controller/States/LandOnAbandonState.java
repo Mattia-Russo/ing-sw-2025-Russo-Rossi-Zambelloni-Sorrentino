@@ -11,7 +11,7 @@ public class LandOnAbandonState extends PlayerState {
     }
 
     // player è il riferimento al giocatore che ha fatto la chiamata, landed true vuol dire che è atterrato
-    public void landOnAbandon(Player p, boolean landed){
+    public void landOnAbandon(boolean landed){
         if(landed){
             game.getCurrentCard().playCard(game);
         } else {
