@@ -10,11 +10,11 @@ import java.util.List;
 public class PlanetsCardTest extends TestCase {
 
     public void testGetPlanets() {
-        List<Goods> goods1 = new ArrayList<>();
-        goods1.add(new Goods(GoodsColour.RED));
-        goods1.add(new Goods(GoodsColour.YELLOW));
-        List<Goods> goods2 = new ArrayList<>();
-        goods1.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods1 = new Goods[3];
+        goods1[0] = new Goods(GoodsColour.RED);
+        goods1[1] = new Goods(GoodsColour.YELLOW);
+        Goods[] goods2 = new Goods[3];
+        goods1[2] = new Goods(GoodsColour.GREEN);
         Planet planet1 = new Planet(1, goods1);
         Planet planet2 = new Planet(2, goods2);
         List<Planet> planetList = new ArrayList<Planet>();
@@ -25,11 +25,11 @@ public class PlanetsCardTest extends TestCase {
         assertEquals(2, planetsList.getPlanets().size());
     }
     public void testGetLostDays() {
-        List<Goods> goods1 = new ArrayList<>();
-        goods1.add(new Goods(GoodsColour.RED));
-        goods1.add(new Goods(GoodsColour.YELLOW));
-        List<Goods> goods2 = new ArrayList<>();
-        goods1.add(new Goods(GoodsColour.GREEN));
+        Goods[] goods1 = new Goods[3];
+        goods1[0] = new Goods(GoodsColour.RED);
+        goods1[1] = new Goods(GoodsColour.YELLOW);
+        Goods[] goods2 = new Goods[3];
+        goods1[2] = new Goods(GoodsColour.GREEN);
         Planet planet1 = new Planet(1, goods1);
         Planet planet2 = new Planet(2, goods2);
         List<Planet> planetList = new ArrayList<Planet>();

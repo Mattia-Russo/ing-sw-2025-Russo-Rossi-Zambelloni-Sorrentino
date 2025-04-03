@@ -17,7 +17,7 @@ public class Player {
     private int position;
     private final ShipBoard playerShipBoard;
     private boolean abandoned;
-    private boolean isLanded;
+    private boolean onPlanet;
     private int numCredits;
     private PlayerState state;
 
@@ -26,7 +26,7 @@ public class Player {
         this.position=0;
         this.playerShipBoard=shipBoard;
         this.abandoned=false;
-        this.isLanded=false;
+        this.onPlanet=false;
         this.numCredits=0;
         this.name=name;
         this.state = new WaitingState();
@@ -40,16 +40,16 @@ public class Player {
         return abandoned;
     }
 
-    public boolean isLanded() {
-        return isLanded;
+    public boolean isOnPlanet() {
+        return onPlanet;
     }
 
     public ShipBoard getPlayerShipBoard() {
         return playerShipBoard;
     }
 
-    public void changeLanded(){
-        this.isLanded = !isLanded;
+    public void changeOnPlanet(){
+        this.onPlanet = !onPlanet;
     }
 
     public void abandon(){

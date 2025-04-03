@@ -141,6 +141,8 @@ public class Game{
         if(currentCard != null) {
             deck.remove(currentCard);
         }
+        adjustPlayerPositions();
+        checkForcedAbandon();
         pickCard();
         currentCard.setCardState(this);
     }
