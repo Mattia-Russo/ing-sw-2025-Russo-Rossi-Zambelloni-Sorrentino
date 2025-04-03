@@ -20,7 +20,7 @@ public class PlanetsCard extends AdventureCard {
     public PlanetsCard(int cardLevel, int numDays, List<Planet> planets) {
         super(cardLevel, numDays);
         this.planets=planets;
-        this.playersIndex = 0;
+        this.playersIndex = -1;
         this.planetsVisited = new boolean[planets.size()];
         this.changeGoodsFlag = true;
         this.currentPlanet = 0;
@@ -36,7 +36,8 @@ public class PlanetsCard extends AdventureCard {
 
     @Override
     public void setCardState(Game game){
-        while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned()){
+        playersIndex++;
+        while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()){
             playersIndex++;
         }
 
@@ -46,8 +47,6 @@ public class PlanetsCard extends AdventureCard {
         } else {
             game.getPlayers().get(playersIndex).setPlayerState(new LandOnPlanetsState(game));
         }
-
-        playersIndex++;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class AbandonedShip extends AdventureCard {
         super(CardLevel, lostDays);
         this.Credits = Credits;
         this.numAstronauts = numAstronauts;
-        this.playersIndex = 0;
+        this.playersIndex = -1;
     }
 
     public int getCardLevel(){
@@ -35,7 +35,8 @@ public class AbandonedShip extends AdventureCard {
 
     @Override
     public void setCardState(Game game){
-        while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned()
+        playersIndex++;
+        while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
                 && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts()<this.numAstronauts){
             playersIndex++;
         }
@@ -45,8 +46,6 @@ public class AbandonedShip extends AdventureCard {
         } else {
             game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
         }
-
-        playersIndex++;
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.example.Server.Model.Game;
 public class AbandonedStation extends AdventureCard{
     private final int numAstronauts;
     private Goods[] goodsList;
-    int playersIndex;
+    private int playersIndex;
     boolean changeGoodsFlag;
 
 
@@ -17,7 +17,7 @@ public class AbandonedStation extends AdventureCard{
         super(cardLevel, lostDays);
         this.numAstronauts = numAstronauts;
         this.goodsList = goodsList;
-        this.playersIndex = 0;
+        this.playersIndex = -1;
         this.changeGoodsFlag = true;
     }
 
@@ -41,7 +41,8 @@ public class AbandonedStation extends AdventureCard{
 
     @Override
     public void setCardState(Game game) {
-        while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned()
+        playersIndex++;
+        while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
                 && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts()<this.numAstronauts){
             playersIndex++;
         }
@@ -51,8 +52,6 @@ public class AbandonedStation extends AdventureCard{
         } else {
             game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
         }
-
-        playersIndex++;
     }
 
     @Override
