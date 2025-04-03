@@ -163,7 +163,13 @@ public class ShipBoard {
                 cannons.add(getComponent(p.getX(), p.getY()).isDoubleCannon());
             }
 
-            batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
+        if(cannonPos.size()!=cannonPos.stream().distinct().count()){
+            throw new CannonSelectedTwiceException("You selected twice the same cannon");
+        }
+
+        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+
 
             if (batteryStorages.size() < cannons.size()) {
                 throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");

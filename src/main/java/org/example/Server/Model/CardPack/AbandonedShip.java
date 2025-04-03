@@ -59,7 +59,7 @@ public class AbandonedShip extends AdventureCard {
     }
 
     @Override
-    public int getCurrentPlanetIndex(){
+    public int getCurrentPlayerIndex(){
         return playersIndex;
     }
 }
