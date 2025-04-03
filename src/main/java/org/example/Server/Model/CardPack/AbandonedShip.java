@@ -36,7 +36,7 @@ public class AbandonedShip extends AdventureCard {
     @Override
     public void setCardState(Game game){
         playersIndex++;
-        while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned()
+        while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
                 && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts()<this.numAstronauts){
             playersIndex++;
         }
