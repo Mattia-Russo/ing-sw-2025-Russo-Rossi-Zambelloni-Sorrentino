@@ -162,6 +162,10 @@ public class ShipBoard {
             cannons.add(getComponent(p.getX(),p.getY()).isDoubleCannon());
         }
 
+        if(cannonPos.size()!=cannonPos.stream().distinct().count()){
+            throw new CannonSelectedTwiceException("You selected twice the same cannon");
+        }
+
         batteryStorages = getBatteryStorageFromPosition(batteriesPos);
 
         if(batteryStorages.size()<cannons.size()) {
