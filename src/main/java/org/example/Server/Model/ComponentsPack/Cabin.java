@@ -41,6 +41,11 @@ public class Cabin extends Components {
         return isCentral;
     }
 
+    @Override
+    public Cabin isCabin(){
+        return this;
+    }
+
     public void changeNumAstronauts(int amount) {
             if (numAstronauts + amount > 2) {
                 throw new OverloadedCapacityException("Cabin full!");
