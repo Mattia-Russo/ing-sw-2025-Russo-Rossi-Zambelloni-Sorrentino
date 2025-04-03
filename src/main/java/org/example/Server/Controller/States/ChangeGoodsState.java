@@ -8,14 +8,13 @@ import org.example.Server.Model.Points;
 
 public class ChangeGoodsState extends PlayerState{
     private Game game;
-    private boolean changeGoodsFlag;
 
     public ChangeGoodsState(Game game){
         this.game = game;
-        this.changeGoodsFlag = false;
     }
 
-    public void removeGood(Player player, Points point, int numGood){   // player è il chiamante, point è la coordinata dello storage, numGood è la posizione del good da rimuovere
+    // player è il chiamante, point è la coordinata dello storage, numGood è la posizione del good da rimuovere
+    public void removeGood(Player player, Points point, int numGood){
         Storage storage = player.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             storage.removeGood(numGood);
@@ -39,7 +38,8 @@ public class ChangeGoodsState extends PlayerState{
     }
 
     public void endChangeGoods(){
-        game.getCurrentCard().playCard(game);
+        game.getCurrentCard().setChangeGoodsFlag(false);
+        game.getCurrentCard().playCard(game, 0); // 0 è messo a caso, viene ignorato in questo caso
     }
 
 }

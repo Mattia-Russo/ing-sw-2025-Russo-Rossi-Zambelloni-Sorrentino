@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public abstract class AdventureCard {
     private final int cardLevel;
     private int lostDays;
+    private int playerIndex;
 
     public AdventureCard(int cardLevel, int lostDays) {
         this.cardLevel = cardLevel;
@@ -19,6 +20,8 @@ public abstract class AdventureCard {
     public void setCardState(Game game) {};
 
     public void playCard(Game game){};
+
+    public void playCard(Game game, int numPlanet){};
 
     public void playCard(Game game, ArrayList<Points> Engines, ArrayList<Points> Batteries){};
 
@@ -35,4 +38,8 @@ public abstract class AdventureCard {
     }
 
     public void setChangeGoodsFlag(boolean changeGoodsFlag) {}
+
+    public boolean[] isPlanetsVisited(){
+        return null;
+    }
 }

@@ -1,7 +1,7 @@
 package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.ChangeGoodsState;
-import org.example.Server.Controller.States.LandState;
+import org.example.Server.Controller.States.LandOnAbandonState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Game;
@@ -41,17 +41,17 @@ public class AbandonedStation extends AdventureCard{
 
     @Override
     public void setCardState(Game game) {
-        while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned()){
+        while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned()
+                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts()<this.numAstronauts){
             playersIndex++;
         }
 
-        game.getPlayers().get(playersIndex).setPlayerState(new LandState(game));
-
-        for (int i = playersIndex + 1; i < game.getPlayers().size(); i++){
-            if (!game.getPlayers().get(i).isAbandoned()){
-                game.getPlayers().get(i).setPlayerState(new WaitingState());
-            }
+        if(playersIndex == game.getPlayers().size()){
+            game.Turn();
+        } else {
+            game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
         }
+
         playersIndex++;
     }
 
@@ -63,6 +63,7 @@ public class AbandonedStation extends AdventureCard{
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
             game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
             playersIndex = 0;
+            this.changeGoodsFlag = true;
             game.Turn();
         }
 
