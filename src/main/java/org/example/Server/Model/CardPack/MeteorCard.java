@@ -41,7 +41,7 @@ public class MeteorCard extends AdventureCard {
     @Override
     public void playCard(Game g) {
         if(meteorList.get(currentMeteor).getType()==0){
-            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState());
+
         }else {
 
         }
