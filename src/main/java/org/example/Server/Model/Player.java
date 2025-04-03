@@ -1,11 +1,13 @@
 package org.example.Server.Model;
 
+import org.example.Server.Controller.States.AbandonedState;
+import org.example.Server.Controller.States.PlayerState;
+import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Connector;
 import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.PlayerAbandonedException;
 import org.example.Server.Model.Exceptions.TilesEndedExceptions;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,17 +17,19 @@ public class Player {
     private int position;
     private final ShipBoard playerShipBoard;
     private boolean abandoned;
-    private boolean onPlanet;
+    private boolean isLanded;
     private int numCredits;
+    private PlayerState state;
 
     public Player(ShipBoard shipBoard, int id, String name){
         this.id = id;
         this.position=0;
         this.playerShipBoard=shipBoard;
         this.abandoned=false;
-        this.onPlanet=false;
+        this.isLanded=false;
         this.numCredits=0;
         this.name=name;
+        this.state = new WaitingState();
     }
 
     public int getPosition(){
@@ -36,20 +40,21 @@ public class Player {
         return abandoned;
     }
 
-    public boolean isOnPlanet() {
-        return onPlanet;
+    public boolean isLanded() {
+        return isLanded;
     }
 
     public ShipBoard getPlayerShipBoard() {
         return playerShipBoard;
     }
 
-    public void changeOnPlanet(){
-        this.onPlanet = !onPlanet;
+    public void changeLanded(){
+        this.isLanded = !isLanded;
     }
 
     public void abandon(){
         this.abandoned=true;
+        this.state = new AbandonedState();
     }
 
     public void changePosition(int val){
@@ -141,5 +146,13 @@ public class Player {
             }
         }
         return true;
+    }
+
+    public PlayerState getState() {
+        return this.state;
+    }
+
+    public void setPlayerState(PlayerState state) {
+        this.state = state;
     }
 }

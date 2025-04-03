@@ -100,6 +100,10 @@ public class Components {
         return null;
     }
 
+    public Storage isStorage() {
+        return null;
+    }
+
     public Alien hasAlien(){
         return null;
     }
@@ -121,4 +125,5 @@ public class Components {
     public BatteryStorage isBatteryStorage(){
         return null;
     }
+
 }

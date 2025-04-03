@@ -72,7 +72,7 @@ public class PlayerTest extends TestCase {
 
         Player p = new Player(s, 12, "a");
 
-        assertFalse(p.isOnPlanet());
+        assertFalse(p.isLanded());
     }
 
     public void testGetPlayerShipBoard() {
@@ -134,9 +134,9 @@ public class PlayerTest extends TestCase {
 
         Player p = new Player(s, 12, "a");
 
-        assertFalse(p.isOnPlanet());
+        assertFalse(p.isLanded());
         p.changeOnPlanet();
-        assertTrue(p.isOnPlanet());
+        assertTrue(p.isLanded());
     }
 
     public void testAbandon() {

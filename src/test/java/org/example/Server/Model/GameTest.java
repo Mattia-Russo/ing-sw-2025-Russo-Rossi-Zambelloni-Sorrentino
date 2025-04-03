@@ -32,13 +32,15 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
         Slavers s1=new Slavers(1,3, 2, 4, 2);
         ArrayList<AdventureCard> deck = new ArrayList<>();
+
+        Game g = new Game(4, players, deck, 0, 10);
+
+        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
+
         deck.add(as);
         deck.add(s1);
-
-        Game g=new Game(4, players, deck,1, 30);
 
         assertArrayEquals(players.toArray(),g.getPlayers().toArray());
     }
@@ -148,7 +150,9 @@ public class GameTest extends TestCase {
 
         Game g=new Game(4, players, deck,1, 30);
 
-        AdventureCard pickedCard = g.pickCard();
+        g.Turn();
+
+        AdventureCard pickedCard = g.getCurrentCard();
         assertFalse(deck.contains(pickedCard));
         assertEquals(1, deck.size());
     }
