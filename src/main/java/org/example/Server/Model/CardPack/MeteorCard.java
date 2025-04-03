@@ -73,7 +73,7 @@ public class MeteorCard extends AdventureCard {
                     protect = true;
                     this.playCard(g, null, null);
                 } else if (p.getPlayerShipBoard().getIfDoubleCannon(Direction.NORTH, rowOrCol)) {
-                    p.setPlayerState(new ActivateCannonsState());
+                    p.setPlayerState(new ActivateCannonsState(g));
                 } else {
                     this.playCard(g, null, null);
                 }
@@ -82,7 +82,7 @@ public class MeteorCard extends AdventureCard {
                         protect=true;
                         this.playCard(g,null,null);
                 }else if(p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol)||p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol -1)||p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol +1)){
-                        p.setPlayerState(new ActivateCannonsState());
+                        p.setPlayerState(new ActivateCannonsState(g));
                 }else{
                         this.playCard(g,null,null);
                 }

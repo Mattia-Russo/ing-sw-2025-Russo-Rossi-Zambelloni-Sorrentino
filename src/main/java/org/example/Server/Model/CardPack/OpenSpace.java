@@ -29,7 +29,7 @@ public class OpenSpace extends AdventureCard{
             g.Turn();
         }else {
             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0)
-                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState());
+                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
             else {
                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
                 this.playCard(g, null, null);
