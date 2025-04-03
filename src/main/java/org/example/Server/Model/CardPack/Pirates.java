@@ -1,11 +1,10 @@
 package org.example.Server.Model.CardPack;
 
-import org.example.Server.Controller.States.ActivateCannonsState;
-import org.example.Server.Controller.States.ChangeGoodsState;
-import org.example.Server.Controller.States.WaitingState;
-import org.example.Server.Controller.States.WinEnemyState;
+import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Cannon;
+import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.Game;
+import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ public class Pirates extends Enemy{
     private boolean accept;
     private boolean lost;
     private int currentFire;
+    private int rowOrCol;
     private List<CannonFire> cannonFiresList = new ArrayList<CannonFire>();
 
     public Pirates(int credit, List<CannonFire> cannonFiresList, int cardLevel, int lostDays, int cannonPower) {
@@ -30,28 +30,64 @@ public class Pirates extends Enemy{
 
     @Override
     public void setCardState(Game g) {
-        do {
-            currentPlayer++;
-        } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
+        if(!lost) {
+            do {
+                currentPlayer++;
+            } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
-        if(currentPlayer == g.getPlayers().size()) {
-            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
-                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
-            } else {
-                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+            if (currentPlayer == g.getPlayers().size()) {
+                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                } else {
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                    this.playCard(g, null, null);
+                }
+            } else g.Turn();
+        }else{
+            Player p= g.getPlayers().get(currentPlayer);
+            if (cannonFiresList.get(currentFire).getType() == 0) {
+                if (p.getPlayerShipBoard().getIfShielded(cannonFiresList.get(currentFire).getDirection())) {
+                    p.setPlayerState(new ActivateShieldsState());
+                }else{
+                    this.playCard(g, null, null);
+                }
+            }else
                 this.playCard(g, null, null);
-            }
-        }else g.Turn();
+        }
     }
 
     @Override
-    public void playCard(Game g, ArrayList<Points> cannons, ArrayList<Points> batteries) {
-        if (getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(cannons, batteries)) {
-            g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
-        } else if (getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(cannons, batteries)) {
-            lost = true;
+    public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) {
+        if(!lost) {
+            if (getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
+            } else if (getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                lost = true;
+                rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
+            }
+            setCardState(g);
+        }else{
+            Player p=g.getPlayers().get(currentPlayer);
+            if(components==null||batteries==null) {
+                Components c=p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
+                p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+            }else {
+                if(!p.getPlayerShipBoard().ShieldProtects(cannonFiresList.get(currentFire).getDirection(), components, batteries)){
+                    Components c=p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
+                    p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                }
+            }
+
+            if(cannonFiresList.iterator().hasNext()) {
+                currentFire++;
+                rowOrCol=p.rollDice();
+            }else{
+                lost=false;
+            }
+            setCardState(g);
         }
-        setCardState(g);
+
+
     }
 
     @Override
