@@ -66,7 +66,7 @@ public class Smugglers extends Enemy{
         }else if(game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) == this.getCannonPower()){
             this.setCardState(game);
         } else {
-
+            game.getPlayers().get(playersIndex).setPlayerState(new RemoveBestGoodsState(game));
         }
     }
 
@@ -81,7 +81,7 @@ public class Smugglers extends Enemy{
 
     @Override
     public void playCard(Game game, int ignore){
-        playersIndex = 0;
+        playersIndex = -1;
         game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
         game.Turn();
     }

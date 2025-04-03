@@ -128,4 +128,6 @@ public class Components {
         return null;
     }
 
+    public Cabin isCabin(){return null;}
+
 }
