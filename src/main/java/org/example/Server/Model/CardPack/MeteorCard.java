@@ -2,6 +2,7 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.ActivateCannonsState;
 import org.example.Server.Controller.States.ActivateShieldsState;
+import org.example.Server.Controller.States.ShipWreckedState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Direction;
@@ -99,10 +100,24 @@ public class MeteorCard extends AdventureCard {
     public void playCard(Game g, ArrayList<Points> component, ArrayList<Points> battery) {
         Player p=g.getPlayers().get(currentPlayer);
         if(!protect){
+            int i=0;
+            Components wreck=null;
             if(component==null||battery==null){
                 Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                 try {
                     p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                    while(wreck==null){
+                        wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
+                        i++;
+                    }
+                    if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                        protect=false;
+                        p.setPlayerState(new WaitingState());
+                        setCardState(g);
+                    }else{
+                        protect=false;
+                        p.setPlayerState(new ShipWreckedState(g));
+                    }
                 } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                     System.out.println("Error" + e.getMessage());
                 }
@@ -112,6 +127,18 @@ public class MeteorCard extends AdventureCard {
                         Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            while(wreck==null){
+                                wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
+                                i++;
+                            }
+                            if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                                protect=false;
+                                p.setPlayerState(new WaitingState());
+                                setCardState(g);
+                            }else{
+                                protect=false;
+                                p.setPlayerState(new ShipWreckedState(g));
+                            }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
                         }
@@ -126,6 +153,18 @@ public class MeteorCard extends AdventureCard {
                         Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            while(wreck==null){
+                                wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
+                                i++;
+                            }
+                            if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                                protect=false;
+                                p.setPlayerState(new WaitingState());
+                                setCardState(g);
+                            }else{
+                                protect=false;
+                                p.setPlayerState(new ShipWreckedState(g));
+                            }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
                         }

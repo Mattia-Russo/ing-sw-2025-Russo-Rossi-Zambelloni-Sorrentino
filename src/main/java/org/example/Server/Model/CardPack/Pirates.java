@@ -1,7 +1,6 @@
 package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.*;
-import org.example.Server.Model.ComponentsPack.Cannon;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
@@ -21,11 +20,11 @@ public class Pirates extends Enemy{
     private boolean lost;
     private int currentFire;
     private int rowOrCol;
-    private List<CannonFire> cannonFiresList = new ArrayList<CannonFire>();
+    private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
 
     public Pirates(int credit, List<CannonFire> cannonFiresList, int cardLevel, int lostDays, int cannonPower) {
         super(cardLevel, lostDays, cannonPower);
-        this.cannonFiresList = cannonFiresList;
+        this.cannonFireList = cannonFiresList;
         this.credit = credit;
         this.accept = false;
         this.lost = false;
@@ -49,8 +48,8 @@ public class Pirates extends Enemy{
             } else g.Turn();
         }else{
             Player p= g.getPlayers().get(currentPlayer);
-            if (cannonFiresList.get(currentFire).getType() == 0) {
-                if (p.getPlayerShipBoard().getIfShielded(cannonFiresList.get(currentFire).getDirection())) {
+            if (cannonFireList.get(currentFire).getType() == 0) {
+                if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).getDirection())) {
                     p.setPlayerState(new ActivateShieldsState(g));
                 }else{
                     this.playCard(g, null, null);
@@ -77,20 +76,66 @@ public class Pirates extends Enemy{
             }
 
         }else{
+            int i=0;
+            Components wreck=null;
             Player p=g.getPlayers().get(currentPlayer);
             if(components==null||batteries==null) {
-                Components c=p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
+                Components c=p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                 try {
                     p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                    while(wreck==null){
+                        wreck=p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                        i++;
+                    }
+                    if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                        if(cannonFireList.iterator().hasNext()) {
+                            currentFire++;
+                            rowOrCol=p.rollDice();
+                        }else{
+                           lost=false;
+                        }
+                        setCardState(g);
+                    }else{
+                        if(cannonFireList.iterator().hasNext()) {
+                            currentFire++;
+                            rowOrCol=p.rollDice();
+                            p.setPlayerState(new ShipWreckedState(g));
+                        }else{
+                            lost=false;
+                            p.setPlayerState(new ShipWreckedState(g));
+                        }
+                    }
                 }catch (InvalidPositionException | AlreadyEmptyPositionException e){
                     System.out.println("Error" + e.getMessage());
                 }
             }else {
                 try {
-                    if (!p.getPlayerShipBoard().ShieldProtects(cannonFiresList.get(currentFire).getDirection(), components, batteries)) {
-                        Components c = p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
+                    if (!p.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
+                        Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            while(wreck==null){
+                                wreck=p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                                i++;
+                            }
+                            if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                                if(cannonFireList.iterator().hasNext()) {
+                                    currentFire++;
+                                    rowOrCol=p.rollDice();
+                                }else{
+                                    lost=false;
+                                }
+                                setCardState(g);
+                            }else{
+                                if(cannonFireList.iterator().hasNext()) {
+                                    currentFire++;
+                                    rowOrCol=p.rollDice();
+                                    p.setPlayerState(new ShipWreckedState(g));
+                                }else{
+                                    lost=false;
+                                    p.setPlayerState(new ShipWreckedState(g));
+                                }
+                            }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
                         }
@@ -101,7 +146,7 @@ public class Pirates extends Enemy{
                 }
             }
 
-            if(cannonFiresList.iterator().hasNext()) {
+            if(cannonFireList.iterator().hasNext()) {
                 currentFire++;
                 rowOrCol=p.rollDice();
             }else{
@@ -150,7 +195,7 @@ public class Pirates extends Enemy{
     public int getLostDays() {return super.getLostDays();}
 
     public List<CannonFire> getCannonFireList() {
-        return cannonFiresList;
+        return cannonFireList;
     }
 
     //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
