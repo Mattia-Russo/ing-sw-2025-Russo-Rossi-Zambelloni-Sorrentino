@@ -1,5 +1,7 @@
 package org.example.Server.Controller.States;
 
+import org.example.Server.Model.Exceptions.AlreadyBatteryException;
+import org.example.Server.Model.Exceptions.AlreadyCannonException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Points;
 
@@ -17,13 +19,19 @@ public class ActivateCannonsState extends PlayerState {
     }
 
     @Override
-    public void activateCannons(ArrayList<Points> cannons){
-        this.cannons = cannons;
+    public void activateCannons(ArrayList<Points> cannons) {
+        if(cannons==null) {
+            this.cannons = cannons;
+        }else
+            throw new AlreadyCannonException("Cannons already activated");
     }
 
     @Override
     public void useBatteries(ArrayList<Points> batteries){
-        this.batteries = batteries;
+        if(batteries==null) {
+            this.batteries = batteries;
+        }else
+            throw new AlreadyBatteryException("Batteries already activated");
     }
 
     @Override

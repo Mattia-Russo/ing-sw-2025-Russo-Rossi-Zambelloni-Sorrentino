@@ -47,7 +47,7 @@ public class Pirates extends Enemy{
             Player p= g.getPlayers().get(currentPlayer);
             if (cannonFiresList.get(currentFire).getType() == 0) {
                 if (p.getPlayerShipBoard().getIfShielded(cannonFiresList.get(currentFire).getDirection())) {
-                    p.setPlayerState(new ActivateShieldsState());
+                    p.setPlayerState(new ActivateShieldsState(g));
                 }else{
                     this.playCard(g, null, null);
                 }
