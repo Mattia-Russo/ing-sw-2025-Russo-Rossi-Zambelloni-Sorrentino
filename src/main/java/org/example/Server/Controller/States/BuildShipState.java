@@ -21,7 +21,6 @@ public class BuildShipState extends PlayerState{
         } catch (InvalidDeckNumberException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
     }
 
     // p indica chi ha fatto la chiamata
