@@ -69,8 +69,6 @@ public class RemoveBestGoodsState extends PlayerState{
                 }
             }
         }
-
-
     }
 
     @Override
