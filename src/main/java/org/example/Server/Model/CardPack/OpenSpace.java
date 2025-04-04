@@ -3,9 +3,13 @@ package org.example.Server.Model.CardPack;
 import org.example.Server.Controller.States.ActivateCannonsState;
 import org.example.Server.Controller.States.PlayerState;
 import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
+import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class OpenSpace extends AdventureCard{
@@ -39,9 +43,14 @@ public class OpenSpace extends AdventureCard{
 
     @Override
     public void playCard(Game g, ArrayList<Points> engines, ArrayList<Points> batteries) {
-        g.getPlayers().get(currentPlayer).changePosition(g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries));
-        g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
-        setCardState(g);
+        try {
+            g.getPlayers().get(currentPlayer).changePosition(g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries));
+            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+            setCardState(g);
+        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+            System.out.println("Error" + e.getMessage());
+            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+        }
     }
 
     public void checkEnginePower(ArrayList<Player> players){

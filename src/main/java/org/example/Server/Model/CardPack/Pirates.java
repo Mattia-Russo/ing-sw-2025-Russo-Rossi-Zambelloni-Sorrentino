@@ -3,10 +3,14 @@ package org.example.Server.Model.CardPack;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Cannon;
 import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
+import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
+import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,22 +63,41 @@ public class Pirates extends Enemy{
     @Override
     public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) {
         if(!lost) {
-            if (getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
-                g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
-            } else if (getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
-                lost = true;
-                rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
+            try {
+                if (getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
+                } else if (getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                    lost = true;
+                    rowOrCol = g.getPlayers().get(currentPlayer).rollDice();
+                }
+                setCardState(g);
+            }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                System.out.println("Error" + e.getMessage());
+                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
             }
-            setCardState(g);
+
         }else{
             Player p=g.getPlayers().get(currentPlayer);
             if(components==null||batteries==null) {
                 Components c=p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
-                p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                try {
+                    p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                }catch (InvalidPositionException | AlreadyEmptyPositionException e){
+                    System.out.println("Error" + e.getMessage());
+                }
             }else {
-                if(!p.getPlayerShipBoard().ShieldProtects(cannonFiresList.get(currentFire).getDirection(), components, batteries)){
-                    Components c=p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
-                    p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                try {
+                    if (!p.getPlayerShipBoard().ShieldProtects(cannonFiresList.get(currentFire).getDirection(), components, batteries)) {
+                        Components c = p.getPlayerShipBoard().getFirstComponent(cannonFiresList.get(currentFire).getDirection(), rowOrCol);
+                        try {
+                            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+                            System.out.println("Error" + e.getMessage());
+                        }
+                    }
+                }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                    System.out.println("Error" + e.getMessage());
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
                 }
             }
 

@@ -5,10 +5,14 @@ import org.example.Server.Controller.States.ActivateShieldsState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Direction;
+import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
+import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
+import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,16 +101,38 @@ public class MeteorCard extends AdventureCard {
         if(!protect){
             if(component==null||battery==null){
                 Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
-                p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                try {
+                    p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+                    System.out.println("Error" + e.getMessage());
+                }
             }else if(meteorList.get(currentMeteor).getType()==0){
-                if(!p.getPlayerShipBoard().ShieldProtects(meteorList.get(currentMeteor).getDirection(), component, battery)){
-                    Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
-                    p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                try {
+                    if (!p.getPlayerShipBoard().ShieldProtects(meteorList.get(currentMeteor).getDirection(), component, battery)) {
+                        Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
+                        try {
+                            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+                            System.out.println("Error" + e.getMessage());
+                        }
+                    }
+                }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                    System.out.println("Error" + e.getMessage());
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
                 }
             }else {
-                if(!p.getPlayerShipBoard().CannonProtects(meteorList.get(currentMeteor).getDirection(), rowOrCol, component, battery)){
-                    Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
-                    p.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                try{
+                    if (!p.getPlayerShipBoard().CannonProtects(meteorList.get(currentMeteor).getDirection(), rowOrCol, component, battery)) {
+                        Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
+                        try {
+                            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+                            System.out.println("Error" + e.getMessage());
+                        }
+                    }
+                }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                        System.out.println("Error" + e.getMessage());
+                        g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                 }
 
             }

@@ -2,10 +2,14 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
+import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
+import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,20 +114,48 @@ public class WarZone extends AdventureCard{
             switch (criteria[pos]) {
                 case "LessEnginePower":
                     if (loser == null) {
-                        this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
-                        loser = g.getPlayers().get(currentPlayer);
-                    } else if (power > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries)) {
-                        power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
-                        loser = g.getPlayers().get(currentPlayer);
+                        try {
+                            this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
+                            loser = g.getPlayers().get(currentPlayer);
+                        }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                            System.out.println("Error" + e.getMessage());
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+
+                        }
+                    } else{
+                        try {
+                            if(power>g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries)) {
+                                this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
+                                loser = g.getPlayers().get(currentPlayer);
+                            }
+                        }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                            System.out.println("Error" + e.getMessage());
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+
+                        }
+
                     }
                     break;
                 case "LessCannonPower":
                     if (loser == null) {
-                        power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
-                        loser = g.getPlayers().get(currentPlayer);
-                    } else if (power > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
-                        power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
-                        loser = g.getPlayers().get(currentPlayer);
+                        try {
+                            power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
+                            loser = g.getPlayers().get(currentPlayer);
+                        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                            System.out.println("Error" + e.getMessage());
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                        }
+
+                    } else{
+                        try {
+                            if (power > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                                power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
+                                loser = g.getPlayers().get(currentPlayer);
+                            }
+                        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                            System.out.println("Error" + e.getMessage());
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                        }
                     }
                     break;
             }
@@ -152,11 +184,24 @@ public class WarZone extends AdventureCard{
                     }else {
                         if(components==null||batteries==null) {
                             Components c=loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
-                            loser.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                            try {
+                                loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            }catch (InvalidPositionException | AlreadyEmptyPositionException e){
+                                System.out.println("Error" + e.getMessage());
+                            }
                         }else {
-                            if(!loser.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)){
-                                Components c=loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
-                                loser.getPlayerShipBoard().removeComponent(c.getPosX(),c.getPosY());
+                            try {
+                                if (!loser.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
+                                    Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
+                                    try {
+                                        loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                                    } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+                                        System.out.println("Error" + e.getMessage());
+                                    }
+                                }
+                            }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                                System.out.println("Error" + e.getMessage());
+                                loser.setPlayerState(new ActivateShieldsState(g));
                             }
                         }
 
