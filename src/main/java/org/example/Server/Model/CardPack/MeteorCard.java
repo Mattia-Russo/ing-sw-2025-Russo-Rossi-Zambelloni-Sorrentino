@@ -60,7 +60,7 @@ public class MeteorCard extends AdventureCard {
         if (meteorList.get(currentMeteor).getType() == 0) {
             if(p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteor).getDirection(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol)))
                 if(p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteor).getDirection())){
-                    p.setPlayerState(new ActivateShieldsState());
+                    p.setPlayerState(new ActivateShieldsState(g));
                 }else
                     this.playCard(g, null, null);
             else{
