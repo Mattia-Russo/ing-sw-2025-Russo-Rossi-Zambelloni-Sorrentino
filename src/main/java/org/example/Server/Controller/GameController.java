@@ -1,5 +1,5 @@
 package org.example.Server.Controller;
 
-public class Controller {
+public class GameController {
 
 }
