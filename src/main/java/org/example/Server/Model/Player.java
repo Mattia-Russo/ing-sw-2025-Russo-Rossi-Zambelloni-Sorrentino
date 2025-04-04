@@ -20,6 +20,7 @@ public class Player {
     private boolean onPlanet;
     private int numCredits;
     private PlayerState state;
+    private boolean shipOK;
 
     public Player(ShipBoard shipBoard, int id, String name){
         this.id = id;
@@ -30,6 +31,7 @@ public class Player {
         this.numCredits=0;
         this.name=name;
         this.state = new WaitingState();
+        this.shipOK=false;
     }
 
     public int getPosition(){
@@ -159,4 +161,13 @@ public class Player {
     public void setPlayerState(PlayerState state) {
         this.state = state;
     }
+
+    public boolean getShipOK(){
+        return shipOK;
+    }
+
+    public void setShipOK(boolean change){
+        shipOK = change;
+    }
+
 }

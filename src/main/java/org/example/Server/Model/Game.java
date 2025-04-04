@@ -1,7 +1,11 @@
 package org.example.Server.Model;
 
 import org.example.Server.Controller.States.EndState;
+import org.example.Server.Controller.States.FixShipState;
+import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.CardPack.AdventureCard;
+import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Exceptions.EmptyDeckException;
 import java.util.ArrayList;
@@ -156,4 +160,37 @@ public class Game{
         pickCard();
         currentCard.setCardState(this);
     }
+
+    public void checkAllPlayersShip(){
+        for (Player p : players) {
+            if (!p.checkShip()) {
+                p.setShipOK(false);
+                p.setPlayerState(new FixShipState(this));
+            }
+        }
+        for (Player p : players) {
+            if (!p.getShipOK()) {
+                return;
+            }
+            p.setPlayerState(new WaitingState());
+        }
+        checkAllWrackedShip();
+    }
+
+    public void checkAllWrackedShip(){
+        Components c=null;
+        int i=0;
+        for (Player p : players) {
+            while(c==null){
+                c=p.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
+                i++;
+            }
+            i=0;
+            if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
+                c=null;
+                p.setPlayerState(new ShipWreckedState(this));
+            }
+        }
+    }
 }
+
