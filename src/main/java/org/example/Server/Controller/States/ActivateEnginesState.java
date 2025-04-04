@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ActivateEnginesState extends PlayerState {
     ArrayList<Points> Engines;
     ArrayList<Points> Batteries;
-    private Game game;
+    private final Game game;
 
     public ActivateEnginesState(Game game) {
         this.game = game;
@@ -18,16 +18,16 @@ public class ActivateEnginesState extends PlayerState {
         this.Batteries=null;
     }
 
-    public void activateEngines(ArrayList<Points> engines){
+    public void activateEngines(ArrayList<Points> newEngines){
         if(Engines==null){
-            this.Engines = engines;
+            this.Engines = newEngines;
         }else
             throw new AlreadyEngineException("Engine already activated");
     }
 
-    public void useBatteries(ArrayList<Points> batteries){
+    public void useBatteries(ArrayList<Points> newBatteries){
         if(Batteries==null) {
-            this.Batteries = batteries;
+            this.Batteries = newBatteries;
         }else
             throw new AlreadyBatteryException("Batteries already activated");
     }

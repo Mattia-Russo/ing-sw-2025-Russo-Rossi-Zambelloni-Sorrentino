@@ -18,16 +18,16 @@ public class ActivateShieldsState extends PlayerState {
         this.Batteries=null;
     }
 
-    public void activateShields(ArrayList<Points> shields){
+    public void activateShields(ArrayList<Points> newShields){
         if(Shields==null) {
-            this.Shields = shields;
+            this.Shields = newShields;
         }else
             throw new AlreadyShieldException("Shields already activated");
     }
 
-    public void useBatteries(ArrayList<Points> batteries){
+    public void useBatteries(ArrayList<Points> newBatteries){
         if(Batteries==null) {
-            this.Batteries = batteries;
+            this.Batteries = newBatteries;
         }else
             throw new AlreadyBatteryException("Batteries already activated");
     }

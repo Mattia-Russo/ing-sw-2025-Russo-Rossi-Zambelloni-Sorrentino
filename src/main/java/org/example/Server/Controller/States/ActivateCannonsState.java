@@ -19,19 +19,21 @@ public class ActivateCannonsState extends PlayerState {
     }
 
     @Override
-    public void activateCannons(ArrayList<Points> cannons) {
-        if(cannons==null) {
-            this.cannons = cannons;
-        }else
+    public void activateCannons(ArrayList<Points> newCannons) {
+        if (cannons == null) {
+            this.cannons = newCannons;
+        } else {
             throw new AlreadyCannonException("Cannons already activated");
+        }
     }
 
     @Override
-    public void useBatteries(ArrayList<Points> batteries){
+    public void useBatteries(ArrayList<Points> newBatteries){
         if(batteries==null) {
-            this.batteries = batteries;
-        }else
+            this.batteries = newBatteries;
+        } else {
             throw new AlreadyBatteryException("Batteries already activated");
+        }
     }
 
     @Override
