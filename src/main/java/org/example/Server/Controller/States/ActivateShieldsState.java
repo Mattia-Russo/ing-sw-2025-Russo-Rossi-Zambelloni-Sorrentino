@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ActivateShieldsState extends PlayerState {
     ArrayList<Points> Shields;
     ArrayList<Points> Batteries;
-    private Game game;
+    private final Game game;
 
     public ActivateShieldsState(Game game){
         this.game = game;
