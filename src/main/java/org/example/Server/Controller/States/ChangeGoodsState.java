@@ -6,13 +6,14 @@ import org.example.Server.Model.Game;
 import org.example.Server.Model.Points;
 
 public class ChangeGoodsState extends PlayerState{
-    private Game game;
+    private final Game game;
 
     public ChangeGoodsState(Game game){
         this.game = game;
     }
 
-    // player è il chiamante, point è la coordinata dello storage, numGood è la posizione del good da rimuovere
+    // point è la coordinata dello storage, numGood è la posizione del good da rimuovere
+    @Override
     public void removeGood(Points point, int numGood){
         Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
@@ -22,6 +23,7 @@ public class ChangeGoodsState extends PlayerState{
         }
     }
 
+    @Override
     public void addGood(Points point, int numGood){
         Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
@@ -36,6 +38,7 @@ public class ChangeGoodsState extends PlayerState{
         }
     }
 
+    @Override
     public void endChangeGoods(){
         game.getCurrentCard().setChangeGoodsFlag(false);
         game.getCurrentCard().playCard(game, 0); // 0 è messo a caso, viene ignorato in questo caso

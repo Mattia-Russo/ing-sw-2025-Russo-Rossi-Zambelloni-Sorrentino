@@ -5,12 +5,13 @@ import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 
 public class LandOnPlanetsState extends PlayerState {
-    private Game game;
+    private final Game game;
 
     public LandOnPlanetsState(Game game){
         this.game = game;
     }
 
+    @Override
     public void landOnPlanet(boolean landed, int numPlanet){
         if(landed){
             if(game.getCurrentCard().isPlanetsVisited()[numPlanet]){

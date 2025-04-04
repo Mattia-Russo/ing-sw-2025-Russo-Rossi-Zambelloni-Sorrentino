@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class RemoveBestGoodsState extends PlayerState{
-    private Game game;
+    private final Game game;
     private int goodsRemoved;
     private int batteriesRemoved;
 
@@ -22,6 +22,7 @@ public class RemoveBestGoodsState extends PlayerState{
         this.batteriesRemoved=0;
     }
 
+    @Override
     public void removeBestGood(Points point, int numGood){
 
         if(goodsRemoved == game.getCurrentCard().getNumGoodsLose()){
@@ -45,6 +46,7 @@ public class RemoveBestGoodsState extends PlayerState{
         }
     }
 
+    @Override
     public void removeBatteries(Points point){
         if (goodsRemoved + batteriesRemoved == game.getCurrentCard().getNumGoodsLose()){
             throw new EnoughBatteriesRemovedException("You've removed enough batteries");
@@ -71,6 +73,7 @@ public class RemoveBestGoodsState extends PlayerState{
 
     }
 
+    @Override
     public void endRemoveBestGoods(){
         if(goodsRemoved + batteriesRemoved < game.getCurrentCard().getNumGoodsLose()){
             throw new NotEnoughBestGoodsRemovedException("Cannot end this phase, need to remove more goods");

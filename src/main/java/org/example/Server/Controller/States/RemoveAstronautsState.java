@@ -8,7 +8,7 @@ import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 public class RemoveAstronautsState extends PlayerState{
-    private Game game;
+    private final Game game;
     private int astronautsRemoved;
 
     public RemoveAstronautsState(Game game) {
@@ -16,6 +16,7 @@ public class RemoveAstronautsState extends PlayerState{
         this.astronautsRemoved=0;
     }
 
+    @Override
     public void removeAstronauts(Points point){
         if(astronautsRemoved == game.getCurrentCard().getNumAstronauts()){
             throw new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more");
@@ -37,6 +38,7 @@ public class RemoveAstronautsState extends PlayerState{
         }
     }
 
+    @Override
     public void endRemoveAstronauts(){
         if(astronautsRemoved < game.getCurrentCard().getNumGoodsLose()){
             throw new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts");

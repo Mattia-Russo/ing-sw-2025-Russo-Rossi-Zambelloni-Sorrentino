@@ -6,7 +6,7 @@ import org.example.Server.Model.Points;
 import java.util.ArrayList;
 
 public class ActivateCannonsState extends PlayerState {
-    private Game game;
+    private final Game game;
     private ArrayList<Points> cannons;
     private ArrayList<Points> batteries;
 
@@ -16,14 +16,17 @@ public class ActivateCannonsState extends PlayerState {
         this.batteries=null;
     }
 
+    @Override
     public void activateCannons(ArrayList<Points> cannons){
         this.cannons = cannons;
     }
 
+    @Override
     public void useBatteries(ArrayList<Points> batteries){
         this.batteries = batteries;
     }
 
+    @Override
     public void endActivateCannons(){
         game.getCurrentCard().playCard(game, cannons, batteries);
     }
