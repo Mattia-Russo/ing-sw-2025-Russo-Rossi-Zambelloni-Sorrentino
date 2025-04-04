@@ -70,4 +70,3 @@ public class BuildShipState extends PlayerState{
         game.checkAllPlayersShip();
     }
 }
-// questione dei mazzetti
