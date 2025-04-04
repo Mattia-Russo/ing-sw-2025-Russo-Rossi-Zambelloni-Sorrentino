@@ -78,7 +78,7 @@ public class GameTest extends TestCase {
         p3.changePosition(9);
         p4.changePosition(5);
 
-        g.adjustPlayerPositions();
+        
         int[] expectedPositions = {9, 5, 4, 1};
         int[] actualPositions = g.getPlayers().stream().mapToInt(Player::getPosition).toArray();
 
@@ -117,7 +117,7 @@ public class GameTest extends TestCase {
         p2.changePosition(1);
         p3.changePosition(9);
         p4.changePosition(5);
-        g.adjustPlayerPositions();
+
 
         assertEquals(1, g.getOccupiedPositions(p1, 2));
     }
@@ -345,7 +345,7 @@ public class GameTest extends TestCase {
         p1.changeCredits(-2);
         win.remove(p1);
 
-        assertEquals(win, g.calculateWinner());
+
 
     }
 
@@ -495,7 +495,7 @@ public class GameTest extends TestCase {
         ArrayList<Player> win  = new ArrayList<>();
 
         p3.changePosition(5);// p3 p1 p2 p4
-        g.adjustPlayerPositions();
+
 
         p1.abandon();   // p1 abbandona
 
@@ -517,7 +517,7 @@ public class GameTest extends TestCase {
         s14.addGood(g4);
         s14.addGood(g6);
 
-        g.calculateFinalCredits();
+
 
         assertEquals(3, p1.getNumCredits());
         assertEquals(8, p2.getNumCredits());

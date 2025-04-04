@@ -134,9 +134,9 @@ public class PlayerTest extends TestCase {
 
         Player p = new Player(s, 12, "a");
 
-        assertFalse(p.isLanded());
+        assertFalse(p.isOnPlanet());
         p.changeOnPlanet();
-        assertTrue(p.isLanded());
+        assertTrue(p.isOnPlanet());
     }
 
     public void testAbandon() {
