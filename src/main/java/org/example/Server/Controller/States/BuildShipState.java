@@ -1,9 +1,6 @@
 package org.example.Server.Controller.States;
 
-import org.example.Server.Model.Exceptions.InvalidDeckNumberException;
-import org.example.Server.Model.Exceptions.InvalidPositionException;
-import org.example.Server.Model.Exceptions.OccupiedPositionException;
-import org.example.Server.Model.Exceptions.TileNotSelectedException;
+import org.example.Server.Model.Exceptions.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
@@ -15,17 +12,26 @@ public class BuildShipState extends PlayerState{
         this.game = game;
     }
 
-    public void showDeck(int deckPosition){
+    public void showDeck(Player p, int deckPosition){
         try {
-            game.getDeck(deckPosition);
+            p.setDeckShowed(game.getDeck(deckPosition));
         } catch (InvalidDeckNumberException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
+    public void endShowDeck(Player p){
+        p.setDeckShowed(null);
+    }
+
     // p indica chi ha fatto la chiamata
     public void pickComponentTile(Player p){
-        p.setCurrentTile(game.pickComponentTile());
+        if (p.getDeckShowed() == null){
+            p.setCurrentTile(game.pickComponentTile());
+        } else {
+            throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
+        }
+
     }
 
     public void RightRotateTile(Player p){
@@ -47,6 +53,7 @@ public class BuildShipState extends PlayerState{
     public void placeTile(Player player, Points point){
         try {
             player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
+            player.setCurrentTile(null);
         } catch (OccupiedPositionException | InvalidPositionException e) {
             System.out.println("Error: " + e.getMessage());
         }

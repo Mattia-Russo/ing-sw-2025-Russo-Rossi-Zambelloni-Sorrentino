@@ -3,6 +3,7 @@ package org.example.Server.Model;
 import org.example.Server.Controller.States.AbandonedState;
 import org.example.Server.Controller.States.PlayerState;
 import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Connector;
 import org.example.Server.Model.ComponentsPack.Direction;
@@ -23,6 +24,7 @@ public class Player {
     private PlayerState state;
     private boolean shipOK;
     private Components currentTile;
+    private ArrayList<AdventureCard> deckShowed;
 
     public Player(ShipBoard shipBoard, int id, String name){
         this.id = id;
@@ -32,10 +34,11 @@ public class Player {
         this.onPlanet=false;
         this.numCredits=0;
         this.name=name;
-        shipBuilded=false;
+        this.shipBuilded=false;
         this.state = new WaitingState();
         this.shipOK=false;
         this.currentTile = null;
+        this.deckShowed = null;
     }
 
     public int getPosition(){
@@ -170,7 +173,6 @@ public class Player {
         this.state = state;
     }
 
-
     public boolean getShipOK(){
         return shipOK;
     }
@@ -178,8 +180,7 @@ public class Player {
     public void setShipOK(boolean change){
         shipOK = change;
     }
-
-
+    
     public void setCurrentTile(Components currentTile) {
         this.currentTile = currentTile;
     }
@@ -196,4 +197,11 @@ public class Player {
         this.shipBuilded = true;
     }
 
+    public ArrayList<AdventureCard> getDeckShowed() {
+        return this.deckShowed;
+    }
+
+    public void setDeckShowed(ArrayList<AdventureCard> deckShowed) {
+        this.deckShowed = deckShowed;
+    }
 }
