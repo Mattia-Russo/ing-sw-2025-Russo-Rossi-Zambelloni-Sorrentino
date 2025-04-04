@@ -11,10 +11,12 @@ public class ShipWreckedState extends PlayerState {
         this.game = game;
     }
 
+    @Override
     public void chooseWrecked(Player player, Points point){
         player.getPlayerShipBoard().removeWreck(point.getX(), point.getY());
     }
 
+    @Override
     public void endWreckedState(){
         if(game.getCurrentCard()!=null){
             game.getCurrentCard().setCardState(game);
@@ -22,6 +24,4 @@ public class ShipWreckedState extends PlayerState {
             game.Turn();
         }
     }
-
-
 }

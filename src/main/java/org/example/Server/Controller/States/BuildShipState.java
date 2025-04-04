@@ -12,6 +12,7 @@ public class BuildShipState extends PlayerState{
         this.game = game;
     }
 
+    @Override
     public void showDeck(Player p, int deckPosition){
         try {
             p.setDeckShowed(game.getDeck(deckPosition));
@@ -20,11 +21,13 @@ public class BuildShipState extends PlayerState{
         }
     }
 
+    @Override
     public void endShowDeck(Player p){
         p.setDeckShowed(null);
     }
 
     // p indica chi ha fatto la chiamata
+    @Override
     public void pickComponentTile(Player p){
         if (p.getDeckShowed() == null){
             p.setCurrentTile(game.pickComponentTile());
@@ -34,6 +37,7 @@ public class BuildShipState extends PlayerState{
 
     }
 
+    @Override
     public void RightRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
@@ -42,6 +46,7 @@ public class BuildShipState extends PlayerState{
         }
     }
 
+    @Override
     public void LeftRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
@@ -50,6 +55,7 @@ public class BuildShipState extends PlayerState{
         }
     }
 
+    @Override
     public void placeTile(Player player, Points point){
         try {
             player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
@@ -59,6 +65,7 @@ public class BuildShipState extends PlayerState{
         }
     }
 
+    @Override
     public void endBuildShip(Player player){
         player.setShipBuilded();
         int pos = 0;

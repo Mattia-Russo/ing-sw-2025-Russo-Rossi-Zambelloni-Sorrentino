@@ -180,7 +180,7 @@ public class Player {
     public void setShipOK(boolean change){
         shipOK = change;
     }
-    
+
     public void setCurrentTile(Components currentTile) {
         this.currentTile = currentTile;
     }

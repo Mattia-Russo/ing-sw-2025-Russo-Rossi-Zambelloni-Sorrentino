@@ -1,6 +1,7 @@
 package org.example.Server.Controller.States;
 
 import org.example.Server.Model.Exceptions.WaitingStateException;
+import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
@@ -94,6 +95,56 @@ public class WaitingState extends PlayerState {
 
     @Override
     public void acceptReward(boolean accept){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void endWreckedState(){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void removeTile(Points point, Player player){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void endFixShip(Player player){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void showDeck(Player p, int deckPosition){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void endShowDeck(Player p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void pickComponentTile(Player p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void RightRotateTile(Player p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void LeftRotateTile(Player p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void placeTile(Player player, Points point){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void endBuildShip(Player player){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
 }

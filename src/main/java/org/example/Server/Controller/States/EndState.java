@@ -1,6 +1,7 @@
 package org.example.Server.Controller.States;
 
 import org.example.Server.Model.Exceptions.EndStateException;
+import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
@@ -94,6 +95,56 @@ public class EndState extends PlayerState{
 
     @Override
     public void acceptReward(boolean accept){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void endWreckedState(){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void removeTile(Points point, Player player){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void endFixShip(Player player){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void showDeck(Player p, int deckPosition){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void endShowDeck(Player p){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void pickComponentTile(Player p){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void RightRotateTile(Player p){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void LeftRotateTile(Player p){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void placeTile(Player player, Points point){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void endBuildShip(Player player){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
 }

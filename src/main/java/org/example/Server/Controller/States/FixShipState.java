@@ -13,6 +13,7 @@ public class FixShipState extends PlayerState {
         this.game = game;
     }
 
+    @Override
     public void removeTile(Points point, Player player){
         try {
             player.getPlayerShipBoard().removeComponent(point.getX(), point.getY());
@@ -21,10 +22,10 @@ public class FixShipState extends PlayerState {
         }
     }
 
+    @Override
     public void endFixShip(Player player){
         player.setShipOK(true);
         game.checkAllPlayersShip();
 
     }
-
 }

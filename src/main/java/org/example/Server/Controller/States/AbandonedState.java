@@ -1,6 +1,7 @@
 package org.example.Server.Controller.States;
 
 import org.example.Server.Model.Exceptions.AbandonedStateException;
+import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
@@ -94,6 +95,61 @@ public class AbandonedState extends PlayerState{
 
     @Override
     public void acceptReward(boolean accept){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void chooseWrecked(Player player, Points point){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void endWreckedState(){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void removeTile(Points point, Player player){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void endFixShip(Player player){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void showDeck(Player p, int deckPosition){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void endShowDeck(Player p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void pickComponentTile(Player p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void RightRotateTile(Player p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void LeftRotateTile(Player p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void placeTile(Player player, Points point){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void endBuildShip(Player player){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
 }
