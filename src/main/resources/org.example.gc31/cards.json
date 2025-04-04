@@ -475,7 +475,7 @@
       { "type": 0, "direction": "SOUTH" }
     ],
     "penalities": ["LoseDays", "LoseAstronauts","cannonFire"],
-    "criteria": ["FewestAstronauts", "lessCannonpower","Shield"]
+    "criteria": ["FewestAstronauts", "LessEnginePower","LessCannonPower"]
   },
   {
     "cardname": "WARZONE",
@@ -491,7 +491,7 @@
       { "type": 1, "direction": "SOUTH" }
     ],
     "penalities": ["LoseDays", "LoseGoods","cannonFire"],
-    "criteria": ["Shield", "lessCannonpower","FewestAstronauts"]
+    "criteria": ["LessCannonPower", "LessEnginePower","FewestAstronauts"]
   },
   {
     "cardname": "ABANDONEDSHIP",

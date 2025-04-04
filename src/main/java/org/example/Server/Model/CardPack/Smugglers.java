@@ -2,9 +2,12 @@ package org.example.Server.Model.CardPack;
 
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Goods;
+import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
+import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Points;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,12 +64,17 @@ public class Smugglers extends Enemy{
 
     @Override
     public void playCard(Game game, ArrayList<Points> cannons, ArrayList<Points> batteries) {
-        if (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) > this.getCannonPower()) {
-            game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
-        }else if(game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) == this.getCannonPower()){
-            this.setCardState(game);
-        } else {
-            game.getPlayers().get(playersIndex).setPlayerState(new RemoveBestGoodsState(game));
+        try {
+            if (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) > this.getCannonPower()) {
+                game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
+            } else if (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) == this.getCannonPower()) {
+                this.setCardState(game);
+            } else {
+                game.getPlayers().get(playersIndex).setPlayerState(new RemoveBestGoodsState(game));
+            }
+        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+            System.out.println("Error" + e.getMessage());
+            game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
         }
     }
 
