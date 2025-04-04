@@ -44,6 +44,10 @@ public class Player {
         return onPlanet;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public ShipBoard getPlayerShipBoard() {
         return playerShipBoard;
     }

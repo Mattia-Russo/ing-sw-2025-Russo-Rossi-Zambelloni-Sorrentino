@@ -1,5 +1,6 @@
 package org.example.Server.Model;
 
+import org.example.Server.Controller.States.EndState;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Exceptions.EmptyDeckException;
@@ -10,9 +11,9 @@ import java.util.Comparator;
 public class Game{
     private final int numPlayer;
     private ArrayList<Player> players;
-    private ArrayList<AdventureCard> deck;
+    private final ArrayList<AdventureCard> deck;
     private int gameMode;
-    private int lapLength;
+    private final int lapLength;
     private AdventureCard currentCard;
 
     public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, int lapLength) {
@@ -37,7 +38,7 @@ public class Game{
         return players;
     }
 
-    public void adjustPlayerPositions() {
+    private void adjustPlayerPositions() {
         players.sort(Comparator.comparingInt(Player::getPosition).reversed()); // metodo per ordinare i player in base alla posizione
     }
 
@@ -55,8 +56,17 @@ public class Game{
     }
 
     private void pickCard() {
-        if (deck == null || deck.isEmpty()) {
+        if ((this.deck == null || this.deck.isEmpty()) && this.currentCard == null) {
             throw new EmptyDeckException("Deck is empty");
+        } else if (this.deck.isEmpty()) {
+            for (Player player : players) {
+                player.setPlayerState(new EndState());
+            }
+            calculateFinalCredits();
+            ArrayList<Player> winners = calculateWinner();
+            for (Player player : winners) {
+                System.out.println("Congratulations player " + player.getName() + " won the game");
+            }
         }
 
         Random rand = new Random();
@@ -71,7 +81,7 @@ public class Game{
         return p.isAbandoned();
     }
 
-    public ArrayList<Player> calculateWinner() {
+    private ArrayList<Player> calculateWinner() {
 
         ArrayList<Player> winners = new ArrayList<>();
         for (Player p : players) {
@@ -82,7 +92,7 @@ public class Game{
         return winners;
     }
 
-    public void calculateFinalCredits() {
+    private void calculateFinalCredits() {
         int i = 4;
         ArrayList<Player> bestShips = new ArrayList<>();
         for (Player p : players) {
@@ -125,7 +135,7 @@ public class Game{
         }
     }
 
-    public void checkForcedAbandon() {
+    private void checkForcedAbandon() {
         for(Player p : players) {
             if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.get(0) && p.getPosition()<players.get(0).getPosition()-lapLength))) {
                     p.abandon();
