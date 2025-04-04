@@ -8,6 +8,7 @@ import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
+import org.example.Server.Model.ShipBoard;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -182,10 +183,40 @@ public class WarZone extends AdventureCard{
                         rowOrCol=loser.rollDice();
                         setCardState(g);
                     }else {
+                        int i=0;
+                        Components wreck=null;
                         if(components==null||batteries==null) {
                             Components c=loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                             try {
                                 loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                                while(wreck==null){
+                                    wreck=loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                                    i++;
+                                }
+
+                                if(!loser.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                                    if(cannonFireList.iterator().hasNext()) {
+                                        currentFire++;
+                                        rowOrCol=loser.rollDice();
+                                    }else{
+                                        done=false;
+                                        loser=null;
+                                        pos++;
+                                    }
+                                    setCardState(g);
+                                }else{
+                                    if(cannonFireList.iterator().hasNext()) {
+                                        currentFire++;
+                                        rowOrCol=loser.rollDice();
+                                        loser.setPlayerState(new ShipWreckedState(g));
+                                    }else{
+                                        done=false;
+                                        p=loser;
+                                        loser=null;
+                                        pos++;
+                                        p.setPlayerState(new ShipWreckedState(g));
+                                    }
+                                }
                             }catch (InvalidPositionException | AlreadyEmptyPositionException e){
                                 System.out.println("Error" + e.getMessage());
                             }
@@ -195,6 +226,34 @@ public class WarZone extends AdventureCard{
                                     Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                                     try {
                                         loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                                        while(wreck==null){
+                                            wreck=loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                                            i++;
+                                        }
+
+                                        if(!loser.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                                            if(cannonFireList.iterator().hasNext()) {
+                                                currentFire++;
+                                                rowOrCol=loser.rollDice();
+                                            }else{
+                                                done=false;
+                                                loser=null;
+                                                pos++;
+                                            }
+                                            setCardState(g);
+                                        }else{
+                                            if(cannonFireList.iterator().hasNext()) {
+                                                currentFire++;
+                                                rowOrCol=loser.rollDice();
+                                                loser.setPlayerState(new ShipWreckedState(g));
+                                            }else{
+                                                done=false;
+                                                p=loser;
+                                                loser=null;
+                                                pos++;
+                                                p.setPlayerState(new ShipWreckedState(g));
+                                            }
+                                        }
                                     } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                                         System.out.println("Error" + e.getMessage());
                                     }
