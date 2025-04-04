@@ -1,5 +1,6 @@
 package org.example.Server.Controller.States;
 
+import org.example.Server.Model.Exceptions.InvalidDeckNumberException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Exceptions.OccupiedPositionException;
 import org.example.Server.Model.Exceptions.TileNotSelectedException;
@@ -12,6 +13,15 @@ public class BuildShipState extends PlayerState{
 
     public BuildShipState(Game game) {
         this.game = game;
+    }
+
+    public void showDeck(int deckPosition){
+        try {
+            game.getDeck(deckPosition);
+        } catch (InvalidDeckNumberException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
     }
 
     // p indica chi ha fatto la chiamata
@@ -61,3 +71,4 @@ public class BuildShipState extends PlayerState{
         game.checkAllPlayersShip();
     }
 }
+// questione dei mazzetti

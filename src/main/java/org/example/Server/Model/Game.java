@@ -1,19 +1,13 @@
 package org.example.Server.Model;
 
-import org.example.Server.Controller.States.BuildShipState;
-import org.example.Server.Controller.States.EndState;
-import org.example.Server.Controller.States.FixShipState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.States.*;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Components;
 
 import org.example.Server.Model.ComponentsPack.Direction;
 
 import org.example.Server.Model.ComponentsPack.Goods;
-import org.example.Server.Model.Exceptions.DeckNotInitializedException;
-import org.example.Server.Model.Exceptions.EmptyComponentListException;
-import org.example.Server.Model.Exceptions.EmptyDeckException;
-import org.example.Server.Model.Exceptions.TilesHeapNotInitializedException;
+import org.example.Server.Model.Exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -39,12 +33,16 @@ public class Game{
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
-    public ArrayList<AdventureCard> getDeck(int deck_pos) {
-        ArrayList<AdventureCard> temp = new ArrayList<>();
-        for(int i=0; i<3; i++) {
-           temp.add(deck.get(deck_pos*3 + i));
+    public ArrayList<AdventureCard> getDeck(int deckPos) {
+        if (deckPos < 3 && deckPos >= 0) {
+            ArrayList<AdventureCard> temp = new ArrayList<>();
+            for(int i=0; i<3; i++) {
+                temp.add(deck.get(deckPos*3 + i));
+            }
+            return temp;
+        } else {
+            throw new InvalidDeckNumberException("You've entered an invalid deck number, select between 0, 1 or 2");
         }
-        return temp;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -172,7 +170,6 @@ public class Game{
         currentCard.setCardState(this);
     }
 
-
     public void checkAllPlayersShip(){
         for (Player p : players) {
             if (!p.checkShip()) {
@@ -204,8 +201,6 @@ public class Game{
             }
         }
     }
-
-
 
     public void StartBuildingShips() {
         for (Player p : players){
