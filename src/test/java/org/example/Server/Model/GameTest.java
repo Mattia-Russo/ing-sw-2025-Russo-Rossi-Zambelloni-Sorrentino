@@ -78,7 +78,7 @@ public class GameTest extends TestCase {
         p3.changePosition(9);
         p4.changePosition(5);
 
-        
+
         int[] expectedPositions = {9, 5, 4, 1};
         int[] actualPositions = g.getPlayers().stream().mapToInt(Player::getPosition).toArray();
 

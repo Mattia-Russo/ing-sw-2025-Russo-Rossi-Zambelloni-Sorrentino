@@ -164,11 +164,11 @@ public class ShipBoard {
             }
 
 
-        if(cannonPos.size()!=cannonPos.stream().distinct().count()){
-            throw new CannonSelectedTwiceException("You selected twice the same cannon");
-        }
+            if(cannonPos.size()!=cannonPos.stream().distinct().count()){
+                throw new CannonSelectedTwiceException("You selected twice the same cannon");
+            }
 
-        batteryStorages = getBatteryStorageFromPosition(batteriesPos);
+            batteryStorages = getBatteryStorageFromPosition(batteriesPos);
 
 
             if (batteryStorages.size() < cannons.size()) {
@@ -367,15 +367,6 @@ public class ShipBoard {
         }
     }
 
-    /*
-    nel controller:
-    * try {
-        removeComponent(x, y);
-    } catch (IllegalArgumentException e) {
-        System.out.println("Error: " + e.getMessage());
-    }
-
-    * */
     public void removeComponent(int x, int y) {
         if (!validPosition(x, y)) {
             throw new InvalidPositionException("Position is invalid");
@@ -417,7 +408,7 @@ public class ShipBoard {
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
-                    if(!connectedComponents.contains(componentMatrix[i][j])&&componentMatrix[i][j]!=null){
+                    if(!connectedComponents.contains(componentMatrix[i][j]) && componentMatrix[i][j]!=null){
                         removeComponent(i,j);
                     }
                 }

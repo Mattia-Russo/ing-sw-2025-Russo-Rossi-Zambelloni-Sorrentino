@@ -18,9 +18,11 @@ public class Player {
     private final ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
+    private boolean shipBuilded;
     private int numCredits;
     private PlayerState state;
     private boolean shipOK;
+    private Components currentTile;
 
     public Player(ShipBoard shipBoard, int id, String name){
         this.id = id;
@@ -30,8 +32,10 @@ public class Player {
         this.onPlanet=false;
         this.numCredits=0;
         this.name=name;
+        shipBuilded=false;
         this.state = new WaitingState();
         this.shipOK=false;
+        this.currentTile = null;
     }
 
     public int getPosition(){
@@ -162,12 +166,30 @@ public class Player {
         this.state = state;
     }
 
+
     public boolean getShipOK(){
         return shipOK;
     }
 
     public void setShipOK(boolean change){
         shipOK = change;
+    }
+
+
+    public void setCurrentTile(Components currentTile) {
+        this.currentTile = currentTile;
+    }
+
+    public Components getCurrentTile() {
+        return this.currentTile;
+    }
+
+    public boolean getShipBuilded(){
+        return this.shipBuilded;
+    }
+
+    public void setShipBuilded(){
+        this.shipBuilded = true;
     }
 
 }

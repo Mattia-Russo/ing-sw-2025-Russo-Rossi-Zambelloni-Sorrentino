@@ -1,13 +1,20 @@
 package org.example.Server.Model;
 
+import org.example.Server.Controller.States.BuildShipState;
 import org.example.Server.Controller.States.EndState;
 import org.example.Server.Controller.States.FixShipState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Components;
+
 import org.example.Server.Model.ComponentsPack.Direction;
+
 import org.example.Server.Model.ComponentsPack.Goods;
+import org.example.Server.Model.Exceptions.DeckNotInitializedException;
+import org.example.Server.Model.Exceptions.EmptyComponentListException;
 import org.example.Server.Model.Exceptions.EmptyDeckException;
+import org.example.Server.Model.Exceptions.TilesHeapNotInitializedException;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Comparator;
@@ -19,14 +26,16 @@ public class Game{
     private int gameMode;
     private final int lapLength;
     private AdventureCard currentCard;
+    private ArrayList<Components> componentsList;
 
-    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, int lapLength) {
+    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, int lapLength, ArrayList<Components> componentsList) {
         this.numPlayer = numPlayer;
         this.players = players;
         this.deck = deck;
         this.gameMode = gameMode;
         this.lapLength = lapLength;
         this.currentCard = null;
+        this.componentsList = componentsList;
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
@@ -60,8 +69,10 @@ public class Game{
     }
 
     private void pickCard() {
-        if ((this.deck == null || this.deck.isEmpty()) && this.currentCard == null) {
-            throw new EmptyDeckException("Deck is empty");
+        if(this.deck == null){
+            throw new DeckNotInitializedException("Deck has not been initialized");
+        } else if (this.deck.isEmpty() && this.currentCard == null) {
+            throw new EmptyDeckException("Deck initialized without cards");
         } else if (this.deck.isEmpty()) {
             for (Player player : players) {
                 player.setPlayerState(new EndState());
@@ -71,14 +82,14 @@ public class Game{
             for (Player player : winners) {
                 System.out.println("Congratulations player " + player.getName() + " won the game");
             }
+        } else {
+            Random rand = new Random();
+            int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
+
+            this.currentCard = deck.get(index);
+
+            deck.remove(index);
         }
-
-        Random rand = new Random();
-        int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
-
-        this.currentCard = deck.get(index);
-
-        deck.remove(index);
     }
 
     public boolean checkGiveUp(Player p) {
@@ -161,6 +172,7 @@ public class Game{
         currentCard.setCardState(this);
     }
 
+
     public void checkAllPlayersShip(){
         for (Player p : players) {
             if (!p.checkShip()) {
@@ -190,6 +202,31 @@ public class Game{
                 c=null;
                 p.setPlayerState(new ShipWreckedState(this));
             }
+        }
+    }
+
+
+
+    public void StartBuildingShips() {
+        for (Player p : players){
+            p.setPlayerState(new BuildShipState(this));
+        }
+    }
+
+    public Components pickComponentTile() {
+        if ((this.componentsList == null)) {
+            throw new TilesHeapNotInitializedException("Tiles heap has not been initialized");
+        } else if (this.deck.isEmpty()) {
+            throw new EmptyComponentListException("Components heap is empty");
+        } else {
+            Random rand = new Random();
+            int index = rand.nextInt(componentsList.size()-1);  // prende un numero randomico tra 0 e card.length-1
+
+             Components c = componentsList.get(index);
+
+            componentsList.remove(index);
+
+            return c;
         }
     }
 }
