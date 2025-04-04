@@ -45,6 +45,14 @@ public class BuildShipState extends PlayerState{
 
     public void endBuildShip(Player player){
         player.setShipBuilded();
+        int pos = 0;
+        for(Player p : game.getPlayers()){
+            if(p.getShipBuilded()){
+               pos--;
+            }
+        }
+        player.setPosition(pos);
+
         for(Player p : game.getPlayers()){
             if(!p.getShipBuilded()){
                 return;

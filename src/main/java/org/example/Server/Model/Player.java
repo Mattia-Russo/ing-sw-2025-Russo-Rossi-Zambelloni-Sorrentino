@@ -73,6 +73,10 @@ public class Player {
         }
     }
 
+    public void setPosition(int val){
+        this.position = val;
+    }
+
     public int getNumCredits(){
         return numCredits;
     }
