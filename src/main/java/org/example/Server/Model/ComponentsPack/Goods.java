@@ -1,10 +1,12 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Goods {
     private final GoodsColour colour;
     private Storage storage;
 
-    public Goods(GoodsColour colour) {
+    public Goods(@JsonProperty("colour") GoodsColour colour) {
         this.colour = colour;
         this.storage = null;
     }

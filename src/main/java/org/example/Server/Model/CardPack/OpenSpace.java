@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.ActivateCannonsState;
 import org.example.Server.Controller.States.PlayerState;
 import org.example.Server.Controller.States.WaitingState;
@@ -14,7 +16,10 @@ import java.util.ArrayList;
 
 public class OpenSpace extends AdventureCard{
     int currentPlayer;
-    public OpenSpace(int CardLevel, int lostDays){
+    @JsonCreator
+    public OpenSpace(
+            @JsonProperty("cardLevel") int CardLevel,
+            @JsonProperty("lostDays") int lostDays){
         super(CardLevel, lostDays);
         this.currentPlayer = -1;
     }

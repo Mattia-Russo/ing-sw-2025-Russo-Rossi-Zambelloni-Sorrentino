@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
@@ -21,10 +23,15 @@ public class Pirates extends Enemy{
     private int currentFire;
     private int rowOrCol;
     private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
-
-    public Pirates(int credit, List<CannonFire> cannonFiresList, int cardLevel, int lostDays, int cannonPower) {
+    @JsonCreator
+    public Pirates(
+            @JsonProperty("credits") int credit,
+            @JsonProperty("cannonFiresList") List<CannonFire> cannonFireList,
+            @JsonProperty("cardLevel") int cardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("cannonPower") int cannonPower) {
         super(cardLevel, lostDays, cannonPower);
-        this.cannonFireList = cannonFiresList;
+        this.cannonFireList = cannonFireList;
         this.credit = credit;
         this.accept = false;
         this.lost = false;

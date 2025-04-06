@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.ChangeGoodsState;
 import org.example.Server.Controller.States.LandOnAbandonState;
 import org.example.Server.Controller.States.LandOnPlanetsState;
@@ -17,7 +19,11 @@ public class PlanetsCard extends AdventureCard {
     private boolean changeGoodsFlag;
     private int currentPlanet;
 
-    public PlanetsCard(int cardLevel, int numDays, List<Planet> planets) {
+    @JsonCreator
+    public PlanetsCard(
+            @JsonProperty("cardLevel") int cardLevel,
+            @JsonProperty("lostDays") int numDays,
+            @JsonProperty("planets") List<Planet> planets) {
         super(cardLevel, numDays);
         this.planets=planets;
         this.playersIndex = -1;

@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
@@ -15,7 +17,13 @@ public class Slavers extends Enemy{
     private int playersIndex;
     private boolean accept;
 
-    public Slavers(int cardLevel, int lostDays, int cannonPower, int numAstronauts, int credits) {
+    @JsonCreator
+    public Slavers(
+            @JsonProperty("cardLevel") int cardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("cannonPower") int cannonPower,
+            @JsonProperty("numAstronauts") int numAstronauts,
+            @JsonProperty("credits") int credits) {
         super(cardLevel, lostDays, cannonPower);
         this.numAstronauts = numAstronauts;
         this.credits = credits;

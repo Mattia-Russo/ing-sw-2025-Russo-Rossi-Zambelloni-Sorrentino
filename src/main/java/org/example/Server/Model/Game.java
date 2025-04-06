@@ -8,28 +8,36 @@ import org.example.Server.Model.ComponentsPack.Direction;
 
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Exceptions.*;
+import org.example.Server.Utils.CardLoader;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Comparator;
+import java.util.*;
 
 public class Game{
     private final int numPlayer;
     private ArrayList<Player> players;
-    private final ArrayList<AdventureCard> deck;
+    private List<AdventureCard> deck;
     private int gameMode;
     private final int lapLength;
     private AdventureCard currentCard;
     private ArrayList<Components> componentsList;
 
-    public Game(int numPlayer, ArrayList<Player> players, ArrayList<AdventureCard> deck, int gameMode, int lapLength, ArrayList<Components> componentsList) {
+    public Game(int numPlayer, ArrayList<Player> players, int gameMode, int lapLength) {
         this.numPlayer = numPlayer;
         this.players = players;
-        this.deck = deck;
         this.gameMode = gameMode;
+        if(gameMode == 1) {
+            this.deck = CardLoader.loadPatternDeck();
+        }else{
+            Set<String> desiredTypes = Set.of("ABANDONEDSHIP", "ABANDONEDSTATION", "PLANETSCARD", "SMUGGLERS", "OPENSPACE", "METEORCARD", "STARDUST", "WARZONE");
+            this.deck = CardLoader.loadFilteredRandomCards(desiredTypes);
+        }
         this.lapLength = lapLength;
         this.currentCard = null;
-        this.componentsList = componentsList;
+        this.componentsList = null;
+    }
+
+    public List<AdventureCard> getAllDeck(){
+        return this.deck;
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1

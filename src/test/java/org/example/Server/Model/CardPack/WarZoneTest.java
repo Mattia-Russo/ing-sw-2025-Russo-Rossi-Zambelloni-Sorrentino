@@ -6,7 +6,6 @@ import org.example.Server.Model.ComponentsPack.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class WarZoneTest extends TestCase {
 
@@ -53,7 +52,7 @@ public class WarZoneTest extends TestCase {
         cannonFireList.add(new CannonFire(1, Direction.WEST));
         WarZone warZone1 = new WarZone(1, 0, 3, 2, cannonFireList, null, null);
 
-        assertNull("Penalities should be null", warZone1.getPenalities());
+        assertNull("Penalities should be null", warZone1.getPenalties());
 
         List<CannonFire> cannonFireList2 = new ArrayList<>();
         cannonFireList2.add(new CannonFire(0, Direction.NORTH));
@@ -63,7 +62,7 @@ public class WarZoneTest extends TestCase {
 
         WarZone warZone2 = new WarZone(1, 0, 3, 2, cannonFireList2, expectedPenalities, null);
 
-        assertArrayEquals(expectedPenalities, warZone2.getPenalities());
+        assertEquals(expectedPenalities, warZone2.getPenalties());
     }
 
     public void testGetCriteria() {
@@ -82,6 +81,6 @@ public class WarZoneTest extends TestCase {
 
         WarZone warZone2 = new WarZone(1, 0, 3, 2, cannonFireList2, null, expectedCriteria);
 
-        assertArrayEquals(expectedCriteria, warZone2.getCriteria());
+        assertEquals(expectedCriteria, warZone2.getCriteria());
     }
 }

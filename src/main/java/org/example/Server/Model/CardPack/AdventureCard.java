@@ -1,11 +1,32 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "cardname"
+)
+
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Epidemic.class, name = "EPIDEMIC"),
+        @JsonSubTypes.Type(value = OpenSpace.class, name = "OPENSPACE"),
+        @JsonSubTypes.Type(value = Pirates.class, name = "PIRATES"),
+        @JsonSubTypes.Type(value = Smugglers.class, name = "SMUGGLERS"),
+        @JsonSubTypes.Type(value = Slavers.class, name = "SLAVERS"),
+        @JsonSubTypes.Type(value = WarZone.class, name = "WARZONE"),
+        @JsonSubTypes.Type(value = MeteorCard.class, name = "METEORCARD"),
+        @JsonSubTypes.Type(value = AbandonedShip.class, name = "ABANDONEDSHIP"),
+        @JsonSubTypes.Type(value = AbandonedStation.class, name = "ABANDONEDSTATION"),
+        @JsonSubTypes.Type(value = PlanetsCard.class, name = "PLANETSCARD"),
+        @JsonSubTypes.Type(value = OpenSpace.class, name = "STARDUST"),
+})
 public abstract class AdventureCard {
     private final int cardLevel;
     private int lostDays;

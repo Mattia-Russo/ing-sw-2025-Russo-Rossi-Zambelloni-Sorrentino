@@ -76,13 +76,13 @@
   {
     "cardname": "STARDUST",
     "cardLevel": 1,
-    "lostDays": 1,
+    "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_014.jpg"
   },
   {
     "cardname": "STARDUST",
     "cardLevel": 2,
-    "lostDays": 1,
+    "lostDays": 0,
     "state": "covered",
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_014.jpg"
   },
@@ -156,7 +156,7 @@
       { "type": 0, "direction": "WEST" },
       { "type ":0, "direction":  "WEST"},
       { "type": 0, "direction": "NORTH" },
-      { "type ": 0, "direction":  "NOTH"}
+      { "type ": 0, "direction":  "NORTH"}
     ],
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_019.jpg"
 
@@ -344,7 +344,7 @@
   {
     "cardname": "PLANETSCARD",
     "cardLevel": 1,
-    "lostDays": -3,
+    "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0114.jpg",
     "planets": [
       {
@@ -368,7 +368,7 @@
   {
     "cardname": "PLANETSCARD",
     "cardLevel": 2,
-    "lostDays": -3,
+    "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0114.jpg",
     "planets": [
       {
@@ -474,7 +474,7 @@
       { "type": 1, "direction": "SOUTH" },
       { "type": 0, "direction": "SOUTH" }
     ],
-    "penalities": ["LoseDays", "LoseAstronauts","cannonFire"],
+    "penalties": ["LoseDays", "LoseAstronauts","cannonFire"],
     "criteria": ["FewestAstronauts", "LessEnginePower","LessCannonPower"]
   },
   {
@@ -490,7 +490,7 @@
       { "type": 0, "direction": "WEST" },
       { "type": 1, "direction": "SOUTH" }
     ],
-    "penalities": ["LoseDays", "LoseGoods","cannonFire"],
+    "penalties": ["LoseDays", "LoseGoods","cannonFire"],
     "criteria": ["LessCannonPower", "LessEnginePower","FewestAstronauts"]
   },
   {
@@ -569,22 +569,6 @@
       { "colour": "GREEN" }
     ],
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0120.jpg"
-  },
-  {
-    "cardname": "BACK",
-    "cardLevel": 1,
-    "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0121.jpg"
-  },
-  {
-    "cardname": "BACK",
-    "cardLevel": 2,
-    "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0121.jpg"
   }
-
-
-
-
-
-
 
 ]

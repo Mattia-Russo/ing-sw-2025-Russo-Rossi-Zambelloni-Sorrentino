@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ComponentsPack.Goods;
 
 public class Planet {
@@ -7,7 +9,9 @@ public class Planet {
     private Goods[] goods;
     private boolean isOccupied;
 
-    public Planet(int planetNum, Goods[] goods){
+    public Planet(
+            @JsonProperty("planetNumber") int planetNum,
+            @JsonProperty("goods") Goods[] goods){
         this.planetNumber=planetNum;
         this.goods=goods;
         this.isOccupied=false;

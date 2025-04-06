@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.ActivateCannonsState;
 import org.example.Server.Controller.States.ActivateShieldsState;
 import org.example.Server.Controller.States.ShipWreckedState;
@@ -24,12 +26,16 @@ public class MeteorCard extends AdventureCard {
     int rowOrCol;
     boolean protect;
 
-    public MeteorCard(int cardLevel, int lostDays, List<Meteor> meteorList){
+    @JsonCreator
+    public MeteorCard(
+            @JsonProperty("cardLevel") int cardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("meteorList") List<Meteor> meteorList){
         super(cardLevel, lostDays);
         this.meteorList=meteorList;
         this.currentMeteor=-1;
         this.currentPlayer=-1;
-        this.rowOrCol =0;
+        this.rowOrCol =-1;
         this.protect=false;
     }
 

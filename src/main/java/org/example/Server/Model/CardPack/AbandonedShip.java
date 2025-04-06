@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.LandOnAbandonState;
 import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.Game;
@@ -9,7 +11,12 @@ public class AbandonedShip extends AdventureCard {
     private int numAstronauts;
     private int playersIndex;
 
-    public AbandonedShip(int CardLevel, int lostDays, int Credits, int numAstronauts) {
+    @JsonCreator
+    public AbandonedShip(
+            @JsonProperty("cardLevel") int CardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("credits") int Credits,
+            @JsonProperty("numAstronauts") int numAstronauts) {
         super(CardLevel, lostDays);
         this.Credits = Credits;
         this.numAstronauts = numAstronauts;
