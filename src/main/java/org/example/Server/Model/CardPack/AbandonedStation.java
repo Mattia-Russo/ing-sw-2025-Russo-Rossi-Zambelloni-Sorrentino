@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.ChangeGoodsState;
 import org.example.Server.Controller.States.LandOnAbandonState;
 import org.example.Server.Controller.States.WaitingState;
@@ -8,12 +10,16 @@ import org.example.Server.Model.Game;
 
 public class AbandonedStation extends AdventureCard{
     private final int numAstronauts;
-    private Goods[] goodsList;
+    private final Goods[] goodsList;
     private int playersIndex;
     boolean changeGoodsFlag;
 
-
-    public AbandonedStation(int cardLevel, int lostDays, int numAstronauts, Goods[] goodsList) {
+    @JsonCreator
+    public AbandonedStation(
+            @JsonProperty("cardLevel") int cardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("numAstronauts") int numAstronauts,
+            @JsonProperty("goods") Goods[] goodsList) {
         super(cardLevel, lostDays);
         this.numAstronauts = numAstronauts;
         this.goodsList = goodsList;

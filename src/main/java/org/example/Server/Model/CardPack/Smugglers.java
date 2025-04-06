@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
@@ -13,11 +15,17 @@ import java.util.List;
 
 public class Smugglers extends Enemy{
     private List<Goods> goodsWinList = new ArrayList<Goods>();
-    private int numGoodsLose;
+    private final int numGoodsLose;
     private int playersIndex;
     private boolean accept;
 
-    public Smugglers(int cardLevel, int lostDays, int cannonPower, int goodsLose, List<Goods> goodsWinList) {
+    @JsonCreator
+    public Smugglers(
+            @JsonProperty("cardLevel") int cardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("cannonPower") int cannonPower,
+            @JsonProperty("goodsLose") int goodsLose,
+            @JsonProperty("goods") List<Goods> goodsWinList) {
         super(cardLevel,  lostDays, cannonPower);
         this.numGoodsLose = goodsLose;
         this.goodsWinList=goodsWinList;

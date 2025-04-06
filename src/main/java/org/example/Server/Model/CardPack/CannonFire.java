@@ -1,12 +1,15 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ComponentsPack.Direction;
 
 public class CannonFire {
     private final int type;
     private final Direction direction;
 
-    public CannonFire(int type, Direction direction) {
+    public CannonFire(
+            @JsonProperty("type") int type,
+            @JsonProperty("direction") Direction direction) {
         this.direction = direction;
         this.type = type;
     }

@@ -1,12 +1,15 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ComponentsPack.Direction;
 
 public class Meteor {
     private final Direction direction;
     private final int type; // 0 è piccolo, 1 è grande
 
-    public Meteor(int type, Direction direction) {
+    public Meteor(
+            @JsonProperty("type") int type,
+            @JsonProperty("direction") Direction direction) {
         this.direction = direction;
         this.type = type;
     }

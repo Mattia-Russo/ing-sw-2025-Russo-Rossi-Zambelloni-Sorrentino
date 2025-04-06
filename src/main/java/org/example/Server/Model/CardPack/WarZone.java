@@ -1,5 +1,7 @@
 package org.example.Server.Model.CardPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
@@ -8,7 +10,6 @@ import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
-import org.example.Server.Model.ShipBoard;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class WarZone extends AdventureCard{
     private int numAstronauts;
     private int numGoods;
     private List<CannonFire> cannonFireList;
-    private String[] penalities;
+    private String[] penalties;
     private String[] criteria;
     private int pos;
     private int currentPlayer;
@@ -28,12 +29,20 @@ public class WarZone extends AdventureCard{
     private Player loser;
     private boolean done=false;
 
-    public WarZone(int CardLevel, int lostDays, int numAstronauts, int numGoods, List<CannonFire> CannonFireList, String[] penalities, String[] criteria) {
+    @JsonCreator
+    public WarZone(
+            @JsonProperty("cardLevel") int CardLevel,
+            @JsonProperty("lostDays") int lostDays,
+            @JsonProperty("numAstronauts") int numAstronauts,
+            @JsonProperty("numGoods") int numGoods,
+            @JsonProperty("cannonFiresList") List<CannonFire> CannonFireList,
+            @JsonProperty("penalties") String[] penalties,
+            @JsonProperty("criteria") String[] criteria) {
         super(CardLevel, lostDays);
         this.numAstronauts = numAstronauts;
         this.numGoods = numGoods;
         this.cannonFireList = CannonFireList;
-        this.penalities = penalities;
+        this.penalties = penalties;
         this.criteria = criteria;
         this.pos = 0;
         this.currentPlayer = -1;
@@ -162,7 +171,7 @@ public class WarZone extends AdventureCard{
             }
         }else {
             Player p;
-            switch (penalities[pos]) {
+            switch (penalties[pos]) {
                 case "LoseDays":
                     loser.changePosition(-getLostDays());
                     pos++;
@@ -302,8 +311,8 @@ public class WarZone extends AdventureCard{
         return super.getLostDays();
     }
 
-    public String[] getPenalities() {
-        return penalities;
+    public String[] getPenalties() {
+        return penalties;
     }
 
     public String[] getCriteria() {

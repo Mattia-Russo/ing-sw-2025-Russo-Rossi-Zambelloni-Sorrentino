@@ -7,8 +7,7 @@ import org.example.Server.Model.CardPack.Slavers;
 import org.example.Server.Model.ComponentsPack.*;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import java.util.List;
 
 public class GameTest extends TestCase {
 
@@ -32,17 +31,9 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Slavers s1=new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-
-        Game g = new Game(4, players, deck, 0, 10);
-
+        Game g = new Game(4, players, 0, 10);
         AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
-
-        deck.add(as);
-        deck.add(s1);
-
-        assertArrayEquals(players.toArray(),g.getPlayers().toArray());
+        assertEquals(players,g.getPlayers());
     }
 
     public void testAdjustPlayerPositions() {
@@ -64,14 +55,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
-        Slavers s1=new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-        deck.add(as);
-        deck.add(s1);
-
-        Game g=new Game(4, players, deck,1, 30);
+        Game g=new Game(4, players,1, 30);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -82,7 +66,7 @@ public class GameTest extends TestCase {
         int[] expectedPositions = {9, 5, 4, 1};
         int[] actualPositions = g.getPlayers().stream().mapToInt(Player::getPosition).toArray();
 
-        assertArrayEquals(expectedPositions, actualPositions);
+        assertEquals(expectedPositions, actualPositions);
     }
 
     public void testGetOccupiedPositions() {
@@ -105,13 +89,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
-        Slavers s1=new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-        deck.add(as);
-        deck.add(s1);
-
-        Game g=new Game(4, players, deck,1, 30);
+        Game g=new Game(4, players,1, 30);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -142,19 +120,13 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
-        Slavers s1=new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-        deck.add(as);
-        deck.add(s1);
-
-        Game g=new Game(4, players, deck,1, 30);
+        Game g=new Game(4, players,1, 30);
 
         g.Turn();
 
         AdventureCard pickedCard = g.getCurrentCard();
-        assertFalse(deck.contains(pickedCard));
-        assertEquals(1, deck.size());
+        assertFalse(g.getDeck(0).contains(pickedCard));
+        assertEquals(11, g.getAllDeck());
     }
 
     public void testCheckGiveUp() {
@@ -183,7 +155,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(s1);
 
-        Game g=new Game(4, players, deck,1, 30);
+        Game g=new Game(4, players,1, 30);
 
         p1.abandon();
         p3.abandon();
@@ -334,7 +306,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(sl);
 
-        Game g=new Game(4, players, deck,1, 30);
+        Game g=new Game(4, players,1, 30);
 
         ArrayList<Player> win  = new ArrayList<>();
 
@@ -490,7 +462,7 @@ public class GameTest extends TestCase {
         deck.add(as);
         deck.add(sl);
 
-        Game g=new Game(4, players, deck,1, 30);
+        Game g=new Game(4, players,1, 30);
 
         ArrayList<Player> win  = new ArrayList<>();
 

@@ -1,0 +1,13 @@
+
+[
+{
+  "cardname": "BACK",
+  "cardLevel": 1,
+  "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0121.jpg"
+},
+{
+  "cardname": "BACK",
+  "cardLevel": 2,
+  "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0121.jpg"
+}
+]
