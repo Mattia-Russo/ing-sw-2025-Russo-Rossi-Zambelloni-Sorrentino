@@ -1,11 +1,17 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ShipBoard;
 
 public class LifeSupportSystem extends Components {
     private final AlienColour colour;
 
-    public LifeSupportSystem(AlienColour colour, Direction direction, Connector[] connectors) {
+    @JsonCreator
+    public LifeSupportSystem(
+            @JsonProperty("colour") AlienColour colour,
+            @JsonProperty("direction") Direction direction,
+            @JsonProperty("connectors") Connector[] connectors) {
         super(direction, connectors);
         this.colour = colour;
     }

@@ -1,11 +1,17 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ShipBoard;
 
 public class Shield extends Components {
     private final Direction direction2;
 
-    public Shield(Direction direction, Connector[] connectors, Direction direction2) {
+    @JsonCreator
+    public Shield(
+            @JsonProperty("direction") Direction direction,
+            @JsonProperty("connectors") Connector[] connectors,
+            @JsonProperty("direction2") Direction direction2) {
         super(direction, connectors);
         this.direction2 = direction2;
     }

@@ -1,5 +1,7 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.Exceptions.*;
 import org.example.Server.Model.ShipBoard;
 
@@ -12,7 +14,11 @@ public class Cabin extends Components {
     private final boolean isCentral;
     private Alien alien;
 
-    public Cabin(boolean isCentral, Direction direction, Connector[] connectors) {
+    @JsonCreator
+    public Cabin(
+            @JsonProperty("isCentral") boolean isCentral,
+            @JsonProperty("direction") Direction direction,
+            @JsonProperty("connectors") Connector[] connectors) {
         super(direction, connectors);
         this.numAstronauts = 0;
         this.withLifeSupport = false;

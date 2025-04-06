@@ -1,134 +1,118 @@
 [
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "SINGLE", "DOUBLE", "EMPTY"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "DOUBLE", "EMPTY", "EMPTY"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web2.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "DOUBLE", "SINGLE", "EMPTY"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web3.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "DOUBLE", "SINGLE"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web4.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "EMPTY", "EMPTY", "SINGLE"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web5.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "SINGLE", "SINGLE", "SINGLE"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web6.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "DOUBLE", "DOUBLE", "DOUBLE"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web7.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "UNIVERSAL"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web8.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "UNIVERSAL", "EMPTY", "UNIVERSAL"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web10.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "EMPTY", "EMPTY", "UNIVERSAL"],
-    "quantity": 2,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web11.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["SINGLE", "EMPTY", "DOUBLE", "EMPTY"],
-    "quantity": 3,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web12.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["SINGLE", "SINGLE", "DOUBLE", "EMPTY"],
-    "quantity": 3,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web13.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "EMPTY", "EMPTY"],
-    "quantity": 3,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web14.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "EMPTY", "EMPTY"],
-    "quantity": 3,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web15.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "DOUBLE", "SINGLE", "EMPTY"],
-    "quantity": 3,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web16.jpg"
   },
   {
-    "type": "BatteryStorage",
+    "type": "BATTERYSTORAGE",
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "SINGLE"],
-    "quantity": 3,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web17.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
@@ -136,120 +120,107 @@
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web18.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "UNIVERSAL", "SINGLE"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web19.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "UNIVERSAL", "EMPTY", "SINGLE"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web20.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "UNIVERSAL"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web21.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "UNIVERSAL"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web22.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "SINGLE", "EMPTY", "UNIVERSAL"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web23.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "DOUBLE", "EMPTY", "UNIVERSAL"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web24.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "DOUBLE", "UNIVERSAL"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web25.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "SINGLE"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web27.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["SINGLE", "EMPTY", "SINGLE", "EMPTY"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web28.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "DOUBLE"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web29.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "DOUBLE", "EMPTY"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web30.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["SINGLE", "EMPTY", "DOUBLE", "SINGLE"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web31.jpg"
   },
   {
-    "type": "Storage",
+    "type": "STORAGE",
     "isSpecial": false,
     "capacity": 3,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "SINGLE", "DOUBLE"],
-    "goods": [],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web32.jpg"
   },
   {
@@ -267,126 +238,126 @@
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web34.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "UNIVERSAL", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web35.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["SINGLE", "DOUBLE", "SINGLE", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web36.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["SINGLE", "DOUBLE", "DOUBLE", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web37.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "EMPTY", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web38.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "EMPTY", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web39.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "DOUBLE", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web40.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["EMPTY", "SINGLE", "UNIVERSAL", "DOUBLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web41.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["SINGLE", "DOUBLE", "EMPTY", "DOUBLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web42.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["DOUBLE", "SINGLE", "DOUBLE", "DOUBLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web43jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "EMPTY", "EMPTY", "DOUBLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web44.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["EMPTY", "SINGLE", "EMPTY", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web45.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
-    "connectors": ["EMPTY", "SINGLE", "SIMGLE", "UNIVERSAL"],
+    "connectors": ["EMPTY", "SINGLE", "SINGLE", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web46.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["EMPTY", "DOUBLE", "EMPTY", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web47.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["SINGLE", "EMPTY", "SINGLE", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web48.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["SINGLE", "EMPTY", "DOUBLE", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web49.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "DOUBLE", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web50.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["DOUBLE", "DOUBLE", "EMPTY", "UNIVERSAL"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web51.jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
     "isCentral": true,
@@ -441,7 +412,7 @@
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web60jpg"
   },
   {
-    "type": "Cabin",
+    "type": "CABIN",
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
     "isCentral": true,
@@ -667,63 +638,63 @@
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web91.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["SINGLE", "EMPTY", "EMPTY", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web92.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["SINGLE", "UNIVERSAL", "EMPTY", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web93.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "EMPTY", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web94.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "SINGLE", "EMPTY", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web95.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["SINGLE", "SINGLE", "EMPTY", "SINGLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web96.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "DOUBLE", "EMPTY", "DOUBLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web97.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "EMPTY", "EMPTY", "DOUBLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web98.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "UNIVERSAL", "EMPTY", "UNIVERSAL"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web99.jpg"
   },
   {
-    "type": "DOUBLE ENGINE",
+    "type": "ENGINE",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["DOUBLE", "EMPTY", "EMPTY", "UNIVERSAL"],
@@ -905,77 +876,77 @@
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web125.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "SINGLE", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web126.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "DOUBLE", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web127.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "SINGLE", "UNIVERSAL", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web128.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "UNIVERSAL", "EMPTY", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web129.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "UNIVERSAL", "DOUBLE", "EMPTY"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web130.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "SINGLE", "DOUBLE", "SINGLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web131.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "DOUBLE", "EMPTY", "SINGLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web132.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "UNIVERSAL", "DOUBLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web133.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "DOUBLE", "SINGLE", "DOUBLE"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web134.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "EMPTY", "UNIVERSAL"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web135.jpg"
   },
   {
-    "type": "DOUBLE CANNON",
+    "type": "CANNON",
     "power": 2,
     "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "SINGLE", "UNIVERSAL"],
@@ -1120,9 +1091,5 @@
     "direction2": "EAST",
     "connectors": ["EMPTY", "DOUBLE", "DOUBLE", "UNIVERSAL"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web156.jpg"
-  },
-  {
-    "type": "BACKGROUND",
-    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web157.jpg"
   }
 ]

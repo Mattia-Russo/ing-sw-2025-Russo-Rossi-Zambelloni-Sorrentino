@@ -9,5 +9,9 @@
   "cardname": "BACK",
   "cardLevel": 2,
   "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0121.jpg"
+},
+{
+  "type": "BACKGROUND",
+   "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web157.jpg"
 }
 ]

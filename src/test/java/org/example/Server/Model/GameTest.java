@@ -31,9 +31,12 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g = new Game(4, players, 0, 10);
+        Game g = new Game(4, players, 1, 10);
         AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
         assertEquals(players,g.getPlayers());
+        for(Components c: g.getComponentsList()){
+            System.out.println(c);
+        }
     }
 
     public void testAdjustPlayerPositions() {
@@ -126,7 +129,6 @@ public class GameTest extends TestCase {
 
         AdventureCard pickedCard = g.getCurrentCard();
         assertFalse(g.getDeck(0).contains(pickedCard));
-        assertEquals(11, g.getAllDeck());
     }
 
     public void testCheckGiveUp() {

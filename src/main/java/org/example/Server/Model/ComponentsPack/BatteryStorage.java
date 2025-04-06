@@ -1,5 +1,7 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.Exceptions.OverloadedCapacityException;
 import org.example.Server.Model.Exceptions.ValueUnderZeroException;
 import org.example.Server.Model.ShipBoard;
@@ -8,7 +10,11 @@ public class BatteryStorage extends Components{
     private final int capacity;
     private int quantity;
 
-    public BatteryStorage(int capacity, Direction direction, Connector[] connectors){
+    @JsonCreator
+    public BatteryStorage(
+           @JsonProperty("capacity") int capacity,
+           @JsonProperty("direction") Direction direction,
+           @JsonProperty("connectors") Connector[] connectors){
         super(direction, connectors);
         this.capacity = capacity;
         this.quantity = capacity;

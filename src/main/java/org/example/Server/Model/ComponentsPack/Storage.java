@@ -1,5 +1,7 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.Exceptions.RedGoodsNotAllowedException;
 import org.example.Server.Model.Exceptions.StorageFullException;
 
@@ -11,7 +13,12 @@ public class Storage extends Components {
     private final boolean isSpecial;
     private final int capacity;
 
-    public Storage(boolean isSpecial, Direction direction, Connector[] connectors, int capacity) {
+    @JsonCreator
+    public Storage(
+            @JsonProperty("isSpecial") boolean isSpecial,
+            @JsonProperty("direction") Direction direction,
+            @JsonProperty("connectors") Connector[] connectors,
+            @JsonProperty("capacity") int capacity) {
         super(direction, connectors);
         this.isSpecial = isSpecial;
         this.capacity = capacity;

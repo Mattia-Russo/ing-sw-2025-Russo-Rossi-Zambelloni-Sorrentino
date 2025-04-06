@@ -1,11 +1,17 @@
 package org.example.Server.Model.ComponentsPack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ShipBoard;
 
 public class Cannon extends Components {
     private final int power;
 
-    public Cannon(int power, Direction direction, Connector[] connectors) {
+    @JsonCreator
+    public Cannon(
+            @JsonProperty("power") int power,
+            @JsonProperty("direction") Direction direction,
+            @JsonProperty("connectors") Connector[] connectors) {
         super(direction, connectors);
         this.power = power;
     }

@@ -9,6 +9,7 @@ import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Exceptions.*;
 import org.example.Server.Utils.CardLoader;
+import org.example.Server.Utils.TileLoader;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class Game{
     private int gameMode;
     private final int lapLength;
     private AdventureCard currentCard;
-    private ArrayList<Components> componentsList;
+    private List<Components> componentsList;
 
     public Game(int numPlayer, ArrayList<Player> players, int gameMode, int lapLength) {
         this.numPlayer = numPlayer;
@@ -33,11 +34,15 @@ public class Game{
         }
         this.lapLength = lapLength;
         this.currentCard = null;
-        this.componentsList = null;
+        if(gameMode == 1) {
+            this.componentsList = TileLoader.loadTiles();
+        }else {
+            this.componentsList = TileLoader.loadFilteredTiles();
+        }
     }
 
-    public List<AdventureCard> getAllDeck(){
-        return this.deck;
+    public List<Components> getComponentsList() {
+        return componentsList;
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
