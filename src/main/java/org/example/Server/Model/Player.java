@@ -9,6 +9,8 @@ import org.example.Server.Model.ComponentsPack.Connector;
 import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.PlayerAbandonedException;
 import org.example.Server.Model.Exceptions.TilesEndedExceptions;
+import org.example.Server.Utils.ShipboardLoader;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,7 +18,7 @@ public class Player {
     private final int id;
     private final String name;
     private int position;
-    private final ShipBoard playerShipBoard;
+    private ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
     private boolean shipBuilded;
@@ -26,10 +28,10 @@ public class Player {
     private Components currentTile;
     private ArrayList<AdventureCard> deckShowed;
 
-    public Player(ShipBoard shipBoard, int id, String name){
+    public Player(int id, String name){
         this.id = id;
         this.position=0;
-        this.playerShipBoard=shipBoard;
+        this.playerShipBoard=null;
         this.abandoned=false;
         this.onPlanet=false;
         this.numCredits=0;
@@ -39,6 +41,14 @@ public class Player {
         this.shipOK=false;
         this.currentTile = null;
         this.deckShowed = null;
+    }
+
+    public void setPlayerShipboard(int gamemode){
+        if(gamemode==1){
+            playerShipBoard= ShipboardLoader.loadLevel2();
+        }else{
+            playerShipBoard= ShipboardLoader.loadLevel1();
+        }
     }
 
     public int getPosition(){

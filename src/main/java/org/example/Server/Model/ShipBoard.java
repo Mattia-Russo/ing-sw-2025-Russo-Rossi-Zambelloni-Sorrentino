@@ -1,5 +1,7 @@
 package org.example.Server.Model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Exceptions.*;
 import java.security.InvalidParameterException;
@@ -19,7 +21,11 @@ public class ShipBoard {
     private int numDoubleCannons;
     private int numDoubleEngines;
 
-    public ShipBoard(boolean[][] availablePositionMatrix, int matrixWidth, int matrixHeight) {
+    @JsonCreator
+    public ShipBoard(
+            @JsonProperty("availablePositionMatrix") boolean[][] availablePositionMatrix,
+            @JsonProperty("matrixWidth") int matrixWidth,
+            @JsonProperty("matrixHeight") int matrixHeight) {
         this.deletedComponentsCounter = 0;
         this.availablePositionMatrix = availablePositionMatrix;
         this.componentMatrix = new Components[matrixWidth][matrixHeight];

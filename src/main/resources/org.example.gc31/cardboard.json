@@ -1,36 +1,30 @@
 [
   {
     "availablePositionMatrix": [
-      [false, false, false, true,false, false, false],
-      [false, false, true, true ,true, false, false],
-      [false, true, true ,true, true, true, false],
-      [false, true, true, true, true, true, false],
-      [false, true, true, false, true, true, false]
+      [false, false, false, false, false],
+      [false, false, true,  true,  true],
+      [false, true,  true,  true,  true],
+      [true,  true,  true,  true,  false],
+      [false, true,  true,  true,  true],
+      [false, false, true,  true,  true],
+      [false, false, false, false, false]
     ],
-    "componentMatrix": [
-      [null, null, null, null,null, null, null],
-      [null, null, null, null ,null, null, null],
-      [null, null, null ,null, null, null, null],
-      [null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null]
-    ],
+    "matrixWidth": 7,
+    "matrixHeight": 5,
     "img": "src/main/resources/org.example.gc31/cardboard/cardboard-1.jpg"
   },
   {
     "availablePositionMatrix": [
-      [false, false, true, false, true, false, false],
-      [false, true, true, true ,true, true, false],
-      [true , true, true ,true, true, true, true],
-      [true , true, true, true, true, true, true],
-      [true, true, true, false, true, true, true]
+      [false, false, true, true,  true],
+      [false, true,  true, true,  true],
+      [ true, true,  true, true,  true],
+      [false, true,  true, true, false],
+      [ true, true,  true, true,  true],
+      [false, true,  true, true,  true],
+      [false, false, true, true,  true]
     ],
-    "componentMatrix": [
-      [null, null, null, null,null, null, null],
-      [null, null, null, null ,null, null, null],
-      [null, null, null ,null, null, null, null],
-      [null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null]
-    ],
+    "matrixWidth": 7,
+    "matrixHeight": 5,
     "img": "src/main/resources/org.example.gc31/cardboard/cardboard-1b.jpg"
   }
 ]

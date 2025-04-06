@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TileLoader {
-    private static final String CARDS_JSON_PATH = "/org.example.gc31/tiles.json";
+    private static final String COMPONENT_JSON_PATH = "/org.example.gc31/tiles.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static List<Components> loadTiles() {
@@ -36,18 +36,17 @@ public class TileLoader {
             return filtered;
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load filtered cards", e);
+            throw new RuntimeException("Failed to load filtered tiles", e);
         }
     }
 
     private static List<Components> loadAllTiles() throws Exception {
-        try (InputStream is = CardLoader.class.getResourceAsStream(CARDS_JSON_PATH)) {
+        try (InputStream is = TileLoader.class.getResourceAsStream(COMPONENT_JSON_PATH)) {
 
             // Configure mapper for better error handling
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
 
-            // Register all subtypes (verify these match your JSON 'cardname' values exactly)
             mapper.registerSubtypes(
                     new NamedType(BatteryStorage.class,  "BATTERYSTORAGE"),
                     new NamedType(Cabin.class, "CABIN"),
@@ -61,7 +60,7 @@ public class TileLoader {
 
             return mapper.readValue(is, new TypeReference<List<Components>>(){});
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse cards JSON", e);
+            throw new RuntimeException("Failed to parse tiles JSON", e);
         }
     }
 }

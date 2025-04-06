@@ -39,6 +39,9 @@ public class Game{
         }else {
             this.componentsList = TileLoader.loadFilteredTiles();
         }
+        for(Player p: players) {
+            p.setPlayerShipboard(gameMode);
+        }
     }
 
     public List<Components> getComponentsList() {

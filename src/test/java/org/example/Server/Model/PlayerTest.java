@@ -8,12 +8,9 @@ import java.util.ArrayList;
 public class PlayerTest extends TestCase {
 
     public void testGetPosition() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon = new Cannon(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
@@ -26,8 +23,6 @@ public class PlayerTest extends TestCase {
         Cabin c7 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c8 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
         s.placeComponent(2,2, s2);
         //s.placeComponent(2,4, s1);
@@ -37,51 +32,35 @@ public class PlayerTest extends TestCase {
         s.placeComponent(2,3, c2);
         s.placeComponent(1,4, c4);
         s.placeComponent(2,4, c3);
-        s.placeComponent(4,3, c6);
+        s.placeComponent(4,2, c6);
         s.placeComponent(5,3, c7);
         s.placeComponent(4,4, c8);
         s.placeComponent(5,4, c9);
 
-        Player p = new Player(s, 12, "a");
 
         assertEquals(0, p.getPosition());
     }
 
     public void testIsAbandoned() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         assertFalse(p.isAbandoned());
     }
 
     public void testIsOnPlanet() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         assertFalse(p.isOnPlanet());
     }
 
     public void testGetPlayerShipBoard() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard sh1=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon = new Cannon(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
@@ -94,8 +73,6 @@ public class PlayerTest extends TestCase {
         Cabin c7 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c8 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-
-        ShipBoard sh1 = new ShipBoard(availablePositionMatrix, 7, 5);
 
         sh1.placeComponent(3,2, c1);
         sh1.placeComponent(2,2, s2);
@@ -110,8 +87,6 @@ public class PlayerTest extends TestCase {
         sh1.placeComponent(4,4, c8);
         sh1.placeComponent(5,4, c9);
 
-        Player p = new Player(sh1, 12, "a");
-
         for(int i = 0; i<7; i++){
             for(int j = 0; j<7; j++){
                 if (sh1.validPosition(i, j)){
@@ -124,15 +99,9 @@ public class PlayerTest extends TestCase {
     }
 
     public void testChangeOnPlanet() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         assertFalse(p.isOnPlanet());
         p.changeOnPlanet();
@@ -140,15 +109,9 @@ public class PlayerTest extends TestCase {
     }
 
     public void testAbandon() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         assertFalse(p.isAbandoned());
         p.abandon();
@@ -156,12 +119,9 @@ public class PlayerTest extends TestCase {
     }
 
     public void testChangePosition() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon = new Cannon(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
@@ -175,9 +135,6 @@ public class PlayerTest extends TestCase {
         Cabin c8 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Components[][] componentsMatrix = new Components[7][7];
         s.placeComponent(3,2, c1);
         s.placeComponent(2,2, s2);
         s.placeComponent(4,2, s1);
@@ -191,8 +148,6 @@ public class PlayerTest extends TestCase {
         s.placeComponent(4,4, c8);
         s.placeComponent(5,4, c9);
 
-        Player p = new Player(s, 12, "a");
-
         assertEquals(0, p.getPosition());
 
         p.changePosition(10);
@@ -203,29 +158,17 @@ public class PlayerTest extends TestCase {
     }
 
     public void testGetNumCredits() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         assertEquals(0, p.getNumCredits());
     }
 
     public void testRollDice() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         for (int i=0; i<20; i++){
             int res = p.rollDice();
@@ -237,15 +180,9 @@ public class PlayerTest extends TestCase {
     }
 
     public void testChangeCredits() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         assertEquals(0, p.getNumCredits());
         p.changeCredits(10);
@@ -281,9 +218,9 @@ public class PlayerTest extends TestCase {
         deck.add(s1);
         deck.add(s2);
 
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Player p = new Player(s, 12, "a");
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
 
         for (int i=0; i< 20; i++){
             Components c = p.pickComponent(deck);
@@ -292,12 +229,9 @@ public class PlayerTest extends TestCase {
     }
 
     public void testCheckShip() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
+        Player p = new Player(12, "a");
+        p.setPlayerShipboard(1);
+        ShipBoard s=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
@@ -312,8 +246,6 @@ public class PlayerTest extends TestCase {
         Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e1 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
         s.placeComponent(3,2, c1);
         s.placeComponent(2,2, s2);
         s.placeComponent(4,2, s1);
@@ -327,8 +259,6 @@ public class PlayerTest extends TestCase {
         s.placeComponent(4,4, e1);
         s.placeComponent(5,4, c9);
         s.placeComponent(3,3, c8);
-
-        Player p = new Player(s, 12, "a");
 
         assertFalse(p.checkShip());
     }

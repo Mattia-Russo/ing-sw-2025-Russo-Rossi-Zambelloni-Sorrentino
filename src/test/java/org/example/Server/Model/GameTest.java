@@ -12,46 +12,25 @@ import java.util.List;
 public class GameTest extends TestCase {
 
     public void testGetPlayers() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p1 = new Player(s, 12, "a");
-        Player p2 = new Player(s, 7, "a");
-        Player p3 = new Player(s, 14, "a");
-        Player p4 = new Player(s, 9, "a");
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player(7, "a");
+        Player p3 = new Player(14, "a");
+        Player p4 = new Player(9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
         players.add(p3);
         players.add(p4);
-
-        Game g = new Game(4, players, 1, 10);
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
+        Game g = new Game(4, players, 0, 10);
         assertEquals(players,g.getPlayers());
-        for(Components c: g.getComponentsList()){
-            System.out.println(c);
-        }
     }
 
     public void testAdjustPlayerPositions() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p1 = new Player(s, 12, "a");
-        Player p2 = new Player(s, 7, "a");
-        Player p3 = new Player(s, 14, "a");
-        Player p4 = new Player(s, 9, "a");
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player(7, "a");
+        Player p3 = new Player(14, "a");
+        Player p4 = new Player(9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -65,26 +44,17 @@ public class GameTest extends TestCase {
         p3.changePosition(9);
         p4.changePosition(5);
 
-
-        int[] expectedPositions = {9, 5, 4, 1};
-        int[] actualPositions = g.getPlayers().stream().mapToInt(Player::getPosition).toArray();
-
-        assertEquals(expectedPositions, actualPositions);
+        int[] expectedPositions = {4, 1, 9, 5};
+        for (int i = 0; i < expectedPositions.length; i++) {
+            assertEquals(expectedPositions[i], g.getPlayers().get(i).getPosition());
+        }
     }
 
     public void testGetOccupiedPositions() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p1 = new Player(s, 12, "a");
-        Player p2 = new Player(s, 7, "a");
-        Player p3 = new Player(s, 14, "a");
-        Player p4 = new Player(s, 9, "a");
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player(7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player(9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -104,18 +74,10 @@ public class GameTest extends TestCase {
     }
 
     public void testPickCard() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p1 = new Player(s, 12, "a");
-        Player p2 = new Player(s, 7, "a");
-        Player p3 = new Player(s, 14, "a");
-        Player p4 = new Player(s, 9, "a");
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player(14, "a");
+        Player p4 = new Player( 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -132,18 +94,10 @@ public class GameTest extends TestCase {
     }
 
     public void testCheckGiveUp() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-
-        Player p1 = new Player(s, 12, "a");
-        Player p2 = new Player(s, 7, "a");
-        Player p3 = new Player(s, 14, "a");
-        Player p4 = new Player(s, 9, "a");
+        Player p1 = new Player( 12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player( 9, "a");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -151,14 +105,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        AbandonedShip as=new AbandonedShip(1, 2, 3, 2);
-        Slavers s1=new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-        deck.add(as);
-        deck.add(s1);
-
         Game g=new Game(4, players,1, 30);
-
         p1.abandon();
         p3.abandon();
         assertTrue(g.checkGiveUp(p1));
@@ -168,16 +115,22 @@ public class GameTest extends TestCase {
     }
 
     public void testCalculateWinners() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard sp1 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp2 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp3 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp4 = new ShipBoard(availablePositionMatrix, 7, 5);
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player( 9, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g=new Game(4, players,1, 30);
+
+        ShipBoard sp1 = p1.getPlayerShipBoard();
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        ShipBoard sp3 = p3.getPlayerShipBoard();
+        ShipBoard sp4 = p4.getPlayerShipBoard();
+
 
         Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s11 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
@@ -291,24 +244,6 @@ public class GameTest extends TestCase {
         sp4.placeComponent(5,4, c94);
         sp4.placeComponent(3,3, c84);
 
-        Player p1 = new Player(sp1, 12, "a");
-        Player p2 = new Player(sp2, 7, "a");
-        Player p3 = new Player(sp3, 14, "a");
-        Player p4 = new Player(sp4, 9, "a");
-
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
-
-        AbandonedShip as = new AbandonedShip(1, 2, 3, 2);
-        Slavers sl = new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-        deck.add(as);
-        deck.add(sl);
-
-        Game g=new Game(4, players,1, 30);
 
         ArrayList<Player> win  = new ArrayList<>();
 
@@ -319,21 +254,24 @@ public class GameTest extends TestCase {
         p1.changeCredits(-2);
         win.remove(p1);
 
-
-
     }
 
     public void testCalculateFinalCredits() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
-            }
-        }
-        ShipBoard sp1 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp2 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp3 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp4 = new ShipBoard(availablePositionMatrix, 7, 5);
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player( 9, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g=new Game(4, players,1, 30);
+
+        ShipBoard sp1 = p1.getPlayerShipBoard();
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        ShipBoard sp3 = p3.getPlayerShipBoard();
+        ShipBoard sp4 = p4.getPlayerShipBoard();
 
         Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s11 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
@@ -447,30 +385,8 @@ public class GameTest extends TestCase {
         sp4.placeComponent(5,4, c94);
         sp4.placeComponent(3,3, c84);
 
-        Player p1 = new Player(sp1, 12, "a");
-        Player p2 = new Player(sp2, 7, "a");
-        Player p3 = new Player(sp3, 14, "a");
-        Player p4 = new Player(sp4, 9, "a");
-
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
-
-        AbandonedShip as = new AbandonedShip(1, 2, 3, 2);
-        Slavers sl = new Slavers(1,3, 2, 4, 2);
-        ArrayList<AdventureCard> deck = new ArrayList<>();
-        deck.add(as);
-        deck.add(sl);
-
-        Game g=new Game(4, players,1, 30);
-
         ArrayList<Player> win  = new ArrayList<>();
-
         p3.changePosition(5);// p3 p1 p2 p4
-
-
         p1.abandon();   // p1 abbandona
 
         Goods g1 = new Goods(GoodsColour.RED); //4
