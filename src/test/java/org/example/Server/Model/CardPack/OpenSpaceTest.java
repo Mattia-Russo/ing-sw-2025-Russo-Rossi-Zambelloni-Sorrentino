@@ -19,7 +19,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, players,1, 30);
+        Game g=new Game(4,1, players,1, 30);
         ShipBoard s1 = p1.getPlayerShipBoard();
         ShipBoard s2 = p2.getPlayerShipBoard();
         ShipBoard s3 = p3.getPlayerShipBoard();

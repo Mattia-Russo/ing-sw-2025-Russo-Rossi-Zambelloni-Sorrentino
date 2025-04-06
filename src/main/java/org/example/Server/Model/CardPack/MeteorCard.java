@@ -45,10 +45,6 @@ public class MeteorCard extends AdventureCard {
             currentPlayer++;
         } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
-        if(currentMeteor==-1){
-            rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
-            currentMeteor=0;
-        }
 
         if(currentPlayer == g.getPlayers().size()){
             if(meteorList.iterator().hasNext()){
@@ -63,6 +59,10 @@ public class MeteorCard extends AdventureCard {
                 g.Turn();
             }
         }else {
+            if(currentMeteor==-1){
+                rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
+                currentMeteor=0;
+            }
             Update(g, g.getPlayers().get(currentPlayer));
         }
     }

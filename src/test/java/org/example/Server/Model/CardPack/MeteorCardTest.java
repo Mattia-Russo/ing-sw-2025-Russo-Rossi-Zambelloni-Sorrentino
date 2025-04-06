@@ -2,6 +2,8 @@ package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
 import org.example.Server.Model.ComponentsPack.Direction;
+import org.example.Server.Model.Game;
+import org.example.Server.Model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,4 +35,19 @@ public class MeteorCardTest extends TestCase {
         assertEquals(2, m.getCardLevel());
     }
 
+    public void testSetCardState() {
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player(7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player(9, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g=new Game(4, 1, players,1, 30);
+    }
+
+    public void testPlayCard() {
+    }
 }

@@ -43,8 +43,8 @@ public class Player {
         this.deckShowed = null;
     }
 
-    public void setPlayerShipboard(int gamemode){
-        if(gamemode==1){
+    public void setPlayerShipboard(int level){
+        if(level==1){
             playerShipBoard= ShipboardLoader.loadLevel2();
         }else{
             playerShipBoard= ShipboardLoader.loadLevel1();

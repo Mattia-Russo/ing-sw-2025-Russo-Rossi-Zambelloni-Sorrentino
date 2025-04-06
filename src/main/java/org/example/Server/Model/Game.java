@@ -18,11 +18,12 @@ public class Game{
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
     private int gameMode;
+    private int ShipboardLevel;
     private final int lapLength;
     private AdventureCard currentCard;
     private List<Components> componentsList;
 
-    public Game(int numPlayer, ArrayList<Player> players, int gameMode, int lapLength) {
+    public Game(int numPlayer, int ShipBoardLevel, ArrayList<Player> players, int gameMode, int lapLength) {
         this.numPlayer = numPlayer;
         this.players = players;
         this.gameMode = gameMode;
@@ -40,7 +41,10 @@ public class Game{
             this.componentsList = TileLoader.loadFilteredTiles();
         }
         for(Player p: players) {
-            p.setPlayerShipboard(gameMode);
+            if(gameMode == 0) {
+                p.setPlayerShipboard(gameMode);
+            }else
+                p.setPlayerShipboard(ShipboardLevel);
         }
     }
 
