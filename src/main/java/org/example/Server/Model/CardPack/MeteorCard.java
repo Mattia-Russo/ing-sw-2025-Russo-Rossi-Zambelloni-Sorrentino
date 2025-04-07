@@ -25,6 +25,7 @@ public class MeteorCard extends AdventureCard {
     int currentPlayer;
     int rowOrCol;
     boolean protect;
+    boolean dice;
 
     @JsonCreator
     public MeteorCard(
@@ -37,6 +38,7 @@ public class MeteorCard extends AdventureCard {
         this.currentPlayer=-1;
         this.rowOrCol =-1;
         this.protect=false;
+        this.dice=true;
     }
 
     @Override
@@ -47,39 +49,78 @@ public class MeteorCard extends AdventureCard {
 
 
         if(currentPlayer == g.getPlayers().size()){
-            if(meteorList.iterator().hasNext()){
-                currentMeteor++;
+            meteorList.remove(currentMeteor);
+            if(!meteorList.isEmpty()){
                 currentPlayer=-1;
                 do{
                     currentPlayer++;
                 } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
                 rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
-                Update(g, g.getPlayers().get(currentPlayer));
+                if(currentPlayer==g.getPlayers().size()) {
+                    currentPlayer=g.getPlayers().size()-1;
+                    protect=true;
+                }else if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH || meteorList.get(currentMeteor).getDirection() == Direction.SOUTH) {
+                    if (rowOrCol >= 7) {
+                        protect = true;
+                        dice=false;
+                    }
+                } else if (rowOrCol >= 5) {
+                    protect = true;
+                    dice=false;
+                }
+                if(dice) {
+                    if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
+                        protect = true;
+                    }
+                }else
+                    dice=true;
+                if (protect) {
+                    playCard(g, null, null);
+                } else
+                    Update(g, g.getPlayers().get(currentPlayer));
             }else{
-                g.Turn();
+                //g.Turn();
             }
         }else {
             if(currentMeteor==-1){
                 rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
                 currentMeteor=0;
             }
-            Update(g, g.getPlayers().get(currentPlayer));
+            if(meteorList.get(currentMeteor).getDirection()==Direction.NORTH||meteorList.get(currentMeteor).getDirection()==Direction.SOUTH){
+                if(rowOrCol >= 7){
+                    protect=true;
+                    dice=false;
+                }
+            }else if(rowOrCol >= 5) {
+                protect=true;
+                dice=false;
+            }
+            if(dice){
+                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
+                    protect = true;
+                }
+            }else
+                dice=true;
+            if(protect){
+                playCard(g, null, null);
+            }else
+                Update(g, g.getPlayers().get(currentPlayer));
         }
     }
 
     private void Update(Game g, Player p) {
         if (meteorList.get(currentMeteor).getType() == 0) {
-            if(p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteor).getDirection(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol)))
-                if(p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteor).getDirection())){
+            if (p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteor).getDirection(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol))) {
+                if (p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteor).getDirection())) {
                     p.setPlayerState(new ActivateShieldsState(g));
-                }else
+                } else
                     this.playCard(g, null, null);
-            else{
-                protect=true;
-                this.playCard(g,null,null);
+            } else {
+                protect = true;
+                this.playCard(g, null, null);
             }
         } else {
-            if(meteorList.get(currentMeteor).getDirection()==Direction.NORTH) {
+            if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH) {
                 if (p.getPlayerShipBoard().getIfSingleCannon(Direction.NORTH, rowOrCol)) {
                     protect = true;
                     this.playCard(g, null, null);
@@ -88,14 +129,14 @@ public class MeteorCard extends AdventureCard {
                 } else {
                     this.playCard(g, null, null);
                 }
-            }else{
-                if(p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol)||p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol -1)||p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol +1)){
-                        protect=true;
-                        this.playCard(g,null,null);
-                }else if(p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol)||p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol -1)||p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol +1)){
-                        p.setPlayerState(new ActivateCannonsState(g));
-                }else{
-                        this.playCard(g,null,null);
+            } else {
+                if (p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol) || p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol - 1) || p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol + 1)) {
+                    protect = true;
+                    this.playCard(g, null, null);
+                } else if (p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol - 1) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol + 1)) {
+                    p.setPlayerState(new ActivateCannonsState(g));
+                } else {
+                    this.playCard(g, null, null);
                 }
 
             }
@@ -112,16 +153,16 @@ public class MeteorCard extends AdventureCard {
                 Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                 try {
                     p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                    while(wreck==null){
-                        wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
+                    while (wreck == null) {
+                        wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
                         i++;
                     }
-                    if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
-                        protect=false;
+                    if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
+                        protect = false;
                         p.setPlayerState(new WaitingState());
                         setCardState(g);
-                    }else{
-                        protect=false;
+                    } else {
+                        protect = false;
                         p.setPlayerState(new ShipWreckedState(g));
                     }
                 } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
@@ -133,16 +174,16 @@ public class MeteorCard extends AdventureCard {
                         Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                            while(wreck==null){
-                                wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
+                            while (wreck == null) {
+                                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
                                 i++;
                             }
-                            if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
-                                protect=false;
+                            if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
+                                protect = false;
                                 p.setPlayerState(new WaitingState());
                                 setCardState(g);
-                            }else{
-                                protect=false;
+                            } else {
+                                protect = false;
                                 p.setPlayerState(new ShipWreckedState(g));
                             }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
