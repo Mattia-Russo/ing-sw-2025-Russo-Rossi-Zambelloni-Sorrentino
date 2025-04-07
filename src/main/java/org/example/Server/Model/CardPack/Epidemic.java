@@ -37,7 +37,7 @@ public class Epidemic extends AdventureCard{
         g.Turn();
     }
 
-    public void checkAdjacentCabins(ShipBoard s){
+    private void checkAdjacentCabins(ShipBoard s){
         boolean[][] visited = new boolean[s.getComponentMatrix().length][s.getComponentMatrix()[0].length];
         for(int i = 0; i < s.getComponentMatrix().length; i++){
             for(int j = 0; j < s.getComponentMatrix()[0].length; j++){

@@ -66,7 +66,7 @@ public class AbandonedStation extends AdventureCard{
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
             game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
-            playersIndex = 0;
+            playersIndex = -1;
             this.changeGoodsFlag = true;
             game.Turn();
         }
@@ -80,5 +80,10 @@ public class AbandonedStation extends AdventureCard{
     @Override
     public int getCurrentPlayerIndex(){
         return playersIndex;
+    }
+
+    // usage only for testing
+    public boolean getChangeGoodsFlag() {
+        return this.changeGoodsFlag;
     }
 }

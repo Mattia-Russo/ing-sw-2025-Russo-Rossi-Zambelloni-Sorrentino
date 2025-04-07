@@ -1,10 +1,16 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
+import org.example.Server.Controller.States.AbandonedState;
+import org.example.Server.Controller.States.ActivateEnginesState;
+import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
+import org.example.Server.Model.Points;
 import org.example.Server.Model.ShipBoard;
 
+import javax.accessibility.AccessibleRelation;
 import java.util.ArrayList;
 
 public class OpenSpaceTest extends TestCase {
@@ -37,11 +43,74 @@ public class OpenSpaceTest extends TestCase {
         s4.setTotalBattery(0);
 
         OpenSpace openSpace = new OpenSpace(2, 1);
-        openSpace.checkEnginePower(players);
+        //openSpace.checkEnginePower(players);
 
         assertFalse(p1.isAbandoned());
         assertTrue(p2.isAbandoned());
         assertFalse(p3.isAbandoned());
         assertTrue(p4.isAbandoned());
+    }
+
+    public void testSetCardState() {
+        ArrayList<Player> players = new ArrayList<>();
+        Player p1 = new Player(1, "a");
+        Player p2 = new Player(2, "b");
+        Player p3 = new Player( 3, "c");
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+
+        Game game = new Game(3, 2, players, 1, 20);
+        OpenSpace card = new OpenSpace(2, 0);
+
+        p1.getPlayerShipBoard().setNumDoubleEngines(2);
+        p2.getPlayerShipBoard().setNumDoubleEngines(0);
+        p2.abandon();
+        p3.getPlayerShipBoard().setNumDoubleEngines(1);
+
+        card.setCardState(game);
+        assertTrue(p1.getState() instanceof ActivateEnginesState);
+
+        card.setCardState(game);
+        assertTrue(p2.getState() instanceof AbandonedState);
+
+        card.setCardState(game);
+        assertTrue(p3.getState() instanceof ActivateEnginesState);
+    }
+
+    public void testPlayCard() {
+        ArrayList<Player> players = new ArrayList<>();
+        Player p1 = new Player(1, "a");
+        Player p2 = new Player(2, "b");
+        Player p3 = new Player( 3, "c");
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+
+        Game game = new Game(3, 2, players, 1, 20);
+        OpenSpace card = new OpenSpace(2, 0);
+        card.setCardState(game);
+
+        Engine e1 = new Engine(2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e2 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        BatteryStorage bs1 = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        BatteryStorage bs2 = new BatteryStorage(2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+
+        p1.getPlayerShipBoard().placeComponent(1,2, e1);
+        p1.getPlayerShipBoard().placeComponent(2,2, e2);
+        p1.getPlayerShipBoard().placeComponent(3,2, bs1);
+        p1.getPlayerShipBoard().placeComponent(4,2, bs2);
+
+        ArrayList<Points> engines = new ArrayList<Points>();
+        ArrayList<Points> batteries = new ArrayList<Points>();
+        engines.add(new Points(1, 2));
+        batteries.add(new Points(3, 2));
+        batteries.add(new Points(4, 2));
+
+        card.playCard(game, engines, batteries);
+
+        assertEquals(3, p1.getPosition());
+        assertTrue(p1.getState() instanceof WaitingState);
+
     }
 }

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Model.ComponentsPack.Goods;
 
 public class Planet {
-    private int planetNumber;
-    private Goods[] goods;
+    private final int planetNumber;
+    private final Goods[] goods;
     private boolean isOccupied;
 
     public Planet(
@@ -16,6 +16,7 @@ public class Planet {
         this.goods=goods;
         this.isOccupied=false;
     }
+
     public int getPlanetNumber() {
         return planetNumber;
     }

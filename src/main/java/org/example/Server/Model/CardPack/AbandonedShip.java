@@ -42,11 +42,10 @@ public class AbandonedShip extends AdventureCard {
 
     @Override
     public void setCardState(Game game){
-        playersIndex++;
-        while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
-                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts()<this.numAstronauts){
+        do {
             playersIndex++;
-        }
+        } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
+                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts);
 
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
@@ -57,11 +56,11 @@ public class AbandonedShip extends AdventureCard {
 
     @Override
     public void playCard(Game game){
-        game.getPlayers().get(playersIndex-1).getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
-        game.getPlayers().get(playersIndex-1).changeCredits(this.Credits);
-        game.getPlayers().get(playersIndex-1).changePosition(-this.getLostDays());
-        game.getPlayers().get(playersIndex-1).setPlayerState(new WaitingState());
-        this.playersIndex=0;
+        game.getPlayers().get(playersIndex).getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
+        game.getPlayers().get(playersIndex).changeCredits(this.Credits);
+        game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
+        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
+        this.playersIndex=-1;
         game.Turn();
     }
 

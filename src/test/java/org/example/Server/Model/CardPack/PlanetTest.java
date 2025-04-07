@@ -27,8 +27,8 @@ public class PlanetTest extends TestCase {
         Planet s= new Planet(1,goods);
         Planet o= new Planet(2,goods);
         o.changeIsOccupied(true);
-        assertEquals(false,s.getIsOccupied());
-        assertEquals(true, o.getIsOccupied());
+        assertFalse(s.getIsOccupied());
+        assertTrue(o.getIsOccupied());
 
     }
 
@@ -40,10 +40,10 @@ public class PlanetTest extends TestCase {
         Planet s= new Planet(1,goods);
         Planet o= new Planet(2,goods);
         o.changeIsOccupied(true);
-        assertEquals(false,s.getIsOccupied());
-        assertEquals(true, o.getIsOccupied());
+        assertFalse(s.getIsOccupied());
+        assertTrue(o.getIsOccupied());
         o.changeIsOccupied(false);
-        assertEquals(false,o.getIsOccupied());
+        assertFalse(o.getIsOccupied());
     }
 
     public void testGetGoodsList() {
