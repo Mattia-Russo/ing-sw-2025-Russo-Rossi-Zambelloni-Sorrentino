@@ -49,9 +49,7 @@ public class AbandonedStationTest extends TestCase {
     }
 
     public void testSetCardState() {
-        ShipBoard ship = new ShipBoard();
 
-        Game game = new Game(3, , , 1, 20);
     }
 
     public void testPlayCard() {

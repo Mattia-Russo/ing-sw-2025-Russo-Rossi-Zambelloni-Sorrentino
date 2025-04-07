@@ -472,7 +472,7 @@ public class ShipBoard {
 
             case NORTH:
                 for (int i = componentMatrix[0].length-1; i > 0 ; i--) {
-                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[i][rowOrCol]!=null) {
+                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
@@ -487,7 +487,7 @@ public class ShipBoard {
 
             case SOUTH:
                 for (int i = 0; i < componentMatrix[0].length; i++) {
-                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[i][rowOrCol]!=null) {
+                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
@@ -499,22 +499,22 @@ public class ShipBoard {
     }
 
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
-        if (dir.ordinal()%2 == 0){
+        if (dir.ordinal()%2 == 0 && rowOrCol < 7) {
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c.isSingleCannon()!=null){
+                    if(c!=null && c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
                 }
             }
-        } else {
+        } else if(rowOrCol < 5){
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c.isSingleCannon()!=null){
+                    if(c!=null && c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
@@ -526,22 +526,22 @@ public class ShipBoard {
     }   // come fa a capire l'utente se è  meteor swarm o stray big meteor (l'immagine è la stessa, la gestione è diversa)
 
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
-        if (dir.ordinal()%2 == 0){
+        if (dir.ordinal()%2 == 0 && rowOrCol < 7){
             for(int i = 0; i < componentMatrix[0].length; i++){
                 if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(rowOrCol, i);
-                    if(c.isDoubleCannon()!=null){
+                    if(c!=null && c.isDoubleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
                     }
                 }
             }
-        } else {
+        } else if(rowOrCol < 5){
             for(int i = 0; i < componentMatrix.length; i++){
                 if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(i, rowOrCol);
-                    if(c.isDoubleCannon()!=null){
+                    if(c!=null && c.isDoubleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
                         }
