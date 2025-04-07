@@ -46,6 +46,8 @@ public class MeteorCardTest extends TestCase {
         players.add(p3);
         players.add(p4);
         Game g=new Game(4, 1, players,1, 30);
+        g.setCard(new MeteorCard(1,0,null));
+        g.Turn();
     }
 
     public void testPlayCard() {

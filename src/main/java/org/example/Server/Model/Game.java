@@ -48,8 +48,9 @@ public class Game{
         }
     }
 
-    public List<Components> getComponentsList() {
-        return componentsList;
+    public void setCard(AdventureCard card) {
+        deck.clear();
+        deck.add(card);
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
