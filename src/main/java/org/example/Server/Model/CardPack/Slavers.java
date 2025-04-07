@@ -27,6 +27,8 @@ public class Slavers extends Enemy{
         super(cardLevel, lostDays, cannonPower);
         this.numAstronauts = numAstronauts;
         this.credits = credits;
+        this.playersIndex = -1;
+        this.accept=false;
     }
 
     public int getCannonPower() {
@@ -51,7 +53,7 @@ public class Slavers extends Enemy{
     public void setCardState(Game game) {
         do {
             playersIndex++;
-        } while (playersIndex < game.getPlayers().size() && !game.getPlayers().get(playersIndex).isAbandoned());
+        } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned());
 
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
@@ -94,14 +96,19 @@ public class Slavers extends Enemy{
 
     @Override
     public void playCard(Game game, int ignore){
-        playersIndex = -1;
         game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
+        playersIndex = -1;
         game.Turn();
     }
 
     @Override
     public void setAccept(boolean accept) {
         this.accept = accept;
+    }
+
+    //usage only in test
+    public boolean getAccept(){
+        return accept;
     }
 
     //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
