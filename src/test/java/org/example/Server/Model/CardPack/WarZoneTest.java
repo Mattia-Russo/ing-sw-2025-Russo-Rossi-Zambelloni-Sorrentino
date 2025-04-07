@@ -2,6 +2,7 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import junit.framework.TestCase;
+import org.example.Server.Controller.States.RemoveAstronautsState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;

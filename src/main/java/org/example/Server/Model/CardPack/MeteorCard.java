@@ -79,7 +79,7 @@ public class MeteorCard extends AdventureCard {
                 } else
                     Update(g, g.getPlayers().get(currentPlayer));
             }else{
-                //g.Turn();
+                g.Turn();
             }
         }else {
             if(currentMeteor==-1){
