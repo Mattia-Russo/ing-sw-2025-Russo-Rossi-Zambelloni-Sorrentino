@@ -210,7 +210,7 @@ public class ShipBoard {
     public int getTotalEnginePower(ArrayList<Points> enginesPos, ArrayList<Points> batteriesPos){
         int totalEnginePower = 0;
         if(enginesPos!=null&&batteriesPos!=null) {
-            ArrayList<BatteryStorage> batteryStorages;
+            ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
             ArrayList<Engine> engines = new ArrayList<>();
             for (Points p : enginesPos) {
                 if (!availablePositionMatrix[p.getX()][p.getY()]) {
@@ -552,18 +552,18 @@ public class ShipBoard {
         return false;
     }
 
-    public void placeComponent(int row, int col, Components component){
-        if (validPosition(row, col)){
-            if (componentMatrix[row][col] == null) {
-                componentMatrix[row][col] = component;
-                component.setPosition(row, col);
+    public void placeComponent(int x, int y, Components component){
+        if (validPosition(x, y)){
+            if (componentMatrix[x][y] == null) {
+                componentMatrix[x][y] = component;
+                component.setPosition(x, y);
                 component.place(this);
             } else {
                 throw new OccupiedPositionException("Position already occupied!");
             }
 
         } else {
-            throw new InvalidPositionException("Invalid position");
+            throw new InvalidPositionException("Is an invalid position");
         }
     }
 

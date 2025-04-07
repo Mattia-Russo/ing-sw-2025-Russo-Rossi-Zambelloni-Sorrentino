@@ -44,7 +44,7 @@ public class Player {
     }
 
     public void setPlayerShipboard(int level){
-        if(level==1){
+        if(level==2){
             playerShipBoard= ShipboardLoader.loadLevel2();
         }else{
             playerShipBoard= ShipboardLoader.loadLevel1();
