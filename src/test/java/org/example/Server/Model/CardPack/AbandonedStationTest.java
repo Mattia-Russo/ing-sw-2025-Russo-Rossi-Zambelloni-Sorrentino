@@ -3,6 +3,8 @@ package org.example.Server.Model.CardPack;
 import junit.framework.TestCase;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.ComponentsPack.GoodsColour;
+import org.example.Server.Model.Game;
+import org.example.Server.Model.ShipBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +46,20 @@ public class AbandonedStationTest extends TestCase {
         goods[2] = new Goods(GoodsColour.GREEN);
         AbandonedStation a=new AbandonedStation(1,1, 5, goods);
         assertEquals(1,a.getLostDays());
+    }
+
+    public void testSetCardState() {
+        ShipBoard ship = new ShipBoard();
+
+        Game game = new Game(3, , , 1, 20);
+    }
+
+    public void testPlayCard() {
+    }
+
+    public void testSetChangeGoodsFlag() {
+    }
+
+    public void testGetCurrentPlayerIndex() {
     }
 }

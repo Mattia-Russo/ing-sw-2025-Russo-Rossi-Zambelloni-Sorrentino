@@ -47,11 +47,10 @@ public class AbandonedStation extends AdventureCard{
 
     @Override
     public void setCardState(Game game) {
-        playersIndex++;
-        while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
-                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts()<this.numAstronauts){
+        do {
             playersIndex++;
-        }
+        } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
+                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts);
 
         if(playersIndex == game.getPlayers().size()){
             game.Turn();

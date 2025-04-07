@@ -48,6 +48,7 @@ public class Game{
         }
     }
 
+    // usage only for tests
     public void setCard(AdventureCard card) {
         deck.clear();
         deck.add(card);
@@ -101,6 +102,9 @@ public class Game{
             for (Player player : winners) {
                 System.out.println("Congratulations player " + player.getName() + " won the game");
             }
+        } else if (this.deck.size() == 1) {
+            this.currentCard = this.deck.get(0);
+            deck.remove(0);
         } else {
             Random rand = new Random();
             int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
