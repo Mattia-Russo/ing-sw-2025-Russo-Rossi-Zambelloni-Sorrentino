@@ -28,7 +28,7 @@ public class ShipBoard {
             @JsonProperty("matrixHeight") int matrixHeight) {
         this.deletedComponentsCounter = 0;
         this.availablePositionMatrix = availablePositionMatrix;
-        this.componentMatrix = new Components[matrixWidth][matrixHeight];
+        this.componentMatrix = new Components[matrixHeight][matrixWidth];
         this.bookedComponents = new Components[2];
         this.shieldedDirections = new int[4];
         this.singleCannonPower = 0;
@@ -88,11 +88,11 @@ public class ShipBoard {
     }
 
     public boolean validPosition(int posX, int posY){
-        return (posX >= 0 && posX < componentMatrix.length && posY >= 0 && posY < componentMatrix[0].length) && availablePositionMatrix[posX][posY];
+        return (posX >= 0 && posX < componentMatrix[0].length && posY >= 0 && posY < componentMatrix.length) && availablePositionMatrix[posY][posX];
     }
 
     public Components getComponent(int posX, int posY){
-        return componentMatrix[posX][posY];
+        return componentMatrix[posY][posX];
     }
 
     public int getDeletedComponentsCounter(){
@@ -554,8 +554,8 @@ public class ShipBoard {
 
     public void placeComponent(int x, int y, Components component){
         if (validPosition(x, y)){
-            if (componentMatrix[x][y] == null) {
-                componentMatrix[x][y] = component;
+            if (componentMatrix[y][x] == null) {
+                componentMatrix[y][x] = component;
                 component.setPosition(x, y);
                 component.place(this);
             } else {
@@ -563,7 +563,7 @@ public class ShipBoard {
             }
 
         } else {
-            throw new InvalidPositionException("Is an invalid position");
+            throw new InvalidPositionException("x: " + x + " y: " + y + " is an invalid position");
         }
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
@@ -36,6 +37,7 @@ public class Pirates extends Enemy{
         this.accept = false;
         this.lost = false;
         this.currentFire = 0;
+        this.currentPlayer = -1;
     }
 
     @Override
@@ -45,15 +47,15 @@ public class Pirates extends Enemy{
                 currentPlayer++;
             } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
-            if (currentPlayer == g.getPlayers().size()) {
+            if (currentPlayer < g.getPlayers().size()) {
                 if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                 } else {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
-                    this.playCard(g, null, null);
+                    //this.playCard(g, null, null);
                 }
             } else {
-                g.Turn();
+                //g.Turn();
             }
         }
         else{
@@ -78,7 +80,7 @@ public class Pirates extends Enemy{
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
                 } else if (this.getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
                     lost = true;
-                    rowOrCol = g.getPlayers().get(currentPlayer).rollDice();
+                    chooseRowOrCol(g.getPlayers().get(currentPlayer));
                 }
                 setCardState(g);    // riceve cannonate
             }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
@@ -100,7 +102,7 @@ public class Pirates extends Enemy{
                     if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){ // nave intera
                         if(cannonFireList.iterator().hasNext()) {
                             currentFire++;
-                            rowOrCol = p.rollDice();
+                            chooseRowOrCol(p);
                         }else{
                            lost = false;
                         }
@@ -108,7 +110,7 @@ public class Pirates extends Enemy{
                     }else{  // nave divisa
                         if(cannonFireList.iterator().hasNext()) {
                             currentFire++;
-                            rowOrCol=p.rollDice();
+                            chooseRowOrCol(p);
                             p.setPlayerState(new ShipWreckedState(g));
                         }else{
                             lost=false; // imposta a false per il prossimo giocatore
@@ -131,7 +133,7 @@ public class Pirates extends Enemy{
                             if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
                                 if(cannonFireList.iterator().hasNext()) {
                                     currentFire++;
-                                    rowOrCol=p.rollDice();
+                                    chooseRowOrCol(p);
                                 }else{
                                     lost=false;
                                 }
@@ -139,7 +141,7 @@ public class Pirates extends Enemy{
                             }else{
                                 if(cannonFireList.iterator().hasNext()) {
                                     currentFire++;
-                                    rowOrCol=p.rollDice();
+                                    chooseRowOrCol(p);
                                     p.setPlayerState(new ShipWreckedState(g));
                                 }else{
                                     lost=false;
@@ -203,6 +205,28 @@ public class Pirates extends Enemy{
         return cannonFireList;
     }
 
-    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
-    // CONFRONTA POI O CHIAMA credit O prende lista colpi
+    private void chooseRowOrCol(Player p) {
+//        rowOrCol = p.rollDice();
+//        if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
+//            while (rowOrCol > 7 || rowOrCol < 0){
+//                rowOrCol = p.rollDice();
+//                currentFire++;
+//            }
+//        } else {
+//            while (rowOrCol > 5 || rowOrCol < 0){
+//                rowOrCol = p.rollDice();
+//                currentFire++;
+//            }
+//        }
+//        if (currentFire >= cannonFireList.size(){
+//            lost = true;
+//            g.Turn();
+//        }
+        rowOrCol = 3;
+    }
+
+    // usage only for tests
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayer = currentPlayerIndex;
+    }
 }

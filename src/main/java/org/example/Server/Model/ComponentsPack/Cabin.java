@@ -103,22 +103,17 @@ public class Cabin extends Components {
     public void place(ShipBoard ship) {
         ship.setNumAstronauts(2);
         this.numAstronauts = 2;
-        if (ship.validPosition(this.getPosX()+1, this.getPosY())){
-            if(ship.getComponent(this.getPosX()+1, this.getPosY())!=null){
-                ship.getComponent(this.getPosX()+1, this.getPosY()).addLifeSupport(this);
-            }
-        } else if (ship.validPosition(this.getPosX()-1, this.getPosY())){
-            if(ship.getComponent(this.getPosX()-1, this.getPosY())!=null){
-                ship.getComponent(this.getPosX()-1, this.getPosY()).addLifeSupport(this);
-            }
-        } else if (ship.validPosition(this.getPosX(), this.getPosY()+1)){
-            if(ship.getComponent(this.getPosX(), this.getPosY()+1)!=null){
-                ship.getComponent(this.getPosX(), this.getPosY()+1).addLifeSupport(this);
-            }
-        } else if (ship.validPosition(this.getPosX(), this.getPosY()-1)){
-            if(ship.getComponent(this.getPosX(), this.getPosY()-1)!=null){
-                ship.getComponent(this.getPosX(), this.getPosY()-1).addLifeSupport(this);
-            }
+        if (ship.validPosition(this.getPosX()+1, this.getPosY()) && ship.getComponent(this.getPosX()+1, this.getPosY())!=null){
+            ship.getComponent(this.getPosX()+1, this.getPosY()).addLifeSupport(this);
+        }
+        if (ship.validPosition(this.getPosX()-1, this.getPosY()) && ship.getComponent(this.getPosX()-1, this.getPosY())!=null){
+            ship.getComponent(this.getPosX()-1, this.getPosY()).addLifeSupport(this);
+        }
+        if (ship.validPosition(this.getPosX(), this.getPosY()+1) && ship.getComponent(this.getPosX(), this.getPosY()+1)!=null){
+            ship.getComponent(this.getPosX(), this.getPosY()+1).addLifeSupport(this);
+        }
+        if (ship.validPosition(this.getPosX(), this.getPosY()-1) && ship.getComponent(this.getPosX(), this.getPosY()-1)!=null){
+            ship.getComponent(this.getPosX(), this.getPosY()-1).addLifeSupport(this);
         }
     }
 

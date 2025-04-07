@@ -18,7 +18,6 @@ public class Game{
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
     private int gameMode;
-    private int ShipboardLevel;
     private final int lapLength;
     private AdventureCard currentCard;
     private List<Components> componentsList;
@@ -44,7 +43,7 @@ public class Game{
             if(gameMode == 0) {
                 p.setPlayerShipboard(gameMode);
             }else
-                p.setPlayerShipboard(ShipboardLevel);
+                p.setPlayerShipboard(ShipBoardLevel);
         }
     }
 
