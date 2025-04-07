@@ -71,7 +71,7 @@ public class Game{
         return players;
     }
 
-    private void adjustPlayerPositions() {
+    public void adjustPlayerPositions() {
         players.sort(Comparator.comparingInt(Player::getPosition).reversed()); // metodo per ordinare i player in base alla posizione
     }
 

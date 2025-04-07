@@ -69,7 +69,7 @@ public class GameTest extends TestCase {
         p3.changePosition(9);
         p4.changePosition(5);
 
-
+        g.adjustPlayerPositions();
         assertEquals(1, g.getOccupiedPositions(p1, 2));
     }
 
@@ -406,9 +406,7 @@ public class GameTest extends TestCase {
         s13.addGood(g2);
         s14.addGood(g4);
         s14.addGood(g6);
-
-
-
+        
         assertEquals(3, p1.getNumCredits());
         assertEquals(8, p2.getNumCredits());
         assertEquals(11, p3.getNumCredits());
