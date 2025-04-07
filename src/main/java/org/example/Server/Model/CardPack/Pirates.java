@@ -52,8 +52,11 @@ public class Pirates extends Enemy{
                     g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
                     this.playCard(g, null, null);
                 }
-            } else g.Turn();
-        }else{
+            } else {
+                g.Turn();
+            }
+        }
+        else{
             Player p= g.getPlayers().get(currentPlayer);
             if (cannonFireList.get(currentFire).getType() == 0) {
                 if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).getDirection())) {
@@ -68,64 +71,64 @@ public class Pirates extends Enemy{
 
     @Override
     public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) {
-        if(!lost) {
+
+        if(!lost) { // chiamata arriva da setCardState, i components sono cannons
             try {
-                if (getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                if (this.getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
-                } else if (getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                } else if (this.getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
                     lost = true;
                     rowOrCol = g.getPlayers().get(currentPlayer).rollDice();
                 }
-                setCardState(g);
+                setCardState(g);    // riceve cannonate
             }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                 System.out.println("Error" + e.getMessage());
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
             }
-
-        }else{
+        } else { // chiamata arriva da ActivateShieldsState, components sono scudi
             int i=0;
-            Components wreck=null;
-            Player p=g.getPlayers().get(currentPlayer);
-            if(components==null||batteries==null) {
-                Components c=p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
+            Components shipWreck = null;
+            Player p = g.getPlayers().get(currentPlayer);
+            if(components == null || batteries == null) {   // non ha nulla attivo
+                Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                 try {
                     p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                    while(wreck==null){
-                        wreck=p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                    while(shipWreck == null){   // cerco un componente a caso della nave
+                        shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                         i++;
                     }
-                    if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                    if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){ // nave intera
                         if(cannonFireList.iterator().hasNext()) {
                             currentFire++;
-                            rowOrCol=p.rollDice();
+                            rowOrCol = p.rollDice();
                         }else{
-                           lost=false;
+                           lost = false;
                         }
                         setCardState(g);
-                    }else{
+                    }else{  // nave divisa
                         if(cannonFireList.iterator().hasNext()) {
                             currentFire++;
                             rowOrCol=p.rollDice();
                             p.setPlayerState(new ShipWreckedState(g));
                         }else{
-                            lost=false;
+                            lost=false; // imposta a false per il prossimo giocatore
                             p.setPlayerState(new ShipWreckedState(g));
                         }
                     }
                 }catch (InvalidPositionException | AlreadyEmptyPositionException e){
-                    System.out.println("Error" + e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
-            }else {
+            }else { // ha attivato degli scudi
                 try {
-                    if (!p.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
+                    if (!p.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {    // se scudo non protegge
                         Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                            while(wreck==null){
-                                wreck=p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                            while(shipWreck == null){
+                                shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                                 i++;
                             }
-                            if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
+                            if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
                                 if(cannonFireList.iterator().hasNext()) {
                                     currentFire++;
                                     rowOrCol=p.rollDice();
@@ -153,6 +156,7 @@ public class Pirates extends Enemy{
                 }
             }
 
+            /*
             if(cannonFireList.iterator().hasNext()) {
                 currentFire++;
                 rowOrCol=p.rollDice();
@@ -160,25 +164,19 @@ public class Pirates extends Enemy{
                 lost=false;
             }
             setCardState(g);
+            */
         }
-
-
     }
 
     @Override
     public void playCard(Game game){
-        if (accept){
+        if (accept) {
             game.getPlayers().get(currentPlayer).changeCredits(getCredit());
             game.getPlayers().get(currentPlayer).changePosition(-getLostDays());
-        } else {
-            this.playCard(game, 0);
         }
-    }
-
-    @Override
-    public void playCard(Game game, int ignore){
-        currentPlayer = -1;
+        this.playCard(game, 0);
         game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+        currentPlayer = -1;
         game.Turn();
     }
 

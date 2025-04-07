@@ -156,7 +156,7 @@ public class ShipBoard {
 
     public float getTotalCannonPower(ArrayList<Points> cannonPos, ArrayList<Points> batteriesPos){
         float totalCannonPower = 0;
-        if(cannonPos!=null&&batteriesPos!=null) {
+        if(cannonPos!=null && batteriesPos!=null) {
             ArrayList<Cannon> cannons = new ArrayList<>();
             ArrayList<BatteryStorage> batteryStorages;
             for (Points p : cannonPos) {

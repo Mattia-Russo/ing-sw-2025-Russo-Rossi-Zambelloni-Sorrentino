@@ -32,7 +32,7 @@ public class ActivateCannonsState extends PlayerState {
         if(batteries==null) {
             this.batteries = newBatteries;
         } else {
-            throw new AlreadyBatteryException("Batteries already activated");
+            throw new AlreadyBatteryException("Batteries already used");
         }
     }
 
