@@ -58,7 +58,7 @@ public abstract class AdventureCard {
 
     public void setChangeGoodsFlag(boolean changeGoodsFlag) {}
 
-    public boolean[] isPlanetsVisited(){
+    public boolean[] getPlanetsVisited(){
         return null;
     }
 
