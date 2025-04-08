@@ -378,11 +378,11 @@ public class ShipBoard {
             throw new InvalidPositionException("Position is invalid");
         }
 
-        if (componentMatrix[x][y] == null) {
+        if (componentMatrix[y][x] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
-        componentMatrix[x][y].remove(this);
-        componentMatrix[x][y] = null;
+        componentMatrix[y][x].remove(this);
+        componentMatrix[y][x] = null;
         deletedComponentsCounter++;
     }
 
@@ -463,32 +463,32 @@ public class ShipBoard {
     public Components getFirstComponent(Direction direction, int rowOrCol){
         switch (direction) {
             case WEST:
-                for (int i = 0; i < componentMatrix.length; i++) {
-                    if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
-                        return componentMatrix[i][rowOrCol];
-                    }
-                }
-                break;
-
-            case NORTH:
-                for (int i = componentMatrix[0].length-1; i > 0 ; i--) {
+                for (int i = 0; i < componentMatrix[0].length; i++) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }
                 }
                 break;
-            case EAST:
+
+            case NORTH:
                 for (int i = componentMatrix.length-1; i > 0 ; i--) {
                     if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
                         return componentMatrix[i][rowOrCol];
                     }
                 }
                 break;
-
-            case SOUTH:
-                for (int i = 0; i < componentMatrix[0].length; i++) {
+            case EAST:
+                for (int i = componentMatrix[0].length-1; i > 0 ; i--) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
+                    }
+                }
+                break;
+
+            case SOUTH:
+                for (int i = 0; i < componentMatrix.length; i++) {
+                    if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
+                        return componentMatrix[i][rowOrCol];
                     }
                 }
                 break;

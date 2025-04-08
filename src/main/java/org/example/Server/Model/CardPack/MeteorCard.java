@@ -79,11 +79,11 @@ public class MeteorCard extends AdventureCard {
                 } else
                     Update(g, g.getPlayers().get(currentPlayer));
             }else{
-                g.Turn();
+                //g.Turn();
             }
         }else {
             if(currentMeteor==-1){
-                rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
+                rowOrCol=2;//g.getPlayers().get(currentPlayer).rollDice();
                 currentMeteor=0;
             }
             if(meteorList.get(currentMeteor).getDirection()==Direction.NORTH||meteorList.get(currentMeteor).getDirection()==Direction.SOUTH){
