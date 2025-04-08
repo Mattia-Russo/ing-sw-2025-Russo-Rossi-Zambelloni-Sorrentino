@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Components;
-import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
@@ -20,7 +19,7 @@ public class Pirates extends Enemy{
     private int credit;
     private int currentPlayer;
     private boolean accept;
-    private boolean lost;
+    private boolean playerLost;
     private int currentFire;
     private int rowOrCol;
     private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
@@ -35,14 +34,14 @@ public class Pirates extends Enemy{
         this.cannonFireList = cannonFireList;
         this.credit = credit;
         this.accept = false;
-        this.lost = false;
+        this.playerLost = false;
         this.currentFire = 0;
         this.currentPlayer = -1;
     }
 
     @Override
     public void setCardState(Game g) {
-        if(!lost) {
+        if(!playerLost) {
             do {
                 currentPlayer++;
             } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
@@ -74,15 +73,15 @@ public class Pirates extends Enemy{
     @Override
     public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) {
 
-        if(!lost) { // chiamata arriva da setCardState, i components sono cannons
+        if(!playerLost) { // chiamata arriva da setCardState, i components sono cannons
             try {
                 if (this.getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
                 } else if (this.getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
-                    lost = true;
+                    playerLost = true;
                     chooseRowOrCol(g.getPlayers().get(currentPlayer));
+                    setCardState(g);    // riceve cannonate o passa al player successivo
                 }
-                setCardState(g);    // riceve cannonate
             }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                 System.out.println("Error" + e.getMessage());
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
@@ -104,7 +103,7 @@ public class Pirates extends Enemy{
                             currentFire++;
                             chooseRowOrCol(p);
                         }else{
-                           lost = false;
+                           playerLost = false;
                         }
                         setCardState(g);
                     }else{  // nave divisa
@@ -113,7 +112,7 @@ public class Pirates extends Enemy{
                             chooseRowOrCol(p);
                             p.setPlayerState(new ShipWreckedState(g));
                         }else{
-                            lost=false; // imposta a false per il prossimo giocatore
+                            playerLost =false; // imposta a false per il prossimo giocatore
                             p.setPlayerState(new ShipWreckedState(g));
                         }
                     }
@@ -135,7 +134,7 @@ public class Pirates extends Enemy{
                                     currentFire++;
                                     chooseRowOrCol(p);
                                 }else{
-                                    lost=false;
+                                    playerLost =false;
                                 }
                                 setCardState(g);
                             }else{
@@ -144,7 +143,7 @@ public class Pirates extends Enemy{
                                     chooseRowOrCol(p);
                                     p.setPlayerState(new ShipWreckedState(g));
                                 }else{
-                                    lost=false;
+                                    playerLost =false;
                                     p.setPlayerState(new ShipWreckedState(g));
                                 }
                             }
@@ -158,28 +157,26 @@ public class Pirates extends Enemy{
                 }
             }
 
-            /*
-            if(cannonFireList.iterator().hasNext()) {
+            if(currentFire == cannonFireList.size()) {
                 currentFire++;
                 rowOrCol=p.rollDice();
             }else{
-                lost=false;
+                playerLost=false;
+                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
             }
             setCardState(g);
-            */
         }
     }
 
     @Override
     public void playCard(Game game){
         if (accept) {
-            game.getPlayers().get(currentPlayer).changeCredits(getCredit());
-            game.getPlayers().get(currentPlayer).changePosition(-getLostDays());
+            game.getPlayers().get(currentPlayer).changeCredits(this.credit);
+            game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays());
         }
-        this.playCard(game, 0);
         game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
         currentPlayer = -1;
-        game.Turn();
+        //game.Turn();
     }
 
     @Override
@@ -219,14 +216,19 @@ public class Pirates extends Enemy{
 //            }
 //        }
 //        if (currentFire >= cannonFireList.size(){
-//            lost = true;
+//            playerLost = true;
 //            g.Turn();
 //        }
-        rowOrCol = 3;
+        rowOrCol = 2;
     }
 
     // usage only for tests
     public void setCurrentPlayerIndex(int currentPlayerIndex) {
         this.currentPlayer = currentPlayerIndex;
+    }
+
+    // usage only for tests
+    public boolean getAccept() {
+        return accept;
     }
 }

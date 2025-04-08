@@ -143,7 +143,7 @@ public class ShipBoard {
     private ArrayList<BatteryStorage> getBatteryStorageFromPosition(ArrayList<Points> pos){
         ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
         for(Points p : pos){
-            if(!availablePositionMatrix[p.getX()][p.getY()]) {
+            if(!availablePositionMatrix[p.getY()][p.getX()]) {
                 throw new InvalidPositionException("Position is invalid");
             }
             if(getComponent(p.x,p.y).isBatteryStorage()==null) {
@@ -160,7 +160,7 @@ public class ShipBoard {
             ArrayList<Cannon> cannons = new ArrayList<>();
             ArrayList<BatteryStorage> batteryStorages;
             for (Points p : cannonPos) {
-                if (!availablePositionMatrix[p.getX()][p.getY()]) {
+                if (!availablePositionMatrix[p.getY()][p.getX()]) {
                     throw new InvalidPositionException("Position is invalid");
                 }
                 if (getComponent(p.getX(), p.getY()).isDoubleCannon() == null) {
@@ -196,7 +196,7 @@ public class ShipBoard {
             for(int i = 0; i < componentMatrix.length; i++){
                 for(int j = 0; j < componentMatrix[0].length; j++){
                     if(availablePositionMatrix[i][j]) {
-                        Components c = getComponent(i, j);
+                        Components c = getComponent(j, i);
                         if(c!=null && c.hasAlien() != null && c.hasAlien().getColour() == AlienColour.PURPLE){
                             alienPower+=2;
                         }
@@ -254,7 +254,7 @@ public class ShipBoard {
         ArrayList<BatteryStorage> batteryStorages;
         ArrayList<Shield> user_shields = new ArrayList<>();
         for(Points p : shield){
-            if(!availablePositionMatrix[p.getX()][p.getY()]) {
+            if(!availablePositionMatrix[p.getY()][p.getX()]) {
                 throw new InvalidPositionException("Position is invalid");
             }
             if(getComponent(p.getX(),p.getY()).isShield()==null) {
