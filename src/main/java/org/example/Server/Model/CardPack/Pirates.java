@@ -90,7 +90,7 @@ public class Pirates extends Enemy{
             int i=0;
             Components shipWreck = null;
             Player p = g.getPlayers().get(currentPlayer);
-            if(components == null || batteries == null) {   // non ha nulla attivo
+            if(components == null || batteries == null || components.isEmpty() || batteries.isEmpty()) {   // non ha nulla attivo
                 Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                 try {
                     p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
@@ -105,7 +105,7 @@ public class Pirates extends Enemy{
                         }else{
                            playerLost = false;
                         }
-                        setCardState(g);
+                        //setCardState(g);
                     }else{  // nave divisa
                         if(currentFire < cannonFireList.size()-1) {
                             currentFire++;
@@ -160,10 +160,10 @@ public class Pirates extends Enemy{
             if(currentFire < cannonFireList.size()-1) {
                 currentFire++;
                 this.chooseRowOrCol(g.getPlayers().get(currentPlayer));
-
             }else{
                 playerLost=false;
             }
+            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
             setCardState(g);
         }
     }

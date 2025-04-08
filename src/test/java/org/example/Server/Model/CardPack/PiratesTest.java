@@ -172,15 +172,17 @@ public class PiratesTest extends TestCase {
         assertTrue((p1.getState() instanceof ActivateShieldsState));
 
         ArrayList<Points> shields = new ArrayList<>();
-        shields.add(new Points(2, 2));
+        //shields.add(new Points(2, 2));
         //shields.add(new Points(5, 4));
 
         ArrayList<Points> batteries = new ArrayList<>();
         //batteries.add(new Points(2, 3));
-        batteries.add(new Points(3, 3));
+        //batteries.add(new Points(3, 3));
 
         card.playCard(game, shields, batteries);
 
+        //assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][2]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[4][2]);
         assertTrue((p1.getState() instanceof WaitingState));
 
         // p2 attiva 1 cannone davanti, totalPower = 4
