@@ -99,7 +99,7 @@ public class Pirates extends Enemy{
                         i++;
                     }
                     if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){ // nave intera
-                        if(cannonFireList.iterator().hasNext()) {
+                        if(currentFire < cannonFireList.size()-1) {
                             currentFire++;
                             chooseRowOrCol(p);
                         }else{
@@ -107,7 +107,7 @@ public class Pirates extends Enemy{
                         }
                         setCardState(g);
                     }else{  // nave divisa
-                        if(cannonFireList.iterator().hasNext()) {
+                        if(currentFire < cannonFireList.size()-1) {
                             currentFire++;
                             chooseRowOrCol(p);
                             p.setPlayerState(new ShipWreckedState(g));
@@ -130,7 +130,7 @@ public class Pirates extends Enemy{
                                 i++;
                             }
                             if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
-                                if(cannonFireList.iterator().hasNext()) {
+                                if(currentFire < cannonFireList.size()-1) {
                                     currentFire++;
                                     chooseRowOrCol(p);
                                 }else{
@@ -138,7 +138,7 @@ public class Pirates extends Enemy{
                                 }
                                 setCardState(g);
                             }else{
-                                if(cannonFireList.iterator().hasNext()) {
+                                if(currentFire < cannonFireList.size()-1) {
                                     currentFire++;
                                     chooseRowOrCol(p);
                                     p.setPlayerState(new ShipWreckedState(g));
@@ -157,12 +157,12 @@ public class Pirates extends Enemy{
                 }
             }
 
-            if(currentFire < cannonFireList.size()) {
+            if(currentFire < cannonFireList.size()-1) {
                 currentFire++;
-                rowOrCol=p.rollDice();
+                this.chooseRowOrCol(g.getPlayers().get(currentPlayer));
+
             }else{
                 playerLost=false;
-                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
             }
             setCardState(g);
         }

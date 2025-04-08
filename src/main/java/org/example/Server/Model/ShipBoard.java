@@ -400,7 +400,7 @@ public class ShipBoard {
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
-                    if(!connectedComponents.contains(componentMatrix[i][j])){
+                    if(componentMatrix[i][j] != null && !connectedComponents.contains(componentMatrix[i][j])){
                         return true;
                     }
                 }
@@ -462,7 +462,7 @@ public class ShipBoard {
 
     public Components getFirstComponent(Direction direction, int rowOrCol){
         switch (direction) {
-            case WEST:
+            case EAST:
                 for (int i = 0; i < componentMatrix[0].length; i++) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
@@ -470,14 +470,14 @@ public class ShipBoard {
                 }
                 break;
 
-            case NORTH:
+            case SOUTH:
                 for (int i = componentMatrix.length-1; i > 0 ; i--) {
                     if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
                         return componentMatrix[i][rowOrCol];
                     }
                 }
                 break;
-            case EAST:
+            case WEST:
                 for (int i = componentMatrix[0].length-1; i > 0 ; i--) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
@@ -485,7 +485,7 @@ public class ShipBoard {
                 }
                 break;
 
-            case SOUTH:
+            case NORTH:
                 for (int i = 0; i < componentMatrix.length; i++) {
                     if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
                         return componentMatrix[i][rowOrCol];
