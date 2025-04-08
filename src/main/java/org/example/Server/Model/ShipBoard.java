@@ -126,7 +126,7 @@ public class ShipBoard {
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
                 if(availablePositionMatrix[i][j]) {
-                    Components c = getComponent(i, j);
+                    Components c = getComponent(j, i);
                     if(c!=null) {
                         c.addStorage(totalGoodsList);
                     }
