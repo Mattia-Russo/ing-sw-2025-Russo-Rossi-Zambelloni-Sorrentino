@@ -282,7 +282,7 @@ public class ShipBoard {
         ArrayList<Cannon> cannons = new ArrayList<>();
         ArrayList<BatteryStorage> batteryStorages;
         for(Points p : cannon){
-            if(!availablePositionMatrix[p.getX()][p.getY()]) {
+            if(!availablePositionMatrix[p.getY()][p.getX()]) {
                 throw new InvalidPositionException("Position is invalid");
             }
             if(getComponent(p.getX(),p.getY()).isDoubleCannon()==null) {
@@ -500,8 +500,8 @@ public class ShipBoard {
 
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0 && rowOrCol < 7) {
-            for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
+            for(int i = 0; i < componentMatrix.length; i++){
+                if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
@@ -511,8 +511,8 @@ public class ShipBoard {
                 }
             }
         } else if(rowOrCol < 5){
-            for(int i = 0; i < componentMatrix.length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
@@ -526,9 +526,9 @@ public class ShipBoard {
     }   // come fa a capire l'utente se è  meteor swarm o stray big meteor (l'immagine è la stessa, la gestione è diversa)
 
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
-        if (dir.ordinal()%2 == 0 && rowOrCol < 7){
-            for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
+        if (dir.ordinal()%2 == 0 && rowOrCol < 7) {
+            for(int i = 0; i < componentMatrix.length; i++){
+                if(availablePositionMatrix[i][rowOrCol]){
                     Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isDoubleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
@@ -538,8 +538,8 @@ public class ShipBoard {
                 }
             }
         } else if(rowOrCol < 5){
-            for(int i = 0; i < componentMatrix.length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                if(availablePositionMatrix[rowOrCol][i]){
                     Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isDoubleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
@@ -573,22 +573,22 @@ public class ShipBoard {
                 if(!validPosition(c.getPosX(), c.getPosY()-1) && c.getDirConnector(Direction.NORTH) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && componentMatrix[c.getPosX()][c.getPosY()-1] == null;
+                    return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && componentMatrix[c.getPosY()-1][c.getPosX()] == null;
             case EAST:
                 if(!validPosition(c.getPosX()+1, c.getPosY()) && c.getDirConnector(Direction.EAST) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.EAST) != Connector.EMPTY && componentMatrix[c.getPosX()+1][c.getPosY()] == null;
+                    return c.getDirConnector(Direction.EAST) != Connector.EMPTY && componentMatrix[c.getPosY()][c.getPosX()+1] == null;
             case SOUTH:
                 if(!validPosition(c.getPosX(), c.getPosY()+1) && c.getDirConnector(Direction.SOUTH) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && componentMatrix[c.getPosX()][c.getPosY()+1] == null;
+                    return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && componentMatrix[c.getPosY()+1][c.getPosX()] == null;
             case WEST:
                 if(!validPosition(c.getPosX()-1, c.getPosY()) && c.getDirConnector(Direction.WEST) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.WEST) != Connector.EMPTY && componentMatrix[c.getPosX()-1][c.getPosY()] == null;
+                    return c.getDirConnector(Direction.WEST) != Connector.EMPTY && componentMatrix[c.getPosY()][c.getPosX()-1] == null;
             default:
                 return false;
         }
