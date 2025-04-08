@@ -71,4 +71,6 @@ public abstract class AdventureCard {
     public int getNumGoodsLose(){
         return -1;
     }
+
+    public void setShipWrecked(boolean shipWrecked) {}
 }

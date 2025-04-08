@@ -411,10 +411,8 @@ public class ShipBoard {
         ArrayList<Components> connectedComponents = findConnectedComponents(row,col);
         for(int i = 0; i < componentMatrix.length; i++){
             for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]) {
-                    if(!connectedComponents.contains(componentMatrix[i][j]) && componentMatrix[i][j]!=null){
-                        removeComponent(i,j);
-                    }
+                if(availablePositionMatrix[i][j] && componentMatrix[i][j]!=null && !connectedComponents.contains(componentMatrix[i][j])){
+                    removeComponent(j,i);
                 }
             }
         }

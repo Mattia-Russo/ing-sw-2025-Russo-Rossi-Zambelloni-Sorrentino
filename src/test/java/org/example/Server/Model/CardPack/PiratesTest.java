@@ -40,7 +40,7 @@ public class PiratesTest extends TestCase {
         //cannonFire.add(new CannonFire(1, Direction.WEST));
         //cannonFire.add(new CannonFire(0, Direction.WEST));
         card = new Pirates(12, cannonFire, 2, 2, 3);
-
+        game.setCard(card);
 
         ship1 = p1.getPlayerShipBoard();
         ship2 = p2.getPlayerShipBoard();
@@ -181,6 +181,7 @@ public class PiratesTest extends TestCase {
         assertTrue((p1.getState() instanceof ShipWreckedState));
 
         p1.getState().chooseWrecked(p1, new Points(4, 1));
+        p1.getState().endWreckedState();
 
         assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][1]);
         assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][2]);

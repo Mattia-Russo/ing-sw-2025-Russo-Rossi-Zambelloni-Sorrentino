@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
@@ -82,7 +83,7 @@ public class Pirates extends Enemy{
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
                 } else if (this.getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
                     playerLost = true;
-                    chooseRowOrCol(g.getPlayers().get(currentPlayer));
+                    chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
                     setCardState(g);    // riceve cannonate o passa al player successivo
                 }
             }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
@@ -96,15 +97,17 @@ public class Pirates extends Enemy{
             if(components == null || batteries == null || components.isEmpty() || batteries.isEmpty()) {   // non ha nulla attivo
                 Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                 try {
-                    p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                    while(shipWreck == null){   // cerco un componente a caso della nave
-                        shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
-                        i++;
-                    }
-                    // nave divisa
-                    if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosY(), shipWreck.getPosX())){
-                        p.setPlayerState(new ShipWreckedState(g));
-                        this.shipWrecked = true;
+                    if (c != null){
+                        p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                        while(shipWreck == null){   // cerco un componente a caso della nave
+                            shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                            i++;
+                        }
+                        // nave divisa
+                        if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosY(), shipWreck.getPosX())){
+                            p.setPlayerState(new ShipWreckedState(g));
+                            this.shipWrecked = true;
+                        }
                     }
                 }catch (InvalidPositionException | AlreadyEmptyPositionException e){
                     System.out.println("Error: " + e.getMessage());
@@ -122,7 +125,7 @@ public class Pirates extends Enemy{
                             if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
                                 if(currentFire < cannonFireList.size()-1) {
                                     currentFire++;
-                                    chooseRowOrCol(p);
+                                    chooseRowOrCol(p, g);
                                 }else{
                                     playerLost =false;
                                 }
@@ -130,7 +133,7 @@ public class Pirates extends Enemy{
                             }else{
                                 if(currentFire < cannonFireList.size()-1) {
                                     currentFire++;
-                                    chooseRowOrCol(p);
+                                    chooseRowOrCol(p, g);
                                     p.setPlayerState(new ShipWreckedState(g));
                                 }else{
                                     playerLost =false;
@@ -150,7 +153,7 @@ public class Pirates extends Enemy{
             if(!shipWrecked) {
                 if(currentFire < cannonFireList.size()-1) {
                     currentFire++;
-                    this.chooseRowOrCol(g.getPlayers().get(currentPlayer));
+                    this.chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
                 }else{
                     playerLost=false;
                 }
@@ -168,7 +171,7 @@ public class Pirates extends Enemy{
         }
         game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
         currentPlayer = -1;
-        //game.Turn();
+        game.Turn();
     }
 
     @Override
@@ -194,24 +197,28 @@ public class Pirates extends Enemy{
         return cannonFireList;
     }
 
-    private void chooseRowOrCol(Player p) {
-//        rowOrCol = p.rollDice();
-//        if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
-//            while (rowOrCol > 7 || rowOrCol < 0){
-//                rowOrCol = p.rollDice();
-//                currentFire++;
-//            }
-//        } else {
-//            while (rowOrCol > 5 || rowOrCol < 0){
-//                rowOrCol = p.rollDice();
-//                currentFire++;
-//            }
-//        }
-//        if (currentFire >= cannonFireList.size(){
-//            playerLost = true;
-//            g.Turn();
-//        }
-        rowOrCol = 3;
+    private void chooseRowOrCol(Player p, Game g) {
+        rowOrCol = p.rollDice();
+        if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
+            while (rowOrCol > 7 || rowOrCol < 0){
+                rowOrCol = p.rollDice();
+                currentFire++;
+            }
+        } else {
+            while (rowOrCol > 5 || rowOrCol < 0){
+                rowOrCol = p.rollDice();
+                currentFire++;
+            }
+        }
+        if (currentFire >= cannonFireList.size()){
+            playerLost = true;
+            g.Turn();
+        }
+    }
+
+    @Override
+    public void setShipWrecked(boolean shipWrecked) {
+        this.shipWrecked = shipWrecked;
     }
 
     // usage only for tests

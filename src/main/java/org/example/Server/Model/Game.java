@@ -51,6 +51,7 @@ public class Game{
     public void setCard(AdventureCard card) {
         deck.clear();
         deck.add(card);
+        this.currentCard = card;
     }
 
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
