@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.example.Server.Controller.States.ActivateCannonsState;
 import org.example.Server.Controller.States.ActivateShieldsState;
 import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.States.WinEnemyState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -36,7 +37,7 @@ public class PiratesTest extends TestCase {
         game = new Game(4, 2, players, 1, 30);
         ArrayList<CannonFire> cannonFire = new ArrayList<>();
         cannonFire.add(new CannonFire(0, Direction.NORTH));
-        //cannonFire.add(new CannonFire(1, Direction.SOUTH));
+        cannonFire.add(new CannonFire(1, Direction.SOUTH));
         //cannonFire.add(new CannonFire(1, Direction.NORTH));
         //cannonFire.add(new CannonFire(0, Direction.EAST));
         //cannonFire.add(new CannonFire(1, Direction.WEST));
@@ -190,17 +191,17 @@ public class PiratesTest extends TestCase {
 
         card.playCard(game, cannons, batteries);
 
-        assertTrue(p2.getState() instanceof ActivateCannonsState);
+        assertTrue(p2.getState() instanceof WinEnemyState);
 
         card.setAccept(true);
 
         assertEquals(0, p2.getNumCredits());
-        assertEquals(0, p1.getPosition());
+        assertEquals(3, p2.getPosition());
 
         card.playCard(game);
 
         assertEquals(12, p2.getNumCredits());
-        assertEquals(-2, p1.getPosition());
+        assertEquals(1, p2.getPosition());
 
         assertTrue(p2.getState() instanceof WaitingState);
     }

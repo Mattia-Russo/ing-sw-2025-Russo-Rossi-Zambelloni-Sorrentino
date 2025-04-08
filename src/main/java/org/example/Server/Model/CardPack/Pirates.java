@@ -157,7 +157,7 @@ public class Pirates extends Enemy{
                 }
             }
 
-            if(currentFire == cannonFireList.size()) {
+            if(currentFire < cannonFireList.size()) {
                 currentFire++;
                 rowOrCol=p.rollDice();
             }else{
