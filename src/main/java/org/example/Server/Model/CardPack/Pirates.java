@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pirates extends Enemy{
-    private int credit;
+    private final int credit;
     private int currentPlayer;
     private boolean accept;
     private boolean playerLost;
     private int currentFire;
     private int rowOrCol;
+    private boolean shipWrecked;
     private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
     @JsonCreator
     public Pirates(
@@ -35,6 +36,7 @@ public class Pirates extends Enemy{
         this.credit = credit;
         this.accept = false;
         this.playerLost = false;
+        this.shipWrecked = false;
         this.currentFire = 0;
         this.currentPlayer = -1;
     }
@@ -44,6 +46,7 @@ public class Pirates extends Enemy{
         if(!playerLost) {
             do {
                 currentPlayer++;
+                this.currentFire = 0;
             } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
             if (currentPlayer < g.getPlayers().size()) {
@@ -98,23 +101,10 @@ public class Pirates extends Enemy{
                         shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                         i++;
                     }
-                    if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){ // nave intera
-                        if(currentFire < cannonFireList.size()-1) {
-                            currentFire++;
-                            chooseRowOrCol(p);
-                        }else{
-                           playerLost = false;
-                        }
-                        //setCardState(g);
-                    }else{  // nave divisa
-                        if(currentFire < cannonFireList.size()-1) {
-                            currentFire++;
-                            chooseRowOrCol(p);
-                            p.setPlayerState(new ShipWreckedState(g));
-                        }else{
-                            playerLost =false; // imposta a false per il prossimo giocatore
-                            p.setPlayerState(new ShipWreckedState(g));
-                        }
+                    // nave divisa
+                    if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosY(), shipWreck.getPosX())){
+                        p.setPlayerState(new ShipWreckedState(g));
+                        this.shipWrecked = true;
                     }
                 }catch (InvalidPositionException | AlreadyEmptyPositionException e){
                     System.out.println("Error: " + e.getMessage());
@@ -157,14 +147,16 @@ public class Pirates extends Enemy{
                 }
             }
 
-            if(currentFire < cannonFireList.size()-1) {
-                currentFire++;
-                this.chooseRowOrCol(g.getPlayers().get(currentPlayer));
-            }else{
-                playerLost=false;
+            if(!shipWrecked) {
+                if(currentFire < cannonFireList.size()-1) {
+                    currentFire++;
+                    this.chooseRowOrCol(g.getPlayers().get(currentPlayer));
+                }else{
+                    playerLost=false;
+                }
+                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                setCardState(g);
             }
-            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
-            setCardState(g);
         }
     }
 
@@ -219,7 +211,7 @@ public class Pirates extends Enemy{
 //            playerLost = true;
 //            g.Turn();
 //        }
-        rowOrCol = 2;
+        rowOrCol = 3;
     }
 
     // usage only for tests

@@ -1,10 +1,7 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.ActivateCannonsState;
-import org.example.Server.Controller.States.ActivateShieldsState;
-import org.example.Server.Controller.States.WaitingState;
-import org.example.Server.Controller.States.WinEnemyState;
+import org.example.Server.Controller.States.*;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -37,8 +34,8 @@ public class PiratesTest extends TestCase {
         game = new Game(4, 2, players, 1, 30);
         ArrayList<CannonFire> cannonFire = new ArrayList<>();
         cannonFire.add(new CannonFire(0, Direction.NORTH));
-        cannonFire.add(new CannonFire(1, Direction.SOUTH));
-        //cannonFire.add(new CannonFire(1, Direction.NORTH));
+        cannonFire.add(new CannonFire(1, Direction.NORTH));
+        cannonFire.add(new CannonFire(1, Direction.NORTH));
         //cannonFire.add(new CannonFire(0, Direction.EAST));
         //cannonFire.add(new CannonFire(1, Direction.WEST));
         //cannonFire.add(new CannonFire(0, Direction.WEST));
@@ -176,18 +173,31 @@ public class PiratesTest extends TestCase {
         //shields.add(new Points(5, 4));
 
         ArrayList<Points> batteries = new ArrayList<>();
-        //batteries.add(new Points(2, 3));
         //batteries.add(new Points(3, 3));
 
         card.playCard(game, shields, batteries);
 
-        //assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][2]);
+
+        assertTrue((p1.getState() instanceof ShipWreckedState));
+
+        p1.getState().chooseWrecked(p1, new Points(4, 1));
+
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][1]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][2]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[3][1]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[3][2]);
         assertNull(p1.getPlayerShipBoard().getComponentMatrix()[4][2]);
-        assertTrue((p1.getState() instanceof WaitingState));
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[4][1]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[1][3]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][3]);
+        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[3][3]);
+
 
         // p2 attiva 1 cannone davanti, totalPower = 4
         ArrayList<Points> cannons = new ArrayList<>();
         cannons.add(new Points(3, 1));
+
+        batteries.add(new Points(2, 3));
 
         assertTrue((p2.getState() instanceof ActivateCannonsState));
 
