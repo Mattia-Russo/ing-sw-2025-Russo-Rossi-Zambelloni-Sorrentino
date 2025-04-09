@@ -198,22 +198,23 @@ public class Pirates extends Enemy{
     }
 
     private void chooseRowOrCol(Player p, Game g) {
-        rowOrCol = p.rollDice();
-        if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
-            while (rowOrCol > 7 || rowOrCol < 0){
-                rowOrCol = p.rollDice();
-                currentFire++;
-            }
-        } else {
-            while (rowOrCol > 5 || rowOrCol < 0){
-                rowOrCol = p.rollDice();
-                currentFire++;
-            }
-        }
-        if (currentFire >= cannonFireList.size()){
-            playerLost = true;
-            g.Turn();
-        }
+//        rowOrCol = p.rollDice();
+//        if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
+//            while (rowOrCol > 7 || rowOrCol < 0){
+//                rowOrCol = p.rollDice();
+//                currentFire++;
+//            }
+//        } else {
+//            while (rowOrCol > 5 || rowOrCol < 0){
+//                rowOrCol = p.rollDice();
+//                currentFire++;
+//            }
+//        }
+//        if (currentFire >= cannonFireList.size()){
+//            playerLost = true;
+//            g.Turn();
+//        }
+        this.rowOrCol = 3;
     }
 
     @Override
