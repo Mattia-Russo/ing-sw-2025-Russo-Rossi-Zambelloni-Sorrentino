@@ -22,7 +22,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g = new Game(4, 0, players, 0, 10);
+        Game g = new Game(4, 0, 0);
         assertEquals(players,g.getPlayers());
     }
 
@@ -37,7 +37,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4,1, players,1, 30);
+        Game g=new Game(4,1, 1);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -62,7 +62,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g=new Game(4, 1, players,1, 30);
+        Game g=new Game(4, 1, 1);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -85,7 +85,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g=new Game(4,1,  players,1, 30);
+        Game g=new Game(4,1,  1);
 
         g.Turn();
 
@@ -105,7 +105,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g=new Game(4,1,  players,1, 30);
+        Game g=new Game(4,1,  1);
         p1.abandon();
         p3.abandon();
         assertTrue(g.checkGiveUp(p1));
@@ -124,7 +124,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4,1,  players,1, 30);
+        Game g=new Game(4,1,  1);
 
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
@@ -266,7 +266,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 1, players,1, 30);
+        Game g=new Game(4, 1, 1);
 
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
