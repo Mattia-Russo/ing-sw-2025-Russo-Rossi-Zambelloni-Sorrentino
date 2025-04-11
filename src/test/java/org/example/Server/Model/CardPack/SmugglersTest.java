@@ -1,7 +1,7 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;

@@ -2,9 +2,9 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.States.ChangeGoodsState;
-import org.example.Server.Controller.States.LandOnPlanetsState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.ChangeGoodsState;
+import org.example.Server.Controller.PlayerStates.LandOnPlanetsState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.Game;
 

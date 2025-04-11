@@ -1,6 +1,6 @@
 package org.example.Server.Model;
 
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Components;
 
@@ -14,6 +14,7 @@ import org.example.Server.Utils.TileLoader;
 import java.util.*;
 
 public class Game{
+
     private final int numPlayer;
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
@@ -268,6 +269,15 @@ public class Game{
 
             return c;
         }
+    }
+
+    public Player getPlayerById(int id) {
+        for (Player p : players) {
+            if (p.getID() == id){
+                return p;
+            }
+        }
+        return null;
     }
 }
 

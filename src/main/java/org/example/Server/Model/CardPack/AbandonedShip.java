@@ -2,8 +2,8 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.States.LandOnAbandonState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.LandOnAbandonState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.Game;
 
 public class AbandonedShip extends AdventureCard {

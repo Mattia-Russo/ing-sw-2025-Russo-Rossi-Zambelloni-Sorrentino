@@ -1,7 +1,6 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.ActivateShieldsState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;

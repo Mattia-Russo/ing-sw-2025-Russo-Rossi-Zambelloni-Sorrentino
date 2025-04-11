@@ -1,17 +1,15 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.ChangeGoodsState;
-import org.example.Server.Controller.States.LandOnAbandonState;
-import org.example.Server.Controller.States.LandOnPlanetsState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.ChangeGoodsState;
+import org.example.Server.Controller.PlayerStates.LandOnPlanetsState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.ComponentsPack.Goods;
 import org.example.Server.Model.ComponentsPack.GoodsColour;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlanetsCardTest extends TestCase {
 

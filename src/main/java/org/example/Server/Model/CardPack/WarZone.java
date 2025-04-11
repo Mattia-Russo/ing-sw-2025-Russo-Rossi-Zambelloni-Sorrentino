@@ -2,7 +2,7 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;

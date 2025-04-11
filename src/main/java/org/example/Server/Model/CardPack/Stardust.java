@@ -2,11 +2,7 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.States.WaitingState;
 import org.example.Server.Model.Game;
-import org.example.Server.Model.Player;
-
-import java.util.ArrayList;
 
 public class Stardust extends AdventureCard{
     @JsonCreator

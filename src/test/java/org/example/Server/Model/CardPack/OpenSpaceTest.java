@@ -1,16 +1,15 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.AbandonedState;
-import org.example.Server.Controller.States.ActivateEnginesState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.AbandonedState;
+import org.example.Server.Controller.PlayerStates.ActivateEnginesState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 import org.example.Server.Model.ShipBoard;
 
-import javax.accessibility.AccessibleRelation;
 import java.util.ArrayList;
 
 public class OpenSpaceTest extends TestCase {

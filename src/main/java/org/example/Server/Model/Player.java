@@ -1,8 +1,8 @@
 package org.example.Server.Model;
 
-import org.example.Server.Controller.States.AbandonedState;
-import org.example.Server.Controller.States.PlayerState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.AbandonedState;
+import org.example.Server.Controller.PlayerStates.PlayerState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Connector;
@@ -49,6 +49,10 @@ public class Player {
         }else{
             playerShipBoard= ShipboardLoader.loadLevel1();
         }
+    }
+
+    public int getID(){
+        return this.id;
     }
 
     public int getPosition(){

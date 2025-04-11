@@ -1,4 +1,4 @@
-package org.example.Server.Controller.States;
+package org.example.Server.Controller.PlayerStates;
 
 import org.example.Server.Model.Exceptions.PlanetAlreadyVisitedException;
 import org.example.Server.Model.Game;

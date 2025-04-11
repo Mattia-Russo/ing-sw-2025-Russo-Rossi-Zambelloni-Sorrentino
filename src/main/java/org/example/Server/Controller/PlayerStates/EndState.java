@@ -1,4 +1,4 @@
-package org.example.Server.Controller.States;
+package org.example.Server.Controller.PlayerStates;
 
 import org.example.Server.Model.Exceptions.EndStateException;
 import org.example.Server.Model.Game;
@@ -152,11 +152,5 @@ public class EndState extends PlayerState{
     @Override
     public void endBuildShip(Player player){
         throw new EndStateException("The game has ended, cannot do any action anymore");
-    }
-
-    @Override
-    public void exitGame(Player player){
-        game.getPlayers().remove(player);
-        player.setPlayerState(new OutOfGameState());
     }
 }
