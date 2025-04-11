@@ -48,9 +48,9 @@ public class MeteorCard extends AdventureCard {
         } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
 
-        if(currentPlayer == g.getPlayers().size()){
-            meteorList.remove(currentMeteor);
+        if(currentPlayer == g.getPlayers().size()||meteorList.isEmpty()){
             if(!meteorList.isEmpty()){
+                meteorList.remove(currentMeteor);
                 currentPlayer=-1;
                 do{
                     currentPlayer++;
