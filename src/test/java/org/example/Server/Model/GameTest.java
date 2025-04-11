@@ -22,7 +22,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g = new Game(4, 0, 0);
+        Game g = new Game(4, 0, 0, null);
         g.getPlayers().addAll(players);
         assertEquals(players,g.getPlayers());
     }
@@ -38,7 +38,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4,1, 1);
+        Game g=new Game(4,1, 1, null);
         g.getPlayers().addAll(players);
 
         p1.changePosition(4);
@@ -64,7 +64,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g=new Game(4, 1, 1);
+        Game g=new Game(4, 1, 1, null);
         g.getPlayers().addAll(players);
         p1.changePosition(4);
         p2.changePosition(1);
@@ -87,7 +87,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g=new Game(4,1,  1);
+        Game g=new Game(4,1,  1, null);
         g.getPlayers().addAll(players);
 
         g.Turn();
@@ -108,7 +108,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        Game g=new Game(4,1,  1);
+        Game g=new Game(4,1,  1, null);
         g.getPlayers().addAll(players);
         p1.abandon();
         p3.abandon();
@@ -139,7 +139,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4,1,  1);
+        Game g=new Game(4,1,  1, null);
         g.getPlayers().addAll(players);
         ShipBoard sp1 = new ShipBoard(availablePositionMatrix, 7, 5);
         ShipBoard sp2 = new ShipBoard(availablePositionMatrix, 7, 5);
@@ -281,7 +281,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 1, 1);
+        Game g=new Game(4, 1, 1, null);
 
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
