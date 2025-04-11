@@ -42,7 +42,7 @@ public class MeteorCardTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        Game g=new Game(4, 2, 1);
+        Game g=new Game(4, 2, 1, null);
         Meteor meteor1=new Meteor(1,  Direction.EAST);
         Meteor meteor2=new Meteor(0, Direction.NORTH);
         List<Meteor> meteors=new ArrayList<>();
@@ -130,7 +130,7 @@ public class MeteorCardTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        Game g=new Game(4, 2, 1);
+        Game g=new Game(4, 2, 1, null);
         Meteor meteor1=new Meteor(1,  Direction.EAST);
         Meteor meteor2=new Meteor(0, Direction.NORTH);
         List<Meteor> meteors=new ArrayList<>();

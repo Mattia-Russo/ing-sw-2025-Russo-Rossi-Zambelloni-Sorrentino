@@ -53,7 +53,7 @@ public class PlanetsCardTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2,1);
+        Game game = new Game(3, 2,1, null);
 
 
         Goods[] goods1 = new Goods[3];
@@ -105,7 +105,7 @@ public class PlanetsCardTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1);
+        Game game = new Game(3, 2, 1, null);
 
 
         Goods[] goods1 = new Goods[3];
