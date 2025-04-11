@@ -39,6 +39,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
         Game g=new Game(4,1, 1);
+        g.getPlayers().addAll(players);
 
         p1.changePosition(4);
         p2.changePosition(1);
@@ -64,7 +65,7 @@ public class GameTest extends TestCase {
         players.add(p4);
 
         Game g=new Game(4, 1, 1);
-
+        g.getPlayers().addAll(players);
         p1.changePosition(4);
         p2.changePosition(1);
         p3.changePosition(9);
@@ -87,6 +88,7 @@ public class GameTest extends TestCase {
         players.add(p4);
 
         Game g=new Game(4,1,  1);
+        g.getPlayers().addAll(players);
 
         g.Turn();
 
@@ -107,6 +109,7 @@ public class GameTest extends TestCase {
         players.add(p4);
 
         Game g=new Game(4,1,  1);
+        g.getPlayers().addAll(players);
         p1.abandon();
         p3.abandon();
         assertTrue(g.checkGiveUp(p1));
@@ -116,6 +119,17 @@ public class GameTest extends TestCase {
     }
 
     public void testCalculateWinners() {
+        boolean[][] availablePositionMatrix = new boolean[7][5];
+        Components[][] ComponentMatrix = new Components[7][5];
+        for(int i=0; i<7; i++){
+            for(int j=0; j<5; j++){
+                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
+                    availablePositionMatrix[i][j] = false;
+                }else{
+                    availablePositionMatrix[i][j]=true;
+                }
+            }
+        }
         Player p1 = new Player(12, "a");
         Player p2 = new Player( 7, "a");
         Player p3 = new Player( 14, "a");
@@ -126,11 +140,11 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
         Game g=new Game(4,1,  1);
-
-        ShipBoard sp1 = p1.getPlayerShipBoard();
-        ShipBoard sp2 = p2.getPlayerShipBoard();
-        ShipBoard sp3 = p3.getPlayerShipBoard();
-        ShipBoard sp4 = p4.getPlayerShipBoard();
+        g.getPlayers().addAll(players);
+        ShipBoard sp1 = new ShipBoard(availablePositionMatrix, 7, 5);
+        ShipBoard sp2 = new ShipBoard(availablePositionMatrix, 7, 5);
+        ShipBoard sp3 = new ShipBoard(availablePositionMatrix, 7, 5);
+        ShipBoard sp4 = new ShipBoard(availablePositionMatrix, 7, 5);
 
 
         Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
