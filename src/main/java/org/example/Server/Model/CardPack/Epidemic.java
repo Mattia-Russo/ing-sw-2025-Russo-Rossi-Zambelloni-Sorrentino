@@ -42,7 +42,7 @@ public class Epidemic extends AdventureCard{
         for(int i = 0; i < s.getComponentMatrix().length; i++){
             for(int j = 0; j < s.getComponentMatrix()[0].length; j++){
                 if(s.getAvailablePositionMatrix()[i][j]){
-                    Components c = s.getComponent(i,j);
+                    Components c = s.getComponent(j,i);
                     if(c != null){
                         c.manageEpidemic(visited, s.getComponentMatrix().length, s.getComponentMatrix()[0].length, s);
                     }

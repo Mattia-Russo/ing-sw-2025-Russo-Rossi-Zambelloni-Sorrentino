@@ -157,7 +157,7 @@ public class Cabin extends Components {
   
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY, ShipBoard s){
         ArrayList <Cabin> cabins = new ArrayList<Cabin>();
-        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY, s);
+        addEpidemicCabin(this.getPosY(), this.getPosX(), cabins, visited, dimX, dimY, s);
 
         if(cabins.size()>1){
             for (Cabin c : cabins) {
