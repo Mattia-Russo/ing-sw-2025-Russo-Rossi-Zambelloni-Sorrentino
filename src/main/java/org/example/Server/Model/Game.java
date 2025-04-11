@@ -129,7 +129,7 @@ public class Game{
         return p.isAbandoned();
     }
 
-    private ArrayList<Player> calculateWinner() {
+    private ArrayList<Player> calculateWinners() {
 
         ArrayList<Player> winners = new ArrayList<>();
         for (Player p : players) {
@@ -141,7 +141,7 @@ public class Game{
         return winners;
     }
 
-    private void calculateFinalCredits() {
+    public void calculateFinalCredits() {
         int i = 4;
         ArrayList<Player> bestShips = new ArrayList<>();
         for (Player p : players) {
@@ -196,26 +196,30 @@ public class Game{
         return this.currentCard;
     }
 
+    //usage only for tests
+    public List<AdventureCard> getDeck(){
+        return this.deck;
+    }
+
     public void Turn() {
-        if (this.deck.isEmpty() && currentCard!= null){
+        if (this.deck.isEmpty()){
             for (Player player : players) {
                 player.setPlayerState(new EndState(this));
             }
             calculateFinalCredits();
-            ArrayList<Player> winners = calculateWinner();
+            ArrayList<Player> winners = calculateWinners();
             for (Player player : winners) {
                 System.out.println("Congratulations player " + player.getName() + " won the game");
             }
         } else {
-            if(currentCard != null) {
-                deck.remove(currentCard);
-            }
             adjustPlayerPositions();
             checkForcedAbandon();
             pickCard();
             currentCard.setCardState(this);
         }
     }
+
+
 
     public void checkAllPlayersShip(){
         for (Player p : players) {
@@ -241,15 +245,15 @@ public class Game{
                 c=p.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
                 i++;
             }
-            i=0;
             if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
-                c=null;
                 p.setPlayerState(new ShipWreckedState(this));
             }
+            i=0;
+            c=null;
         }
     }
 
-    public void StartBuildingShips() {
+    public void startBuildingShips() {
         for (Player p : players){
             p.setPlayerState(new BuildShipState(this));
         }
@@ -258,7 +262,7 @@ public class Game{
     public Components pickComponentTile() {
         if ((this.componentsList == null)) {
             throw new TilesHeapNotInitializedException("Tiles heap has not been initialized");
-        } else if (this.deck.isEmpty()) {
+        } else if (this.componentsList.isEmpty()) {
             throw new EmptyComponentListException("Components heap is empty");
         } else {
             Random rand = new Random();
@@ -272,6 +276,12 @@ public class Game{
         }
     }
 
+
+    //usage only for test
+    public List<Components> getComponentsList(){
+        return this.componentsList;
+    }
+  
     public Player getPlayerById(int id) {
         for (Player p : players) {
             if (p.getID() == id){
@@ -279,6 +289,7 @@ public class Game{
             }
         }
         return null;
+
     }
 }
 

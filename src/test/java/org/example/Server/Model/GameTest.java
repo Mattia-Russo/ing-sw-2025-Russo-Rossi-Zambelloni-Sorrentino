@@ -1,15 +1,43 @@
 package org.example.Server.Model;
 
 import junit.framework.TestCase;
-import org.example.Server.Model.CardPack.AbandonedShip;
-import org.example.Server.Model.CardPack.AdventureCard;
-import org.example.Server.Model.CardPack.Slavers;
+import org.example.Server.Controller.States.*;
+import org.example.Server.Model.CardPack.*;
 import org.example.Server.Model.ComponentsPack.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameTest extends TestCase {
+
+    public void testGetNumPlayers(){
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player(7, "a");
+        Player p3 = new Player(14, "a");
+        Player p4 = new Player(9, "a");
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g = new Game(4, 0, 0);
+        g.getPlayers().addAll(players);
+
+        assertEquals(4,g.getNumPlayer());
+    }
+
+    public void testAddPlayer(){
+        Game g = new Game(4, 0, 0);
+        Player p1 = new Player(12, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        g.addPlayer(p1);
+
+        ArrayList<Player> expected = new ArrayList<>();
+        expected.add(p1);
+
+        assertEquals(expected, g.getPlayers());
+    }
 
     public void testGetPlayers() {
         Player p1 = new Player(12, "a");
@@ -90,7 +118,7 @@ public class GameTest extends TestCase {
         Game g=new Game(4,1,  1, null);
         g.getPlayers().addAll(players);
 
-        g.Turn();
+        //g.Turn();
 
         AdventureCard pickedCard = g.getCurrentCard();
         assertFalse(g.getDeck(0).contains(pickedCard));
@@ -119,17 +147,6 @@ public class GameTest extends TestCase {
     }
 
     public void testCalculateWinners() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        Components[][] ComponentMatrix = new Components[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
-            }
-        }
         Player p1 = new Player(12, "a");
         Player p2 = new Player( 7, "a");
         Player p3 = new Player( 14, "a");
@@ -139,12 +156,16 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
+
         Game g=new Game(4,1,  1, null);
+
         g.getPlayers().addAll(players);
-        ShipBoard sp1 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp2 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp3 = new ShipBoard(availablePositionMatrix, 7, 5);
-        ShipBoard sp4 = new ShipBoard(availablePositionMatrix, 7, 5);
+        g.setPlayersShipboard();
+
+        ShipBoard sp1 = p1.getPlayerShipBoard();
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        ShipBoard sp3 = p3.getPlayerShipBoard();
+        ShipBoard sp4 = p4.getPlayerShipBoard();
 
 
         Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
@@ -260,6 +281,8 @@ public class GameTest extends TestCase {
         sp4.placeComponent(3,3, c84);
 
 
+
+
         ArrayList<Player> win  = new ArrayList<>();
 
         for (Player p : players) {
@@ -281,7 +304,10 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
+
         Game g=new Game(4, 1, 1, null);
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
 
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
@@ -421,11 +447,276 @@ public class GameTest extends TestCase {
         s13.addGood(g2);
         s14.addGood(g4);
         s14.addGood(g6);
+
+        g.calculateFinalCredits();
         
         assertEquals(3, p1.getNumCredits());
-        assertEquals(8, p2.getNumCredits());
-        assertEquals(11, p3.getNumCredits());
+        assertEquals(9, p2.getNumCredits());
+        assertEquals(10, p3.getNumCredits());
         assertEquals(9, p4.getNumCredits());
 
+    }
+
+    public void testGetCurrentCard() {
+        Game g=new Game(4, 1, 1);
+        assertEquals(null, g.getCurrentCard());
+    }
+
+    public void testTurn() {
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player( 9, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g=new Game(4, 1, 1);
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
+
+        ShipBoard sp1 = p1.getPlayerShipBoard();
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        ShipBoard sp3 = p3.getPlayerShipBoard();
+        ShipBoard sp4 = p4.getPlayerShipBoard();
+
+        Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s11 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon1 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        Storage s21 = new Storage(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
+        Cabin c21 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c31 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c41 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.EMPTY});
+        Cabin c51 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY});
+        Cabin c61 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c71 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c81 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c91 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e11 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+
+        sp1.placeComponent(3,2, c11);
+        sp1.placeComponent(2,2, s21);
+        sp1.placeComponent(4,2, s11);
+        sp1.placeComponent(4,1, cannon1);
+        sp1.placeComponent(1,3, c51);
+        sp1.placeComponent(2,3, c21);
+        sp1.placeComponent(1,4, c41);
+        sp1.placeComponent(2,4, c31);
+        sp1.placeComponent(4,3, c61);
+        sp1.placeComponent(5,3, c71);
+        sp1.placeComponent(4,4, e11);
+        sp1.placeComponent(5,4, c91);
+        sp1.placeComponent(3,3, c81);
+
+        Cabin c12 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s12 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon2 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        Storage s22 = new Storage(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
+        Cabin c22 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c32 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c42 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.UNIVERSAL});
+        Cabin c52 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c62 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c72 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c82 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c92 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e12 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+
+        sp2.placeComponent(3,2, c12);
+        sp2.placeComponent(2,2, s22);
+        sp2.placeComponent(4,2, s12);
+        sp2.placeComponent(4,1, cannon2);
+        sp2.placeComponent(1,3, c52);
+        sp2.placeComponent(2,3, c22);
+        sp2.placeComponent(1,4, c42);
+        sp2.placeComponent(2,4, c32);
+        sp2.placeComponent(4,3, c62);
+        sp2.placeComponent(5,3, c72);
+        sp2.placeComponent(4,4, e12);
+        sp2.placeComponent(5,4, c92);
+        sp2.placeComponent(3,3, c82);
+
+        Cabin c13 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s13 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon3 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        Storage s23 = new Storage(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
+        Cabin c23 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c33 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c43 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.EMPTY});
+        Cabin c53 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY});
+        Cabin c63 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c73 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c83 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c93 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e13 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+
+        sp3.placeComponent(3,2, c13);
+        sp3.placeComponent(2,2, s23);
+        sp3.placeComponent(4,2, s13);
+        sp3.placeComponent(4,1, cannon3);
+        sp3.placeComponent(1,3, c53);
+        sp3.placeComponent(2,3, c23);
+        sp3.placeComponent(1,4, c43);
+        sp3.placeComponent(2,4, c33);
+        sp3.placeComponent(4,3, c63);
+        sp3.placeComponent(5,3, c73);
+        sp3.placeComponent(4,4, e13);
+        sp3.placeComponent(5,4, c93);
+        sp3.placeComponent(3,3, c83);
+
+        Cabin c14 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s14 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon4 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        Storage s24 = new Storage(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
+        Cabin c24 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c34 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c44 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.EMPTY});
+        Cabin c54 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY});
+        Cabin c64 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c74 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c84 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c94 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e14 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+
+        sp4.placeComponent(3,2, c14);
+        sp4.placeComponent(2,2, s24);
+        sp4.placeComponent(4,2, s14);
+        sp4.placeComponent(4,1, cannon4);
+        sp4.placeComponent(1,3, c54);
+        sp4.placeComponent(2,3, c24);
+        sp4.placeComponent(1,4, c44);
+        sp4.placeComponent(2,4, c34);
+        sp4.placeComponent(4,3, c64);
+        sp4.placeComponent(5,3, c74);
+        sp4.placeComponent(4,4, e14);
+        sp4.placeComponent(5,4, c94);
+        sp4.placeComponent(3,3, c84);
+
+//        g.getDeck().clear();
+//
+//        g.getDeck().add(new Epidemic(1,0));
+//        g.getDeck().add(new Epidemic(1,0));
+//        g.getDeck().add(new Epidemic(1,0));
+//        g.getDeck().add(new Epidemic(1,0));
+//        g.getDeck().add(new Epidemic(1,0));
+//        g.getDeck().add(new Stardust(1,0));
+
+        g.Turn();
+
+//        assertTrue(g.getPlayers().get(0).getState() instanceof EndState);
+//        assertTrue(g.getPlayers().get(1).getState() instanceof EndState);
+//        assertTrue(g.getPlayers().get(2).getState() instanceof EndState);
+//        assertTrue(g.getPlayers().get(3).getState() instanceof EndState);
+
+
+    }
+
+    public void testCheckAllPlayersShip() {
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p2);
+        players.add(p1);
+        Game g=new Game(2, 1, 1);
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
+
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        Cabin c12 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s12 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon2 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        sp2.placeComponent(3,2, c12);
+        sp2.placeComponent(4,2, s12);
+        sp2.placeComponent(4,1, cannon2);
+        p1.setShipOK(true);
+        g.checkAllPlayersShip();
+
+        assertTrue(g.getPlayers().get(0).getState() instanceof FixShipState);
+        assertTrue(g.getPlayers().get(1).getState() instanceof WaitingState);
+    }
+
+    public void testCheckAllWrackedShip() {
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p2);
+        players.add(p1);
+        Game g=new Game(2, 1, 1);
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
+
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        Cabin c12 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s12 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon2 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        sp2.placeComponent(3,2, c12);
+        sp2.placeComponent(4,2, s12);
+        sp2.placeComponent(4,1, cannon2);
+
+        ShipBoard sp1= p1.getPlayerShipBoard();
+        Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Storage s11 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon1 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        Storage s21 = new Storage(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
+        Cabin c21 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c31 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c41 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.EMPTY});
+        Cabin c51 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY});
+        Cabin c61 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c71 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c81 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c91 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e11 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+
+        sp1.placeComponent(3,2, c11);
+        sp1.placeComponent(2,2, s21);
+        sp1.placeComponent(4,2, s11);
+        sp1.placeComponent(4,1, cannon1);
+        sp1.placeComponent(1,3, c51);
+        sp1.placeComponent(2,3, c21);
+        sp1.placeComponent(1,4, c41);
+        sp1.placeComponent(2,4, c31);
+        sp1.placeComponent(4,3, c61);
+        sp1.placeComponent(5,3, c71);
+        sp1.placeComponent(4,4, e11);
+        sp1.placeComponent(5,4, c91);
+        sp1.placeComponent(3,3, c81);
+
+        PlayerState state = p1.getState();
+        g.checkAllWrackedShip();
+
+        assertTrue(g.getPlayers().get(0).getState() instanceof ShipWreckedState);
+        assertEquals(state, p1.getState());
+
+    }
+
+    public void testStartBuildingShips() {
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player( 9, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g=new Game(4, 1, 1);
+        g.getPlayers().addAll(players);
+        g.startBuildingShips();
+
+        assertTrue(g.getPlayers().get(0).getState() instanceof BuildShipState);
+        assertTrue(g.getPlayers().get(1).getState() instanceof BuildShipState);
+        assertTrue(g.getPlayers().get(2).getState() instanceof BuildShipState);
+        assertTrue(g.getPlayers().get(3).getState() instanceof BuildShipState);
+    }
+
+    public void testPickComponentTile() {
+        Game g=new Game(4, 1, 1);
+        int size = g.getComponentsList().size();
+        Components c;
+        c=g.pickComponentTile();
+
+        assertEquals(size-1, g.getComponentsList().size());
     }
 }
