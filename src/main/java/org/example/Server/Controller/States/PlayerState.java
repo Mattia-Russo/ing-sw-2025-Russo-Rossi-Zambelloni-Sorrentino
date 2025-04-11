@@ -64,4 +64,6 @@ public class PlayerState {
     public void placeTile(Player player, Points point){}
 
     public void endBuildShip(Player player){}
+
+    public void exitGame(Player player){}
 }

@@ -1,12 +1,18 @@
 package org.example.Server.Controller.States;
 
 import org.example.Server.Model.Exceptions.EndStateException;
+import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 
 import java.util.ArrayList;
 
 public class EndState extends PlayerState{
+    private Game game;
+
+    public EndState(Game game){
+        this.game = game;
+    }
 
     @Override
     public void activateCannons(ArrayList<Points> cannons){
@@ -146,5 +152,11 @@ public class EndState extends PlayerState{
     @Override
     public void endBuildShip(Player player){
         throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void exitGame(Player player){
+        game.getPlayers().remove(player);
+        player.setPlayerState(new OutOfGameState());
     }
 }

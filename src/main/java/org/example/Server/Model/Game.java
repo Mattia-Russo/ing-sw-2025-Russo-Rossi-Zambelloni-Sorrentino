@@ -93,15 +93,6 @@ public class Game{
             throw new DeckNotInitializedException("Deck has not been initialized");
         } else if (this.deck.isEmpty() && this.currentCard == null) {
             throw new EmptyDeckException("Deck initialized without cards");
-        } else if (this.deck.isEmpty()) {
-            for (Player player : players) {
-                player.setPlayerState(new EndState());
-            }
-            calculateFinalCredits();
-            ArrayList<Player> winners = calculateWinner();
-            for (Player player : winners) {
-                System.out.println("Congratulations player " + player.getName() + " won the game");
-            }
         } else if (this.deck.size() == 1) {
             this.currentCard = this.deck.get(0);
             deck.remove(0);
@@ -186,13 +177,24 @@ public class Game{
     }
 
     public void Turn() {
-        if(currentCard != null) {
-            deck.remove(currentCard);
+        if (this.deck.isEmpty() && currentCard!= null){
+            for (Player player : players) {
+                player.setPlayerState(new EndState(this));
+            }
+            calculateFinalCredits();
+            ArrayList<Player> winners = calculateWinner();
+            for (Player player : winners) {
+                System.out.println("Congratulations player " + player.getName() + " won the game");
+            }
+        } else {
+            if(currentCard != null) {
+                deck.remove(currentCard);
+            }
+            adjustPlayerPositions();
+            checkForcedAbandon();
+            pickCard();
+            currentCard.setCardState(this);
         }
-        adjustPlayerPositions();
-        checkForcedAbandon();
-        pickCard();
-        currentCard.setCardState(this);
     }
 
     public void checkAllPlayersShip(){

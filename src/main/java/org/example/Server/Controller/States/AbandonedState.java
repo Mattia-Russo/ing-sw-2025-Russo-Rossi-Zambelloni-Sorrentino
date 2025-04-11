@@ -152,4 +152,9 @@ public class AbandonedState extends PlayerState{
     public void endBuildShip(Player player){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
+
+    @Override
+    public void exitGame(Player player){
+        throw new AbandonedStateException("Game still going, wait for the end of the game");
+    }
 }

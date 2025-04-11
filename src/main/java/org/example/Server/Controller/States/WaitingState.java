@@ -1,5 +1,6 @@
 package org.example.Server.Controller.States;
 
+import org.example.Server.Model.Exceptions.AbandonedStateException;
 import org.example.Server.Model.Exceptions.WaitingStateException;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
@@ -146,5 +147,10 @@ public class WaitingState extends PlayerState {
     @Override
     public void endBuildShip(Player player){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void exitGame(Player player){
+        throw new AbandonedStateException("Game still going, wait for the end of the game");
     }
 }
