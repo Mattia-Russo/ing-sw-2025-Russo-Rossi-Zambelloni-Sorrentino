@@ -45,7 +45,7 @@ public class Game{
         }else {
             this.componentsList = TileLoader.loadFilteredTiles();
         }
-        this.players = null;
+        this.players = new ArrayList<>();
     }
 
     public int getNumPlayer() {

@@ -23,6 +23,7 @@ public class GameTest extends TestCase {
         players.add(p3);
         players.add(p4);
         Game g = new Game(4, 0, 0);
+        g.getPlayers().addAll(players);
         assertEquals(players,g.getPlayers());
     }
 
