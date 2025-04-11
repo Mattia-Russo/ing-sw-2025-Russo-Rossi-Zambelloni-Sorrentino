@@ -41,7 +41,7 @@ public class AbandonedShipTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2,1);
+        Game game = new Game(3, 2,1, null);
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.GREEN);
         goods[1] = new Goods(GoodsColour.RED);
@@ -83,7 +83,7 @@ public class AbandonedShipTest extends TestCase {
         players.add(p3);
 
 
-        Game game = new Game(3, 2, 1);
+        Game game = new Game(3, 2, 1, null);
         p1.setPlayerState(new LandOnAbandonState(game));
         AbandonedShip card = new AbandonedShip(1, 2, 5, 3);
         game.setCard(card);

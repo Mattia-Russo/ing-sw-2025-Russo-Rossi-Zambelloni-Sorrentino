@@ -24,7 +24,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4,1, 1);
+        Game g=new Game(4,1, 1, null);
         ShipBoard s1 = p1.getPlayerShipBoard();
         ShipBoard s2 = p2.getPlayerShipBoard();
         ShipBoard s3 = p3.getPlayerShipBoard();
@@ -59,7 +59,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1);
+        Game game = new Game(3, 2, 1, null);
         OpenSpace card = new OpenSpace(2, 0);
 
         p1.getPlayerShipBoard().setNumDoubleEngines(2);
@@ -86,7 +86,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1);
+        Game game = new Game(3, 2, 1, null);
         OpenSpace card = new OpenSpace(2, 0);
         card.setCardState(game);
 
