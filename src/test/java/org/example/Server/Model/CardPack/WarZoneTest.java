@@ -1,8 +1,7 @@
 package org.example.Server.Model.CardPack;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.RemoveAstronautsState;
+import org.example.Server.Controller.PlayerStates.RemoveAstronautsState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -100,7 +99,7 @@ public class WarZoneTest extends TestCase {
         cannonFireList.add(new CannonFire(1, Direction.WEST));
         String[] penalties = {"LoseDays", "LoseAstronauts","cannonFire"};
         String[] criteria = {"FewestAstronauts", "LessEnginePower","LessCannonPower"};
-        Game g=new Game(4, 1,1);
+        Game g=new Game(4, 1,1, null);
         WarZone c= new WarZone(1,2,2,3,cannonFireList,penalties,criteria);
         g.setCard(c);
         ShipBoard sp1 = p1.getPlayerShipBoard();
@@ -188,7 +187,7 @@ public class WarZoneTest extends TestCase {
         cannonFireList.add(new CannonFire(1, Direction.SOUTH));
         String[] penalties = {"LoseDays", "cannonFire", "LoseAstronauts"};
         String[] criteria = {"FewestAstronauts","FewestAstronauts", "FewestAstronauts"};
-        Game g=new Game(4, 2,1);
+        Game g=new Game(4, 2,1, null);
         WarZone c= new WarZone(1,2,2,3,cannonFireList,penalties,criteria);
         g.setCard(c);
         ShipBoard sp1 = p1.getPlayerShipBoard();

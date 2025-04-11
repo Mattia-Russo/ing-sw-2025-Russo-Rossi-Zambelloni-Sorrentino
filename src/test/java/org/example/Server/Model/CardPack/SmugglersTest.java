@@ -1,7 +1,7 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -32,7 +32,7 @@ public class SmugglersTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        game=new Game(4,1,  1);
+        game=new Game(4,1,  1, null);
         List<Goods> goods= new ArrayList<Goods>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));

@@ -2,10 +2,10 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.States.ActivateCannonsState;
-import org.example.Server.Controller.States.ActivateShieldsState;
-import org.example.Server.Controller.States.ShipWreckedState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.ActivateCannonsState;
+import org.example.Server.Controller.PlayerStates.ActivateShieldsState;
+import org.example.Server.Controller.PlayerStates.ShipWreckedState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.ComponentsPack.Components;
 import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;

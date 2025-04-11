@@ -1,16 +1,15 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.AbandonedState;
-import org.example.Server.Controller.States.ActivateEnginesState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.AbandonedState;
+import org.example.Server.Controller.PlayerStates.ActivateEnginesState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 import org.example.Server.Model.ShipBoard;
 
-import javax.accessibility.AccessibleRelation;
 import java.util.ArrayList;
 
 public class OpenSpaceTest extends TestCase {
@@ -25,7 +24,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4,1, 1);
+        Game g=new Game(4,1, 1, null);
         ShipBoard s1 = p1.getPlayerShipBoard();
         ShipBoard s2 = p2.getPlayerShipBoard();
         ShipBoard s3 = p3.getPlayerShipBoard();
@@ -60,7 +59,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1);
+        Game game = new Game(3, 2, 1, null);
         OpenSpace card = new OpenSpace(2, 0);
 
         p1.getPlayerShipBoard().setNumDoubleEngines(2);
@@ -87,7 +86,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1);
+        Game game = new Game(3, 2, 1, null);
         OpenSpace card = new OpenSpace(2, 0);
         card.setCardState(game);
 

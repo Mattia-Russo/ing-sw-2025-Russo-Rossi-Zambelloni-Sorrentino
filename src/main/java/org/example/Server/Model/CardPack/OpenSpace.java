@@ -2,9 +2,9 @@ package org.example.Server.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.States.ActivateCannonsState;
-import org.example.Server.Controller.States.ActivateEnginesState;
-import org.example.Server.Controller.States.WaitingState;
+import org.example.Server.Controller.PlayerStates.ActivateCannonsState;
+import org.example.Server.Controller.PlayerStates.ActivateEnginesState;
+import org.example.Server.Controller.PlayerStates.WaitingState;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
 import org.example.Server.Model.Game;

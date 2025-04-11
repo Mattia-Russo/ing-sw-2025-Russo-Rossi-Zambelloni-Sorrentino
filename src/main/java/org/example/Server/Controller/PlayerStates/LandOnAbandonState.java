@@ -1,7 +1,6 @@
-package org.example.Server.Controller.States;
+package org.example.Server.Controller.PlayerStates;
 
 import org.example.Server.Model.Game;
-import org.example.Server.Model.Player;
 
 public class LandOnAbandonState extends PlayerState {
     private final Game game;

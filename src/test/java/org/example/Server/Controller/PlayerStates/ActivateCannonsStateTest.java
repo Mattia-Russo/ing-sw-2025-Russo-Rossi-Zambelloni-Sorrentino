@@ -1,4 +1,4 @@
-package org.example.Server.Controller.States;
+package org.example.Server.Controller.PlayerStates;
 
 import junit.framework.TestCase;
 import org.example.Server.Model.Exceptions.AlreadyBatteryException;
@@ -7,7 +7,6 @@ import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
 import org.example.Server.Model.Points;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 

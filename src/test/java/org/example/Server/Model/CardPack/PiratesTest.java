@@ -1,7 +1,7 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -31,7 +31,7 @@ public class PiratesTest extends TestCase {
         players.add(p1);
         //players.add(p2);
 
-        game = new Game(4, 2, 1);
+        game = new Game(4, 2, 1, null);
         ArrayList<CannonFire> cannonFire = new ArrayList<>();
         cannonFire.add(new CannonFire(0, Direction.SOUTH));
         //cannonFire.add(new CannonFire(1, Direction.NORTH));

@@ -1,7 +1,6 @@
 package org.example.Server.Model.CardPack;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.ActivateShieldsState;
 import org.example.Server.Model.ComponentsPack.*;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -43,7 +42,7 @@ public class MeteorCardTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        Game g=new Game(4, 2, 1);
+        Game g=new Game(4, 2, 1, null);
         Meteor meteor1=new Meteor(1,  Direction.EAST);
         Meteor meteor2=new Meteor(0, Direction.NORTH);
         List<Meteor> meteors=new ArrayList<>();
@@ -131,7 +130,7 @@ public class MeteorCardTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        Game g=new Game(4, 2, 1);
+        Game g=new Game(4, 2, 1, null);
         Meteor meteor1=new Meteor(1,  Direction.EAST);
         Meteor meteor2=new Meteor(0, Direction.NORTH);
         List<Meteor> meteors=new ArrayList<>();

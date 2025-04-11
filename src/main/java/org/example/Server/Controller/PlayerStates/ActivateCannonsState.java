@@ -1,4 +1,4 @@
-package org.example.Server.Controller.States;
+package org.example.Server.Controller.PlayerStates;
 
 import org.example.Server.Model.Exceptions.AlreadyBatteryException;
 import org.example.Server.Model.Exceptions.AlreadyCannonException;

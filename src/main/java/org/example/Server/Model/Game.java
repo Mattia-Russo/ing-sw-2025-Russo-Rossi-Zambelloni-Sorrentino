@@ -1,6 +1,8 @@
 package org.example.Server.Model;
 
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.GameController;
+import org.example.Server.Controller.LobbyState;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.CardPack.AdventureCard;
 import org.example.Server.Model.ComponentsPack.Components;
 
@@ -14,6 +16,7 @@ import org.example.Server.Utils.TileLoader;
 import java.util.*;
 
 public class Game{
+
     private final int numPlayer;
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
@@ -22,11 +25,13 @@ public class Game{
     private final int lapLength;
     private AdventureCard currentCard;
     private List<Components> componentsList;
+    private final GameController controller;
 
-    public Game(int numPlayer, int ShipBoardLevel, int gameMode) {
+    public Game(int numPlayer, int ShipBoardLevel, int gameMode, GameController gameController) {
         this.numPlayer = numPlayer;
         this.gameMode = gameMode;
         this.ShipBoardLevel = ShipBoardLevel;
+        this.controller = gameController;
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
@@ -59,10 +64,6 @@ public class Game{
             }else
                 p.setPlayerShipboard(ShipBoardLevel);
         }
-    }
-
-    public void addPlayer(Player p){
-        players.add(p);
     }
 
     // usage only for tests
@@ -136,6 +137,7 @@ public class Game{
                 winners.add(p);
             }
         }
+        controller.setLobbyState(LobbyState.GAME_FINISHED);
         return winners;
     }
 
@@ -274,9 +276,20 @@ public class Game{
         }
     }
 
+
     //usage only for test
     public List<Components> getComponentsList(){
         return this.componentsList;
+    }
+  
+    public Player getPlayerById(int id) {
+        for (Player p : players) {
+            if (p.getID() == id){
+                return p;
+            }
+        }
+        return null;
+
     }
 }
 
