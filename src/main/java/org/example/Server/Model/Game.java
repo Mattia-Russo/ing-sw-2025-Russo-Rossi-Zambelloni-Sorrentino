@@ -18,33 +18,51 @@ public class Game{
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
     private int gameMode;
+    private final int ShipBoardLevel;
     private final int lapLength;
     private AdventureCard currentCard;
     private List<Components> componentsList;
 
-    public Game(int numPlayer, int ShipBoardLevel, ArrayList<Player> players, int gameMode, int lapLength) {
+    public Game(int numPlayer, int ShipBoardLevel, int gameMode) {
         this.numPlayer = numPlayer;
-        this.players = players;
         this.gameMode = gameMode;
+        this.ShipBoardLevel = ShipBoardLevel;
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
             Set<String> desiredTypes = Set.of("ABANDONEDSHIP", "ABANDONEDSTATION", "PLANETSCARD", "SMUGGLERS", "OPENSPACE", "METEORCARD", "STARDUST", "WARZONE");
             this.deck = CardLoader.loadFilteredRandomCards(desiredTypes);
         }
-        this.lapLength = lapLength;
         this.currentCard = null;
+
+        if(gameMode == 0 ) {
+            this.lapLength = 18;
+        }else
+            this.lapLength = 24;
+
         if(gameMode == 1) {
             this.componentsList = TileLoader.loadTiles();
         }else {
             this.componentsList = TileLoader.loadFilteredTiles();
         }
+        this.players = null;
+    }
+
+    public int getNumPlayer() {
+        return numPlayer;
+    }
+
+    public void setPlayersShipboard(){
         for(Player p: players) {
             if(gameMode == 0) {
                 p.setPlayerShipboard(gameMode);
             }else
                 p.setPlayerShipboard(ShipBoardLevel);
         }
+    }
+
+    public void addPlayer(Player p){
+        players.add(p);
     }
 
     // usage only for tests
