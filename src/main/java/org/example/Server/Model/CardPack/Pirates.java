@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.ComponentsPack.Components;
+import org.example.Server.Model.ComponentsPack.Direction;
 import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.Server.Model.Exceptions.InvalidPositionException;
@@ -54,10 +55,10 @@ public class Pirates extends Enemy{
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                 } else {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
-                    //this.playCard(g, null, null);
+                    this.playCard(g, null, null);
                 }
             } else {
-                //g.Turn();
+                g.Turn();
             }
         }
         else{
@@ -197,23 +198,26 @@ public class Pirates extends Enemy{
     }
 
     private void chooseRowOrCol(Player p, Game g) {
-//        rowOrCol = p.rollDice();
-//        if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
-//            while (rowOrCol > 7 || rowOrCol < 0){
-//                rowOrCol = p.rollDice();
-//                currentFire++;
-//            }
-//        } else {
-//            while (rowOrCol > 5 || rowOrCol < 0){
-//                rowOrCol = p.rollDice();
-//                currentFire++;
-//            }
-//        }
-//        if (currentFire >= cannonFireList.size()){
-//            playerLost = true;
-//            g.Turn();
-//        }
-        this.rowOrCol = 3;
+        boolean good = false;
+        while(!good && currentFire<cannonFireList.size()) {
+            if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
+                rowOrCol= p.rollDice();
+                if(rowOrCol < 7){
+                    good = true;
+                }else
+                    currentFire++;
+            } else {
+                rowOrCol= p.rollDice();
+                if(rowOrCol < 5){
+                    good = true;
+                }else
+                    currentFire++;
+            }
+        }
+
+        if (currentFire >= cannonFireList.size()){
+            playerLost = false;
+        }
     }
 
     @Override

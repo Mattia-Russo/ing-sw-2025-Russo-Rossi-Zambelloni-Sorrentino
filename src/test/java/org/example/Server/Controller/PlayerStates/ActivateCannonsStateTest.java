@@ -31,7 +31,7 @@ public class ActivateCannonsStateTest extends TestCase {
             players.add(p3);
             players.add(p4);
 
-            game=new Game(4,1,  1);
+            game=new Game(4,1,  1, null);
         }
 
         public void testActivateCannons() {

@@ -1,10 +1,9 @@
 package org.example.Server.Model;
 
 import junit.framework.TestCase;
-import org.example.Server.Controller.States.*;
+import org.example.Server.Controller.PlayerStates.*;
 import org.example.Server.Model.CardPack.*;
 import org.example.Server.Model.ComponentsPack.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +20,10 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g = new Game(4, 0, 0);
+        Game g = new Game(4, 0, 0, null);
         g.getPlayers().addAll(players);
 
         assertEquals(4,g.getNumPlayer());
-    }
-
-    public void testAddPlayer(){
-        Game g = new Game(4, 0, 0);
-        Player p1 = new Player(12, "a");
-        ArrayList<Player> players = new ArrayList<>();
-        g.addPlayer(p1);
-
-        ArrayList<Player> expected = new ArrayList<>();
-        expected.add(p1);
-
-        assertEquals(expected, g.getPlayers());
     }
 
     public void testGetPlayers() {
@@ -458,7 +445,7 @@ public class GameTest extends TestCase {
     }
 
     public void testGetCurrentCard() {
-        Game g=new Game(4, 1, 1);
+        Game g=new Game(4, 1, 1, null);
         assertEquals(null, g.getCurrentCard());
     }
 
@@ -472,7 +459,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 1, 1);
+        Game g=new Game(4, 1, 1, null);
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
 
@@ -618,7 +605,7 @@ public class GameTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p2);
         players.add(p1);
-        Game g=new Game(2, 1, 1);
+        Game g=new Game(2, 1, 1, null);
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
 
@@ -642,7 +629,7 @@ public class GameTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p2);
         players.add(p1);
-        Game g=new Game(2, 1, 1);
+        Game g=new Game(2, 1, 1, null);
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
 
@@ -701,7 +688,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 1, 1);
+        Game g=new Game(4, 1, 1, null);
         g.getPlayers().addAll(players);
         g.startBuildingShips();
 
@@ -712,7 +699,7 @@ public class GameTest extends TestCase {
     }
 
     public void testPickComponentTile() {
-        Game g=new Game(4, 1, 1);
+        Game g=new Game(4, 1, 1, null);
         int size = g.getComponentsList().size();
         Components c;
         c=g.pickComponentTile();

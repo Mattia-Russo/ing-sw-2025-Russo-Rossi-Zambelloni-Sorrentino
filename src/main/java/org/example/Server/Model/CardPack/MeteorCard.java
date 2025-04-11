@@ -34,7 +34,7 @@ public class MeteorCard extends AdventureCard {
             @JsonProperty("meteorList") List<Meteor> meteorList){
         super(cardLevel, lostDays);
         this.meteorList=meteorList;
-        this.currentMeteor=-1;
+        this.currentMeteor=0;
         this.currentPlayer=-1;
         this.rowOrCol =-1;
         this.protect=false;
@@ -47,64 +47,34 @@ public class MeteorCard extends AdventureCard {
             currentPlayer++;
         } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
-
-        if(currentPlayer == g.getPlayers().size()||meteorList.isEmpty()){
-            if(!meteorList.isEmpty()){
-                meteorList.remove(currentMeteor);
-                currentPlayer=-1;
-                do{
-                    currentPlayer++;
-                } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
-                rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
-                if(currentPlayer==g.getPlayers().size()) {
-                    currentPlayer=g.getPlayers().size()-1;
-                    protect=true;
-                }else if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH || meteorList.get(currentMeteor).getDirection() == Direction.SOUTH) {
-                    if (rowOrCol >= 7) {
-                        protect = true;
-                        dice=false;
-                    }
-                } else if (rowOrCol >= 5) {
+        if(currentPlayer == g.getPlayers().size()){
+            currentPlayer=-1;
+            do{
+                currentPlayer++;
+            } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
+            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+            if(dice) {
+                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
                     protect = true;
-                    dice=false;
                 }
-                if(dice) {
-                    if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
-                        protect = true;
-                    }
-                }else
-                    dice=true;
                 if (protect) {
                     playCard(g, null, null);
                 } else
                     Update(g, g.getPlayers().get(currentPlayer));
-            }else{
+            }else
                 g.Turn();
-            }
         }else {
-            if(currentMeteor==-1){
-                rowOrCol=g.getPlayers().get(currentPlayer).rollDice();
-                currentMeteor=0;
-            }
-            if(meteorList.get(currentMeteor).getDirection()==Direction.NORTH||meteorList.get(currentMeteor).getDirection()==Direction.SOUTH){
-                if(rowOrCol >= 7){
-                    protect=true;
-                    dice=false;
-                }
-            }else if(rowOrCol >= 5) {
-                protect=true;
-                dice=false;
-            }
-            if(dice){
+            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+            if(dice) {
                 if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
                     protect = true;
                 }
+                if (protect) {
+                    playCard(g, null, null);
+                } else
+                    Update(g, g.getPlayers().get(currentPlayer));
             }else
-                dice=true;
-            if(protect){
-                playCard(g, null, null);
-            }else
-                Update(g, g.getPlayers().get(currentPlayer));
+                g.Turn();
         }
     }
 
@@ -226,6 +196,28 @@ public class MeteorCard extends AdventureCard {
         protect=false;
         p.setPlayerState(new WaitingState());
         setCardState(g);
+    }
+
+    private void chooseRowOrCol(Player p, Game g) {
+        boolean good = false;
+        while(!good && currentMeteor<meteorList.size()) {
+            if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH || meteorList.get(currentMeteor).getDirection() == Direction.SOUTH) {
+                rowOrCol= p.rollDice();
+                if(rowOrCol < 7){
+                    good = true;
+                }else
+                    currentMeteor++;
+            } else {
+                rowOrCol= p.rollDice();
+                if(rowOrCol < 5){
+                    good = true;
+                }else
+                    currentMeteor++;
+            }
+        }
+        if (currentMeteor >= meteorList.size()){
+            dice=false;
+        }
     }
 
     public int getCardLevel() {
