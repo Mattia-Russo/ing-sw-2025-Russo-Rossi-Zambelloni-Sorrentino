@@ -213,7 +213,9 @@ public class Game{
             }
         } else {
             adjustPlayerPositions();
-            checkForcedAbandon();
+            if(gameMode==1) {
+                checkForcedAbandon();
+            }
             pickCard();
             currentCard.setCardState(this);
         }
@@ -290,6 +292,10 @@ public class Game{
         }
         return null;
 
+    }
+
+    public int getGameMode() {
+        return gameMode;
     }
 }
 

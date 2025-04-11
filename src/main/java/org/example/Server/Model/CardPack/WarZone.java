@@ -30,7 +30,6 @@ public class WarZone extends AdventureCard{
     private Player loser;
     private boolean done=false;
     private boolean play=false;
-    private boolean dice=true;
     private boolean protect=false;
 
     @JsonCreator

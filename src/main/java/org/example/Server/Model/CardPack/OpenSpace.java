@@ -26,9 +26,9 @@ public class OpenSpace extends AdventureCard{
 
     @Override
     public void setCardState(Game g) {
-//        if(currentPlayer==-1) {
-//            checkEnginePower(g.getPlayers());
-//        }
+        if(currentPlayer==-1 && g.getGameMode()==1) {
+           checkEnginePower(g.getPlayers());
+        }
 
         do {
             currentPlayer++;
@@ -51,7 +51,7 @@ public class OpenSpace extends AdventureCard{
         try {
             g.getPlayers().get(currentPlayer).changePosition(g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries));
             g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
-            //setCardState(g);
+            setCardState(g);
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
             System.out.println("Error" + e.getMessage());
             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
