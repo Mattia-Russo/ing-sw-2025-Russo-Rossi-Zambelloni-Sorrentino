@@ -32,7 +32,7 @@ public class SmugglersTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        game=new Game(4,1,  players,1, 30);
+        game=new Game(4,1,  1);
         List<Goods> goods= new ArrayList<Goods>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));

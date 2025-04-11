@@ -34,7 +34,7 @@ public class SlaversTest extends TestCase {
         players.add(p3);
         players.add(p4);
 
-        game=new Game(4,1,  players,1, 30);
+        game=new Game(4,1,  1);
         slavers=new Slavers(1,1,2,3,4);
         game.setCard(slavers);
 

@@ -100,7 +100,7 @@ public class WarZoneTest extends TestCase {
         cannonFireList.add(new CannonFire(1, Direction.WEST));
         String[] penalties = {"LoseDays", "LoseAstronauts","cannonFire"};
         String[] criteria = {"FewestAstronauts", "LessEnginePower","LessCannonPower"};
-        Game g=new Game(4, 1, players,1, 30);
+        Game g=new Game(4, 1,1);
         WarZone c= new WarZone(1,2,2,3,cannonFireList,penalties,criteria);
         g.setCard(c);
         ShipBoard sp1 = p1.getPlayerShipBoard();
@@ -188,7 +188,7 @@ public class WarZoneTest extends TestCase {
         cannonFireList.add(new CannonFire(1, Direction.SOUTH));
         String[] penalties = {"LoseDays", "cannonFire", "LoseAstronauts"};
         String[] criteria = {"FewestAstronauts","FewestAstronauts", "FewestAstronauts"};
-        Game g=new Game(4, 2, players,1, 30);
+        Game g=new Game(4, 2,1);
         WarZone c= new WarZone(1,2,2,3,cannonFireList,penalties,criteria);
         g.setCard(c);
         ShipBoard sp1 = p1.getPlayerShipBoard();

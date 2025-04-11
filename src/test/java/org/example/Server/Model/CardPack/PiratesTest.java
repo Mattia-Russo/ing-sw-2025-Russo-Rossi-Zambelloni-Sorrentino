@@ -31,7 +31,7 @@ public class PiratesTest extends TestCase {
         players.add(p1);
         //players.add(p2);
 
-        game = new Game(4, 2, players, 1, 30);
+        game = new Game(4, 2, 1);
         ArrayList<CannonFire> cannonFire = new ArrayList<>();
         cannonFire.add(new CannonFire(0, Direction.SOUTH));
         //cannonFire.add(new CannonFire(1, Direction.NORTH));
