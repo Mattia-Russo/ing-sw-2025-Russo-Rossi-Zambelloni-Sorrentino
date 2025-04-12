@@ -180,7 +180,7 @@ public class PiratesTest extends TestCase {
 
         assertTrue((p1.getState() instanceof ShipWreckedState));
 
-        p1.getState().chooseWrecked(p1, new Points(4, 3));
+        p1.getState().chooseWrecked(new Points(4, 3));
         p1.getState().endWreckedState();
 
         assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][1]);

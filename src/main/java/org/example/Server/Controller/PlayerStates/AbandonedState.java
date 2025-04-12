@@ -99,7 +99,7 @@ public class AbandonedState extends PlayerState{
     }
 
     @Override
-    public void chooseWrecked(Player player, Points point){
+    public void chooseWrecked(Points point){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
 
@@ -156,5 +156,15 @@ public class AbandonedState extends PlayerState{
     @Override
     public void exitGame(Player player){
         throw new AbandonedStateException("Game still going, wait for the end of the game");
+    }
+
+    @Override
+    public void addBrownAlien(Points p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void addPurpleAlien(Points p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
 }

@@ -105,7 +105,7 @@ public class Pirates extends Enemy{
                         }
                         // nave divisa
                         if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosY(), shipWreck.getPosX())){
-                            p.setPlayerState(new ShipWreckedState(g));
+                            p.setPlayerState(new ShipWreckedState(g, p));
                             this.shipWrecked = true;
                         }
                     }
@@ -134,10 +134,10 @@ public class Pirates extends Enemy{
                                 if(currentFire < cannonFireList.size()-1) {
                                     currentFire++;
                                     chooseRowOrCol(p, g);
-                                    p.setPlayerState(new ShipWreckedState(g));
+                                    p.setPlayerState(new ShipWreckedState(g, p));
                                 }else{
                                     playerLost =false;
-                                    p.setPlayerState(new ShipWreckedState(g));
+                                    p.setPlayerState(new ShipWreckedState(g, p));
                                 }
                             }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {

@@ -133,7 +133,7 @@ public class MeteorCard extends AdventureCard {
                         setCardState(g);
                     } else {
                         protect = false;
-                        p.setPlayerState(new ShipWreckedState(g));
+                        p.setPlayerState(new ShipWreckedState(g, p));
                     }
                 } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                     System.out.println("Error" + e.getMessage());
@@ -154,7 +154,7 @@ public class MeteorCard extends AdventureCard {
                                 setCardState(g);
                             } else {
                                 protect = false;
-                                p.setPlayerState(new ShipWreckedState(g));
+                                p.setPlayerState(new ShipWreckedState(g, p));
                             }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
@@ -180,7 +180,7 @@ public class MeteorCard extends AdventureCard {
                                 setCardState(g);
                             }else{
                                 protect=false;
-                                p.setPlayerState(new ShipWreckedState(g));
+                                p.setPlayerState(new ShipWreckedState(g, p));
                             }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());

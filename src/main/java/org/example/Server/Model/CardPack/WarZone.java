@@ -230,9 +230,9 @@ public class WarZone extends AdventureCard{
                                             p = loser;
                                             loser = null;
                                             pos++;
-                                            p.setPlayerState(new ShipWreckedState(g));
+                                            p.setPlayerState(new ShipWreckedState(g, p));
                                         } else
-                                            loser.setPlayerState(new ShipWreckedState(g));
+                                            loser.setPlayerState(new ShipWreckedState(g, loser));
                                     }
                                 } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                                     System.out.println("Error" + e.getMessage());
@@ -261,9 +261,9 @@ public class WarZone extends AdventureCard{
                                                     p = loser;
                                                     loser = null;
                                                     pos++;
-                                                    p.setPlayerState(new ShipWreckedState(g));
+                                                    p.setPlayerState(new ShipWreckedState(g, p));
                                                 } else
-                                                    loser.setPlayerState(new ShipWreckedState(g));
+                                                    loser.setPlayerState(new ShipWreckedState(g, loser));
                                             }
                                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                                             System.out.println("Error" + e.getMessage());

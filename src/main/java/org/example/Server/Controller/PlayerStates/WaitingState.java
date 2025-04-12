@@ -151,6 +151,16 @@ public class WaitingState extends PlayerState {
 
     @Override
     public void exitGame(Player player){
-        throw new AbandonedStateException("Game still going, wait for the end of the game");
+        throw new WaitingStateException("Game still going, wait for the end of the game");
+    }
+
+    @Override
+    public void addBrownAlien(Points p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void addPurpleAlien(Points p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
 }

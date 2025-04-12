@@ -237,6 +237,13 @@ public class Game{
             p.setPlayerState(new WaitingState());
         }
         checkAllWrackedShip();
+        for(Player p : players) {
+            if(!p.getReadyForCards()) {
+                return;
+            }
+            p.setPlayerState(new WaitingState());
+        }
+        Turn();
     }
 
     public void checkAllWrackedShip(){
@@ -248,7 +255,12 @@ public class Game{
                 i++;
             }
             if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
-                p.setPlayerState(new ShipWreckedState(this));
+                p.setShipOK(false);
+                p.setPlayerState(new ShipWreckedState(this, p));
+            }else if(gameMode==1) {
+                p.setPlayerState(new AddAlienState(this, p));
+            }else{
+                p.setReadyForCards(true);
             }
             i=0;
             c=null;

@@ -43,7 +43,7 @@ public class PlayerState {
 
     public void acceptReward(boolean accept){}
 
-    public void chooseWrecked(Player player, Points point){    }
+    public void chooseWrecked(Points point){    }
 
     public void endWreckedState(){}
 
@@ -66,4 +66,8 @@ public class PlayerState {
     public void endBuildShip(Player player){}
 
     public void exitGame(Player player){}
+
+    public void addBrownAlien(Points p){}
+
+    public void addPurpleAlien(Points p){}
 }

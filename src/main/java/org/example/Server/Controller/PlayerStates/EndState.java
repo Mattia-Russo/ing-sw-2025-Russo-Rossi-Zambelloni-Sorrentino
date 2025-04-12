@@ -1,5 +1,6 @@
 package org.example.Server.Controller.PlayerStates;
 
+import org.example.Server.Model.Exceptions.AbandonedStateException;
 import org.example.Server.Model.Exceptions.EndStateException;
 import org.example.Server.Model.Game;
 import org.example.Server.Model.Player;
@@ -151,6 +152,16 @@ public class EndState extends PlayerState{
 
     @Override
     public void endBuildShip(Player player){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void addBrownAlien(Points p){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void addPurpleAlien(Points p){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
 }

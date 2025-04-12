@@ -22,6 +22,7 @@ public class Player {
     private boolean abandoned;
     private boolean onPlanet;
     private boolean shipBuilded;
+    private boolean readyForCards;
     private int numCredits;
     private PlayerState state;
     private boolean shipOK;
@@ -34,6 +35,7 @@ public class Player {
         this.playerShipBoard=null;
         this.abandoned=false;
         this.onPlanet=false;
+        this.readyForCards=false;
         this.numCredits=0;
         this.name=name;
         this.shipBuilded=false;
@@ -218,4 +220,10 @@ public class Player {
     public void setDeckShowed(ArrayList<AdventureCard> deckShowed) {
         this.deckShowed = deckShowed;
     }
+
+    public void setReadyForCards(boolean readyForCards) {
+        this.readyForCards = readyForCards;
+    }
+
+    public boolean getReadyForCards(){return readyForCards;}
 }
