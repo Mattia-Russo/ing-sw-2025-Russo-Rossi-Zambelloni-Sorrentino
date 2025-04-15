@@ -17,7 +17,7 @@ public class PlayerState {
 
     public void endActivateEngines(){}
 
-    public void activateShields(Points shields){}
+    public void activateShields(ArrayList<Points> shields){}
 
     public void endActivateShields(){}
 

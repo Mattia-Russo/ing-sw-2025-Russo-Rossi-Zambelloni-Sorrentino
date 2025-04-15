@@ -4,11 +4,11 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 
 public class SocketClientProxy extends ClientProxy implements Runnable {
     private String input;
-    private int playerID;
+    private String playerName;
     private GameController controller;
 
-    public SocketClientProxy(int playerId, GameController controller) {
-        super(playerId, controller);
+    public SocketClientProxy(String name, GameController controller) {
+        super(name, controller);
     }
 
     @Override
