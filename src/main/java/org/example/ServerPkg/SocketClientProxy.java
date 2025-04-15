@@ -6,11 +6,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketClientProxy extends ClientProxy implements Runnable {
+    private String input;
+    private GameController controller;
     private final Socket socket;
     private final ObjectOutputStream out;
 
-    public SocketClientProxy(int playerId, GameController controller) {
-        super(controller, controller);
+    public SocketClientProxy(String name, GameController controller) {
+        super(name, controller);
     }
 
     @Override

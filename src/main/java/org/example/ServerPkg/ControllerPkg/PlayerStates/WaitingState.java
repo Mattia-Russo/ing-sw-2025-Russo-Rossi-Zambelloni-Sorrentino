@@ -34,7 +34,7 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
-    public void activateShields(Points shields){
+    public void activateShields(ArrayList<Points> shields){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
 

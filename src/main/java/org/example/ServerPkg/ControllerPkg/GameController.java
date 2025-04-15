@@ -9,8 +9,14 @@ import java.security.InvalidParameterException;
 public class GameController {
     Game game;
     LobbyState lobbyState;
+
     public GameController(){
         this.game = null;
+        this.lobbyState = LobbyState.GAME_CREATION;
+    }
+
+    public Game getGame() {
+        return this.game;
     }
 
     public void setLobbyState(LobbyState lobbyState) {

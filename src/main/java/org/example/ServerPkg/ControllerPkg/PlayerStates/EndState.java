@@ -40,7 +40,7 @@ public class EndState extends PlayerState{
     }
 
     @Override
-    public void activateShields(Points shields){
+    public void activateShields(ArrayList<Points> shields){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
 

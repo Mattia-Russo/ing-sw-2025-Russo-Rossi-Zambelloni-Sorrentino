@@ -294,14 +294,13 @@ public class Game{
         return this.componentsList;
     }
   
-    public Player getPlayerById(int id) {
+    public Player getPlayerByName(String name) {
         for (Player p : players) {
-            if (p.getID() == id){
+            if (p.getName().equals(name)){
                 return p;
             }
         }
         return null;
-
     }
 
     public int getGameMode() {
