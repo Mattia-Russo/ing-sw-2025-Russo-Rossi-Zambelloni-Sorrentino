@@ -2,13 +2,15 @@ package org.example.ServerPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 public class SocketClientProxy extends ClientProxy implements Runnable {
-    private String input;
-    private int playerID;
-    private GameController controller;
+    private final Socket socket;
+    private final ObjectOutputStream out;
 
     public SocketClientProxy(int playerId, GameController controller) {
-        super(playerId, controller);
+        super(controller, controller);
     }
 
     @Override
