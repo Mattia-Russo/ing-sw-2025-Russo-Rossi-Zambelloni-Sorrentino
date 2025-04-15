@@ -1,7 +1,7 @@
-package org.example.Server.Controller.PlayerStates;
+package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.Server.Model.Player;
-import org.example.Server.Model.Points;
+import org.example.ServerPkg.Model.Player;
+import org.example.ServerPkg.Model.Points;
 
 import java.util.ArrayList;
 

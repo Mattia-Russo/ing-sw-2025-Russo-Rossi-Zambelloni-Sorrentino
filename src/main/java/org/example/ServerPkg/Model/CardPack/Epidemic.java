@@ -1,10 +1,10 @@
-package org.example.Server.Model.CardPack;
+package org.example.ServerPkg.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Model.ComponentsPack.Components;
-import org.example.Server.Model.Game;
-import org.example.Server.Model.ShipBoard;
+import org.example.ServerPkg.Model.ComponentsPack.Components;
+import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.ShipBoard;
 
 public class Epidemic extends AdventureCard{
     @JsonCreator

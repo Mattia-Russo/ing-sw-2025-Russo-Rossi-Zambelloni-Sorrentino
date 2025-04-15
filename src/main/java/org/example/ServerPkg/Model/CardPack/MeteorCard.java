@@ -1,19 +1,19 @@
-package org.example.Server.Model.CardPack;
+package org.example.ServerPkg.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Controller.PlayerStates.ActivateCannonsState;
-import org.example.Server.Controller.PlayerStates.ActivateShieldsState;
-import org.example.Server.Controller.PlayerStates.ShipWreckedState;
-import org.example.Server.Controller.PlayerStates.WaitingState;
-import org.example.Server.Model.ComponentsPack.Components;
-import org.example.Server.Model.ComponentsPack.Direction;
-import org.example.Server.Model.Exceptions.AlreadyEmptyPositionException;
-import org.example.Server.Model.Exceptions.BatteriesLessThenCannonException;
-import org.example.Server.Model.Exceptions.InvalidPositionException;
-import org.example.Server.Model.Game;
-import org.example.Server.Model.Player;
-import org.example.Server.Model.Points;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateShieldsState;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.ShipWreckedState;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
+import org.example.ServerPkg.Model.ComponentsPack.Components;
+import org.example.ServerPkg.Model.ComponentsPack.Direction;
+import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
+import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
+import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
+import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;

@@ -1,13 +1,13 @@
-package org.example.Server.Controller.PlayerStates;
+package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.Server.Model.ComponentsPack.Alien;
-import org.example.Server.Model.ComponentsPack.AlienColour;
-import org.example.Server.Model.Exceptions.AlreadyAlienException;
-import org.example.Server.Model.Exceptions.DifferentLifeSupportColourException;
-import org.example.Server.Model.Exceptions.WithoutLifeSupportException;
-import org.example.Server.Model.Game;
-import org.example.Server.Model.Player;
-import org.example.Server.Model.Points;
+import org.example.ServerPkg.Model.ComponentsPack.Alien;
+import org.example.ServerPkg.Model.ComponentsPack.AlienColour;
+import org.example.ServerPkg.Model.Exceptions.AlreadyAlienException;
+import org.example.ServerPkg.Model.Exceptions.DifferentLifeSupportColourException;
+import org.example.ServerPkg.Model.Exceptions.WithoutLifeSupportException;
+import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
+import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 

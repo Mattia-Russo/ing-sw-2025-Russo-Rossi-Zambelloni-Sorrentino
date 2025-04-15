@@ -1,4 +1,4 @@
-package org.example.Server.Model.Exceptions;
+package org.example.ServerPkg.Model.Exceptions;
 
 public class InvalidMethodCallException extends RuntimeException {
     public InvalidMethodCallException(String message) {

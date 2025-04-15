@@ -1,9 +1,9 @@
-package org.example.Server.Model.ComponentsPack;
+package org.example.ServerPkg.Model.ComponentsPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.Server.Model.Exceptions.*;
-import org.example.Server.Model.ShipBoard;
+import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ShipBoard;
 
 import java.util.ArrayList;
 
