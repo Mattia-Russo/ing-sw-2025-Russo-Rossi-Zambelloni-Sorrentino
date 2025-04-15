@@ -105,9 +105,6 @@ public abstract class ClientProxy {
     }
 
     public void exitGame(){
-<<<<<<< HEAD
-        controller.exitGame(controller.getGame().getPlayerByName(playerName));
-=======
         if(checkClient()){
             if(controller.getGame().getPlayers().contains(controller.getGame().getPlayerByName(playerName))){
                 try {
@@ -119,8 +116,6 @@ public abstract class ClientProxy {
                 System.out.println("Join a game first");
             }
         }
-
->>>>>>> 3222d03a3a60169bd81530096f23d0a72470ccd5
     }
 
     public void activateCannons(ArrayList<Points> cannons){
