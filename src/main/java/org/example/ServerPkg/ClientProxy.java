@@ -7,7 +7,7 @@ import org.example.ServerPkg.Model.Points;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public abstract class ClientProxy {
+public abstract class ClientProxy implements VirtualClient {
     private String playerName;
     private final GameController controller;
     private final Server server;

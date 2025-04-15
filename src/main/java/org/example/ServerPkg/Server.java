@@ -1,10 +1,12 @@
 package org.example.ServerPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -17,6 +19,11 @@ public class Server {
     public Server(GameController controller) {
         this.clientsProxies = new ArrayList<>();
         this.controller = controller;
+    }
+
+    public void start() throws RemoteException {
+        new Thread(this::startSocket).start();
+        //startRMI();
     }
 
     private void startSocket() {
@@ -71,11 +78,30 @@ public class Server {
         }
     }
 
-    public void updateGame(ClientProxy client){
-
+    private ClientProxy getClientProxy(String playerName){
+        for (ClientProxy clientProxy : clientsProxies) {
+            if(clientProxy.getPlayerName().equals(playerName)){
+                return clientProxy;
+            }
+        }
+        throw new NoSuchPlayerException("Player " + playerName + " not exists");
     }
 
-    public void broadcastUpdateGame(){
+    public void updateGame(String name){
+        try{
+            getClientProxy(name).updateGame(controller.getGame());  // va messo il game aggiornato
+        } catch (NoSuchPlayerException e) {
+            System.out.println("Player " + name + " not found, unable to update game");
+        }
+    }
 
+    public void broadcastUpdateGame(ArrayList<String> names){
+        for (String s : names) {
+            try{
+                getClientProxy(s).updateGame(controller.getGame());  // va messo il game aggiornato
+            } catch (NoSuchPlayerException e) {
+                System.out.println("Player " + s + " not found, unable to update game");
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.example.ServerPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
@@ -183,5 +184,9 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 } catch (IOException ignored) {}
             }
         }
+    }
+
+    public void updateGame(Game game) {
+        //TBD
     }
 }
