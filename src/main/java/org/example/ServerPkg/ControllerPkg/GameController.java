@@ -24,31 +24,23 @@ public class GameController {
     }
 
     public void exitGame(Player player){
-        try{
-            if(lobbyState == LobbyState.GAME_FINISHED) {
-                game.getPlayers().remove(player);
-                if(game.getPlayers().isEmpty()) {
-                    game=null;
-                }
-            }else throw new InvalidLobbyStateException("can't call this method");
-        }catch (InvalidLobbyStateException e){
-            System.out.println("ERROR " + e.getMessage());
-        }
+        if(lobbyState == LobbyState.GAME_FINISHED) {
+            game.getPlayers().remove(player);
+            if(game.getPlayers().isEmpty()) {
+                game=null;
+            }
+        }else throw new InvalidLobbyStateException("can't call this method");
     }
 
     public void startGame(){
-        try{
-            if(lobbyState == LobbyState.GAME_CREATION) {
-                if(game.getPlayers().size() >= 2) {
-                    lobbyState = LobbyState.GAME_READY;
-                    for(Player player : game.getPlayers()) {
-                        player.setPlayerState(new BuildShipState(game));
-                    }
-                }else throw new InvalidMinimumNumberPlayerException("not enough players to start");
-            }else throw new InvalidLobbyStateException("can't call this method");
-        }catch(InvalidMinimumNumberPlayerException | InvalidLobbyStateException e){
-            System.out.println("ERROR " + e.getMessage());
-        }
+        if(lobbyState == LobbyState.GAME_CREATION) {
+            if(game.getPlayers().size() >= 2) {
+                lobbyState = LobbyState.GAME_READY;
+                for(Player player : game.getPlayers()) {
+                    player.setPlayerState(new BuildShipState(game));
+                }
+            }else throw new InvalidMinimumNumberPlayerException("not enough players to start");
+        }else throw new InvalidLobbyStateException("can't call this method");
     }
 
     private void addNewPlayer(String name){
@@ -67,38 +59,26 @@ public class GameController {
     }
 
     public void joinLobby(String name){
-        try {
-            if(lobbyState == LobbyState.GAME_CREATION) {
-                if (game != null) {
-                    addNewPlayer(name);
-                } else throw new InvalidGameCreationException("Game NOT created");
-            }else throw new InvalidLobbyStateException("can't call this method");
-        }catch(InvalidGameCreationException | InvalidLobbyStateException e){
-            System.out.println("ERROR " + e.getMessage());
-        }
-    }
-
-    public void disconnectPlayer() {
-
+        if(lobbyState == LobbyState.GAME_CREATION) {
+            if (game != null) {
+                addNewPlayer(name);
+            } else throw new InvalidGameCreationException("Game NOT created");
+        }else throw new InvalidLobbyStateException("can't call this method");
     }
 
     public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode) {
-        try{
-            if(lobbyState == LobbyState.GAME_CREATION) {
-                if(game==null) {
-                    if(numPlayers<=4) {
-                        if(GameMode==0||GameMode==1) {
-                            if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
-                                game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
-                                addNewPlayer(name);
-                            }else throw new InvalidParameterException("Ship board level must be 1 or 2");
-                        }else throw new InvalidParameterException("Game mode must be 0 or 1");
-                    }else throw new InvalidParameterException("MAX 4 PLAYERS");
-                }else throw new InvalidGameCreationException("Game already created");
-            }else throw new InvalidLobbyStateException("can't call this method");
-        }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {
-            System.out.println("ERROR " + e.getMessage());
-        }
+        if(lobbyState == LobbyState.GAME_CREATION) {
+            if(game==null) {
+                if(numPlayers<=4) {
+                    if(GameMode==0||GameMode==1) {
+                        if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
+                            game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
+                            addNewPlayer(name);
+                        }else throw new InvalidParameterException("Ship board level must be 1 or 2");
+                    }else throw new InvalidParameterException("Game mode must be 0 or 1");
+                }else throw new InvalidParameterException("MAX 4 PLAYERS");
+            }else throw new InvalidGameCreationException("Game already created");
+        }else throw new InvalidLobbyStateException("can't call this method");
     }
 
 }

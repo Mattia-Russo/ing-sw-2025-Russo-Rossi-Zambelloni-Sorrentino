@@ -65,7 +65,7 @@ public class RemoveBestGoodsState extends PlayerState{
                         System.out.println("Error: " + e.getMessage());
                     }
                 } else {
-                    throw new NotStorageException("The component of given coordinates is not a battery storage");
+                    throw new NotBatteryStorageException("The component of given coordinates is not a battery storage");
                 }
             }
         }
