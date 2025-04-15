@@ -27,7 +27,7 @@ public abstract class ClientProxy {
         controller.startGame();
     }
 
-    public void endGame(){
+    public void exitGame(){
         controller.exitGame(controller.getGame().getPlayerByName(playerName));
     }
 
