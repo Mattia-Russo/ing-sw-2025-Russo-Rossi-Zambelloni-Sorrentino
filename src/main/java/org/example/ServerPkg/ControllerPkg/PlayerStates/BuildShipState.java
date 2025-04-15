@@ -10,12 +10,10 @@ public class BuildShipState extends PlayerState{
     private final Game game;
     private final TimerGenerator timer;
     private boolean stopTurn;
-    private int pos;
     public BuildShipState(Game game, TimerGenerator timer) {
         this.game = game;
         this.timer = timer;
         this.stopTurn=false;
-        this.pos=0;
     }
 
     @Override
@@ -105,8 +103,12 @@ public class BuildShipState extends PlayerState{
     }
 
     private void setPosition(Player player){
+        int pos=0;
+        for(Player p : game.getPlayers()){
+            if(p.getShipBuilded())
+                pos--;
+        }
         player.setShipBuilded();
         player.setPosition(pos);
-        pos--;
     }
 }
