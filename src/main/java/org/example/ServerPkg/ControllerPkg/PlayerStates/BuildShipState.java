@@ -4,12 +4,25 @@ import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
+import org.example.ServerPkg.Model.TimerGenerator;
 
 public class BuildShipState extends PlayerState{
     private final Game game;
-
-    public BuildShipState(Game game) {
+    private final TimerGenerator timer;
+    boolean stopTurn=false;
+    public BuildShipState(Game game, TimerGenerator timer) {
         this.game = game;
+        this.timer = timer;
+    }
+
+    public void turnTimer(){
+        try{
+            if(!stopTurn) {
+                stopTurn = timer.start();
+            }else throw new InvalidMethodCallException("can't call this method");
+        }catch(InvalidMethodCallException e){
+            System.out.println("ERROR" + e.getMessage());
+        }
     }
 
     @Override

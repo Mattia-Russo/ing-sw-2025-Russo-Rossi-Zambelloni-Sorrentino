@@ -37,7 +37,6 @@ public class Game{
             this.deck = CardLoader.loadFilteredRandomCards(desiredTypes);
         }
         this.currentCard = null;
-
         if(gameMode == 0 ) {
             this.lapLength = 18;
         }else
@@ -65,13 +64,14 @@ public class Game{
     }
 
     // usage only for tests
+
     public void setCard(AdventureCard card) {
         deck.clear();
         deck.add(card);
         this.currentCard = card;
     }
-
     //il deck deve essere in modo che io abbia 2 carte di livello 2 e una di livello 1
+
     public ArrayList<AdventureCard> getDeck(int deckPos) {
         if (deckPos < 3 && deckPos >= 0) {
             ArrayList<AdventureCard> temp = new ArrayList<>();
@@ -83,7 +83,6 @@ public class Game{
             throw new InvalidDeckNumberException("You've entered an invalid deck number, select between 0, 1 or 2");
         }
     }
-
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -195,10 +194,10 @@ public class Game{
     }
 
     //usage only for tests
+
     public List<AdventureCard> getDeck(){
         return this.deck;
     }
-
     public void Turn() {
         if (this.deck.isEmpty()){
             for (Player player : players) {
@@ -265,12 +264,13 @@ public class Game{
         }
     }
 
-    public void startBuildingShips() {
-        for (Player p : players){
-            p.setPlayerState(new BuildShipState(this));
-        }
-    }
 
+    //for testing
+    /*public void startBuildingShips() {
+        for (Player p : players){
+            p.setPlayerState(new BuildShipState(this, new TimerGenerator()));
+        }
+    }*/
     public Components pickComponentTile() {
         if ((this.componentsList == null)) {
             throw new TilesHeapNotInitializedException("Tiles heap has not been initialized");
@@ -290,10 +290,10 @@ public class Game{
 
 
     //usage only for test
+
     public List<Components> getComponentsList(){
         return this.componentsList;
     }
-  
     public Player getPlayerByName(String name) {
         for (Player p : players) {
             if (p.getName().equals(name)){

@@ -4,6 +4,8 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
+import org.example.ServerPkg.Model.TimerGenerator;
+
 import java.security.InvalidParameterException;
 
 public class GameController {
@@ -42,7 +44,7 @@ public class GameController {
                 if(game.getPlayers().size() >= 2) {
                     lobbyState = LobbyState.GAME_READY;
                     for(Player player : game.getPlayers()) {
-                        player.setPlayerState(new BuildShipState(game));
+                        player.setPlayerState(new BuildShipState(game, new TimerGenerator()));
                     }
                 }else throw new InvalidMinimumNumberPlayerException("not enough players to start");
             }else throw new InvalidLobbyStateException("can't call this method");
