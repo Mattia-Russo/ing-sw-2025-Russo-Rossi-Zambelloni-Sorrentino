@@ -9,17 +9,29 @@ import org.example.ServerPkg.Model.TimerGenerator;
 public class BuildShipState extends PlayerState{
     private final Game game;
     private final TimerGenerator timer;
-    boolean stopTurn=false;
+    private boolean stopTurn;
+    private int pos;
     public BuildShipState(Game game, TimerGenerator timer) {
         this.game = game;
         this.timer = timer;
+        this.stopTurn=false;
+        this.pos=0;
     }
 
-    public void turnTimer(){
+    @Override
+    public void turnTimer(Player player){
         try{
             if(!stopTurn) {
                 stopTurn = timer.start();
-            }else throw new InvalidMethodCallException("can't call this method");
+            }else if(player.getShipBuilded()){
+                timer.start();
+                for(Player p : game.getPlayers()){
+                    if(!p.getShipBuilded()){
+                        setPosition(p);
+                    }
+                }
+                endBuildShip(player);
+            }
         }catch(InvalidMethodCallException e){
             System.out.println("ERROR" + e.getMessage());
         }
@@ -80,14 +92,9 @@ public class BuildShipState extends PlayerState{
 
     @Override
     public void endBuildShip(Player player){
-        player.setShipBuilded();
-        int pos = 0;
-        for(Player p : game.getPlayers()){
-            if(p.getShipBuilded()){
-               pos--;
-            }
+        if(!player.getShipBuilded()){
+            setPosition(player);
         }
-        player.setPosition(pos);
 
         for(Player p : game.getPlayers()){
             if(!p.getShipBuilded()){
@@ -95,5 +102,11 @@ public class BuildShipState extends PlayerState{
             }
         }
         game.checkAllPlayersShip();
+    }
+
+    private void setPosition(Player player){
+        player.setShipBuilded();
+        player.setPosition(pos);
+        pos--;
     }
 }

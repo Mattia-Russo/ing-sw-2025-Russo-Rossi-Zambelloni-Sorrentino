@@ -39,7 +39,7 @@ public class GameController {
             if(game.getPlayers().size() >= 2) {
                 lobbyState = LobbyState.GAME_READY;
                 for(Player player : game.getPlayers()) {
-                    player.setPlayerState(new BuildShipState(game));
+                    player.setPlayerState(new BuildShipState(game, new TimerGenerator()));
                 }
             }else throw new InvalidMinimumNumberPlayerException("not enough players to start");
         }else throw new InvalidLobbyStateException("can't call this method");

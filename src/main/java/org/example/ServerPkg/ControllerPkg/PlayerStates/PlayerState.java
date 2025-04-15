@@ -70,4 +70,6 @@ public class PlayerState {
     public void addBrownAlien(Points p){}
 
     public void addPurpleAlien(Points p){}
+
+    public void turnTimer(Player player){}
 }

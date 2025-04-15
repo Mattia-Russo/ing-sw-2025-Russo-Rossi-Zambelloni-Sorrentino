@@ -162,4 +162,9 @@ public class WaitingState extends PlayerState {
     public void addPurpleAlien(Points p){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
+
+    @Override
+    public void turnTimer(Player player){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
 }
