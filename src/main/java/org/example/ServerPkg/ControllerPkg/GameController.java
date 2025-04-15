@@ -78,10 +78,6 @@ public class GameController {
         }
     }
 
-    public void disconnectPlayer() {
-
-    }
-
     public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode) {
         try{
             if(lobbyState == LobbyState.GAME_CREATION) {

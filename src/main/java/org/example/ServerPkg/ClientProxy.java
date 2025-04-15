@@ -1,6 +1,7 @@
 package org.example.ServerPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.ArrayList;
@@ -26,80 +27,152 @@ public abstract class ClientProxy {
         controller.startGame();
     }
 
-    public void endGame(){
+    public void exitGame(){
         controller.exitGame(controller.getGame().getPlayerByName(playerName));
     }
 
     public void activateCannons(ArrayList<Points> cannons){
-        controller.getGame().getPlayerByName(this.playerName).getState().activateCannons(cannons);
+        try {
+            controller.getGame().getPlayerByName(this.playerName).getState().activateCannons(cannons);
+        } catch (AlreadyCannonException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void useBatteries(ArrayList<Points> batteries){
+        try{
         controller.getGame().getPlayerByName(this.playerName).getState().useBatteries(batteries);
+        } catch (AlreadyBatteryException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void endActivateCannons(){
+        try{
         controller.getGame().getPlayerByName(this.playerName).getState().endActivateCannons();
+        } catch (EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void activateEngines(ArrayList<Points> engines){
-        controller.getGame().getPlayerByName(this.playerName).getState().activateEngines(engines);
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().activateEngines(engines);
+        } catch (AlreadyEngineException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void endActivateEngines(){
-        controller.getGame().getPlayerByName(this.playerName).getState().endActivateEngines();
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().endActivateEngines();
+        } catch (EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void activateShields(ArrayList<Points> shields){
-        controller.getGame().getPlayerByName(this.playerName).getState().activateShields(shields);
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().activateShields(shields);
+        } catch (AlreadyShieldException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void endActivateShields(){
-        controller.getGame().getPlayerByName(this.playerName).getState().endActivateShields();
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().endActivateShields();
+        } catch (EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void removeGood(Points point, int numGood){
+        try{
         controller.getGame().getPlayerByName(this.playerName).getState().removeGood(point, numGood);
+        } catch (NotStorageException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void addGood(Points point, int numGood){
+        try{
         controller.getGame().getPlayerByName(this.playerName).getState().addGood(point, numGood);
+        } catch (NotStorageException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void endChangeGoodsState(){
-        controller.getGame().getPlayerByName(this.playerName).getState().endChangeGoods();
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().endChangeGoods();
+        } catch (EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void landOnAbandon(boolean bool){
-        controller.getGame().getPlayerByName(this.playerName).getState().landOnAbandon(bool);
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().landOnAbandon(bool);
+        } catch (EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void landOnPlanet(boolean bool, int numPlanet){
-        controller.getGame().getPlayerByName(playerName).getState().landOnPlanet(bool, numPlanet);
+        try{
+            controller.getGame().getPlayerByName(playerName).getState().landOnPlanet(bool, numPlanet);
+        } catch (PlanetAlreadyVisitedException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void removeAstronauts(Points point){
-        controller.getGame().getPlayerByName(this.playerName).getState().removeAstronauts(point);
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().removeAstronauts(point);
+        } catch (EnoughAstronautsRemovedException | NotCabinException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void endRemoveAstronauts(){
-        controller.getGame().getPlayerByName(this.playerName).getState().endRemoveAstronauts();
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().endRemoveAstronauts();
+        } catch (NotEnoughAstronautsRemovedException | NotCabinException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void removeBestGood(Points point, int numGood){
-        controller.getGame().getPlayerByName(this.playerName).getState().removeBestGood(point, numGood);
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().removeBestGood(point, numGood);
+        } catch (EnoughBestGoodsRemovedException | NotStorageException | NotCabinException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    public void 
+    public void removeBatteries(Points point){
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().removeBatteries(point);
+        } catch (EnoughBatteriesRemovedException | NotBatteryStorageException | RemoveBatteriesBeforeGoodsException | NotCabinException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 
-    /*
-+removeAstronauts(Points): void
-+endRemoveAstronauts: void
-+removeBestGood(Points, int): void
-+removeBatteries(Points): void
-+endRemoveBestGoods: void
-+acceptReward(boolean): void
-+ void exitGame (player p)
-+ discconect(player p)
-    * */
+    public void endRemoveBestGoods(){
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().endRemoveBestGoods();
+        } catch (NotEnoughBestGoodsRemovedException | EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void acceptReward(boolean bool){
+        try{
+            controller.getGame().getPlayerByName(this.playerName).getState().acceptReward(bool);
+        } catch (EndStateException | WaitingStateException | AbandonedStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 }
