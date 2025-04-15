@@ -6,7 +6,12 @@ public abstract class ClientProxy {
     private int playerId;
     private GameController controller;
 
+    public ClientProxy(int playerId, GameController controller) {
+        this.playerId = playerId;
+        this.controller = controller;
+    }
+
     public void addNewPlayer() {
-        controller.
+
     }
 }
