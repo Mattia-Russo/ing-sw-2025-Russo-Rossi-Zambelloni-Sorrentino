@@ -8,9 +8,10 @@ import java.util.ArrayList;
 public abstract class ClientProxy {
     private String playerName;
     private final GameController controller;
+    private Server server;
 
-    public ClientProxy(String name, GameController controller) {
-        this.playerName = name;
+    public ClientProxy(GameController controller, Server server) {
+        this.server = server;
         this.controller = controller;
     }
 
