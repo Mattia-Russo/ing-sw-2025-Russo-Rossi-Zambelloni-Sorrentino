@@ -18,6 +18,9 @@ public class BuildShipState extends PlayerState{
 
     @Override
     public void turnTimer(Player player){
+        if(game.getGameMode()==0){
+            return;
+        }
         try{
             if(!stopTurn) {
                 stopTurn = timer.start();
@@ -38,8 +41,10 @@ public class BuildShipState extends PlayerState{
     @Override
     public void showDeck(Player p, int deckPosition){
         try {
-            p.setDeckShowed(game.getDeck(deckPosition));
-        } catch (InvalidDeckNumberException e) {
+            if(game.getGameMode()!=0){
+                p.setDeckShowed(game.getDeck(deckPosition));
+            }else throw new InvalidMethodCallException("can't call this method in this game mode");
+        } catch (InvalidDeckNumberException | InvalidMethodCallException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

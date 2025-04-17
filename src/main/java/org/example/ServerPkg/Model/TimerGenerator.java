@@ -12,7 +12,7 @@ public class TimerGenerator {
     private boolean finished;
 
     public TimerGenerator() {
-        this.countdownValue = 10;
+        this.countdownValue = 60;
         this.isAvailable = true;
         this.flipCounter = 0;
         this.finished = false;
