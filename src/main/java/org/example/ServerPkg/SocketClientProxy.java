@@ -1,16 +1,15 @@
 package org.example.ServerPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.MessagePkg.Message;
+import org.example.MessagePkg.PingMessage;
+import org.example.MessagePkg.PongMessage;
 import org.example.ServerPkg.Model.Game;
-import org.example.ServerPkg.Model.Player;
-import org.example.ServerPkg.Model.Points;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -66,13 +65,14 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             try {
                 Message message = (Message) in.readObject();
 
-                // Handle heartbeat messages right away
-                if (message.title().equals("pong"))
-                    lastHeartBeat = (String) message.arguments().get("key");
-                else if (message.title().equals("ping"))
-                    send(new Message("pong", Map.of("key", message.arguments().get("key"))));
-                else
-                    inputHandler.submit(() -> handleInput(message));
+                if (message instanceof PongMessage pong) {
+                    lastHeartBeat = pong.key();
+                } else if (message instanceof PingMessage ping) {
+                    send(new PongMessage(ping.key()));
+                } else {
+                    inputHandler.submit(() -> message.handle(this));
+                }
+
             } catch (Exception e) {
                 System.out.println("Error reading from socket: " + e.getMessage());
                 break;
@@ -88,69 +88,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     }
 
         public void handleInput(Message message) {
-        switch (message.title()) {
-            case "createLobby":
-                super.createLobby((int) message.arguments().get("numPlayers"),
-                        (int) message.arguments().get("shipboardLevel"),
-                        (int) message.arguments().get("gameMode"));
-                break;
-            case "joinLobby":
-                    super.joinLobby();
-                    break;
-            case "startGame":
-                super.startGame();
-                break;
-            case "exitGame":
-                    super.exitGame();
-                    break;
-            case "activateCannons":
-                super.activateCannons((ArrayList<Points>) message.arguments().get("points"));
-                break;
-            case "useBatteries":
-                super.useBatteries((ArrayList<Points>) message.arguments().get("points"));
-                break;
-            case "endActivateCannons":
-                super.endActivateCannons();
-                break;
-            case "activateEngines":
-                super.activateEngines((ArrayList<Points>) message.arguments().get("points"));
-                break;
-            case "endActivateEngines":
-                super.endActivateEngines();
-                break;
-            case "activateShileds":
-                super.activateShields((ArrayList<Points>) message.arguments().get("points"));
-                break;
-            case "endActivateShileds":
-                super.endActivateShields();
-                break;
-            case "removeGood":
-                super.removeGood((Points) message.arguments().get("point"), (int) message.arguments().get("numGood"));
-                break;
-            case "addGood":
-                super.addGood((Points) message.arguments().get("point"), (int) message.arguments().get("numGood"));
-                break;
-            case "endChangeGoodsState":
-                super.endChangeGoodsState();
-                break;
-            case "landOnAbandon":
-                super.landOnAbandon((boolean) message.arguments().get("bool"));
-                break;
-            case "landOnPlanet":
-                super.landOnPlanet((boolean) message.arguments().get("bool"), (int) message.arguments().get("numPlanet"));
-                break;
-            case "removeAstronauts":
-                super.removeAstronauts((Points) message.arguments().get("point"));
-                break;
-            case "endRemoveAstronauts":
-                super.endRemoveAstronauts();
-                break;
-            case "removeBestGood":
-                super.removeBestGood((Points) message.arguments().get("point"), (int) message.arguments().get("numGood"));
-                break;
-        }
-
-
+        message.handle(this);
     }
 
 
@@ -170,7 +108,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             String heartBeat = UUID.randomUUID().toString();
 
             // Send the string to the server
-            send(new Message("ping", Map.of("key", heartBeat)));
+            send(new PingMessage(heartBeat));
 
             // Wait for 1 seconds
             try {

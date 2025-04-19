@@ -1,0 +1,10 @@
+package org.example.MessagePkg;
+
+import org.example.ServerPkg.ClientProxy;
+
+public class EndActivateShieldsMessage extends Message {
+    @Override
+    public void handle(ClientProxy proxy) {
+        proxy.endActivateShields();
+    }
+}
