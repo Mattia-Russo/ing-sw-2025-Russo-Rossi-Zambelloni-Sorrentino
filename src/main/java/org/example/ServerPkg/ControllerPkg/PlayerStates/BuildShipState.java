@@ -9,11 +9,11 @@ import org.example.ServerPkg.Model.TimerGenerator;
 public class BuildShipState extends PlayerState{
     private final Game game;
     private final TimerGenerator timer;
-    private boolean stopTurn;
+    private int stopTurn;
     public BuildShipState(Game game, TimerGenerator timer) {
         this.game = game;
         this.timer = timer;
-        this.stopTurn=false;
+        this.stopTurn=0;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class BuildShipState extends PlayerState{
             return;
         }
         try{
-            if(!stopTurn) {
+            if(stopTurn < 3) {
                 stopTurn = timer.start();
             }else if(player.getShipBuilded()){
                 timer.start();
@@ -34,7 +34,7 @@ public class BuildShipState extends PlayerState{
                 endBuildShip(player);
             }
         }catch(InvalidMethodCallException e){
-            System.out.println("ERROR" + e.getMessage());
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -58,7 +58,9 @@ public class BuildShipState extends PlayerState{
     @Override
     public void pickComponentTile(Player p){
         if (p.getDeckShowed() == null){
-            p.setCurrentTile(game.pickComponentTile());
+            if(!p.getShipBuilded()) {
+                p.setCurrentTile(game.pickComponentTile());
+            }
         } else {
             throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
         }
@@ -86,8 +88,10 @@ public class BuildShipState extends PlayerState{
     @Override
     public void placeTile(Player player, Points point){
         try {
-            player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
-            player.setCurrentTile(null);
+            if(!player.getShipBuilded()) {
+                player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
+                player.setCurrentTile(null);
+            }
         } catch (OccupiedPositionException | InvalidPositionException e) {
             System.out.println("Error: " + e.getMessage());
         }
