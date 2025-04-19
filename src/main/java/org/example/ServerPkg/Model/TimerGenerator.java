@@ -4,6 +4,7 @@ import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 
 public class TimerGenerator {
     private final int countdownValue;
@@ -18,9 +19,11 @@ public class TimerGenerator {
         this.finished = false;
     }
 
-    public boolean start() {
+    public int start(){
         if(isAvailable) {
             isAvailable = false;
+            CountDownLatch latch = new CountDownLatch(1);
+
             Timer timer = new Timer();
             TimerTask task = new TimerTask() {
             int remainingTime = countdownValue;
@@ -31,13 +34,20 @@ public class TimerGenerator {
                     timer.cancel();
                     isAvailable = true;
                     flipCounter++;
-                    if(flipCounter == 3)
+                    if(flipCounter == 3) {
                         finished = true;
+                    }
+                    latch.countDown();
                 }
             }
             };
             timer.scheduleAtFixedRate(task, 0, 1000);
-            return finished;
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            return flipCounter;
         }else throw new InvalidMethodCallException("Timer is already running");
     }
 }

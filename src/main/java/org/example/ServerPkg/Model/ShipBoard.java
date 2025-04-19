@@ -459,7 +459,7 @@ public class ShipBoard {
     public Components getFirstComponent(Direction direction, int rowOrCol){
         switch (direction) {
             case EAST:
-                for (int i = 0; i < componentMatrix[0].length; i++) {
+                for (int i = componentMatrix[0].length-1; i >= 0; i--) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }
@@ -474,7 +474,7 @@ public class ShipBoard {
                 }
                 break;
             case WEST:
-                for (int i = componentMatrix[0].length-1; i > 0 ; i--) {
+                for (int i = 0; i < componentMatrix[0].length ; i++) {
                     if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
                         return componentMatrix[rowOrCol][i];
                     }

@@ -247,17 +247,24 @@ public class Game{
         Components c=null;
         int i=0;
         for (Player p : players) {
-            while(c==null){
+            while(c==null && i < 5){
                 c=p.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
                 i++;
             }
-            if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
-                p.setShipOK(false);
-                p.setPlayerState(new ShipWreckedState(this, p));
-            }else if(gameMode==1) {
-                p.setPlayerState(new AddAlienState(this, p));
-            }else{
-                p.setReadyForCards(true);
+            if(i!=5) {
+                if (p.getPlayerShipBoard().checkIfSplitted(c.getPosY(), c.getPosX())) {
+                    p.setShipOK(false);
+                    p.setPlayerState(new ShipWreckedState(this, p));
+                } else if (gameMode == 1) {
+                    p.setPlayerState(new AddAlienState(this, p));
+                } else {
+                    p.setReadyForCards(true);
+                }
+            }else if(gameMode == 1){
+                p.abandon();
+                p.setPlayerState(new AbandonedState());
+            }else {
+                p.setPlayerState(new WaitingState());
             }
             i=0;
             c=null;
@@ -266,11 +273,11 @@ public class Game{
 
 
     //for testing
-    /*public void startBuildingShips() {
+    public void startBuildingShips() {
         for (Player p : players){
             p.setPlayerState(new BuildShipState(this, new TimerGenerator()));
         }
-    }*/
+    }
     public Components pickComponentTile() {
         if ((this.componentsList == null)) {
             throw new TilesHeapNotInitializedException("Tiles heap has not been initialized");

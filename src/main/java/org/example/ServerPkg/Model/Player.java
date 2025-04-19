@@ -40,7 +40,7 @@ public class Player {
         this.name=name;
         this.shipBuilded=false;
         this.state = new WaitingState();
-        this.shipOK=false;
+        this.shipOK=true;
         this.currentTile = null;
         this.deckShowed = null;
     }
