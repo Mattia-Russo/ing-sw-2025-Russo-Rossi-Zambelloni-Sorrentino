@@ -15,32 +15,18 @@ public class TileLoader {
     private static final String COMPONENT_JSON_PATH = "/org.example.gc31/tiles.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static List<Components> loadTiles() {
-        try {
-            List<Components> allTiles = loadAllTiles();
-            Collections.shuffle(allTiles);
-            return allTiles;
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to build tiles", e);
-        }
-    }
-
     public static List<Components> loadFilteredTiles() {
         try {
-            List<Components> filtered = loadAllTiles().stream()
+            return loadAllTiles().stream()
                     .filter(c-> !"LIFESUPPORTSYSTEM".equalsIgnoreCase(c.getClass().getSimpleName()))
                     .collect(Collectors.toList());
-
-            Collections.shuffle(filtered);
-            return filtered;
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to load filtered tiles", e);
         }
     }
 
-    private static List<Components> loadAllTiles() throws Exception {
+    public static List<Components> loadAllTiles(){
         try (InputStream is = TileLoader.class.getResourceAsStream(COMPONENT_JSON_PATH)) {
 
             // Configure mapper for better error handling

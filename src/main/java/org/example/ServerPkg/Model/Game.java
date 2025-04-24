@@ -43,7 +43,7 @@ public class Game{
             this.lapLength = 24;
 
         if(gameMode == 1) {
-            this.componentsList = TileLoader.loadTiles();
+            this.componentsList = TileLoader.loadAllTiles();
         }else {
             this.componentsList = TileLoader.loadFilteredTiles();
         }
@@ -55,12 +55,23 @@ public class Game{
     }
 
     public void setPlayersShipboard(){
+        int i=0;
         for(Player p: players) {
             if(gameMode == 0) {
                 p.setPlayerShipboard(gameMode);
-            }else
+            }else {
                 p.setPlayerShipboard(ShipBoardLevel);
+            }
+            p.getPlayerShipBoard().placeComponent(3,2, getComponentsList().get(0));
+            getComponentsList().remove(0);
+            i++;
         }
+
+        for(; i < 4-getPlayers().size(); i++) {
+            getComponentsList().remove(i);
+        }
+
+        Collections.shuffle(componentsList);
     }
 
     // usage only for tests

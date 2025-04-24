@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.CardPack.*;
 import org.example.ServerPkg.Model.ComponentsPack.*;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 
 public class GameTest extends TestCase {
@@ -704,5 +706,26 @@ public class GameTest extends TestCase {
         c=g.pickComponentTile();
 
         assertEquals(size-1, g.getComponentsList().size());
+    }
+
+
+    public void testSetPlayersShipboard() {
+        Player p1 = new Player(12, "a");
+        Player p2 = new Player( 7, "a");
+        Player p3 = new Player( 14, "a");
+        Player p4 = new Player( 9, "a");
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game g=new Game(4, 1, 1, null);
+        g.getPlayers().addAll(players);
+
+        g.setPlayersShipboard();
+
+        for(Components c: g.getComponentsList()){
+            System.out.println(c);
+        }
     }
 }

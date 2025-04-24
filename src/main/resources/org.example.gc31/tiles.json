@@ -1,5 +1,33 @@
 [
   {
+    "type": "CABIN",
+    "direction": "NORTH",
+    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
+    "isCentral": true,
+    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web33.jpg"
+  },
+  {
+    "type": "CABIN",
+    "direction": "NORTH",
+    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
+    "isCentral": true,
+    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web34.jpg"
+  },
+  {
+    "type": "CABIN",
+    "direction": "NORTH",
+    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
+    "isCentral": true,
+    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web52.jpg"
+  },
+  {
+    "type": "CABIN",
+    "direction": "NORTH",
+    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
+    "isCentral": true,
+    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web61.jpg"
+  },
+  {
     "type": "BATTERYSTORAGE",
     "capacity": 2,
     "direction": "NORTH",
@@ -226,20 +254,6 @@
   {
     "type": "CABIN",
     "direction": "NORTH",
-    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
-    "isCentral": true,
-    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web33.jpg"
-  },
-  {
-    "type": "CABIN",
-    "direction": "NORTH",
-    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
-    "isCentral": true,
-    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web34.jpg"
-  },
-  {
-    "type": "CABIN",
-    "direction": "NORTH",
     "connectors": ["EMPTY", "EMPTY", "UNIVERSAL", "SINGLE"],
     "isCentral": false,
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web35.jpg"
@@ -357,13 +371,6 @@
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web51.jpg"
   },
   {
-    "type": "CABIN",
-    "direction": "NORTH",
-    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
-    "isCentral": true,
-    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web52.jpg"
-  },
-  {
     "type": "TUBES",
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "UNIVERSAL", "EMPTY", "SINGLE"],
@@ -410,13 +417,6 @@
     "direction": "NORTH",
     "connectors": ["UNIVERSAL", "DOUBLE", "DOUBLE", "UNIVERSAL"],
     "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web60jpg"
-  },
-  {
-    "type": "CABIN",
-    "direction": "NORTH",
-    "connectors": ["UNIVERSAL", "UNIVERSAL", "UNIVERSAL", "UNIVERSAL"],
-    "isCentral": true,
-    "img": "src/main/resources/org.example.gc31/tiles/GT-new_tiles_16_for web61.jpg"
   },
   {
     "type": "STORAGE",
