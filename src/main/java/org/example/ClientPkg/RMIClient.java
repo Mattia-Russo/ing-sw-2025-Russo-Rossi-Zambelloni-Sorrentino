@@ -1,6 +1,9 @@
-package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
+package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIServerInterface;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
