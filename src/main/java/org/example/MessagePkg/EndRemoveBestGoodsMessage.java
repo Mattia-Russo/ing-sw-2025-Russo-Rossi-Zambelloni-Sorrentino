@@ -4,7 +4,7 @@ import org.example.ServerPkg.TCPPkg.ClientProxy;
 
 public class EndRemoveBestGoodsMessage extends Message{
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.endRemoveBestGoods();
+    public void handle() {
+        super.getProxy().endRemoveBestGoods();
     }
 }

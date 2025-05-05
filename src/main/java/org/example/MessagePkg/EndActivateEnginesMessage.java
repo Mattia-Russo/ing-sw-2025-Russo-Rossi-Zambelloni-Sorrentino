@@ -4,7 +4,7 @@ import org.example.ServerPkg.TCPPkg.ClientProxy;
 
 public class EndActivateEnginesMessage extends Message {
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.endActivateEngines();
+    public void handle() {
+        super.getProxy().endActivateEngines();
     }
 }

@@ -11,7 +11,7 @@ public class RemoveAstronautsMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.removeAstronauts(point);
+    public void handle() {
+        super.getProxy().removeAstronauts(point);
     }
 }

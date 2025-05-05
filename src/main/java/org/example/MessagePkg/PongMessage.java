@@ -14,7 +14,7 @@ public class PongMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
+    public void handle() {
         // Anche questa può non fare nulla
     }
 }

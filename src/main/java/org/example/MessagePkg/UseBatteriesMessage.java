@@ -13,8 +13,8 @@ public class UseBatteriesMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.useBatteries(batteries);
+    public void handle() {
+        super.getProxy().useBatteries(batteries);
     }
 
 }

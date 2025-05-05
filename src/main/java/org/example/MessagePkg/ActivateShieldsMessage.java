@@ -13,8 +13,8 @@ public class ActivateShieldsMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.activateShields(shields);
+    public void handle() {
+        super.getProxy().activateShields(shields);
     }
 
 }

@@ -13,7 +13,7 @@ public class AddGoodMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.addGood(point, numGood);
+    public void handle() {
+        super.getProxy().addGood(point, numGood);
     }
 }

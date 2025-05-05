@@ -13,8 +13,8 @@ public class ActivateEnginesMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.activateEngines(engines);
+    public void handle() {
+        super.getProxy().activateEngines(engines);
     }
 
 }

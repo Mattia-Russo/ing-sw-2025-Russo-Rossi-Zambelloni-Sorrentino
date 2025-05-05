@@ -11,7 +11,7 @@ public class RemoveBatteriesMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.removeBatteries(point);
+    public void handle() {
+        super.getProxy().removeBatteries(point);
     }
 }

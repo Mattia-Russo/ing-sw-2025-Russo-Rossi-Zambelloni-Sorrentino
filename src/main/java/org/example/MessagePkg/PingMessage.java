@@ -14,7 +14,7 @@ public class PingMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
+    public void handle() {
         // Non gestita normalmente, gestita direttamente in run()
     }
 }
