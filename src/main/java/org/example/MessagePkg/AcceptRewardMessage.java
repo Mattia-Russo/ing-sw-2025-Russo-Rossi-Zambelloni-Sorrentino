@@ -10,7 +10,7 @@ public class AcceptRewardMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.acceptReward(bool);
+    public void handle() {
+        super.getProxy().acceptReward(bool);
     }
 }

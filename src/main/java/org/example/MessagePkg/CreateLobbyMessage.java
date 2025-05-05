@@ -14,7 +14,7 @@ public class CreateLobbyMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.createLobby(numPlayers, shipboardLevel, gameMode);
+    public void handle() {
+        super.getProxy().createLobby(numPlayers, shipboardLevel, gameMode);
     }
 }

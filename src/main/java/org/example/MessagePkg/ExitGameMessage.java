@@ -4,7 +4,7 @@ import org.example.ServerPkg.TCPPkg.ClientProxy;
 
 public class ExitGameMessage extends Message{
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.exitGame();
+    public void handle() {
+        super.getProxy().exitGame();
     }
 }

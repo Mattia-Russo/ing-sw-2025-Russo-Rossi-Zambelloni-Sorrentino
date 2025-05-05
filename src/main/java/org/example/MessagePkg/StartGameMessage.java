@@ -4,7 +4,7 @@ import org.example.ServerPkg.TCPPkg.ClientProxy;
 
 public class StartGameMessage extends Message {
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.startGame();
+    public void handle() {
+        super.getProxy().startGame();
     }
 }

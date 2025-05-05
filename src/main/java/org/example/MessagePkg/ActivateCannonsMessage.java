@@ -13,8 +13,8 @@ public class ActivateCannonsMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.activateCannons(cannons);
+    public void handle() {
+        super.getProxy().activateCannons(cannons);
     }
 
 }

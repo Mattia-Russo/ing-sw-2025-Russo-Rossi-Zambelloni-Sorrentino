@@ -1,23 +1,71 @@
 package org.example.ServerPkg.ControllerPkg;
 
+import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.TimerGenerator;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 // coda con richieste del client
 
 public class GameController {
-    Game game;
-    LobbyState lobbyState;
+    private Game game;
+    private LobbyState lobbyState;
+    private final BlockingQueue<Message> messageQueue;
+    private volatile boolean isRunning;
+    private Thread messageProcessor;
 
     public GameController(){
         this.game = null;
         this.lobbyState = LobbyState.GAME_CREATION;
+        this.messageQueue = new LinkedBlockingQueue<>();
+        this.isRunning = true;
+        startMessageProcessing();
     }
+
+    private void startMessageProcessing() {
+        messageProcessor = new Thread(() -> {
+            while (isRunning) {
+                try {
+                    Message message = messageQueue.take(); // Aspetta finché non c'è un messaggio
+                    processMessage(message);
+                } catch (InterruptedException e) {
+                    if (isRunning) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        });
+        messageProcessor.setName("MessageProcessor");
+        messageProcessor.start();
+    }
+
+    private void processMessage(Message message) {
+        try {
+            synchronized (this) {
+                message.handle();
+            }
+        } catch (Exception e) {
+            System.err.println("Error managing the message: " + e.getMessage());
+        }
+    }
+
+    public void addMessage(Message message) {
+        try {
+            messageQueue.put(message);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Error inserting the message", e);
+        }
+    }
+
 
     public Game getGame() {
         return this.game;

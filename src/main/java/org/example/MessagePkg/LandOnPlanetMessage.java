@@ -12,7 +12,7 @@ public class LandOnPlanetMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.landOnPlanet(bool, numPlanet);
+    public void handle() {
+        super.getProxy().landOnPlanet(bool, numPlanet);
     }
 }

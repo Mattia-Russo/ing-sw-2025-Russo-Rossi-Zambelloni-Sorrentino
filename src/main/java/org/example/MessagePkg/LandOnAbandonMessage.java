@@ -10,7 +10,7 @@ public class LandOnAbandonMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.landOnAbandon(bool);
+    public void handle() {
+        super.getProxy().landOnAbandon(bool);
     }
 }

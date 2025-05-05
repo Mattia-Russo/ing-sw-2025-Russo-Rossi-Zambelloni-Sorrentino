@@ -13,7 +13,7 @@ public class RemoveBestGoodMessage extends Message {
     }
 
     @Override
-    public void handle(ClientProxy proxy) {
-        proxy.removeBestGood(point, numGood);
+    public void handle() {
+        super.getProxy().removeBestGood(point, numGood);
     }
 }

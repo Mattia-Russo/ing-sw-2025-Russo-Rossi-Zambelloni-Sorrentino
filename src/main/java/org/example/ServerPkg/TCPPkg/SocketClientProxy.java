@@ -70,7 +70,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 } else if (message instanceof PingMessage ping) {
                     send(new PongMessage(ping.key()));
                 } else {
-                    inputHandler.submit(() -> message.handle(this));
+                    message.setProxy(this);
+                    controller.addMessage(message);
                 }
 
             } catch (Exception e) {
@@ -80,8 +81,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         }
         try {
             socket.close();
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
         inputHandler.shutdown();
         connectionChecker.shutdown();
         //disconnect();
