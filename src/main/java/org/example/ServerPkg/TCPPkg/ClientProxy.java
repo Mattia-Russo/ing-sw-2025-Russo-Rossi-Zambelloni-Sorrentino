@@ -1,4 +1,4 @@
-package org.example.ServerPkg;
+package org.example.ServerPkg.TCPPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public abstract class ClientProxy implements VirtualClient {
     private String playerName;
     private final GameController controller;
-    private final Server server;
+    private final TCPServer TCPServer;
 
-    public ClientProxy(GameController controller, Server server) {
-        this.server = server;
+    public ClientProxy(GameController controller, TCPServer TCPServer) {
+        this.TCPServer = TCPServer;
         this.controller = controller;
         this.playerName = null;
     }
@@ -26,7 +26,7 @@ public abstract class ClientProxy implements VirtualClient {
         if(this.playerName == null) {
             System.out.println("You need to set your name first");
             return false;
-        } else if (!server.getIfSubscribed(this)) {
+        } else if (!TCPServer.getIfSubscribed(this)) {
             System.out.println("You are not subscribed to the server");
             return false;
         } else {
@@ -43,12 +43,12 @@ public abstract class ClientProxy implements VirtualClient {
             if (this.playerName == null) {
                 System.out.println("You need to set your name first");
             } else {
-                synchronized (server) {
-                    if (server.getNames().contains(name)) {
+                synchronized (TCPServer) {
+                    if (TCPServer.getNames().contains(name)) {
                         throw new NameAlreadyUsedException(name + " already used, type another one");
                     }
                     this.playerName = name;
-                    server.subscribe(this);
+                    TCPServer.subscribe(this);
                 }
                 System.out.println(name + "joined server successfully");
             }
@@ -61,11 +61,11 @@ public abstract class ClientProxy implements VirtualClient {
         if (this.playerName == null) {
             System.out.println("You need to set your name first");
         } else{
-            synchronized (server) {
-                if (!server.getNames().contains(this.playerName)) {
+            synchronized (TCPServer) {
+                if (!TCPServer.getNames().contains(this.playerName)) {
                     System.out.println("You need to join first");
                 } else {
-                    server.unsubscribe(this);
+                    TCPServer.unsubscribe(this);
                     System.out.println(playerName + " left server successfully");
                 }
             }

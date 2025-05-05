@@ -1,6 +1,6 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.ClientProxy;
+import org.example.ServerPkg.TCPPkg.ClientProxy;
 
 public class LandOnPlanetMessage extends Message {
     private boolean bool;

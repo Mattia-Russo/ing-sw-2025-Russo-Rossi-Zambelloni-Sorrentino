@@ -1,4 +1,4 @@
-package org.example.ServerPkg;
+package org.example.ServerPkg.TCPPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server {
+public class TCPServer {
     public ArrayList<ClientProxy> clientsProxies;
     private GameController controller;
 
-    public Server(GameController controller) {
+    public TCPServer(GameController controller) {
         this.clientsProxies = new ArrayList<>();
         this.controller = controller;
     }

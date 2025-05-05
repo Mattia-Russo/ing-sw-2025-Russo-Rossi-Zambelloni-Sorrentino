@@ -1,4 +1,4 @@
-package org.example.ServerPkg;
+package org.example.ServerPkg.TCPPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
@@ -30,8 +30,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     private final ScheduledExecutorService connectionChecker = Executors.newSingleThreadScheduledExecutor();
 
 
-    public SocketClientProxy(GameController controller, Server server, Socket socket) throws IOException {
-        super(controller, server);
+    public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
+        super(controller, TCPServer);
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());
 

@@ -8,6 +8,8 @@ import org.example.ServerPkg.Model.TimerGenerator;
 
 import java.security.InvalidParameterException;
 
+// coda con richieste del client
+
 public class GameController {
     Game game;
     LobbyState lobbyState;
