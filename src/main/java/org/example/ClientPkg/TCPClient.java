@@ -1,4 +1,14 @@
 package org.example.ClientPkg;
 
-public class TCPClient {
+import org.example.MessagePkg.Message;
+
+public class TCPClient implements Client {
+
+    @Override
+    public void disconnect() {
+
+    }
+
+    @Override
+    public void sendMessage(Message message){}
 }
