@@ -87,7 +87,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         //disconnect();
     }
 
-        public void handleInput(Message message) {
+    public void handleInput(Message message) {
         message.handle(this);
     }
 
