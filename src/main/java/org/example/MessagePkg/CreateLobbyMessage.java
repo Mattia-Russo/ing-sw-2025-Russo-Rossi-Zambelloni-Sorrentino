@@ -1,7 +1,5 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.TCPPkg.ClientProxy;
-
 public class CreateLobbyMessage extends Message {
     private int numPlayers;
     private int shipboardLevel;

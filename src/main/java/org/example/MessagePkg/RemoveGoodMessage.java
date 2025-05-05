@@ -1,6 +1,5 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.Model.Points;
 
 

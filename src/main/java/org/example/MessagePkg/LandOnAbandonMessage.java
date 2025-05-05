@@ -1,7 +1,5 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.TCPPkg.ClientProxy;
-
 public class LandOnAbandonMessage extends Message {
     private boolean bool;
 

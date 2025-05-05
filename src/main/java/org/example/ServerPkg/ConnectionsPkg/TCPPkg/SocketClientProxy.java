@@ -1,5 +1,6 @@
-package org.example.ServerPkg.TCPPkg;
+package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.ServerPkg.ConnectionsPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.PingMessage;
@@ -31,7 +32,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
 
 
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
-        super(controller, TCPServer);
+        super(controller, TCPServer, null);
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());
 
@@ -71,11 +72,11 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                     send(new PongMessage(ping.key()));
                 } else {
                     message.setProxy(this);
-                    controller.addMessage(message);
+                    getController().addMessage(message);
                 }
 
             } catch (Exception e) {
-                System.out.println("Error reading from socket: " + e.getMessage());
+                System.out.println("Error reading the socket: " + e.getMessage());
                 break;
             }
         }
@@ -87,8 +88,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         //disconnect();
     }
 
-        public void handleInput(Message message) {
-        message.handle(this);
+    public void handleInput(Message message) {
+        message.handle();
     }
 
 

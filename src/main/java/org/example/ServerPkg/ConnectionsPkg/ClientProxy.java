@@ -1,5 +1,7 @@
-package org.example.ServerPkg.TCPPkg;
+package org.example.ServerPkg.ConnectionsPkg;
 
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIServer;
+import org.example.ServerPkg.ConnectionsPkg.TCPPkg.TCPServer;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Points;
@@ -11,11 +13,17 @@ public abstract class ClientProxy implements VirtualClient {
     private String playerName;
     private final GameController controller;
     private final TCPServer TCPServer;
+    private final RMIServer RMIServer;
 
-    public ClientProxy(GameController controller, TCPServer TCPServer) {
+    public ClientProxy(GameController controller, TCPServer TCPServer, RMIServer RMIServer) {
         this.TCPServer = TCPServer;
+        this.RMIServer = RMIServer;
         this.controller = controller;
         this.playerName = null;
+    }
+
+    public GameController getController() {
+        return controller;
     }
 
     public String getPlayerName(){

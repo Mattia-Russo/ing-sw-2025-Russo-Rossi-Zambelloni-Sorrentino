@@ -1,5 +1,6 @@
-package org.example.ServerPkg.TCPPkg;
+package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.ServerPkg.ConnectionsPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
 

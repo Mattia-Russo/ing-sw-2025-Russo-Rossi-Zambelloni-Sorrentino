@@ -1,4 +1,4 @@
-package org.example.ServerPkg.TCPPkg;
+package org.example.ServerPkg.ConnectionsPkg;
 
 import org.example.ServerPkg.Model.Game;
 

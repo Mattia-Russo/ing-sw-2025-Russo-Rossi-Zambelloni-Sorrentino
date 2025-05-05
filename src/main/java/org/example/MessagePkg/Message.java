@@ -1,6 +1,6 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.TCPPkg.ClientProxy;
+import org.example.ServerPkg.ConnectionsPkg.ClientProxy;
 import java.io.Serializable;
 
 public abstract class Message implements Serializable {

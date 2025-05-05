@@ -13,8 +13,6 @@ import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-// coda con richieste del client
-
 public class GameController {
     private Game game;
     private LobbyState lobbyState;
