@@ -22,11 +22,6 @@ public class TCPServer {
         this.controller = controller;
     }
 
-    public void start() throws RemoteException {
-        new Thread(this::startSocket).start();
-        //startRMI();
-    }
-
     private void startSocket() {
         ServerSocket serverSocket;
         // Define a fixed pool of threads to handle clientsProxies connections
@@ -34,7 +29,7 @@ public class TCPServer {
 
         // Create the server socket to accept clientsProxies connections
         try {
-            serverSocket = new ServerSocket(7000);
+            serverSocket = new ServerSocket(3500);
         } catch (IOException e) {
             System.out.println("Failed to start socket server");
             return;

@@ -1,6 +1,8 @@
-package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
+package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -14,3 +16,4 @@ public interface RMIServerInterface extends Remote {
     // Metodo per disconnettersi
     void unregisterClient(RMIClientInterface client) throws RemoteException;
 }
+// tutti i metodi chiamabili dal client che risiedono sul server

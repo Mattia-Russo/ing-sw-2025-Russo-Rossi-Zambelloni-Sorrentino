@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg;
 
+import org.example.ClientPkg.Client;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIServer;
 import org.example.ServerPkg.ConnectionsPkg.TCPPkg.TCPServer;
 import org.example.ServerPkg.ControllerPkg.GameController;
@@ -9,7 +10,7 @@ import org.example.ServerPkg.Model.Points;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public abstract class ClientProxy implements VirtualClient {
+public abstract class ClientProxy implements Client {
     private String playerName;
     private final GameController controller;
     private final TCPServer TCPServer;

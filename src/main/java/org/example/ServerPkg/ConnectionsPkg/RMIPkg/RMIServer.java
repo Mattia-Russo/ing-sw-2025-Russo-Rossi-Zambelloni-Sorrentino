@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 
+import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import java.rmi.RemoteException;
@@ -25,9 +26,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         try {
             Registry registry = LocateRegistry.createRegistry(RMI_PORT);
             registry.rebind("GameServer", this);
-            System.out.println("RMI Server avviato sulla porta " + RMI_PORT);
+            System.out.println("RMI Server is running on " + RMI_PORT + " port");
         } catch (RemoteException e) {
-            System.err.println("Errore nell'avvio del server RMI: " + e.getMessage());
+            System.err.println("Error starting RMI server: " + e.getMessage());
         }
     }
 

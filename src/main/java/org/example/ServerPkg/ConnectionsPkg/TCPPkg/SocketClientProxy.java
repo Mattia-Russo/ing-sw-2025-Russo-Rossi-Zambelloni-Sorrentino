@@ -40,7 +40,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         connectionChecker.scheduleAtFixedRate(new ConnectionChecker(this.socket), 1, 4, TimeUnit.SECONDS);
     }
 
-    private void send(Message message){
+    public void sendMessage(Message message){
         synchronized(this.out){
             try {
                 out.reset();
@@ -62,14 +62,14 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             System.out.println("Error getting input stream, returning");
             return;
         }
-        while (true) {
+        while (true) {  // read messages from client
             try {
                 Message message = (Message) in.readObject();
 
                 if (message instanceof PongMessage pong) {
                     lastHeartBeat = pong.key();
                 } else if (message instanceof PingMessage ping) {
-                    send(new PongMessage(ping.key()));
+                    sendMessage(new PongMessage(ping.key()));
                 } else {
                     message.setProxy(this);
                     getController().addMessage(message);
@@ -85,7 +85,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         } catch (IOException ignored) {}
         inputHandler.shutdown();
         connectionChecker.shutdown();
-        //disconnect();
+        disconnect();
     }
 
     public void handleInput(Message message) {
@@ -109,7 +109,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             String heartBeat = UUID.randomUUID().toString();
 
             // Send the string to the server
-            send(new PingMessage(heartBeat));
+            sendMessage(new PingMessage(heartBeat));
 
             // Wait for 1 seconds
             try {
@@ -127,5 +127,9 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
 
     public void updateGame(Game game) {
         //TBD
+    }
+
+    public void disconnect() {
+        // TBD
     }
 }

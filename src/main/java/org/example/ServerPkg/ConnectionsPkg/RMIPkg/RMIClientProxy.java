@@ -26,4 +26,12 @@ public class RMIClientProxy extends ClientProxy {
     public void updateGame(Game game) {
         //TBD
     }
+
+    public void disconnect() {
+        // TBD
+    }
+
+    public void sendMessage() {
+        // TBD
+    }
 }

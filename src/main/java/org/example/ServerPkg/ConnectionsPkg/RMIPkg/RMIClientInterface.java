@@ -9,3 +9,5 @@ public interface RMIClientInterface extends Client, Remote {
     // Metodo che il server usa per inviare messaggi al client
     void receiveMessage(Message message) throws RemoteException;
 }
+
+// tutti i metodi chiamabili dal server che risiedono sul client
