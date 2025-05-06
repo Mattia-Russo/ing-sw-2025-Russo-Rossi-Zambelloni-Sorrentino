@@ -6,7 +6,7 @@ import org.example.ServerPkg.Model.Points;
 public class RemoveAstronautsMessage extends Message {
     private Points point;
 
-    public void RemoveAstronautsMessage(Points point) {
+    public RemoveAstronautsMessage(Points point) {
         this.point = point;
     }
 

@@ -1,6 +1,7 @@
 package org.example.UI;
 
 import org.example.MessagePkg.*;
+import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.*;
@@ -24,8 +25,10 @@ public class MessageGenerator {
         messageMap.put("end_remove_astronauts", this::createEndRemoveAstronautsMessage);
         messageMap.put("exit_game", this::createExitGameMessage);
         messageMap.put("join_lobby", this::createJoinLobbyMessage);
+        messageMap.put("join_server", this::createJoinServerMessage);
         messageMap.put("land_on_abandon", this::createLandOnAbandonMessage);
         messageMap.put("land_on_planet", this::createLandOnPlanetMessage);
+        messageMap.put("leave_server", this::createLeaveServerMessage);
         messageMap.put("ping", this::createPingMessage);
         messageMap.put("pong", this::createPongMessage);
         messageMap.put("remove_good", this::createRemoveGoodMessage);
@@ -37,8 +40,16 @@ public class MessageGenerator {
     }
 
     public Optional<Message> generate(String command, List<String> args) {
-        Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
-        return generator != null ? Optional.of(generator.apply(args)) : Optional.empty();
+        try {
+            Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
+            if (generator == null) {
+                throw new CommandNotFoundException("Comando non valido: " + command);
+            }
+            return Optional.of(generator.apply(args));
+        } catch (CommandNotFoundException e) {
+            System.err.println("ERROR: " + e.getMessage());
+            return Optional.empty();
+        }
     }
 
     private Message createAcceptRewardMessage(List<String> args) {
@@ -123,15 +134,24 @@ public class MessageGenerator {
         return new JoinLobbyMessage();
     }
 
+    public Message createJoinServerMessage(List<String> args) {
+        String name = args.get(0);
+        return new JoinServerMessage(name);
+    }
+
     public Message createLandOnAbandonMessage(List<String> args) {
         boolean bool = Boolean.parseBoolean(args.get(0));
         return new LandOnAbandonMessage(bool);
     }
 
     public Message createLandOnPlanetMessage(List<String> args) {
-        boolean bool = Boolean.parseBoolean(args.get(0)); // Primo argomento: booleano
-        int numPlanet = Integer.parseInt(args.get(1));   // Secondo argomento: numero del pianeta
+        boolean bool = Boolean.parseBoolean(args.get(0));
+        int numPlanet = Integer.parseInt(args.get(1));
         return new LandOnPlanetMessage(bool, numPlanet);
+    }
+
+    public Message createLeaveServerMessage(List<String> args) {
+        return new LeaveServerMessage();
     }
 
     public Message createPingMessage(List<String> args) {
