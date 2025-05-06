@@ -75,7 +75,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 }
 
             } catch (Exception e) {
-                System.out.println("Error reading the socket: " + e.getMessage());
+                System.out.println("Error reading from socket: " + e.getMessage());
                 break;
             }
         }

@@ -3,7 +3,6 @@ package org.example.ClientPkg;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
-import org.example.ServerPkg.Model.Game;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -57,9 +56,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
                     // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
-                    message.setClient(this);
-                    server.sendMessage(message);
-
+                    if(message != null){
+                        message.setClient(this);
+                        server.sendMessage(message);
+                    }
                 } catch (Exception e) {
                     System.out.println("Error sending the command: " + e.getMessage());
                 }
