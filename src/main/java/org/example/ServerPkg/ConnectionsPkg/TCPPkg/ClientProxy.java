@@ -1,8 +1,5 @@
-package org.example.ServerPkg.ConnectionsPkg;
+package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
-import org.example.ClientPkg.Client;
-import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIServer;
-import org.example.ServerPkg.ConnectionsPkg.TCPPkg.TCPServer;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Points;
@@ -10,15 +7,13 @@ import org.example.ServerPkg.Model.Points;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public abstract class ClientProxy implements Client {
+public abstract class ClientProxy {
     private String playerName;
     private final GameController controller;
     private final TCPServer TCPServer;
-    private final RMIServer RMIServer;
 
-    public ClientProxy(GameController controller, TCPServer TCPServer, RMIServer RMIServer) {
+    public ClientProxy(GameController controller, TCPServer TCPServer) {
         this.TCPServer = TCPServer;
-        this.RMIServer = RMIServer;
         this.controller = controller;
         this.playerName = null;
     }
@@ -307,6 +302,4 @@ public abstract class ClientProxy implements Client {
             }
         }
     }
-
-    public void sendMessage(){}
 }

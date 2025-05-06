@@ -1,9 +1,9 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.ConnectionsPkg.ClientProxy;
+import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import java.io.Serializable;
 
-public abstract class Message implements Serializable {
+public class Message implements Serializable {
     private ClientProxy proxy;
 
     public Message() {
@@ -19,5 +19,5 @@ public abstract class Message implements Serializable {
     }
 
     // Ogni sottoclasse dovrà implementare questo metodo
-    public abstract void handle();
+    public void handle(){};
 }

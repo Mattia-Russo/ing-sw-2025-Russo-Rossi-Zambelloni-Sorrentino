@@ -8,12 +8,12 @@ import java.rmi.RemoteException;
 
 public interface RMIServerInterface extends Remote {
     // Metodo che il client usa per registrarsi
-    void registerClient(RMIClientInterface client) throws RemoteException;
+    void registerClient(RMIClient client) throws RemoteException;
 
     // Metodo che il client usa per inviare messaggi al server
     void sendMessage(Message message) throws RemoteException;
 
     // Metodo per disconnettersi
-    void unregisterClient(RMIClientInterface client) throws RemoteException;
+    void unregisterClient(RMIClient client) throws RemoteException;
 }
 // tutti i metodi chiamabili dal client che risiedono sul server

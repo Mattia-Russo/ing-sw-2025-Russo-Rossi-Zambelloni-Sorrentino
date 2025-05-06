@@ -1,13 +1,11 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
-import org.example.ServerPkg.ConnectionsPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -69,7 +67,7 @@ public class TCPServer {
     }
 
     public synchronized void unsubscribe(ClientProxy clientHandler) {
-        if(clientsProxies.remove(clientHandler)) {
+        if (clientsProxies.remove(clientHandler)) {
             System.out.println(clientHandler.getPlayerName() + " unsubscribed");
         }
     }
@@ -81,23 +79,5 @@ public class TCPServer {
             }
         }
         throw new NoSuchPlayerException("Player " + playerName + " not exists");
-    }
-
-    public void updateGame(String name){
-        try{
-            getClientProxy(name).updateGame(controller.getGame());  // va messo il game aggiornato
-        } catch (NoSuchPlayerException e) {
-            System.out.println("Player " + name + " not found, unable to update game");
-        }
-    }
-
-    public void broadcastUpdateGame(ArrayList<String> names){
-        for (String s : names) {
-            try{
-                getClientProxy(s).updateGame(controller.getGame());  // va messo il game aggiornato
-            } catch (NoSuchPlayerException e) {
-                System.out.println("Player " + s + " not found, unable to update game");
-            }
-        }
     }
 }

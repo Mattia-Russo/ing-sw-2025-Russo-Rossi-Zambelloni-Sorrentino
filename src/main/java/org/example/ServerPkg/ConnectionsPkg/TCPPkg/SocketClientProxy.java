@@ -1,6 +1,5 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
-import org.example.ServerPkg.ConnectionsPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.PingMessage;
@@ -20,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class SocketClientProxy extends ClientProxy implements Runnable {
     private final Socket socket;
     private final ObjectOutputStream out;
-    protected String lastHeartBeat = "iniziale"; //stringa che serve a stabilire se la connessione è ancora attiva
+    protected String lastHeartBeat = "initial"; //stringa che serve a stabilire se la connessione è ancora attiva
 
     //This thread is necessary to handle server input asynchronously
     //This way answering to ping messages is immediate
@@ -32,7 +31,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
 
 
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
-        super(controller, TCPServer, null);
+        super(controller, TCPServer);
         this.socket = socket;
         out = new ObjectOutputStream(socket.getOutputStream());
 
@@ -88,12 +87,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         disconnect();
     }
 
-    public void handleInput(Message message) {
-        message.handle();
-    }
-
-
-
     //This class sends a heartbeat message to the client, if the client doesn't answer with the appropriate message,
     //the socket is closed.
     public class ConnectionChecker implements Runnable {
@@ -131,5 +124,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
 
     public void disconnect() {
         // TBD
+        // unsubscribe from server
     }
 }

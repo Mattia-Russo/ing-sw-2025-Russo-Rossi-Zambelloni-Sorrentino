@@ -1,5 +1,10 @@
 package org.example.UI;
 
-public class TCPVirtualView {
+import org.example.ServerPkg.Model.Game;
+
+public class TCPVirtualView implements gameUpdater {
+
+    public void updateGame(Game game) {}
 }
+
 // listener del client
