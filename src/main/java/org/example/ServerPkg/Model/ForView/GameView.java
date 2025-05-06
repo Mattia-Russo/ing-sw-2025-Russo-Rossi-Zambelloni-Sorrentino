@@ -4,6 +4,7 @@ import org.example.ServerPkg.Model.CardPack.AdventureCard;
 import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
+import org.example.UI.gameUpdater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class GameView {
     private final ArrayList<PlayerView> playersView = new ArrayList<>();
     private final AdventureCardView currentCard;
     private final List<ComponentsView> componentsListView = new ArrayList<>();
-
+    private gameUpdater gameUpdater;
     public GameView(Game game) {
         for(Player p:game.getPlayers()){
                 playersView.add(new PlayerView(p));
@@ -24,6 +25,7 @@ public class GameView {
             }
         }
         this.currentCard = game.getCurrentCard().createView();
+        gameUpdater.updateGame(this);
     }
 
     public AdventureCardView getCurrentCard() {

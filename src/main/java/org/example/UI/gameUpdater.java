@@ -1,8 +1,8 @@
 package org.example.UI;
 
-import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.ForView.GameView;
 
 public interface gameUpdater {
 
-    public void updateGame(Game game);
+    public void updateGame(GameView game);
 }
