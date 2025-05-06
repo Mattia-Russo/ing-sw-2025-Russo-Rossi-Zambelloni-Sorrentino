@@ -1,4 +1,4 @@
-package org.example.ServerPkg.TCPPkg;
+package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class SocketClientProxy extends ClientProxy implements Runnable {
     private final Socket socket;
     private final ObjectOutputStream out;
-    protected String lastHeartBeat = "iniziale"; //stringa che serve a stabilire se la connessione è ancora attiva
+    protected String lastHeartBeat = "initial"; //stringa che serve a stabilire se la connessione è ancora attiva
 
     //This thread is necessary to handle server input asynchronously
     //This way answering to ping messages is immediate
@@ -39,7 +39,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         connectionChecker.scheduleAtFixedRate(new ConnectionChecker(this.socket), 1, 4, TimeUnit.SECONDS);
     }
 
-    private void send(Message message){
+    public void sendMessage(Message message){
         synchronized(this.out){
             try {
                 out.reset();
@@ -61,17 +61,17 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             System.out.println("Error getting input stream, returning");
             return;
         }
-        while (true) {
+        while (true) {  // read messages from client
             try {
                 Message message = (Message) in.readObject();
 
                 if (message instanceof PongMessage pong) {
                     lastHeartBeat = pong.key();
                 } else if (message instanceof PingMessage ping) {
-                    send(new PongMessage(ping.key()));
+                    sendMessage(new PongMessage(ping.key()));
                 } else {
                     message.setProxy(this);
-                    controller.addMessage(message);
+                    getController().addMessage(message);
                 }
 
             } catch (Exception e) {
@@ -84,14 +84,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         } catch (IOException ignored) {}
         inputHandler.shutdown();
         connectionChecker.shutdown();
-        //disconnect();
+        disconnect();
     }
-
-    public void handleInput(Message message) {
-        message.handle(this);
-    }
-
-
 
     //This class sends a heartbeat message to the client, if the client doesn't answer with the appropriate message,
     //the socket is closed.
@@ -108,7 +102,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             String heartBeat = UUID.randomUUID().toString();
 
             // Send the string to the server
-            send(new PingMessage(heartBeat));
+            sendMessage(new PingMessage(heartBeat));
 
             // Wait for 1 seconds
             try {
@@ -124,7 +118,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         }
     }
 
-    public void updateGame(Game game) {
-        //TBD
+    public void disconnect() {
+        // TBD
+        // unsubscribe from server
     }
 }
