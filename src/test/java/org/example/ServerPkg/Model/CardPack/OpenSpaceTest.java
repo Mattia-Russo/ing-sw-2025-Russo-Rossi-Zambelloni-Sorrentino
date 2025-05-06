@@ -41,7 +41,7 @@ public class OpenSpaceTest extends TestCase {
         s4.setNumDoubleEngines(0);
         s4.setTotalBattery(0);
 
-        OpenSpace openSpace = new OpenSpace(2, 1);
+        OpenSpace openSpace = new OpenSpace(0,2, 1);
         //openSpace.checkEnginePower(players);
 
         assertFalse(p1.isAbandoned());
@@ -60,7 +60,7 @@ public class OpenSpaceTest extends TestCase {
         players.add(p3);
 
         Game game = new Game(3, 2, 1, null);
-        OpenSpace card = new OpenSpace(2, 0);
+        OpenSpace card = new OpenSpace(0,2, 0);
 
         p1.getPlayerShipBoard().setNumDoubleEngines(2);
         p2.getPlayerShipBoard().setNumDoubleEngines(0);
@@ -87,13 +87,13 @@ public class OpenSpaceTest extends TestCase {
         players.add(p3);
 
         Game game = new Game(3, 2, 1, null);
-        OpenSpace card = new OpenSpace(2, 0);
+        OpenSpace card = new OpenSpace(0,2, 0);
         card.setCardState(game);
 
-        Engine e1 = new Engine(2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e2 = new Engine(1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
-        BatteryStorage bs1 = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
-        BatteryStorage bs2 = new BatteryStorage(2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        Engine e1 = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e2 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        BatteryStorage bs1 = new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
+        BatteryStorage bs2 = new BatteryStorage(0,2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
 
         p1.getPlayerShipBoard().placeComponent(1,2, e1);
         p1.getPlayerShipBoard().placeComponent(2,2, e2);

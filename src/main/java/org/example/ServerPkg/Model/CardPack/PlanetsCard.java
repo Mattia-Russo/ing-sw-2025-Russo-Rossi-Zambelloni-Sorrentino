@@ -6,9 +6,12 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.ChangeGoodsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnPlanetsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.PlanetView;
 import org.example.ServerPkg.Model.Game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlanetsCard extends AdventureCard {
@@ -17,9 +20,11 @@ public class PlanetsCard extends AdventureCard {
     private boolean planetsVisited[];
     private boolean changeGoodsFlag;
     private int currentPlanetIndex;
+    private final int id;
 
     @JsonCreator
     public PlanetsCard(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int cardLevel,
             @JsonProperty("lostDays") int numDays,
             @JsonProperty("planets") ArrayList<Planet> planets) {
@@ -29,6 +34,16 @@ public class PlanetsCard extends AdventureCard {
         this.planetsVisited = new boolean[planets.size()];
         this.changeGoodsFlag = true;
         this.currentPlanetIndex = -1;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        List<PlanetView> p = new ArrayList<>();
+        for(Planet planet : planets) {
+            p.add(new PlanetView(planet));
+        }
+        return new AdventureCardView(id, "PlanetCard", getLostDays(),0 , 0,0, null, p, null, null, 0,null,null);
     }
 
     public List<Planet> getPlanets(){

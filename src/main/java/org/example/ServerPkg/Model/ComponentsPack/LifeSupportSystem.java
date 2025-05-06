@@ -2,18 +2,27 @@ package org.example.ServerPkg.Model.ComponentsPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
 public class LifeSupportSystem extends Components {
     private final AlienColour colour;
+    private final int id;
 
     @JsonCreator
     public LifeSupportSystem(
+            @JsonProperty("id") int id,
             @JsonProperty("colour") AlienColour colour,
             @JsonProperty("direction") Direction direction,
             @JsonProperty("connectors") Connector[] connectors) {
         super(direction, connectors);
         this.colour = colour;
+        this.id = id;
+    }
+
+    @Override
+    public ComponentsView createView(){
+        return new ComponentsView(getDirection(), getConnectors(), id,"LifeSupportSystem", 0 ,0, null, null);
     }
 
     public AlienColour getColour() {

@@ -39,28 +39,28 @@ public class PiratesTest extends TestCase {
         //cannonFire.add(new CannonFire(0, Direction.EAST));
         //cannonFire.add(new CannonFire(1, Direction.WEST));
         //cannonFire.add(new CannonFire(0, Direction.WEST));
-        card = new Pirates(12, cannonFire, 2, 2, 3);
+        card = new Pirates(0,12, cannonFire, 2, 2, 3);
         game.setCard(card);
 
         ship1 = p1.getPlayerShipBoard();
         ship2 = p2.getPlayerShipBoard();
 
-        Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
-        Cannon ca1 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Cabin c2 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c3 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Shield sh1 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
-        Shield sh2 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
-        Cannon ca3 = new Cannon(1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Tubes t1 = new Tubes(Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e1 = new Engine(1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs1 = new BatteryStorage(3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs2 = new BatteryStorage(2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e2 = new Engine(2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        Cannon ca4 = new Cannon(1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca5 = new Cannon(2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
+        Cannon ca1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca2 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Cabin c2 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c3 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Shield sh1 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
+        Shield sh2 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
+        Cannon ca3 = new Cannon(0,1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Tubes t1 = new Tubes(0,Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e1 = new Engine(0,1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs1 = new BatteryStorage(0,3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs2 = new BatteryStorage(0,2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e2 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        Cannon ca4 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca5 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
         ship1.placeComponent(3, 2, c1);
         //ship1.placeComponent(2, 2, sh1);
@@ -101,7 +101,7 @@ public class PiratesTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        Pirates p=new Pirates(10, cannonFireList, 1, 2,10);
+        Pirates p=new Pirates(0,10, cannonFireList, 1, 2,10);
         assertEquals(10, p.getCannonPower());
     }
 
@@ -109,7 +109,7 @@ public class PiratesTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        Pirates p=new Pirates(10, cannonFireList, 1, 2,10);
+        Pirates p=new Pirates(0,10, cannonFireList, 1, 2,10);
         assertEquals(1, p.getCardLevel());
     }
 
@@ -117,7 +117,7 @@ public class PiratesTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        Pirates p=new Pirates(10, cannonFireList, 1, 2,10);
+        Pirates p=new Pirates(0,10, cannonFireList, 1, 2,10);
         assertEquals(10, p.getCredit());
     }
 
@@ -125,7 +125,7 @@ public class PiratesTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        Pirates p=new Pirates(10, cannonFireList, 1, 2,10);
+        Pirates p=new Pirates(0,10, cannonFireList, 1, 2,10);
         assertEquals(2, p.getLostDays());
     }
 
@@ -133,7 +133,7 @@ public class PiratesTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        Pirates p=new Pirates(10, cannonFireList, 1, 2,10);
+        Pirates p=new Pirates(0,10, cannonFireList, 1, 2,10);
         assertEquals(cannonFireList, p.getCannonFireList());
         assertEquals(2, p.getCannonFireList().size());
     }

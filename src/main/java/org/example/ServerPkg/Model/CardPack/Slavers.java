@@ -3,22 +3,28 @@ package org.example.ServerPkg.Model.CardPack;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
+import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Slavers extends Enemy{
     private int numAstronauts;
     private int credits;
     private int playersIndex;
     private boolean accept;
+    private final int id;
 
     @JsonCreator
     public Slavers(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int cardLevel,
             @JsonProperty("lostDays") int lostDays,
             @JsonProperty("cannonPower") int cannonPower,
@@ -29,6 +35,12 @@ public class Slavers extends Enemy{
         this.credits = credits;
         this.playersIndex = -1;
         this.accept=false;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "Slavers", getLostDays(),credits , numAstronauts,getCannonPower(), null, null, null, null, 0,null,null);
     }
 
     public int getCannonPower() {

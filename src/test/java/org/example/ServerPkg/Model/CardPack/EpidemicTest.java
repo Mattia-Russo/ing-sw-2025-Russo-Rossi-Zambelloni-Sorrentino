@@ -16,23 +16,23 @@ public class EpidemicTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        Cabin cabin2 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin cabin1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin cabin2 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.placeComponent(1,1, cabin1);
         s.placeComponent(2,1, cabin2);
-        Epidemic epidemic = new Epidemic(1,0);
+        Epidemic epidemic = new Epidemic(0,1,0);
         //epidemic.checkAdjacentCabins(s);
         assertEquals(1, cabin1.getNumAstronauts());
         assertEquals(1, cabin2.getNumAstronauts());
     }
 
     public void testGetCardLevel() {
-        Epidemic epidemic = new Epidemic(1,0);
+        Epidemic epidemic = new Epidemic(0,1,0);
         assertEquals(1,epidemic.getCardLevel());
     }
 
     public void testGetLostDays() {
-        Epidemic epidemic = new Epidemic(1,0);
+        Epidemic epidemic = new Epidemic(0,1,0);
         assertEquals(0,epidemic.getLostDays());
     }
 

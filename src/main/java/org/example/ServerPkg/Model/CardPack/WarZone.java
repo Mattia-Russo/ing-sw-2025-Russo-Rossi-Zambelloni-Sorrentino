@@ -8,6 +8,7 @@ import org.example.ServerPkg.Model.ComponentsPack.Direction;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -31,9 +32,11 @@ public class WarZone extends AdventureCard{
     private boolean done=false;
     private boolean play=false;
     private boolean protect=false;
+    private final int id;
 
     @JsonCreator
     public WarZone(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int CardLevel,
             @JsonProperty("lostDays") int lostDays,
             @JsonProperty("numAstronauts") int numAstronauts,
@@ -52,6 +55,12 @@ public class WarZone extends AdventureCard{
         this.currentFire = 0;
         this.loser=null;
         this.power = 0;
+        this.id= id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "WarZone", getLostDays(),0 , numAstronauts,0, null, null, null, cannonFireList, numGoods, criteria, penalties);
     }
 
     @Override

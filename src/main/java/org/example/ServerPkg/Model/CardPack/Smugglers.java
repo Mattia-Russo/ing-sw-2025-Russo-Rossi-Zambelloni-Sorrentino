@@ -6,11 +6,14 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GoodsView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Smugglers extends Enemy{
@@ -18,9 +21,11 @@ public class Smugglers extends Enemy{
     private final int numGoodsLose;
     private int playersIndex;
     private boolean accept;
+    private final int id;
 
     @JsonCreator
     public Smugglers(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int cardLevel,
             @JsonProperty("lostDays") int lostDays,
             @JsonProperty("cannonPower") int cannonPower,
@@ -31,6 +36,16 @@ public class Smugglers extends Enemy{
         this.goodsWinList=goodsWinList;
         this.playersIndex = -1;
         this.accept=false;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        List<GoodsView> goods = new ArrayList<>();
+        for(Goods good : goodsWinList){
+            goods.add(new GoodsView(good));
+        }
+        return new AdventureCardView(id, "Smugglers", getLostDays(),0 , 0,getCannonPower(), null, null, goods, null, numGoodsLose,null,null);
     }
 
     public int getCannonPower() {

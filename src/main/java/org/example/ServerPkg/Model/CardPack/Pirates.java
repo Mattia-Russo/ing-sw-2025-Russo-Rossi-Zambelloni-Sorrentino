@@ -5,15 +5,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.ComponentsPack.Direction;
+import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Pirates extends Enemy{
@@ -25,8 +28,10 @@ public class Pirates extends Enemy{
     private int rowOrCol;
     private boolean shipWrecked;
     private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
+    private final int id;
     @JsonCreator
     public Pirates(
+            @JsonProperty("id") int id,
             @JsonProperty("credits") int credit,
             @JsonProperty("cannonFiresList") List<CannonFire> cannonFireList,
             @JsonProperty("cardLevel") int cardLevel,
@@ -40,6 +45,12 @@ public class Pirates extends Enemy{
         this.shipWrecked = false;
         this.currentFire = 0;
         this.currentPlayer = -1;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "Pirates", getLostDays(),credit , 0, getCannonPower(), null, null, null, cannonFireList, 0,null,null);
     }
 
     @Override

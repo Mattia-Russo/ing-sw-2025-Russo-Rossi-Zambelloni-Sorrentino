@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class StorageTest extends TestCase {
 
     public void testGetGoods() {
-        Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Goods g1 = new Goods(GoodsColour.GREEN);
         Goods g2 = new Goods(GoodsColour.GREEN);
         Goods g3 = new Goods(GoodsColour.GREEN);
@@ -29,14 +29,14 @@ public class StorageTest extends TestCase {
     }
 
     public void testGetIsSpecial() {
-        Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
-        Storage s2 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s2 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         assertTrue(s2.getIsSpecial());
         assertFalse(s1.getIsSpecial());
     }
 
     public void testRemoveGood() {
-        Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Goods g1 = new Goods(GoodsColour.GREEN);
         Goods g2 = new Goods(GoodsColour.GREEN);
         Goods g3 = new Goods(GoodsColour.GREEN);
@@ -60,7 +60,7 @@ public class StorageTest extends TestCase {
     }
 
     public void testAddGood() {
-        Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Goods g1 = new Goods(GoodsColour.GREEN);
         Goods g2 = new Goods(GoodsColour.GREEN);
         Goods g3 = new Goods(GoodsColour.BLUE);
@@ -72,15 +72,15 @@ public class StorageTest extends TestCase {
     }
 
     public void testGetCapacity() {
-        Storage s1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
-        Storage s2 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 2);
+        Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s2 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 2);
         assertEquals(3, s1.getCapacity());
         assertEquals(2, s2.getCapacity());
     }
 
     public void testAddStorage() {
         ArrayList<Goods> goods = new ArrayList<>();
-        Storage s1 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s1 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         s1.addGood(new Goods(GoodsColour.GREEN));
         s1.addGood(new Goods(GoodsColour.BLUE));
         s1.addGood(new Goods(GoodsColour.RED));
