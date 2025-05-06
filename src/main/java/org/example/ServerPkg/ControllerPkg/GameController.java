@@ -48,7 +48,11 @@ public class GameController {
     private void processMessage(Message message) {
         try {
             synchronized (this) {
-                message.handle();
+                if (message.getClient()!=null){
+                    message.handle(this, message.getClient().getPlayerName());
+                } else {
+                    message.handle(this, message.getProxy().getPlayerName());
+                }
             }
         } catch (Exception e) {
             System.err.println("Error managing the message: " + e.getMessage());

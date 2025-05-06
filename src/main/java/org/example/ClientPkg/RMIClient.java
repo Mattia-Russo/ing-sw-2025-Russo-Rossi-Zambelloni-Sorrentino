@@ -9,6 +9,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class RMIClient extends UnicastRemoteObject implements RMIClientInterface {
@@ -40,14 +43,21 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     // Legge l'input dell'utente
                     String input = scanner.nextLine();
 
-                    /*if (input.equalsIgnoreCase("exit")) { // Comando per uscire
-                        System.out.println("Disconnessione in corso...");
-                        unregisterClient();
-                        System.exit(0);
-                    }*/
+                    // Crea una lista per contenere le parole successive
+
+                    // Dividi la riga di input in parole
+                    String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
+
+                    // Salva la prima parola se esiste
+                    String cmd = words.length > 0 ? words[0] : "";
+
+                    // Aggiungi le parole successive alla lista
+                    List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
+
 
                     // Crea un messaggio e lo invia al server
-                    Message message = msgGen.create(/*message type, object*/);
+                    Message message = msgGen.generate(cmd, args);
+                    message.setClient(this);
                     server.sendMessage(message);
 
                 } catch (Exception e) {
@@ -57,6 +67,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         });
         listenerThread.setDaemon(true); // Permette al thread di terminare con il programma principale
         listenerThread.start();
+    }
+
+    public RMIServerInterface getServer() {
+        return server;
     }
 
     public String getPlayerName() {

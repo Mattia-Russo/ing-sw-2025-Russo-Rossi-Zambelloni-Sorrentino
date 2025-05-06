@@ -58,4 +58,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public synchronized List<String> getNames(){
         return clients.stream().map(RMIClient::getPlayerName).toList();
     }
+
+    public boolean getIfSubscribed(RMIClient client){
+        return clients.contains(client);
+    }
+
+    public GameController getController(){
+        return controller;
+    }
 }

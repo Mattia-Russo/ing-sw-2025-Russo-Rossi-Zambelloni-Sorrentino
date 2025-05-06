@@ -1,5 +1,7 @@
 package org.example.MessagePkg;
 
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Points;
 
 public class RemoveBestGoodMessage extends Message {
@@ -12,7 +14,14 @@ public class RemoveBestGoodMessage extends Message {
     }
 
     @Override
-    public void handle() {
-        super.getProxy().removeBestGood(point, numGood);
+    public void handle(GameController controller, String playerName) {
+        if(checkClient()){
+            try{
+                controller.getGame().getPlayerByName(playerName).getState().removeBestGood(point, numGood);
+            } catch (EnoughBestGoodsRemovedException | NotStorageException | NotCabinException | EndStateException |
+                     WaitingStateException | AbandonedStateException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 }

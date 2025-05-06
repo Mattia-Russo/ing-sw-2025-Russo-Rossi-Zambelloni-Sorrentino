@@ -118,10 +118,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         }
     }
 
-    public void updateGame(Game game) {
-        //TBD
-    }
-
     public void disconnect() {
         // TBD
         // unsubscribe from server

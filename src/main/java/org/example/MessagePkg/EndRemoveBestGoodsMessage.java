@@ -1,8 +1,21 @@
 package org.example.MessagePkg;
 
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Exceptions.AbandonedStateException;
+import org.example.ServerPkg.Model.Exceptions.EndStateException;
+import org.example.ServerPkg.Model.Exceptions.NotEnoughBestGoodsRemovedException;
+import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
+
 public class EndRemoveBestGoodsMessage extends Message{
     @Override
-    public void handle() {
-        super.getProxy().endRemoveBestGoods();
+    public void handle(GameController controller, String playerName) {
+        if(checkClient()){
+            try{
+                controller.getGame().getPlayerByName(playerName).getState().endRemoveBestGoods();
+            } catch (NotEnoughBestGoodsRemovedException | EndStateException | WaitingStateException |
+                     AbandonedStateException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 }

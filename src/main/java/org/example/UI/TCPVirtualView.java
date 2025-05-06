@@ -1,10 +1,7 @@
 package org.example.UI;
 
-import org.example.ServerPkg.Model.Game;
-
 public class TCPVirtualView implements gameUpdater {
-
-    public void updateGame(Game game) {}
+    @Override
+    public void updateGame(org.example.ServerPkg.Model.Game game) {}
 }
-
 // listener del client

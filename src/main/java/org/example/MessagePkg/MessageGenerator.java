@@ -1,10 +1,12 @@
 package org.example.MessagePkg;
 
+import java.util.List;
+
 public class MessageGenerator {
 
     //mappa
 
-    public Message create(){
+    public Message generate(String cmd, List<String> args){
         return null;
     }
 }
