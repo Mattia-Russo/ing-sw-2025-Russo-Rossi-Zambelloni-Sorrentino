@@ -4,5 +4,9 @@ import org.example.ServerPkg.Model.ForView.GameView;
 
 public class RMIVirtualView implements GameUpdater {
 
-    public void updateGame(GameView game) {}
+    private UI userInterface;
+    @Override
+    public void updateGame(GameView game) {
+        userInterface.addGameUpdate(game);
+    }
 }

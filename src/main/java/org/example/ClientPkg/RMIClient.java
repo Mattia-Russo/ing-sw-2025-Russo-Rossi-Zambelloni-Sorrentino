@@ -3,6 +3,7 @@ package org.example.ClientPkg;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+import org.example.ServerPkg.Model.ForView.GameView;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -91,5 +92,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public void disconnect() throws RemoteException {
         server.unregisterClient(this);
+    }
+
+    public void updateGame(GameView game){
+
     }
 }

@@ -40,7 +40,7 @@ public class MessageGenerator {
         try {
             Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
             if (generator == null) {
-                throw new CommandNotFoundException("Comando non valido: " + command);
+                throw new CommandNotFoundException("Command not valid: " + command);
             }
             return generator.apply(args);
         } catch (CommandNotFoundException e) {
