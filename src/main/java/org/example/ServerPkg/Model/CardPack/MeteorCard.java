@@ -8,15 +8,18 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.ShipWreckedState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.ComponentsPack.Direction;
+import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MeteorCard extends AdventureCard {
@@ -26,9 +29,11 @@ public class MeteorCard extends AdventureCard {
     int rowOrCol;
     boolean protect;
     boolean dice;
+    private final int id;
 
     @JsonCreator
     public MeteorCard(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int cardLevel,
             @JsonProperty("lostDays") int lostDays,
             @JsonProperty("meteorList") List<Meteor> meteorList){
@@ -39,6 +44,12 @@ public class MeteorCard extends AdventureCard {
         this.rowOrCol =-1;
         this.protect=false;
         this.dice=true;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "MeteorCard", 0,0 , 0,0, meteorList, null, null, null, 0,null,null);
     }
 
     @Override

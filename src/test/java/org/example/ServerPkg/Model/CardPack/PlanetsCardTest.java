@@ -24,7 +24,7 @@ public class PlanetsCardTest extends TestCase {
         ArrayList<Planet> planetList = new ArrayList<Planet>();
         planetList.add(planet1);
         planetList.add(planet2);
-        PlanetsCard planetsList= new PlanetsCard(3, 5, planetList);
+        PlanetsCard planetsList= new PlanetsCard(0,3, 5, planetList);
         assertEquals(planetList, planetsList.getPlanets());
         assertEquals(2, planetsList.getPlanets().size());
     }
@@ -40,7 +40,7 @@ public class PlanetsCardTest extends TestCase {
         ArrayList<Planet> planetList = new ArrayList<Planet>();
         planetList.add(planet1);
         planetList.add(planet2);
-        PlanetsCard planetsList= new PlanetsCard(3, 5, planetList);
+        PlanetsCard planetsList= new PlanetsCard(0,3, 5, planetList);
         assertEquals(5, planetsList.getLostDays());
     }
 
@@ -70,7 +70,7 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet1);
         planets.add(planet2);
 
-        PlanetsCard card = new PlanetsCard(2, 5, planets);
+        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
         game.setCard(card);
 
         card.setCardState(game);
@@ -122,7 +122,7 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet1);
         planets.add(planet2);
 
-        PlanetsCard card = new PlanetsCard(2, 5, planets);
+        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
         game.setCard(card);
 
         card.setCardState(game);
@@ -159,7 +159,7 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet1);
         planets.add(planet2);
 
-        PlanetsCard card = new PlanetsCard(2, 5, planets);
+        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
         assertTrue(card.getChangeGoodsFlag());
         card.setChangeGoodsFlag(false);
         assertFalse(card.getChangeGoodsFlag());
@@ -180,7 +180,7 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet1);
         planets.add(planet2);
 
-        PlanetsCard card = new PlanetsCard(2, 5, planets);
+        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
 
         card.setPlanetIndex(0);
         assertEquals(goods1, card.getGoodsList());
@@ -203,7 +203,7 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet1);
         planets.add(planet2);
 
-        PlanetsCard card = new PlanetsCard(2, 5, planets);
+        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
 
         for (int i =0; i<card.getPlanets().size(); i++) {
             assertFalse(card.getPlanetsVisited()[i]);
@@ -225,7 +225,7 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet1);
         planets.add(planet2);
 
-        PlanetsCard card = new PlanetsCard(2, 5, planets);
+        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
 
         assertEquals(-1,card.getCurrentPlayerIndex());
     }

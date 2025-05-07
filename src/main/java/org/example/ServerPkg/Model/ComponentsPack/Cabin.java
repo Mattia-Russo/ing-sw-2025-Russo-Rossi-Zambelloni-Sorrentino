@@ -3,6 +3,7 @@ package org.example.ServerPkg.Model.ComponentsPack;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ public class Cabin extends Components {
     private ArrayList<LifeSupportSystem> lifeSupportSystemArrayList;
     private final boolean isCentral;
     private Alien alien;
+    private final int id;
 
     @JsonCreator
     public Cabin(
+            @JsonProperty("id") int id,
             @JsonProperty("isCentral") boolean isCentral,
             @JsonProperty("direction") Direction direction,
             @JsonProperty("connectors") Connector[] connectors) {
@@ -25,6 +28,12 @@ public class Cabin extends Components {
         this.lifeSupportSystemArrayList= new ArrayList<>();
         this.isCentral = isCentral;
         this.alien = null;
+        this.id = id;
+    }
+
+    @Override
+    public ComponentsView createView(){
+        return new ComponentsView(getDirection(), getConnectors(), id,"Cabin", 0 ,getNumAstronauts(), null, null);
     }
 
     public int getNumAstronauts() {

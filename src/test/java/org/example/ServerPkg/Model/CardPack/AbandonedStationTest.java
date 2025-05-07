@@ -18,7 +18,7 @@ public class AbandonedStationTest extends TestCase {
         goods[0] = new Goods(GoodsColour.RED);
         goods[1] = new Goods(GoodsColour.YELLOW);
         goods[2] = new Goods(GoodsColour.GREEN);
-        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        AbandonedStation a=new AbandonedStation(0,1,1, 5, goods);
         assertEquals(1,a.getCardLevel());
     }
 
@@ -27,7 +27,7 @@ public class AbandonedStationTest extends TestCase {
         goods[0] = new Goods(GoodsColour.RED);
         goods[1] = new Goods(GoodsColour.YELLOW);
         goods[2] = new Goods(GoodsColour.GREEN);
-        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        AbandonedStation a=new AbandonedStation(0,1,1, 5, goods);
         assertEquals(5,a.getNumAstronauts());
     }
 
@@ -36,7 +36,7 @@ public class AbandonedStationTest extends TestCase {
         goods[0] = new Goods(GoodsColour.RED);
         goods[1] = new Goods(GoodsColour.YELLOW);
         goods[2] = new Goods(GoodsColour.GREEN);
-        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        AbandonedStation a=new AbandonedStation(0,1,1, 5, goods);
         assertEquals(goods,a.getGoodsList());
         assertEquals(3,a.getGoodsList().length);
     }
@@ -46,7 +46,7 @@ public class AbandonedStationTest extends TestCase {
         goods[0] = new Goods(GoodsColour.RED);
         goods[1] = new Goods(GoodsColour.YELLOW);
         goods[2] = new Goods(GoodsColour.GREEN);
-        AbandonedStation a=new AbandonedStation(1,1, 5, goods);
+        AbandonedStation a=new AbandonedStation(0,1,1, 5, goods);
         assertEquals(1,a.getLostDays());
     }
 
@@ -65,7 +65,7 @@ public class AbandonedStationTest extends TestCase {
         goods[1] = new Goods(GoodsColour.RED);
         goods[2] = new Goods(GoodsColour.YELLOW);
 
-        AbandonedStation card = new AbandonedStation(1, 2, 3, goods);
+        AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
         game.setCard(card);
 
         card.setCardState(game);
@@ -106,7 +106,7 @@ public class AbandonedStationTest extends TestCase {
         goods[1] = new Goods(GoodsColour.RED);
         goods[2] = new Goods(GoodsColour.YELLOW);
 
-        AbandonedStation card = new AbandonedStation(1, 2, 3, goods);
+        AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
         game.setCard(card);
         card.setCardState(game);
         card.playCard(game);
@@ -125,7 +125,7 @@ public class AbandonedStationTest extends TestCase {
         goods[1] = new Goods(GoodsColour.RED);
         goods[2] = new Goods(GoodsColour.YELLOW);
 
-        AbandonedStation card = new AbandonedStation(1, 2, 3, goods);
+        AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
 
         assertTrue(card.getChangeGoodsFlag());
         card.setChangeGoodsFlag(false);
@@ -140,7 +140,7 @@ public class AbandonedStationTest extends TestCase {
         goods[1] = new Goods(GoodsColour.RED);
         goods[2] = new Goods(GoodsColour.YELLOW);
 
-        AbandonedStation card = new AbandonedStation(1, 2, 3, goods);
+        AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
 
         assertEquals(-1,card.getCurrentPlayerIndex());
     }

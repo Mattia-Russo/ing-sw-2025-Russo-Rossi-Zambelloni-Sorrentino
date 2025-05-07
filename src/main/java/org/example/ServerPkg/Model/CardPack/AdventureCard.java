@@ -3,6 +3,7 @@ package org.example.ServerPkg.Model.CardPack;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Points;
 
@@ -34,6 +35,10 @@ public abstract class AdventureCard {
     public AdventureCard(int cardLevel, int lostDays) {
         this.cardLevel = cardLevel;
         this.lostDays = lostDays;
+    }
+
+    public AdventureCardView createView(){
+        return new AdventureCardView(0, null,0, 0,0,0, null,null,null,null,0, null, null);
     }
 
     public void setCardState(Game game) {};

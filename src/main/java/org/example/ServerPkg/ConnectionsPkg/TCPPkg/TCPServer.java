@@ -1,4 +1,4 @@
-package org.example.ServerPkg.TCPPkg;
+package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
@@ -6,7 +6,6 @@ import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -21,11 +20,6 @@ public class TCPServer {
         this.controller = controller;
     }
 
-    public void start() throws RemoteException {
-        new Thread(this::startSocket).start();
-        //startRMI();
-    }
-
     private void startSocket() {
         ServerSocket serverSocket;
         // Define a fixed pool of threads to handle clientsProxies connections
@@ -33,7 +27,7 @@ public class TCPServer {
 
         // Create the server socket to accept clientsProxies connections
         try {
-            serverSocket = new ServerSocket(7000);
+            serverSocket = new ServerSocket(3500);
         } catch (IOException e) {
             System.out.println("Failed to start socket server");
             return;
@@ -73,7 +67,7 @@ public class TCPServer {
     }
 
     public synchronized void unsubscribe(ClientProxy clientHandler) {
-        if(clientsProxies.remove(clientHandler)) {
+        if (clientsProxies.remove(clientHandler)) {
             System.out.println(clientHandler.getPlayerName() + " unsubscribed");
         }
     }
@@ -85,23 +79,5 @@ public class TCPServer {
             }
         }
         throw new NoSuchPlayerException("Player " + playerName + " not exists");
-    }
-
-    public void updateGame(String name){
-        try{
-            getClientProxy(name).updateGame(controller.getGame());  // va messo il game aggiornato
-        } catch (NoSuchPlayerException e) {
-            System.out.println("Player " + name + " not found, unable to update game");
-        }
-    }
-
-    public void broadcastUpdateGame(ArrayList<String> names){
-        for (String s : names) {
-            try{
-                getClientProxy(s).updateGame(controller.getGame());  // va messo il game aggiornato
-            } catch (NoSuchPlayerException e) {
-                System.out.println("Player " + s + " not found, unable to update game");
-            }
-        }
     }
 }

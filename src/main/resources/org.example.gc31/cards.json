@@ -1,6 +1,7 @@
 [
   {
     "cardname": "SLAVERS",
+    "id": 1,
     "lostDays": 1,
     "credits": 5,
     "cardLevel": 1,
@@ -11,6 +12,7 @@
   },
   {
     "cardname": "SLAVERS",
+    "id": 2,
     "lostDays": 2,
     "credits": 8,
     "cardLevel": 2,
@@ -22,6 +24,7 @@
 
   {
     "cardname": "SMUGGLERS",
+    "id": 3,
     "cardLevel": 1,
     "lostDays": 1,
     "cannonPower": 4,
@@ -35,6 +38,7 @@
   },
   {
     "cardname": "SMUGGLERS",
+    "id": 4,
     "cardLevel": 2,
     "lostDays": 1,
     "cannonPower": 8,
@@ -49,6 +53,7 @@
 
   {
     "cardname": "PIRATES",
+    "id": 5,
     "cardLevel": 1,
     "lostDays": 1,
     "cannonPower": 5,
@@ -62,6 +67,7 @@
   },
   {
     "cardname": "PIRATES",
+    "id": 6,
     "cardLevel": 2,
     "lostDays": 2,
     "cannonPower": 6,
@@ -75,6 +81,7 @@
   },
   {
     "cardname": "STARDUST",
+    "id": 7,
     "cardLevel": 1,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_014.jpg"
@@ -82,30 +89,35 @@
   {
     "cardname": "STARDUST",
     "cardLevel": 2,
+    "id": 8,
     "lostDays": 0,
     "state": "covered",
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_014.jpg"
   },
   {
     "cardname": "EPIDEMIC",
+    "id": 9,
     "cardLevel": 2,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_015.jpg"
   },
   {
     "cardname": "OPENSPACE",
+    "id": 10,
     "cardLevel": 1,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_015.jpg"
   },
   {
     "cardname": "OPENSPACE",
+    "id": 11,
     "cardLevel": 2,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_16.jpg"
   },
   {
     "cardname": "OPENSPACE",
+    "id": 12,
     "cardLevel": 1,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_16.jpg"
@@ -113,30 +125,35 @@
 
   {
     "cardname": "OPENSPACE",
+    "id": 13,
     "cardLevel": 1,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_17.jpg"
   },
   {
     "cardname": "OPENSPACE",
+    "id": 14,
     "cardLevel": 2,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_17.jpg"
   },
   {
     "cardname": "OPENSPACE",
+    "id": 15,
     "cardLevel": 1,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_18.jpg"
   },
   {
     "cardname": "OPENSPACE",
+    "id": 16,
     "cardLevel": 2,
     "lostDays": 0,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_18.jpg"
   },
   {
     "cardname": "METEORCARD",
+    "id": 17,
     "cardLevel": 1,
     "lostDays": 0,
     "meteorList": [
@@ -149,6 +166,7 @@
   },
   {
     "cardname": "METEORCARD",
+    "id": 18,
     "cardLevel": 2,
     "lostDays": 0,
     "meteorList": [
@@ -163,6 +181,7 @@
   },
   {
     "cardname": "METEORCARD",
+    "id": 19,
     "cardLevel": 1,
     "lostDays": 0,
     "meteorList": [
@@ -176,6 +195,7 @@
   },
   {
     "cardname": "METEORCARD",
+    "id": 20,
     "cardLevel": 2,
     "lostDays": 0,
     "meteorList": [
@@ -188,6 +208,7 @@
   },
   {
     "cardname": "METEORCARD",
+    "id": 21,
     "cardLevel": 1,
     "lostDays": 0,
     "meteorList": [
@@ -199,6 +220,7 @@
   },
   {
     "cardname": "METEORCARD",
+    "id": 22,
     "cardLevel": 2,
     "lostDays": 0,
     "meteorList": [
@@ -212,6 +234,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 23,
     "cardLevel": 1,
     "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0112.jpg",
@@ -254,6 +277,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 24,
     "cardLevel": 1,
     "lostDays": 4,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0112.jpg",
@@ -290,6 +314,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 25,
     "cardLevel": 1,
     "lostDays": 2,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0113.jpg",
@@ -319,6 +344,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 26,
     "cardLevel": 2,
     "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0113.jpg",
@@ -343,6 +369,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 27,
     "cardLevel": 1,
     "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0114.jpg",
@@ -367,6 +394,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 28,
     "cardLevel": 2,
     "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0114.jpg",
@@ -403,6 +431,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 29,
     "cardLevel": 1,
     "lostDays": 1,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0115.jpg",
@@ -432,6 +461,7 @@
   },
   {
     "cardname": "PLANETSCARD",
+    "id": 30,
     "cardLevel": 2,
     "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0115.jpg",
@@ -465,6 +495,7 @@
   },
   {
     "cardname": "WARZONE",
+    "id": 31,
     "cardLevel": 1,
     "lostDays": 3,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_I_IT_0116.jpg",
@@ -479,6 +510,7 @@
   },
   {
     "cardname": "WARZONE",
+    "id": 32,
     "cardLevel": 2,
     "lostDays": 4,
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_0116.jpg",
@@ -495,6 +527,7 @@
   },
   {
     "cardname": "ABANDONEDSHIP",
+    "id": 33,
     "cardLevel": 1,
     "lostDays": 1,
     "credits": 3,
@@ -503,6 +536,7 @@
   },
   {
     "cardname": "ABANDONEDSHIP",
+    "id": 34,
     "cardLevel": 2,
     "lostDays": 1,
     "credits": 6,
@@ -511,6 +545,7 @@
   },
   {
     "cardname": "ABANDONEDSHIP",
+    "id": 35,
     "cardLevel": 1,
     "lostDays": 1,
     "credits": 4,
@@ -519,6 +554,7 @@
   },
   {
     "cardname": "ABANDONEDSHIP",
+    "id": 36,
     "cardLevel": 2,
     "lostDays": 2,
     "credits": 8,
@@ -527,6 +563,7 @@
   },
   {
     "cardname": "ABANDONEDSTATION",
+    "id": 37,
     "cardLevel": 1,
     "lostDays": 1,
     "numAstronauts": 5,
@@ -538,6 +575,7 @@
   },
   {
     "cardname": "ABANDONEDSTATION",
+    "id": 38,
     "cardLevel": 2,
     "lostDays": 1,
     "numAstronauts": 7,
@@ -549,6 +587,7 @@
   },
   {
     "cardname": "ABANDONEDSTATION",
+    "id": 39,
     "cardLevel": 1,
     "lostDays": 1,
     "numAstronauts": 6,
@@ -560,6 +599,7 @@
   },
   {
     "cardname": "ABANDONEDSTATION",
+    "id": 40,
     "cardLevel": 2,
     "lostDays": 2,
     "numAstronauts": 8,

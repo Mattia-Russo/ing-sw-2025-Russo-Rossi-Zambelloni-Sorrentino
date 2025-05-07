@@ -6,16 +6,24 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.ChangeGoodsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GoodsView;
 import org.example.ServerPkg.Model.Game;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AbandonedStation extends AdventureCard{
     private final int numAstronauts;
     private final Goods[] goodsList;
     private int playersIndex;
     boolean changeGoodsFlag;
+    private final int id;
 
     @JsonCreator
     public AbandonedStation(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int cardLevel,
             @JsonProperty("lostDays") int lostDays,
             @JsonProperty("numAstronauts") int numAstronauts,
@@ -25,6 +33,16 @@ public class AbandonedStation extends AdventureCard{
         this.goodsList = goodsList;
         this.playersIndex = -1;
         this.changeGoodsFlag = true;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        List<GoodsView> goods = new ArrayList<>();
+        for(Goods good : goodsList){
+            goods.add(new GoodsView(good));
+        }
+        return new AdventureCardView(id, "AbandonedStation", getLostDays(),0 , numAstronauts,0, null, null, goods, null, 0,null,null);
     }
 
     public int getCardLevel() {

@@ -1,7 +1,5 @@
 package org.example.MessagePkg;
 
-import org.example.ServerPkg.TCPPkg.ClientProxy;
-
 public class PongMessage extends Message {
     private final String key;
 

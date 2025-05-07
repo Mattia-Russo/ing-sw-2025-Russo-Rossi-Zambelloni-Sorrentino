@@ -71,6 +71,7 @@ public class Game{
             getComponentsList().remove(i);
         }
 
+
         Collections.shuffle(componentsList);
     }
 

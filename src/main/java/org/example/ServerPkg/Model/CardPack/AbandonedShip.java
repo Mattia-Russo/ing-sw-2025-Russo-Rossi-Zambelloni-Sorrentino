@@ -4,15 +4,18 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 
 public class AbandonedShip extends AdventureCard {
-    private int Credits;
-    private int numAstronauts;
+    private final int Credits;
+    private final int numAstronauts;
     private int playersIndex;
+    private final int id;
 
     @JsonCreator
     public AbandonedShip(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int CardLevel,
             @JsonProperty("lostDays") int lostDays,
             @JsonProperty("credits") int Credits,
@@ -21,6 +24,12 @@ public class AbandonedShip extends AdventureCard {
         this.Credits = Credits;
         this.numAstronauts = numAstronauts;
         this.playersIndex = -1;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "AbandonedShip", getLostDays(), Credits, numAstronauts,0, null, null, null, null,0,null, null);
     }
 
     public int getCardLevel(){

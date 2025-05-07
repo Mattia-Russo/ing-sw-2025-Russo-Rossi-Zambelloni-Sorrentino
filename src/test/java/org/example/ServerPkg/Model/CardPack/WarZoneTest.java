@@ -17,7 +17,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
+        WarZone w=new WarZone(0,1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(3, w.getNumAstronauts());
     }
@@ -26,7 +26,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
+        WarZone w=new WarZone(0,1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(2, w.getNumGoods());
     }
@@ -35,7 +35,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
+        WarZone w=new WarZone(0,1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(cannonFireList, w.getCannonFireList());
         assertEquals(2, w.getCannonFireList().size());
@@ -45,7 +45,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone w=new WarZone(1,0, 3, 2, cannonFireList, null,null);
+        WarZone w=new WarZone(0,1,0, 3, 2, cannonFireList, null,null);
 
         assertEquals(0, w.getLostDays());
     }
@@ -54,7 +54,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone warZone1 = new WarZone(1, 0, 3, 2, cannonFireList, null, null);
+        WarZone warZone1 = new WarZone(0,1, 0, 3, 2, cannonFireList, null, null);
 
         assertNull("Penalities should be null", warZone1.getPenalties());
 
@@ -64,7 +64,7 @@ public class WarZoneTest extends TestCase {
 
         String[] expectedPenalities = {"Lose 1 astronaut", "Lose 2 goods"};
 
-        WarZone warZone2 = new WarZone(1, 0, 3, 2, cannonFireList2, expectedPenalities, null);
+        WarZone warZone2 = new WarZone(0,1, 0, 3, 2, cannonFireList2, expectedPenalities, null);
 
         assertEquals(expectedPenalities, warZone2.getPenalties());
     }
@@ -73,7 +73,7 @@ public class WarZoneTest extends TestCase {
         List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
         cannonFireList.add(new CannonFire(0, Direction.NORTH));
         cannonFireList.add(new CannonFire(1, Direction.WEST));
-        WarZone warZone1 = new WarZone(1, 0, 3, 2, cannonFireList, null, null);
+        WarZone warZone1 = new WarZone(0,1, 0, 3, 2, cannonFireList, null, null);
 
         assertNull("Criteria should be null", warZone1.getCriteria());
 
@@ -83,7 +83,7 @@ public class WarZoneTest extends TestCase {
 
         String[] expectedCriteria = {"cannonPower"};
 
-        WarZone warZone2 = new WarZone(1, 0, 3, 2, cannonFireList2, null, expectedCriteria);
+        WarZone warZone2 = new WarZone(0,1, 0, 3, 2, cannonFireList2, null, expectedCriteria);
 
         assertEquals(expectedCriteria, warZone2.getCriteria());
     }
@@ -100,26 +100,26 @@ public class WarZoneTest extends TestCase {
         String[] penalties = {"LoseDays", "LoseAstronauts","cannonFire"};
         String[] criteria = {"FewestAstronauts", "LessEnginePower","LessCannonPower"};
         Game g=new Game(4, 1,1, null);
-        WarZone c= new WarZone(1,2,2,3,cannonFireList,penalties,criteria);
+        WarZone c= new WarZone(0,1,2,2,3,cannonFireList,penalties,criteria);
         g.setCard(c);
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
-        Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Storage s11 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
-        Cannon ca11 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca12 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Cabin c12 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c13 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Shield sh11 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
-        Shield sh12 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
-        Cannon ca13 = new Cannon(1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Tubes t11 = new Tubes(Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e11 = new Engine(1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs11 = new BatteryStorage(3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs12 = new BatteryStorage(2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e12 = new Engine(2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        Cannon ca14 = new Cannon(1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca15 = new Cannon(2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
+        Cannon ca11 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca12 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Cabin c12 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c13 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Shield sh11 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
+        Shield sh12 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
+        Cannon ca13 = new Cannon(0,1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Tubes t11 = new Tubes(0,Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e11 = new Engine(0,1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs11 = new BatteryStorage(0,3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs12 = new BatteryStorage(0,2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e12 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        Cannon ca14 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca15 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         sp1.placeComponent(3,2, c11);
         sp1.placeComponent(4,2, s11);
         sp1.placeComponent(4,1, ca11);
@@ -137,22 +137,22 @@ public class WarZoneTest extends TestCase {
         sp1.placeComponent(6,3, ca14);
         sp1.placeComponent(3,1, ca15);
 
-        Cabin c21 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Storage s21 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
-        Cannon ca21 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca22 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Cabin c22 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c23 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Shield sh21 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
-        Shield sh22 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
-        Cannon ca23 = new Cannon(1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Tubes t21 = new Tubes(Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e21 = new Engine(1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs21 = new BatteryStorage(3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs22 = new BatteryStorage(2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e22 = new Engine(2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        Cannon ca24 = new Cannon(1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca25 = new Cannon(2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c21 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
+        Cannon ca21 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca22 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Cabin c22 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c23 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Shield sh21 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
+        Shield sh22 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
+        Cannon ca23 = new Cannon(0,1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Tubes t21 = new Tubes(0,Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e21 = new Engine(0,1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs21 = new BatteryStorage(0,3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs22 = new BatteryStorage(0,2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e22 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        Cannon ca24 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca25 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         sp2.placeComponent(3,2, c21);
         sp2.placeComponent(4,2, s21);
         sp2.placeComponent(4,1, ca21);
@@ -188,26 +188,26 @@ public class WarZoneTest extends TestCase {
         String[] penalties = {"LoseDays", "cannonFire", "LoseAstronauts"};
         String[] criteria = {"FewestAstronauts","FewestAstronauts", "FewestAstronauts"};
         Game g=new Game(4, 2,1, null);
-        WarZone c= new WarZone(1,2,2,3,cannonFireList,penalties,criteria);
+        WarZone c= new WarZone(0,1,2,2,3,cannonFireList,penalties,criteria);
         g.setCard(c);
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
-        Cabin c11 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Storage s11 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
-        Cannon ca11 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca12 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Cabin c12 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c13 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Shield sh11 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
-        Shield sh12 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
-        Cannon ca13 = new Cannon(1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Tubes t11 = new Tubes(Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e11 = new Engine(1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs11 = new BatteryStorage(3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs12 = new BatteryStorage(2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e12 = new Engine(2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        Cannon ca14 = new Cannon(1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca15 = new Cannon(2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
+        Cannon ca11 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca12 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Cabin c12 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c13 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Shield sh11 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
+        Shield sh12 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
+        Cannon ca13 = new Cannon(0,1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Tubes t11 = new Tubes(0,Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e11 = new Engine(0,1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs11 = new BatteryStorage(0,3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs12 = new BatteryStorage(0,2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e12 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        Cannon ca14 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca15 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         sp1.placeComponent(3,2, c11);
         sp1.placeComponent(4,2, s11);
         sp1.placeComponent(4,1, ca11);
@@ -225,22 +225,22 @@ public class WarZoneTest extends TestCase {
         sp1.placeComponent(6,3, ca14);
         sp1.placeComponent(3,1, ca15);
 
-        Cabin c21 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Storage s21 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
-        Cannon ca21 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca22 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Cabin c22 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c23 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
-        Shield sh21 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
-        Shield sh22 = new Shield(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
-        Cannon ca23 = new Cannon(1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Tubes t21 = new Tubes(Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e21 = new Engine(1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs21 = new BatteryStorage(3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        BatteryStorage bs22 = new BatteryStorage(2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Engine e22 = new Engine(2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
-        Cannon ca24 = new Cannon(1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca25 = new Cannon(2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c21 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
+        Cannon ca21 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca22 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Cabin c22 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c23 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
+        Shield sh21 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST);
+        Shield sh22 = new Shield(0,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST);
+        Cannon ca23 = new Cannon(0,1, Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Tubes t21 = new Tubes(0,Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e21 = new Engine(0,1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs21 = new BatteryStorage(0,3, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        BatteryStorage bs22 = new BatteryStorage(0,2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine e22 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
+        Cannon ca24 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon ca25 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         sp2.placeComponent(3,2, c21);
         sp2.placeComponent(4,2, s21);
         sp2.placeComponent(4,1, ca21);

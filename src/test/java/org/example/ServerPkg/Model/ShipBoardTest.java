@@ -37,7 +37,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Engine engine = new Engine(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Engine engine = new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,2,engine);
         assertEquals(1,s.getSingleEnginePower());
     }
@@ -55,9 +55,9 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        Storage storage1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
-        Cannon cannon1 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Storage storage1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon1 = new Cannon(0, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1, cabin1);
         ComponentMatrix[1][1]=cabin1;
         s.placeComponent(2,2, storage1);
@@ -125,9 +125,9 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        Storage storage1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
-        Cannon cannon1 = new Cannon(1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Storage storage1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1, cabin1);
         s.placeComponent(2,2, storage1);
         s.placeComponent(3,3, cannon1);
@@ -165,7 +165,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.bookComponents(cabin1);
         assertEquals(cabin1, s.getBookedComponents()[0]);
     }
@@ -182,8 +182,8 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        Storage storage1 = new Storage(false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Storage storage1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         s.bookComponents(cabin1);
         s.bookComponents(storage1);
         assertEquals(cabin1, s.getBookedComponents()[0]);
@@ -202,8 +202,8 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        BatteryStorage b1 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
-        BatteryStorage b2 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
+        BatteryStorage b1 = new BatteryStorage(0,3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
+        BatteryStorage b2 = new BatteryStorage(0,3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
         assertEquals(6,s.getTotalBattery());
@@ -221,7 +221,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Storage storage1 = new Storage(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage storage1 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         s.placeComponent(1,1,storage1);
         storage1.addGood(new Goods(GoodsColour.GREEN));
         storage1.addGood(new Goods(GoodsColour.BLUE));
@@ -244,7 +244,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         cabin1.changeNumAstronauts(2);
         s.placeComponent(1,1,cabin1);
         assertEquals(2, s.getTotalAstronauts());
@@ -262,16 +262,16 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon cannon2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon cannon2 = new Cannon(0, 2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(2,2,cannon2);
         ArrayList<Points> cannons= new ArrayList<Points>();
         cannons.add(new Points(2,2));
-        BatteryStorage b = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        BatteryStorage b = new BatteryStorage(0, 3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(3,3,b);
         ArrayList<Points> batteries = new ArrayList<Points>();
         batteries.add(new Points(3,3));
-        LifeSupportSystem l = new LifeSupportSystem(AlienColour.PURPLE, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        LifeSupportSystem l = new LifeSupportSystem(0, AlienColour.PURPLE, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c=new Cabin(0,false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
         s.placeComponent(1,2, l);
         c.addAlien(new Alien(AlienColour.PURPLE), s);
@@ -290,16 +290,16 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Engine engine = new Engine(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Engine engine = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(2,2,engine);
         ArrayList<Points> engines= new ArrayList<Points>();
         engines.add(new Points(2,2));
-        BatteryStorage b = new BatteryStorage(3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        BatteryStorage b = new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(3,3,b);
         ArrayList<Points> batteries = new ArrayList<Points>();
         batteries.add(new Points(3,3));
-        LifeSupportSystem l = new LifeSupportSystem(AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        Cabin c=new Cabin(false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        LifeSupportSystem l = new LifeSupportSystem(0,AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c=new Cabin(0,false,  Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,1, c);
         s.placeComponent(1,2, l);
         c.addAlien(new Alien(AlienColour.BROWN), s);
@@ -319,7 +319,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon cannon2 = new Cannon(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon cannon2 = new Cannon(0, 2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,2,cannon2);
         assertEquals(1, s.getNumDoubleCannon());
     }
@@ -336,7 +336,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Engine engine = new Engine(2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Engine engine = new Engine(0, 2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,2,engine);
         //assertEquals(1, s.getNumDoubleEngine());
     }
@@ -353,7 +353,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        Shield shield=new Shield(0,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         assertTrue(s.getIfShielded(Direction.NORTH));
         assertTrue(s.getIfShielded(Direction.WEST));
@@ -373,7 +373,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        Shield shield=new Shield(0,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         assertTrue(s.getIfShielded(Direction.NORTH));
         assertTrue(s.getIfShielded(Direction.WEST));
@@ -394,7 +394,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        Shield shield=new Shield(0,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         s.removeComponent(1,1);
         assertFalse(s.getIfShielded(Direction.NORTH));
@@ -415,7 +415,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.bookComponents(cabin1);
         s.removeBookedComponents();
         assertEquals(1, s.getDeletedComponentsCounter());
@@ -434,8 +434,8 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        BatteryStorage b1 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
-        BatteryStorage b2 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
+        BatteryStorage b1 = new BatteryStorage(0, 3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
+        BatteryStorage b2 = new BatteryStorage(0, 3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
         assertTrue(s.checkIfSplitted(1,1));
@@ -453,8 +453,8 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        BatteryStorage b1 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
-        BatteryStorage b2 = new BatteryStorage(3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
+        BatteryStorage b1 = new BatteryStorage(0, 3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
+        BatteryStorage b2 = new BatteryStorage(0, 3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
         s.removeWreck(1,1);
@@ -473,7 +473,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        Shield shield=new Shield(0,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         assertEquals(shield,s.getFirstComponent(Direction.NORTH,1));
         assertEquals(shield,s.getFirstComponent(Direction.SOUTH,1));
@@ -493,7 +493,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon c=new Cannon(1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon c=new Cannon(0, 1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1,c);
         assertTrue(s.getIfSingleCannon(Direction.EAST, 1));
     }
@@ -510,7 +510,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon c=new Cannon(2,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon c=new Cannon(0, 2,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1,c);
         assertTrue(s.getIfDoubleCannon(Direction.EAST,1));
     }
@@ -527,7 +527,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Shield shield=new Shield(Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        Shield shield=new Shield(0,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1,1,shield);
         assertEquals(shield,s.getComponent(1,1));
         assertTrue(s.getIfShielded(Direction.NORTH));
@@ -549,7 +549,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Shield shield = new Shield(Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
+        Shield shield = new Shield(0,Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY}, Direction.WEST);
         s.placeComponent(1, 1, shield);
         assertEquals(1,s.getShieldedDirections()[0]);
         assertEquals(0,s.getShieldedDirections()[1]);
@@ -570,7 +570,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin cabin1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.placeComponent(1, 1, cabin1);
         assertEquals(2,s.getTotalAstronauts());
 }
@@ -587,7 +587,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Engine engine = new Engine(1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine engine = new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.placeComponent(1, 1, engine);
         assertEquals(1,s.getSingleEnginePower());
     }
@@ -600,9 +600,9 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
-        Engine engine1 = new Engine(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        Engine engine2 = new Engine(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        Engine engine3 = new Engine(2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine engine1 = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine engine2 = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine engine3 = new Engine(0, 2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         s.placeComponent(1, 1, engine1);
         assertEquals(1,s.getNumDoubleEngines());
         s.placeComponent(1, 2, engine2);
@@ -637,7 +637,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon c=new Cannon(1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon c=new Cannon(0, 1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1,c);
         assertEquals(0.5F,s.getSingleCannonPower());
     }
@@ -688,7 +688,7 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon c=new Cannon(1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
+        Cannon c=new Cannon(0, 1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
         s.placeComponent(1,1,c);
         s.removeComponent(1,1);
         assertEquals(1, s.getDeletedComponentsCounter());
@@ -740,9 +740,9 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cannon c=new Cannon(1,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cannon c=new Cannon(0, 1,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         s.placeComponent(1,2,c);
-        Cannon c1=new Cannon(1,Direction.NORTH,new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
+        Cannon c1=new Cannon(0, 1,Direction.NORTH,new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
         s.placeComponent(1,1,c1);
         assertTrue(s.getIfExposed(Direction.WEST, c));
         assertFalse(s.getIfExposed(Direction.SOUTH, c1));
@@ -761,15 +761,15 @@ public class ShipBoardTest extends TestCase {
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
-        Cabin c1 = new Cabin(true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        Cabin c2 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.DOUBLE});
-        Cabin c3 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
-        Cabin c4 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.UNIVERSAL});
-        Cabin c5 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.DOUBLE});
-        Cabin c6 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c7 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c8 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cabin c9 = new Cabin(false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c2 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c3 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        Cabin c4 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.UNIVERSAL});
+        Cabin c5 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.SINGLE, Connector.DOUBLE});
+        Cabin c6 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c7 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c8 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cabin c9 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         s.placeComponent(3,2, c1);
         s.placeComponent(2,3, c2);
         s.placeComponent(2,4, c3);

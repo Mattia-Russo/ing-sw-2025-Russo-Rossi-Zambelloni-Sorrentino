@@ -1,4 +1,4 @@
-package org.example.UI;
+package org.example.MessagePkg;
 
 import org.example.MessagePkg.*;
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
@@ -25,10 +25,8 @@ public class MessageGenerator {
         messageMap.put("end_remove_astronauts", this::createEndRemoveAstronautsMessage);
         messageMap.put("exit_game", this::createExitGameMessage);
         messageMap.put("join_lobby", this::createJoinLobbyMessage);
-        messageMap.put("join_server", this::createJoinServerMessage);
         messageMap.put("land_on_abandon", this::createLandOnAbandonMessage);
         messageMap.put("land_on_planet", this::createLandOnPlanetMessage);
-        messageMap.put("leave_server", this::createLeaveServerMessage);
         messageMap.put("ping", this::createPingMessage);
         messageMap.put("pong", this::createPongMessage);
         messageMap.put("remove_good", this::createRemoveGoodMessage);
@@ -134,11 +132,6 @@ public class MessageGenerator {
         return new JoinLobbyMessage();
     }
 
-    public Message createJoinServerMessage(List<String> args) {
-        String name = args.get(0);
-        return new JoinServerMessage(name);
-    }
-
     public Message createLandOnAbandonMessage(List<String> args) {
         boolean bool = Boolean.parseBoolean(args.get(0));
         return new LandOnAbandonMessage(bool);
@@ -148,10 +141,6 @@ public class MessageGenerator {
         boolean bool = Boolean.parseBoolean(args.get(0));
         int numPlanet = Integer.parseInt(args.get(1));
         return new LandOnPlanetMessage(bool, numPlanet);
-    }
-
-    public Message createLeaveServerMessage(List<String> args) {
-        return new LeaveServerMessage();
     }
 
     public Message createPingMessage(List<String> args) {

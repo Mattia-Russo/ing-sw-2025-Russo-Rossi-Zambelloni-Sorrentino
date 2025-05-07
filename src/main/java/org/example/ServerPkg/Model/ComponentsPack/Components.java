@@ -2,6 +2,7 @@ package org.example.ServerPkg.Model.ComponentsPack;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
 import java.util.ArrayList;
@@ -44,6 +45,10 @@ public class Components {
 
     public boolean getIfCovered() {
         return this.covered;
+    }
+
+    public ComponentsView createView(){
+        return new ComponentsView(getDirection(), getConnectors(), 0,null,0 ,0, null, null);
     }
 
     public boolean getIfPositioned() {

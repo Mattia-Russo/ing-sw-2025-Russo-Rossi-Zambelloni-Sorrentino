@@ -2,14 +2,28 @@ package org.example.ServerPkg.Model.CardPack;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Stardust extends AdventureCard{
+    private final int id;
     @JsonCreator
     public Stardust(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int CardLevel,
             @JsonProperty("lostDays") int lostDays){
         super(CardLevel, lostDays);
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "Stardust", getLostDays(),0 ,0,0, null, null, null, null, 0,null,null);
     }
 
     @Override

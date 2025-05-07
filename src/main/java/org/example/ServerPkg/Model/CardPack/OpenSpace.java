@@ -5,23 +5,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateEnginesState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
+import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class OpenSpace extends AdventureCard{
-    int currentPlayer;
+    private int currentPlayer;
+    private final int id;
+
     @JsonCreator
     public OpenSpace(
+            @JsonProperty("id") int id,
             @JsonProperty("cardLevel") int CardLevel,
             @JsonProperty("lostDays") int lostDays){
         super(CardLevel, lostDays);
         this.currentPlayer = -1;
+        this.id = id;
+    }
+
+    @Override
+    public AdventureCardView createView(){
+        return new AdventureCardView(id, "OpenSpace", getLostDays(),0 , 0,0, null, null, null, null, 0,null,null);
     }
 
     @Override

@@ -13,22 +13,22 @@ import java.util.ArrayList;
 public class AbandonedShipTest extends TestCase {
 
     public void testGetCardLevel() {
-        AbandonedShip a=new AbandonedShip(1,2,10, 3);
+        AbandonedShip a=new AbandonedShip(0,1,2,10, 3);
         assertEquals(1,a.getCardLevel());
     }
 
     public void testGetLostDays() {
-        AbandonedShip a=new AbandonedShip(1,2,10, 3);
+        AbandonedShip a=new AbandonedShip(0,1,2,10, 3);
         assertEquals(2,a.getLostDays());
     }
 
     public void testGetCredits() {
-        AbandonedShip a=new AbandonedShip(1,2,10, 3);
+        AbandonedShip a=new AbandonedShip(0,1,2,10, 3);
         assertEquals(10,a.getCredits());
     }
 
     public void testGetNumAstronauts() {
-        AbandonedShip a=new AbandonedShip(1,2,10, 3);
+        AbandonedShip a=new AbandonedShip(0,1,2,10, 3);
         assertEquals(3,a.getNumAstronauts());
     }
 
@@ -47,7 +47,7 @@ public class AbandonedShipTest extends TestCase {
         goods[1] = new Goods(GoodsColour.RED);
         goods[2] = new Goods(GoodsColour.YELLOW);
 
-        AbandonedStation card = new AbandonedStation(1, 2, 3, goods);
+        AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
         game.setCard(card);
 
         card.setCardState(game);
@@ -85,7 +85,7 @@ public class AbandonedShipTest extends TestCase {
 
         Game game = new Game(3, 2, 1, null);
         p1.setPlayerState(new LandOnAbandonState(game));
-        AbandonedShip card = new AbandonedShip(1, 2, 5, 3);
+        AbandonedShip card = new AbandonedShip(0,1, 2, 5, 3);
         game.setCard(card);
         card.setCardState(game);
         p1.getPlayerShipBoard().setNumAstronauts(5);
@@ -100,7 +100,7 @@ public class AbandonedShipTest extends TestCase {
     }
 
     public void testGetCurrentPlayerIndex() {
-        AbandonedShip card = new AbandonedShip(1, 2, 5, 3);
+        AbandonedShip card = new AbandonedShip(0,1, 2, 5, 3);
         assertEquals(-1,card.getCurrentPlayerIndex());
     }
 }
