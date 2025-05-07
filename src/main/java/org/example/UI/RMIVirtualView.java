@@ -1,9 +1,8 @@
 package org.example.UI;
 
 import org.example.ServerPkg.Model.ForView.GameView;
-import org.example.ServerPkg.Model.Game;
 
-public class RMIVirtualView implements gameUpdater {
+public class RMIVirtualView implements GameUpdater {
 
     public void updateGame(GameView game) {}
 }
