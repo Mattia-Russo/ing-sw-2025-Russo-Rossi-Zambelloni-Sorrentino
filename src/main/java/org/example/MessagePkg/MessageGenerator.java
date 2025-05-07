@@ -37,16 +37,16 @@ public class MessageGenerator {
         messageMap.put("use_batteries", this::createUseBatteriesMessage);
     }
 
-    public Optional<Message> generate(String command, List<String> args) {
+    public Message generate(String command, List<String> args) {
         try {
             Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
             if (generator == null) {
                 throw new CommandNotFoundException("Comando non valido: " + command);
             }
-            return Optional.of(generator.apply(args));
+            return generator.apply(args);
         } catch (CommandNotFoundException e) {
             System.err.println("ERROR: " + e.getMessage());
-            return Optional.empty();
+            return null;
         }
     }
 
