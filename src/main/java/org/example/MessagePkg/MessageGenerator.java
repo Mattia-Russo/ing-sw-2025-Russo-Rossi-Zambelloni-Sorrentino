@@ -1,5 +1,6 @@
 package org.example.MessagePkg;
 
+import org.example.MessagePkg.*;
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
 import org.example.ServerPkg.Model.Points;
 
@@ -137,8 +138,8 @@ public class MessageGenerator {
     }
 
     public Message createLandOnPlanetMessage(List<String> args) {
-        boolean bool = Boolean.parseBoolean(args.get(0)); // Primo argomento: booleano
-        int numPlanet = Integer.parseInt(args.get(1));   // Secondo argomento: numero del pianeta
+        boolean bool = Boolean.parseBoolean(args.get(0));
+        int numPlanet = Integer.parseInt(args.get(1));
         return new LandOnPlanetMessage(bool, numPlanet);
     }
 
@@ -194,4 +195,6 @@ public class MessageGenerator {
         }
         return new UseBatteriesMessage(batteries);
     }
+
+
 }
