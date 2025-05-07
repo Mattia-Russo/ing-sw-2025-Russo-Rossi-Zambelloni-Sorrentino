@@ -13,7 +13,7 @@ public class GameView {
     private final ArrayList<PlayerView> playersView = new ArrayList<>();
     private final AdventureCardView currentCard;
     private final List<ComponentsView> componentsListView = new ArrayList<>();
-    private gameUpdater gameUpdater;
+    private gameUpdater gameUpdater; //va cambiato come lo passiamo
     public GameView(Game game) {
         for(Player p:game.getPlayers()){
                 playersView.add(new PlayerView(p));
