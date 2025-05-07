@@ -1,5 +1,6 @@
 package org.example.MessagePkg;
 
+import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.*;
@@ -36,8 +37,16 @@ public class MessageGenerator {
     }
 
     public Message generate(String command, List<String> args) {
-        Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
-        return generator != null ? generator.apply(args) : null;
+        try {
+            Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
+            if (generator == null) {
+                throw new CommandNotFoundException("Comando non valido: " + command);
+            }
+            return generator.apply(args);
+        } catch (CommandNotFoundException e) {
+            System.err.println("ERROR: " + e.getMessage());
+            return null;
+        }
     }
 
     private Message createAcceptRewardMessage(List<String> args) {
