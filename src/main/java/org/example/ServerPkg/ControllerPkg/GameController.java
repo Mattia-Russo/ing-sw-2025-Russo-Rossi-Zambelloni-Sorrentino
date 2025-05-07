@@ -138,4 +138,20 @@ public class GameController {
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
+    public synchronized void disconnect(String playerName) {
+        if(this.game==null) {
+            return;
+        }
+
+        //if game is not started yet or is not the turn of player who wants to disconnect
+        if(game.getCurrentCard()==null || !playerName.equals(game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()))){
+            game.getPlayers().remove(game.getPlayerByName(playerName));
+        }
+        //if is the turn of the player who wants to disconnect
+        else {
+            game.Turn();
+        }
+
+
+    }
 }

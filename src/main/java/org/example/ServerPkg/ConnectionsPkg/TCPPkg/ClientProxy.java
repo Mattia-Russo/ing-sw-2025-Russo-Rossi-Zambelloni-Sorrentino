@@ -67,4 +67,15 @@ public abstract class ClientProxy {
             }
         }
     }
+
+    protected void disconnect() {
+        try {
+            if(playerName != null)
+                controller.disconnect(playerName);
+        } catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
+        }
+
+        TCPServer.unsubscribe(this);
+    }
 }
