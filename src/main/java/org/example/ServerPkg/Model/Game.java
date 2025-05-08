@@ -8,6 +8,7 @@ import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.ComponentsPack.Direction;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Utils.CardLoader;
 import org.example.ServerPkg.Utils.TileLoader;
 
@@ -324,6 +325,10 @@ public class Game{
 
     public int getGameMode() {
         return gameMode;
+    }
+
+    public void updateGame(GameView gameView) {
+        
     }
 }
 

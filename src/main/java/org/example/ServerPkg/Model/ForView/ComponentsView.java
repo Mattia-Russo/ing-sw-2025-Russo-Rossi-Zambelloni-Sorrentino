@@ -5,9 +5,10 @@ import org.example.ServerPkg.Model.ComponentsPack.Connector;
 import org.example.ServerPkg.Model.ComponentsPack.Direction;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ComponentsView{
+public class ComponentsView implements Serializable {
     private final Direction direction;
     private final Connector[] connectors;
     private final int id;
