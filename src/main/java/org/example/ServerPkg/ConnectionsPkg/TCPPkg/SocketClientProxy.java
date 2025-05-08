@@ -84,7 +84,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         } catch (IOException ignored) {}
         inputHandler.shutdown();
         connectionChecker.shutdown();
-        disconnect();
+        super.disconnect();
     }
 
     //This class sends a heartbeat message to the client, if the client doesn't answer with the appropriate message,
@@ -118,8 +118,4 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         }
     }
 
-    public void disconnect() {
-        // TBD
-        // unsubscribe from server
-    }
 }

@@ -326,9 +326,13 @@ public class Game{
     public int getGameMode() {
         return gameMode;
     }
+<<<<<<< HEAD
 
     public void updateGame(GameView gameView) {
         
     }
 }
 
+=======
+}
+>>>>>>> 576cab36c8bcf6844f6fdba40abfc0c716343a30

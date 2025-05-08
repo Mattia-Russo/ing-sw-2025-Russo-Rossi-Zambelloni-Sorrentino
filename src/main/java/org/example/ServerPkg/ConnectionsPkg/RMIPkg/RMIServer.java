@@ -43,8 +43,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public void sendMessage(Message message) throws RemoteException {
-        // Il messaggio viene gestito come nel TCP
-        //message.setProxy(clientProxies.get(message.getProxy()));
         controller.addMessage(message);
     }
 
