@@ -3,6 +3,7 @@ package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 import org.example.ClientPkg.RMIClient;
 import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
+import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
 
 import java.rmi.RemoteException;
@@ -15,7 +16,6 @@ import java.util.List;
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
     private ArrayList<RMIClientInterface> clients;
     private final GameController controller;
-    private static final int RMI_PORT = 3600;
     private ArrayList<Long> clientAlive;
 
     public RMIServer(GameController controller) throws RemoteException {
@@ -30,9 +30,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void startRMIServer() {
         try {
-            Registry registry = LocateRegistry.createRegistry(RMI_PORT);
+            Registry registry = LocateRegistry.createRegistry(Settings.RMI_PORT);
             registry.rebind("GameServer", this);
-            System.out.println("RMI Server is running on " + RMI_PORT + " port");
+            System.out.println("RMI Server is running on " + Settings.RMI_PORT + " port");
 
         } catch (RemoteException e) {
             System.err.println("Error starting RMI server: " + e.getMessage());

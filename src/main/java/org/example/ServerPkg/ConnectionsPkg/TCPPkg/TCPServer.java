@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
 
@@ -27,7 +28,7 @@ public class TCPServer {
 
         // Create the server socket to accept clientsProxies connections
         try {
-            serverSocket = new ServerSocket(3500);
+            serverSocket = new ServerSocket(Settings.TCP_PORT);
         } catch (IOException e) {
             System.out.println("Failed to start socket server");
             return;
