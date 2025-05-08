@@ -13,6 +13,7 @@ import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -134,6 +135,7 @@ public class MeteorCard extends AdventureCard {
                 Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                 try {
                     p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                    new GameView(g);
                     while (wreck == null) {
                         wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
                         i++;
@@ -152,9 +154,11 @@ public class MeteorCard extends AdventureCard {
             }else if(meteorList.get(currentMeteor).getType()==0){
                 try {
                     if (!p.getPlayerShipBoard().ShieldProtects(meteorList.get(currentMeteor).getDirection(), component, battery)) {
+                        new GameView(g);
                         Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            new GameView(g);
                             while (wreck == null) {
                                 wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
                                 i++;
@@ -170,7 +174,8 @@ public class MeteorCard extends AdventureCard {
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
                         }
-                    }
+                    }else
+                        new GameView(g);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
@@ -178,9 +183,11 @@ public class MeteorCard extends AdventureCard {
             }else {
                 try{
                     if (!p.getPlayerShipBoard().CannonProtects(meteorList.get(currentMeteor).getDirection(), rowOrCol, component, battery)) {
+                        new GameView(g);
                         Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            new GameView(g);
                             while(wreck==null){
                                 wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
                                 i++;
@@ -196,7 +203,8 @@ public class MeteorCard extends AdventureCard {
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
                         }
-                    }
+                    }else
+                        new GameView(g);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                         System.out.println("Error" + e.getMessage());
                         g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));

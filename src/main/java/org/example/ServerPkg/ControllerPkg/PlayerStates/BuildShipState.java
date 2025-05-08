@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -60,6 +61,7 @@ public class BuildShipState extends PlayerState{
         if (p.getDeckShowed() == null){
             if(!p.getShipBuilded()) {
                 p.setCurrentTile(game.pickComponentTile());
+                new GameView(game);
             }
         } else {
             throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
@@ -73,6 +75,7 @@ public class BuildShipState extends PlayerState{
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
             p.getCurrentTile().rightRotate();
+            new GameView(game);
         }
     }
 
@@ -82,6 +85,7 @@ public class BuildShipState extends PlayerState{
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
             p.getCurrentTile().leftRotate();
+            new GameView(game);
         }
     }
 
@@ -91,6 +95,7 @@ public class BuildShipState extends PlayerState{
             if(!player.getShipBuilded()) {
                 player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
                 player.setCurrentTile(null);
+                new GameView(game);
             }
         } catch (OccupiedPositionException | InvalidPositionException e) {
             System.out.println("Error: " + e.getMessage());

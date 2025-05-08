@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Stardust extends AdventureCard{
                 g.getPlayers().get(i).changePosition(-g.getPlayers().get(i).getPlayerShipBoard().getTotalExposedConnectors());
             }
         }
+        new GameView(g);
         g.Turn();
     }
 }

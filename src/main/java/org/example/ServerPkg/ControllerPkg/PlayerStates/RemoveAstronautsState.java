@@ -2,6 +2,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.ComponentsPack.Cabin;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -31,6 +32,7 @@ public class RemoveAstronautsState extends PlayerState{
                     cabin.changeNumAstronauts(-1);
                     astronautsRemoved++;
                 }
+                new GameView(game);
             } else {
                 throw new NotCabinException("The component of given coordinates is not a cabin");
             }

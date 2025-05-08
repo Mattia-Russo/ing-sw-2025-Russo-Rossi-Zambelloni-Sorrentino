@@ -4,6 +4,7 @@ import org.example.ServerPkg.Model.ComponentsPack.BatteryStorage;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.ComponentsPack.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -37,6 +38,7 @@ public class RemoveBestGoodsState extends PlayerState{
                 if(storage.getGoods()[numGood].getColour() == goodsList.get(0).getColour()){
                     storage.removeGood(numGood);
                     goodsRemoved++;
+                    new GameView(game);
                 } else {
                     throw new NotStorageException("You've not selected the best good you have");
                 }
@@ -61,6 +63,7 @@ public class RemoveBestGoodsState extends PlayerState{
                     try {
                         storage.setQuantity(-1, currentPlayer.getPlayerShipBoard());
                         batteriesRemoved++;
+                        new GameView(game);
                     } catch (ValueUnderZeroException e) {
                         System.out.println("Error: " + e.getMessage());
                     }
