@@ -3,10 +3,11 @@ package org.example.ServerPkg.Model.ForView;
 import org.example.ServerPkg.Model.CardPack.Planet;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetView {
+public class PlanetView implements Serializable {
     private final int planetNumber;
     private final List<GoodsView> goods= new ArrayList<GoodsView>();
     public PlanetView(Planet planet) {
