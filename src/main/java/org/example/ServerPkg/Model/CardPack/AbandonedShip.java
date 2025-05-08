@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 
 public class AbandonedShip extends AdventureCard {
@@ -51,7 +52,7 @@ public class AbandonedShip extends AdventureCard {
 
     @Override
     public void setCardState(Game game){
-        do {
+        do{
             playersIndex++;
         } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
                 && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts);
@@ -70,6 +71,7 @@ public class AbandonedShip extends AdventureCard {
         game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
         game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
         this.playersIndex=-1;
+        new GameView(game);
         game.Turn();
     }
 

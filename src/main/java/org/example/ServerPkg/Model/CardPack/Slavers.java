@@ -7,6 +7,7 @@ import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Points;
 
@@ -83,9 +84,11 @@ public class Slavers extends Enemy{
     @Override
     public void playCard(Game game, ArrayList<Points> cannons, ArrayList<Points> batteries) {
         try {
-            if (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) > this.getCannonPower()) {
+            float power = game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries);
+            new GameView(game);
+            if ( power > this.getCannonPower()) {
                 game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
-            }else if(game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries) == this.getCannonPower()){
+            }else if(power == this.getCannonPower()){
                 this.setCardState(game);
             } else {
                 game.getPlayers().get(playersIndex).setPlayerState(new RemoveAstronautsState(game));
@@ -101,6 +104,7 @@ public class Slavers extends Enemy{
         if (accept){
             game.getPlayers().get(playersIndex).changeCredits(getCredits());
             game.getPlayers().get(playersIndex).changePosition(-getLostDays());
+            new GameView(game);
         } else {
             this.playCard(game, 0);
         }

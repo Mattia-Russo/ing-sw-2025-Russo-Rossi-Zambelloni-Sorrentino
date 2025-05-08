@@ -2,6 +2,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.ComponentsPack.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -19,6 +20,7 @@ public class ChangeGoodsState extends PlayerState{
         Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             storage.removeGood(numGood);
+            new GameView(game);
         } else {
             throw new NotStorageException("The component of given coordinates is not a storage");
         }
@@ -30,6 +32,7 @@ public class ChangeGoodsState extends PlayerState{
         if(storage!=null){
             try {
                 storage.addGood(game.getCurrentCard().getGoodsList()[numGood]);
+                new GameView(game);
             } catch (RedGoodsNotAllowedException | StorageFullException e) {
                 System.out.println("Error: " + e.getMessage());
             }

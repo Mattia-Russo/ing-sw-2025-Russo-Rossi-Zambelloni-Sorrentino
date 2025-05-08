@@ -3,14 +3,16 @@ package org.example.ServerPkg.ControllerPkg;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.TimerGenerator;
 
-import java.util.Objects;
+import org.example.UI.GameUpdater;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,6 +23,7 @@ public class GameController {
     private final BlockingQueue<Message> messageQueue;
     private volatile boolean isRunning;
     private Thread messageProcessor;
+    private List<GameUpdater> gameUpdaters= new ArrayList<>();
 
     public GameController(){
         this.game = null;
@@ -28,6 +31,10 @@ public class GameController {
         this.messageQueue = new LinkedBlockingQueue<>();
         this.isRunning = true;
         startMessageProcessing();
+    }
+
+    private void addGameUpdater(GameUpdater gameUpdater){
+        this.gameUpdaters.add(gameUpdater);
     }
 
     private void startMessageProcessing() {
@@ -97,6 +104,7 @@ public class GameController {
         if(lobbyState == LobbyState.GAME_CREATION) {
             if(game.getPlayers().size() >= 2) {
                 lobbyState = LobbyState.GAME_READY;
+                game.setGameUpdaters(gameUpdaters);
                 TimerGenerator t= new TimerGenerator();
                 game.setPlayersShipboard();
                 for(Player player : game.getPlayers()) {

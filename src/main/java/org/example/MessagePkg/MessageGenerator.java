@@ -144,13 +144,11 @@ public class MessageGenerator {
     }
 
     public Message createPingMessage(List<String> args) {
-        String key = args.get(0);
-        return new PingMessage(key);
+        return new PingMessage();
     }
 
     public Message createPongMessage(List<String> args) {
-        String key = args.get(0);
-        return new PongMessage(key);
+        return new PongMessage();
     }
 
     public Message createRemoveGoodMessage(List<String> args) {

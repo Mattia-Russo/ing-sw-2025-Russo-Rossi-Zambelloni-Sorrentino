@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -90,9 +91,11 @@ public class Pirates extends Enemy{
 
         if(!playerLost) { // chiamata arriva da setCardState, i components sono cannons
             try {
-                if (this.getCannonPower() < g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                float power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
+                new GameView(g);
+                if (this.getCannonPower() < power) {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
-                } else if (this.getCannonPower() > g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries)) {
+                } else if (this.getCannonPower() > power) {
                     playerLost = true;
                     chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
                     setCardState(g);    // riceve cannonate o passa al player successivo
@@ -105,11 +108,12 @@ public class Pirates extends Enemy{
             int i=0;
             Components shipWreck = null;
             Player p = g.getPlayers().get(currentPlayer);
-            if(components == null || batteries == null || components.isEmpty() || batteries.isEmpty()) {   // non ha nulla attivo
+            if(components == null || batteries == null) {   // non ha nulla attivo
                 Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                 try {
                     if (c != null){
                         p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                        new GameView(g);
                         while(shipWreck == null){   // cerco un componente a caso della nave
                             shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                             i++;
@@ -126,9 +130,11 @@ public class Pirates extends Enemy{
             }else { // ha attivato degli scudi
                 try {
                     if (!p.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {    // se scudo non protegge
+                        new GameView(g);
                         Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                            new GameView(g);
                             while(shipWreck == null){
                                 shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                                 i++;
@@ -154,7 +160,8 @@ public class Pirates extends Enemy{
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                             System.out.println("Error" + e.getMessage());
                         }
-                    }
+                    }else
+                        new GameView(g);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
@@ -179,6 +186,7 @@ public class Pirates extends Enemy{
         if (accept) {
             game.getPlayers().get(currentPlayer).changeCredits(this.credit);
             game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays());
+            new GameView(game);
         }
         game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
         currentPlayer = -1;

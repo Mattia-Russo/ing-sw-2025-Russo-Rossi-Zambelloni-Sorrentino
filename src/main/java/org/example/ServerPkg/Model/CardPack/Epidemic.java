@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.ShipBoard;
 
@@ -46,6 +47,7 @@ public class Epidemic extends AdventureCard{
         for(int i=0; i<g.getPlayers().size(); i++){
             if(!g.getPlayers().get(i).isAbandoned()){
                 checkAdjacentCabins(g.getPlayers().get(i).getPlayerShipBoard());
+                new GameView(g);
             }
         }
         g.Turn();

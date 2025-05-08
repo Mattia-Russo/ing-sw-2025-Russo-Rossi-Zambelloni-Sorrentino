@@ -11,6 +11,7 @@ import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Utils.CardLoader;
 import org.example.ServerPkg.Utils.TileLoader;
+import org.example.UI.GameUpdater;
 
 import java.util.*;
 
@@ -25,6 +26,7 @@ public class Game{
     private AdventureCard currentCard;
     private List<Components> componentsList;
     private final GameController controller;
+    private List<GameUpdater> gameUpdaters = new ArrayList<>();
 
     public Game(int numPlayer, int ShipBoardLevel, int gameMode, GameController gameController) {
         this.numPlayer = numPlayer;
@@ -72,8 +74,8 @@ public class Game{
             getComponentsList().remove(i);
         }
 
-
         Collections.shuffle(componentsList);
+        new GameView(this);
     }
 
     // usage only for tests
@@ -225,6 +227,7 @@ public class Game{
             adjustPlayerPositions();
             if(gameMode==1) {
                 checkForcedAbandon();
+                new GameView(this);
             }
             pickCard();
             currentCard.setCardState(this);
@@ -329,7 +332,13 @@ public class Game{
         return gameMode;
     }
 
+    public void setGameUpdaters(List<GameUpdater> gameUpdaters){
+        this.gameUpdaters=gameUpdaters;
+    }
+
     public void updateGame(GameView gameView) {
-        
+        for(GameUpdater g: gameUpdaters) {
+            g.updateGame(gameView);
+        }
     }
 }
