@@ -3,7 +3,6 @@ package org.example.MessagePkg;
 import org.example.ClientPkg.RMIClient;
 import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.ServerPkg.Model.ForView.GameView;
 
 import java.io.Serializable;
 
@@ -50,11 +49,15 @@ public class Message implements Serializable {
             if(this.client.getPlayerName() == null) {
                 System.out.println("You need to set your name first");
                 return false;
-            } else if (!client.getServer().getIfSubscribed(client)) {
-                System.out.println("You are not subscribed to the server");
-                return false;
-            } else {
-                return true;
+            } else try {
+                if (!client.getServer().getIfSubscribed(client)) {
+                    System.out.println("You are not subscribed to the server");
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (java.rmi.RemoteException e) {
+                throw new RuntimeException(e);
             }
         }
         return false; // non dovremmo arrivare mai a questa istruzione

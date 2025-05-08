@@ -17,9 +17,9 @@ public interface RMIServerInterface extends Remote {
     // Metodo per disconnettersi
     void unregisterClient(RMIClient client) throws RemoteException;
 
-    boolean getIfSubscribed(RMIClient client);
+    boolean getIfSubscribed(RMIClient client) throws RemoteException;
 
-    GameController getController();
+    GameController getController() throws RemoteException;
 
     void updateClientAlive(RMIClientInterface client) throws RemoteException;
 }

@@ -22,9 +22,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         super();
         this.controller = controller;
         this.clients = new ArrayList<>();
-        for (Long l : clientAlive){
-            l = System.currentTimeMillis();
-        }
+        this.clientAlive = new ArrayList<>();
         checkConnection();
     }
 
@@ -65,6 +63,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public synchronized void registerClient(RMIClient client) throws RemoteException {
         System.out.println(client.getPlayerName() + " subscribed");
         clients.add(client);
+        clientAlive.add(System.currentTimeMillis());
     }
 
     @Override
@@ -91,11 +90,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         .toList();
     }
 
-    public boolean getIfSubscribed(RMIClient client){
+    public boolean getIfSubscribed(RMIClient client) throws RemoteException {
         return clients.contains(client);
     }
 
-    public GameController getController(){
+    public GameController getController() throws RemoteException {
         return controller;
     }
 
