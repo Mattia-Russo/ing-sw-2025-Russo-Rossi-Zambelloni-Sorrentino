@@ -2,6 +2,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.PlanetAlreadyVisitedException;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 
 public class LandOnPlanetsState extends PlayerState {
     private final Game game;
@@ -21,6 +22,12 @@ public class LandOnPlanetsState extends PlayerState {
         } else {
             game.getCurrentCard().setCardState(game);
         }
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        game.getCurrentCard().setCardState(game);
     }
 
 }

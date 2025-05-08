@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public abstract class AdventureCard {
     }
 
     public void setCardState(Game game) {};
+
+    public void playCard(Player disconnectingPlayer, Game game){};
 
     public void playCard(Game game){};
 

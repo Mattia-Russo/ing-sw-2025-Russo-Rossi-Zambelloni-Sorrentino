@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
@@ -72,4 +73,7 @@ public class PlayerState {
     public void addPurpleAlien(Points p){}
 
     public void turnTimer(Player player){}
+
+    public synchronized void disconnect(Player disconnectingPlayer){
+    }
 }

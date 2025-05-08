@@ -251,10 +251,12 @@ public class Game{
         }
         checkAllWrackedShip();
         for(Player p : players) {
-            if(!p.getReadyForCards()) {
-                return;
+            if (!p.isAbandoned()) {
+                if (!p.getReadyForCards()) {
+                    return;
+                }
+                p.setPlayerState(new WaitingState());
             }
-            p.setPlayerState(new WaitingState());
         }
         Turn();
     }

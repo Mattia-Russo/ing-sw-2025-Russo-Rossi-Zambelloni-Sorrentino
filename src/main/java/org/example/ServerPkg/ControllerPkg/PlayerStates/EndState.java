@@ -169,4 +169,9 @@ public class EndState extends PlayerState{
     public void turnTimer(Player player){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+    }
 }

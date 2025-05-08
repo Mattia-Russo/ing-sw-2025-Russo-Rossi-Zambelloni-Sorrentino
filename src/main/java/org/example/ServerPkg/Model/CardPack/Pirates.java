@@ -194,6 +194,12 @@ public class Pirates extends Enemy{
     }
 
     @Override
+    public void playCard(Player disconnectingPlayer, Game game){
+        currentPlayer = -1;
+        game.Turn();
+    }
+
+    @Override
     public void setAccept(boolean accept) {
         this.accept = accept;
     }
