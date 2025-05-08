@@ -3,6 +3,7 @@ package org.example.MessagePkg;
 import org.example.ClientPkg.RMIClient;
 import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.ForView.GameView;
 
 import java.io.Serializable;
 

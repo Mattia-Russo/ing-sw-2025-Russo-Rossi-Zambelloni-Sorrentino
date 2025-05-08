@@ -1,5 +1,7 @@
 package org.example.MessagePkg;
 
+import org.example.ServerPkg.ControllerPkg.GameController;
+
 public class PingMessage extends Message {
     private final String key;
 
@@ -12,7 +14,7 @@ public class PingMessage extends Message {
     }
 
     @Override
-    public void handle() {
+    public void handle(GameController controller, String playerName) {
         // Non gestita normalmente, gestita direttamente in run()
     }
 }

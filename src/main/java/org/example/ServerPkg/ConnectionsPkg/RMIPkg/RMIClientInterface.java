@@ -11,7 +11,9 @@ import java.rmi.RemoteException;
 public interface RMIClientInterface extends Remote {
     // Metodo che il server usa per inviare messaggi al client
 
-    public void updateGame(GameView game);
+    public void updateGame(GameView game) throws RemoteException;
+
+    public String getPlayerName() throws RemoteException;
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

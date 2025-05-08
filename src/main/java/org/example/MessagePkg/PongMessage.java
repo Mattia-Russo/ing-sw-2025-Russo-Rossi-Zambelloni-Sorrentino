@@ -1,5 +1,8 @@
 package org.example.MessagePkg;
 
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Game;
+
 public class PongMessage extends Message {
     private final String key;
 
@@ -12,7 +15,7 @@ public class PongMessage extends Message {
     }
 
     @Override
-    public void handle() {
+    public void handle(GameController controller, String playerName) {
         // Anche questa può non fare nulla
     }
 }

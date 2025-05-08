@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class SocketClientProxy extends ClientProxy implements Runnable {
     private final Socket socket;
     private final ObjectOutputStream out;
-    protected String lastHeartBeat = "initial"; //stringa che serve a stabilire se la connessione è ancora attiva
+    protected String clientAlive = "initial"; //stringa che serve a stabilire se la connessione è ancora attiva
 
     //This thread is necessary to handle server input asynchronously
     //This way answering to ping messages is immediate
@@ -66,7 +66,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 Message message = (Message) in.readObject();
 
                 if (message instanceof PongMessage pong) {
-                    lastHeartBeat = pong.key();
+                    clientAlive = pong.key();
                 } else if (message instanceof PingMessage ping) {
                     sendMessage(new PongMessage(ping.key()));
                 } else {
@@ -110,7 +110,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             } catch (InterruptedException ignored) {}
 
             // If the string did not come back, close the socket
-            if(!heartBeat.equals(lastHeartBeat)) {
+            if(!heartBeat.equals(clientAlive)) {
                 try {
                     socket.close();
                 } catch (IOException ignored) {}
