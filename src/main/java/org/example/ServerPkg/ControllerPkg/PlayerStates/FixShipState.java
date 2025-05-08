@@ -33,6 +33,6 @@ public class FixShipState extends PlayerState {
     @Override
     public synchronized void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        game.checkAllPlayersShip();
+        game.checkAllPlayersShip(); // eliminare noi i componenti non validi
     }
 }

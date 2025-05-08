@@ -51,7 +51,7 @@ public class ChangeGoodsState extends PlayerState{
     @Override
     public synchronized void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        game.getCurrentCard().playCard(game, 0);
+        endChangeGoods();
     }
 
 }

@@ -51,7 +51,7 @@ public class RemoveAstronautsState extends PlayerState{
     @Override
     public synchronized void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        game.getCurrentCard().setCardState(game);
+        game.getCurrentCard().setCardState(game);   // rimuovere noi gli astronauti
     }
 
 }

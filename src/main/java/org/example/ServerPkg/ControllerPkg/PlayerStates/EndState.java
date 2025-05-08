@@ -171,7 +171,7 @@ public class EndState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
     }
 }

@@ -46,7 +46,7 @@ public class AddAlienState extends PlayerState{
         }
     }
 
-    public void endAlienState(){
+    public void endAlienState(){    // manca il messaggio per terminare la fase di AddAlien
         player.setReadyForCards(true);
         for (Player p : game.getPlayers()) {
             if (!p.isAbandoned()) {
@@ -60,15 +60,8 @@ public class AddAlienState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        for (Player p : game.getPlayers()) {
-            if (!p.isAbandoned()) {
-                if (!p.getReadyForCards()) {
-                    return;
-                }
-            }
-        }
-        game.Turn();
+        endAlienState();
     }
 }

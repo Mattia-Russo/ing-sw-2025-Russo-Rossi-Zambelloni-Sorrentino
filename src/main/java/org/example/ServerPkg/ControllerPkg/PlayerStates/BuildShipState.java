@@ -66,7 +66,6 @@ public class BuildShipState extends PlayerState{
         } else {
             throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
         }
-
     }
 
     @Override
@@ -129,14 +128,9 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
-        for(Player p : game.getPlayers()){
-            if(!p.isAbandoned()) {
-                if (!p.getShipBuilded()) {
-                    return;
-                }
-            }
-        }
-        game.checkAllPlayersShip();
+    public void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        setPosition(disconnectingPlayer);
+        endBuildShip(disconnectingPlayer);
     }
 }

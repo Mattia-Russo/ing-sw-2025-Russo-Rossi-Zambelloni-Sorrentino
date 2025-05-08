@@ -35,11 +35,13 @@ public class ActivateEnginesState extends PlayerState {
 
     public void endActivateEngine(){
         game.getCurrentCard().playCard(game,Engines, Batteries);
-    }
+    }   // manca il messaggio
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        //TBD
+        Engines=null;
+        Batteries=null;
+        endActivateEngine();
     }
 }

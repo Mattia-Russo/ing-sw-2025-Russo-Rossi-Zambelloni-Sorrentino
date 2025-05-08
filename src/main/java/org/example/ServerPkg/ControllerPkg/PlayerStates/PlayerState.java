@@ -74,6 +74,7 @@ public class PlayerState {
 
     public void turnTimer(Player player){}
 
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
+
     }
 }

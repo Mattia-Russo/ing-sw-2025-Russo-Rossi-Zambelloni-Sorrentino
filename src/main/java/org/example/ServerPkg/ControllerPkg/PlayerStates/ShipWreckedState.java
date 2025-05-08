@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.ComponentsPack.Components;
+import org.example.ServerPkg.Model.ComponentsPack.Direction;
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -53,19 +55,15 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        if (game.getCurrentCard() != null) {
-            game.getCurrentCard().setCardState(game);
-        }else {
-            for (Player p : game.getPlayers()) {
-                if (!p.isAbandoned()) {
-                    if (!p.getReadyForCards()) {
-                        return;
-                    }
-                }
-            }
-            game.Turn();
+        Components c=null;
+        int i=0;
+        while(c==null && i < 5){
+            c=disconnectingPlayer.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
+            i++;
         }
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()));    // scegliamo noi un pezzo
+        endWreckedState();
     }
 }

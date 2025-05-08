@@ -17,8 +17,8 @@ public class WinEnemyState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        game.getCurrentCard().playCard(disconnectingPlayer, game);
+        acceptReward(false);    // se abbandona consideriamo come se rifiutasse
     }
 }

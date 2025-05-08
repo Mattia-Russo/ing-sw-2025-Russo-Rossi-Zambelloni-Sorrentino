@@ -43,9 +43,11 @@ public class ActivateCannonsState extends PlayerState {
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        //TBD
+        cannons=null;
+        batteries=null;
+        endActivateCannons();
     }
 
 }

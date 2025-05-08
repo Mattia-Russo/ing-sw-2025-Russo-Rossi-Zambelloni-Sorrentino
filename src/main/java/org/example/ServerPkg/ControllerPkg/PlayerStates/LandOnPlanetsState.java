@@ -25,9 +25,9 @@ public class LandOnPlanetsState extends PlayerState {
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer){
         disconnectingPlayer.abandon();
-        game.getCurrentCard().setCardState(game);
+        landOnPlanet(false, 0);
     }
 
 }

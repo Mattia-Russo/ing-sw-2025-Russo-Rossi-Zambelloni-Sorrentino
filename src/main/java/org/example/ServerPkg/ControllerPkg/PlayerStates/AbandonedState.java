@@ -167,4 +167,9 @@ public class AbandonedState extends PlayerState{
     public void addPurpleAlien(Points p){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
+
+    @Override
+    public void disconnect(Player p){
+        p.abandon();
+    }
 }
