@@ -49,6 +49,7 @@ public class TCPClient {
 
                     // Invia il messaggio al server
                     sendMessage(pingMessage);
+                    System.out.println("Ping from client");
 
                     // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);

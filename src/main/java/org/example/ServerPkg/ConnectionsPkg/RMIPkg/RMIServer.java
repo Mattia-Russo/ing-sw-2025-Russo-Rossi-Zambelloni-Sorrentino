@@ -102,5 +102,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void updateClientAlive(RMIClientInterface client) throws RemoteException {
         this.clientAlive.set(clients.indexOf(client), System.currentTimeMillis());
         client.updateServerAlive();
+        System.out.println("RMI server alive");
     }
 }

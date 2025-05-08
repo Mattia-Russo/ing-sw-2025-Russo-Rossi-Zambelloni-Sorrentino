@@ -41,6 +41,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             try {
                 while (true) {
                     server.updateClientAlive(this);
+                    System.out.println("Client alive");
                     // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);
                 }
