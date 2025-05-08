@@ -6,10 +6,11 @@ import org.example.ServerPkg.Model.CardPack.Meteor;
 import org.example.ServerPkg.Model.CardPack.Planet;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdventureCardView {
+public class AdventureCardView implements Serializable{
     private final int id;
     private final int numCredits;
     private final int numAstronauts;

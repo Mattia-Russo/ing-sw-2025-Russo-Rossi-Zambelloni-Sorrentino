@@ -3,7 +3,9 @@ package org.example.ServerPkg.Model.ForView;
 import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.ShipBoard;
 
-public class ShipboardView {
+import java.io.Serializable;
+
+public class ShipboardView implements Serializable {
     private final ComponentsView[][] componentMatrixView = new ComponentsView[5][7];
     private final Components[] bookedComponents;
 

@@ -3,7 +3,9 @@ package org.example.ServerPkg.Model.ForView;
 import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.ComponentsPack.GoodsColour;
 
-public class GoodsView {
+import java.io.Serializable;
+
+public class GoodsView implements Serializable {
     private final GoodsColour colour;
     public GoodsView(Goods good){
         this.colour = good.getColour();

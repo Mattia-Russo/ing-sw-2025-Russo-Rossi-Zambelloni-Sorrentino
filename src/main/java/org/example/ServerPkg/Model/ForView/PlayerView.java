@@ -2,9 +2,10 @@ package org.example.ServerPkg.Model.ForView;
 import org.example.ServerPkg.Model.CardPack.AdventureCard;
 import org.example.ServerPkg.Model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerView {
+public class PlayerView implements Serializable {
     private final ShipboardView shipboardView;
     private final ComponentsView currentTile;
     private final String name;
