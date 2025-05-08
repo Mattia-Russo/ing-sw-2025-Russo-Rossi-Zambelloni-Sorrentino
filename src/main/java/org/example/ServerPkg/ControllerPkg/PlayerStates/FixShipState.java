@@ -26,6 +26,11 @@ public class FixShipState extends PlayerState {
     public void endFixShip(Player player){
         player.setShipOK(true);
         game.checkAllPlayersShip();
+    }
 
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        game.checkAllPlayersShip();
     }
 }

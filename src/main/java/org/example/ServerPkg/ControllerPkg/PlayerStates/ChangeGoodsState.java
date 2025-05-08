@@ -3,6 +3,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 import org.example.ServerPkg.Model.ComponentsPack.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 public class ChangeGoodsState extends PlayerState{
@@ -42,6 +43,12 @@ public class ChangeGoodsState extends PlayerState{
     public void endChangeGoods(){
         game.getCurrentCard().setChangeGoodsFlag(false);
         game.getCurrentCard().playCard(game, 0); // 0 è messo a caso, viene ignorato in questo caso
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        game.getCurrentCard().playCard(game, 0);
     }
 
 }

@@ -3,6 +3,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyCannonException;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.ArrayList;
@@ -39,6 +40,12 @@ public class ActivateCannonsState extends PlayerState {
     @Override
     public void endActivateCannons(){
         game.getCurrentCard().playCard(game, cannons, batteries);
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        //TBD
     }
 
 }

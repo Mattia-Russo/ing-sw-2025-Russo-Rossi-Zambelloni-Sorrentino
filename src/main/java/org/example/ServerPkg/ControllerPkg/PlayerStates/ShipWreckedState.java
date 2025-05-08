@@ -34,10 +34,12 @@ public class ShipWreckedState extends PlayerState {
                         player.setPlayerState(new AddAlienState(game, player));
                     }else {
                         for (Player p : game.getPlayers()) {
-                            if (!p.getReadyForCards()) {
-                                return;
+                            if (!p.isAbandoned()) {
+                                if (!p.getReadyForCards()) {
+                                    return;
+                                }
+                                p.setPlayerState(new WaitingState());
                             }
-                            p.setPlayerState(new WaitingState());
                         }
                         game.Turn();
                     }
@@ -45,6 +47,23 @@ public class ShipWreckedState extends PlayerState {
             }else throw new InvalidMethodCallException("Fix your ship");
         }catch (InvalidMethodCallException e){
             System.out.println("ERROR " + e.getMessage());
+        }
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        if (game.getCurrentCard() != null) {
+            game.getCurrentCard().setCardState(game);
+        }else {
+            for (Player p : game.getPlayers()) {
+                if (!p.isAbandoned()) {
+                    if (!p.getReadyForCards()) {
+                        return;
+                    }
+                }
+            }
+            game.Turn();
         }
     }
 }

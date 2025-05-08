@@ -3,6 +3,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEngineException;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.ArrayList;
@@ -34,5 +35,11 @@ public class ActivateEnginesState extends PlayerState {
 
     public void endActivateEngine(){
         game.getCurrentCard().playCard(game,Engines, Batteries);
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        //TBD
     }
 }

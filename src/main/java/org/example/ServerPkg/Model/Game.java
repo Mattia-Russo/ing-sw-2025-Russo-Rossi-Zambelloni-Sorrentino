@@ -248,10 +248,12 @@ public class Game{
         }
         checkAllWrackedShip();
         for(Player p : players) {
-            if(!p.getReadyForCards()) {
-                return;
+            if (!p.isAbandoned()) {
+                if (!p.getReadyForCards()) {
+                    return;
+                }
+                p.setPlayerState(new WaitingState());
             }
-            p.setPlayerState(new WaitingState());
         }
         Turn();
     }
@@ -326,13 +328,8 @@ public class Game{
     public int getGameMode() {
         return gameMode;
     }
-<<<<<<< HEAD
 
     public void updateGame(GameView gameView) {
         
     }
 }
-
-=======
-}
->>>>>>> 576cab36c8bcf6844f6fdba40abfc0c716343a30

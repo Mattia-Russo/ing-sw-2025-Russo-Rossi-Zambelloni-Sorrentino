@@ -79,4 +79,10 @@ public class RemoveBestGoodsState extends PlayerState{
             game.getCurrentCard().setCardState(game);
         }
     }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        game.getCurrentCard().setCardState(game);
+    }
 }

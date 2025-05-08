@@ -104,8 +104,10 @@ public class BuildShipState extends PlayerState{
         }
 
         for(Player p : game.getPlayers()){
-            if(!p.getShipBuilded()){
-                return;
+            if(!p.isAbandoned()) {
+                if (!p.getShipBuilded()) {
+                    return;
+                }
             }
         }
         game.checkAllPlayersShip();
@@ -119,5 +121,17 @@ public class BuildShipState extends PlayerState{
         }
         player.setShipBuilded();
         player.setPosition(pos);
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        for(Player p : game.getPlayers()){
+            if(!p.isAbandoned()) {
+                if (!p.getShipBuilded()) {
+                    return;
+                }
+            }
+        }
+        game.checkAllPlayersShip();
     }
 }

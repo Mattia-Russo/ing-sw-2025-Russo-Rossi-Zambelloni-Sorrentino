@@ -46,10 +46,25 @@ public class AddAlienState extends PlayerState{
     public void endAlienState(){
         player.setReadyForCards(true);
         for (Player p : game.getPlayers()) {
-            if (!p.getReadyForCards()) {
-                return;
+            if (!p.isAbandoned()) {
+                if (!p.getReadyForCards()) {
+                    return;
+                }
+                p.setPlayerState(new WaitingState());
             }
-            p.setPlayerState(new WaitingState());
+        }
+        game.Turn();
+    }
+
+    @Override
+    public synchronized void disconnect(Player disconnectingPlayer){
+        disconnectingPlayer.abandon();
+        for (Player p : game.getPlayers()) {
+            if (!p.isAbandoned()) {
+                if (!p.getReadyForCards()) {
+                    return;
+                }
+            }
         }
         game.Turn();
     }
