@@ -1,7 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPack.Components;
-import org.example.ServerPkg.Model.ComponentsPack.Direction;
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
+import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -55,8 +55,7 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
-        disconnectingPlayer.abandon();
+    public void disconnect(Player disconnectingPlayer, Game game){
         Components c=null;
         int i=0;
         while(c==null && i < 5){
@@ -64,6 +63,24 @@ public class ShipWreckedState extends PlayerState {
             i++;
         }
         chooseWrecked(new Points(c.getPosX(), c.getPosY()));    // scegliamo noi un pezzo
-        endWreckedState();
+        new GameView(game);
+        game.disconnectPlayer(disconnectingPlayer);
+
+        if (game.getCurrentCard() != null) {
+            game.getCurrentCard().setShipWrecked(false);
+            game.getCurrentCard().setCardState(game);
+        } else {
+            if(game.getGameMode()==1) {
+                player.setReadyForCards(true);
+            }
+            for (Player p : game.getPlayers()) {
+                if (!p.isAbandoned()) {
+                    if (!p.getReadyForCards()) {
+                        return;
+                    }
+                }
+            }
+            game.Turn();
+        }
     }
 }

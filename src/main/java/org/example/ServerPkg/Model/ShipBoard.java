@@ -2,7 +2,7 @@ package org.example.ServerPkg.Model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.ServerPkg.Model.ComponentsPack.*;
+import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Exceptions.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;

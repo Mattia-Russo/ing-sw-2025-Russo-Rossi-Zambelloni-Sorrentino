@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
+import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
@@ -129,12 +130,12 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
-    public void RightRotateTile(Player p){
+    public void rightRotateTile(Player p){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
 
     @Override
-    public void LeftRotateTile(Player p){
+    public void leftRotateTile(Player p){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
 
@@ -146,11 +147,6 @@ public class WaitingState extends PlayerState {
     @Override
     public void endBuildShip(Player player){
         throw new WaitingStateException("Cannot do this action now, it's not your turn");
-    }
-
-    @Override
-    public void exitGame(Player player){
-        throw new WaitingStateException("Game still going, wait for the end of the game");
     }
 
     @Override
@@ -169,7 +165,7 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
-    public void disconnect(Player p){
-        p.abandon();
+    public void disconnect(Player p, Game game){
+        game.disconnectPlayer(p);
     }
 }

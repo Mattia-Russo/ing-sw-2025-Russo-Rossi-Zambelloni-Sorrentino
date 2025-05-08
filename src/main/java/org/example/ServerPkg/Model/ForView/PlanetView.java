@@ -1,7 +1,6 @@
 package org.example.ServerPkg.Model.ForView;
 
-import org.example.ServerPkg.Model.CardPack.Planet;
-import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.CardPkg.Planet;
 
 import java.io.Serializable;
 import java.util.ArrayList;

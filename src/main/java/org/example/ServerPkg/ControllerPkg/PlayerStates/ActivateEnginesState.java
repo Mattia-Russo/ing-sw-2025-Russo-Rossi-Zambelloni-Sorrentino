@@ -33,15 +33,15 @@ public class ActivateEnginesState extends PlayerState {
             throw new AlreadyBatteryException("Batteries already activated");
     }
 
-    public void endActivateEngine(){
+    public void endActivateEngines(){
         game.getCurrentCard().playCard(game,Engines, Batteries);
-    }   // manca il messaggio
+    }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
-        disconnectingPlayer.abandon();
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
         Engines=null;
         Batteries=null;
-        endActivateEngine();
+        endActivateEngines();
     }
 }

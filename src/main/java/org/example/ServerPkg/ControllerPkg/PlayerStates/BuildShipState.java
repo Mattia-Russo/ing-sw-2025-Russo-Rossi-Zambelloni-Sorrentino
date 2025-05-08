@@ -69,7 +69,7 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
-    public void RightRotateTile(Player p){
+    public void rightRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
@@ -79,7 +79,7 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
-    public void LeftRotateTile(Player p){
+    public void leftRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
@@ -128,8 +128,8 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
-        disconnectingPlayer.abandon();
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer( disconnectingPlayer);
         setPosition(disconnectingPlayer);
         endBuildShip(disconnectingPlayer);
     }

@@ -1,12 +1,10 @@
 package org.example.ServerPkg.Model.ForView;
 
-import org.example.ServerPkg.Model.ComponentsPack.Components;
-import org.example.ServerPkg.Model.ComponentsPack.Connector;
-import org.example.ServerPkg.Model.ComponentsPack.Direction;
-import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.ComponentsPkg.Connector;
+import org.example.ServerPkg.Model.ComponentsPkg.Direction;
+import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class ComponentsView implements Serializable {
     private final Direction direction;

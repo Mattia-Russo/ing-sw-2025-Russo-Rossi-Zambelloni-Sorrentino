@@ -20,7 +20,7 @@ public class TCPServer {
         this.controller = controller;
     }
 
-    private void startSocket() {
+    public void startSocket() {
         ServerSocket serverSocket;
         // Define a fixed pool of threads to handle clientsProxies connections
         final ExecutorService threadPool = Executors.newFixedThreadPool(8);
@@ -40,6 +40,8 @@ public class TCPServer {
             try {
                 final Socket socket = serverSocket.accept();
                 System.out.println("New socket connection!");
+                SocketClientProxy clientProxy = new SocketClientProxy(controller, this, socket);
+                subscribe(clientProxy);
 
                 // Let the thread pool handle the communication with the client
                 threadPool.submit(new SocketClientProxy(controller,this, socket));

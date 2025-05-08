@@ -19,8 +19,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     private MessageGenerator msgGen;
     private long serverAlive;
 
-    public RMIClient(String host) throws RemoteException {
-        this.playerName = null;
+    public RMIClient(String host, String playerName) throws RemoteException {
+        this.playerName = playerName;
         msgGen = new MessageGenerator();
         serverAlive = System.currentTimeMillis();
         try {

@@ -5,7 +5,7 @@ import org.example.MessagePkg.MessageGenerator;
 import org.example.MessagePkg.PingMessage;
 import org.example.MessagePkg.PongMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
-import org.example.UI.UI;
+import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -133,6 +133,10 @@ public class TCPClient {
 
     public void disconnect() throws IOException {
         socket.close();
+    }
+
+    public void registerName(String name){
+        msgGen.generate("set_name", List.of(name));
     }
 
     public void sendMessage(Message message){

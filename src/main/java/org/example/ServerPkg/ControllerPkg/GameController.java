@@ -3,19 +3,16 @@ package org.example.ServerPkg.ControllerPkg;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
 import org.example.ServerPkg.Model.Exceptions.*;
-import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.TimerGenerator;
 
-import org.example.UI.GameUpdater;
-import java.util.ArrayList;
-import java.util.List;
+import org.example.UIPkg.GameUpdater;
+
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.security.InvalidParameterException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class GameController {
     private Game game;
@@ -149,15 +146,9 @@ public class GameController {
     }
 
     public synchronized void disconnect(String playerName) {
-        if(this.game==null) {
-            return;
-        }
-
-        Player disconnectingPlayer = game.getPlayerByName(playerName);
-
-        //if is the disconnectingPlayer's turn we have to manage different cases
-        if(Objects.equals(playerName, game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()))){
-            disconnectingPlayer.getState().disconnect(disconnectingPlayer);
+        if(this.game!=null) {
+            Player disconnectingPlayer = game.getPlayerByName(playerName);
+            disconnectingPlayer.getState().disconnect(disconnectingPlayer, game);
         }
     }
 }

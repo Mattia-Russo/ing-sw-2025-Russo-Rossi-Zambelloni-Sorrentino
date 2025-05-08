@@ -3,21 +3,21 @@ package org.example.ServerPkg.Model;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
-import org.example.ServerPkg.Model.CardPack.AdventureCard;
-import org.example.ServerPkg.Model.ComponentsPack.Components;
-import org.example.ServerPkg.Model.ComponentsPack.Direction;
-import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.CardPkg.AdventureCard;
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
+import org.example.ServerPkg.Model.ComponentsPkg.Direction;
+import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Utils.CardLoader;
 import org.example.ServerPkg.Utils.TileLoader;
-import org.example.UI.GameUpdater;
+import org.example.UIPkg.GameUpdater;
 
 import java.util.*;
 
 public class Game{
 
-    private final int numPlayer;
+    private int numPlayer;
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
     private int gameMode;
@@ -340,5 +340,11 @@ public class Game{
         for(GameUpdater g: gameUpdaters) {
             g.updateGame(gameView);
         }
+    }
+
+    public void disconnectPlayer (Player p){
+        players.remove(p);
+        numPlayer--;
+        //gameUpdaters.remove(p); giacomino come si gestisce qui?
     }
 }

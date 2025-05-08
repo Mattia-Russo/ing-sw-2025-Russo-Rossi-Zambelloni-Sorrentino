@@ -1,8 +1,9 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPack.BatteryStorage;
-import org.example.ServerPkg.Model.ComponentsPack.Goods;
-import org.example.ServerPkg.Model.ComponentsPack.Storage;
+import org.example.ServerPkg.Model.ComponentsPkg.BatteryStorage;
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
+import org.example.ServerPkg.Model.ComponentsPkg.Goods;
+import org.example.ServerPkg.Model.ComponentsPkg.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -84,8 +85,44 @@ public class RemoveBestGoodsState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player disconnectingPlayer){
-        disconnectingPlayer.abandon();
-        game.getCurrentCard().setCardState(game);   // rimuovere noi i good migliori
+    public synchronized void disconnect(Player p, Game game){
+        // rimuovere noi i good migliori
+
+        ArrayList<Goods> goodsList = p.getPlayerShipBoard().getTotalGoods();
+        goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
+
+        while(this.goodsRemoved < game.getCurrentCard().getNumGoodsLose() || !goodsList.isEmpty()){
+            Goods good = goodsList.get(0);
+            Storage storage = good.getStorage();
+            int i;
+            for(i=0; i < storage.getGoods().length; i++){   // individuo l'indice del good
+                if (storage.getGoods()[i] == good){
+                    break;
+                }
+            }
+            storage.removeGood(i);
+            good.setStorage(null);
+            this.goodsRemoved++;
+        }
+
+        int itemsToRemove = game.getCurrentCard().getNumGoodsLose() - goodsRemoved;
+
+        for (int i=0; i< p.getPlayerShipBoard().getComponentMatrix().length && itemsToRemove > 0; i++){
+            for(int j=0; j < p.getPlayerShipBoard().getComponentMatrix()[i].length; j++){
+                Components c = p.getPlayerShipBoard().getComponentMatrix()[i][j];
+                if(c.isBatteryStorage() != null){
+                    if(((BatteryStorage) c).getQuantity() >= itemsToRemove){
+                        ((BatteryStorage) c).setQuantity(-itemsToRemove, p.getPlayerShipBoard());
+                        batteriesRemoved += itemsToRemove;
+                        break;
+                    } else {
+                        ((BatteryStorage) c).setQuantity(-((BatteryStorage) c).getQuantity(), p.getPlayerShipBoard());
+                        batteriesRemoved += ((BatteryStorage) c).getQuantity();
+                    }
+                }
+            }
+        }
+        game.disconnectPlayer(p);
+        endRemoveBestGoods();
     }
 }

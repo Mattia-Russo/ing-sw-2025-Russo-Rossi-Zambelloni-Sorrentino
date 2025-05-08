@@ -3,10 +3,7 @@ package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 import org.example.ClientPkg.RMIClient;
 import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
-import org.example.MessagePkg.PingMessage;
-import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.UI.GameUpdater;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -14,7 +11,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
     private ArrayList<RMIClientInterface> clients;
@@ -32,7 +28,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         checkConnection();
     }
 
-    private void startRMIServer() {
+    public void startRMIServer() {
         try {
             Registry registry = LocateRegistry.createRegistry(RMI_PORT);
             registry.rebind("GameServer", this);

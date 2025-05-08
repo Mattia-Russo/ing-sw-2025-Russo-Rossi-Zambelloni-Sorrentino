@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.MessagePkg.SetPlayerNameMessage;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.PingMessage;
@@ -70,6 +71,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 if (message instanceof PingMessage ping) {
                     sendMessage(new PongMessage());
                     clientAlive = System.currentTimeMillis();
+                } else if (message instanceof SetPlayerNameMessage setPlayerNameMessage) {
+                    message.handle(getController(), null);
                 } else {
                     message.setProxy(this);
                     getController().addMessage(message);

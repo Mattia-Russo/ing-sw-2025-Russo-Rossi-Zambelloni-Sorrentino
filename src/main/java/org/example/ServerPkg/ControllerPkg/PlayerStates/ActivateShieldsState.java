@@ -38,8 +38,8 @@ public class ActivateShieldsState extends PlayerState {
     }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
-        disconnectingPlayer.abandon();
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
         shields=null;
         batteries=null;
         endActivateShields();

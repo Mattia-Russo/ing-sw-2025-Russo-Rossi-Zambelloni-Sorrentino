@@ -2,9 +2,8 @@ package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
-import org.example.ServerPkg.Model.CardPack.*;
-import org.example.ServerPkg.Model.ComponentsPack.*;
-import org.junit.jupiter.api.Test;
+import org.example.ServerPkg.Model.CardPkg.*;
+import org.example.ServerPkg.Model.ComponentsPkg.*;
 
 import java.util.ArrayList;
 
