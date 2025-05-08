@@ -66,9 +66,9 @@ public class TCPServer {
         clientsProxies.add(clientProxy);
     }
 
-    public synchronized void unsubscribe(ClientProxy clientHandler) {
-        if (clientsProxies.remove(clientHandler)) {
-            System.out.println(clientHandler.getPlayerName() + " unsubscribed");
+    public synchronized void unsubscribe(ClientProxy clientProxy) {
+        if (clientsProxies.remove(clientProxy)) {
+            System.out.println(clientProxy.getPlayerName() + " unsubscribed");
         }
     }
 

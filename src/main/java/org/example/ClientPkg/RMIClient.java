@@ -3,7 +3,6 @@ package org.example.ClientPkg;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
-import org.example.ServerPkg.Model.ForView.GameView;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,19 +17,61 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     private final RMIServerInterface server;
     private String playerName;
     private MessageGenerator msgGen;
+    private long serverAlive;
 
     public RMIClient(String host) throws RemoteException {
         this.playerName = null;
         msgGen = new MessageGenerator();
+        serverAlive = System.currentTimeMillis();
         try {
             Registry registry = LocateRegistry.getRegistry(host, 3600);
             server = (RMIServerInterface) registry.lookup("GameServer");
             server.registerClient(this);
 
+            startUpdateThread();
+            checkConnection();
             startKeyboardListener();
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
         }
+    }
+
+    private void startUpdateThread() {
+        Thread UpdateThread = new Thread(() -> {
+            try {
+                while (true) {
+                    server.updateClientAlive(this);
+                    // Attendi 5 secondi prima del prossimo invio
+                    Thread.sleep(5000);
+                }
+            } catch (InterruptedException e) {
+                System.err.println("Update server connection thread interrupted: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Error sending connection update to server: " + e.getMessage());
+            }
+        });
+        UpdateThread.setDaemon(true);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
+        UpdateThread.start();  // Avvia il thread
+    }
+
+    private void checkConnection() {
+        Thread checkClient = new Thread(() -> {
+            try {
+                while (true) {
+                    if (System.currentTimeMillis() - serverAlive > 14999) {
+                        disconnect();
+                    }
+                    Thread.sleep(5000);
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Error checking client connection");
+                Thread.currentThread().interrupt();
+            } catch (RemoteException e) {
+                System.err.println("Error checking connection update to server: " + e.getMessage());
+            }
+        });
+        checkClient.setDaemon(true);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
+        checkClient.start();
     }
 
     private void startKeyboardListener() {
@@ -42,8 +83,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 try {
                     // Legge l'input dell'utente
                     String input = scanner.nextLine();
-
-                    // Crea una lista per contenere le parole successive
 
                     // Dividi la riga di input in parole
                     String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
@@ -59,7 +98,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     Message message = msgGen.generate(cmd, args);
                     if(message != null){
                         message.setClient(this);
-                        server.sendMessage(message);
+                        sendMessage(message);
                     }
                 } catch (Exception e) {
                     System.out.println("Error sending the command: " + e.getMessage());
@@ -94,7 +133,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         server.unregisterClient(this);
     }
 
-    public void updateGame(GameView game){
-
+    public void updateServerAlive() throws RemoteException {
+        this.serverAlive = System.currentTimeMillis();
     }
 }

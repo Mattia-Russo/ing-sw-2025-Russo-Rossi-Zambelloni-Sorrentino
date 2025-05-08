@@ -17,7 +17,7 @@ public class ActivateShieldsMessage extends Message {
     }
 
     @Override
-    public void handle(GameController controller, String playerName) {
+    public void handle(GameController controller, String playerName){
         if(checkClient()){
             try{
                 getClient().getServer().getController().getGame().getPlayerByName(getClient().getPlayerName()).getState().activateShields(shields);

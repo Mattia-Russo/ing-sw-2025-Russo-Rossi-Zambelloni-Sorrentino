@@ -19,6 +19,8 @@ public interface RMIServerInterface extends Remote {
 
     boolean getIfSubscribed(RMIClient client);
 
-    public GameController getController();
+    GameController getController();
+
+    void updateClientAlive(RMIClientInterface client) throws RemoteException;
 }
 // tutti i metodi chiamabili dal client che risiedono sul server

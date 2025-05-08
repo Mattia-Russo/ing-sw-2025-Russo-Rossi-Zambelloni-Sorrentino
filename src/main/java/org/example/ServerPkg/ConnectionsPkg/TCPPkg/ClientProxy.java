@@ -31,41 +31,22 @@ public abstract class ClientProxy {
     }
 
     public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public void joinServer(String name) {
         try {
-            if (this.playerName == null) {
-                System.out.println("You need to set your name first");
-            } else {
-                synchronized (TCPServer) {
-                    if (TCPServer.getNames().contains(name)) {
-                        throw new NameAlreadyUsedException(name + " already used, type another one");
-                    }
-                    this.playerName = name;
-                    TCPServer.subscribe(this);
-                }
-                System.out.println(name + "joined server successfully");
+            if (TCPServer.getNames().contains(playerName)) {
+                throw new NameAlreadyUsedException(playerName + " already used, type another one");
             }
+            this.playerName = playerName;
         } catch (NameAlreadyUsedException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    // entra in automatico quando creiamo il tcpClient
-    public void leaveServer() {
-        if (this.playerName == null) {
-            System.out.println("You need to set your name first");
-        } else{
-            synchronized (TCPServer) {
-                if (!TCPServer.getNames().contains(this.playerName)) {
-                    System.out.println("You need to join first");
-                } else {
-                    TCPServer.unsubscribe(this);
-                    System.out.println(playerName + " left server successfully");
-                }
-            }
-        }
+
+    public synchronized void joinServer() {
+        TCPServer.subscribe(this);
+    }
+
+    public synchronized void leaveServer() {
+        TCPServer.unsubscribe(this);
     }
 
     protected void disconnect() {
@@ -75,7 +56,6 @@ public abstract class ClientProxy {
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
-
         TCPServer.unsubscribe(this);
     }
 }
