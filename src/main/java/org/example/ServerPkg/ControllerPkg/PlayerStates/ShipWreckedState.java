@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -17,6 +18,7 @@ public class ShipWreckedState extends PlayerState {
     public void chooseWrecked(Points point){
         player.getPlayerShipBoard().removeWreck(point.getY(), point.getX());
         player.setShipOK(true);
+        new GameView(game);
         if(game.getGameMode()==0) {
             player.setReadyForCards(true);
         }

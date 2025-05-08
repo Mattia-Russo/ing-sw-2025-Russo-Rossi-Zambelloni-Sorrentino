@@ -9,6 +9,7 @@ import org.example.ServerPkg.Model.ComponentsPack.Goods;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -64,6 +65,7 @@ public class OpenSpace extends AdventureCard{
         try {
             g.getPlayers().get(currentPlayer).changePosition(g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries));
             g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+            new GameView(g);
             setCardState(g);
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
             System.out.println("Error" + e.getMessage());

@@ -5,6 +5,7 @@ import org.example.ServerPkg.Model.ComponentsPack.AlienColour;
 import org.example.ServerPkg.Model.Exceptions.AlreadyAlienException;
 import org.example.ServerPkg.Model.Exceptions.DifferentLifeSupportColourException;
 import org.example.ServerPkg.Model.Exceptions.WithoutLifeSupportException;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -24,6 +25,7 @@ public class AddAlienState extends PlayerState{
         try {
             if (player.getPlayerShipBoard().getComponent(p.getX(), p.getY()) != null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin() != null) {
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.BROWN), player.getPlayerShipBoard());
+                new GameView(game);
             } else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
                 DifferentLifeSupportColourException e){
@@ -36,6 +38,7 @@ public class AddAlienState extends PlayerState{
         try{
             if(player.getPlayerShipBoard().getComponent(p.getX(), p.getY())!=null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin()!=null ){
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.PURPLE), player.getPlayerShipBoard());
+                new GameView(game);
             }else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
         DifferentLifeSupportColourException e){
