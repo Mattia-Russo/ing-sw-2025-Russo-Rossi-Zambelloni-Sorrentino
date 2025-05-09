@@ -39,7 +39,6 @@ public class ActivateEnginesState extends PlayerState {
     }
 
     @Override
-<<<<<<< HEAD
     public void AbandonGame(Player player){
         if(Batteries==null || Engines==null) {
             Batteries = null;
@@ -47,12 +46,13 @@ public class ActivateEnginesState extends PlayerState {
         }
         player.abandon();
         endActivateCannons();
-=======
+    }
+    
+      @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
         Engines=null;
         Batteries=null;
         endActivateEngines();
->>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

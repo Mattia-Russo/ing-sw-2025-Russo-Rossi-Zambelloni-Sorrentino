@@ -62,13 +62,13 @@ public class AddAlienState extends PlayerState{
     }
 
     @Override
-<<<<<<< HEAD
     public void AbandonGame(Player player){
         throw new InvalidMethodCallException("You have to add alien first");
-=======
+    }
+    
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
         endAlienState();
->>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

@@ -35,10 +35,11 @@ public class FixShipState extends PlayerState {
     }
 
     @Override
-<<<<<<< HEAD
     public void AbandonGame(Player player){
         throw new InvalidMethodCallException("You have to fix your ship");
-=======
+    }
+
+    @Override
     public void disconnect(Player p, Game game){
         // controllare la nave
         // eliminare eventuali componenti sbagliati
@@ -119,6 +120,5 @@ public class FixShipState extends PlayerState {
         }
         game.disconnectPlayer(p);
         endFixShip(p);
->>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

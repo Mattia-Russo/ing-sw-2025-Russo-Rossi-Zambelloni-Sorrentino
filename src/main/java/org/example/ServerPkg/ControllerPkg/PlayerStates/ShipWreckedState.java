@@ -55,11 +55,11 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
-<<<<<<< HEAD
     public void AbandonGame(Player player){
-
         player.abandon();
-=======
+    }
+  
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         Components c=null;
         int i=0;
@@ -87,6 +87,5 @@ public class ShipWreckedState extends PlayerState {
             }
             game.Turn();
         }
->>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

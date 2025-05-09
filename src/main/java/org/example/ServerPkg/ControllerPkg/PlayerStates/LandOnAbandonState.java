@@ -22,13 +22,14 @@ public class LandOnAbandonState extends PlayerState {
     }
 
     @Override
-<<<<<<< HEAD
     public void AbandonGame(Player player){
         player.abandon();
-=======
-    public synchronized void disconnect(Player disconnectingPlayer, Game game){
+        landOnAbandon(false);
+    }
+    
+    @Override
+    public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
->>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
         landOnAbandon(false);
     }
 }

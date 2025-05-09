@@ -25,13 +25,14 @@ public class LandOnPlanetsState extends PlayerState {
     }
 
     @Override
-<<<<<<< HEAD
     public void AbandonGame(Player player){
         player.abandon();
-=======
+        landOnPlanet(false, 0);
+    }
+  
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
->>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
         landOnPlanet(false, 0);
     }
 
