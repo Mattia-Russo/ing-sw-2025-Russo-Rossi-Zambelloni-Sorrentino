@@ -49,4 +49,10 @@ public class ShipWreckedState extends PlayerState {
             System.out.println("ERROR " + e.getMessage());
         }
     }
+
+    @Override
+    public void AbandonGame(Player player){
+
+        player.abandon();
+    }
 }

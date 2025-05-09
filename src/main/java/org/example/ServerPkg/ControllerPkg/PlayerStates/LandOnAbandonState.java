@@ -1,6 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 
 public class LandOnAbandonState extends PlayerState {
     private final Game game;
@@ -17,6 +19,11 @@ public class LandOnAbandonState extends PlayerState {
         } else {
             game.getCurrentCard().setCardState(game);
         }
+    }
 
+    @Override
+    public void AbandonGame(Player player){
+        player.abandon();
+        landOnAbandon(false);
     }
 }

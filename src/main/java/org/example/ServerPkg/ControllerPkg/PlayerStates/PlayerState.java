@@ -72,4 +72,6 @@ public class PlayerState {
     public void addPurpleAlien(Points p){}
 
     public void turnTimer(Player player){}
+
+    public void AbandonGame(Player player){}
 }

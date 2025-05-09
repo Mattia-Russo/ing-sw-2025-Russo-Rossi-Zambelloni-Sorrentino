@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.AlreadyEmptyPositionException;
+import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -28,6 +29,10 @@ public class FixShipState extends PlayerState {
     public void endFixShip(Player player){
         player.setShipOK(true);
         game.checkAllPlayersShip();
+    }
 
+    @Override
+    public void AbandonGame(Player player){
+        throw new InvalidMethodCallException("You have to fix your ship");
     }
 }

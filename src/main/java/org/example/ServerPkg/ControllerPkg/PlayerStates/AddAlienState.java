@@ -4,6 +4,7 @@ import org.example.ServerPkg.Model.ComponentsPack.Alien;
 import org.example.ServerPkg.Model.ComponentsPack.AlienColour;
 import org.example.ServerPkg.Model.Exceptions.AlreadyAlienException;
 import org.example.ServerPkg.Model.Exceptions.DifferentLifeSupportColourException;
+import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 import org.example.ServerPkg.Model.Exceptions.WithoutLifeSupportException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -55,5 +56,10 @@ public class AddAlienState extends PlayerState{
             p.setPlayerState(new WaitingState());
         }
         game.Turn();
+    }
+
+    @Override
+    public void AbandonGame(Player player){
+        throw new InvalidMethodCallException("You have to add alien first");
     }
 }

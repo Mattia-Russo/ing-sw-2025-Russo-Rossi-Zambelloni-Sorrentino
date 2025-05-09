@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.ComponentsPack.Cabin;
+import org.example.ServerPkg.Model.ComponentsPack.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -41,11 +42,33 @@ public class RemoveAstronautsState extends PlayerState{
 
     @Override
     public void endRemoveAstronauts(){
-        if(astronautsRemoved < game.getCurrentCard().getNumGoodsLose()){
+        if(astronautsRemoved < game.getCurrentCard().getNumAstronauts()){
             throw new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts");
         } else {
             game.getCurrentCard().setCardState(game);
         }
+    }
+
+    @Override
+    public void AbandonGame(Player player){
+        for(int i=0; astronautsRemoved < game.getCurrentCard().getNumAstronauts(); i++){
+            for(int j=0; astronautsRemoved <game.getCurrentCard().getNumAstronauts(); j++){
+                if(player.getPlayerShipBoard().getAvailablePositionMatrix()[i][j]) {
+                    Components c = player.getPlayerShipBoard().getComponentMatrix()[i][j];
+                    if (c != null && c.isCabin()!=null) {
+                        if(c.isCabin().getNumAstronauts()>=0){
+                            astronautsRemoved+=c.isCabin().getNumAstronauts();
+                            c.isCabin().changeNumAstronauts(-c.isCabin().getNumAstronauts());
+                        }else if(c.isCabin().hasAlien()!=null){
+                            c.isCabin().removeAlien();
+                            astronautsRemoved++;
+                        }
+                    }
+                }
+            }
+        }
+        player.abandon();
+        endRemoveAstronauts();
     }
 
 }

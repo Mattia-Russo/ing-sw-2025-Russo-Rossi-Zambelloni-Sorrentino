@@ -3,6 +3,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyShieldException;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.ArrayList;
@@ -34,5 +35,15 @@ public class ActivateShieldsState extends PlayerState {
 
     public void endActivateShields(){
         game.getCurrentCard().playCard(game, Shields, Batteries);
+    }
+
+    @Override
+    public void AbandonGame(Player player){
+        if(Batteries==null || Shields==null) {
+            Batteries = null;
+            Shields = null;
+        }
+        player.abandon();
+        endActivateCannons();
     }
 }

@@ -125,4 +125,9 @@ public class BuildShipState extends PlayerState{
         player.setShipBuilded();
         player.setPosition(pos);
     }
+
+    @Override
+    public void AbandonGame(Player player){
+        throw new InvalidMethodCallException("You have to finish building first");
+    }
 }

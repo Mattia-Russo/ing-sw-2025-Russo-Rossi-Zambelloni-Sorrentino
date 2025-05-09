@@ -82,4 +82,9 @@ public class RemoveBestGoodsState extends PlayerState{
             game.getCurrentCard().setCardState(game);
         }
     }
+
+    @Override
+    public void AbandonGame(Player player){
+        player.abandon();
+    }
 }
