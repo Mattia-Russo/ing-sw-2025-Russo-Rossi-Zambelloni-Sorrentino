@@ -41,7 +41,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             try {
                 while (true) {
                     server.updateClientAlive(this);
-                    System.out.println("Client alive");
+                    System.out.println("RMI Client alive");
                     // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);
                 }
@@ -51,7 +51,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 System.err.println("Error sending connection update to server: " + e.getMessage());
             }
         });
-        UpdateThread.setDaemon(true);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
+        UpdateThread.setDaemon(false);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
         UpdateThread.start();  // Avvia il thread
     }
 
@@ -71,7 +71,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 System.err.println("Error checking connection update to server: " + e.getMessage());
             }
         });
-        checkClient.setDaemon(true);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
+        checkClient.setDaemon(false);
         checkClient.start();
     }
 
@@ -106,7 +106,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 }
             }
         });
-        listenerThread.setDaemon(true); // Permette al thread di terminare con il programma principale
+        listenerThread.setDaemon(false);
         listenerThread.start();
     }
 

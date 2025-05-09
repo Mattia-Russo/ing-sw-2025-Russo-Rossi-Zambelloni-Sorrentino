@@ -30,7 +30,6 @@ public class ClientMain {
 
             case "rmi":
                 RMIClient RMIClient = new RMIClient("localhost", args[1]);
-                RMIClient.getServer().registerClient(RMIClient);
                 break;
 
             default:
