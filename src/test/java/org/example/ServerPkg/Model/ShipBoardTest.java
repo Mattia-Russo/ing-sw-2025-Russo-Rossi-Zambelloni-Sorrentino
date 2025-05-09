@@ -1,7 +1,7 @@
 package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
-import org.example.ServerPkg.Model.ComponentsPack.*;
+import org.example.ServerPkg.Model.ComponentsPkg.*;
 
 import java.util.ArrayList;
 

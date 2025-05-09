@@ -29,5 +29,11 @@ public class LandOnPlanetsState extends PlayerState {
         player.abandon();
         landOnPlanet(false, 0);
     }
+  
+    @Override
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        landOnPlanet(false, 0);
+    }
 
 }

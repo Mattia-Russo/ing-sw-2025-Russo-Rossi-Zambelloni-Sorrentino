@@ -2,8 +2,8 @@ package org.example.ServerPkg.Utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.ServerPkg.Model.CardPack.AdventureCard;
-import org.example.ServerPkg.Model.CardPack.*;
+import org.example.ServerPkg.Model.CardPkg.AdventureCard;
+import org.example.ServerPkg.Model.CardPkg.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import java.io.InputStream;

@@ -1,6 +1,6 @@
 package org.example.ServerPkg.Model.ForView;
 
-import org.example.ServerPkg.Model.ComponentsPack.Components;
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ShipBoard;
 
 import java.io.Serializable;

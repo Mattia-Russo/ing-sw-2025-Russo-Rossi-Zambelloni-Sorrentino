@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.AbandonedStateException;
+import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
@@ -134,12 +135,12 @@ public class AbandonedState extends PlayerState{
     }
 
     @Override
-    public void RightRotateTile(Player p){
+    public void rightRotateTile(Player p){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
 
     @Override
-    public void LeftRotateTile(Player p){
+    public void leftRotateTile(Player p){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
 
@@ -151,11 +152,6 @@ public class AbandonedState extends PlayerState{
     @Override
     public void endBuildShip(Player player){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
-    }
-
-    @Override
-    public void exitGame(Player player){
-        throw new AbandonedStateException("Game still going, wait for the end of the game");
     }
 
     @Override
@@ -171,5 +167,10 @@ public class AbandonedState extends PlayerState{
     @Override
     public void AbandonGame(Player player){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+    
+    @Override
+    public void disconnect(Player p, Game game){
+        game.disconnectPlayer(p);
     }
 }

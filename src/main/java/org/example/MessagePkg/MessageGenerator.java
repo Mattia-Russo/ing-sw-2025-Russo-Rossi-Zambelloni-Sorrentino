@@ -35,6 +35,15 @@ public class MessageGenerator {
         messageMap.put("remove_batteries", this::createRemoveBatteriesMessage);
         messageMap.put("start_game", this::createStartGameMessage);
         messageMap.put("use_batteries", this::createUseBatteriesMessage);
+        messageMap.put("set_name", this::createSetPlayerNameMessage);
+        messageMap.put("end_add_alien", this::createEndAddAlienMessage);
+        messageMap.put("remove_tile", this::createRemoveTileMessage);
+        messageMap.put("show_deck", this::createShowDeckMessage);
+        messageMap.put("end_show_deck", this::endShowDeckMessage);
+        messageMap.put("left_rotate", this::createLeftRotateMessage);
+        messageMap.put("right_rotate", this::createRightRotateMessage);
+        messageMap.put("add_brown_alien", this::createAddBrownAlien);
+        messageMap.put("add_purple_alien", this::createAddPurpleAlien);
     }
 
     public Message generate(String command, List<String> args) {
@@ -48,6 +57,52 @@ public class MessageGenerator {
             System.err.println("ERROR: " + e.getMessage());
             return null;
         }
+    }
+
+    private Message createAddPurpleAlien(List<String> args){
+        int x = Integer.parseInt(args.get(0));
+        int y = Integer.parseInt(args.get(1));
+        Points point = new Points(x, y);
+        return new AddPurpleAlienMessage(point);
+    }
+
+    private Message createAddBrownAlien(List<String> args){
+        int x = Integer.parseInt(args.get(0));
+        int y = Integer.parseInt(args.get(1));
+        Points point = new Points(x, y);
+        return new AddBrownAlienMessage(point);
+    }
+
+    private Message createRightRotateMessage(List<String> args){
+        return new RightRotateMessage();
+    }
+
+    private Message createLeftRotateMessage(List<String> args){
+        return new LeftRotateMessage();
+    }
+
+    private Message endShowDeckMessage(List<String> args){
+        return new EndShowDeckmessage();
+    }
+
+    private Message createShowDeckMessage(List<String> args){
+        int numDeck = Integer.parseInt(args.get(0));
+        return new ShowDeckMessage(numDeck);
+    }
+
+    private Message createRemoveTileMessage(List<String> args){
+        int x = Integer.parseInt(args.get(0));
+        int y = Integer.parseInt(args.get(1));
+        Points point = new Points(x, y);
+        return new RemoveTileMessage(point);
+    }
+
+    private Message createEndAddAlienMessage(List<String> args){
+        return new EndAddAlienMessage();
+    }
+
+    private Message createSetPlayerNameMessage(List<String> args) {
+        return new SetPlayerNameMessage(args.get(0));
     }
 
     private Message createAcceptRewardMessage(List<String> args) {
@@ -144,13 +199,11 @@ public class MessageGenerator {
     }
 
     public Message createPingMessage(List<String> args) {
-        String key = args.get(0);
-        return new PingMessage(key);
+        return new PingMessage();
     }
 
     public Message createPongMessage(List<String> args) {
-        String key = args.get(0);
-        return new PongMessage(key);
+        return new PongMessage();
     }
 
     public Message createRemoveGoodMessage(List<String> args) {

@@ -34,7 +34,7 @@ public class ActivateEnginesState extends PlayerState {
             throw new AlreadyBatteryException("Batteries already activated");
     }
 
-    public void endActivateEngine(){
+    public void endActivateEngines(){
         game.getCurrentCard().playCard(game,Engines, Batteries);
     }
 
@@ -46,5 +46,13 @@ public class ActivateEnginesState extends PlayerState {
         }
         player.abandon();
         endActivateCannons();
+    }
+    
+      @Override
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        Engines=null;
+        Batteries=null;
+        endActivateEngines();
     }
 }

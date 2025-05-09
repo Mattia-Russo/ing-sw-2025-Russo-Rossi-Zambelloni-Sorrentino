@@ -26,4 +26,10 @@ public class LandOnAbandonState extends PlayerState {
         player.abandon();
         landOnAbandon(false);
     }
+    
+    @Override
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        landOnAbandon(false);
+    }
 }

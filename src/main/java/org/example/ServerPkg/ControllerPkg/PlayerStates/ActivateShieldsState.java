@@ -9,32 +9,40 @@ import org.example.ServerPkg.Model.Points;
 import java.util.ArrayList;
 
 public class ActivateShieldsState extends PlayerState {
-    ArrayList<Points> Shields;
-    ArrayList<Points> Batteries;
+    ArrayList<Points> shields;
+    ArrayList<Points> batteries;
     private final Game game;
 
     public ActivateShieldsState(Game game){
         this.game = game;
-        this.Shields =null;
-        this.Batteries=null;
+        this.shields =null;
+        this.batteries=null;
     }
 
     public void activateShields(ArrayList<Points> newShields){
-        if(Shields==null) {
-            this.Shields = newShields;
+        if(shields==null) {
+            this.shields = newShields;
         }else
-            throw new AlreadyShieldException("Shields already activated");
+            throw new AlreadyShieldException("shields already activated");
     }
 
     public void useBatteries(ArrayList<Points> newBatteries){
-        if(Batteries==null) {
-            this.Batteries = newBatteries;
+        if(batteries==null) {
+            this.batteries = newBatteries;
         }else
             throw new AlreadyBatteryException("Batteries already activated");
     }
 
     public void endActivateShields(){
-        game.getCurrentCard().playCard(game, Shields, Batteries);
+        game.getCurrentCard().playCard(game, shields, batteries);
+    }
+
+    @Override
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        shields=null;
+        batteries=null;
+        endActivateShields();
     }
 
     @Override

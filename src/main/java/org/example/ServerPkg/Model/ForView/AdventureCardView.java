@@ -1,10 +1,7 @@
 package org.example.ServerPkg.Model.ForView;
 
-import org.example.ServerPkg.Model.CardPack.AdventureCard;
-import org.example.ServerPkg.Model.CardPack.CannonFire;
-import org.example.ServerPkg.Model.CardPack.Meteor;
-import org.example.ServerPkg.Model.CardPack.Planet;
-import org.example.ServerPkg.Model.ComponentsPack.Goods;
+import org.example.ServerPkg.Model.CardPkg.CannonFire;
+import org.example.ServerPkg.Model.CardPkg.Meteor;
 
 import java.io.Serializable;
 import java.util.ArrayList;

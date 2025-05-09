@@ -51,4 +51,13 @@ public class ActivateCannonsState extends PlayerState {
         player.abandon();
         endActivateCannons();
     }
+
+    @Override
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        cannons=null;
+        batteries=null;
+        endActivateCannons();
+    }
+
 }

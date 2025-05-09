@@ -2,15 +2,8 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import junit.framework.TestCase;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.ServerPkg.Model.ComponentsPack.*;
-import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
-import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
-import org.example.ServerPkg.Model.ShipBoard;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class BuildShipStateTest extends TestCase {
 
