@@ -50,6 +50,7 @@ public class TUI implements UI{
         }
     }
 
+    //stringbuilder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
         if(game.getException() == null) {
