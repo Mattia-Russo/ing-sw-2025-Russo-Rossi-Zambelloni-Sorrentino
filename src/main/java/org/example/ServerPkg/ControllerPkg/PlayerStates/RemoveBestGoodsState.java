@@ -39,7 +39,7 @@ public class RemoveBestGoodsState extends PlayerState{
                 if(storage.getGoods()[numGood].getColour() == goodsList.get(0).getColour()){
                     storage.removeGood(numGood);
                     goodsRemoved++;
-                    new GameView(game);
+                    new GameView(game, null);
                 } else {
                     throw new NotStorageException("You've not selected the best good you have");
                 }
@@ -64,7 +64,7 @@ public class RemoveBestGoodsState extends PlayerState{
                     try {
                         storage.setQuantity(-1, currentPlayer.getPlayerShipBoard());
                         batteriesRemoved++;
-                        new GameView(game);
+                        new GameView(game, null);
                     } catch (ValueUnderZeroException e) {
                         System.out.println("Error: " + e.getMessage());
                     }
@@ -87,6 +87,7 @@ public class RemoveBestGoodsState extends PlayerState{
     @Override
     public void AbandonGame(Player player){
         removeBestGoodsLeft(player, game);
+        new GameView(game, null);
         player.abandon();
         endRemoveBestGoods();
     }

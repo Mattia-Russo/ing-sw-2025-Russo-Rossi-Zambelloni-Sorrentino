@@ -149,7 +149,7 @@ public class WarZone extends AdventureCard{
                         try {
                             this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
                             loser = g.getPlayers().get(currentPlayer);
-                            new GameView(g);
+                            new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
@@ -161,7 +161,7 @@ public class WarZone extends AdventureCard{
                                 this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
                                 loser = g.getPlayers().get(currentPlayer);
                             }
-                            new GameView(g);
+                            new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
@@ -175,7 +175,7 @@ public class WarZone extends AdventureCard{
                         try {
                             power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
                             loser = g.getPlayers().get(currentPlayer);
-                            new GameView(g);
+                            new GameView(g, null);
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
@@ -187,7 +187,7 @@ public class WarZone extends AdventureCard{
                                 power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
                                 loser = g.getPlayers().get(currentPlayer);
                             }
-                            new GameView(g);
+                            new GameView(g, null);
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
@@ -204,7 +204,7 @@ public class WarZone extends AdventureCard{
                     pos++;
                     done=false;
                     loser=null;
-                    new GameView(g);
+                    new GameView(g,null);
                     setCardState(g);
                     break;
                 case "LoseGoods":
@@ -227,7 +227,7 @@ public class WarZone extends AdventureCard{
                                 Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                                 try {
                                     loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                                    new GameView(g);
+                                    new GameView(g, null);
                                     while (wreck == null) {
                                         wreck = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                                         i++;
@@ -256,11 +256,11 @@ public class WarZone extends AdventureCard{
                             } else {
                                 try {
                                     if (!loser.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
-                                        new GameView(g);
+                                        new GameView(g, null);
                                         Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                                         try {
                                             loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                                            new GameView(g);
+                                            new GameView(g, null);
                                             while (wreck == null) {
                                                 wreck = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                                                 i++;
@@ -287,7 +287,7 @@ public class WarZone extends AdventureCard{
                                             System.out.println("Error" + e.getMessage());
                                         }
                                     }else
-                                        new GameView(g);
+                                        new GameView(g, null);
                                 } catch (InvalidPositionException | InvalidParameterException |
                                          BatteriesLessThenCannonException e) {
                                     System.out.println("Error" + e.getMessage());
@@ -307,6 +307,7 @@ public class WarZone extends AdventureCard{
                     done=false;
                     loser=null;
                     p.setPlayerState(new RemoveAstronautsState(g));
+                    new GameView(g, null);
                     break;
             }
         }

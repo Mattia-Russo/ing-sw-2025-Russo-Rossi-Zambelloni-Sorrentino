@@ -20,7 +20,7 @@ public class Game{
     private int numPlayer;
     private ArrayList<Player> players;
     private List<AdventureCard> deck;
-    private int gameMode;
+    private final int gameMode;
     private final int ShipBoardLevel;
     private final int lapLength;
     private AdventureCard currentCard;
@@ -68,6 +68,20 @@ public class Game{
             p.getPlayerShipBoard().placeComponent(3,2, getComponentsList().get(0));
             getComponentsList().remove(0);
             i++;
+            switch(i){
+                case 0:
+                    p.setRocketColour("Blue");
+                    break;
+                case 1:
+                    p.setRocketColour("Green");
+                    break;
+                case 2:
+                    p.setRocketColour("Red");
+                    break;
+                case 3:
+                    p.setRocketColour("Yellow");
+                    break;
+            }
         }
 
         for(; i < 4-getPlayers().size(); i++) {
@@ -75,7 +89,7 @@ public class Game{
         }
 
         Collections.shuffle(componentsList);
-        new GameView(this);
+        new GameView(this, null);
     }
 
     // usage only for tests
@@ -227,7 +241,7 @@ public class Game{
             adjustPlayerPositions();
             if(gameMode==1) {
                 checkForcedAbandon();
-                new GameView(this);
+                new GameView(this, null);
             }
             pickCard();
             currentCard.setCardState(this);

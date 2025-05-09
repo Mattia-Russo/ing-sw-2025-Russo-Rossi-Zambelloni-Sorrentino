@@ -82,7 +82,7 @@ public class Slavers extends Enemy{
     public void playCard(Game game, ArrayList<Points> cannons, ArrayList<Points> batteries) {
         try {
             float power = game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries);
-            new GameView(game);
+            new GameView(game, null);
             if ( power > this.getCannonPower()) {
                 game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
             }else if(power == this.getCannonPower()){
@@ -101,7 +101,7 @@ public class Slavers extends Enemy{
         if (accept){
             game.getPlayers().get(playersIndex).changeCredits(getCredits());
             game.getPlayers().get(playersIndex).changePosition(-getLostDays());
-            new GameView(game);
+            new GameView(game, null);
         } else {
             this.playCard(game, 0);
         }

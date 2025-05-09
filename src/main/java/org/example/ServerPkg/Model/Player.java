@@ -23,6 +23,7 @@ public class Player {
     private boolean onPlanet;
     private boolean shipBuilded;
     private boolean readyForCards;
+    private String rocketColour;
     private int numCredits;
     private PlayerState state;
     private boolean shipOK;
@@ -43,6 +44,14 @@ public class Player {
         this.shipOK=true;
         this.currentTile = null;
         this.deckShowed = null;
+    }
+
+    public void setRocketColour(String rocketColour){
+        this.rocketColour = rocketColour;
+    }
+
+    public String getRocketColour(){
+        return rocketColour;
     }
 
     public void setPlayerShipboard(int level){

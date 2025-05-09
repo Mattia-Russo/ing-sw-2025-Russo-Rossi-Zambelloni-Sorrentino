@@ -20,7 +20,7 @@ public class ShipWreckedState extends PlayerState {
     public void chooseWrecked(Points point){
         player.getPlayerShipBoard().removeWreck(point.getY(), point.getX());
         player.setShipOK(true);
-        new GameView(game);
+        new GameView(game, null);
         if(game.getGameMode()==0) {
             player.setReadyForCards(true);
         }

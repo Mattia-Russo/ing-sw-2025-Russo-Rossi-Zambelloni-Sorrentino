@@ -61,7 +61,7 @@ public class BuildShipState extends PlayerState{
         if (p.getDeckShowed() == null){
             if(!p.getShipBuilded()) {
                 p.setCurrentTile(game.pickComponentTile());
-                new GameView(game);
+                new GameView(game, null);
             }
         } else {
             throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
@@ -74,7 +74,7 @@ public class BuildShipState extends PlayerState{
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
             p.getCurrentTile().rightRotate();
-            new GameView(game);
+            new GameView(game, null);
         }
     }
 
@@ -84,7 +84,7 @@ public class BuildShipState extends PlayerState{
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
             p.getCurrentTile().leftRotate();
-            new GameView(game);
+            new GameView(game, null);
         }
     }
 
@@ -94,10 +94,11 @@ public class BuildShipState extends PlayerState{
             if(!player.getShipBuilded()) {
                 player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
                 player.setCurrentTile(null);
-                new GameView(game);
+                new GameView(game, null);
             }
         } catch (OccupiedPositionException | InvalidPositionException e) {
             System.out.println("Error: " + e.getMessage());
+            new GameView(game, e);
         }
     }
 

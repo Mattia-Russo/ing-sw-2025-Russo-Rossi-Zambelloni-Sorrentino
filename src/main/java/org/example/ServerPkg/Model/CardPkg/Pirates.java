@@ -90,7 +90,7 @@ public class Pirates extends Enemy{
         if(!playerLost) { // chiamata arriva da setCardState, i components sono cannons
             try {
                 float power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
-                new GameView(g);
+                new GameView(g, null);
                 if (this.getCannonPower() < power) {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
                 } else if (this.getCannonPower() > power) {
@@ -111,7 +111,7 @@ public class Pirates extends Enemy{
                 try {
                     if (c != null){
                         p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                        new GameView(g);
+                        new GameView(g, null);
                         while(shipWreck == null){   // cerco un componente a caso della nave
                             shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                             i++;
@@ -128,11 +128,11 @@ public class Pirates extends Enemy{
             }else { // ha attivato degli scudi
                 try {
                     if (!p.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {    // se scudo non protegge
-                        new GameView(g);
+                        new GameView(g, null);
                         Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                            new GameView(g);
+                            new GameView(g, null);
                             while(shipWreck == null){
                                 shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
                                 i++;
@@ -159,7 +159,7 @@ public class Pirates extends Enemy{
                             System.out.println("Error" + e.getMessage());
                         }
                     }else
-                        new GameView(g);
+                        new GameView(g, null);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
@@ -184,7 +184,7 @@ public class Pirates extends Enemy{
         if (accept) {
             game.getPlayers().get(currentPlayer).changeCredits(this.credit);
             game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays());
-            new GameView(game);
+            new GameView(game, null);
         }
         game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
         currentPlayer = -1;

@@ -1,8 +1,6 @@
 package org.example.ServerPkg.Model.ForView;
 
-import org.example.ServerPkg.Model.ComponentsPkg.Connector;
-import org.example.ServerPkg.Model.ComponentsPkg.Direction;
-import org.example.ServerPkg.Model.ComponentsPkg.Goods;
+import org.example.ServerPkg.Model.ComponentsPkg.*;
 
 import java.io.Serializable;
 
@@ -13,10 +11,11 @@ public class ComponentsView implements Serializable {
     private final String type;
     private final int numBattery;
     private final int numAstronauts;
-    private Goods[] goods = new Goods[3];
+    private final AlienColour alienColour;
+    private GoodsView[] goods = new GoodsView[3];
     private final Direction[] shieldedDirections = new Direction[2];
 
-    public ComponentsView(Direction direction, Connector[] connectors, int id, String type, int numBattery, int numAstronauts, Goods[] goods, Direction shieldedDirections) {
+    public ComponentsView(Direction direction, Connector[] connectors, int id, String type, int numBattery, int numAstronauts, GoodsView[] goods, Direction shieldedDirections, AlienColour alienColour) {
         this.direction = direction;
         this.connectors = connectors;
         this.id = id;
@@ -24,6 +23,7 @@ public class ComponentsView implements Serializable {
         this.numBattery = numBattery;
         this.numAstronauts = numAstronauts;
         this.goods = goods;
+        this.alienColour = alienColour;
         this.shieldedDirections[0] = direction;
         this.shieldedDirections[1] = shieldedDirections;
     }
@@ -44,6 +44,10 @@ public class ComponentsView implements Serializable {
         return type;
     }
 
+    public AlienColour getAlienColour() {
+        return alienColour;
+    }
+
     public int getNumBattery() {
         return numBattery;
     }
@@ -52,7 +56,7 @@ public class ComponentsView implements Serializable {
         return numAstronauts;
     }
 
-    public Goods[] getGoods() {
+    public GoodsView[] getGoods() {
         return goods;
     }
 

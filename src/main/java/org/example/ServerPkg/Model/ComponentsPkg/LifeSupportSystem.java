@@ -22,7 +22,7 @@ public class LifeSupportSystem extends Components {
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,"LifeSupportSystem", 0 ,0, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), id,"LifeSupportSystem", 0 ,0, null, null, getColour());
     }
 
     public AlienColour getColour() {

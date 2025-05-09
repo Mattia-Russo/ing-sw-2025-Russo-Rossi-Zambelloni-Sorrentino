@@ -22,7 +22,7 @@ public class Shield extends Components {
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection1(), getConnectors(), id,"Shield", 0 ,0, null, getDirection2());
+        return new ComponentsView(getDirection1(), getConnectors(), id,"Shield", 0 ,0, null, getDirection2(), null);
     }
 
     public Direction getDirection1() {

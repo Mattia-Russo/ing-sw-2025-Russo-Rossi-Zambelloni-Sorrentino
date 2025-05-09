@@ -34,7 +34,7 @@ public class Stardust extends AdventureCard{
                 g.getPlayers().get(i).changePosition(-g.getPlayers().get(i).getPlayerShipBoard().getTotalExposedConnectors());
             }
         }
-        new GameView(g);
+        new GameView(g, null);
         g.Turn();
     }
 }

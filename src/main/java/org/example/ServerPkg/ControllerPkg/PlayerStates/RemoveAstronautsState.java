@@ -33,7 +33,7 @@ public class RemoveAstronautsState extends PlayerState{
                     cabin.changeNumAstronauts(-1);
                     astronautsRemoved++;
                 }
-                new GameView(game);
+                new GameView(game, null);
             } else {
                 throw new NotCabinException("The component of given coordinates is not a cabin");
             }
@@ -52,6 +52,7 @@ public class RemoveAstronautsState extends PlayerState{
     @Override
     public void AbandonGame(Player player){
         removeLeftAstronauts(player, game);
+        new GameView(game, null);
         player.abandon();
         endRemoveAstronauts();
     }
@@ -61,6 +62,7 @@ public class RemoveAstronautsState extends PlayerState{
         // rimuovere noi gli astronauti
         removeLeftAstronauts(p, game);
         game.disconnectPlayer(p);
+        new GameView(game, null);
         endRemoveAstronauts();
     }
 

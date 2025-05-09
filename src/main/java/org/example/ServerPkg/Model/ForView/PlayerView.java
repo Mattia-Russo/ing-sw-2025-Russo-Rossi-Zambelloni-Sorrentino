@@ -13,6 +13,7 @@ public class PlayerView implements Serializable {
     private final int position;
     private final int numCredits;
     private final boolean abandoned;
+    private final String rocketColour;
 
     public PlayerView(Player player){
         name = player.getName();
@@ -24,12 +25,16 @@ public class PlayerView implements Serializable {
         position = player.getPosition();
         numCredits = player.getNumCredits();
         abandoned = player.isAbandoned();
+        rocketColour = player.getRocketColour();
     }
 
     public ShipboardView getShipboardView() {
         return shipboardView;
     }
 
+    public String getRocketColour() {
+        return rocketColour;
+    }
 
     public ComponentsView getCurrentTile() {
         return currentTile;

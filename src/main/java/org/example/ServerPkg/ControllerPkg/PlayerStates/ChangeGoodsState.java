@@ -20,7 +20,7 @@ public class ChangeGoodsState extends PlayerState{
         Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             storage.removeGood(numGood);
-            new GameView(game);
+            new GameView(game, null);
         } else {
             throw new NotStorageException("The component of given coordinates is not a storage");
         }
@@ -32,7 +32,7 @@ public class ChangeGoodsState extends PlayerState{
         if(storage!=null){
             try {
                 storage.addGood(game.getCurrentCard().getGoodsList()[numGood]);
-                new GameView(game);
+                new GameView(game, null);
             } catch (RedGoodsNotAllowedException | StorageFullException e) {
                 System.out.println("Error: " + e.getMessage());
             }

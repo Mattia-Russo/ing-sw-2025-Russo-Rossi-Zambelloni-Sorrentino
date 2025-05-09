@@ -26,7 +26,7 @@ public class BatteryStorage extends Components{
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,"BatteryStorage", getQuantity() ,0, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), id,"BatteryStorage", getQuantity() ,0, null, null, null);
     }
 
     public int getQuantity(){

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.Exceptions.RedGoodsNotAllowedException;
 import org.example.ServerPkg.Model.Exceptions.StorageFullException;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
+import org.example.ServerPkg.Model.ForView.GoodsView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,11 @@ public class Storage extends Components {
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,"Storage", 0 ,0, goodsList, null);
+        GoodsView[] goodsView = new GoodsView[capacity];
+        for(int i=0; i< goodsList.length; i++){
+            goodsView[i]= new GoodsView(goodsList[i]);
+        }
+        return new ComponentsView(getDirection(), getConnectors(), id,"Storage", 0 ,0, goodsView, null, null);
     }
 
     public Goods[] getGoods() {

@@ -25,7 +25,7 @@ public class AddAlienState extends PlayerState{
         try {
             if (player.getPlayerShipBoard().getComponent(p.getX(), p.getY()) != null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin() != null) {
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.BROWN), player.getPlayerShipBoard());
-                new GameView(game);
+                new GameView(game, null);
             } else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
                 DifferentLifeSupportColourException e){
@@ -38,7 +38,7 @@ public class AddAlienState extends PlayerState{
         try{
             if(player.getPlayerShipBoard().getComponent(p.getX(), p.getY())!=null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin()!=null ){
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.PURPLE), player.getPlayerShipBoard());
-                new GameView(game);
+                new GameView(game, null);
             }else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
         DifferentLifeSupportColourException e){

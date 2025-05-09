@@ -22,7 +22,7 @@ public class FixShipState extends PlayerState {
     public void removeTile(Points point, Player player){
         try {
             player.getPlayerShipBoard().removeComponent(point.getX(), point.getY());
-            new GameView(game);
+            new GameView(game, null);
         } catch(InvalidPositionException | AlreadyEmptyPositionException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -113,7 +113,7 @@ public class FixShipState extends PlayerState {
         // gestire l'eventuale divisione
         if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
             p.getPlayerShipBoard().removeWreck(c.getPosY(), c.getPosX());
-            new GameView(game);
+            new GameView(game, null);
             if(game.getGameMode()==0) {
                 p.setReadyForCards(true);
             }

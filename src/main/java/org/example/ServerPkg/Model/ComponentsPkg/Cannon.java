@@ -27,7 +27,7 @@ public class Cannon extends Components {
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,type, 0 ,0, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), id,type, 0 ,0, null, null, null);
     }
 
     public int getPower() {

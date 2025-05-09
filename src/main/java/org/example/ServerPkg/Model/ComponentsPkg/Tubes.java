@@ -18,6 +18,6 @@ public class Tubes extends Components{
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,"Tubes", 0 ,0, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), id,"Tubes", 0 ,0, null, null, null);
     }
 }

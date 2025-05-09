@@ -89,7 +89,7 @@ public class Smugglers extends Enemy{
     public void playCard(Game game, ArrayList<Points> cannons, ArrayList<Points> batteries) {
         try {
             float power = game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries);
-            new GameView(game);
+            new GameView(game, null);
             if ( power > this.getCannonPower()) {
                 game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
             } else if (power == this.getCannonPower()) {

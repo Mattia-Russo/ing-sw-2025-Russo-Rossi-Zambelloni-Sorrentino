@@ -48,7 +48,7 @@ public class Components {
     }
 
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), 0,null,0 ,0, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), 0,null,0 ,0, null, null, null);
     }
 
     public boolean getIfPositioned() {
