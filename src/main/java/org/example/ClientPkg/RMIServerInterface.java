@@ -9,15 +9,15 @@ import java.rmi.RemoteException;
 
 public interface RMIServerInterface extends Remote {
     // Metodo che il client usa per registrarsi
-    void registerClient(RMIClient client) throws RemoteException;
+    void registerClient(RMIClientInterface client) throws RemoteException;
 
     // Metodo che il client usa per inviare messaggi al server
     void sendMessage(Message message) throws RemoteException;
 
     // Metodo per disconnettersi
-    void unregisterClient(RMIClient client) throws RemoteException;
+    void unregisterClient(RMIClientInterface client) throws RemoteException;
 
-    boolean getIfSubscribed(RMIClient client) throws RemoteException;
+    boolean getIfSubscribed(RMIClientInterface client) throws RemoteException;
 
     GameController getController() throws RemoteException;
 

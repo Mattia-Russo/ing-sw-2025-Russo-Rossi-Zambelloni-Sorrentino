@@ -1,6 +1,5 @@
 package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 
-import org.example.ClientPkg.RMIClient;
 import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
@@ -60,7 +59,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public synchronized void registerClient(RMIClient client) throws RemoteException {
+    public synchronized void registerClient(RMIClientInterface client) throws RemoteException {
         System.out.println(client.getPlayerName() + " subscribed");
         clients.add(client);
         clientAlive.add(System.currentTimeMillis());
@@ -72,7 +71,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public void unregisterClient(RMIClient client) throws RemoteException {
+    public void unregisterClient(RMIClientInterface client) throws RemoteException {
         if(clients.remove(client)) {
             System.out.println(client.getPlayerName() + " unsubscribed");
         }
@@ -90,7 +89,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         .toList();
     }
 
-    public boolean getIfSubscribed(RMIClient client) throws RemoteException {
+    public boolean getIfSubscribed(RMIClientInterface client) throws RemoteException {
         return clients.contains(client);
     }
 

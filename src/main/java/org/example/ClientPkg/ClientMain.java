@@ -1,5 +1,5 @@
 // cd target/classes
-//java org.example.ClientPkg.ClientMain tcp name
+// java org.example.ClientPkg.ClientMain tcp name
 
 package org.example.ClientPkg;
 
@@ -24,6 +24,7 @@ public class ClientMain {
             case "tcp":
                 UI TCPUserInterface = new TUI();
                 TCPClient TCPClient = new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface);
+                System.out.println("Setting player name");
                 TCPClient.registerName(args[1]);
                 break;
 

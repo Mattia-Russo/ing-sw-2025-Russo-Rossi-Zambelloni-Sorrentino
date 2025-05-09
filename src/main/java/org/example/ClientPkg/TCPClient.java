@@ -29,7 +29,10 @@ public class TCPClient {
         // Connessione al server
         this.socket = new Socket(serverAddress, port);
         // Configurazione degli stream
+        System.out.println("Config client out");
         this.out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
+        System.out.println("Config client in");
         this.in = new ObjectInputStream(socket.getInputStream());
 
         System.out.println("Connesso al server TCP.");
@@ -60,7 +63,7 @@ public class TCPClient {
                 System.err.println("Error sending PingMessage: " + e.getMessage());
             }
         });
-        pingThread.setDaemon(true);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
+        pingThread.setDaemon(false);
         pingThread.start();  // Avvia il thread
     }
 
@@ -69,7 +72,6 @@ public class TCPClient {
         Thread listenerThread = new Thread(() -> {
             try {
                 while (true) {
-
                     // Leggi l'oggetto inviato dal server
                     Object obj = in.readObject();
 
@@ -87,13 +89,13 @@ public class TCPClient {
                 System.err.println("Connection with server interrupted: " + e.getMessage());
             }
         });
-        listenerThread.setDaemon(true);
+        listenerThread.setDaemon(false);
         listenerThread.start();
     }
 
     private void startKeyboardListener() {
 
-        Thread listenerThread = new Thread(() -> {
+        Thread KeyBoardListenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type a command: ");
             while (true) {
@@ -128,8 +130,8 @@ public class TCPClient {
                 }
             }
         });
-        listenerThread.setDaemon(true); // Permette al thread di terminare con il programma principale
-        listenerThread.start();
+        KeyBoardListenerThread.setDaemon(false);
+        KeyBoardListenerThread.start();
     }
 
     public void disconnect() throws IOException {

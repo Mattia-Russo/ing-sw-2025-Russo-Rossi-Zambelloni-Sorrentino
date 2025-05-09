@@ -42,7 +42,6 @@ public class TCPServer {
                 final Socket socket = serverSocket.accept();
                 System.out.println("New socket connection!");
                 SocketClientProxy clientProxy = new SocketClientProxy(controller, this, socket);
-                subscribe(clientProxy);
 
                 // Let the thread pool handle the communication with the client
                 threadPool.submit(new SocketClientProxy(controller,this, socket));

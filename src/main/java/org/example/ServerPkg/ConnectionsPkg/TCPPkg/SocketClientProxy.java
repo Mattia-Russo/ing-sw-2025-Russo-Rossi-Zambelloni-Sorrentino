@@ -19,7 +19,9 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
         super(controller, TCPServer);
         this.socket = socket;
+        System.out.println("Config server out");
         out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
         this.clientAlive = System.currentTimeMillis();
         checkClientConnection();
     }
@@ -58,13 +60,15 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     public void run() {
         ObjectInputStream in;
         try {
+            System.out.println("Config server in");
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            // Should not happen
             System.out.println("Error getting input stream, returning");
+            e.printStackTrace();
             return;
         }
-        while (true) {  // read messages from client
+
+        while (true) {
             try {
                 Message message = (Message) in.readObject();
 
@@ -73,17 +77,20 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                     System.out.println("Pong from server");
                     clientAlive = System.currentTimeMillis();
                 } else if (message instanceof SetPlayerNameMessage setPlayerNameMessage) {
-                    message.handle(getController(), null);
+                    setPlayerNameMessage.handle(getController(), null);
+                    if (getPlayerName() != null) {
+                        joinServer();
+                    }
                 } else {
                     message.setProxy(this);
                     getController().addMessage(message);
                 }
-
             } catch (Exception e) {
                 System.out.println("Error reading from socket: " + e.getMessage());
                 break;
             }
         }
+
         try {
             socket.close();
         } catch (IOException ignored) {}
