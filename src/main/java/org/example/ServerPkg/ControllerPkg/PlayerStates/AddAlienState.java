@@ -13,8 +13,8 @@ import org.example.ServerPkg.Model.Points;
 import java.security.InvalidParameterException;
 
 public class AddAlienState extends PlayerState{
-    private Game game;
-    private Player player;
+    private final Game game;
+    private final Player player;
     public AddAlienState(Game game, Player player){
         this.game=game;
         this.player=player;
@@ -60,6 +60,12 @@ public class AddAlienState extends PlayerState{
         game.Turn();
     }
 
+    @Override
+    public void AbandonGame(Player player){
+        player.abandon();
+        endAlienState();
+    }
+    
     @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);

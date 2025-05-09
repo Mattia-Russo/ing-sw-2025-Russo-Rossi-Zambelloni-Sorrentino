@@ -171,6 +171,11 @@ public class EndState extends PlayerState{
     }
 
     @Override
+    public void AbandonGame(Player player){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+  
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
     }

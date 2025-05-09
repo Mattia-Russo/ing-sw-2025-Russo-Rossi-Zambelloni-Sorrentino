@@ -85,10 +85,22 @@ public class RemoveBestGoodsState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player p, Game game){
-        // rimuovere noi i good migliori
+    public void AbandonGame(Player player){
+        removeBestGoodsLeft(player, game);
+        player.abandon();
+        endRemoveBestGoods();
+    }
 
-        ArrayList<Goods> goodsList = p.getPlayerShipBoard().getTotalGoods();
+    @Override
+    public void disconnect(Player p, Game game){
+        // rimuovere noi i good migliori
+        removeBestGoodsLeft(p, game);
+        game.disconnectPlayer(p);
+        endRemoveBestGoods();
+    }
+
+    private void removeBestGoodsLeft(Player player, Game game) {
+        ArrayList<Goods> goodsList = player.getPlayerShipBoard().getTotalGoods();
         goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
 
         while(this.goodsRemoved < game.getCurrentCard().getNumGoodsLose() || !goodsList.isEmpty()){
@@ -107,22 +119,20 @@ public class RemoveBestGoodsState extends PlayerState{
 
         int itemsToRemove = game.getCurrentCard().getNumGoodsLose() - goodsRemoved;
 
-        for (int i=0; i< p.getPlayerShipBoard().getComponentMatrix().length && itemsToRemove > 0; i++){
-            for(int j=0; j < p.getPlayerShipBoard().getComponentMatrix()[i].length; j++){
-                Components c = p.getPlayerShipBoard().getComponentMatrix()[i][j];
+        for (int i=0; i< player.getPlayerShipBoard().getComponentMatrix().length && itemsToRemove > 0; i++){
+            for(int j=0; j < player.getPlayerShipBoard().getComponentMatrix()[i].length; j++){
+                Components c = player.getPlayerShipBoard().getComponentMatrix()[i][j];
                 if(c.isBatteryStorage() != null){
                     if(((BatteryStorage) c).getQuantity() >= itemsToRemove){
-                        ((BatteryStorage) c).setQuantity(-itemsToRemove, p.getPlayerShipBoard());
+                        ((BatteryStorage) c).setQuantity(-itemsToRemove, player.getPlayerShipBoard());
                         batteriesRemoved += itemsToRemove;
                         break;
                     } else {
-                        ((BatteryStorage) c).setQuantity(-((BatteryStorage) c).getQuantity(), p.getPlayerShipBoard());
+                        ((BatteryStorage) c).setQuantity(-((BatteryStorage) c).getQuantity(), player.getPlayerShipBoard());
                         batteriesRemoved += ((BatteryStorage) c).getQuantity();
                     }
                 }
             }
         }
-        game.disconnectPlayer(p);
-        endRemoveBestGoods();
     }
 }

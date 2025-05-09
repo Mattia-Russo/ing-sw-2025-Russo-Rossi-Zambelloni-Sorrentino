@@ -38,6 +38,14 @@ public class ActivateEnginesState extends PlayerState {
     }
 
     @Override
+    public void AbandonGame(Player player){
+        Batteries = null;
+        Engines = null;
+        player.abandon();
+        endActivateEngines();
+    }
+    
+      @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
         Engines=null;

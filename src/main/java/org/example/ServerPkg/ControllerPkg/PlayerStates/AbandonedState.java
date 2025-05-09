@@ -165,6 +165,11 @@ public class AbandonedState extends PlayerState{
     }
 
     @Override
+    public void AbandonGame(Player player){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+    
+    @Override
     public void disconnect(Player p, Game game){
         game.disconnectPlayer(p);
     }

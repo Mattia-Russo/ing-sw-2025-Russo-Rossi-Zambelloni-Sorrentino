@@ -49,6 +49,12 @@ public class ChangeGoodsState extends PlayerState{
     }
 
     @Override
+    public void AbandonGame(Player player){
+        player.abandon();
+        endChangeGoods();
+    }
+  
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
         endChangeGoods();

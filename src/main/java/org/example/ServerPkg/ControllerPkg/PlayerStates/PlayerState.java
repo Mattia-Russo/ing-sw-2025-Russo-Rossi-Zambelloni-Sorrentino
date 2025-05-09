@@ -74,5 +74,8 @@ public class PlayerState {
 
     public void turnTimer(Player player){}
 
+    public void AbandonGame(Player player){}
+
     public void disconnect(Player disconnectingPlayer, Game game){}
+
 }

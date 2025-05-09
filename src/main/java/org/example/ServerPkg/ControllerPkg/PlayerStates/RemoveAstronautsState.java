@@ -1,6 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPkg.BatteryStorage;
 import org.example.ServerPkg.Model.ComponentsPkg.Cabin;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
@@ -51,26 +50,43 @@ public class RemoveAstronautsState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player p, Game game){
+    public void AbandonGame(Player player){
+        removeLeftAstronauts(player, game);
+        player.abandon();
+        endRemoveAstronauts();
+    }
+
+    @Override
+    public void disconnect(Player p, Game game){
         // rimuovere noi gli astronauti
+        removeLeftAstronauts(p, game);
+        game.disconnectPlayer(p);
+        endRemoveAstronauts();
+    }
+
+    private void removeLeftAstronauts(Player p, Game game) {
         int astronautsToRemove = game.getCurrentCard().getNumAstronauts() - astronautsRemoved;
 
         for (int i=0; i< p.getPlayerShipBoard().getComponentMatrix().length && astronautsToRemove > 0; i++){
-            for(int j=0; j < p.getPlayerShipBoard().getComponentMatrix()[i].length; j++){
+            for(int j=0; j < p.getPlayerShipBoard().getComponentMatrix()[i].length && astronautsToRemove > 0; j++){
                 Components c = p.getPlayerShipBoard().getComponentMatrix()[i][j];
                 if(c.isCabin() != null){
-                    if(((Cabin) c).getNumAstronauts() >= astronautsToRemove){
+                    if(c.isCabin().hasAlien()!=null){
+                        c.isCabin().removeAlien();
+                        astronautsRemoved++;
+                        astronautsToRemove--;
+                    }else if(((Cabin) c).getNumAstronauts() >= astronautsToRemove){
                         ((Cabin) c).changeNumAstronauts(-astronautsToRemove);
                         astronautsRemoved +=  astronautsToRemove;
-                        break;
+                        astronautsToRemove = 0;
                     } else {
                         ((Cabin) c).changeNumAstronauts(-((Cabin) c).getNumAstronauts());
                         astronautsRemoved += ((Cabin) c).getNumAstronauts();
+                        astronautsToRemove -= ((Cabin) c).getNumAstronauts();
                     }
                 }
             }
         }
-        game.disconnectPlayer(p);
-        endRemoveAstronauts();
     }
+
 }
