@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
@@ -57,21 +58,25 @@ public class PlayerState {
 
     public void pickComponentTile(Player p){}
 
-    public void RightRotateTile(Player p){}
+    public void rightRotateTile(Player p){}
 
-    public void LeftRotateTile(Player p){}
+    public void leftRotateTile(Player p){}
 
     public void placeTile(Player player, Points point){}
 
     public void endBuildShip(Player player){}
 
-    public void exitGame(Player player){}
-
     public void addBrownAlien(Points p){}
 
     public void addPurpleAlien(Points p){}
 
+    public void endAlienState(){}
+
     public void turnTimer(Player player){}
 
+<<<<<<< HEAD
     public void AbandonGame(Player player){}
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){}
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
 }

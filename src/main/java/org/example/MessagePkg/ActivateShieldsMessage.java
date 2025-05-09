@@ -17,12 +17,14 @@ public class ActivateShieldsMessage extends Message {
     }
 
     @Override
-    public void handle(GameController controller, String playerName) {
+    public void handle(GameController controller, String playerName){
         if(checkClient()){
             try{
                 getClient().getServer().getController().getGame().getPlayerByName(getClient().getPlayerName()).getState().activateShields(shields);
             } catch (AlreadyShieldException | EndStateException | WaitingStateException | AbandonedStateException e) {
                 System.out.println("Error: " + e.getMessage());
+            } catch (java.rmi.RemoteException e) {
+                throw new RuntimeException(e);
             }
         }
     }

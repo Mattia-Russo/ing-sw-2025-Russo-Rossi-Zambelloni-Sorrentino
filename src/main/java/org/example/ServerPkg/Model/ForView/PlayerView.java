@@ -1,5 +1,5 @@
 package org.example.ServerPkg.Model.ForView;
-import org.example.ServerPkg.Model.CardPack.AdventureCard;
+import org.example.ServerPkg.Model.CardPkg.AdventureCard;
 import org.example.ServerPkg.Model.Player;
 
 import java.io.Serializable;

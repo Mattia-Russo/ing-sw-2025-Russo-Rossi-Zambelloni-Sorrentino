@@ -136,12 +136,12 @@ public class EndState extends PlayerState{
     }
 
     @Override
-    public void RightRotateTile(Player p){
+    public void rightRotateTile(Player p){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
 
     @Override
-    public void LeftRotateTile(Player p){
+    public void leftRotateTile(Player p){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
 
@@ -171,7 +171,12 @@ public class EndState extends PlayerState{
     }
 
     @Override
+<<<<<<< HEAD
     public void AbandonGame(Player player){
         throw new EndStateException("The game has ended, cannot do any action anymore");
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

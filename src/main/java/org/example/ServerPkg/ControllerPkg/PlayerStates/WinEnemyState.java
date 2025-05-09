@@ -17,8 +17,14 @@ public class WinEnemyState extends PlayerState{
     }
 
     @Override
+<<<<<<< HEAD
     public void AbandonGame(Player player){
         player.abandon();
         acceptReward(false);
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        acceptReward(false);    // se abbandona consideriamo come se rifiutasse
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

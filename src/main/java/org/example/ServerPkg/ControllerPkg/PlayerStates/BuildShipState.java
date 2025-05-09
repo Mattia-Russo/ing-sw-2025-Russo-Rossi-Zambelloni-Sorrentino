@@ -66,11 +66,10 @@ public class BuildShipState extends PlayerState{
         } else {
             throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
         }
-
     }
 
     @Override
-    public void RightRotateTile(Player p){
+    public void rightRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
@@ -80,7 +79,7 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
-    public void LeftRotateTile(Player p){
+    public void leftRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
         } else {
@@ -109,8 +108,10 @@ public class BuildShipState extends PlayerState{
         }
 
         for(Player p : game.getPlayers()){
-            if(!p.getShipBuilded()){
-                return;
+            if(!p.isAbandoned()) {
+                if (!p.getShipBuilded()) {
+                    return;
+                }
             }
         }
         game.checkAllPlayersShip();
@@ -127,7 +128,14 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
+<<<<<<< HEAD
     public void AbandonGame(Player player){
         throw new InvalidMethodCallException("You have to finish building first");
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer( disconnectingPlayer);
+        setPosition(disconnectingPlayer);
+        endBuildShip(disconnectingPlayer);
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

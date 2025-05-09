@@ -1,7 +1,7 @@
 package org.example.ServerPkg.Model.ForView;
 
-import org.example.ServerPkg.Model.ComponentsPack.Goods;
-import org.example.ServerPkg.Model.ComponentsPack.GoodsColour;
+import org.example.ServerPkg.Model.ComponentsPkg.Goods;
+import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 
 import java.io.Serializable;
 

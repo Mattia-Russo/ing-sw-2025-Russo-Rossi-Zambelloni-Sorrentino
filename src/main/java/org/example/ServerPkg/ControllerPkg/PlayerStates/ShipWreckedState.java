@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
+import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -36,10 +38,12 @@ public class ShipWreckedState extends PlayerState {
                         player.setPlayerState(new AddAlienState(game, player));
                     }else {
                         for (Player p : game.getPlayers()) {
-                            if (!p.getReadyForCards()) {
-                                return;
+                            if (!p.isAbandoned()) {
+                                if (!p.getReadyForCards()) {
+                                    return;
+                                }
+                                p.setPlayerState(new WaitingState());
                             }
-                            p.setPlayerState(new WaitingState());
                         }
                         game.Turn();
                     }
@@ -51,8 +55,38 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
+<<<<<<< HEAD
     public void AbandonGame(Player player){
 
         player.abandon();
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){
+        Components c=null;
+        int i=0;
+        while(c==null && i < 5){
+            c=disconnectingPlayer.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
+            i++;
+        }
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()));    // scegliamo noi un pezzo
+        new GameView(game);
+        game.disconnectPlayer(disconnectingPlayer);
+
+        if (game.getCurrentCard() != null) {
+            game.getCurrentCard().setShipWrecked(false);
+            game.getCurrentCard().setCardState(game);
+        } else {
+            if(game.getGameMode()==1) {
+                player.setReadyForCards(true);
+            }
+            for (Player p : game.getPlayers()) {
+                if (!p.isAbandoned()) {
+                    if (!p.getReadyForCards()) {
+                        return;
+                    }
+                }
+            }
+            game.Turn();
+        }
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }

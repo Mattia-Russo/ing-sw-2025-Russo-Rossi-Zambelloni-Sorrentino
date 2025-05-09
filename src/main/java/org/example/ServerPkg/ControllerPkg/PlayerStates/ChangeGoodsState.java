@@ -1,6 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPack.Storage;
+import org.example.ServerPkg.Model.ComponentsPkg.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -49,8 +49,13 @@ public class ChangeGoodsState extends PlayerState{
     }
 
     @Override
+<<<<<<< HEAD
     public void AbandonGame(Player player){
         player.abandon();
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
         endChangeGoods();
     }
 

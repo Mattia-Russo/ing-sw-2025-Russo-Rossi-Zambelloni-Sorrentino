@@ -1,7 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPack.Alien;
-import org.example.ServerPkg.Model.ComponentsPack.AlienColour;
+import org.example.ServerPkg.Model.ComponentsPkg.Alien;
+import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
 import org.example.ServerPkg.Model.Exceptions.AlreadyAlienException;
 import org.example.ServerPkg.Model.Exceptions.DifferentLifeSupportColourException;
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
@@ -47,19 +47,28 @@ public class AddAlienState extends PlayerState{
         }
     }
 
+    @Override
     public void endAlienState(){
         player.setReadyForCards(true);
         for (Player p : game.getPlayers()) {
-            if (!p.getReadyForCards()) {
-                return;
+            if (!p.isAbandoned()) {
+                if (!p.getReadyForCards()) {
+                    return;
+                }
+                p.setPlayerState(new WaitingState());
             }
-            p.setPlayerState(new WaitingState());
         }
         game.Turn();
     }
 
     @Override
+<<<<<<< HEAD
     public void AbandonGame(Player player){
         throw new InvalidMethodCallException("You have to add alien first");
+=======
+    public void disconnect(Player disconnectingPlayer, Game game){
+        game.disconnectPlayer(disconnectingPlayer);
+        endAlienState();
+>>>>>>> 9ee630db2862d761e24adf75fa54ed47806b11dd
     }
 }
