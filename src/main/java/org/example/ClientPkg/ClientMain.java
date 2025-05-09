@@ -1,3 +1,6 @@
+// cd target/classes
+//java org.example.ClientPkg.ClientMain tcp name
+
 package org.example.ClientPkg;
 
 import org.example.ServerPkg.ConnectionsPkg.Settings;

@@ -1,3 +1,6 @@
+// cd target/classes
+//java org.example.ServerPkg.ServerMain
+
 package org.example.ServerPkg;
 
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIServer;
