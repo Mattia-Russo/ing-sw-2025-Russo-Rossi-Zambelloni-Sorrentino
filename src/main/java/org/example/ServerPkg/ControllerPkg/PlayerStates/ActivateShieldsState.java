@@ -47,11 +47,9 @@ public class ActivateShieldsState extends PlayerState {
 
     @Override
     public void AbandonGame(Player player){
-        if(Batteries==null || Shields==null) {
-            Batteries = null;
-            Shields = null;
-        }
+        batteries = null;
+        shields = null;
         player.abandon();
-        endActivateCannons();
+        endActivateShields();
     }
 }

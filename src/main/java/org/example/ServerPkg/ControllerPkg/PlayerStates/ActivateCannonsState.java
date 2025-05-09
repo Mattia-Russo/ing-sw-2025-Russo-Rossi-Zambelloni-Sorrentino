@@ -44,10 +44,8 @@ public class ActivateCannonsState extends PlayerState {
 
     @Override
     public void AbandonGame(Player player){
-        if(batteries==null || cannons==null) {
-            batteries = null;
-            cannons = null;
-        }
+        batteries = null;
+        cannons = null;
         player.abandon();
         endActivateCannons();
     }

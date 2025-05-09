@@ -51,6 +51,7 @@ public class ChangeGoodsState extends PlayerState{
     @Override
     public void AbandonGame(Player player){
         player.abandon();
+        endChangeGoods();
     }
   
     @Override

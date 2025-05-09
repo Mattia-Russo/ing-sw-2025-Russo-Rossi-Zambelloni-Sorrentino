@@ -1,6 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPkg.BatteryStorage;
 import org.example.ServerPkg.Model.ComponentsPkg.Cabin;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
@@ -52,27 +51,7 @@ public class RemoveAstronautsState extends PlayerState{
 
     @Override
     public void AbandonGame(Player player){
-        int astronautsToRemove = game.getCurrentCard().getNumAstronauts() - astronautsRemoved;
-        for (int i=0; i< player.getPlayerShipBoard().getComponentMatrix().length && astronautsToRemove > 0; i++){
-            for(int j=0; j < player.getPlayerShipBoard().getComponentMatrix()[i].length && astronautsToRemove > 0; j++){
-                Components c = player.getPlayerShipBoard().getComponentMatrix()[i][j];
-                if(c.isCabin() != null){
-                    if(c.isCabin().hasAlien()!=null){
-                        c.isCabin().removeAlien();
-                        astronautsRemoved++;
-                        astronautsToRemove--;
-                    }else if(((Cabin) c).getNumAstronauts() >= astronautsToRemove){
-                        ((Cabin) c).changeNumAstronauts(-astronautsToRemove);
-                        astronautsRemoved +=  astronautsToRemove;
-                        astronautsToRemove = 0;
-                    } else {
-                        ((Cabin) c).changeNumAstronauts(-((Cabin) c).getNumAstronauts());
-                        astronautsRemoved += ((Cabin) c).getNumAstronauts();
-                        astronautsToRemove -= ((Cabin) c).getNumAstronauts();
-                    }
-                }
-            }
-        }
+        removeLeftAstronauts(player, game);
         player.abandon();
         endRemoveAstronauts();
     }
@@ -80,6 +59,12 @@ public class RemoveAstronautsState extends PlayerState{
     @Override
     public void disconnect(Player p, Game game){
         // rimuovere noi gli astronauti
+        removeLeftAstronauts(p, game);
+        game.disconnectPlayer(p);
+        endRemoveAstronauts();
+    }
+
+    private void removeLeftAstronauts(Player p, Game game) {
         int astronautsToRemove = game.getCurrentCard().getNumAstronauts() - astronautsRemoved;
 
         for (int i=0; i< p.getPlayerShipBoard().getComponentMatrix().length && astronautsToRemove > 0; i++){
@@ -102,8 +87,6 @@ public class RemoveAstronautsState extends PlayerState{
                 }
             }
         }
-        game.disconnectPlayer(p);
-        endRemoveAstronauts();
     }
 
 }

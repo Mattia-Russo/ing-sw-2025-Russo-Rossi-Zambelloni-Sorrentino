@@ -10,10 +10,10 @@ import org.example.ServerPkg.Model.Points;
 
 public class ShipWreckedState extends PlayerState {
     private final Game game;
-    private Player player;
+    private final Player player;
     public ShipWreckedState(Game game, Player player) {
         this.game = game;
-        this.player=player;
+        this.player= player;
     }
 
     @Override
@@ -56,7 +56,30 @@ public class ShipWreckedState extends PlayerState {
 
     @Override
     public void AbandonGame(Player player){
+        Components c=null;
+        int i=0;
+        while(c==null && i < 5){
+            c=player.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
+            i++;
+        }
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()));
         player.abandon();
+        if (game.getCurrentCard() != null) {
+            game.getCurrentCard().setShipWrecked(false);
+            game.getCurrentCard().setCardState(game);
+        } else {
+            if(game.getGameMode()==1) {
+                player.setReadyForCards(true);
+            }
+            for (Player p : game.getPlayers()) {
+                if (!p.isAbandoned()) {
+                    if (!p.getReadyForCards()) {
+                        return;
+                    }
+                }
+            }
+            game.Turn();
+        }
     }
   
     @Override
@@ -68,7 +91,6 @@ public class ShipWreckedState extends PlayerState {
             i++;
         }
         chooseWrecked(new Points(c.getPosX(), c.getPosY()));    // scegliamo noi un pezzo
-        new GameView(game);
         game.disconnectPlayer(disconnectingPlayer);
 
         if (game.getCurrentCard() != null) {
