@@ -165,6 +165,11 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
+    public void AbandonGame(Player player){
+        player.abandon();
+    }
+    
+    @Override
     public void disconnect(Player p, Game game){
         game.disconnectPlayer(p);
     }

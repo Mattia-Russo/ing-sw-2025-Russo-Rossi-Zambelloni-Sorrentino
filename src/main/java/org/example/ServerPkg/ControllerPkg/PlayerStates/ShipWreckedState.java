@@ -55,6 +55,11 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
+    public void AbandonGame(Player player){
+        player.abandon();
+    }
+  
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         Components c=null;
         int i=0;

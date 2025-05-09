@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.ComponentsPack.Cannon;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEngineException;
 import org.example.ServerPkg.Model.Game;
@@ -38,6 +39,16 @@ public class ActivateEnginesState extends PlayerState {
     }
 
     @Override
+    public void AbandonGame(Player player){
+        if(Batteries==null || Engines==null) {
+            Batteries = null;
+            Engines = null;
+        }
+        player.abandon();
+        endActivateCannons();
+    }
+    
+      @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
         Engines=null;

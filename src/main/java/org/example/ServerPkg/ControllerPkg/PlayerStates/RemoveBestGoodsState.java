@@ -85,7 +85,13 @@ public class RemoveBestGoodsState extends PlayerState{
     }
 
     @Override
-    public synchronized void disconnect(Player p, Game game){
+    public void AbandonGame(Player player){
+        player.abandon();
+     
+    }
+  
+    @Override
+    public void disconnect(Player p, Game game){
         // rimuovere noi i good migliori
 
         ArrayList<Goods> goodsList = p.getPlayerShipBoard().getTotalGoods();

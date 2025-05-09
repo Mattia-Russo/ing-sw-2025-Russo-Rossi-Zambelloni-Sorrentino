@@ -128,6 +128,11 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
+    public void AbandonGame(Player player){
+        throw new InvalidMethodCallException("You have to finish building first");
+    }
+  
+    @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer( disconnectingPlayer);
         setPosition(disconnectingPlayer);
