@@ -7,6 +7,7 @@ import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
 import org.example.ServerPkg.Model.Points;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ActivateEnginesMessage extends Message {
@@ -17,7 +18,7 @@ public class ActivateEnginesMessage extends Message {
     }
 
     @Override
-    public void handle(GameController controller, String playerName) {
+    public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()){
             try{
                 controller.getGame().getPlayerByName(playerName).getState().activateEngines(engines);

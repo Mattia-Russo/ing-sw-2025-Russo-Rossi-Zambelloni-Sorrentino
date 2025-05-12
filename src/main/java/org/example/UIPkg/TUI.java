@@ -20,7 +20,7 @@ public class TUI implements UI{
 
     public TUI() {
         gameUpdatesQueue = new LinkedBlockingQueue<>();
-        startUpdateThread();
+        //startUpdateThread();
     }
 
     // thread che continua a leggere i game update in coda con un while(true)
@@ -29,7 +29,7 @@ public class TUI implements UI{
             try {
                 while (true) {
                     if(!gameUpdatesQueue.isEmpty()) {
-                        Draw();
+                        //Draw();
                     }
                 }
             }catch (Exception e) {
@@ -50,6 +50,7 @@ public class TUI implements UI{
         }
     }
 
+    /*
     //stringbuilder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
@@ -248,4 +249,6 @@ public class TUI implements UI{
                 }
         }
     }
+
+     */
 }

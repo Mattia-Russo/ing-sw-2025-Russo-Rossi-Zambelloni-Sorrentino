@@ -4,6 +4,7 @@
 package org.example.ClientPkg;
 
 import org.example.ServerPkg.ConnectionsPkg.Settings;
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
 
@@ -23,13 +24,11 @@ public class ClientMain {
         switch (connectionType) {
             case "tcp":
                 UI TCPUserInterface = new TUI();
-                TCPClient TCPClient = new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface);
-                System.out.println("Setting player name");
-                TCPClient.registerName(args[1]);
+                TCPClient TCPClient = new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1]);
                 break;
 
             case "rmi":
-                RMIClient RMIClient = new RMIClient("localhost", args[1]);
+                RMIClientInterface RMIClient = new RMIClient("localhost", args[1]);
                 break;
 
             default:

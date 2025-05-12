@@ -41,11 +41,11 @@ public abstract class ClientProxy {
         }
     }
 
-    public synchronized void joinServer() {
+    protected synchronized void joinServer() {
         TCPServer.subscribe(this);
     }
 
-    public synchronized void leaveServer() {
+    private synchronized void leaveServer() {
         TCPServer.unsubscribe(this);
     }
 
@@ -56,6 +56,6 @@ public abstract class ClientProxy {
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
-        TCPServer.unsubscribe(this);
+        leaveServer();
     }
 }

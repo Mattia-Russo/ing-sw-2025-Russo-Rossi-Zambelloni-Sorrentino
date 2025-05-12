@@ -29,7 +29,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     private void checkClientConnection(){
         Thread checkClient = new Thread(() -> {
             try {
-                while (true) {
+                while (!socket.isClosed()) {
                     if (System.currentTimeMillis() - clientAlive > 14999) {
                         disconnect();
                     }
@@ -51,7 +51,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 out.writeObject(message);
                 out.flush();
             } catch (IOException e) {
-                System.out.println("Error sending message");
+                System.out.println("Error sending message from server: " + e.getMessage());
             }
         }
     }
@@ -68,12 +68,13 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             return;
         }
 
-        while (true) {
+        while (!socket.isClosed()) {
             try {
                 Message message = (Message) in.readObject();
 
                 if (message instanceof PingMessage ping) {
                     System.out.println("ping ricevuto");
+                  
                     sendMessage(new PongMessage());
                     System.out.println("Pong from server");
                     clientAlive = System.currentTimeMillis();

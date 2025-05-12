@@ -1,9 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 
-import org.example.ClientPkg.RMIClient;
-import org.example.MessagePkg.Message;
-import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.ClientPkg.RMIServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -11,6 +8,8 @@ import java.rmi.RemoteException;
 public interface RMIClientInterface extends Remote {
 
     String getPlayerName() throws RemoteException;
+
+    RMIServerInterface getServer() throws RemoteException;
 
     void updateServerAlive() throws RemoteException;
 

@@ -6,10 +6,11 @@ import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class Message implements Serializable {
     private ClientProxy proxy;
-    private RMIClient client;
+    private RMIClientInterface client;
 
     public Message() {
         this.proxy = null;
@@ -28,14 +29,14 @@ public class Message implements Serializable {
         this.client = client;
     }
 
-    public RMIClient getClient(){
+    public RMIClientInterface getClient(){
         return this.client;
     }
 
     // Ogni sottoclasse dovrà implementare questo metodo
-    public void handle(GameController controller, String playerName){}
+    public void handle(GameController controller, String playerName) throws RemoteException {}
 
-    public boolean checkClient(){
+    public boolean checkClient() throws RemoteException {
         if(this.proxy != null) {
             if(this.proxy.getPlayerName() == null) {
                 System.out.println("You need to set your name first");

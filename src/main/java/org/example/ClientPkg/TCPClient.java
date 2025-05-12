@@ -21,7 +21,7 @@ public class TCPClient {
     private MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, UI userInterface) throws IOException {
+    public TCPClient(String serverAddress, int port, UI userInterface, String name) throws IOException {
         this.userInterface = userInterface;
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
@@ -41,6 +41,8 @@ public class TCPClient {
         startPingThread();
         startListening();
         startKeyboardListener();
+
+        this.registerName(name);
     }
 
     private void startPingThread() {
@@ -52,7 +54,7 @@ public class TCPClient {
 
                     // Invia il messaggio al server
                     sendMessage(pingMessage);
-                    System.out.println("Ping from client");
+                    System.out.println("Sending Ping from client");
 
                     // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);
@@ -71,7 +73,7 @@ public class TCPClient {
     private void startListening() {
         Thread listenerThread = new Thread(() -> {
             try {
-                while (true) {
+                while (!socket.isClosed()) {
                     // Leggi l'oggetto inviato dal server
                     Object obj = in.readObject();
 
@@ -80,6 +82,7 @@ public class TCPClient {
                         if(System.currentTimeMillis() - serverAlive > 14999){
                             disconnect();
                         } else {
+                            System.out.println("Received Pong from server");
                             serverAlive = System.currentTimeMillis();
                         }
                     } else {
@@ -99,7 +102,7 @@ public class TCPClient {
         Thread KeyBoardListenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type a command: ");
-            while (true) {
+            while (!socket.isClosed()) {
                 try {
                     // Legge l'input dell'utente
                     String input = scanner.nextLine();
@@ -141,7 +144,9 @@ public class TCPClient {
 
     public void registerName(String name){
         Message message = msgGen.generate("set_name", List.of(name));
-        sendMessage(message); ///aggiunto per mandarlo attraverso la rete
+        if(message != null){
+            sendMessage(message);
+        }
     }
 
     public void sendMessage(Message message){
@@ -151,7 +156,7 @@ public class TCPClient {
                 out.writeObject(message);
                 out.flush();
             } catch (IOException e) {
-                System.out.println("Error sending message");
+                System.out.println("Error sending message from client: " + e.getMessage());
             }
         }
     }
