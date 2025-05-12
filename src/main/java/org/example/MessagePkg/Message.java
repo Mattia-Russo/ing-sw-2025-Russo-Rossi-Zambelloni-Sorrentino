@@ -1,6 +1,7 @@
 package org.example.MessagePkg;
 
 import org.example.ClientPkg.RMIClient;
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 

@@ -380,4 +380,8 @@ public class Game{
     public void addDiscoveredComponent(Components c){
         discoveredComponents.add(c);
     }
+
+    public List<Components> getDiscoveredComopnent(){
+        return discoveredComponents;
+    }
 }
