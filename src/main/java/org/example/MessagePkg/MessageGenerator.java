@@ -1,12 +1,12 @@
 package org.example.MessagePkg;
 
-import org.example.MessagePkg.*;
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.*;
 import java.util.function.Function;
 
+// il client non viene notificita in caso di errore sul server: creare un messaggio di tipo error message con una stringa che indica l'errore
 public class MessageGenerator {
     private final Map<String, Function<List<String>, Message>> messageMap = new HashMap<>();
 
@@ -39,7 +39,7 @@ public class MessageGenerator {
         messageMap.put("end_add_alien", this::createEndAddAlienMessage);
         messageMap.put("remove_tile", this::createRemoveTileMessage);
         messageMap.put("show_deck", this::createShowDeckMessage);
-        messageMap.put("end_show_deck", this::endShowDeckMessage);
+        messageMap.put("end_show_deck", this::createEndShowDeckMessage);
         messageMap.put("left_rotate", this::createLeftRotateMessage);
         messageMap.put("right_rotate", this::createRightRotateMessage);
         messageMap.put("add_brown_alien", this::createAddBrownAlien);
@@ -81,7 +81,7 @@ public class MessageGenerator {
         return new LeftRotateMessage();
     }
 
-    private Message endShowDeckMessage(List<String> args){
+    private Message createEndShowDeckMessage(List<String> args){
         return new EndShowDeckmessage();
     }
 

@@ -21,7 +21,7 @@ public class TCPClient {
     private MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, UI userInterface) throws IOException {
+    public TCPClient(String serverAddress, int port, UI userInterface, String name) throws IOException {
         this.userInterface = userInterface;
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
@@ -41,6 +41,8 @@ public class TCPClient {
         startPingThread();
         startListening();
         startKeyboardListener();
+
+        this.registerName(name);
     }
 
     private void startPingThread() {
@@ -139,7 +141,11 @@ public class TCPClient {
     }
 
     public void registerName(String name){
-        msgGen.generate("set_name", List.of(name));
+
+        Message message = msgGen.generate("set_name", List.of(name));
+        if(message != null){
+            sendMessage(message);
+        }
     }
 
     public void sendMessage(Message message){

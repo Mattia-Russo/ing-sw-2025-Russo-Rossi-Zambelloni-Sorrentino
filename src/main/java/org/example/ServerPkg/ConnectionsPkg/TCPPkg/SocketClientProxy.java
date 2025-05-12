@@ -72,7 +72,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             try {
                 Message message = (Message) in.readObject();
 
-                if (message instanceof PingMessage ping) {
+                if (message instanceof PingMessage) {
                     sendMessage(new PongMessage());
                     System.out.println("Pong from server");
                     clientAlive = System.currentTimeMillis();

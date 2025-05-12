@@ -7,6 +7,8 @@ import org.example.ServerPkg.Model.Exceptions.NotStorageException;
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
 import org.example.ServerPkg.Model.Points;
 
+import java.rmi.RemoteException;
+
 
 public class RemoveGoodMessage extends Message {
     private Points point;
@@ -18,7 +20,7 @@ public class RemoveGoodMessage extends Message {
     }
 
     @Override
-    public void handle(GameController controller, String playerName) {
+    public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()){
             try{
                 controller.getGame().getPlayerByName(playerName).getState().removeGood(point, numGood);

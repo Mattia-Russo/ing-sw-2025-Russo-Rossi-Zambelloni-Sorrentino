@@ -126,7 +126,7 @@ public class GameController {
         if(lobbyState == LobbyState.GAME_CREATION) {
             if (game != null) {
                 addNewPlayer(name);
-            } else throw new InvalidGameCreationException("Game NOT created");
+            } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
@@ -136,7 +136,7 @@ public class GameController {
                 if(numPlayers<=4 && numPlayers>=2 ) {
                     if(GameMode==0||GameMode==1) {
                         if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
-                            game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
+                            this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
                             addNewPlayer(name);
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
                     }else throw new InvalidParameterException("Game mode must be 0 or 1");
