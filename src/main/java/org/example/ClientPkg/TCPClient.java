@@ -78,6 +78,7 @@ public class TCPClient {
                     Object obj = in.readObject();
 
                     if (obj instanceof PongMessage pong) {
+                        System.out.println("pong ricevuto");
                         if(System.currentTimeMillis() - serverAlive > 14999){
                             disconnect();
                         } else {
@@ -142,7 +143,6 @@ public class TCPClient {
     }
 
     public void registerName(String name){
-
         Message message = msgGen.generate("set_name", List.of(name));
         if(message != null){
             sendMessage(message);
