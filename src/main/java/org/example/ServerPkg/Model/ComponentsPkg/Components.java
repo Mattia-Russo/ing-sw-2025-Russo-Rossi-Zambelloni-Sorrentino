@@ -24,8 +24,7 @@ import java.util.ArrayList;
 })
 public class Components {
     private Direction direction;
-    private boolean covered;
-    private boolean isPositoned;
+    private boolean isPositioned;
     private final Connector[] connectors;
     private int posX;
     private int posY;
@@ -33,18 +32,13 @@ public class Components {
     public Components(Direction direction, Connector[] connectors) {
         this.direction = direction;
         this.connectors = connectors;
-        this.covered = true;
-        this.isPositoned = false;
+        this.isPositioned = false;
         this.posX = 0;
         this.posY = 0;
     }
 
-    public void uncover(){
-        this.covered = false;
-    }
+    public void discard(){
 
-    public boolean getIfCovered() {
-        return this.covered;
     }
 
     public ComponentsView createView(){
@@ -52,11 +46,11 @@ public class Components {
     }
 
     public boolean getIfPositioned() {
-        return this.isPositoned;
+        return this.isPositioned;
     }
 
     public void setPosition(int x, int y) { // controllo se posizioni valide va fatto prima di chiamare questo metodo
-        this.isPositoned = true;
+        this.isPositioned = true;
         this.posX = x;
         this.posY = y;
     }

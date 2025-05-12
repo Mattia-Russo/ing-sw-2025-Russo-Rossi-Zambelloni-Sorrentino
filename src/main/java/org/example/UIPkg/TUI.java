@@ -55,8 +55,11 @@ public class TUI implements UI{
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
         if(game.getException() == null) {
-            if (game.getComponentsList() != null) {
-                DrawFlippedComponents(game.getComponentsList());
+            int i=0;
+            for(ComponentsView c: game.getComponentsDiscovered()){
+                DrawComponent(c);
+                System.out.println(i);
+                i++;
             }
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
@@ -148,12 +151,6 @@ public class TUI implements UI{
         }
     }
 
-
-    private void DrawFlippedComponents(List<ComponentsView> componentsViewList){
-        for(ComponentsView componentsView : componentsViewList) {
-            System.out.println(componentsView.getType());
-        }
-    }
     
     private void DrawCurrentCard(AdventureCardView adventureCardView) {
         String type=adventureCardView.getType();

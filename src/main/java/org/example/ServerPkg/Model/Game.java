@@ -25,6 +25,7 @@ public class Game{
     private final int lapLength;
     private AdventureCard currentCard;
     private List<Components> componentsList;
+    private ArrayList<Components> discoveredComponents;
     private final GameController controller;
     private List<GameUpdater> gameUpdaters = new ArrayList<>();
 
@@ -327,6 +328,20 @@ public class Game{
         }
     }
 
+    public Components pickDiscoveredComponent(int index){
+        if ((this.discoveredComponents == null)) {
+            throw new InvalidMethodCallException("There are no components discovered yet");
+        } else if (this.discoveredComponents.isEmpty()) {
+            throw new InvalidMethodCallException("Components heap is empty");
+        } else {
+            Components c = discoveredComponents.get(index);
+
+            discoveredComponents.remove(index);
+
+            return c;
+        }
+    }
+
 
     //usage only for test
 
@@ -360,5 +375,13 @@ public class Game{
         players.remove(p);
         numPlayer--;
         //gameUpdaters.remove(p); giacomino come si gestisce qui?
+    }
+
+    public void addDiscoveredComponent(Components c){
+        discoveredComponents.add(c);
+    }
+
+    public List<Components> getDiscoveredComopnent(){
+        return discoveredComponents;
     }
 }

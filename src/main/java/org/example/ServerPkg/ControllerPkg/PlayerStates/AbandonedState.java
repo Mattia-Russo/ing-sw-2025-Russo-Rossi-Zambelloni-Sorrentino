@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.AbandonedStateException;
+import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -168,7 +169,17 @@ public class AbandonedState extends PlayerState{
     public void AbandonGame(Player player){
         throw new AbandonedStateException("You've abandoned, wait for the end of the game");
     }
-    
+
+    @Override
+    public void discardComponent(Player p){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
+    @Override
+    public void pickDiscoveredComponent(Player p, int index){
+        throw new AbandonedStateException("You've abandoned, wait for the end of the game");
+    }
+
     @Override
     public void disconnect(Player p, Game game){
         game.disconnectPlayer(p);

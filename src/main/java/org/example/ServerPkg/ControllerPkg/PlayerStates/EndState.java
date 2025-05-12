@@ -2,6 +2,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -174,7 +175,17 @@ public class EndState extends PlayerState{
     public void AbandonGame(Player player){
         throw new EndStateException("The game has ended, cannot do any action anymore");
     }
-  
+
+    @Override
+    public void discardComponent(Player p){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
+    @Override
+    public void pickDiscoveredComponent(Player p, int index){
+        throw new EndStateException("The game has ended, cannot do any action anymore");
+    }
+
     @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);

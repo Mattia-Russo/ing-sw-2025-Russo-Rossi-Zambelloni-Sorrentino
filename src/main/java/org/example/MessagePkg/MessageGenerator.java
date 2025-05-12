@@ -42,8 +42,13 @@ public class MessageGenerator {
         messageMap.put("end_show_deck", this::createEndShowDeckMessage);
         messageMap.put("left_rotate", this::createLeftRotateMessage);
         messageMap.put("right_rotate", this::createRightRotateMessage);
-        messageMap.put("add_brown_alien", this::createAddBrownAlien);
-        messageMap.put("add_purple_alien", this::createAddPurpleAlien);
+        messageMap.put("add_brown_alien", this::createAddBrownAlienMessage);
+        messageMap.put("add_purple_alien", this::createAddPurpleAlienMessage);
+        messageMap.put("turn_timer", this::createturnTimerMessage);
+        messageMap.put("pick_component_tile", this::createPickComponentTileMessage);
+        messageMap.put("pick_discovered_component", this::createPickDiscoveredComponentMessage);
+        messageMap.put("discard_component", this::createDiscardComponentMessage);
+        messageMap.put("place_tile", this::createPlaceTileMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -59,14 +64,39 @@ public class MessageGenerator {
         }
     }
 
-    private Message createAddPurpleAlien(List<String> args){
+    private Message createPlaceTileMessage(List<String> args) {
+        int x = Integer.parseInt(args.get(0));
+        int y = Integer.parseInt(args.get(1));
+        Points point = new Points(x, y);
+        return new PlaceTileMessage(point);
+    }
+
+    private Message createDiscardComponentMessage(List<String> args) {
+        return new DiscardComponentMessage();
+    }
+
+
+    private Message createPickDiscoveredComponentMessage(List<String> args){
+        int x = Integer.parseInt(args.get(0));
+        return new PickDiscoveredComponentMessage(x);
+    }
+
+    private Message createPickComponentTileMessage(List<String> args){
+        return new PickComponentTileMessage();
+    }
+
+    private Message createturnTimerMessage(List<String> args){
+        return new TurnTimerMessage();
+    }
+
+    private Message createAddPurpleAlienMessage(List<String> args){
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
         return new AddPurpleAlienMessage(point);
     }
 
-    private Message createAddBrownAlien(List<String> args){
+    private Message createAddBrownAlienMessage(List<String> args){
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);

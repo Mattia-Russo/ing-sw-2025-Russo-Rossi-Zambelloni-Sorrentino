@@ -14,6 +14,7 @@ public interface RMIClientInterface extends Remote {
     void updateServerAlive() throws RemoteException;
 
     void disconnect() throws RemoteException;
+
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client
