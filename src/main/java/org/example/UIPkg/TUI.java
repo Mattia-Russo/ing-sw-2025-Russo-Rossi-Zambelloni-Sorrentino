@@ -82,21 +82,18 @@ public class TUI implements UI{
     private void DrawShipboard(List<PlayerView> players) {
         for(PlayerView player : players) {
             System.out.println(player.getName());
-            if(player.getDeckShowed()==null) {
-                System.out.println(player.getCurrentTile());
+            StringBuilder sb= new StringBuilder();
+            componentView[][] matrix= player.getShipboardView().getComponentsView();
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 7; j++) {
-                        if (player.getShipboardView().getComponentsView()[i][j] != null) {
-                            System.out.println(i + "," + j);
-                            DrawComponent(player.getShipboardView().getComponentsView()[i][j]);
+                        ComponentsView comp=matrix[i][j];
+                        if(comp!=null){
+                        sb.append("[").append(i).append(",").append(j).append("]\n");
+                        sb.append(DrawComponent(comp)).append("\n");
                         }
                     }
                 }
-            }else {
-                for (int i = 0; i < player.getDeckShowed().size(); i++) {
-                    System.out.println(player.getDeckShowed().get(i));
-                }
-            }
+                System.out.println(sb);
         }
     }
 
