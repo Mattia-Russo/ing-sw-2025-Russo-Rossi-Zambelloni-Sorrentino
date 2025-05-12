@@ -76,7 +76,7 @@ public class BuildShipState extends PlayerState{
                 new GameView(game, null);
             }
         } else {
-            throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
+            throw new InvalidMethodCallException("You cannot pick a card while the deck is showed");
         }
     }
 
@@ -145,11 +145,6 @@ public class BuildShipState extends PlayerState{
         }
         player.setShipBuilded();
         player.setPosition(pos);
-    }
-
-    @Override
-    public void AbandonGame(Player player){
-        throw new InvalidMethodCallException("You have to finish building first");
     }
   
     @Override
