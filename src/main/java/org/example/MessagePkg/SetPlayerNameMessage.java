@@ -12,7 +12,10 @@ public class SetPlayerNameMessage extends Message{
     @Override
     public void handle(GameController controller, String playerName){
         if(getProxy()!=null){
-            getProxy().setPlayerName(playerName);
+            getProxy().setPlayerName(this.playerName);
+            System.out.println("proxy non è null");
+        }else{
+            System.out.println("proxy è null");
         }
     }
 }
