@@ -69,6 +69,18 @@ public class BuildShipState extends PlayerState{
     }
 
     @Override
+    public void pickDiscoveredComponent(Player p, int index){
+        if (p.getDeckShowed() == null){
+            if(!p.getShipBuilded()) {
+                p.setCurrentTile(game.pickDiscoveredComponent(index));
+                new GameView(game, null);
+            }
+        } else {
+            throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
+        }
+    }
+
+    @Override
     public void rightRotateTile(Player p){
         if(p.getCurrentTile() == null){
             throw new TileNotSelectedException("You've not selected a tile");
@@ -86,6 +98,13 @@ public class BuildShipState extends PlayerState{
             p.getCurrentTile().leftRotate();
             new GameView(game, null);
         }
+    }
+
+    @Override
+    public void discardComponent(Player p){
+        game.addDiscoveredComponent(p.getCurrentTile());
+        p.setCurrentTile(null);
+        new GameView(game, null);
     }
 
     @Override

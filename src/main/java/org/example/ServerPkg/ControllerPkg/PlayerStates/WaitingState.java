@@ -165,6 +165,16 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
+    public void discardComponent(Player p){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
+    public void pickDiscoveredComponent(Player p, int index){
+        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    }
+
+    @Override
     public void AbandonGame(Player player){
         player.abandon();
     }

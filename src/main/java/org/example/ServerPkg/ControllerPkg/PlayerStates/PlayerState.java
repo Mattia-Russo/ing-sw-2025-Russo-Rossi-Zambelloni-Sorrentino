@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.Exceptions.PickTileWithDeckException;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -78,4 +80,7 @@ public class PlayerState {
 
     public void disconnect(Player disconnectingPlayer, Game game){}
 
+    public void discardComponent(Player p){}
+
+    public void pickDiscoveredComponent(Player p, int index){}
 }
