@@ -3,6 +3,7 @@ package org.example.ServerPkg.ControllerPkg;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.TimerGenerator;
@@ -20,18 +21,15 @@ public class GameController {
     private final BlockingQueue<Message> messageQueue;
     private volatile boolean isRunning;
     private Thread messageProcessor;
-    private List<GameUpdater> gameUpdaters= new ArrayList<>();
+    private List<GameUpdater> gameUpdaters;
 
     public GameController(){
         this.game = null;
         this.lobbyState = LobbyState.GAME_CREATION;
         this.messageQueue = new LinkedBlockingQueue<>();
         this.isRunning = true;
+        gameUpdaters = new ArrayList<>();
         startMessageProcessing();
-    }
-
-    private void addGameUpdater(GameUpdater gameUpdater){
-        this.gameUpdaters.add(gameUpdater);
     }
 
     private void startMessageProcessing() {
@@ -113,33 +111,35 @@ public class GameController {
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
-    private void addNewPlayer(String name){
+    private void addNewPlayer(String name, GameUpdater gameUpdater){
         for (Player p : game.getPlayers()) {
             if (p.getName().equals(name)) {
                 throw new InvalidUserNameException("The player " + name + " already exists");
             }
         }
         if (game.getPlayers().size() < game.getNumPlayer()) {
-            game.getPlayers().add(new Player(game.getPlayers().size(), name, game));
+            Player p = new Player(game.getPlayers().size(), name, game);
+            game.getPlayers().add(p);
+            game.addGameUpdater(p.getName(), gameUpdater);
         } else throw new InvalidAddPlayerException("can't add any more players");
     }
 
-    public void joinLobby(String name){
+    public void joinLobby(String name, GameUpdater gameUpdater){
         if(lobbyState == LobbyState.GAME_CREATION) {
             if (game != null) {
-                addNewPlayer(name);
+                addNewPlayer(name, gameUpdater);
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
-    public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode) {
+    public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode, GameUpdater gameUpdater) {
         if(lobbyState == LobbyState.GAME_CREATION) {
             if(game==null) {
                 if(numPlayers<=4 && numPlayers>=2 ) {
                     if(GameMode==0||GameMode==1) {
                         if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
                             this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
-                            addNewPlayer(name);
+                            addNewPlayer(name, gameUpdater);
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
                     }else throw new InvalidParameterException("Game mode must be 0 or 1");
                 }else throw new InvalidParameterException("MIN 2 MAX 4 PLAYERS");

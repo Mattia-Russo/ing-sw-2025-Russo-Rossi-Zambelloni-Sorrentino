@@ -128,7 +128,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         if (clients.containsKey(client)) {
             clients.put(client, System.currentTimeMillis());
             client.updateServerAlive();
-            System.out.println("RMI server alive for client: " + client.getPlayerName());
+            //System.out.println("RMI server alive for client: " + client.getPlayerName());
         } else {
             System.out.println("Client not registered, cannot update timestamp");
         }

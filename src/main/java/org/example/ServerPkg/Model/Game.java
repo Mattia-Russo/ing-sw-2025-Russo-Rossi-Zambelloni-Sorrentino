@@ -27,7 +27,7 @@ public class Game{
     private List<Components> componentsList;
     private ArrayList<Components> discoveredComponents;
     private final GameController controller;
-    private List<GameUpdater> gameUpdaters = new ArrayList<>();
+    private Map<String, GameUpdater> gameUpdaters;
 
     public Game(int numPlayer, int ShipBoardLevel, int gameMode, GameController gameController) {
         this.numPlayer = numPlayer;
@@ -52,10 +52,19 @@ public class Game{
             this.componentsList = TileLoader.loadFilteredTiles();
         }
         this.players = new ArrayList<>();
+        this.gameUpdaters  = new HashMap<>();
     }
 
     public int getNumPlayer() {
         return numPlayer;
+    }
+
+    public Map<String, GameUpdater> getGameUpdaters() {
+        return gameUpdaters;
+    }
+
+    public void addGameUpdater(String name, GameUpdater gameUpdater) {
+        this.gameUpdaters.put(name, gameUpdater);
     }
 
     public void setPlayersShipboard(){
@@ -304,7 +313,6 @@ public class Game{
         }
     }
 
-
     //for testing
     public void startBuildingShips() {
         for (Player p : players){
@@ -362,26 +370,31 @@ public class Game{
     }
 
     public void setGameUpdaters(List<GameUpdater> gameUpdaters){
-        this.gameUpdaters=gameUpdaters;
+        this.gameUpdaters.clear();
+        for (Player player : players) {
+            for(GameUpdater g: gameUpdaters) {
+                this.gameUpdaters.put(player.getName(), g);
+            }
+        }
     }
 
     public void updateGame(GameView gameView) {
-        for(GameUpdater g: gameUpdaters) {
-            g.updateGame(gameView);
+       for (Map.Entry<String, GameUpdater> entry : gameUpdaters.entrySet()) {
+           entry.getValue().updateGame(gameView);
         }
     }
 
     public void disconnectPlayer (Player p){
         players.remove(p);
         numPlayer--;
-        //gameUpdaters.remove(p); giacomino come si gestisce qui?
+        gameUpdaters.remove(p.getName());
     }
 
     public void addDiscoveredComponent(Components c){
         discoveredComponents.add(c);
     }
 
-    public List<Components> getDiscoveredComopnent(){
+    public List<Components> getDiscoveredComponent(){
         return discoveredComponents;
     }
 }

@@ -3,6 +3,9 @@ package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.Points;
+import org.example.UIPkg.GameUpdater;
+import org.example.UIPkg.TCPVirtualView;
+import org.example.UIPkg.TUI;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -11,11 +14,13 @@ public abstract class ClientProxy {
     private String playerName;
     private final GameController controller;
     private final TCPServer TCPServer;
+    GameUpdater gameUpdater;
 
     public ClientProxy(GameController controller, TCPServer TCPServer) {
         this.TCPServer = TCPServer;
         this.controller = controller;
         this.playerName = null;
+        this.gameUpdater = null;
     }
 
     public GameController getController() {
@@ -58,4 +63,6 @@ public abstract class ClientProxy {
         }
         leaveServer();
     }
+
+    public void setUI(String UI){}
 }

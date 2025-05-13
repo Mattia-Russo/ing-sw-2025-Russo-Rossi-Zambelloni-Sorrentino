@@ -22,7 +22,7 @@ public class TCPClient {
     private MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, UI userInterface, String name) throws IOException {
+    public TCPClient(String serverAddress, int port, UI userInterface, String name, String UI) throws IOException {
         this.userInterface = userInterface;
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
@@ -55,7 +55,7 @@ public class TCPClient {
 
                     // Invia il messaggio al server
                     sendMessage(pingMessage);
-                    System.out.println("Sending Ping from client");
+                    //System.out.println("Sending Ping from client");
 
                     // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);
@@ -78,7 +78,7 @@ public class TCPClient {
                     Object obj = in.readObject();
                     if (obj instanceof Message) {
                         if ((Message) obj instanceof PongMessage) {
-                            System.out.println("Client recived pong");
+                            //System.out.println("Client recieved pong");
                         }
                     } else if (obj instanceof GameView) {
                         System.out.println("GameView updated.");

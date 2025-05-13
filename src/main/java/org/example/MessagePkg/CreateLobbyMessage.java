@@ -3,7 +3,6 @@ package org.example.MessagePkg;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.InvalidGameCreationException;
 import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
-import org.example.ServerPkg.Model.Player;
 
 import java.rmi.RemoteException;
 import java.security.InvalidParameterException;

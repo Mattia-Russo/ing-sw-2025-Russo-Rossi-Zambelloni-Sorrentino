@@ -5,6 +5,9 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.PingMessage;
 import org.example.MessagePkg.PongMessage;
+import org.example.UIPkg.GUI;
+import org.example.UIPkg.TCPVirtualView;
+import org.example.UIPkg.TUI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -72,10 +75,10 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 Message message = (Message) in.readObject();
 
                 if (message instanceof PingMessage ping) {
-                    System.out.println("Server recieved ping");
+                    //System.out.println("Server received ping");
                   
                     sendMessage(new PongMessage());
-                    System.out.println("Pong from server");
+                    //System.out.println("Pong from server");
                     clientAlive = System.currentTimeMillis();
                 } else if (message instanceof SetPlayerNameMessage setPlayerNameMessage) {
                     message.setProxy(this);
@@ -106,6 +109,15 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 System.err.println("Error closing server socket: " + e.getMessage());
             }
             super.disconnect();
+        }
+    }
+
+    @Override
+    public void setUI(String UI){
+        if(UI.toLowerCase().equals("tui")){
+            this.gameUpdater = new TCPVirtualView(new TUI(), out);
+        } else if (UI.toLowerCase().equals(("gui"))){
+            this.gameUpdater = new TCPVirtualView(new GUI(), out);
         }
     }
 }

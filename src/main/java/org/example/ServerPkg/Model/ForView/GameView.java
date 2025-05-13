@@ -19,8 +19,8 @@ public class GameView implements Serializable{
             for (Player p : game.getPlayers()) {
                 playersView.add(new PlayerView(p));
             }
-            if(game.getDiscoveredComopnent() != null) {
-                for (Components c : game.getDiscoveredComopnent()) {
+            if(game.getDiscoveredComponent() != null) {
+                for (Components c : game.getDiscoveredComponent()) {
                     this.componentsDiscoveredView.add(c.createView());
                 }
             }

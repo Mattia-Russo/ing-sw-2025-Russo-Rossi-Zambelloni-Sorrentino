@@ -13,18 +13,18 @@ import java.io.IOException;
 public class ClientMain {
     public static void main(String[] args) throws IOException {
         // Verifica che siano stati passati argomenti
-        if (args.length < 2) {
-            System.out.println("Error: specify 'tcp' or 'rmi' as first parameter and player name as second parameter.");
+        if (args.length < 3) {
+            System.out.println("Error: specify 'tcp' or 'rmi' as first parameter, player name as second parameter and 'gui' or 'tui' as third parameter.");
             return;
         }
-
+        // CONTROLLO SE GUI E TUI
         // Recupero del tipo di connessione desiderata
         String connectionType = args[0].toLowerCase(); // "tcp" o "rmi"
 
         switch (connectionType) {
             case "tcp":
                 UI TCPUserInterface = new TUI();
-                TCPClient TCPClient = new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1]);
+                TCPClient TCPClient = new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1], args[2]);
                 break;
 
             case "rmi":

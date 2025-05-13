@@ -4,6 +4,7 @@ import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
+import org.example.UIPkg.GameUpdater;
 
 import java.util.*;
 import java.util.function.Function;
@@ -145,7 +146,7 @@ public class MessageGenerator {
     }
 
     private Message createSetPlayerNameMessage(List<String> args) {
-        return new SetPlayerNameMessage(args.get(0));
+        return new SetPlayerNameMessage(args.get(0), args.get(1));
     }
 
     private Message createAcceptRewardMessage(List<String> args) {

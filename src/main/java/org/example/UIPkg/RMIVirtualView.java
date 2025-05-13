@@ -5,7 +5,7 @@ import org.example.ServerPkg.Model.ForView.GameView;
 public class RMIVirtualView implements GameUpdater {
     private UI userInterface;
 
-    RMIVirtualView(UI userInterface){
+    public RMIVirtualView(UI userInterface){
         this.userInterface = userInterface;
     }
 
