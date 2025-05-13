@@ -24,7 +24,8 @@ public class FixShipState extends PlayerState {
             player.getPlayerShipBoard().removeComponent(point.getX(), point.getY());
             new GameView(game, null);
         } catch(InvalidPositionException | AlreadyEmptyPositionException e) {
-            System.out.println("Error: " + e.getMessage());
+            Exception e1 = new Exception(e.getMessage() + " " + player.getName());
+            new GameView(game, e1);
         }
     }
 
@@ -36,7 +37,7 @@ public class FixShipState extends PlayerState {
 
     @Override
     public void AbandonGame(Player player){
-        throw new InvalidMethodCallException("You have to fix your ship");
+        new GameView(game, new InvalidMethodCallException("You have to fix your ship " + player.getName()));
     }
 
     @Override

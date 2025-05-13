@@ -56,7 +56,7 @@ public class AddAlienState extends PlayerState{
                 if (!p.getReadyForCards()) {
                     return;
                 }
-                p.setPlayerState(new WaitingState());
+                p.setPlayerState(new WaitingState(game));
             }
         }
         game.Turn();

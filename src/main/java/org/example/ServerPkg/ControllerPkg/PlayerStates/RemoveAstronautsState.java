@@ -18,9 +18,9 @@ public class RemoveAstronautsState extends PlayerState{
     }
 
     @Override
-    public void removeAstronauts(Points point){
+    public void removeAstronauts(Points point, Player player){
         if(astronautsRemoved == game.getCurrentCard().getNumAstronauts()){
-            throw new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more");
+            new GameView(game, new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more " + player.getName()));
         } else{
             Player currentPlayer = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex());
             Cabin cabin = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isCabin();
@@ -35,15 +35,15 @@ public class RemoveAstronautsState extends PlayerState{
                 }
                 new GameView(game, null);
             } else {
-                throw new NotCabinException("The component of given coordinates is not a cabin");
+                new GameView(game, new NotCabinException("The component of given coordinates is not a cabin " + player.getName()));
             }
         }
     }
 
     @Override
-    public void endRemoveAstronauts(){
+    public void endRemoveAstronauts(Player player){
         if(astronautsRemoved < game.getCurrentCard().getNumAstronauts()){
-            throw new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts");
+            new GameView(game, new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts " + player.getName()));
         } else {
             game.getCurrentCard().setCardState(game);
         }
@@ -53,8 +53,8 @@ public class RemoveAstronautsState extends PlayerState{
     public void AbandonGame(Player player){
         removeLeftAstronauts(player, game);
         new GameView(game, null);
-        player.abandon();
-        endRemoveAstronauts();
+        player.abandon(game);
+        endRemoveAstronauts(null);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class RemoveAstronautsState extends PlayerState{
         removeLeftAstronauts(p, game);
         game.disconnectPlayer(p);
         new GameView(game, null);
-        endRemoveAstronauts();
+        endRemoveAstronauts(null);
     }
 
     private void removeLeftAstronauts(Player p, Game game) {

@@ -35,7 +35,7 @@ public class BuildShipState extends PlayerState{
                 endBuildShip(player);
             }
         }catch(InvalidMethodCallException e){
-            System.out.println("ERROR " + e.getMessage());
+            new GameView(game, e);
         }
     }
 
@@ -46,7 +46,8 @@ public class BuildShipState extends PlayerState{
                 p.setDeckShowed(game.getDeck(deckPosition));
             }else throw new InvalidMethodCallException("can't call this method in this game mode");
         } catch (InvalidDeckNumberException | InvalidMethodCallException e) {
-            System.out.println("Error: " + e.getMessage());
+            Exception e1 = new Exception(e.getMessage() + " " + p.getName());
+            new GameView(game, e1);
         }
     }
 
@@ -64,7 +65,7 @@ public class BuildShipState extends PlayerState{
                 new GameView(game, null);
             }
         } else {
-            throw new PickTileWithDeckException("You cannot pick a card while the deck is showed");
+            new GameView(game, new PickTileWithDeckException("You cannot pick a card while the deck is showed " + p.getName()));
         }
     }
 
@@ -76,14 +77,14 @@ public class BuildShipState extends PlayerState{
                 new GameView(game, null);
             }
         } else {
-            throw new InvalidMethodCallException("You cannot pick a card while the deck is showed");
+            new GameView(game, new PickTileWithDeckException("You cannot pick a card while the deck is showed " + p.getName()));
         }
     }
 
     @Override
     public void rightRotateTile(Player p){
         if(p.getCurrentTile() == null){
-            throw new TileNotSelectedException("You've not selected a tile");
+            new GameView(game, new TileNotSelectedException("You've not selected a tile " + p.getName()));
         } else {
             p.getCurrentTile().rightRotate();
             new GameView(game, null);
@@ -93,7 +94,7 @@ public class BuildShipState extends PlayerState{
     @Override
     public void leftRotateTile(Player p){
         if(p.getCurrentTile() == null){
-            throw new TileNotSelectedException("You've not selected a tile");
+            new GameView(game, new TileNotSelectedException("You've not selected a tile " + p.getName()));
         } else {
             p.getCurrentTile().leftRotate();
             new GameView(game, null);
@@ -116,8 +117,8 @@ public class BuildShipState extends PlayerState{
                 new GameView(game, null);
             }
         } catch (OccupiedPositionException | InvalidPositionException e) {
-            System.out.println("Error: " + e.getMessage());
-            new GameView(game, e);
+            Exception e1 = new Exception(e.getMessage() + " " + player.getName());
+            new GameView(game, e1);
         }
     }
 

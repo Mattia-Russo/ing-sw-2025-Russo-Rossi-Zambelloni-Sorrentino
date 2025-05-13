@@ -54,7 +54,7 @@ public class PlayerState {
 
     public void endFixShip(Player player){}
 
-    public void showDeck(Player p, int deckPosition, Player player){}
+    public void showDeck(Player p, int deckPosition){}
 
     public void endShowDeck(Player p){}
 

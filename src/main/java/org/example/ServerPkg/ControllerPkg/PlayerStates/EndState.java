@@ -17,173 +17,173 @@ public class EndState extends PlayerState{
     }
 
     @Override
-    public void activateCannons(ArrayList<Points> cannons){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void activateCannons(ArrayList<Points> cannons, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void useBatteries(ArrayList<Points> batteries){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void useBatteries(ArrayList<Points> batteries, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endActivateCannons(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endActivateCannons(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void activateEngines(ArrayList<Points> cannons){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void activateEngines(ArrayList<Points> cannons, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endActivateEngines(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endActivateEngines(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void activateShields(ArrayList<Points> shields){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void activateShields(ArrayList<Points> shields, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endActivateShields(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endActivateShields(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void removeGood(Points point, int numGood){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void removeGood(Points point, int numGood, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void addGood(Points point, int numGood){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void addGood(Points point, int numGood, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endChangeGoods(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endChangeGoods(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void landOnAbandon(boolean landed){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void landOnAbandon(boolean landed, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void landOnPlanet(boolean landed, int numPlanet){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void landOnPlanet(boolean landed, int numPlanet, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void removeAstronauts(Points point){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void removeAstronauts(Points point, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endRemoveAstronauts(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endRemoveAstronauts(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void removeBestGood(Points point, int numGood){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void removeBestGood(Points point, int numGood, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void removeBatteries(Points point){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void removeBatteries(Points point, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endRemoveBestGoods(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endRemoveBestGoods(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void acceptReward(boolean accept){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void acceptReward(boolean accept, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void endWreckedState(){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void endWreckedState(Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void removeTile(Points point, Player player){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void endFixShip(Player player){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void showDeck(Player p, int deckPosition){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override
     public void endShowDeck(Player p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override
     public void pickComponentTile(Player p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override
     public void rightRotateTile(Player p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override
     public void leftRotateTile(Player p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override
     public void placeTile(Player player, Points point){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void endBuildShip(Player player){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void addBrownAlien(Points p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void addBrownAlien(Points p, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
-    public void addPurpleAlien(Points p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+    public void addPurpleAlien(Points p, Player player){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void turnTimer(Player player){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void AbandonGame(Player player){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
     }
 
     @Override
     public void discardComponent(Player p){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override
     public void pickDiscoveredComponent(Player p, int index){
-        throw new EndStateException("The game has ended, cannot do any action anymore");
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
     }
 
     @Override

@@ -126,8 +126,8 @@ public class AbandonedState extends PlayerState{
     }
 
     @Override
-    public void showDeck(Player p, int deckPosition, Player player){
-        new GameView(game, new AbandonedStateException("You've abandoned, wait for the end of the game " + player.getName()));
+    public void showDeck(Player p, int deckPosition){
+        new GameView(game, new AbandonedStateException("You've abandoned, wait for the end of the game " + p.getName()));
     }
 
     @Override
