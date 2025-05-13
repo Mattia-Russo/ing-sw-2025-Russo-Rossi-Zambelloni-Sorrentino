@@ -26,6 +26,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void startRMIServer() {
         try {
+            System.setProperty("java.rmi.server.hostname", Settings.SERVER_NAME);
             Registry registry = LocateRegistry.createRegistry(Settings.RMI_PORT);
             registry.rebind("GameServer", this);
             System.out.println("RMI Server is running on " + Settings.RMI_PORT + " port");
