@@ -2,6 +2,7 @@ package org.example.MessagePkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.rmi.RemoteException;
@@ -16,7 +17,8 @@ public class AddBrownAlienMessage  extends Message{
     @Override
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()){
-            controller.getGame().getPlayerByName(playerName).getState().addBrownAlien(point);
+            Player player= controller.getGame().getPlayerByName(playerName);
+            player.getState().addBrownAlien(point, player);
         }
     }
 }

@@ -2,6 +2,7 @@ package org.example.MessagePkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.ServerPkg.Model.Player;
 
 import java.rmi.RemoteException;
 
@@ -16,7 +17,8 @@ public class PickDiscoveredComponentMessage extends Message{
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try {
-                controller.getGame().getPlayerByName(playerName).getState().pickDiscoveredComponent(controller.getGame().getPlayerByName(playerName), index);
+                Player player= controller.getGame().getPlayerByName(playerName);
+                player.getState().pickDiscoveredComponent(player, index);
             } catch (InvalidMethodCallException e) {
                 System.out.println("Error: " + e.getMessage());
             }
