@@ -295,7 +295,7 @@ public class Game{
                 }
             }else if(gameMode == 1){
                 p.abandon();
-                p.setPlayerState(new AbandonedState());
+                p.setPlayerState(new AbandonedState(this));
             }else {
                 p.setPlayerState(new WaitingState());
             }

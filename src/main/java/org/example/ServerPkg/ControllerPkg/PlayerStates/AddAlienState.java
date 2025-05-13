@@ -21,7 +21,7 @@ public class AddAlienState extends PlayerState{
     }
 
     @Override
-    public void addBrownAlien(Points p){
+    public void addBrownAlien(Points p, Player player){
         try {
             if (player.getPlayerShipBoard().getComponent(p.getX(), p.getY()) != null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin() != null) {
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.BROWN), player.getPlayerShipBoard());
@@ -29,12 +29,13 @@ public class AddAlienState extends PlayerState{
             } else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
                 DifferentLifeSupportColourException e){
-            System.out.println("ERROR " + e.getMessage());
+            Exception e1 = new Exception(e.getMessage() + " " + player.getName());
+            new GameView(game, e1);
         }
     }
 
     @Override
-    public void addPurpleAlien(Points p){
+    public void addPurpleAlien(Points p, Player player){
         try{
             if(player.getPlayerShipBoard().getComponent(p.getX(), p.getY())!=null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin()!=null ){
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.PURPLE), player.getPlayerShipBoard());
@@ -42,13 +43,14 @@ public class AddAlienState extends PlayerState{
             }else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
         DifferentLifeSupportColourException e){
-            System.out.println("ERROR " + e.getMessage());
+            Exception e1 = new Exception(e.getMessage() + " " + player.getName());
+            new GameView(game, e1);
         }
     }
 
     @Override
-    public void endAlienState(){
-        player.setReadyForCards(true);
+    public void endAlienState(Player player){
+        this.player.setReadyForCards(true);
         for (Player p : game.getPlayers()) {
             if (!p.isAbandoned()) {
                 if (!p.getReadyForCards()) {
@@ -62,13 +64,13 @@ public class AddAlienState extends PlayerState{
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon();
-        endAlienState();
+        player.abandon(game);
+        endAlienState(null);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer, Game game){
         game.disconnectPlayer(disconnectingPlayer);
-        endAlienState();
+        endAlienState(null);
     }
 }
