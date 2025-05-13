@@ -19,7 +19,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
         super(controller, TCPServer);
         this.socket = socket;
-        System.out.println("Config server out");
         out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
         this.clientAlive = System.currentTimeMillis();
@@ -44,14 +43,14 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         checkClient.start();
     }
 
-    public void sendMessage(Message message){
-        synchronized(this.out){
+    public void sendMessage(Message message) {
+        synchronized (this.out) {
             try {
                 out.reset();
                 out.writeObject(message);
                 out.flush();
             } catch (IOException e) {
-                System.out.println("Error sending message from server: " + e.getMessage());
+                System.out.println("Error sending message to server: " + e.getMessage());
             }
         }
     }
@@ -73,7 +72,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                 Message message = (Message) in.readObject();
 
                 if (message instanceof PingMessage ping) {
-                    System.out.println("ping ricevuto");
+                    System.out.println("Server recieved ping");
                   
                     sendMessage(new PongMessage());
                     System.out.println("Pong from server");
@@ -95,8 +94,18 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         }
 
         try {
-            socket.close();
-        } catch (IOException ignored) {}
-        super.disconnect();
+            out.flush();
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            System.err.println("Error closing server streams: " + e.getMessage());
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.err.println("Error closing server socket: " + e.getMessage());
+            }
+            super.disconnect();
+        }
     }
 }

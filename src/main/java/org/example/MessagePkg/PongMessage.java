@@ -3,4 +3,10 @@ package org.example.MessagePkg;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Game;
 
-public class PongMessage extends Message {}
+import java.io.Serial;
+
+public class PongMessage extends Message {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+}

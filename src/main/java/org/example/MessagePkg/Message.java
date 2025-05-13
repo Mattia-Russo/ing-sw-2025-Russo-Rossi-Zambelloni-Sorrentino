@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 
 public class Message implements Serializable {
-    private ClientProxy proxy;
-    private RMIClientInterface client;
+    private transient ClientProxy proxy;
+    private transient RMIClientInterface client;
+    private static final long serialVersionUID = 1L;
 
     public Message() {
         this.proxy = null;

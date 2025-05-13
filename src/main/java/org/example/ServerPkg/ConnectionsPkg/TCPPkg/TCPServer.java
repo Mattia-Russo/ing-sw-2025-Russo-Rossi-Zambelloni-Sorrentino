@@ -45,7 +45,7 @@ public class TCPServer {
                 clientsProxies.add(clientProxy);
 
                 // Let the thread pool handle the communication with the client
-                threadPool.submit(new SocketClientProxy(controller,this, socket));
+                threadPool.submit(clientProxy);
             } catch (IOException ignored) {
                 System.out.println("ERROR");
                 break;

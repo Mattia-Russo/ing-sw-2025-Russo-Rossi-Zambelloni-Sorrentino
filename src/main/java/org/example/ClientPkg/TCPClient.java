@@ -10,6 +10,7 @@ import org.example.UIPkg.UI;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.util.*;
 
@@ -74,23 +75,26 @@ public class TCPClient {
         Thread listenerThread = new Thread(() -> {
             try {
                 while (!socket.isClosed()) {
-                    // Leggi l'oggetto inviato dal server
                     Object obj = in.readObject();
-
-                    if (obj instanceof PongMessage pong) {
-                        System.out.println("pong ricevuto");
-                        if(System.currentTimeMillis() - serverAlive > 14999){
-                            disconnect();
-                        } else {
-                            System.out.println("Received Pong from server");
-                            serverAlive = System.currentTimeMillis();
+                    if (obj instanceof Message) {
+                        if ((Message) obj instanceof PongMessage) {
+                            System.out.println("Client recived pong");
                         }
-                    } else {
+                    } else if (obj instanceof GameView) {
+                        System.out.println("GameView updated.");
                         userInterface.addGameUpdate((GameView) obj);
+                    } else {
+                        System.err.println("Object not recognized: " + obj.getClass().getName());
                     }
                 }
-            } catch (Exception e) {
-                System.err.println("Connection with server interrupted: " + e.getMessage());
+            } catch (StreamCorruptedException e) {
+                System.err.println("Error: stream corrupted");
+            } catch (ClassNotFoundException e) {
+                System.err.println("Error: class not found during deserialization, " + e.getMessage());
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.err.println("I/O error during deserialization: " + e.getMessage());
+                e.printStackTrace();
             }
         });
         listenerThread.setDaemon(false);
@@ -139,7 +143,20 @@ public class TCPClient {
     }
 
     public void disconnect() throws IOException {
-        socket.close();
+        try {
+            out.flush();
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            System.err.println("Error closing client stream: " + e.getMessage());
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.err.println("Error closing client socket: " + e.getMessage());
+            }
+        }
+
     }
 
     public void registerName(String name){

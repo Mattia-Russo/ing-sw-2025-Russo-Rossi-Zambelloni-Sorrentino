@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model;
 
-public class Points {
+import java.io.Serializable;
+
+public class Points implements Serializable {
     int x;
     int y;
 
