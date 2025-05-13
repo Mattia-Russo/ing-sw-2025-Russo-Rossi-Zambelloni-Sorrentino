@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.Connector;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
 
+import javax.swing.text.ComponentView;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,7 +21,7 @@ public class TUI implements UI{
 
     public TUI() {
         gameUpdatesQueue = new LinkedBlockingQueue<>();
-        //startUpdateThread();
+        startUpdateThread();
     }
 
     // thread che continua a leggere i game update in coda con un while(true)
@@ -29,7 +30,7 @@ public class TUI implements UI{
             try {
                 while (true) {
                     if(!gameUpdatesQueue.isEmpty()) {
-                        //Draw();
+                        Draw();
                     }
                 }
             }catch (Exception e) {
@@ -50,7 +51,7 @@ public class TUI implements UI{
         }
     }
 
-    /*
+
     //stringbuilder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
@@ -83,13 +84,13 @@ public class TUI implements UI{
         for(PlayerView player : players) {
             System.out.println(player.getName());
             StringBuilder sb= new StringBuilder();
-            componentView[][] matrix= player.getShipboardView().getComponentsView();
+            ComponentsView[][] matrix= player.getShipboardView().getComponentsView();
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 7; j++) {
                         ComponentsView comp=matrix[i][j];
                         if(comp!=null){
-                        sb.append("[").append(i).append(",").append(j).append("]\n");
-                        sb.append(DrawComponent(comp)).append("\n");
+                            sb.append("[").append(i).append(",").append(j).append("]\n");
+                            DrawComponent(comp);
                         }
                     }
                 }
@@ -246,6 +247,4 @@ public class TUI implements UI{
                 }
         }
     }
-
-     */
 }

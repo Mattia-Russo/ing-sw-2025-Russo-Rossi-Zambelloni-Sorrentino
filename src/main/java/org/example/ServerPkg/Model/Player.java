@@ -90,9 +90,9 @@ public class Player {
         this.onPlanet = !onPlanet;
     }
 
-    public void abandon(){
+    public void abandon(Game game){
         this.abandoned=true;
-        this.state = new AbandonedState();
+        this.state = new AbandonedState(game);
     }
 
     public void changePosition(int val){
