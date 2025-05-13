@@ -83,4 +83,6 @@ public class PlayerState {
     public void discardComponent(Player p){}
 
     public void pickDiscoveredComponent(Player p, int index){}
+
+    public void setPosition(Player player){}
 }

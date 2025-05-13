@@ -137,7 +137,8 @@ public class BuildShipState extends PlayerState{
         game.checkAllPlayersShip();
     }
 
-    private void setPosition(Player player){
+    @Override
+    public void setPosition(Player player){
         int pos=0;
         for(Player p : game.getPlayers()){
             if(p.getShipBuilded())
