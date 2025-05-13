@@ -41,7 +41,7 @@ public class FixShipState extends PlayerState {
     }
 
     @Override
-    public void disconnect(Player p, Game game){
+    public void disconnect(Player p){
         // controllare la nave
         // eliminare eventuali componenti sbagliati
         for(int i = 0; i < p.getPlayerShipBoard().getComponentMatrix().length; i++){

@@ -186,7 +186,7 @@ public class AbandonedState extends PlayerState{
     }
 
     @Override
-    public void disconnect(Player p, Game game){
+    public void disconnect(Player p){
         game.disconnectPlayer(p);
     }
 }

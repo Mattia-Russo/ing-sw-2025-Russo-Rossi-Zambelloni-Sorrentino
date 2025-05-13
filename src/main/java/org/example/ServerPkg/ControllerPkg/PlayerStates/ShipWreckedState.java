@@ -79,7 +79,7 @@ public class ShipWreckedState extends PlayerState {
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    public void disconnect(Player disconnectingPlayer){
         Components c=null;
         int i=0;
         while(c==null && i < 5){

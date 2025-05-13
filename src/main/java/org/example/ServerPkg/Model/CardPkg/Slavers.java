@@ -73,7 +73,7 @@ public class Slavers extends Enemy{
 
         for (int i = playersIndex + 1; i < game.getPlayers().size(); i++){
             if (!game.getPlayers().get(i).isAbandoned()){
-                game.getPlayers().get(i).setPlayerState(new WaitingState());
+                game.getPlayers().get(i).setPlayerState(new WaitingState(game));
             }
         }
     }
@@ -109,7 +109,7 @@ public class Slavers extends Enemy{
 
     @Override
     public void playCard(Game game, int ignore){
-        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
+        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
         playersIndex = -1;
         game.Turn();
     }

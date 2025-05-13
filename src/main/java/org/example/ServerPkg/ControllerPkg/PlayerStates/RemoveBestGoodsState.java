@@ -93,7 +93,7 @@ public class RemoveBestGoodsState extends PlayerState{
     }
 
     @Override
-    public void disconnect(Player p, Game game){
+    public void disconnect(Player p){
         // rimuovere noi i good migliori
         removeBestGoodsLeft(p, game);
         game.disconnectPlayer(p);

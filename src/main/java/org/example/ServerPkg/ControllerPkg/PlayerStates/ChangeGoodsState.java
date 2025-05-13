@@ -55,7 +55,7 @@ public class ChangeGoodsState extends PlayerState{
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    public void disconnect(Player disconnectingPlayer){
         game.disconnectPlayer(disconnectingPlayer);
         endChangeGoods(null);
     }

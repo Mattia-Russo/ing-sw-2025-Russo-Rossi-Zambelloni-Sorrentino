@@ -34,7 +34,7 @@ public class Cabin extends Components {
 
     @Override
     public ComponentsView createView(){
-        if(getDirection() == null) {
+        if(getAlien() == null) {
             return new ComponentsView(getDirection(), getConnectors(), id, "Cabin", 0, getNumAstronauts(), null, null, null);
         }else
             return new ComponentsView(getDirection(), getConnectors(), id, "Cabin", 0, 0, null, null, getAlien().getColour());

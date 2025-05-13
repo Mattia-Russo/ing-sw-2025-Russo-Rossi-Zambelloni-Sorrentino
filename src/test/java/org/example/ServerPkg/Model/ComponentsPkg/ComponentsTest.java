@@ -5,18 +5,6 @@ import org.example.ServerPkg.Model.ShipBoard;
 
 public class ComponentsTest extends TestCase {
 
-    public void testUncover() {
-        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        assertTrue(c.getIfCovered());
-        c.uncover();
-        assertFalse(c.getIfCovered());
-    }
-
-    public void testGetIfCovered() {
-        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        assertTrue(c.getIfCovered());
-    }
-
     public void testGetIfPositioned() {
         Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         assertFalse(c.getIfPositioned());
@@ -24,10 +12,8 @@ public class ComponentsTest extends TestCase {
 
     public void testSetPosition() {
         Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        c.uncover();
         assertFalse(c.getIfPositioned());
         c.setPosition(5,6);
-        assertFalse(c.getIfCovered());
         assertTrue(c.getIfPositioned());
         assertEquals(5, c.getPosX());
         assertEquals(6, c.getPosY());

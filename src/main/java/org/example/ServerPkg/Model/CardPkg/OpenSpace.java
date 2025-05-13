@@ -38,7 +38,7 @@ public class OpenSpace extends AdventureCard{
     @Override
     public void setCardState(Game g) {
         if(currentPlayer==-1 && g.getGameMode()==1) {
-           checkEnginePower(g.getPlayers());
+           checkEnginePower(g.getPlayers(), g);
         }
 
         do {
@@ -51,7 +51,7 @@ public class OpenSpace extends AdventureCard{
             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0)
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
             else {
-                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                 this.playCard(g, null, null);
             }
         }
@@ -61,7 +61,7 @@ public class OpenSpace extends AdventureCard{
     public void playCard(Game g, ArrayList<Points> engines, ArrayList<Points> batteries) {
         try {
             g.getPlayers().get(currentPlayer).changePosition(g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries));
-            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
             new GameView(g, null);
             setCardState(g);
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
@@ -70,10 +70,10 @@ public class OpenSpace extends AdventureCard{
         }
     }
 
-    private void checkEnginePower(ArrayList<Player> players){
+    private void checkEnginePower(ArrayList<Player> players, Game g){
         for (Player p : players) {
             if (!p.isAbandoned() && ((p.getPlayerShipBoard().getSingleEnginePower() == 0 && (p.getPlayerShipBoard().getNumDoubleEngines()==0 || p.getPlayerShipBoard().getTotalBattery() == 0)))){
-                p.abandon();
+                p.abandon(g);
             }
         }
     }

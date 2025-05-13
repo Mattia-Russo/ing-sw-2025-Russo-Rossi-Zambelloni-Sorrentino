@@ -15,10 +15,10 @@ import java.util.ArrayList;
 public class OpenSpaceTest extends TestCase {
 
     public void testCheckEnginePower() {
-        Player p1 = new Player(12, "a");
-        Player p2 = new Player( 7, "a");
-        Player p3 = new Player( 14, "a");
-        Player p4 = new Player( 9, "a");
+        Player p1 = new Player(12, "a", null);
+        Player p2 = new Player( 7, "a", null);
+        Player p3 = new Player( 14, "a", null);
+        Player p4 = new Player( 9, "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -52,9 +52,9 @@ public class OpenSpaceTest extends TestCase {
 
     public void testSetCardState() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a");
-        Player p2 = new Player(2, "b");
-        Player p3 = new Player( 3, "c");
+        Player p1 = new Player(1, "a", null);
+        Player p2 = new Player(2, "b", null);
+        Player p3 = new Player( 3, "c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);
@@ -64,7 +64,7 @@ public class OpenSpaceTest extends TestCase {
 
         p1.getPlayerShipBoard().setNumDoubleEngines(2);
         p2.getPlayerShipBoard().setNumDoubleEngines(0);
-        p2.abandon();
+        p2.abandon(game);
         p3.getPlayerShipBoard().setNumDoubleEngines(1);
 
         card.setCardState(game);
@@ -79,9 +79,9 @@ public class OpenSpaceTest extends TestCase {
 
     public void testPlayCard() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a");
-        Player p2 = new Player(2, "b");
-        Player p3 = new Player( 3, "c");
+        Player p1 = new Player(1, "a", null);
+        Player p2 = new Player(2, "b", null);
+        Player p3 = new Player( 3, "c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);

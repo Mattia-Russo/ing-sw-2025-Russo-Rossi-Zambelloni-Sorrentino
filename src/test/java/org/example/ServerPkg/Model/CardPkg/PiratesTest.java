@@ -22,8 +22,8 @@ public class PiratesTest extends TestCase {
 
     @BeforeEach
     public void setUp() {
-        p1 = new Player(0, "a");
-        p2 = new Player(1, "b");
+        p1 = new Player(0, "a", null);
+        p2 = new Player(1, "b", null);
 
         p1.changePosition(4);
         p2.changePosition(3);

@@ -64,7 +64,7 @@ public class Pirates extends Enemy{
                 if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                 } else {
-                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                     this.playCard(g, null, null);
                 }
             } else {
@@ -173,7 +173,7 @@ public class Pirates extends Enemy{
                 }else{
                     playerLost=false;
                 }
-                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                 setCardState(g);
             }
         }
@@ -186,7 +186,7 @@ public class Pirates extends Enemy{
             game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays());
             new GameView(game, null);
         }
-        game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+        game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(game));
         currentPlayer = -1;
         game.Turn();
     }

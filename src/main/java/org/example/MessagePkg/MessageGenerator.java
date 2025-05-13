@@ -1,6 +1,8 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
+import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.*;
@@ -51,7 +53,6 @@ public class MessageGenerator {
         messageMap.put("place_tile", this::createPlaceTileMessage);
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
         messageMap.put("set_position", this::createSetPositionMessage);
-        messageMap.put("disconnect", this::createDisconnectMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -65,14 +66,6 @@ public class MessageGenerator {
             System.err.println("ERROR: " + e.getMessage());
             return null;
         }
-    }
-
-    private Message createDisconnectMessage(List<String> args) {
-        String playerName = args.get(0); // Nome del giocatore che si disconnette
-        Game game = getGameInstance();  // Metodo per ottenere l'istanza di gioco (dipende dal contesto)
-        Player disconnectingPlayer = game.getPlayerByName(playerName); // Recupera il giocatore dal gioco
-        return new DisconnectMessage(disconnectingPlayer, game);
-
     }
 
     private Message createSetPositionMessage(List<String> args) {

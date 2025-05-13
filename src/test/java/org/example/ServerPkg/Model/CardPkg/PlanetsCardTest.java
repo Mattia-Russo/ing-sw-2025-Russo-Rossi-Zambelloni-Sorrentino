@@ -46,9 +46,9 @@ public class PlanetsCardTest extends TestCase {
 
     public void testSetCardState() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a");
-        Player p2 = new Player(2, "b");
-        Player p3 = new Player( 3, "c");
+        Player p1 = new Player(1, "a", null);
+        Player p2 = new Player(2, "b", null);
+        Player p3 = new Player( 3, "c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);
@@ -77,19 +77,19 @@ public class PlanetsCardTest extends TestCase {
         assertTrue(p1.getState() instanceof LandOnPlanetsState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p1.setPlayerState(new WaitingState());
+        p1.setPlayerState(new WaitingState(game));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof LandOnPlanetsState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p2.setPlayerState(new WaitingState());
+        p2.setPlayerState(new WaitingState(game));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof LandOnPlanetsState);
-        p3.setPlayerState(new WaitingState());
+        p3.setPlayerState(new WaitingState(game));
 
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
@@ -98,9 +98,9 @@ public class PlanetsCardTest extends TestCase {
 
     public void testPlayCard() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a");
-        Player p2 = new Player(2, "b");
-        Player p3 = new Player( 3, "c");
+        Player p1 = new Player(1, "a", null);
+        Player p2 = new Player(2, "b", null);
+        Player p3 = new Player( 3, "c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);

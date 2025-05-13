@@ -58,7 +58,7 @@ public class RemoveAstronautsState extends PlayerState{
     }
 
     @Override
-    public void disconnect(Player p, Game game){
+    public void disconnect(Player p){
         // rimuovere noi gli astronauti
         removeLeftAstronauts(p, game);
         game.disconnectPlayer(p);

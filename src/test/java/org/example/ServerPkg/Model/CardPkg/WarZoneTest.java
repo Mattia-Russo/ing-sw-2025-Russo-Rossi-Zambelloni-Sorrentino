@@ -89,8 +89,8 @@ public class WarZoneTest extends TestCase {
     }
 
     public void testSetCardState() {
-        Player p1 = new Player(12, "a");
-        Player p2 = new Player( 7, "a");
+        Player p1 = new Player(12, "a", null);
+        Player p2 = new Player( 7, "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -177,8 +177,8 @@ public class WarZoneTest extends TestCase {
     }
 
     public void testPlayCard() {
-        Player p1 = new Player(12, "a");
-        Player p2 = new Player( 7, "a");
+        Player p1 = new Player(12, "a", null);
+        Player p2 = new Player( 7, "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);

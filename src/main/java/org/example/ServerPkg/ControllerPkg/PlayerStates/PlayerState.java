@@ -78,7 +78,7 @@ public class PlayerState {
 
     public void AbandonGame(Player player){}
 
-    public void disconnect(Player disconnectingPlayer, Game game){}
+    public void disconnect(Player disconnectingPlayer){}
 
     public void discardComponent(Player p){}
 

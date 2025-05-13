@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class PlayerView implements Serializable {
     private final ShipboardView shipboardView;
-    private final ComponentsView currentTile;
+    private ComponentsView currentTile = null;
     private final String name;
     private final ArrayList<AdventureCardView> deckShowed = new ArrayList<>();
     private final int position;
@@ -18,9 +18,13 @@ public class PlayerView implements Serializable {
     public PlayerView(Player player){
         name = player.getName();
         shipboardView = new ShipboardView(player.getPlayerShipBoard());
-        currentTile = player.getCurrentTile().createView();
-        for(AdventureCard a: player.getDeckShowed()){
-            deckShowed.add(a.createView());
+        if(player.getCurrentTile() != null) {
+            currentTile = player.getCurrentTile().createView();
+        }
+        if(player.getDeckShowed() != null) {
+            for (AdventureCard a : player.getDeckShowed()) {
+                deckShowed.add(a.createView());
+            }
         }
         position = player.getPosition();
         numCredits = player.getNumCredits();

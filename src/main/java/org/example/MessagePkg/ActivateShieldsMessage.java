@@ -26,8 +26,6 @@ public class ActivateShieldsMessage extends Message {
                 player.getState().activateShields(shields, player);
             } catch (AlreadyShieldException | EndStateException | WaitingStateException | AbandonedStateException e) {
                 System.out.println("Error: " + e.getMessage());
-            } catch (java.rmi.RemoteException e) {
-                throw new RuntimeException(e);
             }
         }
     }

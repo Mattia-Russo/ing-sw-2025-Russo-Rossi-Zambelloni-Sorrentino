@@ -24,7 +24,7 @@ public class CreateLobbyMessage extends Message {
         if(checkClient()) {
             try{
                 Player player= controller.getGame().getPlayerByName(playerName);
-                controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode, player);
+                controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
                 System.out.println("Lobby created successfully");
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {
                 System.out.println("ERROR " + e.getMessage());
