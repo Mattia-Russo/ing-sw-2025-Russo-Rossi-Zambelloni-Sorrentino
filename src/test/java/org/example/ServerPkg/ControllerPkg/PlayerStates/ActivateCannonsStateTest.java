@@ -19,10 +19,10 @@ public class ActivateCannonsStateTest extends TestCase {
 
         @BeforeEach
         public void setUp() {
-            Player p1 = new Player(12, "a");
-            Player p2 = new Player( 7, "a");
-            Player p3 = new Player(14, "a");
-            Player p4 = new Player( 9, "a");
+            Player p1 = new Player(12, "a", null);
+            Player p2 = new Player( 7, "a", null);
+            Player p3 = new Player(14, "a", null);
+            Player p4 = new Player( 9, "a", null);
 
             p1.changePosition(4);
             players = new ArrayList<>();
@@ -41,12 +41,12 @@ public class ActivateCannonsStateTest extends TestCase {
             cannons1.add(new Points(1, 2));
             cannons1.add(new Points(2, 3));
 
-            assertDoesNotThrow(() -> state.activateCannons(cannons1));
+            assertDoesNotThrow(() -> state.activateCannons(cannons1, null));
 
             ArrayList<Points> cannons2 = new ArrayList<>();
             cannons2.add(new Points(3, 4));
 
-            assertThrows(AlreadyCannonException.class, () -> state.activateCannons(cannons2));
+            assertThrows(AlreadyCannonException.class, () -> state.activateCannons(cannons2, null));
         }
 
         public void testUseBatteries() {
@@ -56,12 +56,12 @@ public class ActivateCannonsStateTest extends TestCase {
             batteries1.add(new Points(0, 1));
             batteries1.add(new Points(1, 1));
 
-            assertDoesNotThrow(() -> state.useBatteries(batteries1));
+            assertDoesNotThrow(() -> state.useBatteries(batteries1, null));
 
             ArrayList<Points> batteries2 = new ArrayList<>();
             batteries2.add(new Points(2, 2));
 
-            assertThrows(AlreadyBatteryException.class, () -> state.useBatteries(batteries2));
+            assertThrows(AlreadyBatteryException.class, () -> state.useBatteries(batteries2, null));
 
     }
 

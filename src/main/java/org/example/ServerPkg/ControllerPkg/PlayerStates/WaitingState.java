@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -8,179 +9,183 @@ import org.example.ServerPkg.Model.Points;
 import java.util.ArrayList;
 
 public class WaitingState extends PlayerState {
-
-    @Override
-    public void activateCannons(ArrayList<Points> cannons){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    private final Game game;
+    public WaitingState(Game game){
+        this.game = game;
     }
 
     @Override
-    public void useBatteries(ArrayList<Points> batteries){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void activateCannons(ArrayList<Points> cannons, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endActivateCannons(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void useBatteries(ArrayList<Points> batteries, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void activateEngines(ArrayList<Points> cannons){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void endActivateCannons(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endActivateEngines(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void activateEngines(ArrayList<Points> cannons, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void activateShields(ArrayList<Points> shields){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void endActivateEngines(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endActivateShields(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void activateShields(ArrayList<Points> shields, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void removeGood(Points point, int numGood){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void endActivateShields(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void addGood(Points point, int numGood){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void removeGood(Points point, int numGood, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endChangeGoods(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void addGood(Points point, int numGood, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void landOnAbandon(boolean landed){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void endChangeGoods(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void landOnPlanet(boolean landed, int numPlanet){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void landOnAbandon(boolean landed, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void removeAstronauts(Points point){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void landOnPlanet(boolean landed, int numPlanet, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endRemoveAstronauts(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void removeAstronauts(Points point, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void removeBestGood(Points point, int numGood){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void endRemoveAstronauts(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void removeBatteries(Points point){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void removeBestGood(Points point, int numGood, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endRemoveBestGoods(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void removeBatteries(Points point, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void acceptReward(boolean accept){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void endRemoveBestGoods(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void endWreckedState(){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void acceptReward(boolean accept, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
+    }
+
+    @Override
+    public void endWreckedState(Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
     public void removeTile(Points point, Player player){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
     public void endFixShip(Player player){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
     public void showDeck(Player p, int deckPosition){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
     }
 
     @Override
     public void endShowDeck(Player p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
     }
 
     @Override
     public void pickComponentTile(Player p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
     }
 
     @Override
     public void rightRotateTile(Player p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
     }
 
     @Override
     public void leftRotateTile(Player p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));throw new WaitingStateException("Cannot do this action now, it's not your turn");
     }
 
     @Override
     public void placeTile(Player player, Points point){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
     public void endBuildShip(Player player){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void addBrownAlien(Points p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void addBrownAlien(Points p, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
-    public void addPurpleAlien(Points p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+    public void addPurpleAlien(Points p, Player player){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
     public void turnTimer(Player player){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 
     @Override
     public void discardComponent(Player p){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
     }
 
     @Override
     public void pickDiscoveredComponent(Player p, int index){
-        throw new WaitingStateException("Cannot do this action now, it's not your turn");
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
     }
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon();
+        player.abandon(game);
     }
     
     @Override
-    public void disconnect(Player p, Game game){
+    public void disconnect(Player p){
         game.disconnectPlayer(p);
     }
 }

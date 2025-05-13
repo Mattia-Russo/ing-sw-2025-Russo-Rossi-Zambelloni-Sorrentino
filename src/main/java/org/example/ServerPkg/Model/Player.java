@@ -30,7 +30,7 @@ public class Player {
     private Components currentTile;
     private ArrayList<AdventureCard> deckShowed;
 
-    public Player(int id, String name){
+    public Player(int id, String name, Game game){
         this.id = id;
         this.position=0;
         this.playerShipBoard=null;
@@ -40,7 +40,7 @@ public class Player {
         this.numCredits=0;
         this.name=name;
         this.shipBuilded=false;
-        this.state = new WaitingState();
+        this.state = new WaitingState(game);
         this.shipOK=true;
         this.currentTile = null;
         this.deckShowed = null;
@@ -90,9 +90,9 @@ public class Player {
         this.onPlanet = !onPlanet;
     }
 
-    public void abandon(){
+    public void abandon(Game game){
         this.abandoned=true;
-        this.state = new AbandonedState();
+        this.state = new AbandonedState(game);
     }
 
     public void changePosition(int val){

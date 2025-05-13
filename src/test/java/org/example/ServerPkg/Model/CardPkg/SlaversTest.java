@@ -22,10 +22,10 @@ public class SlaversTest extends TestCase {
 
     @BeforeEach
     public void setUp() {
-        Player p1 = new Player(12, "a");
-        Player p2 = new Player( 7, "a");
-        Player p3 = new Player(14, "a");
-        Player p4 = new Player( 9, "a");
+        Player p1 = new Player(12, "a", null);
+        Player p2 = new Player( 7, "a", null);
+        Player p3 = new Player(14, "a", null);
+        Player p4 = new Player( 9, "a", null);
 
         p1.changePosition(4);
         players = new ArrayList<>();

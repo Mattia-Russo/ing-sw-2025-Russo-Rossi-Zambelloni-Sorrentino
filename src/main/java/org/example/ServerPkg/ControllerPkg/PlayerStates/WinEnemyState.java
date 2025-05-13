@@ -11,20 +11,20 @@ public class WinEnemyState extends PlayerState{
     }
 
     @Override
-    public void acceptReward(boolean accept){
+    public void acceptReward(boolean accept, Player player){
         game.getCurrentCard().setAccept(accept);
         game.getCurrentCard().playCard(game);
     }
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon();
-        acceptReward(false);
+        player.abandon(game);
+        acceptReward(false, null);
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    public void disconnect(Player disconnectingPlayer){
         game.disconnectPlayer(disconnectingPlayer);
-        acceptReward(false);    // se abbandona consideriamo come se rifiutasse
+        acceptReward(false, null);    // se abbandona consideriamo come se rifiutasse
     }
 }

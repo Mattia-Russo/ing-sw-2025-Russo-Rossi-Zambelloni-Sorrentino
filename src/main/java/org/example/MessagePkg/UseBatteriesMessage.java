@@ -5,6 +5,7 @@ import org.example.ServerPkg.Model.Exceptions.AbandonedStateException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.rmi.RemoteException;
@@ -21,7 +22,8 @@ public class UseBatteriesMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
             if(checkClient()){
                 try{
-                    controller.getGame().getPlayerByName(playerName).getState().useBatteries(batteries);
+                    Player player= controller.getGame().getPlayerByName(playerName);
+                    player.getState().useBatteries(batteries, player);
                 } catch (AlreadyBatteryException | EndStateException | WaitingStateException | AbandonedStateException e) {
                     System.out.println("Error: " + e.getMessage());
                 }

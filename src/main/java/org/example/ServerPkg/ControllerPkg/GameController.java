@@ -118,7 +118,7 @@ public class GameController {
             }
         }
         if (game.getPlayers().size() < game.getNumPlayer()) {
-            game.getPlayers().add(new Player(game.getPlayers().size(), name));
+            game.getPlayers().add(new Player(game.getPlayers().size(), name, game));
         } else throw new InvalidAddPlayerException("can't add any more players");
     }
 
@@ -148,7 +148,7 @@ public class GameController {
     public synchronized void disconnect(String playerName) {
         if(this.game!=null) {
             Player disconnectingPlayer = game.getPlayerByName(playerName);
-            disconnectingPlayer.getState().disconnect(disconnectingPlayer, game);
+            disconnectingPlayer.getState().disconnect(disconnectingPlayer);
         }
     }
 }

@@ -1,6 +1,8 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
+import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.util.*;
@@ -49,6 +51,8 @@ public class MessageGenerator {
         messageMap.put("pick_discovered_component", this::createPickDiscoveredComponentMessage);
         messageMap.put("discard_component", this::createDiscardComponentMessage);
         messageMap.put("place_tile", this::createPlaceTileMessage);
+        messageMap.put("end_build_ship", this::createEndBuildShipMessage);
+        messageMap.put("set_position", this::createSetPositionMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -63,6 +67,15 @@ public class MessageGenerator {
             return null;
         }
     }
+
+    private Message createSetPositionMessage(List<String> args) {
+        return new SetPositionMessage();
+    }
+
+    private Message createEndBuildShipMessage(List<String> args) {
+        return new EndBuildShipMessage();
+    }
+
 
     private Message createPlaceTileMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));

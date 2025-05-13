@@ -69,7 +69,7 @@ public class AbandonedShip extends AdventureCard {
         game.getPlayers().get(playersIndex).getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
         game.getPlayers().get(playersIndex).changeCredits(this.Credits);
         game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
-        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState());
+        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
         this.playersIndex=-1;
         new GameView(game, null);
         game.Turn();

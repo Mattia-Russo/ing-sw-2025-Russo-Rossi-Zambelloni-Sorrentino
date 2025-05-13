@@ -96,7 +96,7 @@ public class WarZone extends AdventureCard{
                             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0) {
                                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
                             } else {
-                                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                                 play = true;
                             }
                         }
@@ -114,7 +114,7 @@ public class WarZone extends AdventureCard{
                             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
                                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                             } else {
-                                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState());
+                                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                                 play = true;
                             }
                         }

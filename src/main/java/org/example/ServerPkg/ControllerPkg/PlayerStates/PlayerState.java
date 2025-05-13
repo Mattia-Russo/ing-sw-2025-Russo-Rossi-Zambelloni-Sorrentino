@@ -10,45 +10,45 @@ import java.util.ArrayList;
 
 public class PlayerState {
 
-    public void activateCannons(ArrayList<Points> cannons){}
+    public void activateCannons(ArrayList<Points> cannons, Player player){}
 
-    public void useBatteries(ArrayList<Points> batteries){}
+    public void useBatteries(ArrayList<Points> batteries, Player player){}
 
-    public void endActivateCannons(){}
+    public void endActivateCannons(Player player){}
 
-    public void activateEngines(ArrayList<Points> cannons){}
+    public void activateEngines(ArrayList<Points> cannons, Player player){}
 
-    public void endActivateEngines(){}
+    public void endActivateEngines(Player player){}
 
-    public void activateShields(ArrayList<Points> shields){}
+    public void activateShields(ArrayList<Points> shields, Player player){}
 
-    public void endActivateShields(){}
+    public void endActivateShields(Player player){}
 
-    public void removeGood(Points point, int numGood){}
+    public void removeGood(Points point, int numGood, Player player){}
 
-    public void addGood(Points point, int numGood){}
+    public void addGood(Points point, int numGood, Player player){}
 
-    public void endChangeGoods(){}
+    public void endChangeGoods(Player player){}
 
-    public void landOnAbandon(boolean landed){}
+    public void landOnAbandon(boolean landed, Player player){}
 
-    public void landOnPlanet(boolean landed, int numPlanet){}
+    public void landOnPlanet(boolean landed, int numPlanet, Player player){}
 
-    public void removeAstronauts(Points point){}
+    public void removeAstronauts(Points point, Player player){}
 
-    public void endRemoveAstronauts(){}
+    public void endRemoveAstronauts(Player player){}
 
-    public void removeBestGood(Points point, int numGood){}
+    public void removeBestGood(Points point, int numGood, Player player){}
 
-    public void removeBatteries(Points point){}
+    public void removeBatteries(Points point, Player player){}
 
-    public void endRemoveBestGoods(){}
+    public void endRemoveBestGoods(Player player){}
 
-    public void acceptReward(boolean accept){}
+    public void acceptReward(boolean accept, Player player){}
 
-    public void chooseWrecked(Points point){    }
+    public void chooseWrecked(Points point, Player player){    }
 
-    public void endWreckedState(){}
+    public void endWreckedState(Player player){}
 
     public void removeTile(Points point, Player player){}
 
@@ -68,19 +68,21 @@ public class PlayerState {
 
     public void endBuildShip(Player player){}
 
-    public void addBrownAlien(Points p){}
+    public void addBrownAlien(Points p, Player player){}
 
-    public void addPurpleAlien(Points p){}
+    public void addPurpleAlien(Points p, Player player){}
 
-    public void endAlienState(){}
+    public void endAlienState(Player player){}
 
     public void turnTimer(Player player){}
 
     public void AbandonGame(Player player){}
 
-    public void disconnect(Player disconnectingPlayer, Game game){}
+    public void disconnect(Player disconnectingPlayer){}
 
     public void discardComponent(Player p){}
 
     public void pickDiscoveredComponent(Player p, int index){}
+
+    public void setPosition(Player player){}
 }

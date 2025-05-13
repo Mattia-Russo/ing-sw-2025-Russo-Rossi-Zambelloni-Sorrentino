@@ -12,7 +12,7 @@ public class LandOnAbandonState extends PlayerState {
 
     // landed true vuol dire che è atterrato
     @Override
-    public void landOnAbandon(boolean landed){
+    public void landOnAbandon(boolean landed, Player player){
         if(landed){
             game.getCurrentCard().playCard(game);
         } else {
@@ -22,13 +22,13 @@ public class LandOnAbandonState extends PlayerState {
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon();
-        landOnAbandon(false);
+        player.abandon(game);
+        landOnAbandon(false, null);
     }
     
     @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    public void disconnect(Player disconnectingPlayer){
         game.disconnectPlayer(disconnectingPlayer);
-        landOnAbandon(false);
+        landOnAbandon(false, null);
     }
 }

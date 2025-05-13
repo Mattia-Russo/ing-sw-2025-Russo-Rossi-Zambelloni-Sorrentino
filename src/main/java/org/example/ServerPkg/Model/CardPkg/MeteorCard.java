@@ -140,7 +140,7 @@ public class MeteorCard extends AdventureCard {
                     }
                     if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
                         protect = false;
-                        p.setPlayerState(new WaitingState());
+                        p.setPlayerState(new WaitingState(g));
                         setCardState(g);
                     } else {
                         protect = false;
@@ -163,7 +163,7 @@ public class MeteorCard extends AdventureCard {
                             }
                             if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
                                 protect = false;
-                                p.setPlayerState(new WaitingState());
+                                p.setPlayerState(new WaitingState(g));
                                 setCardState(g);
                             } else {
                                 protect = false;
@@ -192,7 +192,7 @@ public class MeteorCard extends AdventureCard {
                             }
                             if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
                                 protect=false;
-                                p.setPlayerState(new WaitingState());
+                                p.setPlayerState(new WaitingState(g));
                                 setCardState(g);
                             }else{
                                 protect=false;
@@ -211,7 +211,7 @@ public class MeteorCard extends AdventureCard {
             }
         }
         protect=false;
-        p.setPlayerState(new WaitingState());
+        p.setPlayerState(new WaitingState(g));
         setCardState(g);
     }
 

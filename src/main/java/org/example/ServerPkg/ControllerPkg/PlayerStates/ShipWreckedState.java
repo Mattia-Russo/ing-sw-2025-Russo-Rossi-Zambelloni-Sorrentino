@@ -17,7 +17,7 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
-    public void chooseWrecked(Points point){
+    public void chooseWrecked(Points point, Player player){
         player.getPlayerShipBoard().removeWreck(point.getY(), point.getX());
         player.setShipOK(true);
         new GameView(game, null);
@@ -27,31 +27,27 @@ public class ShipWreckedState extends PlayerState {
     }
 
     @Override
-    public void endWreckedState(){
-        try {
-            if (player.getShipOK()) {
-                if (game.getCurrentCard() != null) {
-                    game.getCurrentCard().setShipWrecked(false);
-                    game.getCurrentCard().setCardState(game);
-                } else {
-                    if(game.getGameMode()==1) {
-                        player.setPlayerState(new AddAlienState(game, player));
-                    }else {
-                        for (Player p : game.getPlayers()) {
-                            if (!p.isAbandoned()) {
-                                if (!p.getReadyForCards()) {
-                                    return;
-                                }
-                                p.setPlayerState(new WaitingState());
+    public void endWreckedState(Player player){
+        if (player.getShipOK()) {
+            if (game.getCurrentCard() != null) {
+                game.getCurrentCard().setShipWrecked(false);
+                game.getCurrentCard().setCardState(game);
+            } else {
+                if(game.getGameMode()==1) {
+                    player.setPlayerState(new AddAlienState(game, player));
+                }else {
+                    for (Player p : game.getPlayers()) {
+                        if (!p.isAbandoned()) {
+                            if (!p.getReadyForCards()) {
+                                return;
                             }
+                            p.setPlayerState(new WaitingState(game));
                         }
-                        game.Turn();
                     }
+                    game.Turn();
                 }
-            }else throw new InvalidMethodCallException("Fix your ship");
-        }catch (InvalidMethodCallException e){
-            System.out.println("ERROR " + e.getMessage());
-        }
+            }
+        }else new GameView(game, new InvalidMethodCallException("Fix your ship " + player.getName()));
     }
 
     @Override
@@ -62,8 +58,8 @@ public class ShipWreckedState extends PlayerState {
             c=player.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
             i++;
         }
-        chooseWrecked(new Points(c.getPosX(), c.getPosY()));
-        player.abandon();
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);
+        player.abandon(game);
         if (game.getCurrentCard() != null) {
             game.getCurrentCard().setShipWrecked(false);
             game.getCurrentCard().setCardState(game);
@@ -83,14 +79,14 @@ public class ShipWreckedState extends PlayerState {
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    public void disconnect(Player disconnectingPlayer){
         Components c=null;
         int i=0;
         while(c==null && i < 5){
             c=disconnectingPlayer.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
             i++;
         }
-        chooseWrecked(new Points(c.getPosX(), c.getPosY()));    // scegliamo noi un pezzo
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()), null);    // scegliamo noi un pezzo
         game.disconnectPlayer(disconnectingPlayer);
 
         if (game.getCurrentCard() != null) {

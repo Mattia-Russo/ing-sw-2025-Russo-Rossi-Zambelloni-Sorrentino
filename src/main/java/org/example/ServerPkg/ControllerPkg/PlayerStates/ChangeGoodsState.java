@@ -16,48 +16,48 @@ public class ChangeGoodsState extends PlayerState{
 
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere
     @Override
-    public void removeGood(Points point, int numGood){
+    public void removeGood(Points point, int numGood, Player player){
         Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             storage.removeGood(numGood);
             new GameView(game, null);
         } else {
-            throw new NotStorageException("The component of given coordinates is not a storage");
+            new GameView(game, new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
         }
     }
 
     @Override
-    public void addGood(Points point, int numGood){
+    public void addGood(Points point, int numGood, Player player){
         Storage storage = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             try {
                 storage.addGood(game.getCurrentCard().getGoodsList()[numGood]);
                 new GameView(game, null);
             } catch (RedGoodsNotAllowedException | StorageFullException e) {
-                System.out.println("Error: " + e.getMessage());
+                Exception e1 = new Exception(e.getMessage() + " " + player.getName());
+                new GameView(game, e1);
             }
-
         } else {
-            throw new NotStorageException("The component of given coordinates is not a storage");
+            new GameView(game, new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
         }
     }
 
     @Override
-    public void endChangeGoods(){
+    public void endChangeGoods(Player player){
         game.getCurrentCard().setChangeGoodsFlag(false);
         game.getCurrentCard().playCard(game, 0); // 0 è messo a caso, viene ignorato in questo caso
     }
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon();
-        endChangeGoods();
+        player.abandon(game);
+        endChangeGoods(null);
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    public void disconnect(Player disconnectingPlayer){
         game.disconnectPlayer(disconnectingPlayer);
-        endChangeGoods();
+        endChangeGoods(null);
     }
 
 }

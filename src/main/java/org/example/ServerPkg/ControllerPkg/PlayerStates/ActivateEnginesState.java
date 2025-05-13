@@ -2,6 +2,7 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEngineException;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -19,21 +20,22 @@ public class ActivateEnginesState extends PlayerState {
         this.Batteries=null;
     }
 
-    public void activateEngines(ArrayList<Points> newEngines){
+    public void activateEngines(ArrayList<Points> newEngines, Player player){
         if(Engines==null){
             this.Engines = newEngines;
         }else
-            throw new AlreadyEngineException("Engine already activated");
+            new GameView(game, new AlreadyEngineException("Engine already activated" + player.getName()));
     }
 
-    public void useBatteries(ArrayList<Points> newBatteries){
+
+    public void useBatteries(ArrayList<Points> newBatteries, Player player){
         if(Batteries==null) {
             this.Batteries = newBatteries;
         }else
-            throw new AlreadyBatteryException("Batteries already activated");
+            new GameView( game, new AlreadyBatteryException("Batteries already used" + player.getName()));
     }
 
-    public void endActivateEngines(){
+    public void endActivateEngines(Player player){
         game.getCurrentCard().playCard(game,Engines, Batteries);
     }
 
@@ -41,15 +43,15 @@ public class ActivateEnginesState extends PlayerState {
     public void AbandonGame(Player player){
         Batteries = null;
         Engines = null;
-        player.abandon();
-        endActivateEngines();
+        player.abandon(game);
+        endActivateEngines(null);
     }
     
-      @Override
-    public void disconnect(Player disconnectingPlayer, Game game){
+    @Override
+    public void disconnect(Player disconnectingPlayer){
         game.disconnectPlayer(disconnectingPlayer);
         Engines=null;
         Batteries=null;
-        endActivateEngines();
+        endActivateEngines(null);
     }
 }

@@ -214,7 +214,7 @@ public class Game{
     private void checkForcedAbandon() {
         for(Player p : players) {
             if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.get(0) && p.getPosition()<players.get(0).getPosition()-lapLength))) {
-                    p.abandon();
+                    p.abandon(this);
             }
         }
     }
@@ -262,7 +262,7 @@ public class Game{
             if (!p.getShipOK()) {
                 return;
             }
-            p.setPlayerState(new WaitingState());
+            p.setPlayerState(new WaitingState(this));
         }
         checkAllWrackedShip();
         for(Player p : players) {
@@ -270,7 +270,7 @@ public class Game{
                 if (!p.getReadyForCards()) {
                     return;
                 }
-                p.setPlayerState(new WaitingState());
+                p.setPlayerState(new WaitingState(this));
             }
         }
         Turn();
@@ -294,10 +294,10 @@ public class Game{
                     p.setReadyForCards(true);
                 }
             }else if(gameMode == 1){
-                p.abandon();
-                p.setPlayerState(new AbandonedState());
+                p.abandon(this);
+                p.setPlayerState(new AbandonedState(this));
             }else {
-                p.setPlayerState(new WaitingState());
+                p.setPlayerState(new WaitingState(this));
             }
             i=0;
             c=null;

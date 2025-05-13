@@ -22,8 +22,8 @@ public class PiratesTest extends TestCase {
 
     @BeforeEach
     public void setUp() {
-        p1 = new Player(0, "a");
-        p2 = new Player(1, "b");
+        p1 = new Player(0, "a", null);
+        p2 = new Player(1, "b", null);
 
         p1.changePosition(4);
         p2.changePosition(3);
@@ -180,8 +180,8 @@ public class PiratesTest extends TestCase {
 
         assertTrue((p1.getState() instanceof ShipWreckedState));
 
-        p1.getState().chooseWrecked(new Points(4, 3));
-        p1.getState().endWreckedState();
+        p1.getState().chooseWrecked(new Points(4, 3), null);
+        p1.getState().endWreckedState(null);
 
         assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][1]);
         assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][2]);

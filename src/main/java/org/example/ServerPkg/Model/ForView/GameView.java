@@ -10,19 +10,25 @@ import java.util.List;
 
 public class GameView implements Serializable{
     private final ArrayList<PlayerView> playersView = new ArrayList<>();
-    private final AdventureCardView currentCard;
+    private AdventureCardView currentCard = null;
     private final List<ComponentsView> componentsDiscoveredView = new ArrayList<>();
-    private final Exception exception;
+    private Exception exception = null;
 
     public GameView(Game game, Exception exception) {
-        for(Player p:game.getPlayers()){
+        if (exception == null){
+            for (Player p : game.getPlayers()) {
                 playersView.add(new PlayerView(p));
-        }
-        this.exception = exception;
-        for(Components c: game.getDiscoveredComopnent()) {
-            this.componentsDiscoveredView.add(c.createView());
-        }
-        this.currentCard = game.getCurrentCard().createView();
+            }
+            if(game.getDiscoveredComopnent() != null) {
+                for (Components c : game.getDiscoveredComopnent()) {
+                    this.componentsDiscoveredView.add(c.createView());
+                }
+            }
+            if(game.getCurrentCard() != null) {
+                this.currentCard = game.getCurrentCard().createView();
+            }
+        }else
+            this.exception = exception;
         game.updateGame(this);
     }
 

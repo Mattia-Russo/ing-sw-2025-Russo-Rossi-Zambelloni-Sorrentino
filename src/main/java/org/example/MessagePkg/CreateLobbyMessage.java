@@ -3,6 +3,7 @@ package org.example.MessagePkg;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.InvalidGameCreationException;
 import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
+import org.example.ServerPkg.Model.Player;
 
 import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
@@ -22,6 +23,7 @@ public class CreateLobbyMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
+                Player player= controller.getGame().getPlayerByName(playerName);
                 controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
                 System.out.println("Lobby created successfully");
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {
