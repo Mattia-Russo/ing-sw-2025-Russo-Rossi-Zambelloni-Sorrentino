@@ -2,20 +2,25 @@ package org.example.MessagePkg;
 
 import org.example.ClientPkg.RMIClient;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIServer;
 import org.example.ServerPkg.ConnectionsPkg.TCPPkg.ClientProxy;
 import org.example.ServerPkg.ControllerPkg.GameController;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
 public class Message implements Serializable {
     private transient ClientProxy proxy;
-    private transient RMIClientInterface client;
+    private transient String client;
+    private transient RMIServer server;
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public Message() {
         this.proxy = null;
         this.client = null;
+        this.server = null;
     }
 
     public void setProxy(ClientProxy proxy) {
@@ -26,12 +31,16 @@ public class Message implements Serializable {
         return this.proxy;
     }
 
-    public void setClient(RMIClient client) {
+    public void setClient(String client) {
         this.client = client;
     }
 
-    public RMIClientInterface getClient(){
+    public String getClient(){
         return this.client;
+    }
+
+    public void setServer(RMIServer server) {
+        this.server = server;
     }
 
     // Ogni sottoclasse dovrà implementare questo metodo
@@ -49,11 +58,8 @@ public class Message implements Serializable {
                 return true;
             }
         } else if (this.client != null) {
-            if(this.client.getPlayerName() == null) {
-                System.out.println("You need to set your name first");
-                return false;
-            } else try {
-                if (!client.getServer().getIfSubscribed(client)) {
+            try {
+                if (!server.getIfSubscribed(server.getClientByName(client))) {
                     System.out.println("You are not subscribed to the server");
                     return false;
                 } else {

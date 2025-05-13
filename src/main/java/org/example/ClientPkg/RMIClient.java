@@ -97,9 +97,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
                     // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
-                    if(message != null){
-                        sendMessage(message);
-                    }
+                    sendMessage(message);
                 } catch (Exception e) {
                     System.out.println("Error sending the command: " + e.getMessage());
                 }
@@ -126,8 +124,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     private void sendMessage(Message message) throws RemoteException {
-        message.setClient(this);
-        server.sendMessage(message);
+        server.sendMessage(message, this.playerName);
     }
 
     public void disconnect() throws RemoteException {

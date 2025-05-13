@@ -55,9 +55,11 @@ public class GameController {
         try {
             synchronized (this) {
                 if (message.getClient()!=null){
-                    message.handle(this, message.getClient().getPlayerName());
-                } else {
+                    message.handle(this, message.getClient());
+                } else if (message.getProxy()!=null){
                     message.handle(this, message.getProxy().getPlayerName());
+                } else {
+                    System.out.println("Error processing the message: it was generated without sender");
                 }
             }
         } catch (Exception e) {

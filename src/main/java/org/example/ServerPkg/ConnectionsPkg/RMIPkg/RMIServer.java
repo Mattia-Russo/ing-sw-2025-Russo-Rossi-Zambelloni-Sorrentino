@@ -74,8 +74,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public void sendMessage(Message message) throws RemoteException {
+    public void sendMessage(Message message, String name) throws RemoteException {
+        message.setServer(this);
+        message.setClient(name);
         controller.addMessage(message);
+    }
+
+    public RMIClientInterface getClientByName(String name){
+        for(RMIClientInterface client : clients.keySet()){
+            try {
+                if(client.getPlayerName().equals(name))
+                    return client;
+            } catch (RemoteException e) {
+                System.err.println("Error retrieving player name: " + e.getMessage());
+            }
+        }
+        System.out.println("Client not found");
+        return null;
     }
 
     @Override
