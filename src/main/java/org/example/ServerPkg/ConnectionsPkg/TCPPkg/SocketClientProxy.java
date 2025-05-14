@@ -113,9 +113,10 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     }
 
     @Override
-    public void setUI(String UI){
+    public void setUI(String UI, GameController controller){
         if(UI.toLowerCase().equals("tui")){
             this.gameUpdater = new TCPVirtualView(new TUI(), out);
+            controller.addGameUpdater(gameUpdater);
         } else if (UI.toLowerCase().equals(("gui"))){
             this.gameUpdater = new TCPVirtualView(new GUI(), out);
         }

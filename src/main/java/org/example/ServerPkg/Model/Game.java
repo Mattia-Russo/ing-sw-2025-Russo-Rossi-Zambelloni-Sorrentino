@@ -63,10 +63,6 @@ public class Game{
         return gameUpdaters;
     }
 
-    public void addGameUpdater(String name, GameUpdater gameUpdater) {
-        this.gameUpdaters.put(name, gameUpdater);
-    }
-
     public void setPlayersShipboard(){
         int i=0;
         for(Player p: players) {
@@ -381,7 +377,7 @@ public class Game{
     public void updateGame(GameView gameView) {
        for (Map.Entry<String, GameUpdater> entry : gameUpdaters.entrySet()) {
            entry.getValue().updateGame(gameView);
-        }
+       }
     }
 
     public void disconnectPlayer (Player p){

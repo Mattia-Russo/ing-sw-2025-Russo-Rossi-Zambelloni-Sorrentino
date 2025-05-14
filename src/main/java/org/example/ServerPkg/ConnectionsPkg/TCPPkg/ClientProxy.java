@@ -64,5 +64,5 @@ public abstract class ClientProxy {
         leaveServer();
     }
 
-    public void setUI(String UI){}
+    public void setUI(String UI, GameController controller){}
 }

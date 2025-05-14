@@ -18,12 +18,10 @@ public class TCPClient {
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
-    private final UI userInterface;
     private MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, UI userInterface, String name, String UI) throws IOException {
-        this.userInterface = userInterface;
+    public TCPClient(String serverAddress, int port, String name, String UI) throws IOException {
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
 
@@ -43,7 +41,10 @@ public class TCPClient {
         startListening();
         startKeyboardListener();
 
-        this.registerName(name);
+        List<String> args = new ArrayList<>();
+        args.add(name);
+        args.add(UI);
+        this.registerName(args);
     }
 
     private void startPingThread() {
@@ -82,7 +83,6 @@ public class TCPClient {
                         }
                     } else if (obj instanceof GameView) {
                         System.out.println("GameView updated.");
-                        userInterface.addGameUpdate((GameView) obj);
                     } else {
                         System.err.println("Object not recognized: " + obj.getClass().getName());
                     }
@@ -159,8 +159,8 @@ public class TCPClient {
 
     }
 
-    public void registerName(String name){
-        Message message = msgGen.generate("set_name", List.of(name));
+    public void registerName(List<String> args){
+        Message message = msgGen.generate("set_name", args);
         if(message != null){
             sendMessage(message);
         }

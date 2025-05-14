@@ -111,7 +111,7 @@ public class GameController {
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
-    private void addNewPlayer(String name, GameUpdater gameUpdater){
+    private void addNewPlayer(String name){
         for (Player p : game.getPlayers()) {
             if (p.getName().equals(name)) {
                 throw new InvalidUserNameException("The player " + name + " already exists");
@@ -120,26 +120,25 @@ public class GameController {
         if (game.getPlayers().size() < game.getNumPlayer()) {
             Player p = new Player(game.getPlayers().size(), name, game);
             game.getPlayers().add(p);
-            game.addGameUpdater(p.getName(), gameUpdater);
         } else throw new InvalidAddPlayerException("can't add any more players");
     }
 
-    public void joinLobby(String name, GameUpdater gameUpdater){
+    public void joinLobby(String name){
         if(lobbyState == LobbyState.GAME_CREATION) {
             if (game != null) {
-                addNewPlayer(name, gameUpdater);
+                addNewPlayer(name);
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
-    public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode, GameUpdater gameUpdater) {
+    public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode) {
         if(lobbyState == LobbyState.GAME_CREATION) {
             if(game==null) {
                 if(numPlayers<=4 && numPlayers>=2 ) {
                     if(GameMode==0||GameMode==1) {
                         if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
                             this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
-                            addNewPlayer(name, gameUpdater);
+                            addNewPlayer(name);
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
                     }else throw new InvalidParameterException("Game mode must be 0 or 1");
                 }else throw new InvalidParameterException("MIN 2 MAX 4 PLAYERS");
@@ -152,5 +151,9 @@ public class GameController {
             Player disconnectingPlayer = game.getPlayerByName(playerName);
             disconnectingPlayer.getState().disconnect(disconnectingPlayer);
         }
+    }
+
+    public void addGameUpdater(GameUpdater gameUpdater){
+        this.gameUpdaters.add(gameUpdater);
     }
 }
