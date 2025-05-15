@@ -24,12 +24,8 @@ public class TCPClient {
     private final MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, String name, String UI) throws IOException {
-        if(UI.equalsIgnoreCase("gui")){
-            this.userInterface = new GUI();
-        } else {
-            this.userInterface = new TUI();
-        }
+    public TCPClient(String serverAddress, int port, String name, UI UI) throws IOException {
+        this.userInterface = UI;
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
 

@@ -4,7 +4,6 @@
 package org.example.ClientPkg;
 
 import org.example.ServerPkg.ConnectionsPkg.Settings;
-import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.UIPkg.GUI;
 import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
@@ -19,18 +18,26 @@ public class ClientMain {
             return;
         }
         // CONTROLLO SE GUI E TUI
-        if(!(args[2].equalsIgnoreCase("gui") || args[2].equalsIgnoreCase("tui"))){
-            System.out.println("Error: connection type not supported. Use 'gui' or 'tui' as third parameter.");
-            return;
+        UI userInterface = null;
+        switch (args[2].toLowerCase()){
+            case "tui":
+                userInterface = new TUI();
+                break;
+            case "gui":
+                userInterface = new GUI();
+                break;
+            default:
+                System.out.println("Error: connection type not supported. Use 'gui' or 'tui' as third parameter.");
+                return;
         }
 
         switch (args[0].toLowerCase()) {
             case "tcp":
-                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, args[1], args[2]);
+                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, args[1], userInterface);
                 break;
 
             case "rmi":
-                new RMIClient("localhost", args[1], args[2]);
+                new RMIClient("localhost", args[1], userInterface);
                 break;
 
             default:

@@ -44,7 +44,6 @@ public class TUI implements UI{
     @Override
     public void addGameUpdate(GameView game) {
         try {
-            System.out.println("TUI says: gameView added");
             gameUpdatesQueue.put(game);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -55,7 +54,6 @@ public class TUI implements UI{
 
     //stringbuilder per disegni migliori
     private void Draw() {
-        System.out.println("TUI says: Drawing gameView");
         GameView game = gameUpdatesQueue.poll();
         if(game.getException() == null) {
             int i=0;

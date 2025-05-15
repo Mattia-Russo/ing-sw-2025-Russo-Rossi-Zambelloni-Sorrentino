@@ -23,13 +23,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     private long serverAlive;
     private final UI userInterface;
 
-    public RMIClient(String host, String playerName, String UI) throws RemoteException {
+    public RMIClient(String host, String playerName, UI UI) throws RemoteException {
         this.playerName = playerName;
-        if(UI.equalsIgnoreCase("gui")){
-            this.userInterface = new GUI();
-        } else {
-            this.userInterface = new TUI();
-        }
+        this.userInterface = UI;
         msgGen = new MessageGenerator();
         serverAlive = System.currentTimeMillis();
         try {

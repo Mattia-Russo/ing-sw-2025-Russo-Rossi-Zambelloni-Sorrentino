@@ -378,6 +378,7 @@ public class Game{
     public void updateGame(GameView gameView) {
        for (Map.Entry<String, GameUpdater> entry : gameUpdaters.entrySet()) {
            entry.getValue().updateGame(gameView);
+           System.out.println("stampo la view di"+ entry.getKey());
        }
     }
 
