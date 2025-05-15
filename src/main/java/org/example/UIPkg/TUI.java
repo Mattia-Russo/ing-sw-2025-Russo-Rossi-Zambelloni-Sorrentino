@@ -59,18 +59,90 @@ public class TUI implements UI{
         GameView game = gameUpdatesQueue.poll();
         if(game.getException() == null) {
             int i=0;
+            System.out.println("Discovered components: ");
             for(ComponentsView c: game.getComponentsDiscovered()){
                 DrawComponent(c);
                 System.out.println(i);
                 i++;
             }
+            System.out.println("Current Card: ");
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
             }
             DrawShipboard(game.getPlayers());
+            System.out.println("Flightboard: ");
             DrawFlightBoard(game.getPlayers());
         }else
             System.out.println(game.getException().getMessage());
+        drawCommands(game);
+    }
+
+
+    public void drawCommands(GameView game) {
+        switch (game.getLobbyState()){
+            //mancano set_name e set_position che sembra che non dobbiamo inserire
+            case GAME_CREATION:
+                System.out.println(
+                    "Type one of the following command to do something:\n" +
+                    "   join_lobby -> if you want to join an existing lobby\n" +
+                    "   start_game -> if you want to start the game\n\n");
+                break;
+            case GAME_READY:
+                if(game.getCurrentCard()!=null){
+                    System.out.println(
+                            "Type one of the following command to do something:\n" +
+                                    "   accept_reward true/false -> true if you want to accept the reward, false otherwise\n" +
+
+                                    "   activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate\n" +
+                                    "   activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate\n" +
+                                    "   activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate\n" +
+                                    "   use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use\n\n" +
+
+                                    "   end_activate_cannons -> if you want to end the cannon activation phase\n" +
+                                    "   end_activate_engines -> if you want to end the engine activation phase\n" +
+                                    "   end_change_goods_state -> if you want to end the change good phase\n" +
+                                    "   end_activate_shields -> if you want to end the shield activation phase\n" +
+                                    "   end_remove_best_goods -> if you want to end the remove best goods phase\n" +
+                                    "   end_remove_astronauts -> if you want to end the remove astronauts phase\n\n" +
+
+                                    "   land_on_abandon true/false ->  true if you want to land, false otherwise\n" +
+                                    "   land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land\n\n" +
+
+                                    "   add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add\n" +
+                                    "   remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove\n" +
+                                    "   remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove\n" +
+                                    "   remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts\n" +
+                                    "   remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries\n\n"
+                    );
+                }
+                else{
+                    System.out.println(
+                            "Type one of the following command to do something:\n" +
+                                "   pick_component_tile -> if you want to pick a random covered component\n" +
+                                "   pick_discovered_component index-> if you want to pick discovered component with this index\n" +
+                                "   left_rotate -> if you want to left rotate the tile\n" +
+                                "   right_rotate -> if you want to right rotate the tile\n" +
+                                "   place_tile x y -> x,y are the coordinates of the cell where you want to place the tile\n" +
+                                "   discard_component -> if you want to discard the component you picked\n" +
+                                "   remove_tile x y -> x,y are the coordinates of the tile you want to remove\n\n" +
+
+                                "   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien\n" +
+                                "   add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien\n" +
+                                "   end_add_alien -> if you want to end the add alien phase\n\n" +
+
+                                "   show_deck numDeck -> numDeck is the number of the deck you want to see\n" +
+                                "   end_show_deck -> if you want to end the show deck phase\n\n" +
+
+                                "   turn_timer -> if you want to turn the timer\n\n"+
+
+                                "   end_build_ship -> if you to end the build ship phase\n\n"
+                    );
+                }
+                break;
+            case GAME_FINISHED:
+                System.out.println("Type the command: exit_game -> if you want to exit the game\n\n");
+                break;
+        }
     }
 
     private void DrawFlightBoard(List<PlayerView> players) {
@@ -82,23 +154,30 @@ public class TUI implements UI{
 
     }
 
+
     private void DrawShipboard(List<PlayerView> players) {
         for(PlayerView player : players) {
             System.out.println(player.getName());
+            System.out.println("current tile:");
+            if(player.getCurrentTile()!=null) {
+                DrawComponent(player.getCurrentTile());
+            }
+            System.out.println("Shipboard: ");
             StringBuilder sb= new StringBuilder();
             ComponentsView[][] matrix= player.getShipboardView().getComponentsView();
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 7; j++) {
-                        ComponentsView comp=matrix[i][j];
-                        if(comp!=null){
-                            sb.append("[").append(i).append(",").append(j).append("]\n");
-                            DrawComponent(comp);
-                        }
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 7; j++) {
+                    ComponentsView comp=matrix[i][j];
+                    if(comp!=null){
+                        sb.append("[").append(i).append(",").append(j).append("]\n");
+                        DrawComponent(comp);
                     }
                 }
-                System.out.println(sb);
+            }
+            System.out.println(sb);
         }
     }
+
 
     private void DrawComponent(ComponentsView componentsView) {
         String type=componentsView.getType();

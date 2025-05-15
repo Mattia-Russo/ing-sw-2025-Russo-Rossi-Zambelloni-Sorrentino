@@ -394,4 +394,8 @@ public class Game{
     public List<Components> getDiscoveredComponent(){
         return discoveredComponents;
     }
+
+    public GameController getController() {
+        return controller;
+    }
 }
