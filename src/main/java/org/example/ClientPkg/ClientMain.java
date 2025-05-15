@@ -15,7 +15,7 @@ public class ClientMain {
     public static void main(String[] args) throws IOException {
         // Verifica che siano stati passati argomenti
         if (args.length < 3) {
-            System.out.println("Error: specify 'tcp' or 'rmi' as first parameter, player name as second parameter and 'gui' or 'tui' as third parameter.");
+            System.out.println("Error: specify 'tcp' or 'rmi' as first parameter, player name as second parameter and 'gui' or 'tui' as third parameter\n");
             return;
         }
         // CONTROLLO SE GUI E TUI
@@ -31,7 +31,7 @@ public class ClientMain {
                     TCPUserInterface = new GUI();
                 }
                 new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1], args[2]);
-                System.out.println("Type the command : create_lobby -> if you want to create a lobby");
+                System.out.println("create_lobby num1 num2 num3 -> num1 number of players -> 1/2 shipboard level -> 0/1 game mode 0 = trial 1= normal\n");
                 break;
 
             case "rmi":
@@ -42,7 +42,7 @@ public class ClientMain {
                     RMIUserInterface = new GUI();
                 }
                 new RMIClient("localhost", args[1]);
-                System.out.println("Type the command: create_lobby -> if you want to create a lobby");
+                System.out.println("create_lobby -> if you want to create a lobby");
                 break;
 
             default:

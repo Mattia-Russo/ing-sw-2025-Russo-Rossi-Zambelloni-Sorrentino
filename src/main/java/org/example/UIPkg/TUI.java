@@ -57,15 +57,18 @@ public class TUI implements UI{
         GameView game = gameUpdatesQueue.poll();
         if(game.getException() == null) {
             int i=0;
+            System.out.println("Discovered components: ");
             for(ComponentsView c: game.getComponentsDiscovered()){
                 DrawComponent(c);
                 System.out.println(i);
                 i++;
             }
+            System.out.println("Current Card: ");
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
             }
             DrawShipboard(game.getPlayers());
+            System.out.println("Flightboard: ");
             DrawFlightBoard(game.getPlayers());
         }else
             System.out.println(game.getException().getMessage());
@@ -149,24 +152,29 @@ public class TUI implements UI{
 
     }
 
+
     private void DrawShipboard(List<PlayerView> players) {
         for(PlayerView player : players) {
             System.out.println(player.getName());
+            System.out.println("current tile:");
+            if(player.getCurrentTile()!=null) {
+                DrawComponent(player.getCurrentTile());
+            }
+            System.out.println("Shipboard: ");
             StringBuilder sb= new StringBuilder();
             ComponentsView[][] matrix= player.getShipboardView().getComponentsView();
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 7; j++) {
-                        ComponentsView comp=matrix[i][j];
-                        if(comp!=null){
-                            sb.append("[").append(i).append(",").append(j).append("]\n");
-                            DrawComponent(comp);
-                        }
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 7; j++) {
+                    ComponentsView comp=matrix[i][j];
+                    if(comp!=null){
+                        sb.append("[").append(i).append(",").append(j).append("]\n");
+                        DrawComponent(comp);
                     }
                 }
-                System.out.println(sb);
+            }
+            System.out.println(sb);
         }
     }
-
 
 
     private void DrawComponent(ComponentsView componentsView) {
