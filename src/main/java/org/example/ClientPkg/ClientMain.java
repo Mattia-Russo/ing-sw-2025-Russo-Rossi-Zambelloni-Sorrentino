@@ -31,6 +31,7 @@ public class ClientMain {
                     TCPUserInterface = new GUI();
                 }
                 new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1], args[2]);
+                System.out.println("Type the command : create_lobby -> if you want to create a lobby");
                 break;
 
             case "rmi":
@@ -41,6 +42,7 @@ public class ClientMain {
                     RMIUserInterface = new GUI();
                 }
                 new RMIClient("localhost", args[1]);
+                System.out.println("Type the command: create_lobby -> if you want to create a lobby");
                 break;
 
             default:
