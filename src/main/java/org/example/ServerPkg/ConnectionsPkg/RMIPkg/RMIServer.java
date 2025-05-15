@@ -4,6 +4,8 @@ import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.UIPkg.GameUpdater;
+import org.example.UIPkg.RMIVirtualView;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,10 +18,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
     private final GameController controller;
     private final Map<RMIClientInterface, Long> clients;
+    private GameUpdater gameUpdater;
 
     public RMIServer(GameController controller) throws RemoteException {
         super();
         this.controller = controller;
+        this.gameUpdater = null;
         this.clients = new ConcurrentHashMap<>();
         checkConnection();
     }
@@ -71,6 +75,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public synchronized void registerClient(RMIClientInterface client) throws RemoteException {
         System.out.println(client.getPlayerName() + " subscribed");
         clients.put(client, System.currentTimeMillis());
+        setGameUpdater(client);
     }
 
     @Override
@@ -132,5 +137,14 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         } else {
             System.out.println("Client not registered, cannot update timestamp");
         }
+    }
+
+    public void setGameUpdater(RMIClientInterface client) throws RemoteException {
+        System.out.println(client.getPlayerName() + ": setting game updater");
+        this.gameUpdater = new RMIVirtualView(client);
+    }
+
+    public void addGameUpdater(GameController controller){
+        controller.addGameUpdater(gameUpdater);
     }
 }

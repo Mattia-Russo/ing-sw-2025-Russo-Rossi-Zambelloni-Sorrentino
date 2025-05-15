@@ -1,18 +1,19 @@
 package org.example.UIPkg;
 
+import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.Model.ForView.GameView;
 
 public class RMIVirtualView implements GameUpdater {
-    private UI userInterface;
+    private final RMIClientInterface client;
 
-    public RMIVirtualView(UI userInterface){
-        this.userInterface = userInterface;
+    public RMIVirtualView(RMIClientInterface client){
+        this.client = client;
     }
 
     @Override
     public void updateGame(GameView game) {
         try {
-            userInterface.addGameUpdate(game); // Chiamata remota
+            client.addGameUpdate(game);
         } catch (Exception e) {
             System.err.println("Errore nell'aggiornamento RMI: " + e.getMessage());
         }

@@ -5,11 +5,9 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import java.io.ObjectOutputStream;
 
 public class TCPVirtualView implements GameUpdater {
-    private UI userInterface;
     private final ObjectOutputStream out;
 
-    public TCPVirtualView(UI userInterface, ObjectOutputStream out){
-        this.userInterface = userInterface;
+    public TCPVirtualView(ObjectOutputStream out){
         this.out = out;
     }
 

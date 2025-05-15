@@ -3,6 +3,9 @@ package org.example.ClientPkg;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.UIPkg.*;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,17 +19,24 @@ import java.util.Scanner;
 public class RMIClient extends UnicastRemoteObject implements RMIClientInterface {
     private final RMIServerInterface server;
     private String playerName;
-    private MessageGenerator msgGen;
+    private final MessageGenerator msgGen;
     private long serverAlive;
+    private final UI userInterface;
 
-    public RMIClient(String host, String playerName) throws RemoteException {
+    public RMIClient(String host, String playerName, String UI) throws RemoteException {
         this.playerName = playerName;
+        if(UI.equalsIgnoreCase("gui")){
+            this.userInterface = new GUI();
+        } else {
+            this.userInterface = new TUI();
+        }
         msgGen = new MessageGenerator();
         serverAlive = System.currentTimeMillis();
         try {
             Registry registry = LocateRegistry.getRegistry(host, 3600);
             server = (RMIServerInterface) registry.lookup("GameServer");
             server.registerClient(this);
+            System.out.println(playerName + " connected to server.");
 
             startUpdateThread();
             checkConnection();
@@ -41,8 +51,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             try {
                 while (true) {
                     server.updateClientAlive(this);
-                    //System.out.println("RMI Client alive");
-                    // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);
                 }
             } catch (InterruptedException e) {
@@ -133,5 +141,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public void updateServerAlive() throws RemoteException {
         this.serverAlive = System.currentTimeMillis();
+    }
+
+    public void addGameUpdate(GameView gameView) throws RemoteException {
+        userInterface.addGameUpdate(gameView);
+        System.out.println("GameView updated for RMI.");
     }
 }

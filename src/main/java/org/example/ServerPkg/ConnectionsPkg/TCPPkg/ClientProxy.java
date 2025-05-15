@@ -2,13 +2,6 @@ package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
-import org.example.ServerPkg.Model.Points;
-import org.example.UIPkg.GameUpdater;
-import org.example.UIPkg.TCPVirtualView;
-import org.example.UIPkg.TUI;
-
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
 
 public abstract class ClientProxy {
     private String playerName;
@@ -62,5 +55,7 @@ public abstract class ClientProxy {
         leaveServer();
     }
 
-    public void setUI(String UI, GameController controller){}
+    public void setGameUpdater(){}
+
+    public void addGameUpdater(GameController controller){}
 }

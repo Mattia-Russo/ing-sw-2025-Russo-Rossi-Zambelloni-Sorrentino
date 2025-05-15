@@ -5,10 +5,8 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.PingMessage;
 import org.example.MessagePkg.PongMessage;
-import org.example.UIPkg.GUI;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.TCPVirtualView;
-import org.example.UIPkg.TUI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -65,7 +63,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     public void run() {
         ObjectInputStream in;
         try {
-            System.out.println("Config server in");
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             System.out.println("Error getting input stream, returning");
@@ -116,12 +113,12 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     }
 
     @Override
-    public void setUI(String UI, GameController controller){
-        if(UI.toLowerCase().equals("tui")){
-            this.gameUpdater = new TCPVirtualView(new TUI(), out);
-        } else if (UI.toLowerCase().equals(("gui"))){
-            this.gameUpdater = new TCPVirtualView(new GUI(), out);
-        }
+    public void setGameUpdater(){
+        this.gameUpdater = new TCPVirtualView(out);
+    }
+
+    @Override
+    public void addGameUpdater(GameController controller){
         controller.addGameUpdater(gameUpdater);
     }
 }

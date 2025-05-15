@@ -127,7 +127,7 @@ public class GameController {
             if (game != null) {
                 addNewPlayer(name);
                 game.setGameUpdaters(gameUpdaters);
-                new GameView(game, new Exception("joined the lobby"));
+                new GameView(game, new Exception(name + " joined the lobby"));
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("can't call this method");
     }
@@ -158,5 +158,8 @@ public class GameController {
 
     public void addGameUpdater(GameUpdater gameUpdater){
         this.gameUpdaters.add(gameUpdater);
+        for(GameUpdater g : gameUpdaters){
+            System.out.println(g.toString());
+        }
     }
 }

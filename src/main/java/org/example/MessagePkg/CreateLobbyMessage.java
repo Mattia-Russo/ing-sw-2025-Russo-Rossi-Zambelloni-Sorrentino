@@ -22,6 +22,11 @@ public class CreateLobbyMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
+                if(super.getProxy()!=null){
+                    getProxy().addGameUpdater(controller);
+                } else if (super.getClient()!=null){
+                    super.getServer().addGameUpdater(controller);
+                }
                 controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
                 System.out.println("Lobby created successfully");
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {

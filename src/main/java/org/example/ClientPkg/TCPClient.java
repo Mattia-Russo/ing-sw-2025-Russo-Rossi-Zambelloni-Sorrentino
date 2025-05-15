@@ -5,6 +5,8 @@ import org.example.MessagePkg.MessageGenerator;
 import org.example.MessagePkg.PingMessage;
 import org.example.MessagePkg.PongMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.UIPkg.GUI;
+import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
 
 import java.io.IOException;
@@ -19,34 +21,55 @@ public class TCPClient {
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
     private final UI userInterface;
-    private MessageGenerator msgGen;
+    private final MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, UI userInterface, String name, String UI) throws IOException {
-        this.userInterface = userInterface;
+    public TCPClient(String serverAddress, int port, String name, String UI) throws IOException {
+        if(UI.equalsIgnoreCase("gui")){
+            this.userInterface = new GUI();
+        } else {
+            this.userInterface = new TUI();
+        }
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
 
         // Connessione al server
         this.socket = new Socket(serverAddress, port);
-        // Configurazione degli stream
-        System.out.println("Config client out");
         this.out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
-        System.out.println("Config client in");
         this.in = new ObjectInputStream(socket.getInputStream());
 
         System.out.println("Connesso al server TCP.");
 
         // Avvia un thread per ascoltare i messaggi in arrivo dal server
         startPingThread();
+        checkServerConnection();
         startListening();
         startKeyboardListener();
 
         List<String> args = new ArrayList<>();
         args.add(name);
-        args.add(UI);
         this.registerName(args);
+    }
+
+    private void checkServerConnection(){
+        Thread checkClient = new Thread(() -> {
+            try {
+                while (!socket.isClosed()) {
+                    if (System.currentTimeMillis() - serverAlive > 14999) {
+                        disconnect();
+                    }
+                    Thread.sleep(5000);
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Error checking client connection");
+                Thread.currentThread().interrupt();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        checkClient.setDaemon(true);
+        checkClient.start();
     }
 
     private void startPingThread() {
@@ -80,12 +103,13 @@ public class TCPClient {
                 while (!socket.isClosed()) {
                     Object obj = in.readObject();
                     if (obj instanceof Message) {
-                        if ((Message) obj instanceof PongMessage) {
-                            //System.out.println("Client recieved pong");
+                        if (obj instanceof PongMessage) {
+                            serverAlive = System.currentTimeMillis();
                         }
                     } else if (obj instanceof GameView) {
-                        System.out.println("GameView updated.");
+                        System.out.println("GameView updated for tcp.");
                         userInterface.addGameUpdate((GameView) obj);
+                        System.out.println("GameView added to the UI queue.");
                     } else {
                         System.err.println("Object not recognized: " + obj.getClass().getName());
                     }

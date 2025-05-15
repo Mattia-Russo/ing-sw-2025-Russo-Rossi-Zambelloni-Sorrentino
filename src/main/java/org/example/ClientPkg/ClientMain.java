@@ -19,28 +19,18 @@ public class ClientMain {
             return;
         }
         // CONTROLLO SE GUI E TUI
-        // Recupero del tipo di connessione desiderata
-        String connectionType = args[0].toLowerCase(); // "tcp" o "rmi"
+        if(!(args[2].equalsIgnoreCase("gui") || args[2].equalsIgnoreCase("tui"))){
+            System.out.println("Error: connection type not supported. Use 'gui' or 'tui' as third parameter.");
+            return;
+        }
 
-        switch (connectionType) {
+        switch (args[0].toLowerCase()) {
             case "tcp":
-                UI TCPUserInterface;
-                if(args[2].toLowerCase().equals("tui")) {
-                    TCPUserInterface = new TUI();
-                }else{
-                    TCPUserInterface = new GUI();
-                }
-                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1], args[2]);
+                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, args[1], args[2]);
                 break;
 
             case "rmi":
-                UI RMIUserInterface;
-                if(args[2].toLowerCase().equals("tui")) {
-                    RMIUserInterface = new TUI();
-                }else{
-                    RMIUserInterface = new GUI();
-                }
-                new RMIClient("localhost", args[1]);
+                new RMIClient("localhost", args[1], args[2]);
                 break;
 
             default:

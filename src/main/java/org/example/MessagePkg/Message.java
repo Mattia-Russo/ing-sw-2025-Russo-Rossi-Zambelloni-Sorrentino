@@ -43,6 +43,10 @@ public class Message implements Serializable {
         this.server = server;
     }
 
+    public RMIServer getServer(){
+        return this.server;
+    }
+
     // Ogni sottoclasse dovrà implementare questo metodo
     public void handle(GameController controller, String playerName) throws RemoteException {}
 

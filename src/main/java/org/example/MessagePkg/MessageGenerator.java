@@ -146,7 +146,7 @@ public class MessageGenerator {
     }
 
     private Message createSetPlayerNameMessage(List<String> args) {
-        return new SetPlayerNameMessage(args.get(0), args.get(1));
+        return new SetPlayerNameMessage(args.get(0));
     }
 
     private Message createAcceptRewardMessage(List<String> args) {

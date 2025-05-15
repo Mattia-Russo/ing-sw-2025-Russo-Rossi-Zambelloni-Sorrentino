@@ -14,10 +14,15 @@ public class JoinLobbyMessage extends Message{
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
-                if(super.getClient()!=null) { //il client viene messo a null bisogna capire dove per quello non va
-                    controller.joinLobby(playerName);//il controllo serve??
+                if(super.getProxy()!=null) {
+                    controller.joinLobby(playerName);
+                    getProxy().addGameUpdater(controller);
+                    System.out.println(playerName + " joined the lobby successfully");
+                } else if (super.getClient()!=null){
+                    controller.joinLobby(playerName);
+                    super.getServer().addGameUpdater(controller);
+                    System.out.println(playerName + " joined the lobby successfully");
                 }
-                System.out.println(playerName + " joined the lobby successfully");
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){
                 System.out.println("ERROR " + e.getMessage());
             }
