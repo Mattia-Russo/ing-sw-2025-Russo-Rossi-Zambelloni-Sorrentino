@@ -1,5 +1,6 @@
 package org.example.ServerPkg.Model.ForView;
 
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
@@ -13,6 +14,7 @@ public class GameView implements Serializable{
     private AdventureCardView currentCard = null;
     private final List<ComponentsView> componentsDiscoveredView = new ArrayList<>();
     private Exception exception = null;
+    private final LobbyState lobbyState;
 
     public GameView(Game game, Exception exception) {
         if (exception == null){
@@ -29,6 +31,7 @@ public class GameView implements Serializable{
             }
         }else
             this.exception = exception;
+        this.lobbyState = game.getController().getLobbyState();
         game.updateGame(this);
     }
 
@@ -48,4 +51,7 @@ public class GameView implements Serializable{
         return componentsDiscoveredView;
     }
 
+    public LobbyState getLobbyState() {
+        return lobbyState;
+    }
 }
