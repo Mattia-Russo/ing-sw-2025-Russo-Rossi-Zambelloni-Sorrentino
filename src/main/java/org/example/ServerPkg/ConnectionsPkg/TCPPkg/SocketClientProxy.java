@@ -6,6 +6,7 @@ import org.example.MessagePkg.Message;
 import org.example.MessagePkg.PingMessage;
 import org.example.MessagePkg.PongMessage;
 import org.example.UIPkg.GUI;
+import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.TCPVirtualView;
 import org.example.UIPkg.TUI;
 
@@ -18,10 +19,12 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     private final Socket socket;
     private final ObjectOutputStream out;
     private long clientAlive;
+    private GameUpdater gameUpdater;
 
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
         super(controller, TCPServer);
         this.socket = socket;
+        this.gameUpdater = null;
         out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
         this.clientAlive = System.currentTimeMillis();
@@ -116,9 +119,9 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     public void setUI(String UI, GameController controller){
         if(UI.toLowerCase().equals("tui")){
             this.gameUpdater = new TCPVirtualView(new TUI(), out);
-            controller.addGameUpdater(gameUpdater);
         } else if (UI.toLowerCase().equals(("gui"))){
             this.gameUpdater = new TCPVirtualView(new GUI(), out);
         }
+        controller.addGameUpdater(gameUpdater);
     }
 }

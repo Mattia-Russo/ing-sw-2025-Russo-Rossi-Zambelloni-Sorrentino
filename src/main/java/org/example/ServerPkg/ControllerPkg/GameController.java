@@ -101,7 +101,6 @@ public class GameController {
         if(lobbyState == LobbyState.GAME_CREATION) {
             if(game.getPlayers().size() >= 2) {
                 lobbyState = LobbyState.GAME_READY;
-                game.setGameUpdaters(gameUpdaters);
                 TimerGenerator t= new TimerGenerator();
                 game.setPlayersShipboard();
                 for(Player player : game.getPlayers()) {
@@ -127,6 +126,8 @@ public class GameController {
         if(lobbyState == LobbyState.GAME_CREATION) {
             if (game != null) {
                 addNewPlayer(name);
+                game.setGameUpdaters(gameUpdaters);
+                new GameView(game, new Exception("joined the lobby"));
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("can't call this method");
     }
@@ -139,6 +140,8 @@ public class GameController {
                         if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
                             this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
                             addNewPlayer(name);
+                            game.setGameUpdaters(gameUpdaters);
+                            new GameView(game, new Exception("Game created"));
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
                     }else throw new InvalidParameterException("Game mode must be 0 or 1");
                 }else throw new InvalidParameterException("MIN 2 MAX 4 PLAYERS");

@@ -18,10 +18,12 @@ public class TCPClient {
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
+    private final UI userInterface;
     private MessageGenerator msgGen;
     private long serverAlive;
 
-    public TCPClient(String serverAddress, int port, String name, String UI) throws IOException {
+    public TCPClient(String serverAddress, int port, UI userInterface, String name, String UI) throws IOException {
+        this.userInterface = userInterface;
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
 
@@ -83,6 +85,7 @@ public class TCPClient {
                         }
                     } else if (obj instanceof GameView) {
                         System.out.println("GameView updated.");
+                        userInterface.addGameUpdate((GameView) obj);
                     } else {
                         System.err.println("Object not recognized: " + obj.getClass().getName());
                     }

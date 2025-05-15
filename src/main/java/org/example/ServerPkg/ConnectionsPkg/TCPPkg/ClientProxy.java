@@ -14,13 +14,11 @@ public abstract class ClientProxy {
     private String playerName;
     private final GameController controller;
     private final TCPServer TCPServer;
-    GameUpdater gameUpdater;
 
     public ClientProxy(GameController controller, TCPServer TCPServer) {
         this.TCPServer = TCPServer;
         this.controller = controller;
         this.playerName = null;
-        this.gameUpdater = null;
     }
 
     public GameController getController() {

@@ -24,19 +24,23 @@ public class ClientMain {
 
         switch (connectionType) {
             case "tcp":
-                if(args[2].toLowerCase().equals("tui") || args[2].toLowerCase().equals("gui")) {
-                    new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, args[1], args[2]);
+                UI TCPUserInterface;
+                if(args[2].toLowerCase().equals("tui")) {
+                    TCPUserInterface = new TUI();
                 }else{
-                    System.out.println("Error: connection type not supported. Use 'gui' or 'tui'.");
+                    TCPUserInterface = new GUI();
                 }
+                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, TCPUserInterface, args[1], args[2]);
                 break;
 
             case "rmi":
-                if(args[2].toLowerCase().equals("tui") || args[2].toLowerCase().equals("gui")) {
-                    new RMIClient("localhost", args[1]);
+                UI RMIUserInterface;
+                if(args[2].toLowerCase().equals("tui")) {
+                    RMIUserInterface = new TUI();
                 }else{
-                    System.out.println("Error: connection type not supported. Use 'gui' or 'tui'.");
+                    RMIUserInterface = new GUI();
                 }
+                new RMIClient("localhost", args[1]);
                 break;
 
             default:
