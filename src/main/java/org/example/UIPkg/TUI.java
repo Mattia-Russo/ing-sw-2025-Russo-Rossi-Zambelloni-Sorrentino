@@ -80,7 +80,7 @@ public class TUI implements UI{
                 System.out.println(
                     "Type one of the following command to do something:\n" +
                     "   join_lobby -> if you want to join an existing lobby\n" +
-                    "   start_game -> if you want to start the game");
+                    "   start_game -> if you want to start the game\n\n");
                 break;
             case GAME_READY:
                 if(game.getCurrentCard()!=null){
@@ -107,7 +107,7 @@ public class TUI implements UI{
                                     "   remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove\n" +
                                     "   remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove\n" +
                                     "   remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts\n" +
-                                    "   remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries"
+                                    "   remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries\n\n"
                     );
                 }
                 else{
@@ -119,23 +119,23 @@ public class TUI implements UI{
                                 "   right_rotate -> if you want to right rotate the tile\n" +
                                 "   place_tile x y -> x,y are the coordinates of the cell where you want to place the tile\n" +
                                 "   discard_component -> if you want to discard the component you picked\n" +
-                                "   remove_tile x y -> x,y are the coordinates of the tile you want to remove\n\n->" +
+                                "   remove_tile x y -> x,y are the coordinates of the tile you want to remove\n\n" +
 
-                                "   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien\n-> " +
-                                "   add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien\n-> " +
+                                "   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien\n" +
+                                "   add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien\n" +
                                 "   end_add_alien -> if you want to end the add alien phase\n\n" +
 
-                                "   show_deck numDeck -> numDeck is the number of the deck you want to see\n-> " +
+                                "   show_deck numDeck -> numDeck is the number of the deck you want to see\n" +
                                 "   end_show_deck -> if you want to end the show deck phase\n\n" +
 
                                 "   turn_timer -> if you want to turn the timer\n\n"+
 
-                                "   end_build_ship -> if you to end the build ship phase"
+                                "   end_build_ship -> if you to end the build ship phase\n\n"
                     );
                 }
                 break;
             case GAME_FINISHED:
-                System.out.println("Type the command: exit_game -> if you want to exit the game");
+                System.out.println("Type the command: exit_game -> if you want to exit the game\n\n");
                 break;
         }
     }
