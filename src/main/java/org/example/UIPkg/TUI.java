@@ -6,8 +6,10 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;
 import org.example.ServerPkg.Model.CardPkg.Planet;
+import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
 import org.example.ServerPkg.Model.ComponentsPkg.Connector;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
+import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
 import javax.swing.text.ComponentView;
@@ -154,80 +156,216 @@ public class TUI implements UI{
 
 
     private void DrawShipboard(List<PlayerView> players) {
-        for(PlayerView player : players) {
-            System.out.println(player.getName());
-            System.out.println("current tile:");
-            if(player.getCurrentTile()!=null) {
-                DrawComponent(player.getCurrentTile());
+        for (PlayerView player : players) {
+            System.out.println("Shipboard of " + player.getName() + ":");
+            if(player.getDeckShowed()==null) {
+                System.out.println(player.getCurrentTile());
             }
-            System.out.println("Shipboard: ");
-            StringBuilder sb= new StringBuilder();
-            ComponentsView[][] matrix= player.getShipboardView().getComponentsView();
+            ComponentsView[][] matrix = player.getShipboardView().getComponentsView();
             for (int i = 0; i < 5; i++) {
+                StringBuilder top = new StringBuilder();
+                StringBuilder mid = new StringBuilder();
+                StringBuilder bot = new StringBuilder();
                 for (int j = 0; j < 7; j++) {
-                    ComponentsView comp=matrix[i][j];
-                    if(comp!=null){
-                        sb.append("[").append(i).append(",").append(j).append("]\n");
-                        DrawComponent(comp);
+                    ComponentsView comp = matrix[i][j];
+                    if (comp != null) {
+                        Connector[] connectors = comp.getConnectors();
+                        String content = renderHorizontalConnector(connectors[3]) +DrawComponent(comp)+renderHorizontalConnector(connectors[1]);
+
+                        int contentLength = Math.min(stripAnsi(content).length(),24);
+                        if (contentLength >24){
+                            contentLength =24;
+                        }
+                        mid.append(padCenter(content, 24));
+                        String topConn = padCenter(renderVerticalConnector(connectors[0]), contentLength);
+                        String botConn = padCenter(renderVerticalConnector(connectors[2]), contentLength);
+                        top.append(padCenter(topConn, 24));
+                        bot.append(padCenter(botConn, 24));
+                    } else {
+                        top.append(" ".repeat(24));
+                        mid.append(" ".repeat(24));
+                        bot.append(" ".repeat(24));
                     }
+
+
                 }
+                System.out.println(top);
+                System.out.println(mid);
+                System.out.println(bot);
             }
-            System.out.println(sb);
         }
     }
 
+    private String renderVerticalConnector(Connector c) {
+        if (c == Connector.UNIVERSAL) return "│││";
+        if (c == Connector.DOUBLE) return "│ │";
+        if (c == Connector.SINGLE) return " │ ";
+        return "   ";
+    }
 
-    private void DrawComponent(ComponentsView componentsView) {
-        String type=componentsView.getType();
-        for(Connector connector : componentsView.getConnectors()) {
-            System.out.println(connector);
+    private String renderHorizontalConnector(Connector c) {
+        if (c == Connector.UNIVERSAL) return "───";
+        if (c == Connector.DOUBLE) return "─ ─";
+        if (c == Connector.SINGLE) return " ─ ";
+        return "   ";
+    }
+    private String stripAnsi(String s){
+        return s.replaceAll("\u001B\\[[;\\d]*m", "");
+    }
+
+    private String padCenter(String s, int width) {
+        int len= stripAnsi(s).length();
+        int padding = Math.max(0,width-len);
+        int left = padding / 2;
+        int right = padding - left;
+        return " ".repeat(left) + s + " ".repeat(right);
+    }
+
+    private String getColourSymbol(String colour) {
+        switch (colour.toUpperCase()) {
+            case "RED":
+                return "\u001B[41m  \u001B[0m";
+
+            case "BLUE":
+                return "\u001B[44m  \u001B[0m";
+
+            case "GREEN":
+                return "\u001B[42m  \u001B[0m";
+
+            case "YELLOW":
+                return "\u001B[43m  \u001B[0m";
+
+            default: return "";
         }
-        System.out.println(componentsView.getDirection());
+    }
+    private String DrawComponent(ComponentsView comp) {
+        if (comp==null) return "";
+        String arrow = getDirectionArrow(comp.getDirection());
+        String type = comp.getType();
+        String content = "";
         switch (type) {
             case "Cannon":
-                System.out.println("Cannon");
-                break;
-            case "Shield":
-                System.out.println("Shield");
-                System.out.println(componentsView.getShieldedDirections()[0]);
-                System.out.println(componentsView.getShieldedDirections()[1]);
+                content = "CANNON";
                 break;
             case "DoubleCannon":
-                System.out.println("DoubleCannon");
+                content = "DBCANNON";
                 break;
-            case "LifeSupportSystem":
-                System.out.println("LifeSupportSystem");
-                System.out.println(componentsView.getAlienColour());
-                break;
-            case "Cabin":
-                System.out.println("Cabin");
-                if(componentsView.getAlienColour()!=null) {
-                    System.out.println(componentsView.getAlienColour());
-                }else
-                    System.out.println(componentsView.getNumAstronauts());
-                break;
-            case "Tubes":
-                System.out.println("Tubes");
+            case "Shield":
+                StringBuilder shieldDir = new StringBuilder("SHIELD(");
+                for (Direction dir : comp.getShieldedDirections()) {
+                    shieldDir.append(getDirectionArrow(dir));
+                }
+                shieldDir.append(")");
+                content = shieldDir.toString();
                 break;
             case "Engine":
-                System.out.println("Engine");
+                content = "ENGINE";
                 break;
             case "DoubleEngine":
-                System.out.println("DoubleEngine");
+                content = "DBENGINE";
+                break;
+            case "BatteryStorage":
+                content = "BATTERYST";
+                break;
+            case "Battery":
+                content = "BATSTOR";
+                break;
+            case "Tubes":
+                content = "TUBES";
                 break;
             case "Storage":
-                System.out.println("Storage");
-                for(GoodsView good: componentsView.getGoods()) {
-                    System.out.println(good);
+
+                StringBuilder goods = new StringBuilder("STORAGE ");
+                for (GoodsView g : comp.getGoods()) {
+                    goods.append(getGoodColorSquare(g.getColour())).append(" ");
+                }
+                content = goods.toString().trim();
+                break;
+            case "Cabin":
+
+                if (comp.getAlienColour() != null) {
+                    content = "CABIN"+ getAlienColorBlock(comp.getAlienColour());
+                } else {
+                    content = "CABIN"+ comp.getNumAstronauts();
                 }
                 break;
-            case"BatteryStorage":
-                System.out.println("BatteryStorage");
-                System.out.println(componentsView.getNumBattery());
+            case "LifeSupportSystem":
+
+                String alien = (comp.getAlienColour() != null)
+                        ? getAlienColorBlock(comp.getAlienColour())
+                        : "";
+                content = "LIFES" + alien;
                 break;
+            default:
+                content = type.toUpperCase();
         }
+        String result = arrow +content;
+        if (stripAnsi(result).length() > 18) {
+            int visualLen = 0;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.length(); i++) {
+                char c = result.charAt(i);
+                sb.append(c);
+                if (c == '\u001B') {
+                    while (i < result.length() && result.charAt(i) != 'm') {
+                        sb.append(result.charAt(++i));
+                    }
+                    sb.append('m');
+                } else {
+                    visualLen++;
+                    if (visualLen >= 18) break;
+                }
+            }
+            result = sb.toString();
+        }
+
+        return result;
+    }
+    private String getGoodColorSquare(GoodsColour colour) {
+        return switch (colour) {
+            case RED:
+                yield "\u001B[41m█\u001B[0m";
+
+            case BLUE:
+                yield "\u001B[44m█\u001B[0m";
+
+            case GREEN:
+                yield "\u001B[42m█\u001B[0m";
+
+            case YELLOW:
+                yield "\u001B[43m█\u001B[0m";
+
+            default:
+                yield " ";
+        };
     }
 
+    private String getAlienColorBlock(AlienColour color) {
+        return switch (color) {
+            case BROWN:
+                yield "\u001B[48;5;94m█\u001B[0m";
+
+            case PURPLE:
+                yield "\u001B[45m█\u001B[0m";
+
+        };
+    }
+    private String getDirectionArrow(Direction d) {
+        return switch (d) {
+            case NORTH:
+                yield "↑";
+
+            case EAST:
+                yield "→";
+
+            case SOUTH:
+                yield "↓";
+
+            case WEST:
+                yield "←";
+
+        };
+    }
     
     private void DrawCurrentCard(AdventureCardView adventureCardView) {
         String type=adventureCardView.getType();
