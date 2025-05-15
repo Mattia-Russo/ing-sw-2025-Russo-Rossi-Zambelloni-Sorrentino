@@ -11,10 +11,10 @@ public class PickComponentTileMessage extends Message{
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try {
-                Player player= controller.getGame().getPlayerByName(playerName);
-               player.getState().pickComponentTile(player);
+                Player player = controller.getGame().getPlayerByName(playerName);
+                player.getState().pickComponentTile(player);
             } catch (PickTileWithDeckException e) {
-                System.out.println("ERROR " + e.getMessage());
+                System.out.println("Error handling the message: " + e.getMessage());
             }
         }
     }
