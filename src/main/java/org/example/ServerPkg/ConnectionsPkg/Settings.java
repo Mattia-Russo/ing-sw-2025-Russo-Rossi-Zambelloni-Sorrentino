@@ -8,7 +8,7 @@ public class Settings {
     public static String SERVER_NAME;
 
     static {
-
+        /*
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             SERVER_NAME = localHost.getHostAddress();
@@ -16,9 +16,7 @@ public class Settings {
             SERVER_NAME = "127.0.0.1";
             System.err.println("IP address error; 127.0.0.1 used");
         }
-
-
-
-        //SERVER_NAME = " 192.168.137.1";
+        */
+        SERVER_NAME = "192.168.132.240";
     }
 }
