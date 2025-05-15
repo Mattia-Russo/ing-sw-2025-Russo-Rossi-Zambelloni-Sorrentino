@@ -20,7 +20,7 @@ public class JoinLobbyMessage extends Message{
                     System.out.println(playerName + " joined the lobby successfully");
                 } else if (super.getClient()!=null){
                     controller.joinLobby(playerName);
-                    super.getServer().addGameUpdater(controller);
+                    super.getServer().addGameUpdater(controller, playerName);
                     System.out.println(playerName + " joined the lobby successfully");
                 }
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){

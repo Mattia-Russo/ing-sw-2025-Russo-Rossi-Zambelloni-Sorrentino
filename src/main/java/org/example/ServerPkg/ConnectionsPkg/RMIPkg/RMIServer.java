@@ -144,7 +144,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.gameUpdater = new RMIVirtualView(client);
     }
 
-    public void addGameUpdater(GameController controller){
-        controller.addGameUpdater(gameUpdater);
+    public void addGameUpdater(GameController controller, String name){
+        controller.addGameUpdater(gameUpdater, name);
     }
 }

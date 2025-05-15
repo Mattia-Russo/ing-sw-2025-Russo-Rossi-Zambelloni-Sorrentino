@@ -119,6 +119,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
 
     @Override
     public void addGameUpdater(GameController controller){
-        controller.addGameUpdater(gameUpdater);
+        controller.addGameUpdater(gameUpdater, getPlayerName());
     }
 }

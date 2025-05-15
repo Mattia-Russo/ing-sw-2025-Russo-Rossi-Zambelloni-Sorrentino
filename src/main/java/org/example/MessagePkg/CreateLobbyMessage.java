@@ -25,7 +25,7 @@ public class CreateLobbyMessage extends Message {
                 if(super.getProxy()!=null){
                     getProxy().addGameUpdater(controller);
                 } else if (super.getClient()!=null){
-                    super.getServer().addGameUpdater(controller);
+                    super.getServer().addGameUpdater(controller, playerName);
                 }
                 controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
                 System.out.println("Lobby created successfully");

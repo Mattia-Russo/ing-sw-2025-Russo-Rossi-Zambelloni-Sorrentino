@@ -21,14 +21,14 @@ public class GameController {
     private final BlockingQueue<Message> messageQueue;
     private volatile boolean isRunning;
     private Thread messageProcessor;
-    private List<GameUpdater> gameUpdaters;
+    private Map<String, GameUpdater> gameUpdaters;
 
     public GameController(){
         this.game = null;
         this.lobbyState = LobbyState.GAME_CREATION;
         this.messageQueue = new LinkedBlockingQueue<>();
         this.isRunning = true;
-        gameUpdaters = new ArrayList<>();
+        gameUpdaters = new HashMap<>();
         startMessageProcessing();
     }
 
@@ -156,10 +156,7 @@ public class GameController {
         }
     }
 
-    public void addGameUpdater(GameUpdater gameUpdater){
-        this.gameUpdaters.add(gameUpdater);
-        for(GameUpdater g : gameUpdaters){
-            System.out.println(g.toString());
-        }
+    public void addGameUpdater(GameUpdater gameUpdater, String name) {
+        this.gameUpdaters.put(name, gameUpdater);
     }
 }

@@ -366,13 +366,8 @@ public class Game{
         return gameMode;
     }
 
-    public void setGameUpdaters(List<GameUpdater> gameUpdaters){
-        this.gameUpdaters.clear();
-        for (Player player : players) {
-            for(GameUpdater g: gameUpdaters) {
-                this.gameUpdaters.put(player.getName(), g);
-            }
-        }
+    public void setGameUpdaters(Map<String, GameUpdater> gameUpdaters){
+        this.gameUpdaters = gameUpdaters;
     }
 
     public void updateGame(GameView gameView) {
