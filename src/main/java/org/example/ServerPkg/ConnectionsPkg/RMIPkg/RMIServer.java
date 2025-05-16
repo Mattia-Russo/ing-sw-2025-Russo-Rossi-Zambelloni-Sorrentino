@@ -25,7 +25,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.controller = controller;
         this.gameUpdater = null;
         this.clients = new ConcurrentHashMap<>();
-        checkConnection();
+        //checkConnection();
     }
 
     public void startRMIServer() {

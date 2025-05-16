@@ -35,7 +35,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             System.out.println(playerName + " connected to server.");
 
             startUpdateThread();
-            checkConnection();
+            //checkConnection();
             startKeyboardListener();
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);

@@ -15,12 +15,12 @@ public class JoinLobbyMessage extends Message{
         if(checkClient()) {
             try{
                 if(super.getProxy()!=null) {
-                    controller.joinLobby(playerName);
                     getProxy().addGameUpdater(controller);
+                    controller.joinLobby(playerName);
                     System.out.println(playerName + " joined the lobby successfully");
                 } else if (super.getClient()!=null){
-                    controller.joinLobby(playerName);
                     super.getServer().addGameUpdater(controller, playerName);
+                    controller.joinLobby(playerName);
                     System.out.println(playerName + " joined the lobby successfully");
                 }
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){
