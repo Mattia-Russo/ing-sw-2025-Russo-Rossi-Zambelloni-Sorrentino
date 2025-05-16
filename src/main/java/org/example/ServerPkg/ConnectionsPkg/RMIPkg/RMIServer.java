@@ -4,6 +4,7 @@ import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.Game;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.RMIVirtualView;
 
@@ -18,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
     private final GameController controller;
     private final Map<RMIClientInterface, Long> clients;
-    private GameUpdater gameUpdater;
+    private Map<String, GameUpdater> gameUpdater;
 
     public RMIServer(GameController controller) throws RemoteException {
         super();
         this.controller = controller;
-        this.gameUpdater = null;
+        this.gameUpdater = new ConcurrentHashMap<>();
         this.clients = new ConcurrentHashMap<>();
         //checkConnection();
     }
@@ -72,10 +73,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public synchronized void registerClient(RMIClientInterface client) throws RemoteException {
-        System.out.println(client.getPlayerName() + " subscribed");
+    public void registerClient(RMIClientInterface client) throws RemoteException {
         clients.put(client, System.currentTimeMillis());
         setGameUpdater(client);
+        System.out.println(client.getPlayerName() + " subscribed");
     }
 
     @Override
@@ -140,10 +141,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void setGameUpdater(RMIClientInterface client) throws RemoteException {
         System.out.println(client.getPlayerName() + ": setting game updater");
-        this.gameUpdater = new RMIVirtualView(client);
+        this.gameUpdater.put(client.getPlayerName() ,new RMIVirtualView(client));
     }
 
     public void addGameUpdater(GameController controller, String name){
-        controller.addGameUpdater(gameUpdater, name);
+        controller.addGameUpdater(gameUpdater.get(name), name);
     }
 }
