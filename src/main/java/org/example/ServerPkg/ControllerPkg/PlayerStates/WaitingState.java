@@ -180,6 +180,11 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
+    public void bookComponent(Player p){
+        new GameView(game, new WaitingStateException("Cannot do this action now, it's not your turn " + p.getName()));
+    }
+
+    @Override
     public void AbandonGame(Player player){
         player.abandon(game);
     }

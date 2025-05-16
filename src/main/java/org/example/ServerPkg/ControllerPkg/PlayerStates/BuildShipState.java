@@ -1,11 +1,14 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.TimerGenerator;
+
+import java.util.Arrays;
 
 public class BuildShipState extends PlayerState{
     private final Game game;
@@ -62,6 +65,8 @@ public class BuildShipState extends PlayerState{
         if (p.getDeckShowed() == null){
             if(!p.getShipBuilded()) {
                 p.setCurrentTile(game.pickComponentTile());
+                System.out.println("picked tile: " + p.getCurrentTile().toString());
+                System.out.println("Connectors: " + Arrays.toString(p.getCurrentTile().getConnectors()));
                 new GameView(game, null);
             }
         } else {
@@ -74,6 +79,8 @@ public class BuildShipState extends PlayerState{
         if (p.getDeckShowed() == null){
             if(!p.getShipBuilded()) {
                 p.setCurrentTile(game.pickDiscoveredComponent(index));
+                System.out.println("picked tile: " + p.getCurrentTile().toString());
+                System.out.println("Connectors: " + Arrays.toString(p.getCurrentTile().getConnectors()));
                 new GameView(game, null);
             }
         } else {
@@ -147,6 +154,13 @@ public class BuildShipState extends PlayerState{
         }
         player.setShipBuilded();
         player.setPosition(pos);
+    }
+
+    @Override
+    public void bookComponent(Player p){
+        p.getPlayerShipBoard().bookComponents(p.getCurrentTile());
+        p.setCurrentTile(null);
+        new GameView(game, null);
     }
   
     @Override

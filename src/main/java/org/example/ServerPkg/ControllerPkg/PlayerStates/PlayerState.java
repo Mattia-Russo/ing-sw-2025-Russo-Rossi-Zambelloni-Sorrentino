@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.PickTileWithDeckException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -85,4 +86,6 @@ public class PlayerState {
     public void pickDiscoveredComponent(Player p, int index){}
 
     public void setPosition(Player player){}
+
+    public void bookComponent(Player p){}
 }

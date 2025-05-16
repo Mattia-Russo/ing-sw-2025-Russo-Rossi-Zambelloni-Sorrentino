@@ -48,12 +48,13 @@ public class MessageGenerator {
         messageMap.put("add_brown_alien", this::createAddBrownAlienMessage);
         messageMap.put("add_purple_alien", this::createAddPurpleAlienMessage);
         messageMap.put("turn_timer", this::createturnTimerMessage);
-        messageMap.put("pick_component_tile", this::createPickComponentTileMessage);
-        messageMap.put("pick_discovered_component", this::createPickDiscoveredComponentMessage);
-        messageMap.put("discard_component", this::createDiscardComponentMessage);
+        messageMap.put("pick_tile", this::createPickComponentTileMessage);
+        messageMap.put("pick_discovered_tile", this::createPickDiscoveredComponentMessage);
+        messageMap.put("discard_tile", this::createDiscardComponentMessage);
         messageMap.put("place_tile", this::createPlaceTileMessage);
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
         messageMap.put("set_position", this::createSetPositionMessage);
+        messageMap.put("book_tile", this::createBookComponentMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -67,6 +68,10 @@ public class MessageGenerator {
             System.err.println("ERROR: " + e.getMessage());
             return null;
         }
+    }
+
+    private Message createBookComponentMessage(List<String> args) {
+        return new BookComponentMessage();
     }
 
     private Message createSetPositionMessage(List<String> args) {

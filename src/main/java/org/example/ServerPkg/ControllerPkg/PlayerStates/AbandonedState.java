@@ -186,6 +186,11 @@ public class AbandonedState extends PlayerState{
     }
 
     @Override
+    public void bookComponent(Player p){
+        new GameView(game, new AbandonedStateException("You've abandoned, wait for the end of the game " + p.getName()));
+    }
+
+    @Override
     public void disconnect(Player p){
         game.disconnectPlayer(p);
     }

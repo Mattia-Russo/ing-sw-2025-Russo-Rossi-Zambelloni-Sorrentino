@@ -25,7 +25,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.controller = controller;
         this.gameUpdater = null;
         this.clients = new ConcurrentHashMap<>();
-        checkConnection();
+        //checkConnection();
     }
 
     public void startRMIServer() {
@@ -133,7 +133,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         if (clients.containsKey(client)) {
             clients.put(client, System.currentTimeMillis());
             client.updateServerAlive();
-            //System.out.println("RMI server alive for client: " + client.getPlayerName());
         } else {
             System.out.println("Client not registered, cannot update timestamp");
         }

@@ -34,6 +34,7 @@ public class Game{
         this.gameMode = gameMode;
         this.ShipBoardLevel = ShipBoardLevel;
         this.controller = gameController;
+        this.discoveredComponents = new ArrayList<>();
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
@@ -230,7 +231,6 @@ public class Game{
     }
 
     //usage only for tests
-
     public List<AdventureCard> getDeck(){
         return this.deck;
     }
@@ -373,7 +373,6 @@ public class Game{
     public void updateGame(GameView gameView) {
        for (Map.Entry<String, GameUpdater> entry : gameUpdaters.entrySet()) {
            entry.getValue().updateGame(gameView);
-           System.out.println("stampo la view di"+ entry.getKey());
        }
     }
 

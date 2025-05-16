@@ -103,9 +103,7 @@ public class TCPClient {
                             serverAlive = System.currentTimeMillis();
                         }
                     } else if (obj instanceof GameView) {
-                        System.out.println("GameView updated for tcp.");
                         userInterface.addGameUpdate((GameView) obj);
-                        System.out.println("GameView added to the UI queue.");
                     } else {
                         System.err.println("Object not recognized: " + obj.getClass().getName());
                     }

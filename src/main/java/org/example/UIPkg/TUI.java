@@ -1,18 +1,13 @@
 package org.example.UIPkg;
 
-import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
-import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateEnginesState;
-import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;
-import org.example.ServerPkg.Model.CardPkg.Planet;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
 import org.example.ServerPkg.Model.ComponentsPkg.Connector;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
-import javax.swing.text.ComponentView;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -118,12 +113,12 @@ public class TUI implements UI{
                 else{
                     System.out.println(
                             "Type one of the following command to do something:\n" +
-                                "   pick_component_tile -> if you want to pick a random covered component\n" +
-                                "   pick_discovered_component index-> if you want to pick discovered component with this index\n" +
+                                "   pick_tile -> if you want to pick a random covered component\n" +
+                                "   pick_discovered_tile index-> if you want to pick discovered component with this index\n" +
                                 "   left_rotate -> if you want to left rotate the tile\n" +
                                 "   right_rotate -> if you want to right rotate the tile\n" +
                                 "   place_tile x y -> x,y are the coordinates of the cell where you want to place the tile\n" +
-                                "   discard_component -> if you want to discard the component you picked\n" +
+                                "   discard_tile -> if you want to discard the component you picked\n" +
                                 "   remove_tile x y -> x,y are the coordinates of the tile you want to remove\n\n" +
 
                                 "   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien\n" +
@@ -204,8 +199,8 @@ public class TUI implements UI{
     }
 
     private String renderHorizontalConnector(Connector c) {
-        if (c == Connector.UNIVERSAL) return "───";
-        if (c == Connector.DOUBLE) return "─ ─";
+        if (c == Connector.UNIVERSAL) return " ─── ";
+        if (c == Connector.DOUBLE) return " ─ ─ ";
         if (c == Connector.SINGLE) return " ─ ";
         return "   ";
     }
@@ -299,7 +294,7 @@ public class TUI implements UI{
             default:
                 content = type.toUpperCase();
         }
-        String result = arrow +content;
+        String result = arrow + content;
         if (stripAnsi(result).length() > 18) {
             int visualLen = 0;
             StringBuilder sb = new StringBuilder();

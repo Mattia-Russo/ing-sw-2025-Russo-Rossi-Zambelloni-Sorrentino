@@ -187,6 +187,11 @@ public class EndState extends PlayerState{
     }
 
     @Override
+    public void bookComponent(Player p){
+        new GameView(game, new EndStateException("The game has ended, cannot do any action anymore " + p.getName()));
+    }
+
+    @Override
     public void disconnect(Player disconnectingPlayer){
         game.disconnectPlayer(disconnectingPlayer);
     }

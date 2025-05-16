@@ -35,7 +35,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             System.out.println(playerName + " connected to server.");
 
             startUpdateThread();
-            checkConnection();
+            //checkConnection();
             startKeyboardListener();
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
@@ -141,6 +141,5 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public void addGameUpdate(GameView gameView) throws RemoteException {
         userInterface.addGameUpdate(gameView);
-        System.out.println("GameView updated for RMI.");
     }
 }
