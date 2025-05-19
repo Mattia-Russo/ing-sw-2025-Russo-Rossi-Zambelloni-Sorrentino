@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
-
-import javax.imageio.plugins.tiff.GeoTIFFTagSet;
 import java.util.ArrayList;
 
 public class Cabin extends Components {
