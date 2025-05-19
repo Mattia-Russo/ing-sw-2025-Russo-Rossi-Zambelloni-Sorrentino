@@ -12,6 +12,7 @@ module Galaxy.Trucker {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.web;
+    requires javafx.media;
 
     exports org.example.UIPkg to javafx.graphics;
 
