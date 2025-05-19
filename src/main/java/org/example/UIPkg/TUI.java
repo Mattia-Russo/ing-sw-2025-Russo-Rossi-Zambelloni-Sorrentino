@@ -120,6 +120,7 @@ public class TUI implements UI{
                                 "   place_tile x y -> x,y are the coordinates of the cell where you want to place the tile\n" +
                                 "   discard_tile -> if you want to discard the component you picked\n" +
                                 "   remove_tile x y -> x,y are the coordinates of the tile you want to remove\n\n" +
+                                "   book_tile -> place the current component in a booked slot\n\n" +
 
                                 "   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien\n" +
                                 "   add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien\n" +
