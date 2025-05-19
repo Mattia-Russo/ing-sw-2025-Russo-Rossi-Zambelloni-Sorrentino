@@ -25,6 +25,7 @@ public class ClientMain {
                 break;
             case "gui":
                 userInterface = new GUI();
+                GUI.main(args);
                 break;
             default:
                 System.out.println("Error: connection type not supported. Use 'gui' or 'tui' as third parameter.");
