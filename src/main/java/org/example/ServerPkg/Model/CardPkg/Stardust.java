@@ -6,7 +6,9 @@ import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 
-public class Stardust extends AdventureCard{
+import java.io.Serializable;
+
+public class Stardust extends AdventureCard implements Serializable {
     private final int id;
     @JsonCreator
     public Stardust(

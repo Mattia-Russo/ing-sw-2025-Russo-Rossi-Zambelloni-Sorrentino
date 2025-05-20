@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Exceptions.*;
+
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class ShipBoard {
+public class ShipBoard implements Serializable {
 
     private int deletedComponentsCounter;
     private boolean[][] availablePositionMatrix;

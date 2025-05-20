@@ -7,7 +7,9 @@ import org.example.ServerPkg.Model.Exceptions.ValueUnderZeroException;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
-public class BatteryStorage extends Components{
+import java.io.Serializable;
+
+public class BatteryStorage extends Components implements Serializable {
     private final int capacity;
     private int quantity;
     private final int id;

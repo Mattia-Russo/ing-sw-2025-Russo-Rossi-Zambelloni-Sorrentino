@@ -11,10 +11,11 @@ import org.example.ServerPkg.Model.Exceptions.PlayerAbandonedException;
 import org.example.ServerPkg.Model.Exceptions.TilesEndedExceptions;
 import org.example.ServerPkg.Utils.ShipboardLoader;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Player {
+public class Player implements Serializable {
     private final int id;
     private final String name;
     private int position;

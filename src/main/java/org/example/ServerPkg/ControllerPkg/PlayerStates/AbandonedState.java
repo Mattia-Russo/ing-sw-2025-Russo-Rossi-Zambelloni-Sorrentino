@@ -7,9 +7,10 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AbandonedState extends PlayerState{
+public class AbandonedState extends PlayerState implements Serializable {
     private final Game game;
     public AbandonedState(Game game){
         this.game = game;

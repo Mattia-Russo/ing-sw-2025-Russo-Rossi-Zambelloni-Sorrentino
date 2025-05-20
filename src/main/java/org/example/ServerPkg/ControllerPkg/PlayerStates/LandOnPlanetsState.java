@@ -5,7 +5,9 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
-public class LandOnPlanetsState extends PlayerState {
+import java.io.Serializable;
+
+public class LandOnPlanetsState extends PlayerState implements Serializable {
     private final Game game;
 
     public LandOnPlanetsState(Game game){

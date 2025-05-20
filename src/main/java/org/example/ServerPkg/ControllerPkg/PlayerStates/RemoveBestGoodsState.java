@@ -10,10 +10,11 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class RemoveBestGoodsState extends PlayerState{
+public class RemoveBestGoodsState extends PlayerState implements Serializable {
     private final Game game;
     private int goodsRemoved;
     private int batteriesRemoved;

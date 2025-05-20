@@ -3,7 +3,9 @@ package org.example.ServerPkg.Model.CardPkg;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 
-public class CannonFire {
+import java.io.Serializable;
+
+public class CannonFire implements Serializable {
     private final int type;
     private final Direction direction;
 

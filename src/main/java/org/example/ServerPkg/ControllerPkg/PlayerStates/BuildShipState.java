@@ -8,9 +8,10 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.TimerGenerator;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class BuildShipState extends PlayerState{
+public class BuildShipState extends PlayerState implements Serializable {
     private final Game game;
     private final TimerGenerator timer;
     private int stopTurn;

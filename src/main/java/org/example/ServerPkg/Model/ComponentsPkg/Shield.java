@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
-public class Shield extends Components {
+import java.io.Serializable;
+
+public class Shield extends Components implements Serializable {
     private final Direction direction2;
     private final int id;
 

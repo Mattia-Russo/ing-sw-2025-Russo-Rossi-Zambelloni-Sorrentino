@@ -10,10 +10,11 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class Slavers extends Enemy{
+public class Slavers extends Enemy implements Serializable {
     private int numAstronauts;
     private int credits;
     private int playersIndex;

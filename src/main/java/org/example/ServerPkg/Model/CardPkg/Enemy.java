@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-public abstract class Enemy extends AdventureCard{
+import java.io.Serializable;
+
+public abstract class Enemy extends AdventureCard implements Serializable {
     private int cannonPower;
     public Enemy(int cardLevel, int lostDays, int cannonPower) {
         super(cardLevel, lostDays);

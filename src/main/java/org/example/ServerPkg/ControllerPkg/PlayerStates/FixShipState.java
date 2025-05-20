@@ -11,7 +11,9 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
-public class FixShipState extends PlayerState {
+import java.io.Serializable;
+
+public class FixShipState extends PlayerState implements Serializable {
     private Game game;
 
     public FixShipState(Game game) {

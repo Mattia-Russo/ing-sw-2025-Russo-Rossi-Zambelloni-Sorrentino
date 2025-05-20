@@ -6,9 +6,10 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WaitingState extends PlayerState {
+public class WaitingState extends PlayerState implements Serializable {
     private final Game game;
     public WaitingState(Game game){
         this.game = game;

@@ -10,10 +10,11 @@ import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.PlanetView;
 import org.example.ServerPkg.Model.Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetsCard extends AdventureCard {
+public class PlanetsCard extends AdventureCard implements Serializable{
     private ArrayList<Planet> planets = new ArrayList<Planet>();
     private int playersIndex;
     private boolean planetsVisited[];

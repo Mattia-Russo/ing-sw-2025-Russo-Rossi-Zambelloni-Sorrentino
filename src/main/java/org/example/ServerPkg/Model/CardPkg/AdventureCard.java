@@ -8,6 +8,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @JsonTypeInfo(
@@ -29,9 +30,9 @@ import java.util.ArrayList;
         @JsonSubTypes.Type(value = PlanetsCard.class, name = "PLANETSCARD"),
         @JsonSubTypes.Type(value = OpenSpace.class, name = "STARDUST"),
 })
-public abstract class AdventureCard {
+public abstract class AdventureCard implements Serializable {
     private final int cardLevel;
-    private int lostDays;
+    private final int lostDays;
 
     public AdventureCard(int cardLevel, int lostDays) {
         this.cardLevel = cardLevel;
