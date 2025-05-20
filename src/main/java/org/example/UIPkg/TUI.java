@@ -49,7 +49,6 @@ public class TUI implements UI{
         }
     }
 
-
     //stringbuilder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
@@ -84,7 +83,6 @@ public class TUI implements UI{
             System.out.println(game.getException().getMessage());
         drawCommands(game);
     }
-
 
     public void drawCommands(GameView game) {
         switch (game.getLobbyState()){
@@ -171,7 +169,6 @@ public class TUI implements UI{
         }
 
     }
-
 
     private void DrawShipboard(List<PlayerView> players) {
         final int ROWS = 5;

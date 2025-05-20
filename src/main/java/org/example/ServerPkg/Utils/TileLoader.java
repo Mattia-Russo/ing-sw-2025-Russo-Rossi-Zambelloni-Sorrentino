@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TileLoader {
-    private static final String COMPONENT_JSON_PATH = "/org.example.gc31/tiles.json";
+    private static final String COMPONENT_JSON_PATH = "/org.example.gc31/JsonPkg/tiles.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static List<Components> loadFilteredTiles() {

@@ -26,4 +26,5 @@ module Galaxy.Trucker {
     exports org.example.ServerPkg.ControllerPkg;
     exports org.example.ServerPkg.Model;
     exports org.example.ServerPkg.Model.CardPkg;
+    exports org.example.UIPkg.GUIPkg;
 }

@@ -4,7 +4,7 @@
 package org.example.ClientPkg;
 
 import org.example.ServerPkg.ConnectionsPkg.Settings;
-import org.example.UIPkg.GUI;
+import org.example.UIPkg.GUIPkg.GUI;
 import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
 

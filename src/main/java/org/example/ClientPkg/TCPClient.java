@@ -2,8 +2,6 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.*;
 import org.example.ServerPkg.Model.ForView.GameView;
-import org.example.UIPkg.GUI;
-import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
 
 import java.io.IOException;
