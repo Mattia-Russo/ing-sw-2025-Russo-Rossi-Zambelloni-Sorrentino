@@ -40,6 +40,7 @@ public class TCPClient {
             String input = scanner.nextLine();
             List<String> args = new ArrayList<>();
             args.add(input);
+            System.out.println("Name read: " + args.getFirst());
             this.registerName(args);
 
             try {

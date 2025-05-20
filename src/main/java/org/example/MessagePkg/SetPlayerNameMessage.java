@@ -15,7 +15,7 @@ public class SetPlayerNameMessage extends Message{
     @Override
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(getProxy()!=null) {
-            if (controller.checkName(playerName)){
+            if (controller.checkName(this.playerName)){
                 getProxy().notifyClient("true");
                 getProxy().setPlayerName(this.playerName);
                 getProxy().setGameUpdater();
