@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 
-public class Tubes extends Components{
+import java.io.Serializable;
+
+public class Tubes extends Components implements Serializable {
     private final int id;
 
     @JsonCreator

@@ -13,9 +13,10 @@ import org.example.ServerPkg.Utils.CardLoader;
 import org.example.ServerPkg.Utils.TileLoader;
 import org.example.UIPkg.GameUpdater;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Game{
+public class Game implements Serializable {
 
     private int numPlayer;
     private ArrayList<Player> players;
@@ -26,8 +27,8 @@ public class Game{
     private AdventureCard currentCard;
     private List<Components> componentsList;
     private ArrayList<Components> discoveredComponents;
-    private final GameController controller;
-    private Map<String, GameUpdater> gameUpdaters;
+    private transient GameController controller;
+    private transient Map<String, GameUpdater> gameUpdaters;
 
     public Game(int numPlayer, int ShipBoardLevel, int gameMode, GameController gameController) {
         this.numPlayer = numPlayer;
@@ -392,5 +393,9 @@ public class Game{
 
     public GameController getController() {
         return controller;
+    }
+
+    public void setController(GameController controller) {
+        this.controller = controller;
     }
 }

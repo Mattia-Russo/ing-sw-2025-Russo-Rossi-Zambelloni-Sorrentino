@@ -14,11 +14,12 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pirates extends Enemy{
+public class Pirates extends Enemy implements Serializable {
     private final int credit;
     private int currentPlayer;
     private boolean accept;

@@ -7,9 +7,10 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlayerState {
+public class PlayerState implements Serializable {
 
     public void activateCannons(ArrayList<Points> cannons, Player player){}
 

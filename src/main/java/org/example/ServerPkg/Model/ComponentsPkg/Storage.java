@@ -7,10 +7,11 @@ import org.example.ServerPkg.Model.Exceptions.StorageFullException;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ForView.GoodsView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Storage extends Components {
+public class Storage extends Components implements Serializable {
     private Goods[] goodsList = new Goods[3];
     private final boolean isSpecial;
     private final int capacity;

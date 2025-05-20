@@ -37,10 +37,6 @@ public class Components {
         this.posY = 0;
     }
 
-    public void discard(){
-
-    }
-
     public ComponentsView createView(){
         return new ComponentsView(getDirection(), getConnectors(), 0,null,0 ,0, null, null, null);
     }

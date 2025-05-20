@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-public class Alien { ;
+import java.io.Serializable;
+
+public class Alien implements Serializable { ;
     private final AlienColour colour;
 
     public Alien(AlienColour colour) {

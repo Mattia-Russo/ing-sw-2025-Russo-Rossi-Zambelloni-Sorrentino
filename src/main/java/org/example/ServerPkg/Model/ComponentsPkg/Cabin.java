@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cabin extends Components {
+public class Cabin extends Components implements Serializable {
     private int numAstronauts;
     private boolean withLifeSupport;
     private ArrayList<LifeSupportSystem> lifeSupportSystemArrayList;

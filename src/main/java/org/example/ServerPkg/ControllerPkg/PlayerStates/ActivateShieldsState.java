@@ -7,9 +7,10 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ActivateShieldsState extends PlayerState {
+public class ActivateShieldsState extends PlayerState implements Serializable {
     ArrayList<Points> shields;
     ArrayList<Points> batteries;
     private final Game game;

@@ -3,7 +3,9 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
-public class WinEnemyState extends PlayerState{
+import java.io.Serializable;
+
+public class WinEnemyState extends PlayerState implements Serializable {
     private final Game game;
 
     public WinEnemyState(Game game){

@@ -13,10 +13,11 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class OpenSpace extends AdventureCard{
+public class OpenSpace extends AdventureCard implements Serializable {
     private int currentPlayer;
     private final int id;
 

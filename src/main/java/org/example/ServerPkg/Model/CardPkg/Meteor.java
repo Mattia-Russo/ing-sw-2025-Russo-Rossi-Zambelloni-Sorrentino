@@ -3,7 +3,9 @@ package org.example.ServerPkg.Model.CardPkg;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 
-public class Meteor {
+import java.io.Serializable;
+
+public class Meteor implements Serializable {
     private final Direction direction;
     private final int type; // 0 è piccolo, 1 è grande
 

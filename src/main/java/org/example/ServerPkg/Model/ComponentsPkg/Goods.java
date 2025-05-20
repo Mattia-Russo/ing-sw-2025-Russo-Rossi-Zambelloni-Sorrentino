@@ -2,7 +2,9 @@ package org.example.ServerPkg.Model.ComponentsPkg;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Goods {
+import java.io.Serializable;
+
+public class Goods implements Serializable {
     private final GoodsColour colour;
     private Storage storage;
 

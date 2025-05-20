@@ -10,9 +10,10 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 
-public class AddAlienState extends PlayerState{
+public class AddAlienState extends PlayerState implements Serializable {
     private final Game game;
     private final Player player;
     public AddAlienState(Game game, Player player){

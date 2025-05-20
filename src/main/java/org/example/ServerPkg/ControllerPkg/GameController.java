@@ -10,12 +10,13 @@ import org.example.ServerPkg.Model.TimerGenerator;
 
 import org.example.UIPkg.GameUpdater;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.security.InvalidParameterException;
 
-public class GameController {
+public class GameController{
     private Game game;
     private LobbyState lobbyState;
     private final BlockingQueue<Message> messageQueue;
@@ -142,6 +143,7 @@ public class GameController {
                             this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
                             addNewPlayer(name);
                             game.setGameUpdaters(gameUpdaters);
+                            new GameSaver(this);
                             new GameView(game, new Exception("Game created"));
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
                     }else throw new InvalidParameterException("Game mode must be 0 or 1");
@@ -159,6 +161,26 @@ public class GameController {
 
     public void addGameUpdater(GameUpdater gameUpdater, String name) {
         this.gameUpdaters.put(name, gameUpdater);
+    }
+
+    public void saveGame(String path){
+        if(getLobbyState().equals(LobbyState.GAME_FINISHED)){
+            return;
+        }
+        try {
+            FileOutputStream fileOut = new FileOutputStream(path);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(game);
+            objectOut.close();
+            fileOut.close();
+        } catch (Exception e) {
+            System.out.println("Saving game failed");
+        }
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+        game.setController(this);
     }
 
     public boolean checkName(String name){
