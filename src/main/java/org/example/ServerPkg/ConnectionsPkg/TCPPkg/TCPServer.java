@@ -65,6 +65,7 @@ public class TCPServer {
     }
 
     public synchronized void subscribe(ClientProxy clientProxy) {
+        controller.getNames().add(clientProxy.getPlayerName());
         System.out.println(clientProxy.getPlayerName() + " subscribed");
         clientsProxies.add(clientProxy);
 

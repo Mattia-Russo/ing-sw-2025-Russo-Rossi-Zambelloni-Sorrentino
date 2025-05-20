@@ -1,9 +1,6 @@
 package org.example.ClientPkg;
 
-import org.example.MessagePkg.Message;
-import org.example.MessagePkg.MessageGenerator;
-import org.example.MessagePkg.PingMessage;
-import org.example.MessagePkg.PongMessage;
+import org.example.MessagePkg.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.GUI;
 import org.example.UIPkg.TUI;
@@ -23,8 +20,9 @@ public class TCPClient {
     private final UI userInterface;
     private final MessageGenerator msgGen;
     private long serverAlive;
+    private boolean nameSet = false;
 
-    public TCPClient(String serverAddress, int port, String name, UI UI) throws IOException {
+    public TCPClient(String serverAddress, int port, UI UI) throws IOException {
         this.userInterface = UI;
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
@@ -35,17 +33,37 @@ public class TCPClient {
         out.flush();
         this.in = new ObjectInputStream(socket.getInputStream());
 
-        System.out.println("Connesso al server TCP.");
+        Scanner scanner = new Scanner(System.in);
+
+        while(!nameSet){
+            System.out.println("Type your name: ");
+            String input = scanner.nextLine();
+            List<String> args = new ArrayList<>();
+            args.add(input);
+            this.registerName(args);
+
+            try {
+                Object obj = in.readObject();
+                if (obj instanceof NotifyClientMessage) {
+                    if (((NotifyClientMessage) obj).getMessage().equals("true")) {
+                        nameSet = true;
+                    } else {
+                        System.out.println("Name already taken");
+                    }
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("Error reading NotifyClientMessage: " + e.getMessage());
+            }
+        }
+
+        System.out.println("is connected to TCP server.");
 
         // Avvia un thread per ascoltare i messaggi in arrivo dal server
         startPingThread();
-        checkServerConnection();
+        //checkServerConnection();
         startListening();
         startKeyboardListener();
-
-        List<String> args = new ArrayList<>();
-        args.add(name);
-        this.registerName(args);
     }
 
     private void checkServerConnection(){
@@ -101,6 +119,8 @@ public class TCPClient {
                     if (obj instanceof Message) {
                         if (obj instanceof PongMessage) {
                             serverAlive = System.currentTimeMillis();
+                        } else if (obj instanceof NotifyClientMessage notifyClientMessage){
+                            System.out.println(notifyClientMessage.getMessage());
                         }
                     } else if (obj instanceof GameView) {
                         userInterface.addGameUpdate((GameView) obj);
@@ -126,13 +146,11 @@ public class TCPClient {
 
         Thread KeyBoardListenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Type a command: ");
+
             while (!socket.isClosed()) {
                 try {
-                    // Legge l'input dell'utente
+                    System.out.println("Type a command: ");
                     String input = scanner.nextLine();
-
-                    // Crea una lista per contenere le parole successive
 
                     // Dividi la riga di input in parole
                     String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
@@ -151,7 +169,7 @@ public class TCPClient {
 
                     // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
-                    if(message != null){
+                    if (message != null) {
                         sendMessage(message);
                     }
                 } catch (Exception e) {

@@ -1,10 +1,7 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
-import org.example.MessagePkg.SetPlayerNameMessage;
+import org.example.MessagePkg.*;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.MessagePkg.Message;
-import org.example.MessagePkg.PingMessage;
-import org.example.MessagePkg.PongMessage;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.TCPVirtualView;
 
@@ -12,17 +9,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class SocketClientProxy extends ClientProxy implements Runnable {
     private final Socket socket;
     private final ObjectOutputStream out;
     private long clientAlive;
     private GameUpdater gameUpdater;
+    private MessageGenerator msgGen;
 
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
         super(controller, TCPServer);
         this.socket = socket;
         this.gameUpdater = null;
+        this.msgGen = new MessageGenerator();
         out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
         this.clientAlive = System.currentTimeMillis();
@@ -74,11 +74,8 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
             try {
                 Message message = (Message) in.readObject();
 
-                if (message instanceof PingMessage ping) {
-                    //System.out.println("Server received ping");
-                  
+                if (message instanceof PingMessage) {
                     sendMessage(new PongMessage());
-                    //System.out.println("Pong from server");
                     clientAlive = System.currentTimeMillis();
                 } else if (message instanceof SetPlayerNameMessage setPlayerNameMessage) {
                     message.setProxy(this);
@@ -120,5 +117,11 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     @Override
     public void addGameUpdater(GameController controller){
         controller.addGameUpdater(gameUpdater, getPlayerName());
+    }
+
+    @Override
+    public void notifyClient(String s){
+        Message message = msgGen.generate("notify", List.of(s));
+        sendMessage(message);
     }
 }

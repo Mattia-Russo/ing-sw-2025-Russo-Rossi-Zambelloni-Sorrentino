@@ -94,7 +94,6 @@ public class CardLoader {
             );
 
             List<AdventureCard> allCards = mapper.readValue(is, new TypeReference<List<AdventureCard>>() {});
-            System.out.println("Loaded cards: " + allCards.size());
             return allCards;
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse cards JSON", e);

@@ -9,6 +9,7 @@ module Galaxy.Trucker {
     opens org.example.ServerPkg.Model.ComponentsPkg to com.fasterxml.jackson.databind;
     opens org.example.ServerPkg.ControllerPkg.PlayerStates to com.fasterxml.jackson.databind;
 
+
     requires java.rmi;
 
     exports org.example.ClientPkg to java.rmi;
@@ -23,5 +24,6 @@ module Galaxy.Trucker {
     exports org.example.MessagePkg;
     exports org.example.ServerPkg.Model.ForView;
     exports org.example.ServerPkg.ControllerPkg;
-
+    exports org.example.ServerPkg.Model;
+    exports org.example.ServerPkg.Model.CardPkg;
 }

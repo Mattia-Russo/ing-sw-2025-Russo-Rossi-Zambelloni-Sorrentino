@@ -57,5 +57,7 @@ public abstract class ClientProxy {
 
     public void setGameUpdater(){}
 
+    public void notifyClient(String message){}
+
     public void addGameUpdater(GameController controller){}
 }
