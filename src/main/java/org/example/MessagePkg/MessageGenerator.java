@@ -55,6 +55,7 @@ public class MessageGenerator {
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
         messageMap.put("set_position", this::createSetPositionMessage);
         messageMap.put("book_tile", this::createBookComponentMessage);
+        messageMap.put("notify", this::createNotifyClientMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -68,6 +69,10 @@ public class MessageGenerator {
             System.err.println("ERROR: " + e.getMessage());
             return null;
         }
+    }
+
+    private Message createNotifyClientMessage(List<String> args) {
+        return new NotifyClientMessage(args.getFirst());
     }
 
     private Message createBookComponentMessage(List<String> args) {

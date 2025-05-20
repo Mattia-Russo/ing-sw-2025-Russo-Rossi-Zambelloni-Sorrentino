@@ -34,7 +34,7 @@ public class ClientMain {
 
         switch (args[0].toLowerCase()) {
             case "tcp":
-                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, args[1], userInterface);
+                new TCPClient(Settings.SERVER_NAME, Settings.TCP_PORT, userInterface);
                 break;
 
             case "rmi":

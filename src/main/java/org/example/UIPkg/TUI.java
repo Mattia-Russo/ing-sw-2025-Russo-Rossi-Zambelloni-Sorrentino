@@ -36,7 +36,7 @@ public class TUI implements UI{
             }
         });
         UpdateThread.setDaemon(false);
-        UpdateThread.start();  // Avvia il thread
+        UpdateThread.start();
     }
 
     @Override
@@ -91,60 +91,69 @@ public class TUI implements UI{
             //mancano set_name e set_position che sembra che non dobbiamo inserire
             case GAME_CREATION:
                 System.out.println(
-                        "Type one of the following command to do something:\n" +
-                                "   join_lobby -> if you want to join an existing lobby\n" +
-                                "   start_game -> if you want to start the game\n\n");
+                        """
+                                Type one of the following command to do something:
+                                   join_lobby -> if you want to join an existing lobby
+                                   start_game -> if you want to start the game
+                                
+                                """);
                 break;
             case GAME_READY:
                 if(game.getCurrentCard()!=null){
                     System.out.println(
-                            "Type one of the following command to do something:\n" +
-                                    "   accept_reward true/false -> true if you want to accept the reward, false otherwise\n" +
-
-                                    "   activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate\n" +
-                                    "   activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate\n" +
-                                    "   activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate\n" +
-                                    "   use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use\n\n" +
-
-                                    "   end_activate_cannons -> if you want to end the cannon activation phase\n" +
-                                    "   end_activate_engines -> if you want to end the engine activation phase\n" +
-                                    "   end_change_goods_state -> if you want to end the change good phase\n" +
-                                    "   end_activate_shields -> if you want to end the shield activation phase\n" +
-                                    "   end_remove_best_goods -> if you want to end the remove best goods phase\n" +
-                                    "   end_remove_astronauts -> if you want to end the remove astronauts phase\n\n" +
-
-                                    "   land_on_abandon true/false ->  true if you want to land, false otherwise\n" +
-                                    "   land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land\n\n" +
-
-                                    "   add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add\n" +
-                                    "   remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove\n" +
-                                    "   remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove\n" +
-                                    "   remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts\n" +
-                                    "   remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries\n\n"
+                            """
+                                    Type one of the following command to do something:
+                                       accept_reward true/false -> true if you want to accept the reward, false otherwise
+                                       activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+                                       activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate
+                                       activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+                                       use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+                                    
+                                       end_activate_cannons -> if you want to end the cannon activation phase
+                                       end_activate_engines -> if you want to end the engine activation phase
+                                       end_change_goods_state -> if you want to end the change good phase
+                                       end_activate_shields -> if you want to end the shield activation phase
+                                       end_remove_best_goods -> if you want to end the remove best goods phase
+                                       end_remove_astronauts -> if you want to end the remove astronauts phase
+                                    
+                                       land_on_abandon true/false ->  true if you want to land, false otherwise
+                                       land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
+                                    
+                                       add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
+                                       remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
+                                       remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
+                                       remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
+                                       remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries
+                                    
+                                    """
                     );
                 }
                 else{
                     System.out.println(
-                            "Type one of the following command to do something:\n" +
-                                    "   pick_tile -> if you want to pick a random covered component\n" +
-                                    "   pick_discovered_tile index-> if you want to pick discovered component with this index\n" +
-                                    "   left_rotate -> if you want to left rotate the tile\n" +
-                                    "   right_rotate -> if you want to right rotate the tile\n" +
-                                    "   place_tile x y -> x,y are the coordinates of the cell where you want to place the tile\n" +
-                                    "   discard_tile -> if you want to discard the component you picked\n" +
-                                    "   remove_tile x y -> x,y are the coordinates of the tile you want to remove\n\n" +
-                                    "   book_tile -> place the current component in a booked slot\n\n" +
-
-                                    "   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien\n" +
-                                    "   add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien\n" +
-                                    "   end_add_alien -> if you want to end the add alien phase\n\n" +
-
-                                    "   show_deck numDeck -> numDeck is the number of the deck you want to see\n" +
-                                    "   end_show_deck -> if you want to end the show deck phase\n\n" +
-
-                                    "   turn_timer -> if you want to turn the timer\n\n"+
-
-                                    "   end_build_ship -> if you to end the build ship phase\n\n"
+                            """
+                                    Type one of the following command to do something:
+                                       pick_tile -> if you want to pick a random covered component
+                                       pick_discovered_tile index-> if you want to pick discovered component with this index
+                                       left_rotate -> if you want to left rotate the tile
+                                       right_rotate -> if you want to right rotate the tile
+                                       place_tile x y -> x,y are the coordinates of the cell where you want to place the tile
+                                       discard_tile -> if you want to discard the component you picked
+                                       remove_tile x y -> x,y are the coordinates of the tile you want to remove
+                                    
+                                       book_tile -> place the current component in a booked slot
+                                    
+                                       add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
+                                       add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
+                                       end_add_alien -> if you want to end the add alien phase
+                                    
+                                       show_deck numDeck -> numDeck is the number of the deck you want to see
+                                       end_show_deck -> if you want to end the show deck phase
+                                    
+                                       turn_timer -> if you want to turn the timer
+                                    
+                                       end_build_ship -> if you to end the build ship phase
+                                    
+                                    """
                     );
                 }
                 break;
@@ -172,11 +181,11 @@ public class TUI implements UI{
         for (PlayerView player : players) {
             System.out.println("Shipboard of " + player.getName() + ":");
             if (player.getDeckShowed() == null) {
-                System.out.println(player.getCurrentTile());
+                List<String> current = DrawComponent(player.getCurrentTile());
+                for (String line : current) System.out.println(line);
             }
-            System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.print("              ");
+                System.out.print("    ");
                 String label = padCenter("Col " + col, RECT_WIDTH);
                 System.out.print(label);
             }
@@ -188,20 +197,22 @@ public class TUI implements UI{
                 System.out.print("    ");
                 for (int col = 0; col < COLS; col++) {
                     ComponentsView comp = matrix[row][col];
-                    Connector north = (comp != null) ? comp.getConnectors()[0] : null;
-                    String northConn = padCenter(renderVerticalConnector(north),RECT_WIDTH);
-                    System.out.print(northConn);
+                    if (comp != null) {
+                        Connector north = comp.getConnectors()[0];
+                        String northConn = padCenter(renderVerticalConnector(north),RECT_WIDTH);
+                        System.out.print(northConn);
+                    }
                 }
                 System.out.println();
                 System.out.print("    ");
                 for (int col = 0; col < COLS; col++) {
-                    System.out.print("┌" + "─".repeat(RECT_WIDTH - 2) + "┐");
+                    System.out.print("┌" + "─".repeat(RECT_WIDTH - 6) + "┐");
                 }
                 System.out.println();
                 System.out.printf("%2d  ", row);
                 for (int col = 0; col < COLS; col++) {
                     ComponentsView comp = matrix[row][col];
-                    String dir = " ".repeat(RECT_WIDTH - 2);
+                    String dir = " ".repeat(RECT_WIDTH - 6);
                     if (comp != null) {
                         String arrow = getDirectionArrow(comp.getDirection());
                         dir = insertHorizontalConnector(comp.getConnectors()[3], comp.getConnectors()[1], arrow, RECT_WIDTH);
@@ -212,7 +223,7 @@ public class TUI implements UI{
                 System.out.print("    ");
                 for (int col = 0; col < COLS; col++) {
                     ComponentsView comp = matrix[row][col];
-                    String name = " ".repeat(RECT_WIDTH - 2);
+                    String name = " ".repeat(RECT_WIDTH - 6);
                     if (comp != null) {
                         String n = comp.getType();
                         name = insertHorizontalConnector(comp.getConnectors()[3], comp.getConnectors()[1], n, RECT_WIDTH);
@@ -223,7 +234,7 @@ public class TUI implements UI{
                 System.out.print("    ");
                 for (int col = 0; col < COLS; col++) {
                     ComponentsView comp = matrix[row][col];
-                    String detail = " ".repeat(RECT_WIDTH - 2);
+                    String detail = " ".repeat(RECT_WIDTH - 6);
                     if (comp != null) {
                         String d = getComponentDetail(comp);
                         detail = insertHorizontalConnector(comp.getConnectors()[3], comp.getConnectors()[1], d, RECT_WIDTH);
@@ -233,16 +244,18 @@ public class TUI implements UI{
                 System.out.println();
                 System.out.print("    ");
                 for (int col = 0; col < COLS; col++) {
-                    System.out.print("└" + "─".repeat(RECT_WIDTH - 2) + "┘");
+                    System.out.print("└" + "─".repeat(RECT_WIDTH - 6) + "┘");
                 }
                 System.out.println();
             }
             System.out.print("    ");
             for (int col = 0; col < COLS; col++) {
                 ComponentsView comp = matrix[ROWS - 1][col];
-                Connector south = (comp != null) ? comp.getConnectors()[2] : null;
-                String southConn = padCenter(renderVerticalConnector(south), RECT_WIDTH);
-                System.out.print(southConn);
+                if (comp != null) {
+                    Connector south = comp.getConnectors()[0];
+                    String southConn = padCenter(renderVerticalConnector(south),RECT_WIDTH);
+                    System.out.print(southConn);
+                }
             }
             System.out.println();
         }
@@ -250,14 +263,10 @@ public class TUI implements UI{
 
     private String renderVerticalConnector(Connector c) {
         return switch (c) {
-            case UNIVERSAL:
-                yield "│││";
-            case DOUBLE :
-                yield "│ │";
-            case SINGLE:
-                yield " │ ";
-            default:
-                yield"   ";
+            case UNIVERSAL -> "│││";
+            case DOUBLE -> "│ │";
+            case SINGLE -> " │ ";
+            default -> "   ";
         };
     }
 
@@ -286,6 +295,7 @@ public class TUI implements UI{
     private String truncateAnsi(String s, int maxLength) {
         return stripAnsi(s).length() <= maxLength ? s : s.substring(0, maxLength);
     }
+
     private List<String> DrawComponent(ComponentsView comp) {
         final int width = 24;
         List<String> lines = new ArrayList<>();
@@ -315,25 +325,28 @@ public class TUI implements UI{
 
         return lines;
     }
+
     private String[] getLateralLineContent(Connector c) {
         String[] lines = {" ", " ", " "}; // [0]=dir, [1]=nome, [2]=special
 
         switch (c) {
             case SINGLE :
                 lines[1] = "─";
+                break;
+
             case DOUBLE:
                 lines[0] = "─";
                 lines[2] = "─";
+                break;
 
             case UNIVERSAL:
-
                 lines[0] = "─";
                 lines[1] = "─";
                 lines[2] = "─";
-
         }
         return lines;
     }
+
     private String getComponentDetail(ComponentsView comp) {
         switch (comp.getType()) {
             case "Cabin":
@@ -386,6 +399,7 @@ public class TUI implements UI{
         int pad = Math.max(0, width - visibleLen - stripAnsi(right).length());
         return content + " ".repeat(pad) + right;
     }
+
     private String getAlienColorBlock(AlienColour color) {
         return switch (color) {
             case BROWN:
@@ -394,6 +408,7 @@ public class TUI implements UI{
                 yield "\u001B[45m█\u001B[0m";
         };
     }
+
     private String getGoodColorSquare(GoodsColour colour) {
         return switch (colour) {
             case RED:
@@ -406,6 +421,7 @@ public class TUI implements UI{
                 yield "\u001B[43m█\u001B[0m";
         };
     }
+
     private String getDirectionArrow(Direction d) {
         return switch (d) {
             case NORTH:
@@ -418,13 +434,6 @@ public class TUI implements UI{
                 yield"←";
         };
     }
-
-
-
-
-
-
-
 
     private void DrawCurrentCard(AdventureCardView adventureCardView) {
         String type=adventureCardView.getType();

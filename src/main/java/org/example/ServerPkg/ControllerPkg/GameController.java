@@ -22,6 +22,7 @@ public class GameController {
     private volatile boolean isRunning;
     private Thread messageProcessor;
     private Map<String, GameUpdater> gameUpdaters;
+    private ArrayList<String> nameUsed;
 
     public GameController(){
         this.game = null;
@@ -29,6 +30,7 @@ public class GameController {
         this.messageQueue = new LinkedBlockingQueue<>();
         this.isRunning = true;
         gameUpdaters = new HashMap<>();
+        this.nameUsed = new ArrayList<>();
         startMessageProcessing();
     }
 
@@ -73,7 +75,6 @@ public class GameController {
             throw new RuntimeException("Error inserting the message", e);
         }
     }
-
 
     public Game getGame() {
         return this.game;
@@ -158,5 +159,16 @@ public class GameController {
 
     public void addGameUpdater(GameUpdater gameUpdater, String name) {
         this.gameUpdaters.put(name, gameUpdater);
+    }
+
+    public boolean checkName(String name){
+        for(String s : this.nameUsed){
+            if(s.equals(name)) return false;
+        }
+        return true;
+    }
+
+    public ArrayList<String> getNames(){
+        return this.nameUsed;
     }
 }

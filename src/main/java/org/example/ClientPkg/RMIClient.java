@@ -3,7 +3,6 @@ package org.example.ClientPkg;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
-import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
 
@@ -39,7 +38,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             }
             server.registerClient(this);
 
-            System.out.println(playerName + " is connected to server.");
+            System.out.println(playerName + " is connected to RMI server.");
 
             startUpdateThread();
             //checkConnection();

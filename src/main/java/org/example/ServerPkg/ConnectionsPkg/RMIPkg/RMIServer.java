@@ -14,6 +14,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
@@ -76,6 +77,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void registerClient(RMIClientInterface client) throws RemoteException {
         clients.put(client, System.currentTimeMillis());
         setGameUpdater(client);
+        controller.getNames().add(client.getPlayerName());
         System.out.println(client.getPlayerName() + " subscribed");
     }
 
@@ -118,7 +120,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
                         return null;
                     }
                 })
-                .filter(name -> name != null) // Esclude eventuali nomi null (in caso di eccezioni)
+                .filter(Objects::nonNull) // Esclude eventuali nomi null (in caso di eccezioni)
                 .toList();
     }
 
@@ -149,10 +151,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public boolean checkName(String name) throws RemoteException {
-        for(String playerName : getNames()){
-            if(playerName.equals(name))
-                return false;
-        }
-        return true;
+        return controller.checkName(name);
     }
 }
