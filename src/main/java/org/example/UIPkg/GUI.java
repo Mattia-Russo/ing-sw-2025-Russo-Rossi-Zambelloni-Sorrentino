@@ -26,10 +26,8 @@ public class GUI extends Application implements UI {
         button = new Button();
         button.setText("Start Game");
 
-        String videoPath = Paths.get("src/main/resources/org.example.gc31/animatedBackgrounds/159088-818219574.mp4")
-                .toUri().toString();
-        //String videoPath = Paths.get("src/main/resources/org.example.gc31/animatedBackgrounds/174453-851475315.mp4")
-        //                .toUri().toString();
+        String videoPath = Paths.get("src/main/resources/org.example.gc31/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
+        //String videoPath = Paths.get("src/main/resources/org.example.gc31/animatedBackgrounds/174453-851475315.mp4").toUri().toString();
 
         Media backgroundMedia = new Media(videoPath);
         mediaPlayer = new MediaPlayer(backgroundMedia);
