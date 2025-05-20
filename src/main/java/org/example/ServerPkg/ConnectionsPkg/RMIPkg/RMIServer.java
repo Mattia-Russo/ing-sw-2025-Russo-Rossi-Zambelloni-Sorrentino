@@ -140,11 +140,19 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     public void setGameUpdater(RMIClientInterface client) throws RemoteException {
-        System.out.println(client.getPlayerName() + ": setting game updater");
         this.gameUpdater.put(client.getPlayerName() ,new RMIVirtualView(client));
     }
 
     public void addGameUpdater(GameController controller, String name){
         controller.addGameUpdater(gameUpdater.get(name), name);
+    }
+
+    @Override
+    public boolean checkName(String name) throws RemoteException {
+        for(String playerName : getNames()){
+            if(playerName.equals(name))
+                return false;
+        }
+        return true;
     }
 }

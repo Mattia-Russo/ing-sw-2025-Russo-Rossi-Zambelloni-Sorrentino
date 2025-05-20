@@ -13,13 +13,13 @@ import java.io.IOException;
 public class ClientMain {
     public static void main(String[] args) throws IOException {
         // Verifica che siano stati passati argomenti
-        if (args.length < 3) {
+        if (args.length < 2) {
             System.out.println("Error: specify 'tcp' or 'rmi' as first parameter and 'gui' or 'tui' as second parameter.");
             return;
         }
         // CONTROLLO SE GUI E TUI
         UI userInterface = null;
-        switch (args[2].toLowerCase()){
+        switch (args[1].toLowerCase()){
             case "tui":
                 userInterface = new TUI();
                 break;
@@ -38,7 +38,7 @@ public class ClientMain {
                 break;
 
             case "rmi":
-                new RMIClient("localhost", args[1], userInterface);
+                new RMIClient("localhost", userInterface);
                 break;
 
             default:

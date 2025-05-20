@@ -172,9 +172,9 @@
     "meteorList": [
       { "type": 1, "direction": "WEST" },
       { "type": 0, "direction": "WEST" },
-      { "type ":0, "direction":  "WEST"},
+      { "type":0, "direction":  "WEST"},
       { "type": 0, "direction": "NORTH" },
-      { "type ": 0, "direction":  "NORTH"}
+      { "type": 0, "direction":  "NORTH"}
     ],
     "img": "src/main/resources/org.example.gc31/cards/GT-cards_II_IT_019.jpg"
 

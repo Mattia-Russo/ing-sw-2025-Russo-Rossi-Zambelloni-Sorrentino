@@ -46,6 +46,7 @@ public class CardLoader {
             return deck;
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Failed to build pattern deck", e);
         }
     }
@@ -92,7 +93,9 @@ public class CardLoader {
                     new NamedType(Stardust.class, "STARDUST")
             );
 
-            return mapper.readValue(is, new TypeReference<List<AdventureCard>>(){});
+            List<AdventureCard> allCards = mapper.readValue(is, new TypeReference<List<AdventureCard>>() {});
+            System.out.println("Loaded cards: " + allCards.size());
+            return allCards;
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse cards JSON", e);
         }

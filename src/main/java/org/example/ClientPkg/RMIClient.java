@@ -23,16 +23,23 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     private long serverAlive;
     private final UI userInterface;
 
-    public RMIClient(String host, String playerName, UI UI) throws RemoteException {
-        this.playerName = playerName;
+    public RMIClient(String host, UI UI) throws RemoteException {
         this.userInterface = UI;
         msgGen = new MessageGenerator();
         serverAlive = System.currentTimeMillis();
         try {
             Registry registry = LocateRegistry.getRegistry(host, 3600);
             server = (RMIServerInterface) registry.lookup("GameServer");
+
+            Scanner scanner = new Scanner(System.in);
+            while(this.playerName == null){
+                System.out.println("Type your name:");
+                String input = scanner.nextLine();
+                this.setPlayerName(input);
+            }
             server.registerClient(this);
-            System.out.println(playerName + " connected to server.");
+
+            System.out.println(playerName + " is connected to server.");
 
             startUpdateThread();
             //checkConnection();
@@ -83,6 +90,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
         Thread listenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
+
             System.out.println("Type a command: ");
             while (true) {
                 try {
@@ -121,7 +129,15 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public void setPlayerName(String name) {
         if(playerName == null){
-            this.playerName = name;
+            try {
+                if (server.checkName(name)){
+                    this.playerName = name;
+                } else {
+                    System.out.println("Name already taken");
+                }
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
         } else {
             System.out.println("Player name already set");
         }
