@@ -63,15 +63,17 @@ public class BuildShipState extends PlayerState implements Serializable {
     // p indica chi ha fatto la chiamata
     @Override
     public void pickComponentTile(Player p){
-        if (p.getDeckShowed() == null){
-            if(!p.getShipBuilded()) {
-                p.setCurrentTile(game.pickComponentTile());
-                System.out.println("picked tile: " + p.getCurrentTile().toString());
-                System.out.println("Connectors: " + Arrays.toString(p.getCurrentTile().getConnectors()));
-                new GameView(game, null);
+        if (p.getDeckShowed() == null) {
+            if (p.getCurrentTile() != null) {
+                if (!p.getShipBuilded()) {
+                    p.setCurrentTile(game.pickComponentTile());
+                    System.out.println("picked tile: " + p.getCurrentTile().toString());
+                    System.out.println("Connectors: " + Arrays.toString(p.getCurrentTile().getConnectors()));
+                    new GameView(game, null);
+                }
+            } else {
+                new GameView(game, new PickTileWithDeckException("You cannot pick a card while the deck is showed " + p.getName()));
             }
-        } else {
-            new GameView(game, new PickTileWithDeckException("You cannot pick a card while the deck is showed " + p.getName()));
         }
     }
 
