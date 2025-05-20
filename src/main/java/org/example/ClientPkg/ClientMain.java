@@ -13,13 +13,13 @@ import java.io.IOException;
 public class ClientMain {
     public static void main(String[] args) throws IOException {
         // Verifica che siano stati passati argomenti
-        if (args.length < 2) {
+        if (args.length < 3) {
             System.out.println("Error: specify 'tcp' or 'rmi' as first parameter and 'gui' or 'tui' as second parameter.");
             return;
         }
         // CONTROLLO SE GUI E TUI
         UI userInterface = null;
-        switch (args[1].toLowerCase()){
+        switch (args[2].toLowerCase()){
             case "tui":
                 userInterface = new TUI();
                 break;
