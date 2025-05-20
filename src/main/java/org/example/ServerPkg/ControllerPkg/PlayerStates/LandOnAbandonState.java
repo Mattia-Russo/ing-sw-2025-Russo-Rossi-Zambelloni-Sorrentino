@@ -3,7 +3,9 @@ package org.example.ServerPkg.ControllerPkg.PlayerStates;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
-public class LandOnAbandonState extends PlayerState {
+import java.io.Serializable;
+
+public class LandOnAbandonState extends PlayerState implements Serializable {
     private final Game game;
 
     public LandOnAbandonState(Game game){

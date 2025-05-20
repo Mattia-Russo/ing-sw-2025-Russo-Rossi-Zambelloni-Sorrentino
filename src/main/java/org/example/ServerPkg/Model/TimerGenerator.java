@@ -2,11 +2,12 @@ package org.example.ServerPkg.Model;
 
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
 
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
-public class TimerGenerator {
+public class TimerGenerator implements Serializable {
     private final int countdownValue;
     private boolean isAvailable;
     private int flipCounter;

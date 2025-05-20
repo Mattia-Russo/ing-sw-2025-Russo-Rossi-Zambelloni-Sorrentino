@@ -8,7 +8,9 @@ import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 
-public class AbandonedShip extends AdventureCard {
+import java.io.Serializable;
+
+public class AbandonedShip extends AdventureCard implements Serializable {
     private final int Credits;
     private final int numAstronauts;
     private int playersIndex;

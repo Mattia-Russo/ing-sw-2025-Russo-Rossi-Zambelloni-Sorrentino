@@ -8,7 +8,9 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
-public class RemoveAstronautsState extends PlayerState{
+import java.io.Serializable;
+
+public class RemoveAstronautsState extends PlayerState implements Serializable {
     private final Game game;
     private int astronautsRemoved;
 

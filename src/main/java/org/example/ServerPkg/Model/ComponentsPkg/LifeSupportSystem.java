@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
-public class LifeSupportSystem extends Components {
+import java.io.Serializable;
+
+public class LifeSupportSystem extends Components implements Serializable {
     private final AlienColour colour;
     private final int id;
 

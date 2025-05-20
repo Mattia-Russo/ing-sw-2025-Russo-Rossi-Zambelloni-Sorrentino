@@ -7,7 +7,9 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
-public class ChangeGoodsState extends PlayerState{
+import java.io.Serializable;
+
+public class ChangeGoodsState extends PlayerState implements Serializable {
     private final Game game;
 
     public ChangeGoodsState(Game game){

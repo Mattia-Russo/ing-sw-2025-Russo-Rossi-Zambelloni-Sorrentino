@@ -17,11 +17,12 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeteorCard extends AdventureCard {
+public class MeteorCard extends AdventureCard implements Serializable {
     private List<Meteor> meteorList = new ArrayList<Meteor>();
     int currentMeteor;
     int currentPlayer;

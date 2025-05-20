@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
-public class Engine extends Components{
+import java.io.Serializable;
+
+public class Engine extends Components implements Serializable {
     private final int power;
     private final int id;
     private final String type;

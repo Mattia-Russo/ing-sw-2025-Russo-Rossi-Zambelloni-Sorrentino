@@ -3,7 +3,9 @@ package org.example.ServerPkg.Model.CardPkg;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 
-public class Planet {
+import java.io.Serializable;
+
+public class Planet implements Serializable {
     private final int planetNumber;
     private final Goods[] goods;
     private boolean isOccupied;

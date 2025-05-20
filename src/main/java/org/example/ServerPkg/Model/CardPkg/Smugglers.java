@@ -12,11 +12,12 @@ import org.example.ServerPkg.Model.ForView.GoodsView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Points;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Smugglers extends Enemy{
+public class Smugglers extends Enemy implements Serializable {
     private List<Goods> goodsWinList = new ArrayList<Goods>();
     private final int numGoodsLose;
     private int playersIndex;

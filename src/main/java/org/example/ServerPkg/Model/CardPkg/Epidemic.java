@@ -8,7 +8,9 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.ShipBoard;
 
-public class Epidemic extends AdventureCard{
+import java.io.Serializable;
+
+public class Epidemic extends AdventureCard implements Serializable {
     private final int id;
     @JsonCreator
     public Epidemic(

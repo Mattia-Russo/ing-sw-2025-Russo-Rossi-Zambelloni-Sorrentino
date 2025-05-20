@@ -10,10 +10,11 @@ import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GoodsView;
 import org.example.ServerPkg.Model.Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbandonedStation extends AdventureCard{
+public class AbandonedStation extends AdventureCard implements Serializable {
     private final int numAstronauts;
     private final Goods[] goodsList;
     private int playersIndex;
