@@ -90,8 +90,7 @@ public class TUI implements UI{
             case GAME_CREATION:
                 System.out.println(
                         """
-                                Type one of the following command to do something:
-                                   join_lobby -> if you want to join an existing lobby
+                                Type the command:
                                    start_game -> if you want to start the game
                                 
                                 """);

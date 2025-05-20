@@ -90,7 +90,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         Thread listenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Type a command: ");
+            System.out.println("Type a command:\n" +
+                            "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
+                            "   join_lobby -> if you want to join an existing lobby\n\n");
             while (true) {
                 try {
                     // Legge l'input dell'utente
