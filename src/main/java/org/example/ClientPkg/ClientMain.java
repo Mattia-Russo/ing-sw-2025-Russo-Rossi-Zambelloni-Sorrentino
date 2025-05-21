@@ -5,6 +5,7 @@ package org.example.ClientPkg;
 
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.UIPkg.GUIPkg.GUI;
+import org.example.UIPkg.GUIPkg.GUIMain;
 import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
 
@@ -18,14 +19,13 @@ public class ClientMain {
             return;
         }
         // CONTROLLO SE GUI E TUI
-        UI userInterface = null;
+        String userInterface = null;
         switch (args[1].toLowerCase()){
             case "tui":
-                userInterface = new TUI();
+                userInterface = "tui";
                 break;
             case "gui":
-                userInterface = new GUI();
-                GUI.main(args);
+                userInterface = "gui";
                 break;
             default:
                 System.out.println("Error: connection type not supported. Use 'gui' or 'tui' as third parameter.");

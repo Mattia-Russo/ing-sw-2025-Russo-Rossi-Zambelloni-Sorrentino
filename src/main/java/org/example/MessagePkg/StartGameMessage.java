@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 public class StartGameMessage extends Message {
     @Override
     public void handle(GameController controller, String playerName) throws RemoteException {
-        if(playerName.equals(controller.getGame().getPlayers().get(0).getName())){
+        if(playerName.equals(controller.getGame().getPlayers().getFirst().getName())){
             if(checkClient()){
                 try{
                     controller.startGame();

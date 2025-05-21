@@ -5,6 +5,7 @@ import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
+import org.example.UIPkg.GUIPkg.GUI;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,15 +16,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class RMIClient extends UnicastRemoteObject implements RMIClientInterface {
+public class RMIClient extends UnicastRemoteObject implements RMIClientInterface, Client {
     private final RMIServerInterface server;
     private String playerName;
     private final MessageGenerator msgGen;
     private long serverAlive;
     private final UI userInterface;
 
-    public RMIClient(String host, UI UI) throws RemoteException {
-        this.userInterface = UI;
+    public RMIClient(String host, String UI) throws RemoteException {
+        if(UI.equals("tui")) {
+            this.userInterface = new TUI(this);
+        } else {
+            this.userInterface = new GUI(this);
+        }
         msgGen = new MessageGenerator();
         serverAlive = System.currentTimeMillis();
         try {
@@ -158,5 +163,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public void addGameUpdate(GameView gameView) throws RemoteException {
         userInterface.addGameUpdate(gameView);
+    }
+
+    @Override
+    public void insertName(String name){
+        this.setPlayerName(name);
+        if(this.playerName == null){
+            userInterface.printNameInvalid();
+        }
     }
 }
