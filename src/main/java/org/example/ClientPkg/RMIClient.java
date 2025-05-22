@@ -160,7 +160,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         }
     }
 
-    private void sendMessage(Message message) throws RemoteException {
+    @Override
+    public void sendMessage(Message message) throws RemoteException {
         server.sendMessage(message, this.playerName);
     }
 
@@ -182,5 +183,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         if(this.playerName == null){
             userInterface.printNameInvalid();
         }
+    }
+
+    public MessageGenerator getMessageGenerator(){
+        return this.msgGen;
     }
 }

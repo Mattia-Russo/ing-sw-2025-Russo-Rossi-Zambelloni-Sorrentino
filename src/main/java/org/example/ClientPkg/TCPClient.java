@@ -233,4 +233,8 @@ public class TCPClient implements Client {
         args.add(name);
         registerName(args);
     }
+
+    public MessageGenerator getMessageGenerator(){
+        return this.msgGen;
+    }
 }

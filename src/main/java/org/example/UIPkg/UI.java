@@ -10,4 +10,14 @@ public interface UI {
     void askName();
 
     void readName();
+
+    void onNameAccepted();
+
+    void showNoLobbyMessage();
+
+    void showLobbyExistsMessage();
+
+    void onLobbyCreated();
+
+    void onJoinedLobby();
 }

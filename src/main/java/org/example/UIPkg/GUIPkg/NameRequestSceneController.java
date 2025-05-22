@@ -13,9 +13,14 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import org.example.MessagePkg.JoinLobbyMessage;
+import org.example.MessagePkg.Message;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class NameRequestSceneController implements Initializable {
@@ -41,11 +46,14 @@ public class NameRequestSceneController implements Initializable {
     @FXML
     private Label askName;
 
+    // Nuove label per i messaggi della lobby
+    @FXML
+    private Label lobbyMessage;
+
     @FXML
     private VBox controls;
 
     private MediaPlayer mediaPlayer;
-
     private GUI gui;
 
     public void setGUI(GUI gui) {
@@ -54,12 +62,20 @@ public class NameRequestSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Inizialmente nascondi tutti i controlli tranne quelli necessari
         confirmNameButton.setVisible(false);
         nameInvalid.setVisible(false);
         createLobbyButton.setVisible(false);
         joinLobbyButton.setVisible(false);
 
+        // Inizializza la nuova label per i messaggi della lobby
+        if (lobbyMessage == null) {
+            lobbyMessage = new Label();
+            lobbyMessage.setStyle("-fx-text-fill: orange; -fx-font-size: 14px; -fx-font-weight: bold;");
+        }
+        lobbyMessage.setVisible(false);
+
+        // Setup del video di background
         String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
         Media backgroundMedia = new Media(videoPath);
 
@@ -71,52 +87,92 @@ public class NameRequestSceneController implements Initializable {
         mediaView.fitHeightProperty().bind(borderPane.heightProperty());
         mediaView.setPreserveRatio(false);
         borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        borderPane.setCenter(mediaView);
 
-        controls = new VBox(10, askName, nameBox, confirmNameButton, nameInvalid);
+        // Ricrea il VBox con tutti i controlli inclusa la nuova label
+        controls = new VBox(10, askName, nameBox, confirmNameButton, nameInvalid, createLobbyButton, joinLobbyButton, lobbyMessage);
         controls.setAlignment(Pos.CENTER);
 
         borderPane.setCenter(new StackPane(mediaView, controls));
-
     }
 
     @FXML
     public void onConfirmNameButtonClick() {
         nameInvalid.setVisible(false);
         String name = nameBox.getText();
+
         if (name == null || name.isEmpty()) {
             nameInvalid.setText("Name cannot be empty");
             nameInvalid.setVisible(true);
-
         } else {
             gui.getClient().insertName(name);
         }
     }
 
-    public void printNameInvalid() {
-        nameInvalid.setText("Name already taken");
-        nameInvalid.setVisible(true);
-    }
+    @FXML
+    public void onCreateLobbyButtonClick() {
+        lobbyMessage.setVisible(false);
 
-    public void askName(){
-        askName.setText("Enter your name:");
-        askName.setVisible(true);
-        confirmNameButton.setVisible(true);
-    }
-
-    public void nameAccepted(){
         Platform.runLater(() -> {
-            // Nascondi i controlli del nome
+            try {
+                gui.goToSettingsScene();
+            } catch (IOException e) {
+                e.printStackTrace();
+                lobbyMessage.setText("Error loading settings scene!");
+                lobbyMessage.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
+                lobbyMessage.setVisible(true);
+            }
+        });
+    }
+
+    @FXML
+    public void onJoinLobbyButtonClick() throws RemoteException {
+        lobbyMessage.setVisible(false);
+
+        Message message = gui.getClient().getMessageGenerator().generate("join_lobby", new ArrayList<>());
+        gui.getClient().sendMessage(message);
+
+        // passaggio alla scena con lista giocatori correnti
+
+    }
+
+    public void onNameAccepted() {
+        Platform.runLater(() -> {
+            askName.setVisible(false);
             nameBox.setVisible(false);
             confirmNameButton.setVisible(false);
-            askName.setVisible(false);
+            nameInvalid.setVisible(false);
 
-            // Mostra i pulsanti per creare/unirsi alla lobby
             createLobbyButton.setVisible(true);
             joinLobbyButton.setVisible(true);
+        });
+    }
 
-            // Oppure vai direttamente alla prossima scena
-            // gui.goToSettingsScene();
+    public void showNoLobbyMessage() {
+        Platform.runLater(() -> {
+            lobbyMessage.setText("You're the first to join, create a lobby first!");
+            lobbyMessage.setVisible(true);
+        });
+    }
+
+    public void showLobbyExistsMessage() {
+        Platform.runLater(() -> {
+            lobbyMessage.setText("There's already a lobby, join it!");
+            lobbyMessage.setVisible(true);
+        });
+    }
+
+    public void printNameInvalid() {
+        Platform.runLater(() -> {
+            nameInvalid.setText("Name already taken");
+            nameInvalid.setVisible(true);
+        });
+    }
+
+    public void askName() {
+        Platform.runLater(() -> {
+            askName.setText("Enter your name:");
+            askName.setVisible(true);
+            confirmNameButton.setVisible(true);
         });
     }
 }

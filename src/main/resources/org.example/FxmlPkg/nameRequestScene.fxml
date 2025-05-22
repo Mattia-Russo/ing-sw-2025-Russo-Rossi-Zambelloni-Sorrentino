@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.NameRequestSceneController">
-
-    <!-- Layout principale -->
-    <BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0">
-        <center>
-            <VBox alignment="CENTER" prefHeight="300" prefWidth="400" spacing="10">
-                <!-- Casella di testo -->
-                <TextField fx:id="nameBox" maxWidth="300" promptText="Enter your name"/>
-
-                <!-- Pulsante per confermare il nome -->
-                <Button fx:id="confirmNameButton" onAction="#onConfirmNameButtonClick" prefHeight="50" prefWidth="150" text="Confirm Name" />
-
-                <!-- Pulsanti visibili solo dopo -->
-                <Button fx:id="createLobbyButton" prefHeight="50" prefWidth="150" text="Create Lobby" visible="false" />
-                <Button fx:id="joinLobbyButton" prefHeight="50" prefWidth="150" text="Join Lobby" visible="false" />
-
-                <!-- Label per nome non valido -->
-                <Label fx:id="nameInvalid" style="-fx-text-fill: red;" text="Name already taken" visible="false" />
-                <Label fx:id="askName" style="-fx-text-fill: white;" text="Type your name:"/>
-            </VBox>
-        </center>
-    </BorderPane>
-</AnchorPane>
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.NameRequestSceneController">
+    <center>
+        <VBox fx:id="controls" alignment="CENTER" spacing="10.0">
+            <Label fx:id="askName" text="Enter your name:" textFill="WHITE" visible="false"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <TextField fx:id="nameBox" maxWidth="200.0" promptText="Your name..."/>
+            <Button fx:id="confirmNameButton" onAction="#onConfirmNameButtonClick" text="Confirm Name" visible="false"/>
+            <Label fx:id="nameInvalid" textFill="RED" visible="false" style="-fx-font-size: 14px;"/>
+            <Button fx:id="createLobbyButton" onAction="#onCreateLobbyButtonClick" text="Create Lobby" visible="false"
+                    style="-fx-font-size: 16px; -fx-padding: 10px 20px;"/>
+            <Button fx:id="joinLobbyButton" onAction="#onJoinLobbyButtonClick" text="Join Lobby" visible="false"
+                    style="-fx-font-size: 16px; -fx-padding: 10px 20px;"/>
+            <Label fx:id="lobbyMessage" textFill="ORANGE" visible="false"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        </VBox>
+    </center>
+</BorderPane>

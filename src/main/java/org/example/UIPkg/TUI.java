@@ -545,4 +545,14 @@ public class TUI implements UI{
         args.add(input);
         client.registerName(args);
     }
+
+    public void onNameAccepted(){}
+
+    public void showNoLobbyMessage(){}
+
+    public void showLobbyExistsMessage(){}
+
+    public void onLobbyCreated(){}
+
+    public void onJoinedLobby(){}
 }
