@@ -13,10 +13,9 @@ import java.util.ArrayList;
 public class ActivateShieldsState extends PlayerState implements Serializable {
     ArrayList<Points> shields;
     ArrayList<Points> batteries;
-    private final Game game;
 
     public ActivateShieldsState(Game game){
-        this.game = game;
+        super(game);
         this.shields =null;
         this.batteries=null;
     }
@@ -25,23 +24,23 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
         if(shields==null) {
             this.shields = newShields;
         }else
-            new GameView(game, new AlreadyShieldException("shields already activated" + player.getName()));
+            new GameView(getGame(), new AlreadyShieldException("shields already activated" + player.getName()));
     }
 
     public void useBatteries(ArrayList<Points> newBatteries, Player player){
         if(batteries==null) {
             this.batteries = newBatteries;
         }else
-            new GameView(game,  new AlreadyBatteryException("Batteries already activated" + player.getName()));
+            new GameView(getGame(),  new AlreadyBatteryException("Batteries already activated" + player.getName()));
     }
 
     public void endActivateShields(Player player){
-        game.getCurrentCard().playCard(game, shields, batteries);
+        getGame().getCurrentCard().playCard(getGame(), shields, batteries);
     }
 
     @Override
     public void disconnect(Player disconnectingPlayer){
-        game.disconnectPlayer(disconnectingPlayer);
+        getGame().disconnectPlayer(disconnectingPlayer);
         shields=null;
         batteries=null;
         endActivateShields(null);
@@ -51,7 +50,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
     public void AbandonGame(Player player){
         batteries = null;
         shields = null;
-        player.abandon(game);
+        player.abandon(getGame());
         endActivateShields(null);
     }
 }

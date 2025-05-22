@@ -168,7 +168,7 @@ public class GameController{
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
                     }else throw new InvalidParameterException("Game mode must be 0 or 1");
                 }else throw new InvalidParameterException("MIN 2 MAX 4 PLAYERS");
-            }else throw new InvalidGameCreationException("Game already created");
+            }else new GameView(game, new InvalidGameCreationException("Game already created " + name));
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 

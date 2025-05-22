@@ -53,9 +53,10 @@ public class MessageGenerator {
         messageMap.put("discard_tile", this::createDiscardComponentMessage);
         messageMap.put("place_tile", this::createPlaceTileMessage);
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
-        messageMap.put("set_position", this::createSetPositionMessage);
         messageMap.put("book_tile", this::createBookComponentMessage);
         messageMap.put("notify", this::createNotifyClientMessage);
+        messageMap.put("end_fix_ship_state", this::createEndFixShipMessage);
+        messageMap.put("pick_booked_tile", this::createPickBookedTileMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -73,16 +74,21 @@ public class MessageGenerator {
         }
     }
 
+    private Message createPickBookedTileMessage(List<String> args) {
+        int index = Integer.parseInt(args.get(0));
+        return new PickBookedTileMessage(index);
+    }
+
+    private Message createEndFixShipMessage(List<String> args) {
+        return new EndFixShipMessage();
+    }
+
     private Message createNotifyClientMessage(List<String> args) {
         return new NotifyClientMessage(args.getFirst());
     }
 
     private Message createBookComponentMessage(List<String> args) {
         return new BookComponentMessage();
-    }
-
-    private Message createSetPositionMessage(List<String> args) {
-        return new SetPositionMessage();
     }
 
     private Message createEndBuildShipMessage(List<String> args) {

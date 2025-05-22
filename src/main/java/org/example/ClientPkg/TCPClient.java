@@ -154,12 +154,6 @@ public class TCPClient implements Client {
 
             while (!socket.isClosed()) {
                 try {
-                    System.out.println("""
-                            Type a command:
-                               create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode
-                               join_lobby -> if you want to join an existing lobby
-                            
-                            """);
                     String input = scanner.nextLine();
 
                     // Dividi la riga di input in parole

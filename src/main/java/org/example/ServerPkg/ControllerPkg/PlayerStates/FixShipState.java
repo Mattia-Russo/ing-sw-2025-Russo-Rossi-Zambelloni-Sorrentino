@@ -14,32 +14,30 @@ import org.example.ServerPkg.Model.Points;
 import java.io.Serializable;
 
 public class FixShipState extends PlayerState implements Serializable {
-    private Game game;
-
     public FixShipState(Game game) {
-        this.game = game;
+        super(game);
     }
 
     @Override
     public void removeTile(Points point, Player player){
         try {
             player.getPlayerShipBoard().removeComponent(point.getX(), point.getY());
-            new GameView(game, null);
+            new GameView(getGame(), null);
         } catch(InvalidPositionException | AlreadyEmptyPositionException e) {
             Exception e1 = new Exception(e.getMessage() + " " + player.getName());
-            new GameView(game, e1);
+            new GameView(getGame(), e1);
         }
     }
 
     @Override
     public void endFixShip(Player player){
         player.setShipOK(true);
-        game.checkAllPlayersShip();
+        getGame().checkAllPlayersShip();
     }
 
     @Override
     public void AbandonGame(Player player){
-        new GameView(game, new InvalidMethodCallException("You have to fix your ship " + player.getName()));
+        new GameView(getGame(), new InvalidMethodCallException("You have to fix your ship " + player.getName()));
     }
 
     @Override
@@ -116,12 +114,12 @@ public class FixShipState extends PlayerState implements Serializable {
         // gestire l'eventuale divisione
         if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
             p.getPlayerShipBoard().removeWreck(c.getPosY(), c.getPosX());
-            new GameView(game, null);
-            if(game.getGameMode()==0) {
+            new GameView(getGame(), null);
+            if(getGame().getGameMode()==0) {
                 p.setReadyForCards(true);
             }
         }
-        game.disconnectPlayer(p);
+        getGame().disconnectPlayer(p);
         endFixShip(p);
     }
 }
