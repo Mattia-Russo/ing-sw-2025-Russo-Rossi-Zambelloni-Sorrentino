@@ -22,7 +22,7 @@ module Galaxy.Trucker {
     requires javafx.fxml;
 
     opens org.example.UIPkg.GUIPkg to javafx.fxml;
-    opens org.example.gc31.FxmlPkg to javafx.fxml;
+    opens org.example.FxmlPkg to javafx.fxml;
 
     exports org.example.UIPkg;
     exports org.example.MessagePkg;

@@ -12,12 +12,13 @@ import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Enumeration;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.CountDownLatch;
 
 public class GUI implements UI {
+    // Usa CountDownLatch invece di un flag booleano per una sincronizzazione più robusta
+    private final CountDownLatch guiReadyLatch = new CountDownLatch(1);
     private GUIMain guiMain;
     private final Client client;
     private BlockingQueue<GameView> gameUpdatesQueue;
@@ -31,8 +32,30 @@ public class GUI implements UI {
     public GUI(Client client){
         this.client = client;
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
-        Thread guiThread = new Thread(() -> GUIMain.startGui(this));
+
+        // Avvia JavaFX in un thread separato
+        Thread guiThread = new Thread(() -> {
+            GUIMain.startGui(this);
+        });
+        guiThread.setDaemon(false);
         guiThread.start();
+
+        // Aspetta che la GUI sia pronta
+        waitForGuiReady();
+    }
+
+    private void waitForGuiReady() {
+        try {
+            guiReadyLatch.await(); // Aspetta indefinitamente che la GUI sia pronta
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("GUI initialization interrupted", e);
+        }
+    }
+
+    // Questo metodo viene chiamato da GUIMain quando la GUI è pronta
+    public void notifyGuiReady() {
+        guiReadyLatch.countDown(); // Rilascia il latch
     }
 
     public void setGuiMain(GUIMain guiMain) {
@@ -50,38 +73,8 @@ public class GUI implements UI {
     }
 
     public void goToFirstScene() throws IOException {
-
-        System.out.println("============= CLASSPATH =============");
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-        if (cl instanceof URLClassLoader) {
-            URLClassLoader ucl = (URLClassLoader) cl;
-            for (URL url : ucl.getURLs()) {
-                System.out.println(url);
-            }
-        } else {
-            System.out.println("Classpath: " + System.getProperty("java.class.path"));
-        }
-        System.out.println("=====================================");
-
-// Verifica quali risorse sono disponibili
-        try {
-            Enumeration<URL> resources = getClass().getClassLoader().getResources("");
-            System.out.println("Risorse disponibili:");
-            while (resources.hasMoreElements()) {
-                System.out.println("- " + resources.nextElement());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         FXMLLoader loader = new FXMLLoader();
-        URL location = getClass().getResource("/org/example/gc31/FxmlPkg/nameRequestScene.fxml");
-
-
-        System.out.println("URL del file FXML: " + location);
-        if (location == null) {
-            System.err.println("FXML non trovato!");
-        }
+        URL location = getClass().getResource("/org.example/FxmlPkg/nameRequestScene.fxml");
         loader.setLocation(location);
 
         Parent root = loader.load();
@@ -89,13 +82,12 @@ public class GUI implements UI {
         nameRequestSceneController = loader.getController();
         nameRequestSceneController.setGUI(this);
 
-        Scene scene = new Scene(root,  2560, 1600);
+        Scene scene = new Scene(root, 800, 600);
 
         scene.setUserData(nameRequestSceneController);
         guiMain.sceneControllerMap.put(scene, nameRequestSceneController);
 
         changeScene(scene);
-
     }
 
     private void changeScene(Scene scene) {
@@ -111,28 +103,36 @@ public class GUI implements UI {
         return client;
     }
 
+    @Override
     public void printNameInvalid() {
-        nameRequestSceneController.printNameInvalid();
+        if (nameRequestSceneController != null) {
+            Platform.runLater(() -> nameRequestSceneController.printNameInvalid());
+        }
     }
 
-    /*
-    public void start(Stage stage) {
-        gameUpdatesQueue = new LinkedBlockingQueue<>();
-        Thread UpdateThread = new Thread(() -> {
-            try {
-                while (true) {
-                    if(!gameUpdatesQueue.isEmpty()) {
-
-                    }
+    @Override
+    public void askName(){
+        // Assicurati che il metodo venga eseguito sul JavaFX Application Thread
+        Platform.runLater(() -> {
+            if (nameRequestSceneController == null) {
+                try {
+                    goToFirstScene();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
                 }
-            }catch (Exception e) {
-                System.err.println("Error sending connection update to server: " + e.getMessage());
+            }
+
+            if (nameRequestSceneController != null) {
+                nameRequestSceneController.askName();
+            } else {
+                System.err.println("Errore: nameRequestSceneController è ancora null dopo il tentativo di inizializzazione");
             }
         });
-        UpdateThread.setDaemon(false);
-        UpdateThread.start();
     }
 
-     */
-
+    @Override
+    public void readName(){
+        //does nothing, waits for button click
+    }
 }

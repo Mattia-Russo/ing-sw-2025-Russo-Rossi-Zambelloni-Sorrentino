@@ -14,7 +14,7 @@
         <center>
             <VBox alignment="CENTER" prefHeight="300" prefWidth="400" spacing="10">
                 <!-- Casella di testo -->
-                <TextField fx:id="nameBox" maxWidth="300" promptText="Enter your name" text="Mattia" />
+                <TextField fx:id="nameBox" maxWidth="300" promptText="Enter your name"/>
 
                 <!-- Pulsante per confermare il nome -->
                 <Button fx:id="confirmNameButton" onAction="#onConfirmNameButtonClick" prefHeight="50" prefWidth="150" text="Confirm Name" />
@@ -25,6 +25,7 @@
 
                 <!-- Label per nome non valido -->
                 <Label fx:id="nameInvalid" style="-fx-text-fill: red;" text="Name already taken" visible="false" />
+                <Label fx:id="askName" style="-fx-text-fill: white;" text="Type your name:"/>
             </VBox>
         </center>
     </BorderPane>

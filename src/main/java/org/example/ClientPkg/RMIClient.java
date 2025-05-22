@@ -24,30 +24,33 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     private final UI userInterface;
 
     public RMIClient(String host, String UI) throws RemoteException {
-        if(UI.equals("tui")) {
-            this.userInterface = new TUI(this);
-        } else {
-            this.userInterface = new GUI(this);
-        }
+
         msgGen = new MessageGenerator();
         serverAlive = System.currentTimeMillis();
+
         try {
             Registry registry = LocateRegistry.getRegistry(host, 3600);
             server = (RMIServerInterface) registry.lookup("GameServer");
 
-            Scanner scanner = new Scanner(System.in);
-            while(this.playerName == null){
-                System.out.println("Type your name:");
-                String input = scanner.nextLine();
-                this.setPlayerName(input);
+            if(UI.equals("tui")) {
+                this.userInterface = new TUI(this);
+            } else {
+                this.userInterface = new GUI(this);
             }
-            server.registerClient(this);
+
+            while(this.playerName == null){
+                userInterface.askName();
+                userInterface.readName();
+            }
 
             System.out.println(playerName + " is connected to RMI server.");
 
             startUpdateThread();
             //checkConnection();
-            startKeyboardListener();
+
+            if(UI.equals("tui")){
+                startKeyboardListener();
+            }
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
         }
@@ -70,7 +73,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         UpdateThread.start();  // Avvia il thread
     }
 
-    private void checkConnection() {
+    private void checkConnection() throws RemoteException {
         Thread checkClient = new Thread(() -> {
             try {
                 while (true) {
@@ -88,6 +91,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         });
         checkClient.setDaemon(false);
         checkClient.start();
+        server.checkConnection();
     }
 
     private void startKeyboardListener() {
@@ -133,11 +137,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         return playerName;
     }
 
-    public void setPlayerName(String name) {
+    public void registerName(List<String> args) {
         if(playerName == null){
             try {
-                if (server.checkName(name)){
-                    this.playerName = name;
+                if (server.checkName(args.getFirst())){
+                    this.playerName = args.getFirst();
+                    server.registerClient(this);
                 } else {
                     System.out.println("Name already taken");
                 }
@@ -167,7 +172,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void insertName(String name){
-        this.setPlayerName(name);
+        this.registerName(List.of(name));
         if(this.playerName == null){
             userInterface.printNameInvalid();
         }

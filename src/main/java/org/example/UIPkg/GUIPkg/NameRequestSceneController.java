@@ -2,13 +2,16 @@ package org.example.UIPkg.GUIPkg;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.nio.file.Paths;
@@ -34,6 +37,12 @@ public class NameRequestSceneController implements Initializable {
     @FXML
     private Label nameInvalid;
 
+    @FXML
+    private Label askName;
+
+    @FXML
+    private VBox controls;
+
     private MediaPlayer mediaPlayer;
 
     private GUI gui;
@@ -44,12 +53,14 @@ public class NameRequestSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameBox.setPromptText("Enter your name");
+
+        confirmNameButton.setVisible(false);
         nameInvalid.setVisible(false);
         createLobbyButton.setVisible(false);
         joinLobbyButton.setVisible(false);
 
-        String videoPath = Paths.get("src/main/resources/org.example.gc31/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
+        /*
+        String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
         Media backgroundMedia = new Media(videoPath);
 
         mediaPlayer = new MediaPlayer(backgroundMedia);
@@ -58,9 +69,17 @@ public class NameRequestSceneController implements Initializable {
         MediaView mediaView = new MediaView(mediaPlayer);
         mediaView.fitWidthProperty().bind(borderPane.widthProperty());
         mediaView.fitHeightProperty().bind(borderPane.heightProperty());
-        mediaView.setPreserveRatio(true);
-
+        mediaView.setPreserveRatio(false);
+        borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         borderPane.setCenter(mediaView);
+
+         */
+
+        controls = new VBox(10, askName, nameBox, confirmNameButton, nameInvalid);
+        controls.setAlignment(Pos.CENTER);
+
+        borderPane.setCenter(new StackPane(/*mediaView,*/ controls));
+
     }
 
     @FXML
@@ -68,8 +87,9 @@ public class NameRequestSceneController implements Initializable {
         nameInvalid.setVisible(false);
         String name = nameBox.getText();
         if (name == null || name.isEmpty()) {
-            nameInvalid.setVisible(true);
             nameInvalid.setText("Name cannot be empty");
+            nameInvalid.setVisible(true);
+
         } else {
             gui.getClient().insertName(name);
         }
@@ -78,5 +98,11 @@ public class NameRequestSceneController implements Initializable {
     public void printNameInvalid() {
         nameInvalid.setText("Name already taken");
         nameInvalid.setVisible(true);
+    }
+
+    public void askName(){
+        askName.setText("Enter your name:");
+        askName.setVisible(true);
+        confirmNameButton.setVisible(true);
     }
 }

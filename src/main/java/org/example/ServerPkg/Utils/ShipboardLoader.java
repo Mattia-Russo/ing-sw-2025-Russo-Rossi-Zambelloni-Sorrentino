@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public class ShipboardLoader {
-    private static final String CARDS_JSON_PATH = "/org.example.gc31/JsonPkg/cardboard.json";
+    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cardboard.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static ShipBoard loadLevel2() {

@@ -9,10 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GUIMain extends Application {
-
-
-
-
     private Stage primaryStage;
     private static GUIMain main;
     private static GUI guiRoot;
@@ -29,14 +25,24 @@ public class GUIMain extends Application {
     public static void startGui(GUI root) {
         guiRoot = root;
         Application.launch(GUIMain.class);
-
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.primaryStage = new Stage();
+        this.primaryStage = stage;
+
+        // Imposta la GUI principale
         guiRoot.setGuiMain(this);
-        guiRoot.goToFirstScene();
+
+        try {
+            guiRoot.goToFirstScene();
+            // IMPORTANTE: Notifica che la GUI è pronta DOPO aver caricato la prima scena
+            guiRoot.notifyGuiReady();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Anche in caso di errore, notifica per evitare deadlock
+            guiRoot.notifyGuiReady();
+        }
     }
 
     public Object getControllerForScene(Scene scene) {

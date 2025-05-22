@@ -24,12 +24,6 @@ public class TCPClient implements Client {
     private boolean nameSet = false;
 
     public TCPClient(String serverAddress, int port, String UI) throws IOException {
-        if(UI.equals("tui")) {
-            this.userInterface = new TUI(this);
-        } else {
-            this.userInterface = new GUI(this);
-        }
-
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
 
@@ -39,23 +33,20 @@ public class TCPClient implements Client {
         out.flush();
         this.in = new ObjectInputStream(socket.getInputStream());
 
-        Scanner scanner = new Scanner(System.in);
-
+        if(UI.equals("tui")) {
+            this.userInterface = new TUI(this);
+        } else {
+            this.userInterface = new GUI(this);
+        }
         while(!nameSet){
-            System.out.println("Type your name: ");
-            String input = scanner.nextLine();
-            List<String> args = new ArrayList<>();
-            args.add(input);
-            System.out.println("Name read: " + args.getFirst());
-            this.registerName(args);
-
+            userInterface.askName();
+            userInterface.readName();
             try {
                 Object obj = in.readObject();
                 if (obj instanceof NotifyClientMessage) {
                     if (((NotifyClientMessage) obj).getMessage().equals("true")) {
                         nameSet = true;
                     } else {
-                        System.out.println("Name already taken");
                         userInterface.printNameInvalid();
                     }
                 }
@@ -68,9 +59,11 @@ public class TCPClient implements Client {
         System.out.println("is connected to TCP server.");
 
         startPingThread();
-        checkServerConnection();
+        //checkServerConnection();
         startListening();
-        startKeyboardListener();
+        if(UI.equals("tui")){
+            startKeyboardListener();
+        }
     }
 
     private void checkServerConnection(){
@@ -117,7 +110,6 @@ public class TCPClient implements Client {
         pingThread.start();  // Avvia il thread
     }
 
-    // Thread di ascolto per i messaggi in arrivo dal server
     private void startListening() {
         Thread listenerThread = new Thread(() -> {
             try {

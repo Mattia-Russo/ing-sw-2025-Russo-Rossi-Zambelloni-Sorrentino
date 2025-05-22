@@ -20,8 +20,6 @@ public interface RMIClientInterface extends Remote {
 
     void addGameUpdate(GameView gameView) throws RemoteException;
 
-    void setPlayerName(String name) throws RemoteException;
-
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

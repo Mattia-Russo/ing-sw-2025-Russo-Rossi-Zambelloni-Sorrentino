@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.ForView.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -531,5 +532,22 @@ public class TUI implements UI{
         }
     }
 
-    public void printNameInvalid(){}
+    @Override
+    public void printNameInvalid(){
+        System.out.println("Name already taken");
+    }
+
+    @Override
+    public void askName(){
+        System.out.println("Type your name: ");
+    }
+
+    @Override
+    public void readName(){
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        List<String> args = new ArrayList<>();
+        args.add(input);
+        client.registerName(args);
+    }
 }
