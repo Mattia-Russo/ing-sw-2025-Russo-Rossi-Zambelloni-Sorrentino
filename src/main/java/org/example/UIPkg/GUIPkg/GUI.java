@@ -1,122 +1,42 @@
 package org.example.UIPkg.GUIPkg;
 
-import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+
 import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
 
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class GUI extends Application implements UI {
-    private MediaView mediaView;
-    private MediaPlayer mediaPlayer;
-    BlockingQueue<GameView> gameUpdatesQueue;
+public class GUI implements UI {
+    private GUIMain guiMain;
+    private final Client client;
+    private BlockingQueue<GameView> gameUpdatesQueue;
 
+    private NameRequestSceneController nameRequestSceneController;
+    private SettingsSceneController settingsSceneController;
+    private BuildShipSceneController buildShipSceneController;
+    private PlayCardSceneController playCardSceneController;
+    private EndGameSceneController endGameSceneController;
 
-    public static void main(String[] args) {
-        launch(args);
+    public GUI(Client client){
+        this.client = client;
+        this.gameUpdatesQueue = new LinkedBlockingQueue<>();
+        Thread guiThread = new Thread(() -> GUIMain.startGui(this));
+        guiThread.start();
     }
 
-    @Override
-    public void start(Stage stage) {
-        gameUpdatesQueue = new LinkedBlockingQueue<>();
-        Thread UpdateThread = new Thread(() -> {
-            try {
-                while (true) {
-                    if(!gameUpdatesQueue.isEmpty()) {
-                        draw();
-                    }
-                }
-            }catch (Exception e) {
-                System.err.println("Error sending connection update to server: " + e.getMessage());
-            }
-        });
-        UpdateThread.setDaemon(false);
-        UpdateThread.start();
-    }
-
-    public void draw(){
-
-    }
-
-    public void drawStart(Stage stage){
-        stage.setTitle("Galaxy Trucker");
-
-        String videoPath = Paths.get("src/main/resources/org.example.gc31/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
-
-        Media backgroundMedia = new Media(videoPath);
-        mediaPlayer = new MediaPlayer(backgroundMedia);
-        mediaPlayer.setAutoPlay(true);
-
-        mediaView = new MediaView(mediaPlayer);
-        mediaView.fitWidthProperty().bind(stage.widthProperty());
-        mediaView.fitHeightProperty().bind(stage.heightProperty());
-        mediaView.setPreserveRatio(true);
-
-        TextField nameField = new TextField();
-        nameField.setPromptText("Enter your name...");
-        nameField.setMaxWidth(200);
-
-        Button createLobbyButton = new Button("Create Lobby");
-        Button joinLobbyButton = new Button("Join Lobby");
-
-        createLobbyButton.setVisible(false);
-        joinLobbyButton.setVisible(false);
-
-        VBox vBox = new VBox(20, nameField, createLobbyButton, joinLobbyButton);
-        vBox.setStyle("-fx-alignment: center;");
-
-        nameField.setOnAction(event -> {
-            String playerName = nameField.getText();
-            if (!playerName.trim().isEmpty()) {
-                System.out.println("Player name: " + playerName);
-
-                nameField.setVisible(false);
-                createLobbyButton.setVisible(true);
-                joinLobbyButton.setVisible(true);
-            }
-        });
-
-        createLobbyButton.setOnAction(event -> {
-            System.out.println("Create Lobby button clicked!");
-            vBox.getChildren().clear();
-        });
-
-        // Impostando l'azione per il pulsante "Join Lobby"
-        joinLobbyButton.setOnAction(event -> {
-            System.out.println("Join Lobby button clicked!");
-            vBox.getChildren().clear();
-        });
-
-        StackPane root = new StackPane();
-        root.getChildren().addAll(mediaView, vBox);
-
-        Scene scene = new Scene(root, 800, 500);
-        stage.setScene(scene);
-        stage.show();}
-
-    private void stopBackgroundVideo() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-        }
-        mediaView.setVisible(false);
-    }
-
-    @Override
-    public void stop() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-        }
+    public void setGuiMain(GUIMain guiMain) {
+        this.guiMain = guiMain;
     }
 
     @Override
@@ -128,4 +48,91 @@ public class GUI extends Application implements UI {
             throw new RuntimeException("Error inserting game update", e);
         }
     }
+
+    public void goToFirstScene() throws IOException {
+
+        System.out.println("============= CLASSPATH =============");
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+        if (cl instanceof URLClassLoader) {
+            URLClassLoader ucl = (URLClassLoader) cl;
+            for (URL url : ucl.getURLs()) {
+                System.out.println(url);
+            }
+        } else {
+            System.out.println("Classpath: " + System.getProperty("java.class.path"));
+        }
+        System.out.println("=====================================");
+
+// Verifica quali risorse sono disponibili
+        try {
+            Enumeration<URL> resources = getClass().getClassLoader().getResources("");
+            System.out.println("Risorse disponibili:");
+            while (resources.hasMoreElements()) {
+                System.out.println("- " + resources.nextElement());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FXMLLoader loader = new FXMLLoader();
+        URL location = getClass().getResource("/org/example/gc31/FxmlPkg/nameRequestScene.fxml");
+
+
+        System.out.println("URL del file FXML: " + location);
+        if (location == null) {
+            System.err.println("FXML non trovato!");
+        }
+        loader.setLocation(location);
+
+        Parent root = loader.load();
+
+        nameRequestSceneController = loader.getController();
+        nameRequestSceneController.setGUI(this);
+
+        Scene scene = new Scene(root,  2560, 1600);
+
+        scene.setUserData(nameRequestSceneController);
+        guiMain.sceneControllerMap.put(scene, nameRequestSceneController);
+
+        changeScene(scene);
+
+    }
+
+    private void changeScene(Scene scene) {
+        Platform.runLater(() -> {
+            Stage stage = guiMain.getPrimaryStage();
+            stage.setTitle("Galaxy Trucker");
+            stage.setScene(scene);
+            stage.show();
+        });
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void printNameInvalid() {
+        nameRequestSceneController.printNameInvalid();
+    }
+
+    /*
+    public void start(Stage stage) {
+        gameUpdatesQueue = new LinkedBlockingQueue<>();
+        Thread UpdateThread = new Thread(() -> {
+            try {
+                while (true) {
+                    if(!gameUpdatesQueue.isEmpty()) {
+
+                    }
+                }
+            }catch (Exception e) {
+                System.err.println("Error sending connection update to server: " + e.getMessage());
+            }
+        });
+        UpdateThread.setDaemon(false);
+        UpdateThread.start();
+    }
+
+     */
+
 }

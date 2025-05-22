@@ -2,6 +2,9 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.*;
 import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.UIPkg.Client;
+import org.example.UIPkg.GUIPkg.GUI;
+import org.example.UIPkg.TUI;
 import org.example.UIPkg.UI;
 
 import java.io.IOException;
@@ -11,7 +14,9 @@ import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.util.*;
 
-public class TCPClient{
+
+public class TCPClient implements Client {
+
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
@@ -20,8 +25,13 @@ public class TCPClient{
     private long serverAlive;
     private boolean nameSet = false;
 
-    public TCPClient(String serverAddress, int port, UI UI) throws IOException {
-        this.userInterface = UI;
+    public TCPClient(String serverAddress, int port, String UI) throws IOException {
+        if(UI.equals("tui")) {
+            this.userInterface = new TUI(this);
+        } else {
+            this.userInterface = new GUI(this);
+        }
+
         this.msgGen = new MessageGenerator();
         this.serverAlive = System.currentTimeMillis();
 
@@ -48,6 +58,7 @@ public class TCPClient{
                         nameSet = true;
                     } else {
                         System.out.println("Name already taken");
+                        userInterface.printNameInvalid();
                     }
                 }
             } catch (ClassNotFoundException e) {
@@ -58,9 +69,8 @@ public class TCPClient{
 
         System.out.println("is connected to TCP server.");
 
-        // Avvia un thread per ascoltare i messaggi in arrivo dal server
         startPingThread();
-        //checkServerConnection();
+        checkServerConnection();
         startListening();
         startKeyboardListener();
     }
@@ -152,7 +162,12 @@ public class TCPClient{
 
             while (!socket.isClosed()) {
                 try {
-
+                    System.out.println("""
+                            Type a command:
+                               create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode
+                               join_lobby -> if you want to join an existing lobby
+                            
+                            """);
                     String input = scanner.nextLine();
 
                     // Dividi la riga di input in parole
@@ -218,5 +233,12 @@ public class TCPClient{
                 System.out.println("Error sending message from client: " + e.getMessage());
             }
         }
+    }
+
+    @Override
+    public void insertName(String name){
+        List<String> args = new ArrayList<>();
+        args.add(name);
+        registerName(args);
     }
 }

@@ -16,8 +16,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TUI implements UI{
 
     private final BlockingQueue<GameView> gameUpdatesQueue;
+    private final Client client;
 
-    public TUI() {
+    public TUI(Client client) {
+        this.client = client;
         gameUpdatesQueue = new LinkedBlockingQueue<>();
         startUpdateThread();
     }
@@ -523,4 +525,6 @@ public class TUI implements UI{
                 }
         }
     }
+
+    public void printNameInvalid(){}
 }
