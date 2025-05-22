@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
@@ -17,7 +18,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
 public class GUI implements UI {
-    // Usa CountDownLatch invece di un flag booleano per una sincronizzazione più robusta
+
     private final CountDownLatch guiReadyLatch = new CountDownLatch(1);
     private GUIMain guiMain;
     private final Client client;
@@ -25,6 +26,7 @@ public class GUI implements UI {
 
     private NameRequestSceneController nameRequestSceneController;
     private SettingsSceneController settingsSceneController;
+    private WaitingRoomSceneController waitingRoomSceneController; // AGGIUNTO
     private BuildShipSceneController buildShipSceneController;
     private PlayCardSceneController playCardSceneController;
     private EndGameSceneController endGameSceneController;
@@ -33,29 +35,26 @@ public class GUI implements UI {
         this.client = client;
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
 
-        // Avvia JavaFX in un thread separato
         Thread guiThread = new Thread(() -> {
             GUIMain.startGui(this);
         });
         guiThread.setDaemon(false);
         guiThread.start();
 
-        // Aspetta che la GUI sia pronta
         waitForGuiReady();
     }
 
     private void waitForGuiReady() {
         try {
-            guiReadyLatch.await(); // Aspetta indefinitamente che la GUI sia pronta
+            guiReadyLatch.await();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("GUI initialization interrupted", e);
         }
     }
 
-    // Questo metodo viene chiamato da GUIMain quando la GUI è pronta
     public void notifyGuiReady() {
-        guiReadyLatch.countDown(); // Rilascia il latch
+        guiReadyLatch.countDown();
     }
 
     public void setGuiMain(GUIMain guiMain) {
@@ -86,6 +85,40 @@ public class GUI implements UI {
 
         scene.setUserData(nameRequestSceneController);
         guiMain.sceneControllerMap.put(scene, nameRequestSceneController);
+
+        changeScene(scene);
+    }
+
+    public void goToSettingsScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        URL location = getClass().getResource("/org.example/FxmlPkg/settingsScene.fxml");
+        loader.setLocation(location);
+
+        Parent root = loader.load();
+
+        settingsSceneController = loader.getController();
+        settingsSceneController.setGUI(this);
+
+        Scene scene = new Scene(root, 800, 600);
+        scene.setUserData(settingsSceneController);
+        guiMain.sceneControllerMap.put(scene, settingsSceneController);
+
+        changeScene(scene);
+    }
+
+    public void goToWaitingRoomScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        URL location = getClass().getResource("/org.example/FxmlPkg/waitingRoomScene.fxml");
+        loader.setLocation(location);
+
+        Parent root = loader.load();
+
+        waitingRoomSceneController = loader.getController();
+        waitingRoomSceneController.setGUI(this);
+
+        Scene scene = new Scene(root, 800, 600);
+        scene.setUserData(waitingRoomSceneController);
+        guiMain.sceneControllerMap.put(scene, waitingRoomSceneController);
 
         changeScene(scene);
     }
@@ -134,5 +167,104 @@ public class GUI implements UI {
     @Override
     public void readName(){
         //does nothing, waits for button click
+    }
+
+    @Override
+    public void onNameAccepted() {
+        if (nameRequestSceneController != null) {
+            nameRequestSceneController.onNameAccepted();
+        }
+    }
+
+    @Override
+    public void showNoLobbyMessage() {
+        if (nameRequestSceneController != null) {
+            nameRequestSceneController.showNoLobbyMessage();
+        }
+    }
+
+    @Override
+    public void showLobbyExistsMessage() {
+        if (nameRequestSceneController != null) {
+            nameRequestSceneController.showLobbyExistsMessage();
+        }
+    }
+
+    @Override
+    public void onLobbyCreated() {
+        if (settingsSceneController != null) {
+            settingsSceneController.onLobbyCreated();
+        }
+        Platform.runLater(() -> {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1500);
+                    Platform.runLater(() -> {
+                        try {
+                            goToWaitingRoomScene();
+                            if (waitingRoomSceneController != null) {
+                                waitingRoomSceneController.setLobbyCreator(true);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }).start();
+        });
+    }
+
+    @Override
+    public void onJoinedLobby() {
+        Platform.runLater(() -> {
+            try {
+                goToWaitingRoomScene();
+                if (waitingRoomSceneController != null) {
+                    waitingRoomSceneController.setLobbyCreator(false);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void manageNotification(NotifyClientMessage notifyClientMessage){
+        new Thread(() -> {
+            try {
+                //gestire stampa sulla gui del messaggio di errore
+                Thread.sleep(5000);
+                //rimuovere il messaggio
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+    }
+
+    public void updateLobbySettings(int maxPlayers, int shipboardLevel, int gameMode) {
+        if (waitingRoomSceneController != null) {
+            waitingRoomSceneController.updateLobbySettings(maxPlayers, shipboardLevel, gameMode);
+        }
+    }
+
+    public void updatePlayersList(java.util.List<String> players) {
+        if (waitingRoomSceneController != null) {
+            waitingRoomSceneController.updatePlayersList(players);
+        }
+    }
+
+    public void onPlayerJoined(String playerName) {
+        if (waitingRoomSceneController != null) {
+            waitingRoomSceneController.onPlayerJoined(playerName);
+        }
+    }
+
+    public void onGameStarted() {
+        if (waitingRoomSceneController != null) {
+            waitingRoomSceneController.onGameStarted();
+        }
     }
 }

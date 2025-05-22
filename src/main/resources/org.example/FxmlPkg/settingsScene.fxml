@@ -1,14 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.gc31.FxmlPkg.SettingsScene"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.SettingsSceneController">
+    <center>
+        <VBox alignment="CENTER" spacing="30.0">
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+            </padding>
+            <!-- Titolo della scena -->
+            <Label text="Create Lobby Settings" textFill="WHITE" style="-fx-font-size: 24px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="20.0"/>
+                </VBox.margin>
+            </Label>
 
-</AnchorPane>
+            <!-- Container per le tre textbox con le loro label -->
+            <HBox alignment="CENTER" spacing="40.0">
+                <children>
+                    <!-- Prima colonna: Number of Players -->
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <children>
+                            <Label fx:id="playersLabel" text="Number of Players" textFill="WHITE"
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                            <TextField fx:id="numberOfPlayersField" maxWidth="150.0" prefWidth="150.0" promptText="2-4"
+                                       style="-fx-font-size: 14px; -fx-alignment: center;"/>
+                        </children>
+                    </VBox>
+
+                    <!-- Seconda colonna: Level of Shipboard -->
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <children>
+                            <Label fx:id="shipboardLabel" text="Level of the Shipboard" textFill="WHITE"
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                            <TextField fx:id="shipboardLevelField" maxWidth="150.0" prefWidth="150.0" promptText="1-3"
+                                       style="-fx-font-size: 14px; -fx-alignment: center;"/>
+                        </children>
+                    </VBox>
+
+                    <!-- Terza colonna: Game Mode -->
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <children>
+                            <Label fx:id="gameModeLabel" text="Game Mode" textFill="WHITE"
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                            <TextField fx:id="gameModeField" maxWidth="150.0" prefWidth="150.0" promptText="0 or 1"
+                                       style="-fx-font-size: 14px; -fx-alignment: center;"/>
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <!-- Legenda con le spiegazioni -->
+            <VBox alignment="CENTER" spacing="5.0"
+                  style="-fx-background-color: rgba(0,0,0,0.7); -fx-background-radius: 10; -fx-padding: 20;">
+                <children>
+                    <Label text="Settings Guidelines:" textFill="YELLOW"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label text="• Number of players should be between 2 and 4" textFill="WHITE"
+                           style="-fx-font-size: 14px;"/>
+                    <Label text="• Level of shipboard should be between 1 and 3" textFill="WHITE"
+                           style="-fx-font-size: 14px;"/>
+                    <Label text="• Game mode should be 0 or 1" textFill="WHITE" style="-fx-font-size: 14px;"/>
+                    <Label text="• Note that if you choose 0 as game mode the level of the" textFill="ORANGE"
+                           style="-fx-font-size: 13px; -fx-font-style: italic;"/>
+                    <Label text="  shipboard will be automatically set to 1" textFill="ORANGE"
+                           style="-fx-font-size: 13px; -fx-font-style: italic;"/>
+                </children>
+                <VBox.margin>
+                    <Insets top="20.0"/>
+                </VBox.margin>
+            </VBox>
+
+            <!-- Pulsanti di azione -->
+            <HBox alignment="CENTER" spacing="20.0">
+                <children>
+                    <Button fx:id="createLobbyButton" onAction="#onCreateLobbyClick" text="Create Lobby"
+                            style="-fx-font-size: 16px; -fx-padding: 12px 25px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"/>
+                </children>
+                <VBox.margin>
+                    <Insets top="20.0"/>
+                </VBox.margin>
+            </HBox>
+
+            <!-- Label per messaggi di errore/validazione -->
+            <Label fx:id="validationMessage" textFill="RED" visible="false"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+        </VBox>
+    </center>
+</BorderPane>

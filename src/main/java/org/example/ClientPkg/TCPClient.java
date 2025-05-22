@@ -48,6 +48,7 @@ public class TCPClient implements Client {
                 if (obj instanceof NotifyClientMessage) {
                     if (((NotifyClientMessage) obj).getMessage().equals("true")) {
                         nameSet = true;
+                        userInterface.onNameAccepted();
                     } else {
                         userInterface.printNameInvalid();
                     }
@@ -91,15 +92,11 @@ public class TCPClient implements Client {
     private void startPingThread() {
         Thread pingThread = new Thread(() -> {
             try {
-                while (!socket.isClosed()) {  // Continua finché il socket è aperto
-                    // Crea il messaggio Ping
+                while (!socket.isClosed()) {
                     PingMessage pingMessage = new PingMessage();
 
-                    // Invia il messaggio al server
                     sendMessage(pingMessage);
-                    //System.out.println("Sending Ping from client");
 
-                    // Attendi 5 secondi prima del prossimo invio
                     Thread.sleep(5000);
                 }
             } catch (InterruptedException e) {
@@ -109,7 +106,7 @@ public class TCPClient implements Client {
             }
         });
         pingThread.setDaemon(false);
-        pingThread.start();  // Avvia il thread
+        pingThread.start();
     }
 
     private void startListening() {
@@ -121,7 +118,7 @@ public class TCPClient implements Client {
                         if (obj instanceof PongMessage) {
                             serverAlive = System.currentTimeMillis();
                         } else if (obj instanceof NotifyClientMessage notifyClientMessage){
-                            System.out.println(notifyClientMessage.getMessage());
+                            userInterface.manageNotification(notifyClientMessage);
                         }
                     } else if (obj instanceof GameView) {
                         userInterface.addGameUpdate((GameView) obj);
@@ -167,11 +164,8 @@ public class TCPClient implements Client {
                         return;
                     }
 
-                    // Aggiungi le parole successive alla lista
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
-
-                    // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
                     if (message != null) {
                         sendMessage(message);
@@ -226,5 +220,9 @@ public class TCPClient implements Client {
         List<String> args = new ArrayList<>();
         args.add(name);
         registerName(args);
+    }
+
+    public MessageGenerator getMessageGenerator(){
+        return this.msgGen;
     }
 }

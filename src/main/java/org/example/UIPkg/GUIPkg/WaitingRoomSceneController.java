@@ -1,0 +1,166 @@
+package org.example.UIPkg.GUIPkg;
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.rmi.RemoteException;
+
+public class WaitingRoomSceneController implements Initializable {
+
+    public VBox playersContainer;
+    @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    private Label settingsTitle;
+
+    @FXML
+    private Label playersLabel;
+
+    @FXML
+    private Label gameModeLabel;
+
+    @FXML
+    private Label shipboardLevelLabel;
+
+    @FXML
+    private Label maxPlayersLabel;
+
+    @FXML
+    private ListView<String> playersListView;
+
+    @FXML
+    private Button startGameButton;
+
+    @FXML
+    private Button leaveLobbyButton;
+
+    @FXML
+    private Label statusMessage;
+
+    private GUI gui;
+    private ObservableList<String> playersList;
+
+    private int maxPlayers;
+    private int shipboardLevel;
+    private int gameMode;
+    private boolean isLobbyCreator = false;
+
+    public void setGUI(GUI gui) {
+        this.gui = gui;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        playersList = FXCollections.observableArrayList();
+        playersListView.setItems(playersList);
+
+        borderPane.setStyle("-fx-background-color: black;");
+
+        startGameButton.setVisible(false);
+        statusMessage.setVisible(false);
+
+        setupLabelStyles();
+    }
+
+    private void setupLabelStyles() {
+        settingsTitle.setStyle("-fx-text-fill: yellow; -fx-font-size: 20px; -fx-font-weight: bold;");
+        playersLabel.setStyle("-fx-text-fill: yellow; -fx-font-size: 20px; -fx-font-weight: bold;");
+
+        gameModeLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+        shipboardLevelLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+        maxPlayersLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+
+        playersListView.setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white;");
+    }
+
+    public void updateLobbySettings(int maxPlayers, int shipboardLevel, int gameMode) {
+        Platform.runLater(() -> {
+            this.maxPlayers = maxPlayers;
+            this.shipboardLevel = shipboardLevel;
+            this.gameMode = gameMode;
+
+            maxPlayersLabel.setText("Max Players: " + maxPlayers);
+            shipboardLevelLabel.setText("Shipboard Level: " + shipboardLevel);
+            gameModeLabel.setText("Game Mode: " + (gameMode == 0 ? "Test drive" : "Normal"));
+
+            updateStartGameButtonVisibility();
+        });
+    }
+
+    public void updatePlayersList(List<String> players) {
+        Platform.runLater(() -> {
+            playersList.clear();
+            playersList.addAll(players);
+
+            playersLabel.setText("Players (" + players.size() + "/" + maxPlayers + ")");
+
+            updateStartGameButtonVisibility();
+        });
+    }
+
+    private void updateStartGameButtonVisibility() {
+        if (isLobbyCreator && playersList.size() >= 2 && playersList.size() <= maxPlayers) {
+            startGameButton.setVisible(true);
+            statusMessage.setText("Ready to start the game!");
+            statusMessage.setStyle("-fx-text-fill: green; -fx-font-size: 14px; -fx-font-weight: bold;");
+            statusMessage.setVisible(true);
+        } else if (isLobbyCreator && playersList.size() < 2) {
+            startGameButton.setVisible(false);
+            statusMessage.setText("Waiting for more players to join...");
+            statusMessage.setStyle("-fx-text-fill: orange; -fx-font-size: 14px; -fx-font-weight: bold;");
+            statusMessage.setVisible(true);
+        } else if (!isLobbyCreator) {
+            startGameButton.setVisible(false);
+            statusMessage.setText("Waiting for lobby creator to start the game...");
+            statusMessage.setStyle("-fx-text-fill: cyan; -fx-font-size: 14px; -fx-font-weight: bold;");
+            statusMessage.setVisible(true);
+        }
+    }
+
+    public void setLobbyCreator(boolean isCreator) {
+        this.isLobbyCreator = isCreator;
+        updateStartGameButtonVisibility();
+    }
+
+    @FXML
+    public void onStartGameClick() throws RemoteException {
+        if (isLobbyCreator && playersList.size() >= 2) {
+
+            gui.getClient().sendMessage(gui.getClient().getMessageGenerator().generate("start_game", java.util.Arrays.asList()));
+
+            statusMessage.setText("Starting game...");
+            statusMessage.setStyle("-fx-text-fill: yellow; -fx-font-size: 14px; -fx-font-weight: bold;");
+            startGameButton.setDisable(true);
+        }
+    }
+
+    public void onPlayerJoined(String playerName) {
+        Platform.runLater(() -> {
+            if (!playersList.contains(playerName)) {
+                playersList.add(playerName);
+                playersLabel.setText("Players (" + playersList.size() + "/" + maxPlayers + ")");
+                updateStartGameButtonVisibility();
+            }
+        });
+    }
+
+    public void onGameStarted() {
+        Platform.runLater(() -> {
+            statusMessage.setText("Game is starting!");
+            statusMessage.setStyle("-fx-text-fill: lime; -fx-font-size: 16px; -fx-font-weight: bold;");
+            startGameButton.setVisible(false);
+            leaveLobbyButton.setDisable(true);
+        });
+    }
+}
