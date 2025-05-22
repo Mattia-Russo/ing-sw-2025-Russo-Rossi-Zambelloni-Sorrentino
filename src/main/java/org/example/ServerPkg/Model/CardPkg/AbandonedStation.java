@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ChangeGoodsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
@@ -21,13 +19,8 @@ public class AbandonedStation extends AdventureCard implements Serializable {
     boolean changeGoodsFlag;
     private final int id;
 
-    @JsonCreator
-    public AbandonedStation(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int cardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("numAstronauts") int numAstronauts,
-            @JsonProperty("goods") Goods[] goodsList) {
+
+    public AbandonedStation( int id,int cardLevel, int lostDays,int numAstronauts,Goods[] goodsList) {
         super(cardLevel, lostDays);
         this.numAstronauts = numAstronauts;
         this.goodsList = goodsList;

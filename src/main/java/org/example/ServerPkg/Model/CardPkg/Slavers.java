@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
@@ -21,14 +19,7 @@ public class Slavers extends Enemy implements Serializable {
     private boolean accept;
     private final int id;
 
-    @JsonCreator
-    public Slavers(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int cardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("cannonPower") int cannonPower,
-            @JsonProperty("numAstronauts") int numAstronauts,
-            @JsonProperty("credits") int credits) {
+    public Slavers(int id,int cardLevel,int lostDays, int cannonPower,int numAstronauts,int credits) {
         super(cardLevel, lostDays, cannonPower);
         this.numAstronauts = numAstronauts;
         this.credits = credits;

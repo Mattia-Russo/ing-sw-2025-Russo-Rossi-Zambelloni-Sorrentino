@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
@@ -12,17 +10,13 @@ import java.util.ArrayList;
 public class Cabin extends Components implements Serializable {
     private int numAstronauts;
     private boolean withLifeSupport;
-    private ArrayList<LifeSupportSystem> lifeSupportSystemArrayList;
+    private final ArrayList<LifeSupportSystem> lifeSupportSystemArrayList;
     private final boolean isCentral;
     private Alien alien;
     private final int id;
 
-    @JsonCreator
-    public Cabin(
-            @JsonProperty("id") int id,
-            @JsonProperty("isCentral") boolean isCentral,
-            @JsonProperty("direction") Direction direction,
-            @JsonProperty("connectors") Connector[] connectors) {
+
+    public Cabin(int id, boolean isCentral, Direction direction, Connector[] connectors) {
         super(direction, connectors);
         this.numAstronauts = 0;
         this.withLifeSupport = false;
@@ -169,7 +163,7 @@ public class Cabin extends Components implements Serializable {
     }
   
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY, ShipBoard s){
-        ArrayList <Cabin> cabins = new ArrayList<Cabin>();
+        ArrayList <Cabin> cabins = new ArrayList<>();
         addEpidemicCabin(this.getPosY(), this.getPosX(), cabins, visited, dimX, dimY, s);
 
         if(cabins.size()>1){

@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateEnginesState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
@@ -21,11 +19,8 @@ public class OpenSpace extends AdventureCard implements Serializable {
     private int currentPlayer;
     private final int id;
 
-    @JsonCreator
-    public OpenSpace(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int CardLevel,
-            @JsonProperty("lostDays") int lostDays){
+
+    public OpenSpace(int id,int CardLevel,int lostDays){
         super(CardLevel, lostDays);
         this.currentPlayer = -1;
         this.id = id;

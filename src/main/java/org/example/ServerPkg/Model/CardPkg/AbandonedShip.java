@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
@@ -16,13 +14,8 @@ public class AbandonedShip extends AdventureCard implements Serializable {
     private int playersIndex;
     private final int id;
 
-    @JsonCreator
-    public AbandonedShip(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int CardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("credits") int Credits,
-            @JsonProperty("numAstronauts") int numAstronauts) {
+
+    public AbandonedShip(int id, int CardLevel, int lostDays, int Credits, int numAstronauts) {
         super(CardLevel, lostDays);
         this.Credits = Credits;
         this.numAstronauts = numAstronauts;

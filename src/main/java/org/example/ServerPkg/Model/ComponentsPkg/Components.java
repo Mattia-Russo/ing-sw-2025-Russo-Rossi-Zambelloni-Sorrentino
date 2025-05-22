@@ -1,28 +1,13 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = BatteryStorage.class, name = "BATTERYSTORAGE"),
-        @JsonSubTypes.Type(value = Cabin.class, name = "CABIN"),
-        @JsonSubTypes.Type(value = Cannon.class, name = "CANNON"),
-        @JsonSubTypes.Type(value = Engine.class, name = "ENGINE"),
-        @JsonSubTypes.Type(value = LifeSupportSystem.class, name = "LIFESUPPORTSYSTEM"),
-        @JsonSubTypes.Type(value = Shield.class, name = "SHIELD"),
-        @JsonSubTypes.Type(value = Storage.class, name = "STORAGE"),
-        @JsonSubTypes.Type(value = Tubes.class, name = "TUBES")
-})
-public class Components {
+public class Components implements Serializable {
     private Direction direction;
     private boolean isPositioned;
     private final Connector[] connectors;

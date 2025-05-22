@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Exceptions.*;
 
@@ -23,11 +21,8 @@ public class ShipBoard implements Serializable {
     private int numDoubleCannons;
     private int numDoubleEngines;
 
-    @JsonCreator
-    public ShipBoard(
-            @JsonProperty("availablePositionMatrix") boolean[][] availablePositionMatrix,
-            @JsonProperty("matrixWidth") int matrixWidth,
-            @JsonProperty("matrixHeight") int matrixHeight) {
+
+    public ShipBoard( boolean[][] availablePositionMatrix, int matrixWidth, int matrixHeight) {
         this.deletedComponentsCounter = 0;
         this.availablePositionMatrix = availablePositionMatrix;
         this.componentMatrix = new Components[matrixHeight][matrixWidth];

@@ -24,6 +24,8 @@ public class GameController{
     private Thread messageProcessor;
     private Map<String, GameUpdater> gameUpdaters;
     private ArrayList<String> nameUsed;
+    private ArrayList<Player> PlayerToLoad;
+    private boolean fileLoaded;
 
     public GameController(){
         this.game = null;
@@ -32,6 +34,8 @@ public class GameController{
         this.isRunning = true;
         gameUpdaters = new HashMap<>();
         this.nameUsed = new ArrayList<>();
+        this.fileLoaded = false;
+        this.PlayerToLoad = new ArrayList<>();
         startMessageProcessing();
     }
 
@@ -100,15 +104,20 @@ public class GameController{
     }
 
     public void startGame(){
+        if(fileLoaded && game.getLobbyState() == LobbyState.GAME_READY) {
+            throw new InvalidLobbyStateException("can't call this method");
+        }
+
         if(lobbyState == LobbyState.GAME_CREATION) {
-            if(game.getPlayers().size() >= 2) {
+            if (game.getPlayers().size() >= 2) {
                 lobbyState = LobbyState.GAME_READY;
-                TimerGenerator t= new TimerGenerator();
+                game.setLobbyState(lobbyState);
+                TimerGenerator t = new TimerGenerator();
                 game.setPlayersShipboard();
-                for(Player player : game.getPlayers()) {
+                for (Player player : game.getPlayers()) {
                     player.setPlayerState(new BuildShipState(game, t));
                 }
-            }else throw new InvalidMinimumNumberPlayerException("not enough players to start");
+            } else throw new InvalidMinimumNumberPlayerException("not enough players to start");
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
@@ -127,7 +136,18 @@ public class GameController{
     public void joinLobby(String name){
         if(lobbyState == LobbyState.GAME_CREATION) {
             if (game != null) {
-                addNewPlayer(name);
+                if(fileLoaded){
+                    if(PlayerToLoad.contains(game.getPlayerByName(name))){
+                        PlayerToLoad.remove(game.getPlayerByName(name));
+                    }else
+                        throw new InvalidUserNameException("The player " + name + " didn't exist");
+
+                    if(PlayerToLoad.isEmpty()){
+                        lobbyState = game.getLobbyState();
+                        new GameView(game, null);
+                    }
+                }else
+                    addNewPlayer(name);
                 game.setGameUpdaters(gameUpdaters);
                 new GameView(game, new Exception(name + " joined the lobby"));
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
@@ -181,11 +201,21 @@ public class GameController{
     public void setGame(Game game) {
         this.game = game;
         game.setController(this);
+        PlayerToLoad.addAll(game.getPlayers());
+        for(Player p : game.getPlayers()) {
+            nameUsed.add(p.getName());
+        }
+        fileLoaded = true;
+        new GameSaver(this);
     }
 
     public boolean checkName(String name){
-        for(String s : this.nameUsed){
-            if(s.equals(name)) return false;
+        if(fileLoaded && !nameUsed.contains(name)) {
+            return false;
+        }else if(!fileLoaded ) {
+            for (String s : this.nameUsed) {
+                if (s.equals(name)) return false;
+            }
         }
         return true;
     }
