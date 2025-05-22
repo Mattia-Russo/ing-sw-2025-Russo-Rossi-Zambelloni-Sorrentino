@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
@@ -29,14 +27,8 @@ public class Pirates extends Enemy implements Serializable {
     private boolean shipWrecked;
     private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
     private final int id;
-    @JsonCreator
-    public Pirates(
-            @JsonProperty("id") int id,
-            @JsonProperty("credits") int credit,
-            @JsonProperty("cannonFiresList") List<CannonFire> cannonFireList,
-            @JsonProperty("cardLevel") int cardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("cannonPower") int cannonPower) {
+
+    public Pirates(int id, int credit, List<CannonFire> cannonFireList,int cardLevel, int lostDays,int cannonPower) {
         super(cardLevel, lostDays, cannonPower);
         this.cannonFireList = cannonFireList;
         this.credit = credit;

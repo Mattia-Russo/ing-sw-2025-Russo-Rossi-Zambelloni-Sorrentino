@@ -1,7 +1,6 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
@@ -24,14 +23,7 @@ public class Smugglers extends Enemy implements Serializable {
     private boolean accept;
     private final int id;
 
-    @JsonCreator
-    public Smugglers(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int cardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("cannonPower") int cannonPower,
-            @JsonProperty("goodsLose") int goodsLose,
-            @JsonProperty("goods") List<Goods> goodsWinList) {
+    public Smugglers(int id,int cardLevel, int lostDays, int cannonPower,int goodsLose,List<Goods> goodsWinList) {
         super(cardLevel,  lostDays, cannonPower);
         this.numGoodsLose = goodsLose;
         this.goodsWinList=goodsWinList;

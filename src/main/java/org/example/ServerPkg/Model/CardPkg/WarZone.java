@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
@@ -36,16 +34,7 @@ public class WarZone extends AdventureCard implements Serializable {
     private boolean protect=false;
     private final int id;
 
-    @JsonCreator
-    public WarZone(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int CardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("numAstronauts") int numAstronauts,
-            @JsonProperty("numGoods") int numGoods,
-            @JsonProperty("cannonFiresList") List<CannonFire> CannonFireList,
-            @JsonProperty("penalties") String[] penalties,
-            @JsonProperty("criteria") String[] criteria) {
+    public WarZone(int id, int CardLevel,int lostDays,int numAstronauts, int numGoods,List<CannonFire> CannonFireList,String[] penalties,String[] criteria) {
         super(CardLevel, lostDays);
         this.numAstronauts = numAstronauts;
         this.numGoods = numGoods;

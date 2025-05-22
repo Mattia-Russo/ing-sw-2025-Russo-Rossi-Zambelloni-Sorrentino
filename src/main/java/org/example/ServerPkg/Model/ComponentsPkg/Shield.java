@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
@@ -11,12 +9,7 @@ public class Shield extends Components implements Serializable {
     private final Direction direction2;
     private final int id;
 
-    @JsonCreator
-    public Shield(
-            @JsonProperty("id") int id,
-            @JsonProperty("direction") Direction direction,
-            @JsonProperty("connectors") Connector[] connectors,
-            @JsonProperty("direction2") Direction direction2) {
+    public Shield(int id, Direction direction, Connector[] connectors, Direction direction2) {
         super(direction, connectors);
         this.direction2 = direction2;
         this.id = id;

@@ -27,6 +27,7 @@ public class Game implements Serializable {
     private AdventureCard currentCard;
     private List<Components> componentsList;
     private ArrayList<Components> discoveredComponents;
+    private LobbyState lobbyState;
     private transient GameController controller;
     private transient Map<String, GameUpdater> gameUpdaters;
 
@@ -36,6 +37,7 @@ public class Game implements Serializable {
         this.ShipBoardLevel = ShipBoardLevel;
         this.controller = gameController;
         this.discoveredComponents = new ArrayList<>();
+        this.lobbyState = controller.getLobbyState();
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
@@ -253,6 +255,7 @@ public class Game implements Serializable {
                 new GameView(this, null);
             }
             pickCard();
+            new GameView(this, null);
             currentCard.setCardState(this);
         }
     }
@@ -262,6 +265,8 @@ public class Game implements Serializable {
             if (!p.checkShip()) {
                 p.setShipOK(false);
                 p.setPlayerState(new FixShipState(this));
+                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP" + p.getName()));
+                return;
             }
         }
         for (Player p : players) {
@@ -277,6 +282,7 @@ public class Game implements Serializable {
                     return;
                 }
                 p.setPlayerState(new WaitingState(this));
+                new GameView(this, new Exception("READY FOR CARDS" + p.getName()));
             }
         }
         Turn();
@@ -294,8 +300,10 @@ public class Game implements Serializable {
                 if (p.getPlayerShipBoard().checkIfSplitted(c.getPosY(), c.getPosX())) {
                     p.setShipOK(false);
                     p.setPlayerState(new ShipWreckedState(this, p));
+                    new GameView(this, new Exception("YOU HAVE A SHIP WRECK" + p.getName()));
                 } else if (gameMode == 1) {
                     p.setPlayerState(new AddAlienState(this, p));
+                    new GameView(this, new Exception("YOU CAN ADD YOUR ALIENS" + p.getName()));
                 } else {
                     p.setReadyForCards(true);
                 }
@@ -397,5 +405,14 @@ public class Game implements Serializable {
 
     public void setController(GameController controller) {
         this.controller = controller;
+        this.lobbyState = getLobbyState();
+    }
+
+    public void setLobbyState(LobbyState lobbyState) {
+        this.lobbyState = lobbyState;
+    }
+
+    public LobbyState getLobbyState() {
+        return lobbyState;
     }
 }

@@ -18,7 +18,9 @@ public class ServerMain {
         GameController gameController = new GameController();
         if(args.length != 0) {
             Game game = loadGame(args[0]);
-            gameController.setGame(game);
+            if(game != null) {
+                gameController.setGame(game);
+            }
         }
 
         TCPServer TCPServer = new TCPServer(gameController);

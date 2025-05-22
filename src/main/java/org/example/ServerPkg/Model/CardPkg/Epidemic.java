@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -12,11 +10,8 @@ import java.io.Serializable;
 
 public class Epidemic extends AdventureCard implements Serializable {
     private final int id;
-    @JsonCreator
-    public Epidemic(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int CardLevel,
-            @JsonProperty("lostDays") int lostDays){
+
+    public Epidemic(int id, int CardLevel,int lostDays){
         super(CardLevel, lostDays);
         this.id = id;
     }

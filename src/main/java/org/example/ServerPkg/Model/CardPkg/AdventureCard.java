@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
@@ -11,25 +9,6 @@ import org.example.ServerPkg.Model.Points;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "cardname"
-)
-
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Epidemic.class, name = "EPIDEMIC"),
-        @JsonSubTypes.Type(value = OpenSpace.class, name = "OPENSPACE"),
-        @JsonSubTypes.Type(value = Pirates.class, name = "PIRATES"),
-        @JsonSubTypes.Type(value = Smugglers.class, name = "SMUGGLERS"),
-        @JsonSubTypes.Type(value = Slavers.class, name = "SLAVERS"),
-        @JsonSubTypes.Type(value = WarZone.class, name = "WARZONE"),
-        @JsonSubTypes.Type(value = MeteorCard.class, name = "METEORCARD"),
-        @JsonSubTypes.Type(value = AbandonedShip.class, name = "ABANDONEDSHIP"),
-        @JsonSubTypes.Type(value = AbandonedStation.class, name = "ABANDONEDSTATION"),
-        @JsonSubTypes.Type(value = PlanetsCard.class, name = "PLANETSCARD"),
-        @JsonSubTypes.Type(value = OpenSpace.class, name = "STARDUST"),
-})
 public abstract class AdventureCard implements Serializable {
     private final int cardLevel;
     private final int lostDays;

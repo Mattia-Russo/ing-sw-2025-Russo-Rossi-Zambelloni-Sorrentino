@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-public enum Direction {
+import java.io.Serializable;
+
+public enum Direction implements Serializable {
     NORTH,
     EAST,
     SOUTH,
