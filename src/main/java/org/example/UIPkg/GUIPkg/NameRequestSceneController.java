@@ -1,5 +1,6 @@
 package org.example.UIPkg.GUIPkg;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -101,5 +102,21 @@ public class NameRequestSceneController implements Initializable {
         askName.setText("Enter your name:");
         askName.setVisible(true);
         confirmNameButton.setVisible(true);
+    }
+
+    public void nameAccepted(){
+        Platform.runLater(() -> {
+            // Nascondi i controlli del nome
+            nameBox.setVisible(false);
+            confirmNameButton.setVisible(false);
+            askName.setVisible(false);
+
+            // Mostra i pulsanti per creare/unirsi alla lobby
+            createLobbyButton.setVisible(true);
+            joinLobbyButton.setVisible(true);
+
+            // Oppure vai direttamente alla prossima scena
+            // gui.goToSettingsScene();
+        });
     }
 }
