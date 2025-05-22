@@ -81,9 +81,9 @@ public class TUI implements UI{
             DrawShipboard(game.getPlayers());
             System.out.println("Flightboard: ");
             DrawFlightBoard(game.getPlayers());
+            drawCommands(game);
         }else
             System.out.println(game.getException().getMessage());
-        drawCommands(game);
     }
 
     public void drawCommands(GameView game) {
@@ -91,11 +91,8 @@ public class TUI implements UI{
             //mancano set_name e set_position che sembra che non dobbiamo inserire
             case GAME_CREATION:
                 System.out.println(
-                        """
-                                Type the command:
-                                   start_game -> if you want to start the game
-                                
-                                """);
+                        "Only the creator can start the game, so if you want to start the game, type:\n" +
+                        "   start_game\n");
                 break;
             case GAME_READY:
                 if(game.getCurrentCard()!=null){
@@ -123,7 +120,6 @@ public class TUI implements UI{
                                        remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
                                        remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
                                        remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries
-                                    
                                     """
                     );
                 }
@@ -151,7 +147,6 @@ public class TUI implements UI{
                                        turn_timer -> if you want to turn the timer
                                     
                                        end_build_ship -> if you to end the build ship phase
-                                    
                                     """
                     );
                 }

@@ -14,7 +14,9 @@ import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.util.*;
 
+
 public class TCPClient implements Client {
+
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
@@ -153,6 +155,10 @@ public class TCPClient implements Client {
 
         Thread KeyBoardListenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Type a command:\n" +
+                    "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
+                    "   join_lobby -> if you want to join an existing lobby\n");
 
             while (!socket.isClosed()) {
                 try {

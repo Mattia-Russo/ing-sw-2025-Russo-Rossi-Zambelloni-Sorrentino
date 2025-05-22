@@ -2,6 +2,7 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
+import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
@@ -96,8 +97,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("Type a command:\n" +
-                            "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
-                            "   join_lobby -> if you want to join an existing lobby\n\n");
+                    "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
+                    "   join_lobby -> if you want to join an existing lobby\n");
+
             while (true) {
                 try {
                     // Legge l'input dell'utente
@@ -115,9 +117,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
                     // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
-                    sendMessage(message);
+                    if (message != null) {
+                        sendMessage(message);
+                    }
                 } catch (Exception e) {
-                    System.out.println("Error sending the command: " + e.getMessage());
+                    if(!(e instanceof NullPointerException)){
+                        System.out.println("Error sending the command: " + e.getMessage());
+                    }
                 }
             }
         });
