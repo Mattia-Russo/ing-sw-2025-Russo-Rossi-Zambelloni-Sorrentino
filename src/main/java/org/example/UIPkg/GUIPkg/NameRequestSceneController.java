@@ -59,7 +59,6 @@ public class NameRequestSceneController implements Initializable {
         createLobbyButton.setVisible(false);
         joinLobbyButton.setVisible(false);
 
-        /*
         String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
         Media backgroundMedia = new Media(videoPath);
 
@@ -73,12 +72,10 @@ public class NameRequestSceneController implements Initializable {
         borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         borderPane.setCenter(mediaView);
 
-         */
-
         controls = new VBox(10, askName, nameBox, confirmNameButton, nameInvalid);
         controls.setAlignment(Pos.CENTER);
 
-        borderPane.setCenter(new StackPane(/*mediaView,*/ controls));
+        borderPane.setCenter(new StackPane(mediaView, controls));
 
     }
 
