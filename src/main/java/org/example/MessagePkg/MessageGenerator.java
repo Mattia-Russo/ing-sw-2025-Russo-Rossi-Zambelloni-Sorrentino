@@ -53,7 +53,6 @@ public class MessageGenerator {
         messageMap.put("discard_tile", this::createDiscardComponentMessage);
         messageMap.put("place_tile", this::createPlaceTileMessage);
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
-        messageMap.put("set_position", this::createSetPositionMessage);
         messageMap.put("book_tile", this::createBookComponentMessage);
         messageMap.put("notify", this::createNotifyClientMessage);
     }
@@ -79,10 +78,6 @@ public class MessageGenerator {
 
     private Message createBookComponentMessage(List<String> args) {
         return new BookComponentMessage();
-    }
-
-    private Message createSetPositionMessage(List<String> args) {
-        return new SetPositionMessage();
     }
 
     private Message createEndBuildShipMessage(List<String> args) {

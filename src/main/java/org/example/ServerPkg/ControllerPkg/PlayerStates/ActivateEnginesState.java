@@ -13,10 +13,9 @@ import java.util.ArrayList;
 public class ActivateEnginesState extends PlayerState implements Serializable {
     ArrayList<Points> Engines;
     ArrayList<Points> Batteries;
-    private final Game game;
 
     public ActivateEnginesState(Game game) {
-        this.game = game;
+        super(game);
         this.Engines=null;
         this.Batteries=null;
     }
@@ -25,7 +24,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
         if(Engines==null){
             this.Engines = newEngines;
         }else
-            new GameView(game, new AlreadyEngineException("Engine already activated" + player.getName()));
+            new GameView(getGame(), new AlreadyEngineException("Engine already activated" + player.getName()));
     }
 
 
@@ -33,24 +32,24 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
         if(Batteries==null) {
             this.Batteries = newBatteries;
         }else
-            new GameView( game, new AlreadyBatteryException("Batteries already used" + player.getName()));
+            new GameView( getGame(), new AlreadyBatteryException("Batteries already used" + player.getName()));
     }
 
     public void endActivateEngines(Player player){
-        game.getCurrentCard().playCard(game,Engines, Batteries);
+        getGame().getCurrentCard().playCard(getGame(),Engines, Batteries);
     }
 
     @Override
     public void AbandonGame(Player player){
         Batteries = null;
         Engines = null;
-        player.abandon(game);
+        player.abandon(getGame());
         endActivateEngines(null);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer){
-        game.disconnectPlayer(disconnectingPlayer);
+        getGame().disconnectPlayer(disconnectingPlayer);
         Engines=null;
         Batteries=null;
         endActivateEngines(null);

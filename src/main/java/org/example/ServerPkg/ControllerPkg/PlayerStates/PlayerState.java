@@ -1,7 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.Model.ComponentsPkg.Components;
-import org.example.ServerPkg.Model.Exceptions.PickTileWithDeckException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
@@ -11,82 +9,166 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlayerState implements Serializable {
+    private final Game game;
+    public PlayerState(Game game){
+        this.game = game;
+    }
 
-    public void activateCannons(ArrayList<Points> cannons, Player player){}
+    public Game getGame() {
+        return game;
+    }
 
-    public void useBatteries(ArrayList<Points> batteries, Player player){}
+    public void activateCannons(ArrayList<Points> cannons, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endActivateCannons(Player player){}
+    public void useBatteries(ArrayList<Points> batteries, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void activateEngines(ArrayList<Points> cannons, Player player){}
+    public void endActivateCannons(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endActivateEngines(Player player){}
+    public void activateEngines(ArrayList<Points> cannons, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void activateShields(ArrayList<Points> shields, Player player){}
+    public void endActivateEngines(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endActivateShields(Player player){}
+    public void activateShields(ArrayList<Points> shields, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void removeGood(Points point, int numGood, Player player){}
+    public void endActivateShields(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void addGood(Points point, int numGood, Player player){}
+    public void removeGood(Points point, int numGood, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endChangeGoods(Player player){}
+    public void addGood(Points point, int numGood, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void landOnAbandon(boolean landed, Player player){}
+    public void endChangeGoods(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void landOnPlanet(boolean landed, int numPlanet, Player player){}
+    public void landOnAbandon(boolean landed, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void removeAstronauts(Points point, Player player){}
+    public void landOnPlanet(boolean landed, int numPlanet, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endRemoveAstronauts(Player player){}
+    public void removeAstronauts(Points point, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void removeBestGood(Points point, int numGood, Player player){}
+    public void endRemoveAstronauts(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void removeBatteries(Points point, Player player){}
+    public void removeBestGood(Points point, int numGood, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endRemoveBestGoods(Player player){}
+    public void removeBatteries(Points point, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void acceptReward(boolean accept, Player player){}
+    public void endRemoveBestGoods(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void chooseWrecked(Points point, Player player){    }
+    public void acceptReward(boolean accept, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endWreckedState(Player player){}
+    public void chooseWrecked(Points point, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void removeTile(Points point, Player player){}
+    public void endWreckedState(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endFixShip(Player player){}
+    public void removeTile(Points point, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void showDeck(Player p, int deckPosition){}
+    public void endFixShip(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endShowDeck(Player p){}
+    public void showDeck(Player p, int deckPosition){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void pickComponentTile(Player p){}
+    public void endShowDeck(Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void rightRotateTile(Player p){}
+    public void pickComponentTile(Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void leftRotateTile(Player p){}
+    public void rightRotateTile(Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void placeTile(Player player, Points point){}
+    public void leftRotateTile(Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void endBuildShip(Player player){}
+    public void placeTile(Player player, Points point){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void addBrownAlien(Points p, Player player){}
+    public void endBuildShip(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void addPurpleAlien(Points p, Player player){}
+    public void addBrownAlien(Points p, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void endAlienState(Player player){}
+    public void addPurpleAlien(Points p, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void turnTimer(Player player){}
+    public void endAlienState(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
-    public void AbandonGame(Player player){}
+    public void turnTimer(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
+
+    public void AbandonGame(Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 
     public void disconnect(Player disconnectingPlayer){}
 
-    public void discardComponent(Player p){}
+    public void discardComponent(Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void pickDiscoveredComponent(Player p, int index){}
+    public void pickDiscoveredComponent(Player p, int index){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void setPosition(Player player){}
+    public void bookComponent(Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 
-    public void bookComponent(Player p){}
+    public void pickBookedTile(int index, Player p){
+        new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
+    }
 }

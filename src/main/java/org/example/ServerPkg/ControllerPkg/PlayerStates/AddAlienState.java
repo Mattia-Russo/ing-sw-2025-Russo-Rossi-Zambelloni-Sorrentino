@@ -14,10 +14,9 @@ import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 public class AddAlienState extends PlayerState implements Serializable {
-    private final Game game;
     private final Player player;
     public AddAlienState(Game game, Player player){
-        this.game=game;
+        super(game);
         this.player=player;
     }
 
@@ -26,12 +25,12 @@ public class AddAlienState extends PlayerState implements Serializable {
         try {
             if (player.getPlayerShipBoard().getComponent(p.getX(), p.getY()) != null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin() != null) {
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.BROWN), player.getPlayerShipBoard());
-                new GameView(game, null);
+                new GameView(getGame(), null);
             } else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
                 DifferentLifeSupportColourException e){
             Exception e1 = new Exception(e.getMessage() + " " + player.getName());
-            new GameView(game, e1);
+            new GameView(getGame(), e1);
         }
     }
 
@@ -40,39 +39,39 @@ public class AddAlienState extends PlayerState implements Serializable {
         try{
             if(player.getPlayerShipBoard().getComponent(p.getX(), p.getY())!=null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin()!=null ){
                 player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.PURPLE), player.getPlayerShipBoard());
-                new GameView(game, null);
+                new GameView(getGame(), null);
             }else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
         DifferentLifeSupportColourException e){
             Exception e1 = new Exception(e.getMessage() + " " + player.getName());
-            new GameView(game, e1);
+            new GameView(getGame(), e1);
         }
     }
 
     @Override
     public void endAlienState(Player player){
         this.player.setReadyForCards(true);
-        for (Player p : game.getPlayers()) {
+        for (Player p : getGame().getPlayers()) {
             if (!p.isAbandoned()) {
                 if (!p.getReadyForCards()) {
                     return;
                 }
-                p.setPlayerState(new WaitingState(game));
-                new GameView(game, new Exception("READY FOR CARDS" + p.getName()));
+                p.setPlayerState(new WaitingState(getGame()));
+                new GameView(getGame(), new Exception("READY FOR CARDS" + p.getName()));
             }
         }
-        game.Turn();
+        getGame().Turn();
     }
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon(game);
+        player.abandon(getGame());
         endAlienState(null);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer){
-        game.disconnectPlayer(disconnectingPlayer);
+        getGame().disconnectPlayer(disconnectingPlayer);
         endAlienState(null);
     }
 }

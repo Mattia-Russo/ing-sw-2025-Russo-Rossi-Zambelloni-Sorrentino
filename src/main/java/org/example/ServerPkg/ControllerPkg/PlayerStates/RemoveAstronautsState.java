@@ -11,20 +11,18 @@ import org.example.ServerPkg.Model.Points;
 import java.io.Serializable;
 
 public class RemoveAstronautsState extends PlayerState implements Serializable {
-    private final Game game;
     private int astronautsRemoved;
-
     public RemoveAstronautsState(Game game) {
-        this.game = game;
+        super(game);
         this.astronautsRemoved=0;
     }
 
     @Override
     public void removeAstronauts(Points point, Player player){
-        if(astronautsRemoved == game.getCurrentCard().getNumAstronauts()){
-            new GameView(game, new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more " + player.getName()));
+        if(astronautsRemoved == getGame().getCurrentCard().getNumAstronauts()){
+            new GameView(getGame(), new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more " + player.getName()));
         } else{
-            Player currentPlayer = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex());
+            Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
             Cabin cabin = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isCabin();
 
             if(cabin!=null){
@@ -35,36 +33,36 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
                     cabin.changeNumAstronauts(-1);
                     astronautsRemoved++;
                 }
-                new GameView(game, null);
+                new GameView(getGame(), null);
             } else {
-                new GameView(game, new NotCabinException("The component of given coordinates is not a cabin " + player.getName()));
+                new GameView(getGame(), new NotCabinException("The component of given coordinates is not a cabin " + player.getName()));
             }
         }
     }
 
     @Override
     public void endRemoveAstronauts(Player player){
-        if(astronautsRemoved < game.getCurrentCard().getNumAstronauts()){
-            new GameView(game, new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts " + player.getName()));
+        if(astronautsRemoved < getGame().getCurrentCard().getNumAstronauts()){
+            new GameView(getGame(), new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts " + player.getName()));
         } else {
-            game.getCurrentCard().setCardState(game);
+            getGame().getCurrentCard().setCardState(getGame());
         }
     }
 
     @Override
     public void AbandonGame(Player player){
-        removeLeftAstronauts(player, game);
-        new GameView(game, null);
-        player.abandon(game);
+        removeLeftAstronauts(player, getGame());
+        new GameView(getGame(), null);
+        player.abandon(getGame());
         endRemoveAstronauts(null);
     }
 
     @Override
     public void disconnect(Player p){
         // rimuovere noi gli astronauti
-        removeLeftAstronauts(p, game);
-        game.disconnectPlayer(p);
-        new GameView(game, null);
+        removeLeftAstronauts(p, getGame());
+        getGame().disconnectPlayer(p);
+        new GameView(getGame(), null);
         endRemoveAstronauts(null);
     }
 

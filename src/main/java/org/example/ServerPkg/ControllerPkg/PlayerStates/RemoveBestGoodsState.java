@@ -15,12 +15,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class RemoveBestGoodsState extends PlayerState implements Serializable {
-    private final Game game;
     private int goodsRemoved;
     private int batteriesRemoved;
 
     public RemoveBestGoodsState(Game game){
-        this.game=game;
+        super(game);
         this.goodsRemoved=0;
         this.batteriesRemoved=0;
     }
@@ -28,10 +27,10 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     @Override
     public void removeBestGood(Points point, int numGood, Player player){
 
-        if(goodsRemoved == game.getCurrentCard().getNumGoodsLose()){
-            new GameView(game, new EnoughBestGoodsRemovedException("You've removed enough goods, don't need more " + player.getName()));
+        if(goodsRemoved == getGame().getCurrentCard().getNumGoodsLose()){
+            new GameView(getGame(), new EnoughBestGoodsRemovedException("You've removed enough goods, don't need more " + player.getName()));
         } else {
-            Player currentPlayer = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex());
+            Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
             ArrayList<Goods> goodsList = currentPlayer.getPlayerShipBoard().getTotalGoods();
             goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
             Storage storage = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
@@ -40,37 +39,37 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
                 if(storage.getGoods()[numGood].getColour() == goodsList.get(0).getColour()){
                     storage.removeGood(numGood);
                     goodsRemoved++;
-                    new GameView(game, null);
+                    new GameView(getGame(), null);
                 } else {
-                    new GameView(game, new NotStorageException("You've not selected the best good you have " + player.getName()));
+                    new GameView(getGame(), new NotStorageException("You've not selected the best good you have " + player.getName()));
                 }
             } else {
-                new GameView(game, new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
+                new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
             }
         }
     }
 
     @Override
     public void removeBatteries(Points point, Player player){
-        if (goodsRemoved + batteriesRemoved == game.getCurrentCard().getNumGoodsLose()){
-            new GameView(game, new EnoughBatteriesRemovedException("You've removed enough batteries " + player.getName()));
+        if (goodsRemoved + batteriesRemoved == getGame().getCurrentCard().getNumGoodsLose()){
+            new GameView(getGame(), new EnoughBatteriesRemovedException("You've removed enough batteries " + player.getName()));
         } else {
-            Player currentPlayer = game.getPlayers().get(game.getCurrentCard().getCurrentPlayerIndex());
+            Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
             ArrayList<Goods> goodsList = currentPlayer.getPlayerShipBoard().getTotalGoods();
             if(!goodsList.isEmpty()){
-                new GameView(game, new RemoveBatteriesBeforeGoodsException("You have to remove goods before batteries " + player.getName()));
+                new GameView(getGame(), new RemoveBatteriesBeforeGoodsException("You have to remove goods before batteries " + player.getName()));
             } else {
                 BatteryStorage storage = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isBatteryStorage();
                 if(storage!=null){
                     try {
                         storage.setQuantity(-1, currentPlayer.getPlayerShipBoard());
                         batteriesRemoved++;
-                        new GameView(game, null);
+                        new GameView(getGame(), null);
                     } catch (ValueUnderZeroException e) {
                         System.out.println("Error: " + e.getMessage());
                     }
                 } else {
-                    new GameView(game, new NotBatteryStorageException("The component of given coordinates is not a battery storage " + player.getName()));
+                    new GameView(getGame(), new NotBatteryStorageException("The component of given coordinates is not a battery storage " + player.getName()));
                 }
             }
         }
@@ -78,26 +77,26 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
 
     @Override
     public void endRemoveBestGoods(Player player){
-        if(goodsRemoved + batteriesRemoved < game.getCurrentCard().getNumGoodsLose()){
-            new GameView(game, new NotEnoughBestGoodsRemovedException("Cannot end this phase, need to remove more goods " + player.getName()));
+        if(goodsRemoved + batteriesRemoved < getGame().getCurrentCard().getNumGoodsLose()){
+            new GameView(getGame(), new NotEnoughBestGoodsRemovedException("Cannot end this phase, need to remove more goods " + player.getName()));
         } else {
-            game.getCurrentCard().setCardState(game);
+            getGame().getCurrentCard().setCardState(getGame());
         }
     }
 
     @Override
     public void AbandonGame(Player player){
-        removeBestGoodsLeft(player, game);
-        new GameView(game, null);
-        player.abandon(game);
+        removeBestGoodsLeft(player, getGame());
+        new GameView(getGame(), null);
+        player.abandon(getGame());
         endRemoveBestGoods(null);
     }
 
     @Override
     public void disconnect(Player p){
         // rimuovere noi i good migliori
-        removeBestGoodsLeft(p, game);
-        game.disconnectPlayer(p);
+        removeBestGoodsLeft(p, getGame());
+        getGame().disconnectPlayer(p);
         endRemoveBestGoods(null);
     }
 
