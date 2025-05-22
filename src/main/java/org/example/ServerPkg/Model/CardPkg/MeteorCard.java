@@ -1,7 +1,6 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateShieldsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ShipWreckedState;
@@ -31,12 +30,8 @@ public class MeteorCard extends AdventureCard implements Serializable {
     boolean dice;
     private final int id;
 
-    @JsonCreator
-    public MeteorCard(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int cardLevel,
-            @JsonProperty("lostDays") int lostDays,
-            @JsonProperty("meteorList") List<Meteor> meteorList){
+
+    public MeteorCard(int id,int cardLevel,int lostDays,List<Meteor> meteorList){
         super(cardLevel, lostDays);
         this.meteorList=meteorList;
         this.currentMeteor=0;

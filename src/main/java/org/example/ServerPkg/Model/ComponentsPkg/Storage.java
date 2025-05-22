@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.Exceptions.RedGoodsNotAllowedException;
 import org.example.ServerPkg.Model.Exceptions.StorageFullException;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
@@ -17,13 +15,7 @@ public class Storage extends Components implements Serializable {
     private final int capacity;
     private final int id;
 
-    @JsonCreator
-    public Storage(
-            @JsonProperty("id") int id,
-            @JsonProperty("isSpecial") boolean isSpecial,
-            @JsonProperty("direction") Direction direction,
-            @JsonProperty("connectors") Connector[] connectors,
-            @JsonProperty("capacity") int capacity) {
+    public Storage(int id, boolean isSpecial, Direction direction, Connector[] connectors, int capacity) {
         super(direction, connectors);
         this.isSpecial = isSpecial;
         this.capacity = capacity;

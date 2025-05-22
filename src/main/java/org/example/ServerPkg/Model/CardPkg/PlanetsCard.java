@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ChangeGoodsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnPlanetsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
@@ -22,12 +20,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
     private int currentPlanetIndex;
     private final int id;
 
-    @JsonCreator
-    public PlanetsCard(
-            @JsonProperty("id") int id,
-            @JsonProperty("cardLevel") int cardLevel,
-            @JsonProperty("lostDays") int numDays,
-            @JsonProperty("planets") ArrayList<Planet> planets) {
+    public PlanetsCard(int id,int cardLevel, int numDays,ArrayList<Planet> planets) {
         super(cardLevel, numDays);
         this.planets=planets;
         this.playersIndex = -1;

@@ -1,14 +1,12 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 public class Goods implements Serializable {
     private final GoodsColour colour;
     private Storage storage;
 
-    public Goods(@JsonProperty("colour") GoodsColour colour) {
+    public Goods(GoodsColour colour) {
         this.colour = colour;
         this.storage = null;
     }

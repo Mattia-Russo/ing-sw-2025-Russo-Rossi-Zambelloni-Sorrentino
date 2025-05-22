@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-public enum Connector {
+import java.io.Serializable;
+
+public enum Connector implements Serializable {
     SINGLE,
     DOUBLE,
     UNIVERSAL,

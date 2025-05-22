@@ -1,7 +1,5 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
@@ -12,12 +10,7 @@ public class Cannon extends Components implements Serializable {
     private final int id;
     private final String type;
 
-    @JsonCreator
-    public Cannon(
-            @JsonProperty("id") int id,
-            @JsonProperty("power") int power,
-            @JsonProperty("direction") Direction direction,
-            @JsonProperty("connectors") Connector[] connectors) {
+    public Cannon(int id, int power, Direction direction, Connector[] connectors) {
         super(direction, connectors);
         this.power = power;
         this.id = id;
@@ -71,7 +64,7 @@ public class Cannon extends Components implements Serializable {
     }
 
     @Override
-    public boolean checkRightCannon(ShipBoard ship){    // rotirna true se non va bene, false se va bene
+    public boolean checkRightCannon(ShipBoard ship){    // returns true se non va bene, false se va bene
         switch (this.getDirection()) {
             case NORTH:
                 if (ship.validPosition(this.getPosX(), this.getPosY() - 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() - 1] != null) {

@@ -1,7 +1,6 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.example.ServerPkg.Model.Exceptions.OverloadedCapacityException;
 import org.example.ServerPkg.Model.Exceptions.ValueUnderZeroException;
 import org.example.ServerPkg.Model.ForView.ComponentsView;
@@ -10,16 +9,12 @@ import org.example.ServerPkg.Model.ShipBoard;
 import java.io.Serializable;
 
 public class BatteryStorage extends Components implements Serializable {
-    private final int capacity;
+    private int capacity;
     private int quantity;
-    private final int id;
+    private int id;
 
-    @JsonCreator
-    public BatteryStorage(
-            @JsonProperty("id") int id,
-           @JsonProperty("capacity") int capacity,
-           @JsonProperty("direction") Direction direction,
-           @JsonProperty("connectors") Connector[] connectors){
+
+    public BatteryStorage(int id, int capacity, Direction direction, Connector[] connectors){
         super(direction, connectors);
         this.capacity = capacity;
         this.quantity = capacity;

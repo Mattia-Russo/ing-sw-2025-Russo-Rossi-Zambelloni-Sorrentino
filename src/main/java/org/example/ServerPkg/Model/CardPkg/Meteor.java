@@ -1,6 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 
 import java.io.Serializable;
@@ -9,9 +8,7 @@ public class Meteor implements Serializable {
     private final Direction direction;
     private final int type; // 0 è piccolo, 1 è grande
 
-    public Meteor(
-            @JsonProperty("type") int type,
-            @JsonProperty("direction") Direction direction) {
+    public Meteor(int type, Direction direction) {
         this.direction = direction;
         this.type = type;
     }

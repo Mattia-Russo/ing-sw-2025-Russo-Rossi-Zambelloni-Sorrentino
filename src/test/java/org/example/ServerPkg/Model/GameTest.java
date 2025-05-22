@@ -718,12 +718,16 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 1, 1, null);
+        Game g=new Game(4, 2, 1, null);
         g.getPlayers().addAll(players);
 
         g.setPlayersShipboard();
 
         for(Components c: g.getComponentsList()){
+            System.out.println(c);
+        }
+
+        for(AdventureCard c: g.getDeck()){
             System.out.println(c);
         }
     }

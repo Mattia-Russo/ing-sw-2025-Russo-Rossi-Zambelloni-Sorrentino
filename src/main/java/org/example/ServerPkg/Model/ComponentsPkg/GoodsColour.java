@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-public enum GoodsColour {
+import java.io.Serializable;
+
+public enum GoodsColour implements Serializable {
     RED,
     YELLOW,
     GREEN,

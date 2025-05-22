@@ -48,7 +48,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         try {
             if(game.getGameMode()!=0){
                 p.setDeckShowed(game.getDeck(deckPosition));
-            }else throw new InvalidMethodCallException("can't call this method in this game mode");
+            }else new GameView(game, new InvalidMethodCallException("can't call this method in this game mode" + p.getName()));
         } catch (InvalidDeckNumberException | InvalidMethodCallException e) {
             Exception e1 = new Exception(e.getMessage() + " " + p.getName());
             new GameView(game, e1);

@@ -58,6 +58,7 @@ public class AddAlienState extends PlayerState implements Serializable {
                     return;
                 }
                 p.setPlayerState(new WaitingState(game));
+                new GameView(game, new Exception("READY FOR CARDS" + p.getName()));
             }
         }
         game.Turn();

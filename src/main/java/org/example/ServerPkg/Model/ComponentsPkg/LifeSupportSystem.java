@@ -1,7 +1,6 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
@@ -11,12 +10,7 @@ public class LifeSupportSystem extends Components implements Serializable {
     private final AlienColour colour;
     private final int id;
 
-    @JsonCreator
-    public LifeSupportSystem(
-            @JsonProperty("id") int id,
-            @JsonProperty("colour") AlienColour colour,
-            @JsonProperty("direction") Direction direction,
-            @JsonProperty("connectors") Connector[] connectors) {
+    public LifeSupportSystem(int id, AlienColour colour, Direction direction, Connector[] connectors) {
         super(direction, connectors);
         this.colour = colour;
         this.id = id;

@@ -57,7 +57,7 @@ public class Player implements Serializable {
 
     public void setPlayerShipboard(int level){
         if(level==2){
-            playerShipBoard= ShipboardLoader.loadLevel2();
+            playerShipBoard = ShipboardLoader.loadLevel2();
         }else{
             playerShipBoard= ShipboardLoader.loadLevel1();
         }
