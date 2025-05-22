@@ -112,7 +112,8 @@ public class TUI implements UI{
                                        end_activate_shields -> if you want to end the shield activation phase
                                        end_remove_best_goods -> if you want to end the remove best goods phase
                                        end_remove_astronauts -> if you want to end the remove astronauts phase
-                                    
+                                       end_fix_ship_state -> if you want to end the fix ship phase 
+                                        
                                        land_on_abandon true/false ->  true if you want to land, false otherwise
                                        land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
                                     
