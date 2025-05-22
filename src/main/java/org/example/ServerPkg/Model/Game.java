@@ -37,7 +37,7 @@ public class Game implements Serializable {
         this.ShipBoardLevel = ShipBoardLevel;
         this.controller = gameController;
         this.discoveredComponents = new ArrayList<>();
-        this.lobbyState = controller.getLobbyState();
+        //this.lobbyState = controller.getLobbyState();
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
@@ -99,7 +99,7 @@ public class Game implements Serializable {
         }
 
         Collections.shuffle(componentsList);
-        new GameView(this, null);
+        //new GameView(this, null);
     }
 
     // usage only for tests

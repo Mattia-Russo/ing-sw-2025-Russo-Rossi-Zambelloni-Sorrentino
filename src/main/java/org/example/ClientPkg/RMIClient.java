@@ -149,6 +149,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 if (server.checkName(args.getFirst())){
                     this.playerName = args.getFirst();
                     server.registerClient(this);
+                    userInterface.onNameAccepted();
                 } else {
                     System.out.println("Name already taken");
                 }

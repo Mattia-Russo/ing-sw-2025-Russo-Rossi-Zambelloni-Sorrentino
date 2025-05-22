@@ -1,5 +1,7 @@
 package org.example.UIPkg;
 
+import org.example.MessagePkg.Message;
+import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
@@ -545,6 +547,11 @@ public class TUI implements UI{
         List<String> args = new ArrayList<>();
         args.add(input);
         client.registerName(args);
+    }
+
+    @Override
+    public void manageNotification(NotifyClientMessage notifyClientMessage){
+        System.out.println(notifyClientMessage.getMessage());
     }
 
     public void onNameAccepted(){}

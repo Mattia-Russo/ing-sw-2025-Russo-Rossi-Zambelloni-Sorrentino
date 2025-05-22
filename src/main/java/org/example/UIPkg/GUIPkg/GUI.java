@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
@@ -17,7 +18,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
 public class GUI implements UI {
-    // Usa CountDownLatch invece di un flag booleano per una sincronizzazione più robusta
+
     private final CountDownLatch guiReadyLatch = new CountDownLatch(1);
     private GUIMain guiMain;
     private final Client client;
@@ -34,7 +35,6 @@ public class GUI implements UI {
         this.client = client;
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
 
-        // Avvia JavaFX in un thread separato
         Thread guiThread = new Thread(() -> {
             GUIMain.startGui(this);
         });
@@ -89,7 +89,6 @@ public class GUI implements UI {
         changeScene(scene);
     }
 
-    // NUOVO METODO - AGGIUNTO DOPO goToFirstScene()
     public void goToSettingsScene() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         URL location = getClass().getResource("/org.example/FxmlPkg/settingsScene.fxml");
@@ -170,8 +169,6 @@ public class GUI implements UI {
         //does nothing, waits for button click
     }
 
-    // Aggiungi questi metodi alla classe GUI.java
-
     @Override
     public void onNameAccepted() {
         if (nameRequestSceneController != null) {
@@ -231,6 +228,20 @@ public class GUI implements UI {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void manageNotification(NotifyClientMessage notifyClientMessage){
+        new Thread(() -> {
+            try {
+                //gestire stampa sulla gui del messaggio di errore
+                Thread.sleep(5000);
+                //rimuovere il messaggio
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
     }
 
     public void updateLobbySettings(int maxPlayers, int shipboardLevel, int gameMode) {

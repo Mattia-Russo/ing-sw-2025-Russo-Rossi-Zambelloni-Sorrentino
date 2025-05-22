@@ -13,7 +13,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
-import org.example.MessagePkg.JoinLobbyMessage;
 import org.example.MessagePkg.Message;
 
 import java.io.IOException;
@@ -46,7 +45,6 @@ public class NameRequestSceneController implements Initializable {
     @FXML
     private Label askName;
 
-    // Nuove label per i messaggi della lobby
     @FXML
     private Label lobbyMessage;
 
