@@ -11,12 +11,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ActivateCannonsState extends PlayerState implements Serializable {
-    private final Game game;
     private ArrayList<Points> cannons;
     private ArrayList<Points> batteries;
 
     public ActivateCannonsState(Game game){
-        this.game = game;
+        super(game);
         this.cannons=null;
         this.batteries=null;
     }
@@ -26,7 +25,7 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
         if (cannons == null) {
             this.cannons = newCannons;
         } else {
-            new GameView(game, new AlreadyCannonException("Cannons already activated" + player.getName()));
+            new GameView(getGame(), new AlreadyCannonException("Cannons already activated" + player.getName()));
         }
     }
 
@@ -35,26 +34,26 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
         if(batteries==null) {
             this.batteries = newBatteries;
         } else {
-            new GameView( game, new AlreadyBatteryException("Batteries already used" + player.getName()));
+            new GameView( getGame(), new AlreadyBatteryException("Batteries already used" + player.getName()));
         }
     }
 
     @Override
     public void endActivateCannons(Player player){
-        game.getCurrentCard().playCard(game, cannons, batteries);
+        getGame().getCurrentCard().playCard(getGame(), cannons, batteries);
     }
 
     @Override
     public void AbandonGame(Player player){
         batteries = null;
         cannons = null;
-        player.abandon(game);
+        player.abandon(getGame());
         endActivateCannons(null);
     }
 
     @Override
     public void disconnect(Player disconnectingPlayer){
-        game.disconnectPlayer(disconnectingPlayer);
+        getGame().disconnectPlayer(disconnectingPlayer);
         cannons=null;
         batteries=null;
         endActivateCannons(null);

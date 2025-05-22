@@ -8,34 +8,32 @@ import org.example.ServerPkg.Model.Player;
 import java.io.Serializable;
 
 public class LandOnPlanetsState extends PlayerState implements Serializable {
-    private final Game game;
-
     public LandOnPlanetsState(Game game){
-        this.game = game;
+        super(game);
     }
 
     @Override
     public void landOnPlanet(boolean landed, int numPlanet, Player player){
         if(landed){
-            if(game.getCurrentCard().getPlanetsVisited()[numPlanet]){
-               new GameView(game, new PlanetAlreadyVisitedException("Planet " + numPlanet + " already visited, choose another one " + player.getName()));
+            if(getGame().getCurrentCard().getPlanetsVisited()[numPlanet]){
+               new GameView(getGame(), new PlanetAlreadyVisitedException("Planet " + numPlanet + " already visited, choose another one " + player.getName()));
             } else {
-                game.getCurrentCard().playCard(game, numPlanet);
+                getGame().getCurrentCard().playCard(getGame(), numPlanet);
             }
         } else {
-            game.getCurrentCard().setCardState(game);
+            getGame().getCurrentCard().setCardState(getGame());
         }
     }
 
     @Override
     public void AbandonGame(Player player){
-        player.abandon(game);
+        player.abandon(getGame());
         landOnPlanet(false, 0, null);
     }
   
     @Override
     public void disconnect(Player disconnectingPlayer){
-        game.disconnectPlayer(disconnectingPlayer);
+        getGame().disconnectPlayer(disconnectingPlayer);
         landOnPlanet(false, 0, null);
     }
 
