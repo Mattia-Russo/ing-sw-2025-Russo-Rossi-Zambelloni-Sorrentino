@@ -114,11 +114,14 @@ public class TCPClient implements Client {
             try {
                 while (!socket.isClosed()) {
                     Object obj = in.readObject();
-                    if (obj instanceof Message) {
+                    if (obj instanceof Message message) {
+                        message.setClient(this);
                         if (obj instanceof PongMessage) {
                             serverAlive = System.currentTimeMillis();
                         } else if (obj instanceof NotifyClientMessage notifyClientMessage){
                             userInterface.manageNotification(notifyClientMessage);
+                        } else {
+                            message.handle(null, null);
                         }
                     } else if (obj instanceof GameView) {
                         userInterface.addGameUpdate((GameView) obj);
@@ -224,5 +227,9 @@ public class TCPClient implements Client {
 
     public MessageGenerator getMessageGenerator(){
         return this.msgGen;
+    }
+
+    public UI getUserInterface(){
+        return this.userInterface;
     }
 }

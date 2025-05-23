@@ -53,13 +53,10 @@ public class SettingsSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Imposta validazione in tempo reale sui campi
-        setupFieldValidation();
 
-        // Nascondi inizialmente il messaggio di validazione
+        setupFieldValidation();
         validationMessage.setVisible(false);
 
-        // Imposta lo sfondo nero per il BorderPane
         borderPane.setStyle("-fx-background-color: black;");
     }
 
@@ -70,21 +67,18 @@ public class SettingsSceneController implements Initializable {
             }
         });
 
-        // Validazione per il campo livello shipboard
         shipboardLevelField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 shipboardLevelField.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
 
-        // Validazione per il campo game mode
         gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 gameModeField.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
 
-        // Listener per game mode - se è 0, imposta automaticamente shipboard level a 1
         gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
             if ("0".equals(newValue)) {
                 shipboardLevelField.setText("1");
@@ -117,7 +111,6 @@ public class SettingsSceneController implements Initializable {
         String shipboardText = shipboardLevelField.getText();
         String gameModeText = gameModeField.getText();
 
-        // Controlla se i campi sono vuoti
         if (playersText.isEmpty() || shipboardText.isEmpty() || gameModeText.isEmpty()) {
             showValidationError("All fields are required!");
             return false;
@@ -128,30 +121,25 @@ public class SettingsSceneController implements Initializable {
             int shipboardLevel = Integer.parseInt(shipboardText);
             int gameMode = Integer.parseInt(gameModeText);
 
-            // Valida numero di giocatori
             if (numPlayers < 2 || numPlayers > 4) {
                 showValidationError("Number of players must be between 2 and 4!");
                 return false;
             }
 
-            // Valida livello shipboard
             if (shipboardLevel < 1 || shipboardLevel > 3) {
                 showValidationError("Shipboard level must be between 1 and 3!");
                 return false;
             }
 
-            // Valida game mode
             if (gameMode != 0 && gameMode != 1) {
                 showValidationError("Game mode must be 0 or 1!");
                 return false;
             }
 
-            // Valida combinazione game mode 0 e shipboard level
             if (gameMode == 0 && shipboardLevel != 1) {
                 showValidationError("With game mode 0, shipboard level must be 1!");
                 return false;
             }
-
             return true;
 
         } catch (NumberFormatException e) {

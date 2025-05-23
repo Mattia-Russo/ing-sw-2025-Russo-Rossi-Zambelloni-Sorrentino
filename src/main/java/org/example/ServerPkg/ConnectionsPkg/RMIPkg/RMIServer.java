@@ -4,7 +4,6 @@ import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.ServerPkg.Model.Game;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.RMIVirtualView;
 
@@ -81,9 +80,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public void sendMessage(Message message, String name) throws RemoteException {
+    public void receiveMessage(Message message, String name) throws RemoteException {
         message.setServer(this);
-        message.setClient(name);
+        message.setClientName(name);
         controller.addMessage(message);
     }
 
@@ -151,5 +150,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     @Override
     public boolean checkName(String name) throws RemoteException {
         return controller.checkName(name);
+    }
+
+    public void notifyLobbyCreated(Message message, String name) throws RemoteException {
+        getClientByName(name).notifyLobbyCreated(message);
     }
 }
