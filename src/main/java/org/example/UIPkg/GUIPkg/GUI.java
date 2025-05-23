@@ -177,20 +177,6 @@ public class GUI implements UI {
     }
 
     @Override
-    public void showNoLobbyMessage() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.showNoLobbyMessage();
-        }
-    }
-
-    @Override
-    public void showLobbyExistsMessage() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.showLobbyExistsMessage();
-        }
-    }
-
-    @Override
     public void onLobbyCreated() {
         if (settingsSceneController != null) {
             settingsSceneController.onLobbyCreated();

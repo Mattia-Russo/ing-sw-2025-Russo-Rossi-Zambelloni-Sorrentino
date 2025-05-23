@@ -18,10 +18,6 @@ public interface UI {
 
     void onNameAccepted();
 
-    void showNoLobbyMessage();
-
-    void showLobbyExistsMessage();
-
     void onLobbyCreated();
 
     void onLobbyJoined();

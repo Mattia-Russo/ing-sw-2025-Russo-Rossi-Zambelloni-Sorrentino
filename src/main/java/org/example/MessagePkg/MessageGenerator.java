@@ -55,8 +55,6 @@ public class MessageGenerator {
         messageMap.put("end_fix_ship_state", this::createEndFixShipMessage);
         messageMap.put("pick_booked_tile", this::createPickBookedTileMessage);
         messageMap.put("creating_lobby", this::createCreatingLobbyMessage);
-        messageMap.put("already_creating_lobby", this::createAlreadyCreatingLobbyMessage);
-        messageMap.put("first_to_join", this::createFirstToJoinMessage);
         messageMap.put("joined_lobby", this::createJoinedLobbyMessage);
     }
 
@@ -314,14 +312,6 @@ public class MessageGenerator {
 
     public Message createCreatingLobbyMessage(List<String> args) {
         return new SetUpLobbyMessage();
-    }
-
-    public Message createAlreadyCreatingLobbyMessage(List<String> args) {
-        return new AlreadyCreatingLobbyMessage();
-    }
-
-    public Message createFirstToJoinMessage(List<String> args) {
-        return new FirstToJoinMessage();
     }
 
     public Message createJoinedLobbyMessage(List<String> args){

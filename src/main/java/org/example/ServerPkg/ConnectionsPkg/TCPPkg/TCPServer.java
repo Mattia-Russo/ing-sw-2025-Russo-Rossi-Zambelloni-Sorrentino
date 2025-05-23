@@ -94,16 +94,24 @@ public class TCPServer implements Server {
         return getClientProxy(name).getGameUpdater();
     }
 
+    public void notifyClient(String name, String message) {
+        getClientProxy(name).notifyClient(message);
+    }
+
     public void notifyLobbyCreated(String name) {
         getClientProxy(name).notifyLobbyCreated();
     }
 
-    public void notifyLobbyJoined(String name) {
-        getClientProxy(name).notifyLobbyJoined();
+    @Override
+    public void notifyBroadcast(List<String> exclude, String message) {
+        for(ClientProxy client : clientsProxies){
+            if(!exclude.contains(client.getPlayerName()))
+                client.notifyClient(message);
+        }
     }
 
     @Override
-    public void notifyLobbyAlreadyExists(String name) {
-        getClientProxy(name).notifyLobbyAlreadyExists();
+    public void notifyLobbyJoined(String name) throws RemoteException {
+        getClientProxy(name).notifyLobbyJoined();
     }
 }

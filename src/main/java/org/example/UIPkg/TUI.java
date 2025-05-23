@@ -561,10 +561,6 @@ public class TUI implements UI{
 
     public void onNameAccepted(){}
 
-    public void showNoLobbyMessage(){}
-
-    public void showLobbyExistsMessage(){}
-
     public void onLobbyCreated(){}
 
     public void onLobbyJoined(){}

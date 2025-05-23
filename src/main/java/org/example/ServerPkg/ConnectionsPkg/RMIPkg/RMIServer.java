@@ -83,7 +83,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public void receiveMessage(Message message, String name) throws RemoteException {
-        message.setServer(this);
+        message.setServer((Server) this);
         controller.addMessage(message);
     }
 
@@ -155,5 +155,21 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void notifyClient(String name, String message) throws RemoteException {
         getClientByName(name).notifyClient(message);
+    }
+
+    public void notifyLobbyCreated(String name) throws RemoteException {
+        getClientByName(name).notifyLobbyCreated();
+    }
+
+    public void notifyLobbyJoined(String name) throws RemoteException {
+        getClientByName(name).notifyLobbyJoined();
+    }
+
+    public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
+        for(RMIClientInterface clientInterface : clients.keySet()){
+            if(!exclude.contains(clientInterface.getPlayerName())){
+                getClientByName(clientInterface.getPlayerName()).notifyClient(message);
+            }
+        }
     }
 }

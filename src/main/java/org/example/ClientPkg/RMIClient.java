@@ -200,4 +200,20 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void addGameUpdater(GameController controller) {}
+
+    @Override
+    public void notifyLobbyCreated(){
+        this.userInterface.onLobbyCreated();
+    }
+
+    @Override
+    public void notifyLobbyJoined(){
+        this.userInterface.onLobbyJoined();
+    }
+
+    @Override
+    public void setPlayerName(String name){}
+
+    @Override
+    public void setGameUpdater(){}
 }

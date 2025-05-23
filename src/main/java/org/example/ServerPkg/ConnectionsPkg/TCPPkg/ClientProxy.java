@@ -74,7 +74,5 @@ public abstract class ClientProxy implements Handler {
 
     public void notifyLobbyCreated() {}
 
-    public void notifyLobbyAlreadyExists() {}
-
     public void notifyLobbyJoined() {}
 }

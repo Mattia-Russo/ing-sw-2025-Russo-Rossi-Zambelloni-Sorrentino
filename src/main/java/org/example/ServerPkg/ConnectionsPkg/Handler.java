@@ -13,4 +13,8 @@ public interface Handler extends Remote {
     void addGameUpdater(GameController controller);
 
     void sendMessage(Message message) throws RemoteException;
+
+    void setPlayerName(String playerName) throws RemoteException;
+
+    void setGameUpdater() throws RemoteException;
 }

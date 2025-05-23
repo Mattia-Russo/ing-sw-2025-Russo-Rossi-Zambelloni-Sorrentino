@@ -9,8 +9,9 @@ import org.example.UIPkg.GameUpdater;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
-public interface RMIServerInterface extends Remote, Server {
+public interface RMIServerInterface extends Remote {
     // Metodo che il client usa per registrarsi
     void registerClient(RMIClientInterface client) throws RemoteException;
 
@@ -20,8 +21,6 @@ public interface RMIServerInterface extends Remote, Server {
     // Metodo per disconnettersi
     void unregisterClient(RMIClientInterface client) throws RemoteException;
 
-    boolean getIfSubscribed(Handler handler) throws RemoteException;
-
     GameController getController() throws RemoteException;
 
     void updateClientAlive(RMIClientInterface client) throws RemoteException;
@@ -29,8 +28,6 @@ public interface RMIServerInterface extends Remote, Server {
     boolean checkName(String name) throws RemoteException;
 
     void checkConnection() throws RemoteException;
-
-    GameUpdater getGameUpdater(String name);
 
     void notifyClient(String name, String message) throws RemoteException;
 }
