@@ -140,6 +140,7 @@ public class TUI implements UI{
                                        remove_tile x y -> x,y are the coordinates of the tile you want to remove
                                     
                                        book_tile -> place the current component in a booked slot
+                                       pick_booked_tile index -> if you want to pick a booked component with this index
                                     
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
