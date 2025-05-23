@@ -78,13 +78,14 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                     sendMessage(new PongMessage());
                     clientAlive = System.currentTimeMillis();
                 } else if (message instanceof SetPlayerNameMessage setPlayerNameMessage) {
-                    message.setProxy(this);
+                    message.setHandler(this);
+                    message.setServer(getServer());
                     setPlayerNameMessage.handle(getController(), null);
                     if (getPlayerName() != null) {
                         joinServer();
                     }
                 } else {
-                    message.setProxy(this);
+                    message.setHandler(this);
                     getController().addMessage(message);
                 }
             } catch (Exception e) {
@@ -115,13 +116,29 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     }
 
     @Override
-    public void addGameUpdater(GameController controller){
-        controller.addGameUpdater(gameUpdater, getPlayerName());
+    public GameUpdater getGameUpdater(){
+        return gameUpdater;
     }
 
     @Override
     public void notifyClient(String s){
         Message message = msgGen.generate("notify", List.of(s));
+        sendMessage(message);
+    }
+
+    @Override
+    public void notifyLobbyCreated(){
+        Message message = msgGen.generate("lobby_created", null);
+        message.setHandler(this);
+        message.setServer(getServer());
+        sendMessage(message);
+    }
+
+    @Override
+    public void notifyLobbyJoined(){
+        Message message = msgGen.generate("joined_lobby", null);
+        message.setHandler(this);
+        message.setServer(getServer());
         sendMessage(message);
     }
 }

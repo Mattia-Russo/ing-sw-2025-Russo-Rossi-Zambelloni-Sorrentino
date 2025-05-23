@@ -177,20 +177,6 @@ public class GUI implements UI {
     }
 
     @Override
-    public void showNoLobbyMessage() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.showNoLobbyMessage();
-        }
-    }
-
-    @Override
-    public void showLobbyExistsMessage() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.showLobbyExistsMessage();
-        }
-    }
-
-    @Override
     public void onLobbyCreated() {
         if (settingsSceneController != null) {
             settingsSceneController.onLobbyCreated();
@@ -267,4 +253,6 @@ public class GUI implements UI {
             waitingRoomSceneController.onGameStarted();
         }
     }
+
+    public void printMessage(String message){}
 }

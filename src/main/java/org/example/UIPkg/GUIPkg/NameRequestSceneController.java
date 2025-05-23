@@ -145,20 +145,6 @@ public class NameRequestSceneController implements Initializable {
         });
     }
 
-    public void showNoLobbyMessage() {
-        Platform.runLater(() -> {
-            lobbyMessage.setText("You're the first to join, create a lobby first!");
-            lobbyMessage.setVisible(true);
-        });
-    }
-
-    public void showLobbyExistsMessage() {
-        Platform.runLater(() -> {
-            lobbyMessage.setText("There's already a lobby, join it!");
-            lobbyMessage.setVisible(true);
-        });
-    }
-
     public void printNameInvalid() {
         Platform.runLater(() -> {
             nameInvalid.setText("Name already taken");

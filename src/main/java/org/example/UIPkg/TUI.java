@@ -1,6 +1,5 @@
 package org.example.UIPkg;
 
-import org.example.MessagePkg.Message;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;
@@ -98,6 +97,11 @@ public class TUI implements UI{
                         "   start_game\n");
                 break;
             case GAME_READY:
+                System.out.println(
+                        "If you are the lobby creator and there are enough players connected type start_game to start the game"
+                );
+                break;
+            case GAME_STARTED:
                 if(game.getCurrentCard()!=null){
                     System.out.println(
                             """
@@ -557,11 +561,11 @@ public class TUI implements UI{
 
     public void onNameAccepted(){}
 
-    public void showNoLobbyMessage(){}
-
-    public void showLobbyExistsMessage(){}
-
     public void onLobbyCreated(){}
 
     public void onLobbyJoined(){}
+
+    public void printMessage(String message){
+        System.out.println(message);
+    }
 }

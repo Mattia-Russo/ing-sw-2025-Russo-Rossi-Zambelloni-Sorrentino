@@ -3,6 +3,8 @@ package org.example.UIPkg;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 
+import java.rmi.RemoteException;
+
 public interface UI {
     void addGameUpdate(GameView game);
 
@@ -16,11 +18,9 @@ public interface UI {
 
     void onNameAccepted();
 
-    void showNoLobbyMessage();
-
-    void showLobbyExistsMessage();
-
     void onLobbyCreated();
 
     void onLobbyJoined();
+
+    void printMessage(String message);
 }

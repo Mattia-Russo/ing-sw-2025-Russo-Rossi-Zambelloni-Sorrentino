@@ -2,6 +2,8 @@ package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 
 import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
+import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.UIPkg.GameUpdater;
@@ -81,8 +83,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public void receiveMessage(Message message, String name) throws RemoteException {
-        message.setServer(this);
-        message.setClientName(name);
+        message.setServer((Server) this);
         controller.addMessage(message);
     }
 
@@ -122,8 +123,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
                 .toList();
     }
 
-    public boolean getIfSubscribed(RMIClientInterface client) throws RemoteException {
-        return clients.containsKey(client);
+    public boolean getIfSubscribed(Handler handler) throws RemoteException {
+        return clients.containsKey((RMIClientInterface) handler);
     }
 
     public GameController getController() throws RemoteException {
@@ -143,8 +144,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.gameUpdater.put(client.getPlayerName() ,new RMIVirtualView(client));
     }
 
-    public void addGameUpdater(GameController controller, String name){
-        controller.addGameUpdater(gameUpdater.get(name), name);
+    public GameUpdater getGameUpdater(String name){
+        return gameUpdater.get(name);
     }
 
     @Override
@@ -152,11 +153,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         return controller.checkName(name);
     }
 
-    public void notifyLobbyCreated(Message message, String name) throws RemoteException {
-        getClientByName(name).notifyLobbyCreated(message);
+    public void notifyClient(String name, String message) throws RemoteException {
+        getClientByName(name).notifyClient(message);
     }
 
-    public void notifyLobbyJoined(Message message, String name) throws RemoteException {
-        getClientByName(name).notifyLobbyJoined(message);
+    public void notifyLobbyCreated(String name) throws RemoteException {
+        getClientByName(name).notifyLobbyCreated();
+    }
+
+    public void notifyLobbyJoined(String name) throws RemoteException {
+        getClientByName(name).notifyLobbyJoined();
+    }
+
+    public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
+        for(RMIClientInterface clientInterface : clients.keySet()){
+            if(!exclude.contains(clientInterface.getPlayerName())){
+                getClientByName(clientInterface.getPlayerName()).notifyClient(message);
+            }
+        }
     }
 }

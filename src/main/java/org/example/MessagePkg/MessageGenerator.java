@@ -1,10 +1,7 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
-import org.example.ServerPkg.Model.Game;
-import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
-import org.example.UIPkg.GameUpdater;
 
 import java.util.*;
 import java.util.function.Function;
@@ -57,6 +54,8 @@ public class MessageGenerator {
         messageMap.put("notify", this::createNotifyClientMessage);
         messageMap.put("end_fix_ship_state", this::createEndFixShipMessage);
         messageMap.put("pick_booked_tile", this::createPickBookedTileMessage);
+        messageMap.put("creating_lobby", this::createCreatingLobbyMessage);
+        messageMap.put("joined_lobby", this::createJoinedLobbyMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -311,5 +310,12 @@ public class MessageGenerator {
         return new UseBatteriesMessage(batteries);
     }
 
+    public Message createCreatingLobbyMessage(List<String> args) {
+        return new SetUpLobbyMessage();
+    }
+
+    public Message createJoinedLobbyMessage(List<String> args){
+        return new JoinedLobbyMessage();
+    }
 
 }

@@ -9,11 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.example.MessagePkg.Message;
 
-import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class SettingsSceneController implements Initializable {
@@ -156,10 +153,10 @@ public class SettingsSceneController implements Initializable {
         });
     }
 
-    private void showMessage(String message, String color) {
+    private void showMessage() {
         Platform.runLater(() -> {
-            validationMessage.setText(message);
-            validationMessage.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 14px; -fx-font-weight: bold;");
+            validationMessage.setText("Lobby created successfully!");
+            validationMessage.setStyle("-fx-text-fill: " + "green" + "; -fx-font-size: 14px; -fx-font-weight: bold;");
             validationMessage.setVisible(true);
         });
     }
@@ -172,7 +169,7 @@ public class SettingsSceneController implements Initializable {
 
     public void onLobbyCreated() {
         Platform.runLater(() -> {
-            showMessage("Lobby created successfully!", "green");
+            showMessage();
         });
     }
 }
