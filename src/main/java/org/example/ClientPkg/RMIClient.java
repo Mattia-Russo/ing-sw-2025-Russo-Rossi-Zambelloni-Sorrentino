@@ -195,6 +195,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         this.userInterface.onLobbyCreated();
     }
 
+    @Override
+    public void notifyLobbyJoined(Message message) throws RemoteException {
+        this.userInterface.onLobbyJoined();
+    }
+
     public UI getUserInterface(){
         return this.userInterface;
     }

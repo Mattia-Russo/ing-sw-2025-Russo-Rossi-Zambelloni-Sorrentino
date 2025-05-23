@@ -22,5 +22,5 @@ public interface UI {
 
     void onLobbyCreated();
 
-    void onJoinedLobby();
+    void onLobbyJoined();
 }

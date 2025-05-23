@@ -155,4 +155,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void notifyLobbyCreated(Message message, String name) throws RemoteException {
         getClientByName(name).notifyLobbyCreated(message);
     }
+
+    public void notifyLobbyJoined(Message message, String name) throws RemoteException {
+        getClientByName(name).notifyLobbyJoined(message);
+    }
 }
