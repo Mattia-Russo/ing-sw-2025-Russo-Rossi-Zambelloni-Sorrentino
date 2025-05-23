@@ -23,6 +23,8 @@ public interface RMIClientInterface extends Remote {
 
     void notifyLobbyCreated(Message message) throws RemoteException;
 
+    void notifyLobbyJoined(Message message) throws RemoteException;
+
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

@@ -562,5 +562,5 @@ public class TUI implements UI{
 
     public void onLobbyCreated(){}
 
-    public void onJoinedLobby(){}
+    public void onLobbyJoined(){}
 }

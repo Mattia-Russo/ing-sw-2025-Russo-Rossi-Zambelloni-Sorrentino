@@ -15,12 +15,17 @@ public class JoinLobbyMessage extends Message{
                 if(super.getProxy()!=null) {
                     getProxy().addGameUpdater(controller);
                     controller.joinLobby(playerName);
-                    System.out.println(playerName + " joined the lobby successfully");
+                    Message message = new LobbyJoinedMessage();
+                    message.setProxy(getProxy());
+                    getProxy().sendMessage(message);
                 } else if (super.getClientName()!=null){
                     super.getServer().addGameUpdater(controller, playerName);
                     controller.joinLobby(playerName);
-                    System.out.println(playerName + " joined the lobby successfully");
+                    Message message = new LobbyJoinedMessage();
+                    message.setClientName(playerName);
+                    super.getServer().notifyLobbyJoined(message, playerName);
                 }
+                System.out.println(playerName + " joined the lobby successfully");
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){
                 System.out.println("ERROR " + e.getMessage());
             }

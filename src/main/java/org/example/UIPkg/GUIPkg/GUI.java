@@ -217,7 +217,7 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onJoinedLobby() {
+    public void onLobbyJoined() {
         Platform.runLater(() -> {
             try {
                 goToWaitingRoomScene();
