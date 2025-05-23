@@ -267,4 +267,6 @@ public class GUI implements UI {
             waitingRoomSceneController.onGameStarted();
         }
     }
+
+    public void printMessage(String message){}
 }

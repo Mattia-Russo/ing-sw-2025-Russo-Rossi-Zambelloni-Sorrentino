@@ -1,22 +1,26 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.ServerPkg.ConnectionsPkg.Handler;
+import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.NoSuchPlayerException;
+import org.example.UIPkg.GameUpdater;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TCPServer {
+public class TCPServer implements Server {
     public ArrayList<ClientProxy> clientsProxies;
     private GameController controller;
 
-    public TCPServer(GameController controller) {
+    public TCPServer(GameController controller){
         this.clientsProxies = new ArrayList<>();
         this.controller = controller;
     }
@@ -60,8 +64,8 @@ public class TCPServer {
         return clientsProxies.stream().map(ClientProxy::getPlayerName).toList();
     }
 
-    public boolean getIfSubscribed(ClientProxy proxy){
-        return clientsProxies.contains(proxy);
+    public boolean getIfSubscribed(Handler handler){
+        return clientsProxies.contains((ClientProxy) handler);
     }
 
     public synchronized void subscribe(ClientProxy clientProxy) {
@@ -84,5 +88,22 @@ public class TCPServer {
             }
         }
         throw new NoSuchPlayerException("Player " + playerName + " not exists");
+    }
+
+    public GameUpdater getGameUpdater(String name){
+        return getClientProxy(name).getGameUpdater();
+    }
+
+    public void notifyLobbyCreated(String name) {
+        getClientProxy(name).notifyLobbyCreated();
+    }
+
+    public void notifyLobbyJoined(String name) {
+        getClientProxy(name).notifyLobbyJoined();
+    }
+
+    @Override
+    public void notifyLobbyAlreadyExists(String name) {
+        getClientProxy(name).notifyLobbyAlreadyExists();
     }
 }

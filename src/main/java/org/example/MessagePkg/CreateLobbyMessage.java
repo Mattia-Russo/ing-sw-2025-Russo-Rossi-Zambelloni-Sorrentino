@@ -1,6 +1,7 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.Model.Exceptions.InvalidGameCreationException;
 import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
 
@@ -22,19 +23,14 @@ public class CreateLobbyMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
-                if(super.getProxy()!=null){
-                    getProxy().addGameUpdater(controller);
-                    Message message = new LobbyCreatedMessage();
-                    message.setProxy(getProxy());
-                    getProxy().sendMessage(message);
-                } else if (super.getClientName()!=null){
-                    super.getServer().addGameUpdater(controller, playerName);
-                    Message message = new LobbyCreatedMessage();
-                    message.setClientName(playerName);
-                    super.getServer().notifyLobbyCreated(message, playerName);
+                if(controller.getLobbyState().equals(LobbyState.GAME_READY) || controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
+                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
+                } else {
+                    controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
+                    getServer().notifyLobbyCreated(getHandler().getPlayerName());
+                    controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
+                    System.out.println("Lobby created successfully");
                 }
-                controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
-                System.out.println("Lobby created successfully");
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {
                 System.out.println("ERROR " + e.getMessage());
             }

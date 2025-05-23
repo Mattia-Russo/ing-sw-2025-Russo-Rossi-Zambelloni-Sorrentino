@@ -29,7 +29,7 @@ public class GameController{
 
     public GameController(){
         this.game = null;
-        this.lobbyState = LobbyState.GAME_CREATION;
+        this.lobbyState = LobbyState.GAME_NOT_EXISTS;
         this.messageQueue = new LinkedBlockingQueue<>();
         this.isRunning = true;
         gameUpdaters = new HashMap<>();
@@ -59,10 +59,8 @@ public class GameController{
     private void processMessage(Message message) {
         try {
             synchronized (this) {
-                if (message.getClientName()!=null){
-                    message.handle(this, message.getClientName());
-                } else if (message.getProxy()!=null){
-                    message.handle(this, message.getProxy().getPlayerName());
+                if (message.getHandler()!=null){
+                    message.handle(this, message.getHandler().getPlayerName());
                 } else {
                     System.out.println("Error processing the message: it was generated without sender");
                 }
@@ -104,13 +102,13 @@ public class GameController{
     }
 
     public void startGame(){
-        if(fileLoaded && game.getLobbyState() == LobbyState.GAME_READY) {
+        if(fileLoaded && game.getLobbyState() == LobbyState.GAME_STARTED) {
             throw new InvalidLobbyStateException("can't call this method");
         }
 
-        if(lobbyState == LobbyState.GAME_CREATION) {
+        if(lobbyState == LobbyState.GAME_READY) {
             if (game.getPlayers().size() >= 2) {
-                lobbyState = LobbyState.GAME_READY;
+                lobbyState = LobbyState.GAME_STARTED;
                 game.setLobbyState(lobbyState);
                 TimerGenerator t = new TimerGenerator();
                 game.setPlayersShipboard();
@@ -134,7 +132,7 @@ public class GameController{
     }
 
     public void joinLobby(String name){
-        if(lobbyState == LobbyState.GAME_CREATION) {
+        if(lobbyState == LobbyState.GAME_READY) {
             if (game != null) {
                 if(fileLoaded){
                     if(PlayerToLoad.contains(game.getPlayerByName(name))){
@@ -151,11 +149,11 @@ public class GameController{
                 game.setGameUpdaters(gameUpdaters);
                 new GameView(game, new Exception(name + " joined the lobby"));
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
-        }else throw new InvalidLobbyStateException("can't call this method");
+        }else throw new InvalidLobbyStateException("Wait for the lobby to be set");
     }
 
     public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode) {
-        if(lobbyState == LobbyState.GAME_CREATION) {
+        if(lobbyState == LobbyState.GAME_CREATION || lobbyState == LobbyState.GAME_NOT_EXISTS) {
             if(game==null) {
                 if(numPlayers<=4 && numPlayers>=2 ) {
                     if(GameMode==0||GameMode==1) {
@@ -163,6 +161,7 @@ public class GameController{
                             this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
                             addNewPlayer(name);
                             game.setGameUpdaters(gameUpdaters);
+                            game.setLobbyState(LobbyState.GAME_READY);
                             new GameSaver(this);
                             new GameView(game, new Exception("Game created"));
                         }else throw new InvalidParameterException("Ship board level must be 1 or 2");
@@ -222,5 +221,9 @@ public class GameController{
 
     public ArrayList<String> getNames(){
         return this.nameUsed;
+    }
+
+    public void setGameCreating(){
+        this.lobbyState = LobbyState.GAME_CREATION;
     }
 }

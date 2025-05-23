@@ -148,9 +148,11 @@ public class TCPClient implements Client {
         Thread KeyBoardListenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Type a command:\n" +
-                    "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
-                    "   join_lobby -> if you want to join an existing lobby\n");
+            System.out.println("""
+                    Type a command:
+                       create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode
+                       join_lobby -> if you want to join an existing lobby
+                    """);
 
             while (!socket.isClosed()) {
                 try {
@@ -170,9 +172,8 @@ public class TCPClient implements Client {
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
                     Message message = msgGen.generate(cmd, args);
-                    if (message != null) {
-                        sendMessage(message);
-                    }
+                    message.setClient(this);
+                    sendMessage(message);
                 } catch (Exception e) {
                     System.out.println("Error sending the command: " + e.getMessage());
                 }

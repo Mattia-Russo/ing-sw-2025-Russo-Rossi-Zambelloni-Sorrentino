@@ -4,6 +4,7 @@ import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
 import org.example.UIPkg.GUIPkg.GUI;
@@ -118,12 +119,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     // Aggiungi le parole successive alla lista
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
-
                     // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
-                    if (message != null) {
-                        sendMessage(message);
-                    }
+                    message.setClient(this);
+                    sendMessage(message);
                 } catch (Exception e) {
                     if(!(e instanceof NullPointerException)){
                         System.out.println("Error sending the command: " + e.getMessage());
@@ -191,16 +190,14 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void notifyLobbyCreated(Message message) throws RemoteException {
-        this.userInterface.onLobbyCreated();
-    }
-
-    @Override
-    public void notifyLobbyJoined(Message message) throws RemoteException {
-        this.userInterface.onLobbyJoined();
+    public void notifyClient(String message) throws RemoteException {
+        this.userInterface.printMessage(message);
     }
 
     public UI getUserInterface(){
         return this.userInterface;
     }
+
+    @Override
+    public void addGameUpdater(GameController controller) {}
 }
