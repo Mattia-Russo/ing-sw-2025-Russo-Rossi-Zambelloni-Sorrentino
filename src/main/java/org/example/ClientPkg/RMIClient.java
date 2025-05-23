@@ -2,8 +2,8 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
-import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
 import org.example.UIPkg.GUIPkg.GUI;
@@ -30,7 +30,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         serverAlive = System.currentTimeMillis();
 
         try {
-            Registry registry = LocateRegistry.getRegistry(host, 3600);
+            Registry registry = LocateRegistry.getRegistry(host, Settings.RMI_PORT);
             server = (RMIServerInterface) registry.lookup("GameServer");
 
             if(UI.equals("tui")) {
@@ -163,7 +163,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void sendMessage(Message message) throws RemoteException {
-        server.sendMessage(message, this.playerName);
+        server.receiveMessage(message, this.playerName);
     }
 
     public void disconnect() throws RemoteException {
@@ -188,5 +188,14 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public MessageGenerator getMessageGenerator(){
         return this.msgGen;
+    }
+
+    @Override
+    public void notifyLobbyCreated(Message message) throws RemoteException {
+        this.userInterface.onLobbyCreated();
+    }
+
+    public UI getUserInterface(){
+        return this.userInterface;
     }
 }

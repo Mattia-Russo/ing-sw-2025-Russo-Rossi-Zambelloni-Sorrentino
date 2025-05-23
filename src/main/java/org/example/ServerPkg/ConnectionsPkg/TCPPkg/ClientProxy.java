@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
 
@@ -60,4 +61,6 @@ public abstract class ClientProxy {
     public void notifyClient(String message){}
 
     public void addGameUpdater(GameController controller){}
+
+    public void sendMessage(Message message) {}
 }

@@ -15,4 +15,6 @@ public interface Client {
     void sendMessage(Message message) throws RemoteException;
 
     MessageGenerator getMessageGenerator();
+
+    UI getUserInterface();
 }

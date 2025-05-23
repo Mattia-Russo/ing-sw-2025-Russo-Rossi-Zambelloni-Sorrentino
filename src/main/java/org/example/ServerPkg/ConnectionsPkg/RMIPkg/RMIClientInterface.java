@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 
 import org.example.ClientPkg.RMIServerInterface;
+import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.GameUpdater;
@@ -19,6 +20,8 @@ public interface RMIClientInterface extends Remote {
     void disconnect() throws RemoteException;
 
     void addGameUpdate(GameView gameView) throws RemoteException;
+
+    void notifyLobbyCreated(Message message) throws RemoteException;
 
 }
 

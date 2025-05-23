@@ -12,7 +12,7 @@ public interface RMIServerInterface extends Remote {
     void registerClient(RMIClientInterface client) throws RemoteException;
 
     // Metodo che il client usa per inviare messaggi al server
-    void sendMessage(Message message, String name) throws RemoteException;
+    void receiveMessage(Message message, String name) throws RemoteException;
 
     // Metodo per disconnettersi
     void unregisterClient(RMIClientInterface client) throws RemoteException;

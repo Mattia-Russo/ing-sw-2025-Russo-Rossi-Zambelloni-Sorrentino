@@ -38,7 +38,7 @@ public class ClientMain {
                 break;
 
             case "rmi":
-                new RMIClient("localhost", userInterface);
+                new RMIClient(Settings.SERVER_NAME, userInterface);
                 break;
 
             default:

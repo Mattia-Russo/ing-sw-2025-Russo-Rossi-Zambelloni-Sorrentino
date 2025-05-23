@@ -59,8 +59,8 @@ public class GameController{
     private void processMessage(Message message) {
         try {
             synchronized (this) {
-                if (message.getClient()!=null){
-                    message.handle(this, message.getClient());
+                if (message.getClientName()!=null){
+                    message.handle(this, message.getClientName());
                 } else if (message.getProxy()!=null){
                     message.handle(this, message.getProxy().getPlayerName());
                 } else {

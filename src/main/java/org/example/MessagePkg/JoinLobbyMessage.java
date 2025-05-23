@@ -3,8 +3,6 @@ package org.example.MessagePkg;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.InvalidGameCreationException;
 import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
-import org.example.UIPkg.RMIVirtualView;
-import org.example.UIPkg.TUI;
 
 import java.rmi.RemoteException;
 
@@ -18,7 +16,7 @@ public class JoinLobbyMessage extends Message{
                     getProxy().addGameUpdater(controller);
                     controller.joinLobby(playerName);
                     System.out.println(playerName + " joined the lobby successfully");
-                } else if (super.getClient()!=null){
+                } else if (super.getClientName()!=null){
                     super.getServer().addGameUpdater(controller, playerName);
                     controller.joinLobby(playerName);
                     System.out.println(playerName + " joined the lobby successfully");
