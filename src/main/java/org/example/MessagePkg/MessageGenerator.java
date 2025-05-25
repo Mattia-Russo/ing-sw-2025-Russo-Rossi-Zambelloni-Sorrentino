@@ -58,6 +58,7 @@ public class MessageGenerator {
         messageMap.put("joined_lobby", this::createLobbyJoinedMessage);
         messageMap.put("lobby_created", this::createLobbyCreatedMessage);
         messageMap.put("accept_create_lobby", this::createAcceptCreateLobbyMessage);
+        messageMap.put("update_names", this::createUpdatePlayersListMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -320,8 +321,9 @@ public class MessageGenerator {
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
+        List<String> names = args.subList(3, args.size());
 
-        return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode);
+        return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode, names);
     }
 
     public Message createLobbyCreatedMessage(List<String> args){
@@ -330,5 +332,9 @@ public class MessageGenerator {
 
     public Message createAcceptCreateLobbyMessage(List<String> args){
         return new AcceptCreateLobbyMessage();
+    }
+
+    public Message createUpdatePlayersListMessage(List<String> args){
+        return new UpdatePlayersListMessage();
     }
 }

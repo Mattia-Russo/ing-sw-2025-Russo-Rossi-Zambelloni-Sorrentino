@@ -9,6 +9,7 @@ import org.example.UIPkg.GameUpdater;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface RMIClientInterface extends Remote, Handler {
 
@@ -26,7 +27,7 @@ public interface RMIClientInterface extends Remote, Handler {
 
     void notifyLobbyCreated() throws RemoteException;
 
-    void notifyLobbyJoined(int numPlayers, int shipboardLevel, int gameMode) throws RemoteException;
+    void notifyLobbyJoined(int numPlayers, int shipboardLevel, int gameMode, List<String> names) throws RemoteException;
 
     void setGameUpdater() throws RemoteException;
 

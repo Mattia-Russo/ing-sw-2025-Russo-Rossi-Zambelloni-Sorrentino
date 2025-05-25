@@ -43,9 +43,6 @@ public class WaitingRoomSceneController implements Initializable {
     private Button startGameButton;
 
     @FXML
-    private Button leaveLobbyButton;
-
-    @FXML
     private Label statusMessage;
 
     private GUI gui;
@@ -136,7 +133,6 @@ public class WaitingRoomSceneController implements Initializable {
             statusMessage.setText("Game is starting!");
             statusMessage.setStyle("-fx-text-fill: lime; -fx-font-size: 16px; -fx-font-weight: bold;");
             startGameButton.setVisible(false);
-            leaveLobbyButton.setDisable(true);
         });
     }
 
@@ -165,5 +161,9 @@ public class WaitingRoomSceneController implements Initializable {
             String modeText = (gameMode == 0) ? "Easy Mode" : "Normal Mode";
             gameModeLabel.setText("Game Mode: " + modeText);
         });
+    }
+
+    public void setNames(List<String> names){
+        this.playersList.addAll(names);
     }
 }
