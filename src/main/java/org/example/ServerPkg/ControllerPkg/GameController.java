@@ -128,6 +128,7 @@ public class GameController{
         if (game.getPlayers().size() < game.getNumPlayer()) {
             Player p = new Player(game.getPlayers().size(), name, game);
             game.getPlayers().add(p);
+            this.nameUsed.add(name);
         } else throw new InvalidAddPlayerException("can't add any more players");
     }
 
