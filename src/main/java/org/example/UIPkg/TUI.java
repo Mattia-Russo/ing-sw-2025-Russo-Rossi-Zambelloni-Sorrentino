@@ -217,7 +217,7 @@ public class TUI implements UI{
             System.out.println("Shipboard of " + player.getName() + ":");
             System.out.println("\nCurrent tile:");
             if (player.getCurrentTile() != null) {
-                List<String> lines = DrawComponent(player.getCurrentTile());
+                List<String> lines = List.of(DrawComponent(player.getCurrentTile()));
                 for (String line : lines) System.out.println(line);
             }
 

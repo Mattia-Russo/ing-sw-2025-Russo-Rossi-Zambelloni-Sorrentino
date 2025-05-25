@@ -141,11 +141,8 @@ public class Player implements Serializable {
                         int nj = j + dx(dir);
                         if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni][nj] != null){
                             Components neighbor = playerShipBoard.getComponentMatrix()[ni][nj];
-                            Direction mySide = rotateRelative(dir, c.getDirection());
-                            Direction neighborSide = rotateRelative(opposite(dir), neighbor.getDirection());
-
-                            Connector myConn = c.getDirConnector(mySide);
-                            Connector theirConn = neighbor.getDirConnector(neighborSide);
+                            Connector myConn = c.getDirConnector(dir);
+                            Connector theirConn = neighbor.getDirConnector(opposite(dir));
 
                             if (theirConn == Connector.EMPTY) return false;
 
