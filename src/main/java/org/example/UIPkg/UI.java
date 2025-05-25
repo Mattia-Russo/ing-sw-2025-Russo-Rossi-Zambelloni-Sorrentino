@@ -6,6 +6,7 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import java.rmi.RemoteException;
 
 public interface UI {
+
     void addGameUpdate(GameView game);
 
     void printNameInvalid();
@@ -20,9 +21,9 @@ public interface UI {
 
     void onLobbyCreated(String name);
 
-    void onLobbyJoined(String name);
-
     void printMessage(String message);
+
+    void onLobbyJoined(String name, int numPlayers, int shipboardLevel, int gameMode);
 
     void onCreateLobbyAccepted();
 }

@@ -30,6 +30,9 @@ public class GUI implements UI {
     private GUIMain guiMain;
     private final Client client;
     private BlockingQueue<GameView> gameUpdatesQueue;
+    private int numPlayers;
+    private int shipboardLevel;
+    private int gameMode;
 
     private NameRequestSceneController nameRequestSceneController;
     private SettingsSceneController settingsSceneController;
@@ -123,9 +126,9 @@ public class GUI implements UI {
         waitingRoomSceneController = loader.getController();
         waitingRoomSceneController.setGUI(this);
 
-        waitingRoomSceneController.setMaxPlayers(settingsSceneController.getNumberOfPlayers());
-        waitingRoomSceneController.setShipboardLevel(settingsSceneController.getShipboardLevel());
-        waitingRoomSceneController.setGameMode(settingsSceneController.getGameMode());
+        waitingRoomSceneController.setMaxPlayers(numPlayers);
+        waitingRoomSceneController.setShipboardLevel(shipboardLevel);
+        waitingRoomSceneController.setGameMode(gameMode);
 
         Scene scene = new Scene(root, 800, 600);
         scene.setUserData(waitingRoomSceneController);
@@ -215,9 +218,12 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onLobbyJoined(String name) {
+    public void onLobbyJoined(String name, int numPlayers, int shipboardLevel, int gameMode) {
         Platform.runLater(() -> {
             try {
+                this.numPlayers = numPlayers;
+                this.shipboardLevel = shipboardLevel;
+                this.gameMode = gameMode;
                 goToWaitingRoomScene();
                 if (waitingRoomSceneController != null) {
                     waitingRoomSceneController.setLobbyCreator(false);

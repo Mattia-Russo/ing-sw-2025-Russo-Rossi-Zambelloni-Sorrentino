@@ -161,6 +161,7 @@ public class GameController{
                             this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
                             addNewPlayer(name);
                             game.setGameUpdaters(gameUpdaters);
+                            this.lobbyState = LobbyState.GAME_READY;
                             game.setLobbyState(LobbyState.GAME_READY);
                             new GameSaver(this);
                             new GameView(game, new Exception("Game created"));
