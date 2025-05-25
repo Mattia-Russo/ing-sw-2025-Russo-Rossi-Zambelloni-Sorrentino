@@ -181,4 +181,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void acceptCreateLobby(String name) throws RemoteException {
         getClientByName(name).acceptCreateLobby();
     }
+
+    public void updatePlayerList(String exclude) throws RemoteException {
+        for(RMIClientInterface clientInterface : clients.keySet()){
+            if(!exclude.contains(clientInterface.getPlayerName())){
+                getClientByName(clientInterface.getPlayerName()).updatePlayerList(controller.getNames());
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
 import org.example.MessagePkg.Message;
+import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
@@ -71,4 +72,6 @@ public abstract class ClientProxy implements Handler {
     public void notifyLobbyJoined() {}
 
     public void acceptCreateLobby() {}
+
+    public MessageGenerator getMsgGen(){return null;}
 }

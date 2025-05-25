@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
@@ -119,5 +120,14 @@ public class TCPServer implements Server {
     @Override
     public void acceptCreateLobby(String name) throws RemoteException {
         getClientProxy(name).acceptCreateLobby();
+    }
+
+    public void updatePlayerList(String exclude){
+        for(ClientProxy client : clientsProxies){
+            if(!exclude.equals(client.getPlayerName())){
+                Message message = client.getMsgGen().generate("update_names", controller.getNames());
+                client.sendMessage(message);
+            }
+        }
     }
 }

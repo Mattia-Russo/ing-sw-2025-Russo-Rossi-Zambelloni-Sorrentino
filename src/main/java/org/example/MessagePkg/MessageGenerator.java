@@ -335,6 +335,6 @@ public class MessageGenerator {
     }
 
     public Message createUpdatePlayersListMessage(List<String> args){
-        return new UpdatePlayersListMessage();
+        return new UpdatePlayersListMessage(args);
     }
 }

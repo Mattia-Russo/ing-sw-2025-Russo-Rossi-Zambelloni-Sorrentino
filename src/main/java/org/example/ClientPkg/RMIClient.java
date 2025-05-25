@@ -226,4 +226,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void acceptCreateLobby(){
         userInterface.onCreateLobbyAccepted();
     }
+
+    @Override
+    public void updatePlayerList(List<String> names){
+        userInterface.onUpdatePlayerList(names);
+    }
 }
