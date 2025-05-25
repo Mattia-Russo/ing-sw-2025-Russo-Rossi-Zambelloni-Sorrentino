@@ -19,7 +19,7 @@ public interface UI {
 
     void onNameAccepted();
 
-    void onLobbyCreated(String name);
+    void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode);
 
     void printMessage(String message);
 

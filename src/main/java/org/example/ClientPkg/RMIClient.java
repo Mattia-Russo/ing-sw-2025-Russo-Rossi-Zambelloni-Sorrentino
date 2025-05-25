@@ -194,8 +194,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void addGameUpdater(GameController controller) {}
 
     @Override
-    public void notifyLobbyCreated(){
-        this.userInterface.onLobbyCreated(this.playerName);
+    public void notifyLobbyCreated(int numPlayers, int shipboardLevel, int gameMode){
+        this.userInterface.onLobbyCreated(this.playerName, numPlayers, shipboardLevel, gameMode);
     }
 
     @Override

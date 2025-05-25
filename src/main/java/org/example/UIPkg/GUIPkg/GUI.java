@@ -37,7 +37,7 @@ public class GUI implements UI {
 
     private NameRequestSceneController nameRequestSceneController;
     private SettingsSceneController settingsSceneController;
-    private WaitingRoomSceneController waitingRoomSceneController; // AGGIUNTO
+    private WaitingRoomSceneController waitingRoomSceneController;
     private BuildShipSceneController buildShipSceneController;
     private PlayCardSceneController playCardSceneController;
     private EndGameSceneController endGameSceneController;
@@ -194,7 +194,7 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onLobbyCreated(String name) {
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode) {
         if (settingsSceneController != null) {
             settingsSceneController.onLobbyCreated();
         }
@@ -204,6 +204,9 @@ public class GUI implements UI {
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
                         try {
+                            this.numPlayers = numPlayers;
+                            this.shipboardLevel = shipboardLevel;
+                            this.gameMode = gameMode;
                             this.playersList.add(name);
                             goToWaitingRoomScene();
                             if (waitingRoomSceneController != null) {

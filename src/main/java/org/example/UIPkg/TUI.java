@@ -469,7 +469,7 @@ public class TUI implements UI{
 
     public void onNameAccepted(){}
 
-    public void onLobbyCreated(String name){}
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){}
 
     public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){}
 

@@ -27,8 +27,8 @@ public class CreateLobbyMessage extends Message {
                     getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
                 } else {
                     controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
-                    getServer().notifyLobbyCreated(getHandler().getPlayerName());
                     controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
+                    getServer().notifyLobbyCreated(getHandler().getPlayerName());
                     System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipboardLevel + " gameMode: " + gameMode);
                 }
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {

@@ -158,7 +158,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     public void notifyLobbyCreated(String name) throws RemoteException {
-        getClientByName(name).notifyLobbyCreated();
+        getClientByName(name).notifyLobbyCreated(controller.getGame().getNumPlayer(), controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode());
     }
 
     public void notifyLobbyJoined(String name) throws RemoteException {
