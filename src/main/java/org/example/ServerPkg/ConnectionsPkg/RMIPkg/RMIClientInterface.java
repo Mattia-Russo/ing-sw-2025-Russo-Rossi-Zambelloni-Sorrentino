@@ -34,6 +34,8 @@ public interface RMIClientInterface extends Remote, Handler {
     void notifyNameAlreadyUsed() throws RemoteException;
 
     void acceptCreateLobby() throws RemoteException;
+
+    void updatePlayerList(List<String> names) throws RemoteException;
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

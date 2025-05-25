@@ -20,6 +20,7 @@ public class JoinLobbyMessage extends Message{
                     getServer().notifyClient(getHandler().getPlayerName(), "You've joined the lobby");
                     getServer().notifyBroadcast(List.of(getHandler().getPlayerName()), getHandler().getPlayerName() + " joined the lobby");
                     getServer().notifyLobbyJoined(getHandler().getPlayerName());
+                    getServer().updatePlayerList(getHandler().getPlayerName());
                 } else if (controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
                     getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
                 } else {

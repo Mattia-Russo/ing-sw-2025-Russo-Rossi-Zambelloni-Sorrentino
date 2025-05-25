@@ -20,4 +20,6 @@ public interface Server {
     void notifyLobbyJoined(String name) throws RemoteException;
 
     void acceptCreateLobby(String name) throws RemoteException;
+
+    void updatePlayerList(String exclude) throws RemoteException;
 }
