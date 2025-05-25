@@ -23,7 +23,7 @@ public class CreateLobbyMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
-                if(controller.getLobbyState().equals(LobbyState.GAME_READY) || controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
+                if(controller.getLobbyState().equals(LobbyState.GAME_READY)){
                     getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
                 } else {
                     controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
