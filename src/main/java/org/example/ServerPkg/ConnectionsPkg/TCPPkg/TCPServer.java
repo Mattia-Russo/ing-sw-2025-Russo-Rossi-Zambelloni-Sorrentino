@@ -98,6 +98,7 @@ public class TCPServer implements Server {
         getClientProxy(name).notifyClient(message);
     }
 
+    @Override
     public void notifyLobbyCreated(String name) {
         getClientProxy(name).notifyLobbyCreated();
     }

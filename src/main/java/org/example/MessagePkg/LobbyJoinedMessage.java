@@ -6,6 +6,6 @@ public class LobbyJoinedMessage extends Message{
 
     @Override
     public void handle(GameController controller, String playerName){
-        super.getClient().getUserInterface().onLobbyJoined();
+        super.getClient().getUserInterface().onLobbyJoined(playerName);
     }
 }

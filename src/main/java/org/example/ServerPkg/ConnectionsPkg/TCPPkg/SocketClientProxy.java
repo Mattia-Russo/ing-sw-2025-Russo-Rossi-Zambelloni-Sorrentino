@@ -85,6 +85,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                         joinServer();
                     }
                 } else {
+                    message.setServer(getServer());
                     message.setHandler(this);
                     getController().addMessage(message);
                 }

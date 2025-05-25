@@ -43,6 +43,9 @@ public class SettingsSceneController implements Initializable {
     private Label gameModeLabel;
 
     private GUI gui;
+    private int numberOfPlayers;
+    private int shipboardLevel;
+    private int gameMode;
 
     public void setGUI(GUI gui) {
         this.gui = gui;
@@ -95,6 +98,9 @@ public class SettingsSceneController implements Initializable {
             args[0] = numberOfPlayersField.getText();
             args[1] = shipboardLevelField.getText();
             args[2] = gameModeField.getText();
+            numberOfPlayers = Integer.parseInt(args[0]);
+            shipboardLevel = Integer.parseInt(args[1]);
+            gameMode = Integer.parseInt(args[2]);
 
             Message message = gui.getClient().getMessageGenerator().generate("create_lobby", java.util.Arrays.asList(args));
             gui.getClient().sendMessage(message);
@@ -171,5 +177,17 @@ public class SettingsSceneController implements Initializable {
         Platform.runLater(() -> {
             showMessage();
         });
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public int getShipboardLevel() {
+        return shipboardLevel;
+    }
+
+    public int getGameMode() {
+        return gameMode;
     }
 }

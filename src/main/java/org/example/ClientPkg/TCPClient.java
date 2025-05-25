@@ -24,6 +24,7 @@ public class TCPClient implements Client {
     private final MessageGenerator msgGen;
     private long serverAlive;
     private boolean nameSet = false;
+    private String playerName;
 
     public TCPClient(String serverAddress, int port, String UI) throws IOException {
         this.msgGen = new MessageGenerator();
@@ -121,7 +122,7 @@ public class TCPClient implements Client {
                         } else if (obj instanceof NotifyClientMessage notifyClientMessage){
                             userInterface.manageNotification(notifyClientMessage);
                         } else {
-                            message.handle(null, null);
+                            message.handle(null, this.playerName);
                         }
                     } else if (obj instanceof GameView) {
                         userInterface.addGameUpdate((GameView) obj);
@@ -221,6 +222,7 @@ public class TCPClient implements Client {
 
     @Override
     public void insertName(String name){
+        this.playerName = name;
         List<String> args = new ArrayList<>();
         args.add(name);
         registerName(args);

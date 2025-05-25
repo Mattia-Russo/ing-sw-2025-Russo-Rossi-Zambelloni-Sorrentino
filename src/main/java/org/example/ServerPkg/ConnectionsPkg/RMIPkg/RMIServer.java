@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
+public class RMIServer extends UnicastRemoteObject implements RMIServerInterface, Server {
     private final GameController controller;
     private final Map<RMIClientInterface, Long> clients;
     private Map<String, GameUpdater> gameUpdater;

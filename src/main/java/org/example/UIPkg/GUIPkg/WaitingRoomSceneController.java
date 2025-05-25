@@ -84,20 +84,6 @@ public class WaitingRoomSceneController implements Initializable {
         playersListView.setStyle("-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white;");
     }
 
-    public void updateLobbySettings(int maxPlayers, int shipboardLevel, int gameMode) {
-        Platform.runLater(() -> {
-            this.maxPlayers = maxPlayers;
-            this.shipboardLevel = shipboardLevel;
-            this.gameMode = gameMode;
-
-            maxPlayersLabel.setText("Max Players: " + maxPlayers);
-            shipboardLevelLabel.setText("Shipboard Level: " + shipboardLevel);
-            gameModeLabel.setText("Game Mode: " + (gameMode == 0 ? "Test drive" : "Normal"));
-
-            updateStartGameButtonVisibility();
-        });
-    }
-
     public void updatePlayersList(List<String> players) {
         Platform.runLater(() -> {
             playersList.clear();
@@ -145,22 +131,39 @@ public class WaitingRoomSceneController implements Initializable {
         }
     }
 
-    public void onPlayerJoined(String playerName) {
-        Platform.runLater(() -> {
-            if (!playersList.contains(playerName)) {
-                playersList.add(playerName);
-                playersLabel.setText("Players (" + playersList.size() + "/" + maxPlayers + ")");
-                updateStartGameButtonVisibility();
-            }
-        });
-    }
-
     public void onGameStarted() {
         Platform.runLater(() -> {
             statusMessage.setText("Game is starting!");
             statusMessage.setStyle("-fx-text-fill: lime; -fx-font-size: 16px; -fx-font-weight: bold;");
             startGameButton.setVisible(false);
             leaveLobbyButton.setDisable(true);
+        });
+    }
+
+    public List<String> getPlayersList() {
+        return playersList;
+    }
+
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
+        Platform.runLater(() -> {
+            maxPlayersLabel.setText("Max Players: " + maxPlayers);
+            updateStartGameButtonVisibility();
+        });
+    }
+
+    public void setShipboardLevel(int shipboardLevel) {
+        this.shipboardLevel = shipboardLevel;
+        Platform.runLater(() -> {
+            shipboardLevelLabel.setText("Shipboard Level: " + shipboardLevel);
+        });
+    }
+
+    public void setGameMode(int gameMode) {
+        this.gameMode = gameMode;
+        Platform.runLater(() -> {
+            String modeText = (gameMode == 0) ? "Easy Mode" : "Normal Mode";
+            gameModeLabel.setText("Game Mode: " + modeText);
         });
     }
 }
