@@ -17,10 +17,9 @@ public class SetPlayerNameMessage extends Message{
         if(getHandler()!=null) {
             if (controller.checkName(this.playerName)){
                 getHandler().setPlayerName(this.playerName);
-                getServer().notifyClient(getHandler().getPlayerName(), "true");
                 getHandler().setGameUpdater();
             } else {
-                getServer().notifyClient(getHandler().getPlayerName(), "false");
+                getHandler().notifyNameAlreadyUsed();
             }
         }else{
             System.out.println("Error: Proxy is null, could not set player name");

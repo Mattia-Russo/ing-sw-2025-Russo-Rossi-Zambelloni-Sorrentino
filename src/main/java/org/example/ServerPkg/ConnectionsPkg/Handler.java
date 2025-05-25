@@ -17,4 +17,6 @@ public interface Handler extends Remote {
     void setPlayerName(String playerName) throws RemoteException;
 
     void setGameUpdater() throws RemoteException;
+
+    void notifyNameAlreadyUsed() throws RemoteException;
 }

@@ -32,14 +32,8 @@ public abstract class ClientProxy implements Handler {
     }
 
     public void setPlayerName(String playerName) {
-        try {
-            if (TCPServer.getNames().contains(playerName)) {
-                throw new NameAlreadyUsedException(playerName + " already used, type another one");
-            }
-            this.playerName = playerName;
-        } catch (NameAlreadyUsedException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        this.playerName = playerName;
+        getServer().notifyClient(this.playerName, "true");
     }
 
     protected synchronized void joinServer() {

@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface Client {
 
-    void insertName(String name);
-
-    void registerName(List<String> names);
+    void registerName(String name);
 
     void sendMessage(Message message) throws RemoteException;
 

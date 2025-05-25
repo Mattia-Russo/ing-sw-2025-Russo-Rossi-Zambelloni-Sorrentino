@@ -461,9 +461,7 @@ public class TUI implements UI{
     public void readName(){
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        List<String> args = new ArrayList<>();
-        args.add(input);
-        client.registerName(args);
+        client.registerName(input);
     }
 
     @Override
