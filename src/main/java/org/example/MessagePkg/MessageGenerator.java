@@ -321,8 +321,7 @@ public class MessageGenerator {
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
-        List<String> names = args.subList(3, args.size());
-
+        List<String> names = new ArrayList<>(args.subList(3, args.size()));
         return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode, names);
     }
 
