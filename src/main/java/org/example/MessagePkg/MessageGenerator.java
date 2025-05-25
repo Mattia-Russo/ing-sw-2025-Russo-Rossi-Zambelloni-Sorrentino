@@ -55,7 +55,7 @@ public class MessageGenerator {
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
         messageMap.put("book_tile", this::createBookComponentMessage);
         messageMap.put("notify", this::createNotifyClientMessage);
-        messageMap.put("end_fix_ship_state", this::createEndFixShipMessage);
+        messageMap.put("end_fix_ship", this::createEndFixShipMessage);
         messageMap.put("pick_booked_tile", this::createPickBookedTileMessage);
     }
 

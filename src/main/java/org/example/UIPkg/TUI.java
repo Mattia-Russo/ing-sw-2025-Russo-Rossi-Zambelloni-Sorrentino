@@ -66,14 +66,6 @@ public class TUI implements UI{
                 System.out.println("[" + i + "]");
                 i++;
             }
-            System.out.println("\nCurrent tile:");
-            for (PlayerView player : game.getPlayers()) {
-                if (player.getDeckShowed() == null && player.getCurrentTile() != null) {
-                    List<String> current = DrawComponent(player.getCurrentTile());
-                    for (String line : current) System.out.println(line);
-                    break;
-                }
-            }
 
             System.out.println("\nShipboard:");
             DrawShipboard(game.getPlayers());
@@ -81,7 +73,6 @@ public class TUI implements UI{
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
             }
-            DrawShipboard(game.getPlayers());
             System.out.println("Flightboard: ");
             DrawFlightBoard(game.getPlayers());
             drawCommands(game);
@@ -114,8 +105,8 @@ public class TUI implements UI{
                                        end_activate_shields -> if you want to end the shield activation phase
                                        end_remove_best_goods -> if you want to end the remove best goods phase
                                        end_remove_astronauts -> if you want to end the remove astronauts phase
-                                       end_fix_ship_state -> if you want to end the fix ship phase 
-                                        
+                                       end_fix_ship_state -> if you want to end the fix ship phase
+                                    
                                        land_on_abandon true/false ->  true if you want to land, false otherwise
                                        land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
                                     
@@ -137,9 +128,12 @@ public class TUI implements UI{
                                        right_rotate -> if you want to right rotate the tile
                                        place_tile x y -> x,y are the coordinates of the cell where you want to place the tile
                                        discard_tile -> if you want to discard the component you picked
+                                   
                                        remove_tile x y -> x,y are the coordinates of the tile you want to remove
+                                       end_fix_ship -> if you want to end the fix ship phase
                                     
                                        book_tile -> place the current component in a booked slot
+                                       pick_booked_tile int -> pick the component in the booked slot with this index
                                     
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
@@ -177,10 +171,19 @@ public class TUI implements UI{
 
         for (PlayerView player : players) {
             System.out.println("Shipboard of " + player.getName() + ":");
-            if (player.getDeckShowed() == null) {
-                List<String> current = DrawComponent(player.getCurrentTile());
-                for (String line : current) System.out.println(line);
+            System.out.println("\nCurrent tile:");
+            if (player.getCurrentTile() != null) {
+                List<String> lines = DrawComponent(player.getCurrentTile());
+                for (String line : lines) System.out.println(line);
             }
+
+            if (player.getDeckShowed() != null) {
+                System.out.println("\nDeck:");
+                for(AdventureCardView c: player.getDeckShowed()){
+                    DrawCurrentCard(c);
+                }
+            }
+
             for (int col = 0; col < COLS; col++) {
                 System.out.print("    ");
                 String label = padCenter("Col " + col, RECT_WIDTH);
@@ -356,7 +359,9 @@ public class TUI implements UI{
             case "Storage":
                 StringBuilder sb = new StringBuilder();
                 for (GoodsView g : comp.getGoods()) {
-                    sb.append(getGoodColorSquare(g.getColour()));
+                    if(g!=null) {
+                        sb.append(getGoodColorSquare(g.getColour()));
+                    }
                 }
                 return sb.toString();
             case "Shield":

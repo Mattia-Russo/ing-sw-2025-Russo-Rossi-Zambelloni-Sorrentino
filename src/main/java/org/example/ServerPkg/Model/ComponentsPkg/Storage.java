@@ -27,8 +27,11 @@ public class Storage extends Components implements Serializable {
     @Override
     public ComponentsView createView(){
         GoodsView[] goodsView = new GoodsView[capacity];
-        for(int i=0; i< goodsList.length; i++){
-            goodsView[i]= new GoodsView(goodsList[i]);
+
+        for (int i = 0; i < goodsList.length; i++) {
+            if(goodsList[i]!=null){
+                goodsView[i] = new GoodsView(goodsList[i]);
+            }
         }
         return new ComponentsView(getDirection(), getConnectors(), id,"Storage", 0 ,0, goodsView, null, null);
     }

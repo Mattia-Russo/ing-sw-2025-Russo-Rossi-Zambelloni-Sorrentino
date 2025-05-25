@@ -14,6 +14,7 @@ public class Cabin extends Components implements Serializable {
     private final boolean isCentral;
     private Alien alien;
     private final int id;
+    private final String type;
 
 
     public Cabin(int id, boolean isCentral, Direction direction, Connector[] connectors) {
@@ -24,14 +25,18 @@ public class Cabin extends Components implements Serializable {
         this.isCentral = isCentral;
         this.alien = null;
         this.id = id;
+        if(isCentral)
+            type= "Central Cabin";
+        else
+            type= "Cabin";
     }
 
     @Override
     public ComponentsView createView(){
         if(getAlien() == null) {
-            return new ComponentsView(getDirection(), getConnectors(), id, "Cabin", 0, getNumAstronauts(), null, null, null);
+            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, getNumAstronauts(), null, null, null);
         }else
-            return new ComponentsView(getDirection(), getConnectors(), id, "Cabin", 0, 0, null, null, getAlien().getColour());
+            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, 0, null, null, getAlien().getColour());
     }
 
     public int getNumAstronauts() {

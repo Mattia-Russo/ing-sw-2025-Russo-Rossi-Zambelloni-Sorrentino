@@ -27,6 +27,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         try{
             if(stopTurn < 3) {
                 stopTurn = timer.start();
+                new GameView(getGame(), new Exception("TIMER TURNED"));
             }else if(player.getShipBuilded()){
                 timer.start();
                 for(Player p : getGame().getPlayers()){
@@ -46,6 +47,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         try {
             if(getGame().getGameMode()!=0){
                 p.setDeckShowed(getGame().getDeck(deckPosition));
+                new GameView(getGame(), null);
             }else new GameView(getGame(), new InvalidMethodCallException("can't call this method in this game mode" + p.getName()));
         } catch (InvalidDeckNumberException | InvalidMethodCallException e) {
             Exception e1 = new Exception(e.getMessage() + " " + p.getName());
@@ -109,9 +111,11 @@ public class BuildShipState extends PlayerState implements Serializable {
 
     @Override
     public void discardComponent(Player p){
-        getGame().addDiscoveredComponent(p.getCurrentTile());
-        p.setCurrentTile(null);
-        new GameView(getGame(), null);
+        if(p.getCurrentTile() != null) {
+            getGame().addDiscoveredComponent(p.getCurrentTile());
+            p.setCurrentTile(null);
+            new GameView(getGame(), null);
+        }
     }
 
     @Override
@@ -133,7 +137,6 @@ public class BuildShipState extends PlayerState implements Serializable {
         if(!player.getShipBuilded()){
             setPosition(player);
         }
-
         for(Player p : getGame().getPlayers()){
             if(!p.isAbandoned()) {
                 if (!p.getShipBuilded()) {
@@ -152,6 +155,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         }
         player.setShipBuilded();
         player.setPosition(pos);
+        new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED " + player.getName()));
     }
 
     @Override
@@ -159,15 +163,22 @@ public class BuildShipState extends PlayerState implements Serializable {
         if(p.getCurrentTile() == null){
             if((index ==0 || index == 1)) {
                 p.setCurrentTile(p.getPlayerShipBoard().getBookedComponents()[index]);
+                new GameView(getGame(), null );
             }else new GameView(getGame(),  new PickTileWithDeckException("INDEX MUST BE 0 or 1 " + p.getName()));
         }else new GameView(getGame(), new PickTileWithDeckException("You already have a tile " + p.getName()));
     }
 
     @Override
     public void bookComponent(Player p){
-        p.getPlayerShipBoard().bookComponents(p.getCurrentTile());
-        p.setCurrentTile(null);
-        new GameView(getGame(), null);
+        if(p.getCurrentTile() != null) {
+            try {
+                p.getPlayerShipBoard().bookComponents(p.getCurrentTile());
+                p.setCurrentTile(null);
+                new GameView(getGame(), null);
+            }catch(FullBookedSlotsException e){
+                new GameView(getGame(), e);
+            }
+        }
     }
   
     @Override
