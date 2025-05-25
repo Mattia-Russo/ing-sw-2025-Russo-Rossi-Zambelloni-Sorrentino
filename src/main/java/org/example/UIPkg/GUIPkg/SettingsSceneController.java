@@ -174,9 +174,7 @@ public class SettingsSceneController implements Initializable {
     }
 
     public void onLobbyCreated() {
-        Platform.runLater(() -> {
-            showMessage();
-        });
+        Platform.runLater(this::showMessage);
     }
 
     public int getNumberOfPlayers() {
