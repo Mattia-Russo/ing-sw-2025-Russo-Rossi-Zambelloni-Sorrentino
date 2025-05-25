@@ -102,14 +102,17 @@ public class NameRequestSceneController implements Initializable {
             nameInvalid.setText("Name cannot be empty");
             nameInvalid.setVisible(true);
         } else {
-            gui.getClient().insertName(name);
+            gui.getClient().registerName(name);
         }
     }
 
     @FXML
-    public void onCreateLobbyButtonClick() {
+    public void onCreateLobbyButtonClick() throws RemoteException {
         lobbyMessage.setVisible(false);
+        gui.getClient().notifyCreatingLobby();
+    }
 
+    public void onCreateLobbyAccepted(){
         Platform.runLater(() -> {
             try {
                 gui.goToSettingsScene();
@@ -142,20 +145,6 @@ public class NameRequestSceneController implements Initializable {
 
             createLobbyButton.setVisible(true);
             joinLobbyButton.setVisible(true);
-        });
-    }
-
-    public void showNoLobbyMessage() {
-        Platform.runLater(() -> {
-            lobbyMessage.setText("You're the first to join, create a lobby first!");
-            lobbyMessage.setVisible(true);
-        });
-    }
-
-    public void showLobbyExistsMessage() {
-        Platform.runLater(() -> {
-            lobbyMessage.setText("There's already a lobby, join it!");
-            lobbyMessage.setVisible(true);
         });
     }
 

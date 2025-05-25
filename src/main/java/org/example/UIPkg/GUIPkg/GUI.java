@@ -1,11 +1,16 @@
 package org.example.UIPkg.GUIPkg;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import javafx.util.Duration;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
@@ -13,6 +18,8 @@ import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -23,10 +30,14 @@ public class GUI implements UI {
     private GUIMain guiMain;
     private final Client client;
     private BlockingQueue<GameView> gameUpdatesQueue;
+    private int numPlayers;
+    private int shipboardLevel;
+    private int gameMode;
+    private  List<String> playersList;
 
     private NameRequestSceneController nameRequestSceneController;
     private SettingsSceneController settingsSceneController;
-    private WaitingRoomSceneController waitingRoomSceneController; // AGGIUNTO
+    private WaitingRoomSceneController waitingRoomSceneController;
     private BuildShipSceneController buildShipSceneController;
     private PlayCardSceneController playCardSceneController;
     private EndGameSceneController endGameSceneController;
@@ -34,6 +45,7 @@ public class GUI implements UI {
     public GUI(Client client){
         this.client = client;
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
+        this.playersList = new ArrayList<>();
 
         Thread guiThread = new Thread(() -> {
             GUIMain.startGui(this);
@@ -116,6 +128,12 @@ public class GUI implements UI {
         waitingRoomSceneController = loader.getController();
         waitingRoomSceneController.setGUI(this);
 
+        waitingRoomSceneController.setMaxPlayers(numPlayers);
+        waitingRoomSceneController.setShipboardLevel(shipboardLevel);
+        waitingRoomSceneController.setGameMode(gameMode);
+        waitingRoomSceneController.setNames(playersList);
+        waitingRoomSceneController.updatePlayersList(playersList);
+
         Scene scene = new Scene(root, 800, 600);
         scene.setUserData(waitingRoomSceneController);
         guiMain.sceneControllerMap.put(scene, waitingRoomSceneController);
@@ -177,30 +195,20 @@ public class GUI implements UI {
     }
 
     @Override
-    public void showNoLobbyMessage() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.showNoLobbyMessage();
-        }
-    }
-
-    @Override
-    public void showLobbyExistsMessage() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.showLobbyExistsMessage();
-        }
-    }
-
-    @Override
-    public void onLobbyCreated() {
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode) {
         if (settingsSceneController != null) {
             settingsSceneController.onLobbyCreated();
         }
         Platform.runLater(() -> {
             new Thread(() -> {
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(1000);
                     Platform.runLater(() -> {
                         try {
+                            this.numPlayers = numPlayers;
+                            this.shipboardLevel = shipboardLevel;
+                            this.gameMode = gameMode;
+                            this.playersList.add(name);
                             goToWaitingRoomScene();
                             if (waitingRoomSceneController != null) {
                                 waitingRoomSceneController.setLobbyCreator(true);
@@ -217,9 +225,13 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onJoinedLobby() {
+    public void onLobbyJoined(List<String> alreadyLoggedNames, int numPlayers, int shipboardLevel, int gameMode) {
         Platform.runLater(() -> {
             try {
+                this.numPlayers = numPlayers;
+                this.shipboardLevel = shipboardLevel;
+                this.gameMode = gameMode;
+                this.playersList = alreadyLoggedNames;
                 goToWaitingRoomScene();
                 if (waitingRoomSceneController != null) {
                     waitingRoomSceneController.setLobbyCreator(false);
@@ -231,40 +243,63 @@ public class GUI implements UI {
     }
 
     @Override
-    public void manageNotification(NotifyClientMessage notifyClientMessage){
-        new Thread(() -> {
-            try {
-                //gestire stampa sulla gui del messaggio di errore
-                Thread.sleep(5000);
-                //rimuovere il messaggio
+    public void onCreateLobbyAccepted(){
+        nameRequestSceneController.onCreateLobbyAccepted();
+    }
 
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+    @Override
+    public void manageNotification(NotifyClientMessage notifyClientMessage) {
+        Platform.runLater(() -> {
+            Stage stage = guiMain.getPrimaryStage();
+            Scene currentScene = stage.getScene();
+
+            if (currentScene != null) {
+                showNotificationOverlay(currentScene, notifyClientMessage.getMessage());
             }
-        }).start();
+        });
     }
 
-    public void updateLobbySettings(int maxPlayers, int shipboardLevel, int gameMode) {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.updateLobbySettings(maxPlayers, shipboardLevel, gameMode);
-        }
-    }
+    private void showNotificationOverlay(Scene scene, String message) {
+        Parent originalRoot = scene.getRoot();
 
-    public void updatePlayersList(java.util.List<String> players) {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.updatePlayersList(players);
-        }
-    }
+        Label notificationLabel = new Label(message);
+        notificationLabel.setStyle(
+                "-fx-background-color: transparent; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-font-size: 18px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 20px; " +
+                        "-fx-effect: dropshadow(gaussian, black, 10, 0.8, 2, 2);"
+        );
 
-    public void onPlayerJoined(String playerName) {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.onPlayerJoined(playerName);
-        }
+        StackPane overlayRoot = new StackPane();
+        overlayRoot.getChildren().addAll(originalRoot, notificationLabel);
+        overlayRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0.2);");
+        StackPane.setAlignment(notificationLabel, javafx.geometry.Pos.CENTER);
+
+        scene.setRoot(overlayRoot);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e -> {
+                    overlayRoot.getChildren().remove(originalRoot);
+                    scene.setRoot(originalRoot);
+                }
+        ));
+        timeline.play();
     }
 
     public void onGameStarted() {
         if (waitingRoomSceneController != null) {
             waitingRoomSceneController.onGameStarted();
+        }
+    }
+
+    public void printMessage(String message){}
+
+    @Override
+    public void onUpdatePlayerList(List<String> updatedList){
+        this.playersList = updatedList;
+        if(waitingRoomSceneController!=null){
+            waitingRoomSceneController.updatePlayersList(updatedList);
         }
     }
 }

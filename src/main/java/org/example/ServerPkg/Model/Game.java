@@ -63,6 +63,14 @@ public class Game implements Serializable {
         return numPlayer;
     }
 
+    public int getShipBoardLevel() {
+        return ShipBoardLevel;
+    }
+
+    public int getGameMode() {
+        return gameMode;
+    }
+
     public Map<String, GameUpdater> getGameUpdaters() {
         return gameUpdaters;
     }
@@ -369,10 +377,6 @@ public class Game implements Serializable {
             }
         }
         return null;
-    }
-
-    public int getGameMode() {
-        return gameMode;
     }
 
     public void setGameUpdaters(Map<String, GameUpdater> gameUpdaters){

@@ -3,7 +3,10 @@ package org.example.UIPkg;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 
+import java.util.List;
+
 public interface UI {
+
     void addGameUpdate(GameView game);
 
     void printNameInvalid();
@@ -16,11 +19,13 @@ public interface UI {
 
     void onNameAccepted();
 
-    void showNoLobbyMessage();
+    void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode);
 
-    void showLobbyExistsMessage();
+    void printMessage(String message);
 
-    void onLobbyCreated();
+    void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode);
 
-    void onJoinedLobby();
+    void onCreateLobbyAccepted();
+
+    void onUpdatePlayerList(List<String> updatedList);
 }

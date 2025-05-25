@@ -1,9 +1,15 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
+import org.example.MessagePkg.Message;
+import org.example.MessagePkg.MessageGenerator;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.*;
+import org.example.UIPkg.GameUpdater;
 
-public abstract class ClientProxy {
+import java.rmi.RemoteException;
+
+public abstract class ClientProxy implements Handler {
     private String playerName;
     private final GameController controller;
     private final TCPServer TCPServer;
@@ -27,14 +33,8 @@ public abstract class ClientProxy {
     }
 
     public void setPlayerName(String playerName) {
-        try {
-            if (TCPServer.getNames().contains(playerName)) {
-                throw new NameAlreadyUsedException(playerName + " already used, type another one");
-            }
-            this.playerName = playerName;
-        } catch (NameAlreadyUsedException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        this.playerName = playerName;
+        getServer().notifyClient(this.playerName, "true");
     }
 
     protected synchronized void joinServer() {
@@ -60,4 +60,18 @@ public abstract class ClientProxy {
     public void notifyClient(String message){}
 
     public void addGameUpdater(GameController controller){}
+
+    public void sendMessage(Message message) {}
+
+    public GameUpdater getGameUpdater(){
+        return null;
+    }
+
+    public void notifyLobbyCreated() {}
+
+    public void notifyLobbyJoined() {}
+
+    public void acceptCreateLobby() {}
+
+    public MessageGenerator getMsgGen(){return null;}
 }

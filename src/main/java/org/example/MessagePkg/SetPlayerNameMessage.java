@@ -14,15 +14,13 @@ public class SetPlayerNameMessage extends Message{
 
     @Override
     public void handle(GameController controller, String playerName) throws RemoteException {
-        if(getProxy()!=null) {
+        if(getHandler()!=null) {
             if (controller.checkName(this.playerName)){
-                getProxy().notifyClient("true");
-                getProxy().setPlayerName(this.playerName);
-                getProxy().setGameUpdater();
+                getHandler().setPlayerName(this.playerName);
+                getHandler().setGameUpdater();
             } else {
-                getProxy().notifyClient("false");
+                getHandler().notifyNameAlreadyUsed();
             }
-
         }else{
             System.out.println("Error: Proxy is null, could not set player name");
         }

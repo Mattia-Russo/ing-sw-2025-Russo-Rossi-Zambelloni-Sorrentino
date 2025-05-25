@@ -1,12 +1,12 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.Model.Exceptions.InvalidGameCreationException;
 import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
-import org.example.UIPkg.RMIVirtualView;
-import org.example.UIPkg.TUI;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class JoinLobbyMessage extends Message{
 
@@ -14,15 +14,19 @@ public class JoinLobbyMessage extends Message{
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
-                if(super.getProxy()!=null) {
-                    getProxy().addGameUpdater(controller);
+                if(controller.getLobbyState().equals(LobbyState.GAME_READY)) {
+                    controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
                     controller.joinLobby(playerName);
-                    System.out.println(playerName + " joined the lobby successfully");
-                } else if (super.getClient()!=null){
-                    super.getServer().addGameUpdater(controller, playerName);
-                    controller.joinLobby(playerName);
-                    System.out.println(playerName + " joined the lobby successfully");
+                    getServer().notifyClient(getHandler().getPlayerName(), "You've joined the lobby");
+                    getServer().notifyBroadcast(List.of(getHandler().getPlayerName()), getHandler().getPlayerName() + " joined the lobby");
+                    getServer().notifyLobbyJoined(getHandler().getPlayerName());
+                    getServer().updatePlayerList(getHandler().getPlayerName());
+                } else if (controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
+                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
+                } else {
+                    getServer().notifyClient(getHandler().getPlayerName(), "You're the first to join the server, create a lobby!");
                 }
+                System.out.println(playerName + " joined the lobby successfully");
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){
                 System.out.println("ERROR " + e.getMessage());
             }

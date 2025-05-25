@@ -2,9 +2,10 @@ package org.example.ServerPkg.ConnectionsPkg.RMIPkg;
 
 import org.example.ClientPkg.RMIServerInterface;
 import org.example.MessagePkg.Message;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
+import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.ServerPkg.Model.Game;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.RMIVirtualView;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
+public class RMIServer extends UnicastRemoteObject implements RMIServerInterface, Server {
     private final GameController controller;
     private final Map<RMIClientInterface, Long> clients;
     private Map<String, GameUpdater> gameUpdater;
@@ -81,9 +82,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public void sendMessage(Message message, String name) throws RemoteException {
-        message.setServer(this);
-        message.setClient(name);
+    public void receiveMessage(Message message, String name) throws RemoteException {
+        message.setServer((Server) this);
         controller.addMessage(message);
     }
 
@@ -123,8 +123,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
                 .toList();
     }
 
-    public boolean getIfSubscribed(RMIClientInterface client) throws RemoteException {
-        return clients.containsKey(client);
+    public boolean getIfSubscribed(Handler handler) throws RemoteException {
+        return clients.containsKey((RMIClientInterface) handler);
     }
 
     public GameController getController() throws RemoteException {
@@ -144,12 +144,49 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.gameUpdater.put(client.getPlayerName() ,new RMIVirtualView(client));
     }
 
-    public void addGameUpdater(GameController controller, String name){
-        controller.addGameUpdater(gameUpdater.get(name), name);
+    public GameUpdater getGameUpdater(String name){
+        return gameUpdater.get(name);
     }
 
     @Override
     public boolean checkName(String name) throws RemoteException {
         return controller.checkName(name);
+    }
+
+    public void notifyClient(String name, String message) throws RemoteException {
+        getClientByName(name).notifyClient(message);
+    }
+
+    public void notifyLobbyCreated(String name) throws RemoteException {
+        getClientByName(name).notifyLobbyCreated(controller.getGame().getNumPlayer(), controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode());
+    }
+
+    public void notifyLobbyJoined(String name) throws RemoteException {
+        getClientByName(name).notifyLobbyJoined(controller.getGame().getNumPlayer(),
+                controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode(), controller.getNames());
+    }
+
+    public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
+        for(RMIClientInterface clientInterface : clients.keySet()){
+            if(!exclude.contains(clientInterface.getPlayerName())){
+                getClientByName(clientInterface.getPlayerName()).notifyClient(message);
+            }
+        }
+    }
+
+    public void notifyCreatingLobby(){
+        controller.setGameCreating();
+    }
+
+    public void acceptCreateLobby(String name) throws RemoteException {
+        getClientByName(name).acceptCreateLobby();
+    }
+
+    public void updatePlayerList(String exclude) throws RemoteException {
+        for(RMIClientInterface clientInterface : clients.keySet()){
+            if(!exclude.contains(clientInterface.getPlayerName())){
+                getClientByName(clientInterface.getPlayerName()).updatePlayerList(controller.getNames());
+            }
+        }
     }
 }

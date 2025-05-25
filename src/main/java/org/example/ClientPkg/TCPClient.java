@@ -24,6 +24,7 @@ public class TCPClient implements Client {
     private final MessageGenerator msgGen;
     private long serverAlive;
     private boolean nameSet = false;
+    private String playerName;
 
     public TCPClient(String serverAddress, int port, String UI) throws IOException {
         this.msgGen = new MessageGenerator();
@@ -114,11 +115,14 @@ public class TCPClient implements Client {
             try {
                 while (!socket.isClosed()) {
                     Object obj = in.readObject();
-                    if (obj instanceof Message) {
+                    if (obj instanceof Message message) {
+                        message.setClient(this);
                         if (obj instanceof PongMessage) {
                             serverAlive = System.currentTimeMillis();
                         } else if (obj instanceof NotifyClientMessage notifyClientMessage){
                             userInterface.manageNotification(notifyClientMessage);
+                        } else {
+                            message.handle(null, this.playerName);
                         }
                     } else if (obj instanceof GameView) {
                         userInterface.addGameUpdate((GameView) obj);
@@ -168,9 +172,8 @@ public class TCPClient implements Client {
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
                     Message message = msgGen.generate(cmd, args);
-                    if (message != null) {
-                        sendMessage(message);
-                    }
+                    message.setClient(this);
+                    sendMessage(message);
                 } catch (Exception e) {
                     System.out.println("Error sending the command: " + e.getMessage());
                 }
@@ -197,8 +200,9 @@ public class TCPClient implements Client {
 
     }
 
-    public void registerName(List<String> args){
-        Message message = msgGen.generate("set_name", args);
+    public void registerName(String name){
+        this.playerName = name;
+        Message message = msgGen.generate("set_name", List.of(name));
         if(message != null){
             sendMessage(message);
         }
@@ -216,14 +220,21 @@ public class TCPClient implements Client {
         }
     }
 
-    @Override
-    public void insertName(String name){
-        List<String> args = new ArrayList<>();
-        args.add(name);
-        registerName(args);
-    }
-
     public MessageGenerator getMessageGenerator(){
         return this.msgGen;
+    }
+
+    public UI getUserInterface(){
+        return this.userInterface;
+    }
+
+    public void notifyCreatingLobby(){
+        Message message = msgGen.generate("creating_lobby", null);
+        sendMessage(message);
+    }
+
+    @Override
+    public String getPlayerName(){
+        return this.playerName;
     }
 }

@@ -2,8 +2,9 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
-import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
+import org.example.ServerPkg.ConnectionsPkg.Settings;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
 import org.example.UIPkg.GUIPkg.GUI;
@@ -30,7 +31,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         serverAlive = System.currentTimeMillis();
 
         try {
-            Registry registry = LocateRegistry.getRegistry(host, 3600);
+            Registry registry = LocateRegistry.getRegistry(host, Settings.RMI_PORT);
             server = (RMIServerInterface) registry.lookup("GameServer");
 
             if(UI.equals("tui")) {
@@ -119,12 +120,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     // Aggiungi le parole successive alla lista
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
-
                     // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
-                    if (message != null) {
-                        sendMessage(message);
-                    }
+                    message.setClient(this);
+                    sendMessage(message);
                 } catch (Exception e) {
                     if(!(e instanceof NullPointerException)){
                         System.out.println("Error sending the command: " + e.getMessage());
@@ -144,11 +143,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         return playerName;
     }
 
-    public void registerName(List<String> args) {
+    public void registerName(String name) {
         if(playerName == null){
             try {
-                if (server.checkName(args.getFirst())){
-                    this.playerName = args.getFirst();
+                if (server.checkName(name)){
+                    this.playerName = name;
                     server.registerClient(this);
                     userInterface.onNameAccepted();
                 } else {
@@ -164,7 +163,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void sendMessage(Message message) throws RemoteException {
-        server.sendMessage(message, this.playerName);
+        server.receiveMessage(message, this.playerName);
     }
 
     public void disconnect() throws RemoteException {
@@ -179,15 +178,58 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         userInterface.addGameUpdate(gameView);
     }
 
-    @Override
-    public void insertName(String name){
-        this.registerName(List.of(name));
-        if(this.playerName == null){
-            userInterface.printNameInvalid();
-        }
-    }
-
     public MessageGenerator getMessageGenerator(){
         return this.msgGen;
+    }
+
+    @Override
+    public void notifyClient(String message) throws RemoteException {
+        this.userInterface.printMessage(message);
+    }
+
+    public UI getUserInterface(){
+        return this.userInterface;
+    }
+
+    @Override
+    public void addGameUpdater(GameController controller) {}
+
+    @Override
+    public void notifyLobbyCreated(int numPlayers, int shipboardLevel, int gameMode){
+        this.userInterface.onLobbyCreated(this.playerName, numPlayers, shipboardLevel, gameMode);
+    }
+
+    @Override
+    public void notifyLobbyJoined(int numPlayers, int shipboardLevel, int gameMode, List<String> names){
+        this.userInterface.onLobbyJoined(names, numPlayers, shipboardLevel, gameMode);
+    }
+
+    @Override
+    public void setPlayerName(String name){
+        this.playerName = name;
+    }
+
+    @Override
+    public void setGameUpdater(){}
+
+    @Override
+    public void notifyNameAlreadyUsed(){
+        userInterface.printNameInvalid();
+        this.playerName = null;
+    }
+
+    @Override
+    public void notifyCreatingLobby() throws RemoteException{
+        server.notifyCreatingLobby();
+    }
+
+    @Override
+    public void acceptCreateLobby(){
+        userInterface.onCreateLobbyAccepted();
+    }
+
+    @Override
+    public void updatePlayerList(List<String> updatedList){
+        userInterface.onUpdatePlayerList(updatedList);
     }
 }

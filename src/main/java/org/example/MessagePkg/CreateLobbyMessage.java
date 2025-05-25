@@ -1,6 +1,7 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.Model.Exceptions.InvalidGameCreationException;
 import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
 
@@ -22,13 +23,14 @@ public class CreateLobbyMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
             try{
-                if(super.getProxy()!=null){
-                    getProxy().addGameUpdater(controller);
-                } else if (super.getClient()!=null){
-                    super.getServer().addGameUpdater(controller, playerName);
+                if(controller.getLobbyState().equals(LobbyState.GAME_READY)){
+                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
+                } else {
+                    controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
+                    controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
+                    getServer().notifyLobbyCreated(getHandler().getPlayerName());
+                    System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipboardLevel + " gameMode: " + gameMode);
                 }
-                controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
-                System.out.println("Lobby created successfully");
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {
                 System.out.println("ERROR " + e.getMessage());
             }

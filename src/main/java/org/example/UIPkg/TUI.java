@@ -1,6 +1,5 @@
 package org.example.UIPkg;
 
-import org.example.MessagePkg.Message;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;
@@ -10,7 +9,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
@@ -27,7 +26,6 @@ public class TUI implements UI{
         startUpdateThread();
     }
 
-    // thread che continua a leggere i game update in coda con un while(true)
     private void startUpdateThread() {
         Thread UpdateThread = new Thread(() -> {
             try {
@@ -61,11 +59,21 @@ public class TUI implements UI{
             int i=0;
             System.out.println("Discovered tile: ");
             for (ComponentsView c : game.getComponentsDiscovered()) {
-                List<String> lines = DrawComponent(c);
+                List<String> lines = List.of(DrawComponent(c));
                 for (String line : lines) System.out.println(line);
                 System.out.println("[" + i + "]");
                 i++;
             }
+
+            System.out.println("\nCurrent tile:");
+            for (PlayerView player : game.getPlayers()) {
+                if (player.getDeckShowed() == null && player.getCurrentTile() != null) {
+                    List<String> current = List.of(DrawComponent(player.getCurrentTile()));
+                    for (String line : current) System.out.println(line);
+                    break;
+                }
+            }
+
 
             System.out.println("\nShipboard:");
             DrawShipboard(game.getPlayers());
@@ -89,6 +97,11 @@ public class TUI implements UI{
                         "   start_game\n");
                 break;
             case GAME_READY:
+                System.out.println(
+                        "If you are the lobby creator and there are enough players connected type start_game to start the game"
+                );
+                break;
+            case GAME_STARTED:
                 if(game.getCurrentCard()!=null){
                     System.out.println(
                             """
@@ -133,7 +146,8 @@ public class TUI implements UI{
                                        end_fix_ship -> if you want to end the fix ship phase
                                     
                                        book_tile -> place the current component in a booked slot
-                                       pick_booked_tile int -> pick the component in the booked slot with this index
+                                       pick_booked_tile index -> if you want to pick a booked component with this index
+
                                     
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
@@ -163,11 +177,41 @@ public class TUI implements UI{
         }
 
     }
+    private String[] DrawComponent(ComponentsView comp) {
+        String[] box = new String[5]; // 4 righe + bordo inferiore
+        String[][] grid = new String[4][4];
+        for (int i = 0; i < 4; i++)
+            Arrays.fill(grid[i], " ");
+        if (comp != null) {
+            Connector[] conns =comp.getConnectors();
+            String type =comp.getType();
+            String[] initials =getComponentInitials(type);
 
+            grid[0][1] = getConnectorSymbol(conns[0]);
+            grid[1][0] = getConnectorSymbol(conns[3]);
+            grid[1][3] = getConnectorSymbol(conns[1]);
+            grid[3][1] = getConnectorSymbol(conns[2]);
+            grid[0][2] = getDirectionLetter(comp.getDirection());
+            grid[1][1] = initials[0];
+            if (initials.length > 1) grid[1][2] = initials[1];
+
+            String detail = getComponentDetail(comp);
+            for (int i =0; i< Math.min(4,detail.length()); i++) {
+                grid[2][i] = String.valueOf(detail.charAt(i));
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            box[i] = "│" +String.join("", grid[i]) + "│";
+        }
+
+        // Riga finale: chiusura del quadrato
+        box[4] = "└────┘";
+        return box;
+    }
     private void DrawShipboard(List<PlayerView> players) {
         final int ROWS = 5;
         final int COLS = 7;
-        final int RECT_WIDTH = 24;
 
         for (PlayerView player : players) {
             System.out.println("Shipboard of " + player.getName() + ":");
@@ -184,256 +228,139 @@ public class TUI implements UI{
                 }
             }
 
+            System.out.print("     ");
+
             for (int col = 0; col < COLS; col++) {
-                System.out.print("    ");
-                String label = padCenter("Col " + col, RECT_WIDTH);
-                System.out.print(label);
+                System.out.print(" Col " + col + " ");
             }
             System.out.println();
 
             ComponentsView[][] matrix = player.getShipboardView().getComponentsView();
 
-            for (int row =0; row < ROWS;row++) {
-                System.out.print("    ");
+            for (int row = 0; row < ROWS; row++) {
+                StringBuilder[] line = new StringBuilder[5];
+                for (int i = 0; i < 5; i++) line[i] = new StringBuilder();
                 for (int col = 0; col < COLS; col++) {
-                    ComponentsView comp = matrix[row][col];
-                    if (comp != null) {
-                        Connector north = comp.getConnectors()[0];
-                        String northConn = padCenter(renderVerticalConnector(north),RECT_WIDTH);
-                        System.out.print(northConn);
+                    String[] box = DrawComponent(matrix[row][col]);
+                    for (int i = 0; i < 5; i++) {
+                        line[i].append(box[i]).append(" ");
                     }
                 }
-                System.out.println();
-                System.out.print("    ");
-                for (int col = 0; col < COLS; col++) {
-                    System.out.print("┌" + "─".repeat(RECT_WIDTH - 6) + "┐");
-                }
-                System.out.println();
-                System.out.printf("%2d  ", row);
-                for (int col = 0; col < COLS; col++) {
-                    ComponentsView comp = matrix[row][col];
-                    String dir = " ".repeat(RECT_WIDTH - 6);
-                    if (comp != null) {
-                        String arrow = getDirectionArrow(comp.getDirection());
-                        dir = insertHorizontalConnector(comp.getConnectors()[3], comp.getConnectors()[1], arrow, RECT_WIDTH);
-                    }
-                    System.out.print("│" + dir + "│");
-                }
-                System.out.println();
-                System.out.print("    ");
-                for (int col = 0; col < COLS; col++) {
-                    ComponentsView comp = matrix[row][col];
-                    String name = " ".repeat(RECT_WIDTH - 6);
-                    if (comp != null) {
-                        String n = comp.getType();
-                        name = insertHorizontalConnector(comp.getConnectors()[3], comp.getConnectors()[1], n, RECT_WIDTH);
-                    }
-                    System.out.print("│" + name + "│");
-                }
-                System.out.println();
-                System.out.print("    ");
-                for (int col = 0; col < COLS; col++) {
-                    ComponentsView comp = matrix[row][col];
-                    String detail = " ".repeat(RECT_WIDTH - 6);
-                    if (comp != null) {
-                        String d = getComponentDetail(comp);
-                        detail = insertHorizontalConnector(comp.getConnectors()[3], comp.getConnectors()[1], d, RECT_WIDTH);
-                    }
-                    System.out.print("│"+detail+"│");
-                }
-                System.out.println();
-                System.out.print("    ");
-                for (int col = 0; col < COLS; col++) {
-                    System.out.print("└" + "─".repeat(RECT_WIDTH - 6) + "┘");
-                }
-                System.out.println();
-            }
-            System.out.print("    ");
-            for (int col = 0; col < COLS; col++) {
-                ComponentsView comp = matrix[ROWS - 1][col];
-                if (comp != null) {
-                    Connector south = comp.getConnectors()[0];
-                    String southConn = padCenter(renderVerticalConnector(south),RECT_WIDTH);
-                    System.out.print(southConn);
+
+                System.out.printf(" %d   %s\n", row, line[0].toString());
+                for (int i =1; i<5; i++) {
+                    System.out.print("     ");
+                    System.out.println(line[i].toString());
                 }
             }
-            System.out.println();
         }
     }
-
-    private String renderVerticalConnector(Connector c) {
-        return switch (c) {
-            case UNIVERSAL -> "│││";
-            case DOUBLE -> "│ │";
-            case SINGLE -> " │ ";
-            default -> "   ";
+    private String[] getComponentInitials(String type) {
+        return switch (type) {
+            case "Cabin" -> new String[]{"C", "b"};
+            case "Storage" -> new String[]{"S", "t"};
+            case "LifeSupportSystem" -> new String[]{"L", "S"};
+            case "Shield" -> new String[]{"S", "h"};
+            case "Cannon" -> new String[]{"C", "a"};
+            case "DoubleCannon" -> new String[]{"D", "c"};
+            case "Tubes" -> new String[]{"T", "b"};
+            case "Engine" -> new String[]{"E", "n"};
+            case "DoubleEngine" -> new String[]{"D", "e"};
+            default -> new String[]{type.substring(0, 1)};
         };
     }
 
-    private String insertHorizontalConnector(Connector west, Connector east, String text, int width) {
-        String left = " ", right = " ";
-        if (west == Connector.SINGLE || west == Connector.DOUBLE || west == Connector.UNIVERSAL) left = "─";
-        if (east == Connector.SINGLE || east == Connector.DOUBLE || east == Connector.UNIVERSAL) right = "─";
-        text = truncateAnsi(text, width - 4);
-        return left + " " + padRight(text, width - 4) + " " + right;
-    }
-
-    private String padRight(String s, int width) {
-        return s + " ".repeat(Math.max(0, width - stripAnsi(s).length()));
-    }
-
-    private String padCenter(String s, int width) {
-        int len = stripAnsi(s).length();
-        int pad = Math.max(0, width - len);
-        return " ".repeat(pad / 2) + s + " ".repeat(pad - pad / 2);
-    }
-
-    private String stripAnsi(String s) {
-        return s.replaceAll("\u001B\\[[;\\d]*m", "");
-    }
-
-    private String truncateAnsi(String s, int maxLength) {
-        return stripAnsi(s).length() <= maxLength ? s : s.substring(0, maxLength);
-    }
-
-    private List<String> DrawComponent(ComponentsView comp) {
-        final int width = 24;
-        List<String> lines = new ArrayList<>();
-
-        String direction = getDirectionArrow(comp.getDirection());
-        String name = comp.getType();
-        String detail = getComponentDetail(comp);
-        Connector[] conns = comp.getConnectors();
-
-        // Connettori laterali
-        String[] left = getLateralLineContent(conns[3]);   // Ovest
-        String[] right = getLateralLineContent(conns[1]);  // Est
-
-        // Righe interne
-        String line1 = left[0] + padRight(direction, width - 2) + right[0];
-        String line2 = left[1] + padRight(name, width - 2) + right[1];
-        String line3 = left[2] + padRight(detail, width - 2) + right[2];
-
-        // Costruzione
-        lines.add(padCenter(renderVerticalConnector(conns[0]), width)); // sopra
-        lines.add("┌" + "─".repeat(width - 2) + "┐");
-        lines.add(line1);
-        lines.add(line2);
-        lines.add(line3);
-        lines.add("└" + "─".repeat(width - 2) + "┘");
-        lines.add(padCenter(renderVerticalConnector(conns[2]), width)); // sotto
-
-        return lines;
-    }
-
-    private String[] getLateralLineContent(Connector c) {
-        String[] lines = {" ", " ", " "}; // [0]=dir, [1]=nome, [2]=special
-
-        switch (c) {
-            case SINGLE :
-                lines[1] = "─";
-                break;
-
-            case DOUBLE:
-                lines[0] = "─";
-                lines[2] = "─";
-                break;
-
-            case UNIVERSAL:
-                lines[0] = "─";
-                lines[1] = "─";
-                lines[2] = "─";
-        }
-        return lines;
-    }
-
-    private String getComponentDetail(ComponentsView comp) {
-        switch (comp.getType()) {
-            case "Cabin":
-                if (comp.getAlienColour() != null)
-                    return getAlienColorBlock(comp.getAlienColour());
-                else
-                    return String.valueOf(comp.getNumAstronauts());
-            case "LifeSupportSystem":
-                return comp.getAlienColour() != null ? getAlienColorBlock(comp.getAlienColour()) : "";
-            case "Storage":
-                StringBuilder sb = new StringBuilder();
-                for (GoodsView g : comp.getGoods()) {
-                    if(g!=null) {
-                        sb.append(getGoodColorSquare(g.getColour()));
-                    }
-                }
-                return sb.toString();
-            case "Shield":
-                StringBuilder s = new StringBuilder();
-                for (Direction d : comp.getShieldedDirections()) {
-                    s.append(getDirectionArrow(d));
-                }
-                return s.toString();
-            default:
-                return "";
-        }
-    }
-
-    private String getSideConnector(Connector c, int rowIndex) {
+    private String getConnectorSymbol(Connector c) {
         return switch (c) {
-            case UNIVERSAL:
-                yield "─";
+            case SINGLE:
+                yield "-";
             case DOUBLE:
-                if(rowIndex == 0 || rowIndex == 2){
-                    yield "─";
-                }else{
-                    yield " ";
-                }
-            case SINGLE :
-                if(rowIndex == 1){
-                    yield "─";
-                }else{
-                    yield " ";
-                }
+                yield "=";
+            case UNIVERSAL:
+                yield "#";
             default:
                 yield " ";
         };
     }
 
-    private String padLeftRight(String content, String right, int width) {
-        int visibleLen = stripAnsi(content).length();
-        int pad = Math.max(0, width - visibleLen - stripAnsi(right).length());
-        return content + " ".repeat(pad) + right;
+    private String getDirectionLetter(Direction d) {
+        return switch (d) {
+            case NORTH:
+                yield "N";
+            case EAST:
+                yield "E";
+            case SOUTH:
+                yield "S";
+            case WEST:
+                yield"W";
+        };
+    }
+
+    private String getComponentDetail(ComponentsView comp) {
+        switch (comp.getType()) {
+            case "Cabin":
+                if (comp.getAlienColour() != null) {
+                    return getAlienColorBlock(comp.getAlienColour());
+                } else {
+                    return String.valueOf(comp.getNumAstronauts());
+                }
+
+            case "LifeSupportSystem":
+                if (comp.getAlienColour() != null) {
+                    return getAlienColorBlock(comp.getAlienColour());
+                } else {
+                    return "";
+                }
+
+            case "Storage":
+                StringBuilder goods = new StringBuilder();
+                List<GoodsView> goodsList = List.of(comp.getGoods());
+                for (int i = 0; i < goodsList.size(); i++) {
+                    GoodsColour color = goodsList.get(i).getColour();
+                    goods.append(getGoodColorSquare(color));
+                }
+                return goods.toString();
+
+            case "Shield":
+                return getDirectionArrow(comp.getDirection()) + getDirectionArrow(comp.getDirection());
+
+            default:
+                return "";
+        }
     }
 
     private String getAlienColorBlock(AlienColour color) {
         return switch (color) {
             case BROWN:
-                yield "\u001B[48;5;94m█\u001B[0m";
+                yield"[B]";
             case PURPLE:
-                yield "\u001B[45m█\u001B[0m";
+                yield "[P]";
         };
     }
 
     private String getGoodColorSquare(GoodsColour colour) {
         return switch (colour) {
             case RED:
-                yield "\u001B[41m█\u001B[0m";
-            case BLUE:
-                yield "\u001B[44m█\u001B[0m";
-            case GREEN:
-                yield"\u001B[42m█\u001B[0m";
+                yield"\u001B[41m█\u001B[0m";
             case YELLOW:
                 yield "\u001B[43m█\u001B[0m";
+            case GREEN:
+                yield"\u001B[42m█\u001B[0m";
+            case BLUE:
+                yield"\u001B[44m█\u001B[0m";
         };
     }
 
     private String getDirectionArrow(Direction d) {
         return switch (d) {
             case NORTH:
-                yield "↑";
+                yield"↑";
             case EAST:
-                yield"→";
+                yield "→";
             case SOUTH:
                 yield "↓";
             case WEST:
-                yield"←";
+                yield "←";
         };
     }
 
@@ -549,9 +476,7 @@ public class TUI implements UI{
     public void readName(){
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        List<String> args = new ArrayList<>();
-        args.add(input);
-        client.registerName(args);
+        client.registerName(input);
     }
 
     @Override
@@ -561,11 +486,16 @@ public class TUI implements UI{
 
     public void onNameAccepted(){}
 
-    public void showNoLobbyMessage(){}
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){}
 
-    public void showLobbyExistsMessage(){}
+    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){}
 
-    public void onLobbyCreated(){}
+    public void printMessage(String message){
+        System.out.println(message);
+    }
 
-    public void onJoinedLobby(){}
+    public void onCreateLobbyAccepted(){}
+
+    @Override
+    public void onUpdatePlayerList(List<String> updatedList){}
 }

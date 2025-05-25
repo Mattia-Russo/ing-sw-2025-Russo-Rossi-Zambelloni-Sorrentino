@@ -9,11 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.example.MessagePkg.Message;
 
-import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class SettingsSceneController implements Initializable {
@@ -46,6 +43,9 @@ public class SettingsSceneController implements Initializable {
     private Label gameModeLabel;
 
     private GUI gui;
+    private int numberOfPlayers;
+    private int shipboardLevel;
+    private int gameMode;
 
     public void setGUI(GUI gui) {
         this.gui = gui;
@@ -53,13 +53,10 @@ public class SettingsSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Imposta validazione in tempo reale sui campi
-        setupFieldValidation();
 
-        // Nascondi inizialmente il messaggio di validazione
+        setupFieldValidation();
         validationMessage.setVisible(false);
 
-        // Imposta lo sfondo nero per il BorderPane
         borderPane.setStyle("-fx-background-color: black;");
     }
 
@@ -70,21 +67,18 @@ public class SettingsSceneController implements Initializable {
             }
         });
 
-        // Validazione per il campo livello shipboard
         shipboardLevelField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 shipboardLevelField.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
 
-        // Validazione per il campo game mode
         gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 gameModeField.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
 
-        // Listener per game mode - se è 0, imposta automaticamente shipboard level a 1
         gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
             if ("0".equals(newValue)) {
                 shipboardLevelField.setText("1");
@@ -104,6 +98,9 @@ public class SettingsSceneController implements Initializable {
             args[0] = numberOfPlayersField.getText();
             args[1] = shipboardLevelField.getText();
             args[2] = gameModeField.getText();
+            numberOfPlayers = Integer.parseInt(args[0]);
+            shipboardLevel = Integer.parseInt(args[1]);
+            gameMode = Integer.parseInt(args[2]);
 
             Message message = gui.getClient().getMessageGenerator().generate("create_lobby", java.util.Arrays.asList(args));
             gui.getClient().sendMessage(message);
@@ -117,7 +114,6 @@ public class SettingsSceneController implements Initializable {
         String shipboardText = shipboardLevelField.getText();
         String gameModeText = gameModeField.getText();
 
-        // Controlla se i campi sono vuoti
         if (playersText.isEmpty() || shipboardText.isEmpty() || gameModeText.isEmpty()) {
             showValidationError("All fields are required!");
             return false;
@@ -128,30 +124,25 @@ public class SettingsSceneController implements Initializable {
             int shipboardLevel = Integer.parseInt(shipboardText);
             int gameMode = Integer.parseInt(gameModeText);
 
-            // Valida numero di giocatori
             if (numPlayers < 2 || numPlayers > 4) {
                 showValidationError("Number of players must be between 2 and 4!");
                 return false;
             }
 
-            // Valida livello shipboard
             if (shipboardLevel < 1 || shipboardLevel > 3) {
                 showValidationError("Shipboard level must be between 1 and 3!");
                 return false;
             }
 
-            // Valida game mode
             if (gameMode != 0 && gameMode != 1) {
                 showValidationError("Game mode must be 0 or 1!");
                 return false;
             }
 
-            // Valida combinazione game mode 0 e shipboard level
             if (gameMode == 0 && shipboardLevel != 1) {
                 showValidationError("With game mode 0, shipboard level must be 1!");
                 return false;
             }
-
             return true;
 
         } catch (NumberFormatException e) {
@@ -168,10 +159,10 @@ public class SettingsSceneController implements Initializable {
         });
     }
 
-    private void showMessage(String message, String color) {
+    private void showMessage() {
         Platform.runLater(() -> {
-            validationMessage.setText(message);
-            validationMessage.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 14px; -fx-font-weight: bold;");
+            validationMessage.setText("Lobby created successfully!");
+            validationMessage.setStyle("-fx-text-fill: " + "green" + "; -fx-font-size: 14px; -fx-font-weight: bold;");
             validationMessage.setVisible(true);
         });
     }
@@ -183,8 +174,18 @@ public class SettingsSceneController implements Initializable {
     }
 
     public void onLobbyCreated() {
-        Platform.runLater(() -> {
-            showMessage("Lobby created successfully!", "green");
-        });
+        Platform.runLater(this::showMessage);
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public int getShipboardLevel() {
+        return shipboardLevel;
+    }
+
+    public int getGameMode() {
+        return gameMode;
     }
 }

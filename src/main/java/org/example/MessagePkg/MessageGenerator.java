@@ -1,10 +1,7 @@
 package org.example.MessagePkg;
 
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
-import org.example.ServerPkg.Model.Game;
-import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
-import org.example.UIPkg.GameUpdater;
 
 import java.util.*;
 import java.util.function.Function;
@@ -57,6 +54,11 @@ public class MessageGenerator {
         messageMap.put("notify", this::createNotifyClientMessage);
         messageMap.put("end_fix_ship", this::createEndFixShipMessage);
         messageMap.put("pick_booked_tile", this::createPickBookedTileMessage);
+        messageMap.put("creating_lobby", this::createCreatingLobbyMessage);
+        messageMap.put("joined_lobby", this::createLobbyJoinedMessage);
+        messageMap.put("lobby_created", this::createLobbyCreatedMessage);
+        messageMap.put("accept_create_lobby", this::createAcceptCreateLobbyMessage);
+        messageMap.put("update_names", this::createUpdatePlayersListMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -311,5 +313,30 @@ public class MessageGenerator {
         return new UseBatteriesMessage(batteries);
     }
 
+    public Message createCreatingLobbyMessage(List<String> args) {
+        return new SetUpLobbyMessage();
+    }
 
+    public Message createLobbyJoinedMessage(List<String> args){
+        int numPlayers = Integer.parseInt(args.get(0));
+        int shipboardLevel = Integer.parseInt(args.get(1));
+        int gameMode = Integer.parseInt(args.get(2));
+        List<String> names = new ArrayList<>(args.subList(3, args.size()));
+        return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode, names);
+    }
+
+    public Message createLobbyCreatedMessage(List<String> args){
+        int numPlayers = Integer.parseInt(args.get(0));
+        int shipboardLevel = Integer.parseInt(args.get(1));
+        int gameMode = Integer.parseInt(args.get(2));
+        return new LobbyCreatedMessage(numPlayers, shipboardLevel, gameMode);
+    }
+
+    public Message createAcceptCreateLobbyMessage(List<String> args){
+        return new AcceptCreateLobbyMessage();
+    }
+
+    public Message createUpdatePlayersListMessage(List<String> args){
+        return new UpdatePlayersListMessage(args);
+    }
 }

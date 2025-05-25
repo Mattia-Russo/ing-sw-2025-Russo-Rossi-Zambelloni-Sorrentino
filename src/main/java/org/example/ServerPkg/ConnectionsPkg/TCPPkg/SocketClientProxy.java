@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SocketClientProxy extends ClientProxy implements Runnable {
@@ -78,13 +79,15 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
                     sendMessage(new PongMessage());
                     clientAlive = System.currentTimeMillis();
                 } else if (message instanceof SetPlayerNameMessage setPlayerNameMessage) {
-                    message.setProxy(this);
+                    message.setHandler(this);
+                    message.setServer(getServer());
                     setPlayerNameMessage.handle(getController(), null);
                     if (getPlayerName() != null) {
                         joinServer();
                     }
                 } else {
-                    message.setProxy(this);
+                    message.setServer(getServer());
+                    message.setHandler(this);
                     getController().addMessage(message);
                 }
             } catch (Exception e) {
@@ -115,13 +118,50 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     }
 
     @Override
-    public void addGameUpdater(GameController controller){
-        controller.addGameUpdater(gameUpdater, getPlayerName());
+    public GameUpdater getGameUpdater(){
+        return gameUpdater;
     }
 
     @Override
     public void notifyClient(String s){
         Message message = msgGen.generate("notify", List.of(s));
         sendMessage(message);
+    }
+
+    @Override
+    public void notifyLobbyCreated(){
+        String numPlayers = String.valueOf(getController().getGame().getNumPlayer());
+        String shipBoardLevel = String.valueOf(getController().getGame().getShipBoardLevel());
+        String gameMode = String.valueOf(getController().getGame().getGameMode());
+        List<String> args = new ArrayList<>(List.of(numPlayers, shipBoardLevel, gameMode));
+        Message message = msgGen.generate("lobby_created", args);
+        sendMessage(message);
+    }
+
+    @Override
+    public void notifyLobbyJoined(){
+        String numPlayers = String.valueOf(getController().getGame().getNumPlayer());
+        String shipBoardLevel = String.valueOf(getController().getGame().getShipBoardLevel());
+        String gameMode = String.valueOf(getController().getGame().getGameMode());
+        List<String> args = new ArrayList<>(List.of(numPlayers, shipBoardLevel, gameMode, getPlayerName()));
+        Message message = msgGen.generate("joined_lobby", args);
+        sendMessage(message);
+    }
+
+    @Override
+    public void notifyNameAlreadyUsed(){
+        Message message = msgGen.generate("notify", List.of("false"));
+        sendMessage(message);
+    }
+
+    @Override
+    public void acceptCreateLobby(){
+        Message message = msgGen.generate("accept_create_lobby", null);
+        sendMessage(message);
+    }
+
+    @Override
+    public MessageGenerator getMsgGen(){
+        return msgGen;
     }
 }
