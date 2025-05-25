@@ -228,4 +228,9 @@ public class TCPClient implements Client {
     public UI getUserInterface(){
         return this.userInterface;
     }
+
+    public void notifyCreatingLobby(){
+        Message message = msgGen.generate("creating_lobby", null);
+        sendMessage(message);
+    }
 }

@@ -15,4 +15,6 @@ public interface Client {
     MessageGenerator getMessageGenerator();
 
     UI getUserInterface();
+
+    void notifyCreatingLobby();
 }

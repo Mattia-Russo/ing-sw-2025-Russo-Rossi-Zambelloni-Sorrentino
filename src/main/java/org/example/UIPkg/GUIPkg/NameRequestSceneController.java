@@ -109,6 +109,7 @@ public class NameRequestSceneController implements Initializable {
     @FXML
     public void onCreateLobbyButtonClick() {
         lobbyMessage.setVisible(false);
+        gui.getClient().notifyCreatingLobby();
 
         Platform.runLater(() -> {
             try {
