@@ -1,11 +1,16 @@
 package org.example.UIPkg.GUIPkg;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import javafx.util.Duration;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
@@ -190,7 +195,7 @@ public class GUI implements UI {
         Platform.runLater(() -> {
             new Thread(() -> {
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(1000);
                     Platform.runLater(() -> {
                         try {
                             goToWaitingRoomScene();
@@ -232,17 +237,43 @@ public class GUI implements UI {
     }
 
     @Override
-    public void manageNotification(NotifyClientMessage notifyClientMessage){
-        new Thread(() -> {
-            try {
-                //gestire stampa sulla gui del messaggio di errore
-                Thread.sleep(5000);
-                //rimuovere il messaggio
+    public void manageNotification(NotifyClientMessage notifyClientMessage) {
+        Platform.runLater(() -> {
+            Stage stage = guiMain.getPrimaryStage();
+            Scene currentScene = stage.getScene();
 
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            if (currentScene != null) {
+                showNotificationOverlay(currentScene, notifyClientMessage.getMessage());
             }
-        }).start();
+        });
+    }
+
+    private void showNotificationOverlay(Scene scene, String message) {
+        Parent originalRoot = scene.getRoot();
+
+        Label notificationLabel = new Label(message);
+        notificationLabel.setStyle(
+                "-fx-background-color: transparent; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-font-size: 18px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 20px; " +
+                        "-fx-effect: dropshadow(gaussian, black, 10, 0.8, 2, 2);"
+        );
+
+        StackPane overlayRoot = new StackPane();
+        overlayRoot.getChildren().addAll(originalRoot, notificationLabel);
+        overlayRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0.2);");
+        StackPane.setAlignment(notificationLabel, javafx.geometry.Pos.CENTER);
+
+        scene.setRoot(overlayRoot);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e -> {
+                    overlayRoot.getChildren().remove(originalRoot);
+                    scene.setRoot(originalRoot);
+                }
+        ));
+        timeline.play();
     }
 
     public void onGameStarted() {
