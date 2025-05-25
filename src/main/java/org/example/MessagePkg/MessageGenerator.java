@@ -317,7 +317,11 @@ public class MessageGenerator {
     }
 
     public Message createLobbyJoinedMessage(List<String> args){
-        return new LobbyJoinedMessage();
+        int numPlayers = Integer.parseInt(args.get(0));
+        int shipboardLevel = Integer.parseInt(args.get(1));
+        int gameMode = Integer.parseInt(args.get(2));
+
+        return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode);
     }
 
     public Message createLobbyCreatedMessage(List<String> args){

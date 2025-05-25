@@ -473,7 +473,7 @@ public class TUI implements UI{
 
     public void onLobbyCreated(String name){}
 
-    public void onLobbyJoined(String name){}
+    public void onLobbyJoined(String name, int numPlayers, int shipboardLevel, int gameMode){}
 
     public void printMessage(String message){
         System.out.println(message);

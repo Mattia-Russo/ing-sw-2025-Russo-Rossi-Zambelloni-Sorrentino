@@ -26,7 +26,7 @@ public interface RMIClientInterface extends Remote, Handler {
 
     void notifyLobbyCreated() throws RemoteException;
 
-    void notifyLobbyJoined() throws RemoteException;
+    void notifyLobbyJoined(int numPlayers, int shipboardLevel, int gameMode) throws RemoteException;
 
     void setGameUpdater() throws RemoteException;
 
