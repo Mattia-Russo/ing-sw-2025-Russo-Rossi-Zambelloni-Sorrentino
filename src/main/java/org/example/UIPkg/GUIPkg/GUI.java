@@ -18,6 +18,7 @@ import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -44,6 +45,7 @@ public class GUI implements UI {
     public GUI(Client client){
         this.client = client;
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
+        this.playersList = new ArrayList<>();
 
         Thread guiThread = new Thread(() -> {
             GUIMain.startGui(this);
@@ -202,6 +204,7 @@ public class GUI implements UI {
                     Thread.sleep(1000);
                     Platform.runLater(() -> {
                         try {
+                            this.playersList.add(name);
                             goToWaitingRoomScene();
                             if (waitingRoomSceneController != null) {
                                 waitingRoomSceneController.setLobbyCreator(true);
@@ -218,13 +221,13 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode) {
+    public void onLobbyJoined(List<String> alreadyLoggedNames, int numPlayers, int shipboardLevel, int gameMode) {
         Platform.runLater(() -> {
             try {
                 this.numPlayers = numPlayers;
                 this.shipboardLevel = shipboardLevel;
                 this.gameMode = gameMode;
-                this.playersList = names;
+                this.playersList = alreadyLoggedNames;
                 goToWaitingRoomScene();
                 if (waitingRoomSceneController != null) {
                     waitingRoomSceneController.setLobbyCreator(false);
@@ -289,9 +292,10 @@ public class GUI implements UI {
     public void printMessage(String message){}
 
     @Override
-    public void onUpdatePlayerList(List<String> names){
+    public void onUpdatePlayerList(List<String> updatedList){
+        this.playersList = updatedList;
         if(waitingRoomSceneController!=null){
-            waitingRoomSceneController.updatePlayersList(names);
+            waitingRoomSceneController.updatePlayersList(updatedList);
         }
     }
 }

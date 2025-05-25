@@ -233,4 +233,9 @@ public class TCPClient implements Client {
         Message message = msgGen.generate("creating_lobby", null);
         sendMessage(message);
     }
+
+    @Override
+    public String getPlayerName(){
+        return this.playerName;
+    }
 }

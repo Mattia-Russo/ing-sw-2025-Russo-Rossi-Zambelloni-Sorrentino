@@ -27,5 +27,5 @@ public interface UI {
 
     void onCreateLobbyAccepted();
 
-    void onUpdatePlayerList(List<String> names);
+    void onUpdatePlayerList(List<String> updatedList);
 }
