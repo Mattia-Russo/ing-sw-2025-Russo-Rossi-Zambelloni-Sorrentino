@@ -227,6 +227,11 @@ public class GUI implements UI {
     }
 
     @Override
+    public void onCreateLobbyAccepted(){
+        nameRequestSceneController.onCreateLobbyAccepted();
+    }
+
+    @Override
     public void manageNotification(NotifyClientMessage notifyClientMessage){
         new Thread(() -> {
             try {

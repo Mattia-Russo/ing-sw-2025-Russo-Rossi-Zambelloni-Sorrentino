@@ -16,5 +16,5 @@ public interface Client {
 
     UI getUserInterface();
 
-    void notifyCreatingLobby();
+    void notifyCreatingLobby() throws RemoteException;
 }

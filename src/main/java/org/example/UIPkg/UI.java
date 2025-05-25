@@ -23,4 +23,6 @@ public interface UI {
     void onLobbyJoined(String name);
 
     void printMessage(String message);
+
+    void onCreateLobbyAccepted();
 }

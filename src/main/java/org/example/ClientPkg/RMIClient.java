@@ -218,7 +218,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void notifyCreatingLobby(){
+    public void notifyCreatingLobby() throws RemoteException{
         server.notifyCreatingLobby();
+    }
+
+    @Override
+    public void acceptCreateLobby(){
+        userInterface.onCreateLobbyAccepted();
     }
 }

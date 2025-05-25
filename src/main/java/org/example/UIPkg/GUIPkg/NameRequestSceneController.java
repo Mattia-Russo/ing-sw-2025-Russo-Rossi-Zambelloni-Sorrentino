@@ -107,10 +107,12 @@ public class NameRequestSceneController implements Initializable {
     }
 
     @FXML
-    public void onCreateLobbyButtonClick() {
+    public void onCreateLobbyButtonClick() throws RemoteException {
         lobbyMessage.setVisible(false);
         gui.getClient().notifyCreatingLobby();
+    }
 
+    public void onCreateLobbyAccepted(){
         Platform.runLater(() -> {
             try {
                 gui.goToSettingsScene();
