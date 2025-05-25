@@ -216,4 +216,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         userInterface.printNameInvalid();
         this.playerName = null;
     }
+
+    @Override
+    public void notifyCreatingLobby(){
+        server.notifyCreatingLobby();
+    }
 }
