@@ -17,4 +17,6 @@ public interface Client {
     UI getUserInterface();
 
     void notifyCreatingLobby() throws RemoteException;
+
+    String getPlayerName();
 }

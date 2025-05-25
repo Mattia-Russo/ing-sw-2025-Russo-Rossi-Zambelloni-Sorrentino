@@ -9,7 +9,6 @@ import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +26,6 @@ public class TUI implements UI{
         startUpdateThread();
     }
 
-    // thread che continua a leggere i game update in coda con un while(true)
     private void startUpdateThread() {
         Thread UpdateThread = new Thread(() -> {
             try {
@@ -482,5 +480,5 @@ public class TUI implements UI{
     public void onCreateLobbyAccepted(){}
 
     @Override
-    public void onUpdatePlayerList(List<String> names){}
+    public void onUpdatePlayerList(List<String> updatedList){}
 }

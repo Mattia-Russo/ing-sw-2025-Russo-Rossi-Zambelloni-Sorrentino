@@ -5,14 +5,14 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 import java.util.List;
 
 public class UpdatePlayersListMessage extends Message{
-    private List<String> names;
+    private List<String> updatedNames;
 
     public UpdatePlayersListMessage(List<String> names){
-        this.names=names;
+        this.updatedNames=names;
     }
 
     @Override
     public void handle(GameController controller, String playerName){
-        getClient().getUserInterface().onUpdatePlayerList(names);
+        getClient().getUserInterface().onUpdatePlayerList(updatedNames);
     }
 }
