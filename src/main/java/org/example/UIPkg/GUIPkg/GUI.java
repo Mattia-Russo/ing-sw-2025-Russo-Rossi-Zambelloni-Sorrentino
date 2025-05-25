@@ -18,7 +18,6 @@ import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -33,6 +32,7 @@ public class GUI implements UI {
     private int numPlayers;
     private int shipboardLevel;
     private int gameMode;
+    private  List<String> playersList;
 
     private NameRequestSceneController nameRequestSceneController;
     private SettingsSceneController settingsSceneController;
@@ -129,6 +129,7 @@ public class GUI implements UI {
         waitingRoomSceneController.setMaxPlayers(numPlayers);
         waitingRoomSceneController.setShipboardLevel(shipboardLevel);
         waitingRoomSceneController.setGameMode(gameMode);
+        waitingRoomSceneController.setNames(playersList);
 
         Scene scene = new Scene(root, 800, 600);
         scene.setUserData(waitingRoomSceneController);
@@ -204,7 +205,6 @@ public class GUI implements UI {
                             goToWaitingRoomScene();
                             if (waitingRoomSceneController != null) {
                                 waitingRoomSceneController.setLobbyCreator(true);
-                                waitingRoomSceneController.updatePlayersList(new ArrayList<>(List.of(name)));
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -218,18 +218,16 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onLobbyJoined(String name, int numPlayers, int shipboardLevel, int gameMode) {
+    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode) {
         Platform.runLater(() -> {
             try {
                 this.numPlayers = numPlayers;
                 this.shipboardLevel = shipboardLevel;
                 this.gameMode = gameMode;
+                this.playersList = names;
                 goToWaitingRoomScene();
                 if (waitingRoomSceneController != null) {
                     waitingRoomSceneController.setLobbyCreator(false);
-                    List<String> newPlayerList = new ArrayList<>(waitingRoomSceneController.getPlayersList());
-                    newPlayerList.add(name);
-                    waitingRoomSceneController.updatePlayersList(newPlayerList);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -289,4 +287,11 @@ public class GUI implements UI {
     }
 
     public void printMessage(String message){}
+
+    @Override
+    public void onUpdatePlayerList(List<String> names){
+        if(waitingRoomSceneController!=null){
+            waitingRoomSceneController.updatePlayersList(names);
+        }
+    }
 }

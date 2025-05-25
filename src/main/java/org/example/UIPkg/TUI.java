@@ -480,4 +480,7 @@ public class TUI implements UI{
     }
 
     public void onCreateLobbyAccepted(){}
+
+    @Override
+    public void onUpdatePlayerList(List<String> names){}
 }
