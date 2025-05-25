@@ -130,16 +130,18 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     @Override
     public void notifyLobbyCreated(){
         Message message = msgGen.generate("lobby_created", null);
-        message.setHandler(this);
-        message.setServer(getServer());
         sendMessage(message);
     }
 
     @Override
     public void notifyLobbyJoined(){
         Message message = msgGen.generate("joined_lobby", null);
-        message.setHandler(this);
-        message.setServer(getServer());
+        sendMessage(message);
+    }
+
+    @Override
+    public void notifyNameAlreadyUsed(){
+        Message message = msgGen.generate("notify", List.of("false"));
         sendMessage(message);
     }
 }

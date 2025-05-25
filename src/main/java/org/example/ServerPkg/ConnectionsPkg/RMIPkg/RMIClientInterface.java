@@ -30,6 +30,8 @@ public interface RMIClientInterface extends Remote, Handler {
 
     void setGameUpdater() throws RemoteException;
 
+    void notifyNameAlreadyUsed() throws RemoteException;
+
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

@@ -102,7 +102,7 @@ public class NameRequestSceneController implements Initializable {
             nameInvalid.setText("Name cannot be empty");
             nameInvalid.setVisible(true);
         } else {
-            gui.getClient().insertName(name);
+            gui.getClient().registerName(name);
         }
     }
 

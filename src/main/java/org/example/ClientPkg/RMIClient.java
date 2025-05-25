@@ -142,11 +142,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         return playerName;
     }
 
-    public void registerName(List<String> args) {
+    public void registerName(String name) {
         if(playerName == null){
             try {
-                if (server.checkName(args.getFirst())){
-                    this.playerName = args.getFirst();
+                if (server.checkName(name)){
+                    this.playerName = name;
                     server.registerClient(this);
                     userInterface.onNameAccepted();
                 } else {
@@ -175,14 +175,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     public void addGameUpdate(GameView gameView) throws RemoteException {
         userInterface.addGameUpdate(gameView);
-    }
-
-    @Override
-    public void insertName(String name){
-        this.registerName(List.of(name));
-        if(this.playerName == null){
-            userInterface.printNameInvalid();
-        }
     }
 
     public MessageGenerator getMessageGenerator(){
@@ -218,4 +210,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void setGameUpdater(){}
+
+    @Override
+    public void notifyNameAlreadyUsed(){
+        userInterface.printNameInvalid();
+        this.playerName = null;
+    }
 }

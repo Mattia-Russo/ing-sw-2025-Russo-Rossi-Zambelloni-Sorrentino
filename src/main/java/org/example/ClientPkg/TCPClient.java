@@ -201,8 +201,9 @@ public class TCPClient implements Client {
 
     }
 
-    public void registerName(List<String> args){
-        Message message = msgGen.generate("set_name", args);
+    public void registerName(String name){
+        this.playerName = name;
+        Message message = msgGen.generate("set_name", List.of(name));
         if(message != null){
             sendMessage(message);
         }
@@ -218,14 +219,6 @@ public class TCPClient implements Client {
                 System.out.println("Error sending message from client: " + e.getMessage());
             }
         }
-    }
-
-    @Override
-    public void insertName(String name){
-        this.playerName = name;
-        List<String> args = new ArrayList<>();
-        args.add(name);
-        registerName(args);
     }
 
     public MessageGenerator getMessageGenerator(){
