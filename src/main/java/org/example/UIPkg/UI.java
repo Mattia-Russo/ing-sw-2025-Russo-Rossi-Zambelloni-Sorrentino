@@ -18,9 +18,9 @@ public interface UI {
 
     void onNameAccepted();
 
-    void onLobbyCreated();
+    void onLobbyCreated(String name);
 
-    void onLobbyJoined();
+    void onLobbyJoined(String name);
 
     void printMessage(String message);
 }

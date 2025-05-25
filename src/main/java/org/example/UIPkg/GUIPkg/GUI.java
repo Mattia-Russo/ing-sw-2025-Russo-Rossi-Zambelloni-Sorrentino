@@ -13,6 +13,8 @@ import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -116,6 +118,10 @@ public class GUI implements UI {
         waitingRoomSceneController = loader.getController();
         waitingRoomSceneController.setGUI(this);
 
+        waitingRoomSceneController.setMaxPlayers(settingsSceneController.getNumberOfPlayers());
+        waitingRoomSceneController.setShipboardLevel(settingsSceneController.getShipboardLevel());
+        waitingRoomSceneController.setGameMode(settingsSceneController.getGameMode());
+
         Scene scene = new Scene(root, 800, 600);
         scene.setUserData(waitingRoomSceneController);
         guiMain.sceneControllerMap.put(scene, waitingRoomSceneController);
@@ -177,7 +183,7 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onLobbyCreated() {
+    public void onLobbyCreated(String name) {
         if (settingsSceneController != null) {
             settingsSceneController.onLobbyCreated();
         }
@@ -190,6 +196,7 @@ public class GUI implements UI {
                             goToWaitingRoomScene();
                             if (waitingRoomSceneController != null) {
                                 waitingRoomSceneController.setLobbyCreator(true);
+                                waitingRoomSceneController.updatePlayersList(new ArrayList<>(List.of(name)));
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -203,12 +210,15 @@ public class GUI implements UI {
     }
 
     @Override
-    public void onLobbyJoined() {
+    public void onLobbyJoined(String name) {
         Platform.runLater(() -> {
             try {
                 goToWaitingRoomScene();
                 if (waitingRoomSceneController != null) {
                     waitingRoomSceneController.setLobbyCreator(false);
+                    List<String> newPlayerList = new ArrayList<>(waitingRoomSceneController.getPlayersList());
+                    newPlayerList.add(name);
+                    waitingRoomSceneController.updatePlayersList(newPlayerList);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -228,24 +238,6 @@ public class GUI implements UI {
                 Thread.currentThread().interrupt();
             }
         }).start();
-    }
-
-    public void updateLobbySettings(int maxPlayers, int shipboardLevel, int gameMode) {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.updateLobbySettings(maxPlayers, shipboardLevel, gameMode);
-        }
-    }
-
-    public void updatePlayersList(java.util.List<String> players) {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.updatePlayersList(players);
-        }
-    }
-
-    public void onPlayerJoined(String playerName) {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.onPlayerJoined(playerName);
-        }
     }
 
     public void onGameStarted() {

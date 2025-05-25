@@ -561,9 +561,9 @@ public class TUI implements UI{
 
     public void onNameAccepted(){}
 
-    public void onLobbyCreated(){}
+    public void onLobbyCreated(String name){}
 
-    public void onLobbyJoined(){}
+    public void onLobbyJoined(String name){}
 
     public void printMessage(String message){
         System.out.println(message);
