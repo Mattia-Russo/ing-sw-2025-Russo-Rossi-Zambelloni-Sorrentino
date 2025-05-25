@@ -115,4 +115,9 @@ public class TCPServer implements Server {
     public void notifyLobbyJoined(String name) throws RemoteException {
         getClientProxy(name).notifyLobbyJoined();
     }
+
+    @Override
+    public void acceptCreateLobby(String name) throws RemoteException {
+        getClientProxy(name).acceptCreateLobby();
+    }
 }

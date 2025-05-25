@@ -144,4 +144,10 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         Message message = msgGen.generate("notify", List.of("false"));
         sendMessage(message);
     }
+
+    @Override
+    public void acceptCreateLobby(){
+        Message message = msgGen.generate("accept_create_lobby", null);
+        sendMessage(message);
+    }
 }

@@ -18,4 +18,6 @@ public interface Server {
     void notifyLobbyCreated(String name) throws RemoteException;
 
     void notifyLobbyJoined(String name) throws RemoteException;
+
+    void acceptCreateLobby(String name) throws RemoteException;
 }

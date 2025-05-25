@@ -23,7 +23,7 @@ public class JoinLobbyMessage extends Message{
                 } else if (controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
                     getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
                 } else {
-                    getServer().notifyClient(getHandler().getPlayerName(), "There's already a lobby, join it!");
+                    getServer().notifyClient(getHandler().getPlayerName(), "You're the first to join the server, create a lobby!");
                 }
                 System.out.println(playerName + " joined the lobby successfully");
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){

@@ -176,4 +176,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void notifyCreatingLobby(){
         controller.setGameCreating();
     }
+
+    public void acceptCreateLobby(String name) throws RemoteException {
+        getClientByName(name).acceptCreateLobby();
+    }
 }

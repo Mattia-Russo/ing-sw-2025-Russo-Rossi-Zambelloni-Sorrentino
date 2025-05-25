@@ -57,6 +57,7 @@ public class MessageGenerator {
         messageMap.put("creating_lobby", this::createCreatingLobbyMessage);
         messageMap.put("joined_lobby", this::createLobbyJoinedMessage);
         messageMap.put("lobby_created", this::createLobbyCreatedMessage);
+        messageMap.put("accept_create_lobby", this::createAcceptCreateLobbyMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -321,5 +322,9 @@ public class MessageGenerator {
 
     public Message createLobbyCreatedMessage(List<String> args){
         return new LobbyCreatedMessage();
+    }
+
+    public Message createAcceptCreateLobbyMessage(List<String> args){
+        return new AcceptCreateLobbyMessage();
     }
 }
