@@ -163,6 +163,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         if(p.getCurrentTile() == null){
             if((index ==0 || index == 1)) {
                 p.setCurrentTile(p.getPlayerShipBoard().getBookedComponents()[index]);
+                p.getPlayerShipBoard().getBookedComponents()[index] = null;
                 new GameView(getGame(), null );
             }else new GameView(getGame(),  new PickTileWithDeckException("INDEX MUST BE 0 or 1 " + p.getName()));
         }else new GameView(getGame(), new PickTileWithDeckException("You already have a tile " + p.getName()));

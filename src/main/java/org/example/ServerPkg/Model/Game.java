@@ -290,7 +290,7 @@ public class Game implements Serializable {
                     return;
                 }
                 p.setPlayerState(new WaitingState(this));
-                new GameView(this, new Exception("READY FOR CARDS" + p.getName()));
+                new GameView(this, new Exception("READY FOR CARDS " + p.getName()));
             }
         }
         Turn();

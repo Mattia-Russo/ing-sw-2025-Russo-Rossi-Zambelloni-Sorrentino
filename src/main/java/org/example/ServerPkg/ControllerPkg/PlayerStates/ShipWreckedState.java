@@ -36,6 +36,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             } else {
                 if(getGame().getGameMode()==1) {
                     player.setPlayerState(new AddAlienState(getGame(), player));
+                    new GameView(getGame(), new Exception("YOU CAN ADD YOUR ALIENS " + player.getName()));
                 }else {
                     for (Player p : getGame().getPlayers()) {
                         if (!p.isAbandoned()) {
@@ -43,6 +44,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
                                 return;
                             }
                             p.setPlayerState(new WaitingState(getGame()));
+                            new GameView(getGame(), new Exception("READY FOR CARDS " + p.getName()));
                         }
                     }
                     getGame().Turn();
@@ -59,8 +61,13 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             c=player.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
             i++;
         }
+        assert c != null;
         chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);
         player.abandon(getGame());
+        AutoFix(player);
+    }
+
+    private void AutoFix(Player player) {
         if (getGame().getCurrentCard() != null) {
             getGame().getCurrentCard().setShipWrecked(false);
             getGame().getCurrentCard().setCardState(getGame());
@@ -78,7 +85,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             getGame().Turn();
         }
     }
-  
+
     @Override
     public void disconnect(Player disconnectingPlayer){
         Components c=null;
@@ -87,24 +94,10 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             c=disconnectingPlayer.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
             i++;
         }
-        chooseWrecked(new Points(c.getPosX(), c.getPosY()), null);    // scegliamo noi un pezzo
+        assert c != null;
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);    // scegliamo noi un pezzo
         getGame().disconnectPlayer(disconnectingPlayer);
 
-        if (getGame().getCurrentCard() != null) {
-            getGame().getCurrentCard().setShipWrecked(false);
-            getGame().getCurrentCard().setCardState(getGame());
-        } else {
-            if(getGame().getGameMode()==1) {
-                player.setReadyForCards(true);
-            }
-            for (Player p : getGame().getPlayers()) {
-                if (!p.isAbandoned()) {
-                    if (!p.getReadyForCards()) {
-                        return;
-                    }
-                }
-            }
-            getGame().Turn();
-        }
+        AutoFix(player);
     }
 }
