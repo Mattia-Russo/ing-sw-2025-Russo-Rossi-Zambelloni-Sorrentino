@@ -71,18 +71,17 @@ public class TUI implements UI{
             }
 
 
-                System.out.println("\nShipboard:");
-                DrawShipboard(game.getPlayers());
-                System.out.println("Current Card: ");
-                if (game.getCurrentCard() != null) {
-                    DrawCurrentCard(game.getCurrentCard());
-                }
-                System.out.println("Flight board: ");
-                DrawFlightBoard(game.getPlayers());
-                drawCommands(game);
-            } else
-                System.out.println(game.getException().getMessage());
-        }
+            System.out.println("\nShipboard:");
+            DrawShipboard(game.getPlayers());
+            System.out.println("Current Card: ");
+            if (game.getCurrentCard() != null) {
+                DrawCurrentCard(game.getCurrentCard());
+            }
+            System.out.println("Flight board: ");
+            DrawFlightBoard(game.getPlayers());
+            drawCommands(game);
+        } else
+            System.out.println(game.getException().getMessage());
     }
 
     public void drawCommands(GameView game) {
@@ -519,12 +518,12 @@ public class TUI implements UI{
         this.playersList = updatedList;
         System.out.println("Somebody else joined!\n" +
                 "Connected players:" );
-            for(String player: playersList){
-                if(player.equals(updatedList.get(nameIndex))){
-                    System.out.println(player + " (You)");
-                } else {
-                    System.out.println(player);
-                }
+        for(String player: playersList){
+            if(player.equals(updatedList.get(nameIndex))){
+                System.out.println(player + " (You)");
+            } else {
+                System.out.println(player);
             }
+        }
     }
 }
