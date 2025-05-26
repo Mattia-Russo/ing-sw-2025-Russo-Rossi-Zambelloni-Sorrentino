@@ -498,6 +498,7 @@ public class TUI implements UI{
             } else {
                 System.out.println(player);
             }
+            System.out.println(" -join ");
         }
     }
 
@@ -518,6 +519,7 @@ public class TUI implements UI{
                 } else {
                     System.out.println(player);
                 }
+                System.out.println(" -update ");
             }
     }
 }
