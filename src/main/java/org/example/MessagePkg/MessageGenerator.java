@@ -58,6 +58,8 @@ public class MessageGenerator {
         messageMap.put("lobby_created", this::createLobbyCreatedMessage);
         messageMap.put("accept_create_lobby", this::createAcceptCreateLobbyMessage);
         messageMap.put("update_names", this::createUpdatePlayersListMessage);
+        messageMap.put("choose_wrecked", this::createChooseWreckedMessage);
+        messageMap.put("end_wrecked", this::createEndWreckedMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -322,6 +324,17 @@ public class MessageGenerator {
 
     private Message createAcceptCreateLobbyMessage(List<String> args){
         return new AcceptCreateLobbyMessage();
+    }
+
+    private Message createChooseWreckedMessage(List<String> args){
+        int x = Integer.parseInt(args.get(0));
+        int y = Integer.parseInt(args.get(1));
+        Points point = new Points(x, y);
+        return new ChooseWreckedMessage(point);
+    }
+
+    private Message createEndWreckedMessage(List<String> args){
+        return new EndWreckedMessage();
     }
 
     private Message createUpdatePlayersListMessage(List<String> args){
