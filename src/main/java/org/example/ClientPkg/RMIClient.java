@@ -128,14 +128,17 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         listenerThread.start();
     }
 
+    @Override
     public RMIServerInterface getServer() {
         return server;
     }
 
+    @Override
     public String getPlayerName() {
         return playerName;
     }
 
+    @Override
     public void registerName(String name) {
         if(playerName == null){
             try {
@@ -159,18 +162,22 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         server.receiveMessage(message, this);
     }
 
+    @Override
     public void disconnect() throws RemoteException {
         server.unregisterClient(this);
     }
 
+    @Override
     public void updateServerAlive() throws RemoteException {
         this.serverAlive = System.currentTimeMillis();
     }
 
+    @Override
     public void addGameUpdate(GameView gameView) throws RemoteException {
         userInterface.addGameUpdate(gameView);
     }
 
+    @Override
     public MessageGenerator getMessageGenerator(){
         return this.msgGen;
     }
@@ -180,6 +187,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         this.userInterface.printMessage(message);
     }
 
+    @Override
     public UI getUserInterface(){
         return this.userInterface;
     }

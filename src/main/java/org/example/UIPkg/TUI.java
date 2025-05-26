@@ -474,10 +474,12 @@ public class TUI implements UI{
         System.out.println(notifyClientMessage.getMessage());
     }
 
+    @Override
     public void onNameAccepted(){
         System.out.println("Welcome " + client.getPlayerName() + "!");
     }
 
+    @Override
     public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){
         playersList.add(name);
         this.nameIndex = 0;
@@ -486,10 +488,11 @@ public class TUI implements UI{
                 "Connected players: \n" + playersList.getFirst());
     }
 
+    @Override
     public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){
         this.playersList = names;
         this.nameIndex = names.size() - 1;
-        System.out.println("Lobby created with this parameters:\n" +
+        System.out.println("Lobby created with this settings:\n" +
                 "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
                 "Connected players:");
         for(String player: playersList){
@@ -501,11 +504,15 @@ public class TUI implements UI{
         }
     }
 
+    @Override
     public void printMessage(String message){
         System.out.println(message);
     }
 
-    public void onCreateLobbyAccepted(){}
+    @Override
+    public void onCreateLobbyAccepted(){
+        // does nothing for TUI, needed for GUI
+    }
 
     @Override
     public void onUpdatePlayerList(List<String> updatedList){

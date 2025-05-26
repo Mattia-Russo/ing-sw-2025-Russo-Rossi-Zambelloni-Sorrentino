@@ -15,7 +15,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface, Server {
@@ -42,6 +41,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         }
     }
 
+    @Override
     public void checkConnection() {
         Thread checkClient = new Thread(() -> {
             while (true) {
@@ -109,14 +109,17 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         }
     }
 
+    @Override
     public boolean getIfSubscribed(Handler handler) throws RemoteException {
         return clients.containsKey((RMIClientInterface) handler);
     }
 
+    @Override
     public GameController getController() throws RemoteException {
         return controller;
     }
 
+    @Override
     public void updateClientAlive(RMIClientInterface client) throws RemoteException {
         if (clients.containsKey(client)) {
             clients.put(client, System.currentTimeMillis());
@@ -130,6 +133,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.gameUpdater.put(client.getPlayerName() ,new RMIVirtualView(client));
     }
 
+    @Override
     public GameUpdater getGameUpdater(String name){
         return gameUpdater.get(name);
     }
@@ -139,19 +143,23 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         return controller.checkName(name);
     }
 
+    @Override
     public void notifyClient(String name, String message) throws RemoteException {
         getClientByName(name).notifyClient(message);
     }
 
+    @Override
     public void notifyLobbyCreated(String name) throws RemoteException {
         getClientByName(name).notifyLobbyCreated(controller.getGame().getNumPlayer(), controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode());
     }
 
+    @Override
     public void notifyLobbyJoined(String name) throws RemoteException {
         getClientByName(name).notifyLobbyJoined(controller.getGame().getNumPlayer(),
                 controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode(), controller.getNames());
     }
 
+    @Override
     public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
         for(RMIClientInterface clientInterface : clients.keySet()){
             if(!exclude.contains(clientInterface.getPlayerName())){
@@ -160,14 +168,17 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         }
     }
 
+    @Override
     public void notifyCreatingLobby(){
         controller.setGameCreating();
     }
 
+    @Override
     public void acceptCreateLobby(String name) throws RemoteException {
         getClientByName(name).acceptCreateLobby();
     }
 
+    @Override
     public void updatePlayerList(String exclude) throws RemoteException {
         for(RMIClientInterface clientInterface : clients.keySet()){
             if(!exclude.contains(clientInterface.getPlayerName())){
