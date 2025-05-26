@@ -110,19 +110,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
             while (true) {
                 try {
-                    // Legge l'input dell'utente
                     String input = scanner.nextLine();
-
-                    // Dividi la riga di input in parole
                     String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
 
-                    // Salva la prima parola se esiste
                     String cmd = words.length > 0 ? words[0] : "";
-
-                    // Aggiungi le parole successive alla lista
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
-                    // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
                     message.setClient(this);
                     sendMessage(message);
