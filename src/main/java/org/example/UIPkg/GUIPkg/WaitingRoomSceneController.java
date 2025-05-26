@@ -83,6 +83,7 @@ public class WaitingRoomSceneController implements Initializable {
         Platform.runLater(() -> {
             playersList.clear();
             playersList.addAll(players);
+            playersList.set(gui.getNameIndex(), players.get(gui.getNameIndex()) + " (You)" );
 
             playersLabel.setText("Players (" + players.size() + "/" + maxPlayers + ")");
 

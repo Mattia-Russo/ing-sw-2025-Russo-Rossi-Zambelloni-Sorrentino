@@ -15,6 +15,6 @@ public class LobbyCreatedMessage extends Message{
 
     @Override
     public void handle(GameController controller, String playerName){
-        super.getClient().getUserInterface().onLobbyCreated(playerName + "(You)", numPlayer, shipBoardLevel, gameMode);
+        super.getClient().getUserInterface().onLobbyCreated(playerName, numPlayer, shipBoardLevel, gameMode);
     }
 }

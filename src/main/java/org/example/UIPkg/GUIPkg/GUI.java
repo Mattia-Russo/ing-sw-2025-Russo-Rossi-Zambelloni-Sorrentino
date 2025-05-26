@@ -34,6 +34,7 @@ public class GUI implements UI {
     private int shipboardLevel;
     private int gameMode;
     private  List<String> playersList;
+    private int nameIndex;
 
     private NameRequestSceneController nameRequestSceneController;
     private SettingsSceneController settingsSceneController;
@@ -211,6 +212,7 @@ public class GUI implements UI {
                             goToWaitingRoomScene();
                             if (waitingRoomSceneController != null) {
                                 waitingRoomSceneController.setLobbyCreator(true);
+                                this.nameIndex = 0;
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -234,11 +236,16 @@ public class GUI implements UI {
                 goToWaitingRoomScene();
                 if (waitingRoomSceneController != null) {
                     waitingRoomSceneController.setLobbyCreator(false);
+                    this.nameIndex = playersList.size() - 1;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    public int getNameIndex(){
+        return nameIndex;
     }
 
     @Override
