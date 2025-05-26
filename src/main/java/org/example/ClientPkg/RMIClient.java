@@ -4,7 +4,6 @@ import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
-import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
 import org.example.UIPkg.GUIPkg.GUI;
@@ -111,7 +110,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             while (true) {
                 try {
                     String input = scanner.nextLine();
-                    String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
+                    String[] words = input.split("\\s+"); // Divide in base a uno o più spazi
 
                     String cmd = words.length > 0 ? words[0] : "";
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
