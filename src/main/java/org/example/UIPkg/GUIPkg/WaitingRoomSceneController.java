@@ -162,8 +162,4 @@ public class WaitingRoomSceneController implements Initializable {
             gameModeLabel.setText("Game Mode: " + modeText);
         });
     }
-
-    public void setNames(List<String> names){
-        this.playersList.addAll(names);
-    }
 }

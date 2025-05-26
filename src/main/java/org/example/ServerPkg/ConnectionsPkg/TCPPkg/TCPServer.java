@@ -11,7 +11,6 @@ import org.example.UIPkg.GameUpdater;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +18,7 @@ import java.util.concurrent.Executors;
 
 public class TCPServer implements Server {
     public ArrayList<ClientProxy> clientsProxies;
-    private GameController controller;
+    private final GameController controller;
 
     public TCPServer(GameController controller){
         this.clientsProxies = new ArrayList<>();
@@ -61,16 +60,11 @@ public class TCPServer implements Server {
         threadPool.shutdown();
     }
 
-    public synchronized List<String> getNames(){
-        return clientsProxies.stream().map(ClientProxy::getPlayerName).toList();
-    }
-
     public boolean getIfSubscribed(Handler handler){
         return clientsProxies.contains((ClientProxy) handler);
     }
 
     public synchronized void subscribe(ClientProxy clientProxy) {
-        controller.getNames().add(clientProxy.getPlayerName());
         System.out.println(clientProxy.getPlayerName() + " subscribed");
         clientsProxies.add(clientProxy);
 
@@ -113,12 +107,12 @@ public class TCPServer implements Server {
     }
 
     @Override
-    public void notifyLobbyJoined(String name) throws RemoteException {
+    public void notifyLobbyJoined(String name){
         getClientProxy(name).notifyLobbyJoined();
     }
 
     @Override
-    public void acceptCreateLobby(String name) throws RemoteException {
+    public void acceptCreateLobby(String name) {
         getClientProxy(name).acceptCreateLobby();
     }
 

@@ -143,7 +143,12 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         String numPlayers = String.valueOf(getController().getGame().getNumPlayer());
         String shipBoardLevel = String.valueOf(getController().getGame().getShipBoardLevel());
         String gameMode = String.valueOf(getController().getGame().getGameMode());
-        List<String> args = new ArrayList<>(List.of(numPlayers, shipBoardLevel, gameMode, getPlayerName()));
+        List<String> names = getController().getNames();
+        List<String> args = new ArrayList<>();
+        args.add(numPlayers);
+        args.add(shipBoardLevel);
+        args.add(gameMode);
+        args.addAll(names);
         Message message = msgGen.generate("joined_lobby", args);
         sendMessage(message);
     }

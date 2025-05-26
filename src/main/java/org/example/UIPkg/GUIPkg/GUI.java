@@ -131,7 +131,6 @@ public class GUI implements UI {
         waitingRoomSceneController.setMaxPlayers(numPlayers);
         waitingRoomSceneController.setShipboardLevel(shipboardLevel);
         waitingRoomSceneController.setGameMode(gameMode);
-        waitingRoomSceneController.setNames(playersList);
         waitingRoomSceneController.updatePlayersList(playersList);
 
         Scene scene = new Scene(root, 800, 600);
