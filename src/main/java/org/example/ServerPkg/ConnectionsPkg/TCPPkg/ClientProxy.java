@@ -59,8 +59,6 @@ public abstract class ClientProxy implements Handler {
 
     public void notifyClient(String message){}
 
-    public void addGameUpdater(GameController controller){}
-
     public void sendMessage(Message message) {}
 
     public GameUpdater getGameUpdater(){

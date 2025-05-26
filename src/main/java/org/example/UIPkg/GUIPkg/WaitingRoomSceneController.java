@@ -49,8 +49,6 @@ public class WaitingRoomSceneController implements Initializable {
     private ObservableList<String> playersList;
 
     private int maxPlayers;
-    private int shipboardLevel;
-    private int gameMode;
     private boolean isLobbyCreator = false;
 
     public void setGUI(GUI gui) {
@@ -120,7 +118,7 @@ public class WaitingRoomSceneController implements Initializable {
     public void onStartGameClick() throws RemoteException {
         if (isLobbyCreator && playersList.size() >= 2) {
 
-            gui.getClient().sendMessage(gui.getClient().getMessageGenerator().generate("start_game", java.util.Arrays.asList()));
+            gui.getClient().sendMessage(gui.getClient().getMessageGenerator().generate("start_game", List.of()));
 
             statusMessage.setText("Starting game...");
             statusMessage.setStyle("-fx-text-fill: yellow; -fx-font-size: 14px; -fx-font-weight: bold;");
@@ -136,10 +134,6 @@ public class WaitingRoomSceneController implements Initializable {
         });
     }
 
-    public List<String> getPlayersList() {
-        return playersList;
-    }
-
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
         Platform.runLater(() -> {
@@ -149,14 +143,12 @@ public class WaitingRoomSceneController implements Initializable {
     }
 
     public void setShipboardLevel(int shipboardLevel) {
-        this.shipboardLevel = shipboardLevel;
         Platform.runLater(() -> {
             shipboardLevelLabel.setText("Shipboard Level: " + shipboardLevel);
         });
     }
 
     public void setGameMode(int gameMode) {
-        this.gameMode = gameMode;
         Platform.runLater(() -> {
             String modeText = (gameMode == 0) ? "Easy Mode" : "Normal Mode";
             gameModeLabel.setText("Game Mode: " + modeText);
