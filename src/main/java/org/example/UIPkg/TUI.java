@@ -59,25 +59,16 @@ public class TUI implements UI{
     //string builder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
-        if(game != null) {
-            if (game.getException() == null) {
-                int i = 0;
-                System.out.println("Discovered tile: ");
-                for (ComponentsView c : game.getComponentsDiscovered()) {
-                    List<String> lines = List.of(DrawComponent(c));
-                    for (String line : lines) System.out.println(line);
-                    System.out.println("[" + i + "]");
-                    i++;
-                }
-
-                System.out.println("\nCurrent tile:");
-                for (PlayerView player : game.getPlayers()) {
-                    if (player.getDeckShowed() == null && player.getCurrentTile() != null) {
-                        List<String> current = List.of(DrawComponent(player.getCurrentTile()));
-                        for (String line : current) System.out.println(line);
-                        break;
-                    }
-                }
+        assert game != null;
+        if(game.getException() == null) {
+            int i=0;
+            System.out.println("Discovered tile: ");
+            for (ComponentsView c : game.getComponentsDiscovered()) {
+                List<String> lines = List.of(DrawComponent(c));
+                for (String line : lines) System.out.println(line);
+                System.out.println("[" + i + "]");
+                i++;
+            }
 
 
                 System.out.println("\nShipboard:");
@@ -149,13 +140,14 @@ public class TUI implements UI{
                                        right_rotate -> if you want to right rotate the tile
                                        place_tile x y -> x,y are the coordinates of the cell where you want to place the tile
                                        discard_tile -> if you want to discard the component you picked
-                                   
+                                       book_tile -> place the current component in a booked slot
+                                       pick_booked_tile index -> if you want to pick a booked component with this index
+                                    
                                        remove_tile x y -> x,y are the coordinates of the tile you want to remove
                                        end_fix_ship -> if you want to end the fix ship phase
                                     
-                                       book_tile -> place the current component in a booked slot
-                                       pick_booked_tile index -> if you want to pick a booked component with this index
-
+                                       choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
+                                       end_wrecked -> if you want to end the wrecked ship phase
                                     
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
@@ -227,6 +219,14 @@ public class TUI implements UI{
             if (player.getCurrentTile() != null) {
                 List<String> lines = List.of(DrawComponent(player.getCurrentTile()));
                 for (String line : lines) System.out.println(line);
+            }
+
+            System.out.println("\nBooked tiles:");
+            if(player.getShipboardView().getBookedComponents() != null){
+                for(ComponentsView c: player.getShipboardView().getBookedComponents()){
+                    List<String> lines = List.of(DrawComponent(c));
+                    for (String line : lines) System.out.println(line);
+                }
             }
 
             if (player.getDeckShowed() != null) {
@@ -360,14 +360,14 @@ public class TUI implements UI{
         switch (type){
             case "AbandonedShip":
                 System.out.println("AbandonedShip");
-                System.out.println(adventureCardView.getNumAstronauts());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
+                System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
+                System.out.println("Num credits " + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
                 break;
             case "AbandonedStation":
                 System.out.println("AbandonedStation");
-                System.out.println(adventureCardView.getNumAstronauts());
-                System.out.println(adventureCardView.getLostDays());
+                System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
                 for(GoodsView goods: adventureCardView.getGoodsList()){
                     System.out.println(goods);
                 }
@@ -436,7 +436,7 @@ public class TUI implements UI{
 
                     switch (adventureCardView.getPenalties()[i]) {
                         case "LoseDays":
-                            System.out.println(adventureCardView.getLostDays());
+                            System.out.println("Lose days" + adventureCardView.getLostDays());
                             break;
                         case "LoseGoods":
                             System.out.println(adventureCardView.getGoodsList());
