@@ -131,57 +131,30 @@ public class Player implements Serializable {
         return components.get(random.nextInt(components.size()));
     }
 
-    public boolean checkShip() {    // devo controllare solo se i connettori in basso e a dx sono giusti
+    public boolean checkShip() {
         for(int i = 0; i < playerShipBoard.getComponentMatrix().length; i++){
             for(int j = 0; j < playerShipBoard.getComponentMatrix()[i].length; j++){
                 if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
                     Components c = playerShipBoard.getComponentMatrix()[i][j];
-                    for (int k = 0; k < 4; k++) {
-                        switch ((c.getDirection().ordinal() + k) % 4) {
-                            case 0:
-                                if (playerShipBoard.validPosition(i, j - 1) && playerShipBoard.getComponentMatrix()[i][j-1]!=null) {
-                                    if (playerShipBoard.getComponentMatrix()[i][j - 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) { //prende il connettore del componente di fianco che punta al componente che stiamo controllando
-                                        return false;
-                                    }
-                                }
-                                break;
-                            case 1:
-                                if (playerShipBoard.validPosition(i + 1, j) && playerShipBoard.getComponentMatrix()[i+1][j]!=null) {
-                                    if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
-                                        return false;
-                                    }
-                                    if (playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
-                                            && c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4]) != Connector.UNIVERSAL
-                                            && playerShipBoard.getComponentMatrix()[i + 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
-                                            c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
-                                        return false;
-                                    }
-                                }
-                                break;
-                            case 2:
-                                if (playerShipBoard.validPosition(i, j + 1) && playerShipBoard.getComponentMatrix()[i][j+1]!=null) {
-                                    if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
-                                        return false;
-                                    }
-                                    if (playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) != Connector.UNIVERSAL
-                                            && c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4]) != Connector.UNIVERSAL
-                                            && playerShipBoard.getComponentMatrix()[i][j + 1].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) !=
-                                            c.getDirConnector(Direction.values()[(c.getDirection().ordinal() + k) % 4])) {
-                                        return false;
-                                    }
-                                }
-                                break;
-                            case 3:
-                                if (playerShipBoard.validPosition(i - 1, j) && playerShipBoard.getComponentMatrix()[i-1][j]!=null) {
-                                    if (playerShipBoard.getComponentMatrix()[i - 1][j].getDirConnector(Direction.values()[((c.getDirection().ordinal() + k + 2) % 4)]) == Connector.EMPTY) {
-                                        return false;
-                                    }
-                                }
+                    for (Direction dir : Direction.values()) {
+                        int ni = i + dy(dir);
+                        int nj = j + dx(dir);
+                        if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni][nj] != null){
+                            Components neighbor = playerShipBoard.getComponentMatrix()[ni][nj];
+                            Connector myConn = c.getDirConnector(dir);
+                            Connector theirConn = neighbor.getDirConnector(opposite(dir));
+
+                            if (theirConn == Connector.EMPTY) return false;
+
+                            if (myConn != Connector.UNIVERSAL && theirConn != Connector.UNIVERSAL && myConn != theirConn)
+                                return false;
                         }
+
                     }
                     if(c.checkRightCannon(this.playerShipBoard)){
                         return false;
                     }
+
                     if(c.checkRightEngine(this.playerShipBoard)){
                         return false;
                     }
@@ -190,6 +163,33 @@ public class Player implements Serializable {
         }
         return true;
     }
+
+    private Direction rotateRelative(Direction dir, Direction rotation) {
+        int index = (dir.ordinal() - rotation.ordinal() + 4) % 4;
+        return Direction.values()[index];
+    }
+
+    public Direction opposite(Direction dir) {
+        return Direction.values()[(dir.ordinal() + 2) % 4];
+    }
+
+
+    private int dx(Direction dir) {
+        return switch (dir) {
+            case EAST -> 1;
+            case WEST -> -1;
+            default -> 0;
+        };
+    }
+
+    private int dy(Direction dir) {
+        return switch (dir) {
+            case SOUTH -> 1;
+            case NORTH -> -1;
+            default -> 0;
+        };
+    }
+
 
     public PlayerState getState() {
         return this.state;

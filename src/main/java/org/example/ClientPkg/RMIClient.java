@@ -103,7 +103,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
             System.out.println("Type a command:\n" +
                     "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
-                    "   join_lobby -> if you want to join an existing lobby\n");
+                    "   join_lobby -> if you want to join an existing lobby\n" +
+                    "   start_game -> if you want to start the game\n");
 
             while (true) {
                 try {
