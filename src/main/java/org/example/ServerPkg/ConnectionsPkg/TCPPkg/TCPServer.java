@@ -66,8 +66,6 @@ public class TCPServer implements Server {
 
     public synchronized void subscribe(ClientProxy clientProxy) {
         System.out.println(clientProxy.getPlayerName() + " subscribed");
-        clientsProxies.add(clientProxy);
-
     }
 
     public synchronized void unsubscribe(ClientProxy clientProxy) {

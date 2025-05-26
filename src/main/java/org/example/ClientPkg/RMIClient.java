@@ -48,7 +48,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             System.out.println(playerName + " is connected to RMI server.");
 
             startUpdateThread();
-            //checkConnection();
+            checkConnection();
 
             if(UI.equals("tui")){
                 startKeyboardListener();
@@ -110,26 +110,17 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
             while (true) {
                 try {
-                    // Legge l'input dell'utente
                     String input = scanner.nextLine();
-
-                    // Dividi la riga di input in parole
                     String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
 
-                    // Salva la prima parola se esiste
                     String cmd = words.length > 0 ? words[0] : "";
-
-                    // Aggiungi le parole successive alla lista
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
-                    // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
                     message.setClient(this);
                     sendMessage(message);
-                } catch (Exception e) {
-                    if(!(e instanceof NullPointerException)){
-                        System.out.println("Error sending the command: " + e.getMessage());
-                    }
+                } catch (NullPointerException | RemoteException e) {
+                    System.out.println("Error sending the command: " + e.getMessage());
                 }
             }
         });
@@ -165,7 +156,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void sendMessage(Message message) throws RemoteException {
-        server.receiveMessage(message, this.playerName);
+        server.receiveMessage(message, this);
     }
 
     public void disconnect() throws RemoteException {
@@ -195,7 +186,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void notifyLobbyCreated(int numPlayers, int shipboardLevel, int gameMode){
-        this.userInterface.onLobbyCreated(this.playerName, numPlayers, shipboardLevel, gameMode);
+        this.userInterface.onLobbyCreated(this.playerName + "(You)", numPlayers, shipboardLevel, gameMode);
     }
 
     @Override

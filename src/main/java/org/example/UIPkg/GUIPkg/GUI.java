@@ -176,7 +176,7 @@ public class GUI implements UI {
             if (nameRequestSceneController != null) {
                 nameRequestSceneController.askName();
             } else {
-                System.err.println("Errore: nameRequestSceneController è ancora null dopo il tentativo di inizializzazione");
+                System.err.println("Error: nameRequestSceneController  still null after initialization");
             }
         });
     }

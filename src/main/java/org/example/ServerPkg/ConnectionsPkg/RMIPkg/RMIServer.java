@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface, Server {
     private final GameController controller;
     private final Map<RMIClientInterface, Long> clients;
-    private Map<String, GameUpdater> gameUpdater;
+    private final Map<String, GameUpdater> gameUpdater;
 
     public RMIServer(GameController controller) throws RemoteException {
         super();
@@ -77,13 +77,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void registerClient(RMIClientInterface client) throws RemoteException {
         clients.put(client, System.currentTimeMillis());
         setGameUpdater(client);
-        controller.getNames().add(client.getPlayerName());
         System.out.println(client.getPlayerName() + " subscribed");
     }
 
     @Override
-    public void receiveMessage(Message message, String name) throws RemoteException {
-        message.setServer((Server) this);
+    public void receiveMessage(Message message, Handler handler) throws RemoteException {
+        message.setServer(this);
+        message.setHandler(handler);
         controller.addMessage(message);
     }
 
@@ -107,20 +107,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         } else {
             System.out.println("Client not found for unsubscription");
         }
-    }
-
-    public synchronized List<String> getNames() {
-        return clients.keySet().stream()
-                .map(client -> {
-                    try {
-                        return client.getPlayerName();
-                    } catch (RemoteException e) {
-                        System.err.println("Error retrieving player name: " + e.getMessage());
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull) // Esclude eventuali nomi null (in caso di eccezioni)
-                .toList();
     }
 
     public boolean getIfSubscribed(Handler handler) throws RemoteException {
