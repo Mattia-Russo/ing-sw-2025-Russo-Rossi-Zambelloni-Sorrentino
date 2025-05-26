@@ -48,7 +48,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             System.out.println(playerName + " is connected to RMI server.");
 
             startUpdateThread();
-            //checkConnection();
+            checkConnection();
 
             if(UI.equals("tui")){
                 startKeyboardListener();
@@ -195,7 +195,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void notifyLobbyCreated(int numPlayers, int shipboardLevel, int gameMode){
-        this.userInterface.onLobbyCreated(this.playerName, numPlayers, shipboardLevel, gameMode);
+        this.userInterface.onLobbyCreated(this.playerName + "(You)", numPlayers, shipboardLevel, gameMode);
     }
 
     @Override

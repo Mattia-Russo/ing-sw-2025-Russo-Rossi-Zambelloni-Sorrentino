@@ -9,6 +9,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -19,9 +20,12 @@ public class TUI implements UI{
 
     private final BlockingQueue<GameView> gameUpdatesQueue;
     private final Client client;
+    private List<String> playersList;
+    private int nameIndex;
 
     public TUI(Client client) {
         this.client = client;
+        this.playersList  = new ArrayList<>();
         gameUpdatesQueue = new LinkedBlockingQueue<>();
         startUpdateThread();
     }
@@ -52,40 +56,42 @@ public class TUI implements UI{
         }
     }
 
-    //stringbuilder per disegni migliori
+    //string builder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
-        if(game.getException() == null) {
-            int i=0;
-            System.out.println("Discovered tile: ");
-            for (ComponentsView c : game.getComponentsDiscovered()) {
-                List<String> lines = List.of(DrawComponent(c));
-                for (String line : lines) System.out.println(line);
-                System.out.println("[" + i + "]");
-                i++;
-            }
-
-            System.out.println("\nCurrent tile:");
-            for (PlayerView player : game.getPlayers()) {
-                if (player.getDeckShowed() == null && player.getCurrentTile() != null) {
-                    List<String> current = List.of(DrawComponent(player.getCurrentTile()));
-                    for (String line : current) System.out.println(line);
-                    break;
+        if(game != null) {
+            if (game.getException() == null) {
+                int i = 0;
+                System.out.println("Discovered tile: ");
+                for (ComponentsView c : game.getComponentsDiscovered()) {
+                    List<String> lines = List.of(DrawComponent(c));
+                    for (String line : lines) System.out.println(line);
+                    System.out.println("[" + i + "]");
+                    i++;
                 }
-            }
+
+                System.out.println("\nCurrent tile:");
+                for (PlayerView player : game.getPlayers()) {
+                    if (player.getDeckShowed() == null && player.getCurrentTile() != null) {
+                        List<String> current = List.of(DrawComponent(player.getCurrentTile()));
+                        for (String line : current) System.out.println(line);
+                        break;
+                    }
+                }
 
 
-            System.out.println("\nShipboard:");
-            DrawShipboard(game.getPlayers());
-            System.out.println("Current Card: ");
-            if (game.getCurrentCard() != null) {
-                DrawCurrentCard(game.getCurrentCard());
-            }
-            System.out.println("Flightboard: ");
-            DrawFlightBoard(game.getPlayers());
-            drawCommands(game);
-        }else
-            System.out.println(game.getException().getMessage());
+                System.out.println("\nShipboard:");
+                DrawShipboard(game.getPlayers());
+                System.out.println("Current Card: ");
+                if (game.getCurrentCard() != null) {
+                    DrawCurrentCard(game.getCurrentCard());
+                }
+                System.out.println("Flight board: ");
+                DrawFlightBoard(game.getPlayers());
+                drawCommands(game);
+            } else
+                System.out.println(game.getException().getMessage());
+        }
     }
 
     public void drawCommands(GameView game) {
@@ -93,8 +99,10 @@ public class TUI implements UI{
             //mancano set_name e set_position che sembra che non dobbiamo inserire
             case GAME_CREATION:
                 System.out.println(
-                        "Only the creator can start the game, so if you want to start the game, type:\n" +
-                        "   start_game\n");
+                        """
+                                Only the creator can start the game, so if you want to start the game, type:
+                                   start_game
+                                """);
                 break;
             case GAME_READY:
                 System.out.println(
@@ -183,14 +191,14 @@ public class TUI implements UI{
         for (int i = 0; i < 4; i++)
             Arrays.fill(grid[i], " ");
         if (comp != null) {
-            Connector[] conns =comp.getConnectors();
-            String type =comp.getType();
+            Connector[] connectors =comp.getConnectors();
+            String type = comp.getType();
             String[] initials =getComponentInitials(type);
 
-            grid[0][1] = getConnectorSymbol(conns[0]);
-            grid[1][0] = getConnectorSymbol(conns[3]);
-            grid[1][3] = getConnectorSymbol(conns[1]);
-            grid[3][1] = getConnectorSymbol(conns[2]);
+            grid[0][1] = getConnectorSymbol(connectors[0]);
+            grid[1][0] = getConnectorSymbol(connectors[3]);
+            grid[1][3] = getConnectorSymbol(connectors[1]);
+            grid[3][1] = getConnectorSymbol(connectors[2]);
             grid[0][2] = getDirectionLetter(comp.getDirection());
             grid[1][1] = initials[0];
             if (initials.length > 1) grid[1][2] = initials[1];
@@ -247,7 +255,7 @@ public class TUI implements UI{
                     }
                 }
 
-                System.out.printf(" %d   %s\n", row, line[0].toString());
+                System.out.printf(" %d   %s\n", row, line[0]);
                 for (int i =1; i<5; i++) {
                     System.out.print("     ");
                     System.out.println(line[i].toString());
@@ -272,27 +280,19 @@ public class TUI implements UI{
 
     private String getConnectorSymbol(Connector c) {
         return switch (c) {
-            case SINGLE:
-                yield "-";
-            case DOUBLE:
-                yield "=";
-            case UNIVERSAL:
-                yield "#";
-            default:
-                yield " ";
+            case SINGLE -> "-";
+            case DOUBLE -> "=";
+            case UNIVERSAL -> "#";
+            default -> " ";
         };
     }
 
     private String getDirectionLetter(Direction d) {
         return switch (d) {
-            case NORTH:
-                yield "N";
-            case EAST:
-                yield "E";
-            case SOUTH:
-                yield "S";
-            case WEST:
-                yield"W";
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
         };
     }
 
@@ -315,8 +315,8 @@ public class TUI implements UI{
             case "Storage":
                 StringBuilder goods = new StringBuilder();
                 List<GoodsView> goodsList = List.of(comp.getGoods());
-                for (int i = 0; i < goodsList.size(); i++) {
-                    GoodsColour color = goodsList.get(i).getColour();
+                for (GoodsView goodsView : goodsList) {
+                    GoodsColour color = goodsView.getColour();
                     goods.append(getGoodColorSquare(color));
                 }
                 return goods.toString();
@@ -331,36 +331,26 @@ public class TUI implements UI{
 
     private String getAlienColorBlock(AlienColour color) {
         return switch (color) {
-            case BROWN:
-                yield"[B]";
-            case PURPLE:
-                yield "[P]";
+            case BROWN -> "[B]";
+            case PURPLE -> "[P]";
         };
     }
 
     private String getGoodColorSquare(GoodsColour colour) {
         return switch (colour) {
-            case RED:
-                yield"\u001B[41m█\u001B[0m";
-            case YELLOW:
-                yield "\u001B[43m█\u001B[0m";
-            case GREEN:
-                yield"\u001B[42m█\u001B[0m";
-            case BLUE:
-                yield"\u001B[44m█\u001B[0m";
+            case RED -> "\u001B[41m█\u001B[0m";
+            case YELLOW -> "\u001B[43m█\u001B[0m";
+            case GREEN -> "\u001B[42m█\u001B[0m";
+            case BLUE -> "\u001B[44m█\u001B[0m";
         };
     }
 
     private String getDirectionArrow(Direction d) {
         return switch (d) {
-            case NORTH:
-                yield"↑";
-            case EAST:
-                yield "→";
-            case SOUTH:
-                yield "↓";
-            case WEST:
-                yield "←";
+            case NORTH -> "↑";
+            case EAST -> "→";
+            case SOUTH -> "↓";
+            case WEST -> "←";
         };
     }
 
@@ -484,11 +474,32 @@ public class TUI implements UI{
         System.out.println(notifyClientMessage.getMessage());
     }
 
-    public void onNameAccepted(){}
+    public void onNameAccepted(){
+        System.out.println("Welcome " + client.getPlayerName() + "!");
+    }
 
-    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){}
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){
+        playersList.add(name);
+        this.nameIndex = 0;
+        System.out.println("Lobby created with this parameters:\n" +
+                "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
+                "Connected players: \n" + playersList.getFirst());
+    }
 
-    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){}
+    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){
+        this.playersList = names;
+        this.nameIndex = names.size() - 1;
+        System.out.println("Lobby created with this parameters:\n" +
+                "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
+                "Connected players:");
+        for(String player: playersList){
+            if(player.equals(names.getLast())){
+                System.out.println(player + " (You)");
+            } else {
+                System.out.println(player);
+            }
+        }
+    }
 
     public void printMessage(String message){
         System.out.println(message);
@@ -497,5 +508,16 @@ public class TUI implements UI{
     public void onCreateLobbyAccepted(){}
 
     @Override
-    public void onUpdatePlayerList(List<String> updatedList){}
+    public void onUpdatePlayerList(List<String> updatedList){
+        this.playersList = updatedList;
+        System.out.println("Somebody else joined!\n" +
+                "Connected players:" );
+            for(String player: playersList){
+                if(player.equals(updatedList.get(nameIndex))){
+                    System.out.println(player + " (You)");
+                } else {
+                    System.out.println(player);
+                }
+            }
+    }
 }

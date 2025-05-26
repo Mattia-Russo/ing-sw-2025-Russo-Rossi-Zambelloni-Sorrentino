@@ -43,7 +43,7 @@ public class Message implements Serializable {
     public void handle(GameController controller, String playerName) throws RemoteException {}
 
     public boolean checkClient() throws RemoteException {
-        if(this.handler.getPlayerName() == null) {
+        if(this.getHandler() == null || this.handler.getPlayerName() == null) {
             System.out.println("You need to set your name first");
             return false;
         } else if (!server.getIfSubscribed(handler)) {

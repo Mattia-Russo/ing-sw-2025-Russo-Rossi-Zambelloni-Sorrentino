@@ -159,14 +159,6 @@ public class SettingsSceneController implements Initializable {
         });
     }
 
-    private void showMessage() {
-        Platform.runLater(() -> {
-            validationMessage.setText("Lobby created successfully!");
-            validationMessage.setStyle("-fx-text-fill: " + "green" + "; -fx-font-size: 14px; -fx-font-weight: bold;");
-            validationMessage.setVisible(true);
-        });
-    }
-
     private void hideValidationMessage() {
         Platform.runLater(() -> {
             validationMessage.setVisible(false);
@@ -174,7 +166,11 @@ public class SettingsSceneController implements Initializable {
     }
 
     public void onLobbyCreated() {
-        Platform.runLater(this::showMessage);
+        Platform.runLater(() -> {
+            validationMessage.setText("Lobby created successfully!");
+            validationMessage.setStyle("-fx-text-fill: " + "green" + "; -fx-font-size: 14px; -fx-font-weight: bold;");
+            validationMessage.setVisible(true);
+        });
     }
 
     public int getNumberOfPlayers() {
