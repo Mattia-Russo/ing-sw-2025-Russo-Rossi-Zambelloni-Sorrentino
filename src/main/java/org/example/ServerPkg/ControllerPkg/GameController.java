@@ -145,8 +145,10 @@ public class GameController{
                         lobbyState = game.getLobbyState();
                         new GameView(game, null);
                     }
-                }else
+                }else {
                     addNewPlayer(name);
+                    new GameView(game, new Exception("Player joined " + name));
+                }
                 game.setGameUpdaters(gameUpdaters);
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("Wait for the lobby to be set");

@@ -79,9 +79,9 @@ public class TUI implements UI{
             }
             System.out.println("Flight board: ");
             DrawFlightBoard(game.getPlayers());
-            drawCommands(game);
         } else
             System.out.println(game.getException().getMessage());
+        drawCommands(game);
     }
 
     public void drawCommands(GameView game) {
