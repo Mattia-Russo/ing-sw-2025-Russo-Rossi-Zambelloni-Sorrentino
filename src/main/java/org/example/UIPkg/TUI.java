@@ -65,8 +65,8 @@ public class TUI implements UI{
             int i=0;
             System.out.println("Discovered tile: ");
             for (ComponentsView c : game.getComponentsDiscovered()) {
-                List<String> lines = List.of(DrawComponent(c));
-                for (String line : lines) System.out.println(line);
+                String[] s = DrawComponent(c);
+                for (String line : s) System.out.println(line);
                 System.out.println("[" + i + "]");
                 i++;
             }
@@ -364,10 +364,12 @@ public class TUI implements UI{
 
             case "Storage":
                 StringBuilder goods = new StringBuilder();
-                List<GoodsView> goodsList = List.of(comp.getGoods());
-                for (GoodsView goodsView : goodsList) {
-                    GoodsColour color = goodsView.getColour();
-                    goods.append(getGoodColorSquare(color));
+                if(comp.getGoods()!=null){
+                    List<GoodsView> goodsList = List.of(comp.getGoods());
+                    for (GoodsView goodsView : goodsList) {
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                    }
                 }
                 return goods.toString();
 
