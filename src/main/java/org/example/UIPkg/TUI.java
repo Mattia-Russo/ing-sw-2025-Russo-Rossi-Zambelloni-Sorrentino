@@ -187,8 +187,8 @@ public class TUI implements UI{
             String[] initials = getComponentInitials(comp.getType());
 
             grid[0][4] = getConnectorSymbol(connectors[0]);
-            grid[4][0] = getConnectorSymbol(connectors[3]);
-            grid[4][8] = getConnectorSymbol(connectors[1]);
+            grid[5][0] = getConnectorSymbol(connectors[3]);
+            grid[5][8] = getConnectorSymbol(connectors[1]);
             grid[6][4] = getConnectorSymbol(connectors[2]);
             grid[0][8] = getDirectionLetter(comp.getDirection());
 
@@ -244,7 +244,7 @@ public class TUI implements UI{
 
             System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.printf("    Col %d    ", col);
+                System.out.printf("   Col %d    ", col);
             }
             System.out.println();
 
