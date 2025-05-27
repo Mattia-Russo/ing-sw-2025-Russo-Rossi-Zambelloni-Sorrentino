@@ -17,7 +17,7 @@ public class Engine extends Components implements Serializable {
         if(power == 1){
             this.type = "Engine";
         }else {
-            this.type = "Double Engine";
+            this.type = "DoubleEngine";
         }
     }
 
