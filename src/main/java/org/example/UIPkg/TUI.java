@@ -72,7 +72,7 @@ public class TUI implements UI{
 
 
             System.out.println("\nShipboard:");
-            DrawShipboard(game.getPlayers());
+            DrawShipboard(game.getPlayers(), game.getShipBoardLevel());
             System.out.println("Current Card: ");
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
@@ -176,6 +176,7 @@ public class TUI implements UI{
         }
 
     }
+
     private String[] DrawComponent(ComponentsView comp) {
         String[] box = new String[5]; // 4 righe + bordo inferiore
         String[][] grid = new String[4][4];
@@ -205,10 +206,11 @@ public class TUI implements UI{
         }
 
         // Riga finale: chiusura del quadrato
-        box[4] = "└────┘";
+        box[4] = "└───────┘";
         return box;
     }
-    private void DrawShipboard(List<PlayerView> players) {
+
+    private void DrawShipboard(List<PlayerView> players, int shipboardLevel) {
         final int ROWS = 5;
         final int COLS = 7;
 
@@ -235,33 +237,79 @@ public class TUI implements UI{
                 }
             }
 
-            System.out.print("     ");
-
+            System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.print(" Col " + col + " ");
+                System.out.printf("  Col %d   ", col);
             }
             System.out.println();
 
             ComponentsView[][] matrix = player.getShipboardView().getComponentsView();
 
             for (int row = 0; row < ROWS; row++) {
-                StringBuilder[] line = new StringBuilder[5];
-                for (int i = 0; i < 5; i++) line[i] = new StringBuilder();
-                for (int col = 0; col < COLS; col++) {
-                    String[] box = DrawComponent(matrix[row][col]);
-                    for (int i = 0; i < 5; i++) {
-                        line[i].append(box[i]).append(" ");
-                    }
-                }
+                if (shouldPrintRow(row, shipboardLevel)) {
+                    StringBuilder[] line = new StringBuilder[5];
+                    for (int i = 0; i < 5; i++) line[i] = new StringBuilder();
 
-                System.out.printf(" %d   %s\n", row, line[0]);
-                for (int i =1; i<5; i++) {
-                    System.out.print("     ");
-                    System.out.println(line[i].toString());
+                    for (int col = 0; col < COLS; col++) {
+                        if (shouldPrintCell(row, col, shipboardLevel)) {
+                            String[] box = DrawComponent(matrix[row][col]);
+                            for (int i = 0; i < 5; i++) {
+                                line[i].append(box[i]).append("  ");
+                            }
+                        } else {
+                            for (int i = 0; i < 5; i++) {
+                                line[i].append("         ");
+                            }
+                        }
+                    }
+
+                    System.out.printf(" %d     %s\n", row, line[0]);
+                    for (int i = 1; i < 5; i++) {
+                        System.out.print("       ");
+                        System.out.println(line[i].toString());
+                    }
                 }
             }
         }
     }
+
+    private boolean shouldPrintRow(int row, int shipboardLevel) {
+        if (shipboardLevel == 1) {
+            return row >= 1 && row <= 3;
+        }
+        return true;
+    }
+
+    private boolean shouldPrintCell(int row, int col, int shipboardLevel) {
+        return switch (shipboardLevel) {
+            case 1 -> {
+                if (row == 1) {
+                    yield col >= 2 && col <= 4;
+                } else if (row == 2) {
+                    yield col >= 1 && col <= 5;
+                } else if (row == 3) {
+                    yield col >= 2 && col <= 4;
+                }
+                yield false;
+            }
+            case 2 -> {
+                if (row == 0) {
+                    yield col == 3;
+                } else if (row == 1) {
+                    yield col >= 2 && col <= 4;
+                } else if (row == 2) {
+                    yield col >= 1 && col <= 5;
+                } else if (row == 3) {
+                    yield col >= 2 && col <= 4;
+                } else if (row == 4) {
+                    yield col >= 2 && col <= 4;
+                }
+                yield false;
+            }
+            default -> true;
+        };
+    }
+
     private String[] getComponentInitials(String type) {
         return switch (type) {
             case "Cabin" -> new String[]{"C", "b"};
