@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.CardPkg.*;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
@@ -718,7 +719,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 2, 1, null);
+        Game g=new Game(4, 2, 1, new GameController());
         g.getPlayers().addAll(players);
 
         g.setPlayersShipboard();

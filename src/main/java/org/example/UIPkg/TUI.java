@@ -316,13 +316,14 @@ public class TUI implements UI{
             case "Central Cabin" -> new String[]{"Central", "Cabin ", "       "};
             case "Cabin" -> new String[]{"       ", " Cabin ", "       "};
             case "Storage" -> new String[]{"       ", "Storage", "       "};
-            case "LifeSupportSystem" -> new String[]{"Life   \n", "Support\n", "System "};
+            case "LifeSupportSystem" -> new String[]{"Life   ", "Support", "System "};
             case "Shield" -> new String[]{"       ", "Shield ", "       "};
             case "Cannon" -> new String[]{"       ", "Cannon ", "       "};
-            case "DoubleCannon" -> new String[]{"Double \n", "Cannon ", "       "};
+            case "DoubleCannon" -> new String[]{"Double ", "Cannon ", "       "};
             case "Tubes" -> new String[]{"       ", " Tubes ", "       "};
             case "Engine" -> new String[]{"       ", "Engine ", "       "};
-            case "DoubleEngine" -> new String[]{"Double \n", "Engine ", "       "};
+            case "DoubleEngine" -> new String[]{"Double ", "Engine ", "       "};
+            case "BatteryStorage" -> new String[]{"Battery", "Storage", "       "};
             default -> new String[]{type.substring(0, 1)};
         };
     }
