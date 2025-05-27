@@ -323,15 +323,15 @@ public class TUI implements UI{
 
     private String[] getComponentInitials(String type) {
         return switch (type) {
-            case "Cabin" -> new String[]{"C", "b"};
-            case "Storage" -> new String[]{"S", "t"};
-            case "LifeSupportSystem" -> new String[]{"L", "S"};
-            case "Shield" -> new String[]{"S", "h"};
-            case "Cannon" -> new String[]{"C", "a"};
-            case "DoubleCannon" -> new String[]{"D", "c"};
-            case "Tubes" -> new String[]{"T", "b"};
-            case "Engine" -> new String[]{"E", "n"};
-            case "DoubleEngine" -> new String[]{"D", "e"};
+            case "Cabin" -> new String[]{"Cabin"};
+            case "Storage" -> new String[]{"Storage"};
+            case "LifeSupportSystem" -> new String[]{"LifeSupport\n", "System"};
+            case "Shield" -> new String[]{"Shield"};
+            case "Cannon" -> new String[]{"Cannon"};
+            case "DoubleCannon" -> new String[]{"Double\n", "Cannon"};
+            case "Tubes" -> new String[]{"Tubes"};
+            case "Engine" -> new String[]{"Engine"};
+            case "DoubleEngine" -> new String[]{"Double\n", "Engine"};
             default -> new String[]{type.substring(0, 1)};
         };
     }
