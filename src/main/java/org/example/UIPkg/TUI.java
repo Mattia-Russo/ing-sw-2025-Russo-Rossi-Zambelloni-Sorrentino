@@ -267,7 +267,7 @@ public class TUI implements UI{
                     } else {
                         //print spazio vuoto
                         for (StringBuilder stringBuilder : line) {
-                            stringBuilder.append("              ");
+                            stringBuilder.append("             ");
                         }
                     }
                 }

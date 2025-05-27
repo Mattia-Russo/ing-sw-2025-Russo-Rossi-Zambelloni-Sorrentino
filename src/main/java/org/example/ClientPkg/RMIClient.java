@@ -47,7 +47,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             System.out.println(playerName + " is connected to RMI server.");
 
             startUpdateThread();
-            //checkConnection();
+            checkConnection();
 
             if(UI.equals("tui")){
                 startKeyboardListener();
