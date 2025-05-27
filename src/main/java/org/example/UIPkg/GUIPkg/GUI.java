@@ -184,7 +184,7 @@ public class GUI implements UI {
 
     @Override
     public void readName(){
-        //does nothing, waits for button click
+        //does nothing, waits for the button click
     }
 
     @Override
