@@ -31,16 +31,13 @@ public class GUIMain extends Application {
     public void start(Stage stage) throws IOException {
         this.primaryStage = stage;
 
-        // Imposta la GUI principale
         guiRoot.setGuiMain(this);
 
         try {
             guiRoot.goToFirstScene();
-            // IMPORTANTE: Notifica che la GUI è pronta DOPO aver caricato la prima scena
             guiRoot.notifyGuiReady();
         } catch (IOException e) {
             e.printStackTrace();
-            // Anche in caso di errore, notifica per evitare deadlock
             guiRoot.notifyGuiReady();
         }
     }

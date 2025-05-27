@@ -163,7 +163,6 @@ public class GUI implements UI {
 
     @Override
     public void askName(){
-        // Assicurati che il metodo venga eseguito sul JavaFX Application Thread
         Platform.runLater(() -> {
             if (nameRequestSceneController == null) {
                 try {

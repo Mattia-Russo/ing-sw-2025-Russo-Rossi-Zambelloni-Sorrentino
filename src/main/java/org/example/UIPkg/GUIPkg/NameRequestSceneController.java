@@ -74,11 +74,11 @@ public class NameRequestSceneController implements Initializable {
         lobbyMessage.setVisible(false);
 
         // Setup del video di background
-        String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
-        Media backgroundMedia = new Media(videoPath);
+        //String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
+        //Media backgroundMedia = new Media(videoPath);
 
-        mediaPlayer = new MediaPlayer(backgroundMedia);
-        mediaPlayer.setAutoPlay(true);
+        //mediaPlayer = new MediaPlayer(backgroundMedia);
+        //mediaPlayer.setAutoPlay(true);
 
         MediaView mediaView = new MediaView(mediaPlayer);
         mediaView.fitWidthProperty().bind(borderPane.widthProperty());
