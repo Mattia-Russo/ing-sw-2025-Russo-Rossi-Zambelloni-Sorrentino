@@ -78,9 +78,9 @@ public class TUI implements UI{
             }
             System.out.println("Flight board: ");
             DrawFlightBoard(game.getPlayers());
+            drawCommands(game);
         } else
             System.out.println(game.getException().getMessage());
-        drawCommands(game);
     }
 
     public void drawCommands(GameView game) {
@@ -242,11 +242,7 @@ public class TUI implements UI{
 
             System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                if (shouldPrintColumnHeader(col, shipboardLevel)) {
-                    System.out.printf("  Col %d   ", col);
-                } else {
-                    System.out.print("             ");
-                }
+                System.out.printf("    Col %d     ", col);
             }
             System.out.println();
 
@@ -277,14 +273,6 @@ public class TUI implements UI{
                 }
             }
         }
-    }
-
-    private boolean shouldPrintColumnHeader(int col, int shipboardLevel) {
-        return switch (shipboardLevel) {
-            case 1 -> col >= 0 && col <= 4;
-            case 2 -> col >= 0 && col <= 6;
-            default -> true;
-        };
     }
 
     private boolean shouldPrintCell(int row, int col, int shipboardLevel) {
@@ -325,7 +313,7 @@ public class TUI implements UI{
         return switch (type) {
             case "Cabin" -> new String[]{"Cabin"};
             case "Storage" -> new String[]{"Storage"};
-            case "LifeSupportSystem" -> new String[]{"LifeSupport\n", "System"};
+            case "LifeSupportSystem" -> new String[]{"Life\n","Support\n", "System"};
             case "Shield" -> new String[]{"Shield"};
             case "Cannon" -> new String[]{"Cannon"};
             case "DoubleCannon" -> new String[]{"Double\n", "Cannon"};
@@ -414,6 +402,7 @@ public class TUI implements UI{
 
     private void DrawCurrentCard(AdventureCardView adventureCardView) {
         String type=adventureCardView.getType();
+        StringBuilder goods = new StringBuilder();
 
         switch (type){
             case "AbandonedShip":
@@ -426,17 +415,21 @@ public class TUI implements UI{
                 System.out.println("AbandonedStation");
                 System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
                 System.out.println("Lost days " + adventureCardView.getLostDays());
-                for(GoodsView goods: adventureCardView.getGoodsList()){
-                    System.out.println(goods);
+                for(GoodsView goodsView: adventureCardView.getGoodsList()){
+                    GoodsColour color = goodsView.getColour();
+                    goods.append(getGoodColorSquare(color));
+                    goods.append(" ");
                 }
+                System.out.println(goods);
                 break;
             case "Epidemic":
                 System.out.println("Epidemic");
                 break;
             case "MeteorCard":
                 System.out.println("MeteorCard");
-                for(Meteor meteor: adventureCardView.getMeteorList()){
-                    System.out.println(meteor);
+                for(Meteor meteorView: adventureCardView.getMeteorList()){
+                    System.out.println("Type " + meteorView.getType());
+                    System.out.println("Direction " + meteorView.getDirection());
                 }
                 break;
             case "OpenSpace":
@@ -444,35 +437,46 @@ public class TUI implements UI{
                 break;
             case "Pirates":
                 System.out.println("Pirates");
-                System.out.println(adventureCardView.getCannonPower());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
+                System.out.println("Cannon power " + adventureCardView.getCannonPower());
+                System.out.println("Credits" + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
                 for(CannonFire fire: adventureCardView.getCannonFireList()){
-                    System.out.println(fire);
+                    System.out.println("Type " + fire.getType());
+                    System.out.println("Direction " + fire.getDirection());
+
                 }
                 break;
             case "PlanetCard":
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
-                    System.out.println(planet.getPlanetNumber());
-                    System.out.println(planet.getGoods());
-                    System.out.println(adventureCardView.getLostDays());
+                    System.out.println("Planet number " + planet.getPlanetNumber());
+                    for(GoodsView goodsView: planet.getGoods()){
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                        goods.append(" ");
+                    }
+                    System.out.println(goods);
+                    System.out.println("Lost days " + adventureCardView.getLostDays());
                 }
                 break;
             case "Slavers":
                 System.out.println("Slavers");
-                System.out.println(adventureCardView.getCannonPower());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
-                System.out.println(adventureCardView.getNumAstronauts());
+                System.out.println("Cannon power " + adventureCardView.getCannonPower());
+                System.out.println("Credits" + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
+                System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
                 break;
             case "Smugglers":
                 System.out.println("Smugglers");
-                System.out.println(adventureCardView.getCannonPower());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
-                System.out.println(adventureCardView.getNumGoods());
-                System.out.println(adventureCardView.getGoodsList());
+                System.out.println("Cannon power " + adventureCardView.getCannonPower());
+                System.out.println("Credits " + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
+                System.out.println("Num goods" + adventureCardView.getNumGoods());
+                for(GoodsView goodsView: adventureCardView.getGoodsList()){
+                    GoodsColour color = goodsView.getColour();
+                    goods.append(getGoodColorSquare(color));
+                }
+                System.out.println(goods);
                 break;
             case "Stardust":
                 System.out.println("Stardust");
@@ -497,13 +501,17 @@ public class TUI implements UI{
                             System.out.println("Lose days" + adventureCardView.getLostDays());
                             break;
                         case "LoseGoods":
-                            System.out.println(adventureCardView.getGoodsList());
+                            System.out.println("Lose goods " + adventureCardView.getNumGoods());
                             break;
                         case "cannonFire":
-                            System.out.println(adventureCardView.getCannonFireList());
+                            for(CannonFire fire: adventureCardView.getCannonFireList()){
+                                System.out.println("Type " + fire.getType());
+                                System.out.println("Direction " + fire.getDirection());
+
+                            }
                             break;
                         case "LoseAstronauts":
-                            System.out.println(adventureCardView.getNumAstronauts());
+                            System.out.println("Num astronauts" + adventureCardView.getNumAstronauts());
                             break;
                     }
                 }
