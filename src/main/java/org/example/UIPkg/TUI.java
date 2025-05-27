@@ -371,7 +371,7 @@ public class TUI implements UI{
                 return goods.toString();
 
             case "Shield":
-                return getDirectionArrow(comp.getDirection()) + getDirectionArrow(comp.getDirection());
+                return getDirectionArrow(comp.getShieldedDirections()[0]) + getDirectionArrow(comp.getShieldedDirections()[1]);
 
             default:
                 return "";
