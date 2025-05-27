@@ -70,7 +70,6 @@ public class TUI implements UI{
                 i++;
             }
 
-
             System.out.println("\nShipboard:");
             DrawShipboard(game.getPlayers(), game.getShipBoardLevel());
             System.out.println("Current Card: ");
@@ -178,7 +177,8 @@ public class TUI implements UI{
     }
 
     private String[] DrawComponent(ComponentsView comp) {
-        String[] box = new String[5]; // 4 righe + bordo inferiore
+        String[] box = new String[6]; // 4 righe + bordo inferiore
+        box[0] = "┌──────────┐";
         String[][] grid = new String[4][4];
         for (int i = 0; i < 4; i++)
             Arrays.fill(grid[i], " ");
@@ -202,11 +202,12 @@ public class TUI implements UI{
         }
 
         for (int i = 0; i < 4; i++) {
-            box[i] = "│" +String.join("", grid[i]) + "│";
+            int j = i+1;
+            box[j] = "│" +String.join("  ", grid[i]) + "│";
         }
 
         // Riga finale: chiusura del quadrato
-        box[4] = "└───────┘";
+        box[5] = "└──────────┘";
         return box;
     }
 
@@ -215,7 +216,7 @@ public class TUI implements UI{
         final int COLS = 7;
 
         for (PlayerView player : players) {
-            System.out.println("Shipboard of " + player.getName() + ":");
+            System.out.println("Board of " + player.getName() + ":");
             System.out.println("\nCurrent tile:");
             if (player.getCurrentTile() != null) {
                 List<String> lines = List.of(DrawComponent(player.getCurrentTile()));
@@ -237,62 +238,58 @@ public class TUI implements UI{
                 }
             }
 
+            System.out.println("\nShipboard:");
+
             System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.printf("  Col %d   ", col);
+                if (shouldPrintColumnHeader(col, shipboardLevel)) {
+                    System.out.printf("  Col %d   ", col);
+                } else {
+                    System.out.print("             ");
+                }
             }
             System.out.println();
 
             ComponentsView[][] matrix = player.getShipboardView().getComponentsView();
 
             for (int row = 0; row < ROWS; row++) {
-                if (shouldPrintRow(row, shipboardLevel)) {
-                    StringBuilder[] line = new StringBuilder[5];
-                    for (int i = 0; i < 5; i++) line[i] = new StringBuilder();
+                StringBuilder[] line = new StringBuilder[6];
+                for (int i = 0; i < 6; i++) line[i] = new StringBuilder();
 
-                    for (int col = 0; col < COLS; col++) {
-                        if (shouldPrintCell(row, col, shipboardLevel)) {
-                            String[] box = DrawComponent(matrix[row][col]);
-                            for (int i = 0; i < 5; i++) {
-                                line[i].append(box[i]).append("  ");
-                            }
-                        } else {
-                            for (int i = 0; i < 5; i++) {
-                                line[i].append("         ");
-                            }
+                for (int col = 0; col < COLS; col++) {
+                    if (shouldPrintCell(row, col, shipboardLevel)) {
+                        String[] box = DrawComponent(matrix[row][col]);
+                        for (int i = 0; i < 6; i++) {
+                            line[i].append(box[i]).append("  ");
+                        }
+                    } else {
+                        //print spazio vuoto
+                        for (int i = 0; i < 6; i++) {
+                            line[i].append("              ");
                         }
                     }
+                }
 
-                    System.out.printf(" %d     %s\n", row, line[0]);
-                    for (int i = 1; i < 5; i++) {
-                        System.out.print("       ");
-                        System.out.println(line[i].toString());
-                    }
+                System.out.printf(" %d     %s\n", row, line[0]);
+                for (int i = 1; i < 6; i++) {
+                    System.out.print("       ");
+                    System.out.println(line[i].toString());
                 }
             }
         }
     }
 
-    private boolean shouldPrintRow(int row, int shipboardLevel) {
-        if (shipboardLevel == 1) {
-            return row >= 1 && row <= 3;
-        }
-        return true;
+    private boolean shouldPrintColumnHeader(int col, int shipboardLevel) {
+        return switch (shipboardLevel) {
+            case 1 -> col >= 0 && col <= 4;
+            case 2 -> col >= 0 && col <= 6;
+            default -> true;
+        };
     }
 
     private boolean shouldPrintCell(int row, int col, int shipboardLevel) {
         return switch (shipboardLevel) {
             case 1 -> {
-                if (row == 1) {
-                    yield col >= 2 && col <= 4;
-                } else if (row == 2) {
-                    yield col >= 1 && col <= 5;
-                } else if (row == 3) {
-                    yield col >= 2 && col <= 4;
-                }
-                yield false;
-            }
-            case 2 -> {
                 if (row == 0) {
                     yield col == 3;
                 } else if (row == 1) {
@@ -300,9 +297,23 @@ public class TUI implements UI{
                 } else if (row == 2) {
                     yield col >= 1 && col <= 5;
                 } else if (row == 3) {
-                    yield col >= 2 && col <= 4;
+                    yield col >= 1 && col <= 5;
                 } else if (row == 4) {
-                    yield col >= 2 && col <= 4;
+                    yield col == 1 || col == 2 || col == 4 || col == 5;
+                }
+                yield false;
+            }
+            case 2 -> {
+                if (row == 0) {
+                    yield col == 2 || col == 4;
+                } else if (row == 1) {
+                    yield col >= 1 && col <= 5;
+                } else if (row == 2) {
+                    yield col >= 0 && col <= 6;
+                } else if (row == 3) {
+                    yield col >= 0 && col <= 6;
+                } else if (row == 4) {
+                    yield (col >= 0 && col <= 2) || (col >= 4 && col <= 6);
                 }
                 yield false;
             }
