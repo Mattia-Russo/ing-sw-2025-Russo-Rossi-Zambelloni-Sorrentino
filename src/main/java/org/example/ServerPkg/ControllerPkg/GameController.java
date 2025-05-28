@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg;
 
 import org.example.MessagePkg.Message;
+import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -11,6 +12,7 @@ import org.example.ServerPkg.Model.TimerGenerator;
 import org.example.UIPkg.GameUpdater;
 
 import java.io.*;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -26,6 +28,7 @@ public class GameController{
     private ArrayList<String> nameUsed;
     private ArrayList<Player> PlayerToLoad;
     private boolean fileLoaded;
+    private ArrayList<Server> serverList;
 
     public GameController(){
         this.game = null;
@@ -36,6 +39,7 @@ public class GameController{
         this.nameUsed = new ArrayList<>();
         this.fileLoaded = false;
         this.PlayerToLoad = new ArrayList<>();
+        this.serverList = new ArrayList<>();
         startMessageProcessing();
     }
 
@@ -54,6 +58,10 @@ public class GameController{
         });
         messageProcessor.setName("MessageProcessor");
         messageProcessor.start();
+    }
+
+    public void addServer(Server server){
+        serverList.add(server);
     }
 
     private void processMessage(Message message) {
@@ -128,7 +136,6 @@ public class GameController{
         if (game.getPlayers().size() < game.getNumPlayer()) {
             Player p = new Player(game.getPlayers().size(), name, game);
             game.getPlayers().add(p);
-            this.nameUsed.add(name);
         } else throw new InvalidAddPlayerException("can't add any more players");
     }
 
@@ -216,9 +223,12 @@ public class GameController{
             return false;
         }else if(!fileLoaded ) {
             for (String s : this.nameUsed) {
-                if (s.equals(name)) return false;
+                if (s.equals(name)){
+                    return false;
+                }
             }
         }
+        nameUsed.add(name);
         return true;
     }
 
@@ -228,5 +238,17 @@ public class GameController{
 
     public void setGameCreating(){
         this.lobbyState = LobbyState.GAME_CREATION;
+    }
+
+    public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
+        for(Server s : serverList){
+            s.notifyBroadcast(exclude, message);
+        }
+    }
+
+    public void updatePlayerList(String exclude) throws RemoteException {
+        for(Server s : serverList){
+            s.updatePlayerList(exclude);
+        }
     }
 }

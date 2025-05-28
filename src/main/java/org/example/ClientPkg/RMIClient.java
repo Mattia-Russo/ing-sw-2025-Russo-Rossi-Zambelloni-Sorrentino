@@ -147,6 +147,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     userInterface.onNameAccepted();
                 } else {
                     System.out.println("Name already taken");
+                    notifyNameAlreadyUsed();
                 }
             } catch (RemoteException e){
                 e.printStackTrace();

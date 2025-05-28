@@ -39,10 +39,8 @@ public class TCPClient implements Client {
             this.userInterface = new TUI(this);
         } else {
             this.userInterface = new GUI(this);
-            System.out.println("Starting GUI...");
             Thread guiThread = new Thread(userInterface::startGui);
             guiThread.start();
-            System.out.println("GUI started.");
         }
         boolean nameSet = false;
         while(!nameSet){
@@ -64,7 +62,7 @@ public class TCPClient implements Client {
             }
         }
 
-        System.out.println("is connected to TCP server.");
+        System.out.println("Connected to TCP server.");
 
         startPingThread();
         checkServerConnection();
@@ -222,6 +220,7 @@ public class TCPClient implements Client {
                 out.flush();
             } catch (IOException e) {
                 System.out.println("Error sending message from client: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }

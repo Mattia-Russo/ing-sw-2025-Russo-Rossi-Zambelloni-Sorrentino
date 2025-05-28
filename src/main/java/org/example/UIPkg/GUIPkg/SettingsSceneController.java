@@ -11,7 +11,6 @@ import org.example.MessagePkg.Message;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class SettingsSceneController extends GuiController implements Initializable {
@@ -43,10 +42,6 @@ public class SettingsSceneController extends GuiController implements Initializa
     @FXML
     private Label gameModeLabel;
 
-    private int numberOfPlayers;
-    private int shipboardLevel;
-    private int gameMode;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -59,19 +54,19 @@ public class SettingsSceneController extends GuiController implements Initializa
     private void setupFieldValidation() {
         numberOfPlayersField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
-                numberOfPlayersField.setText(newValue.replaceAll("[^\\d]", ""));
+                numberOfPlayersField.setText(newValue.replaceAll("\\D", ""));
             }
         });
 
         shipboardLevelField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
-                shipboardLevelField.setText(newValue.replaceAll("[^\\d]", ""));
+                shipboardLevelField.setText(newValue.replaceAll("\\D", ""));
             }
         });
 
         gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
-                gameModeField.setText(newValue.replaceAll("[^\\d]", ""));
+                gameModeField.setText(newValue.replaceAll("\\D", ""));
             }
         });
 
@@ -94,16 +89,11 @@ public class SettingsSceneController extends GuiController implements Initializa
             args[0] = numberOfPlayersField.getText();
             args[1] = shipboardLevelField.getText();
             args[2] = gameModeField.getText();
-            numberOfPlayers = Integer.parseInt(args[0]);
-            shipboardLevel = Integer.parseInt(args[1]);
-            gameMode = Integer.parseInt(args[2]);
 
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("create_lobby", java.util.Arrays.asList(args));
             getGuiRoot().getClient().sendMessage(message);
 
             hideValidationMessage();
-
-            getGuiRoot().goToWaitingRoomScene();
         }
     }
 
@@ -169,17 +159,5 @@ public class SettingsSceneController extends GuiController implements Initializa
             validationMessage.setStyle("-fx-text-fill: " + "green" + "; -fx-font-size: 14px; -fx-font-weight: bold;");
             validationMessage.setVisible(true);
         });
-    }
-
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
-
-    public int getShipboardLevel() {
-        return shipboardLevel;
-    }
-
-    public int getGameMode() {
-        return gameMode;
     }
 }

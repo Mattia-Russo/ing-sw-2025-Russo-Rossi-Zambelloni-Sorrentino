@@ -24,7 +24,7 @@ public class CreateLobbyMessage extends Message {
         if(checkClient()) {
             try{
                 if(controller.getLobbyState().equals(LobbyState.GAME_READY)){
-                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
+                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby, wait it to be created");
                 } else {
                     controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
                     controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);

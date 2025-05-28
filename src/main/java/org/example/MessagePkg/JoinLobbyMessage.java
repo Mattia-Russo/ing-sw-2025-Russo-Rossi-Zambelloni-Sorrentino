@@ -18,15 +18,15 @@ public class JoinLobbyMessage extends Message{
                     controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
                     controller.joinLobby(playerName);
                     getServer().notifyClient(getHandler().getPlayerName(), "You've joined the lobby");
-                    getServer().notifyBroadcast(List.of(getHandler().getPlayerName()), getHandler().getPlayerName() + " joined the lobby");
+                    controller.notifyBroadcast(List.of(getHandler().getPlayerName()), getHandler().getPlayerName() + " joined the lobby");
                     getServer().notifyLobbyJoined(getHandler().getPlayerName());
-                    getServer().updatePlayerList(getHandler().getPlayerName());
+                    controller.updatePlayerList(getHandler().getPlayerName());
+                    System.out.println(playerName + " joined the lobby successfully");
                 } else if (controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
-                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby");
+                    getServer().notifyClient(getHandler().getPlayerName(), "Somebody else is setting up a lobby, wait it to be created");
                 } else {
                     getServer().notifyClient(getHandler().getPlayerName(), "You're the first to join the server, create a lobby!");
                 }
-                System.out.println(playerName + " joined the lobby successfully");
             } catch(InvalidGameCreationException | InvalidLobbyStateException e){
                 System.out.println("ERROR " + e.getMessage());
             }

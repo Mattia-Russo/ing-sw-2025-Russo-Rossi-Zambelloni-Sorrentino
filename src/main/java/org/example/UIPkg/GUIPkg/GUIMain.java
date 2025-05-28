@@ -63,7 +63,11 @@ public class GUIMain extends Application {
         try{
             for(String fxmlFile : FxmlFiles){
                 FXMLLoader loader = new FXMLLoader(GUI.class.getResource(fxmlFile));
-                this.sceneMap.put(fxmlFile, new Scene(loader.load(), 800, 600));
+                if(fxmlFile.equals(NAME_REQUEST_SCENE)) {
+                    this.sceneMap.put(fxmlFile, new Scene(loader.load(), 800, 600));
+                } else {
+                    this.sceneMap.put(fxmlFile, new Scene(loader.load()));
+                }
                 GuiController controller = loader.getController();
                 controller.setGui(guiRoot);
                 controllerMap.put(fxmlFile, controller);
