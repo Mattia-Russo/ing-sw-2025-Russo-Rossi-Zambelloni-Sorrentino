@@ -34,6 +34,7 @@ public abstract class ClientProxy implements Handler {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+        System.out.println("Player name set to " + playerName);
         getServer().notifyClient(this.playerName, "true");
     }
 

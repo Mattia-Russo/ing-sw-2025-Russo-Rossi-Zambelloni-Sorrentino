@@ -6,6 +6,7 @@ import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.RMIVirtualView;
 
@@ -102,7 +103,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public synchronized void unregisterClient(RMIClientInterface client) throws RemoteException {
-        if (clients.remove(client) != null) { // Rimuove il client dalla mappa
+        if (clients.remove(client) != null) {
             System.out.println(client.getPlayerName() + " unsubscribed");
         } else {
             System.out.println("Client not found for unsubscription");
@@ -145,6 +146,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public void notifyClient(String name, String message) throws RemoteException {
+        System.out.println("Notifying client " + name + ": " + message);
         getClientByName(name).notifyClient(message);
     }
 
@@ -169,8 +171,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public void notifyCreatingLobby(){
-        controller.setGameCreating();
+    public void notifyCreatingLobby(String name) throws RemoteException {
+        if(controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
+            notifyClient(name, "Somebody else is setting up a lobby");
+        } else if(controller.getLobbyState().equals((LobbyState.GAME_READY))) {
+            notifyClient(name, "There's already a lobby ready, join it!");
+        } else {
+            controller.setGameCreating();
+            acceptCreateLobby(name);
+        }
     }
 
     @Override

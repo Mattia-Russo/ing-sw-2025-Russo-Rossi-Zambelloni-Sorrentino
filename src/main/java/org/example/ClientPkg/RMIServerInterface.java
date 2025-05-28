@@ -27,6 +27,6 @@ public interface RMIServerInterface extends Remote {
 
     void checkConnection() throws RemoteException;
 
-    void notifyCreatingLobby() throws RemoteException;
+    void notifyCreatingLobby(String name) throws RemoteException;
 }
 // tutti i metodi chiamabili dal client che risiedono sul server

@@ -21,11 +21,11 @@ public interface UI {
 
     void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode);
 
-    void printMessage(String message);
-
     void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode);
 
     void onCreateLobbyAccepted();
 
     void onUpdatePlayerList(List<String> updatedList);
+
+    void startGui();
 }

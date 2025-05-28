@@ -1,4 +1,4 @@
 package org.example.UIPkg.GUIPkg;
 
-public class BuildShipSceneController {
+public abstract class BuildShipSceneController extends GuiController{
 }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.rmi.RemoteException;
 
-public class WaitingRoomSceneController implements Initializable {
+public class WaitingRoomSceneController extends GuiController implements Initializable {
 
     public VBox playersContainer;
     @FXML
@@ -45,15 +45,11 @@ public class WaitingRoomSceneController implements Initializable {
     @FXML
     private Label statusMessage;
 
-    private GUI gui;
     private ObservableList<String> playersList;
 
     private int maxPlayers;
     private boolean isLobbyCreator = false;
 
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,7 +79,7 @@ public class WaitingRoomSceneController implements Initializable {
         Platform.runLater(() -> {
             playersList.clear();
             playersList.addAll(players);
-            playersList.set(gui.getNameIndex(), players.get(gui.getNameIndex()) + " (You)" );
+            playersList.set(getGuiRoot().getNameIndex(), players.get(getGuiRoot().getNameIndex()) + " (You)" );
 
             playersLabel.setText("Players (" + players.size() + "/" + maxPlayers + ")");
 
@@ -119,7 +115,7 @@ public class WaitingRoomSceneController implements Initializable {
     public void onStartGameClick() throws RemoteException {
         if (isLobbyCreator && playersList.size() >= 2) {
 
-            gui.getClient().sendMessage(gui.getClient().getMessageGenerator().generate("start_game", List.of()));
+            getGuiRoot().getClient().sendMessage(getGuiRoot().getClient().getMessageGenerator().generate("start_game", List.of()));
 
             statusMessage.setText("Starting game...");
             statusMessage.setStyle("-fx-text-fill: yellow; -fx-font-size: 14px; -fx-font-weight: bold;");

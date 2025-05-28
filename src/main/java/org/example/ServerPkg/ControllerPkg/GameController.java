@@ -43,7 +43,7 @@ public class GameController{
         messageProcessor = new Thread(() -> {
             while (isRunning) {
                 try {
-                    Message message = messageQueue.take(); // Aspetta finché non c'è un messaggio
+                    Message message = messageQueue.take();
                     processMessage(message);
                 } catch (InterruptedException e) {
                     if (isRunning) {

@@ -9,11 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.example.MessagePkg.Message;
 
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-public class SettingsSceneController implements Initializable {
+public class SettingsSceneController extends GuiController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
@@ -42,14 +43,9 @@ public class SettingsSceneController implements Initializable {
     @FXML
     private Label gameModeLabel;
 
-    private GUI gui;
     private int numberOfPlayers;
     private int shipboardLevel;
     private int gameMode;
-
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,7 +88,7 @@ public class SettingsSceneController implements Initializable {
     }
 
     @FXML
-    public void onCreateLobbyClick() throws RemoteException {
+    public void onCreateLobbyClick() throws IOException {
         if (validateInputs()) {
             String[] args = new String[3];
             args[0] = numberOfPlayersField.getText();
@@ -102,10 +98,12 @@ public class SettingsSceneController implements Initializable {
             shipboardLevel = Integer.parseInt(args[1]);
             gameMode = Integer.parseInt(args[2]);
 
-            Message message = gui.getClient().getMessageGenerator().generate("create_lobby", java.util.Arrays.asList(args));
-            gui.getClient().sendMessage(message);
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("create_lobby", java.util.Arrays.asList(args));
+            getGuiRoot().getClient().sendMessage(message);
 
             hideValidationMessage();
+
+            getGuiRoot().goToWaitingRoomScene();
         }
     }
 

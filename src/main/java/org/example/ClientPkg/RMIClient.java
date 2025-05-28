@@ -2,6 +2,7 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
+import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -33,27 +34,26 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             Registry registry = LocateRegistry.getRegistry(host, Settings.RMI_PORT);
             server = (RMIServerInterface) registry.lookup("GameServer");
 
-            if(UI.equals("tui")) {
-                this.userInterface = new TUI(this);
-            } else {
-                this.userInterface = new GUI(this);
-            }
+            System.out.println("Connected to RMI server");
 
-            while(this.playerName == null){
-                userInterface.askName();
-                userInterface.readName();
-            }
-
-            System.out.println(playerName + " is connected to RMI server.");
-
-            startUpdateThread();
+            //startUpdateThread();
             //checkConnection();
 
-            if(UI.equals("tui")){
-                startKeyboardListener();
-            }
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
+        }
+
+        if(UI.equals("tui")){
+            this.userInterface = new TUI(this);
+            startKeyboardListener();
+        } else {
+            this.userInterface = new GUI(this);
+            userInterface.startGui();
+        }
+
+        while(this.playerName == null){
+            userInterface.askName();
+            userInterface.readName();
         }
     }
 
@@ -182,8 +182,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void notifyClient(String message) throws RemoteException {
-        this.userInterface.printMessage(message);
+    public void notifyClient(String s) throws RemoteException {
+        NotifyClientMessage message = new NotifyClientMessage(s);
+        message.setClient(this);
+        this.userInterface.manageNotification(message);
     }
 
     @Override
@@ -217,7 +219,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void notifyCreatingLobby() throws RemoteException{
-        server.notifyCreatingLobby();
+        server.notifyCreatingLobby(this.playerName);
     }
 
     @Override

@@ -38,9 +38,8 @@ public class TCPServer implements Server {
             return;
         }
 
-        System.out.println("Socket Server ready on port: " + serverSocket.getLocalPort());
+        System.out.println("TCP Socket Server is running on " + Settings.TCP_PORT + " port");
 
-        // Keep accepting connections
         while (true) {
             try {
                 final Socket socket = serverSocket.accept();
@@ -48,7 +47,6 @@ public class TCPServer implements Server {
                 SocketClientProxy clientProxy = new SocketClientProxy(controller, this, socket);
                 clientsProxies.add(clientProxy);
 
-                // Let the thread pool handle the communication with the client
                 threadPool.submit(clientProxy);
             } catch (IOException ignored) {
                 System.out.println("ERROR");

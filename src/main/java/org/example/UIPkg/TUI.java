@@ -576,11 +576,6 @@ public class TUI implements UI{
     }
 
     @Override
-    public void printMessage(String message){
-        System.out.println(message);
-    }
-
-    @Override
     public void onCreateLobbyAccepted(){
         // does nothing for TUI, needed for GUI
     }
@@ -598,4 +593,7 @@ public class TUI implements UI{
             }
         }
     }
+
+    @Override
+    public void startGui(){}
 }
