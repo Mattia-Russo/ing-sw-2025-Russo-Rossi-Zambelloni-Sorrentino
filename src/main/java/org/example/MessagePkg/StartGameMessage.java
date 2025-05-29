@@ -14,6 +14,7 @@ public class StartGameMessage extends Message {
                 try{
                     controller.startGame();
                 }catch(InvalidMinimumNumberPlayerException | InvalidLobbyStateException e){
+                    getServer().notifyClient(playerName, "Error: " + e.getMessage());
                     System.out.println("ERROR " + e.getMessage());
                 }
             }
