@@ -45,7 +45,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
         if(UI.equals("tui")){
             this.userInterface = new TUI(this);
-            startKeyboardListener();
         } else {
             this.userInterface = new GUI(this);
             userInterface.startGui();
@@ -54,6 +53,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         while(this.playerName == null){
             userInterface.askName();
             userInterface.readName();
+        }
+
+        if(UI.equals("tui")){
+            startKeyboardListener();
         }
     }
 
