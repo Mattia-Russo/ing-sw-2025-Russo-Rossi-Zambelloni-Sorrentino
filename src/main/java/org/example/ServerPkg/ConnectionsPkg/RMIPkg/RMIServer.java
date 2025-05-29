@@ -147,7 +147,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public void notifyClient(String name, String message) throws RemoteException {
-        System.out.println("Notifying client " + name + ": " + message);
         getClientByName(name).notifyClient(message);
     }
 
