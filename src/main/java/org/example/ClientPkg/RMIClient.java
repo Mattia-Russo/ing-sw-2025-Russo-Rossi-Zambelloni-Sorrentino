@@ -2,9 +2,9 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
+import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
-import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.*;
 import org.example.UIPkg.GUIPkg.GUI;
@@ -34,27 +34,26 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             Registry registry = LocateRegistry.getRegistry(host, Settings.RMI_PORT);
             server = (RMIServerInterface) registry.lookup("GameServer");
 
-            if(UI.equals("tui")) {
-                this.userInterface = new TUI(this);
-            } else {
-                this.userInterface = new GUI(this);
-            }
+            System.out.println("Connected to RMI server");
 
-            while(this.playerName == null){
-                userInterface.askName();
-                userInterface.readName();
-            }
-
-            System.out.println(playerName + " is connected to RMI server.");
-
-            startUpdateThread();
+            //startUpdateThread();
             //checkConnection();
 
-            if(UI.equals("tui")){
-                startKeyboardListener();
-            }
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
+        }
+
+        if(UI.equals("tui")){
+            this.userInterface = new TUI(this);
+            startKeyboardListener();
+        } else {
+            this.userInterface = new GUI(this);
+            userInterface.startGui();
+        }
+
+        while(this.playerName == null){
+            userInterface.askName();
+            userInterface.readName();
         }
     }
 
@@ -101,32 +100,26 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         Thread listenerThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Type a command:\n" +
-                    "   create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode\n" +
-                    "   join_lobby -> if you want to join an existing lobby\n");
+            System.out.println("""
+                    Type a command:
+                       create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode
+                       join_lobby -> if you want to join an existing lobby
+                       start_game -> if you want to start the game
+                    """);
 
             while (true) {
                 try {
-                    // Legge l'input dell'utente
                     String input = scanner.nextLine();
+                    String[] words = input.split("\\s+"); // Divide in base a uno o più spazi
 
-                    // Dividi la riga di input in parole
-                    String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
-
-                    // Salva la prima parola se esiste
                     String cmd = words.length > 0 ? words[0] : "";
-
-                    // Aggiungi le parole successive alla lista
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
-                    // Crea un messaggio e lo invia al server
                     Message message = msgGen.generate(cmd, args);
                     message.setClient(this);
                     sendMessage(message);
-                } catch (Exception e) {
-                    if(!(e instanceof NullPointerException)){
-                        System.out.println("Error sending the command: " + e.getMessage());
-                    }
+                } catch (NullPointerException | RemoteException e) {
+                    System.out.println("Error sending the command: " + e.getMessage());
                 }
             }
         });
@@ -134,14 +127,17 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         listenerThread.start();
     }
 
+    @Override
     public RMIServerInterface getServer() {
         return server;
     }
 
+    @Override
     public String getPlayerName() {
         return playerName;
     }
 
+    @Override
     public void registerName(String name) {
         if(playerName == null){
             try {
@@ -151,6 +147,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     userInterface.onNameAccepted();
                 } else {
                     System.out.println("Name already taken");
+                    notifyNameAlreadyUsed();
                 }
             } catch (RemoteException e){
                 e.printStackTrace();
@@ -162,36 +159,40 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void sendMessage(Message message) throws RemoteException {
-        server.receiveMessage(message, this.playerName);
+        server.receiveMessage(message, this);
     }
 
+    @Override
     public void disconnect() throws RemoteException {
         server.unregisterClient(this);
     }
 
+    @Override
     public void updateServerAlive() throws RemoteException {
         this.serverAlive = System.currentTimeMillis();
     }
 
+    @Override
     public void addGameUpdate(GameView gameView) throws RemoteException {
         userInterface.addGameUpdate(gameView);
     }
 
+    @Override
     public MessageGenerator getMessageGenerator(){
         return this.msgGen;
     }
 
     @Override
-    public void notifyClient(String message) throws RemoteException {
-        this.userInterface.printMessage(message);
-    }
-
-    public UI getUserInterface(){
-        return this.userInterface;
+    public void notifyClient(String s) throws RemoteException {
+        NotifyClientMessage message = new NotifyClientMessage(s);
+        message.setClient(this);
+        this.userInterface.manageNotification(message);
     }
 
     @Override
-    public void addGameUpdater(GameController controller) {}
+    public UI getUserInterface(){
+        return this.userInterface;
+    }
 
     @Override
     public void notifyLobbyCreated(int numPlayers, int shipboardLevel, int gameMode){
@@ -219,7 +220,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void notifyCreatingLobby() throws RemoteException{
-        server.notifyCreatingLobby();
+        server.notifyCreatingLobby(this.playerName);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Game implements Serializable {
         this.ShipBoardLevel = ShipBoardLevel;
         this.controller = gameController;
         this.discoveredComponents = new ArrayList<>();
-        //this.lobbyState = controller.getLobbyState();
+        this.lobbyState = controller.getLobbyState();
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
@@ -107,7 +107,7 @@ public class Game implements Serializable {
         }
 
         Collections.shuffle(componentsList);
-        //new GameView(this, null);
+        new GameView(this, null);
     }
 
     // usage only for tests
@@ -273,7 +273,7 @@ public class Game implements Serializable {
             if (!p.checkShip()) {
                 p.setShipOK(false);
                 p.setPlayerState(new FixShipState(this));
-                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP" + p.getName()));
+                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP " + p.getName()));
                 return;
             }
         }
@@ -290,7 +290,7 @@ public class Game implements Serializable {
                     return;
                 }
                 p.setPlayerState(new WaitingState(this));
-                new GameView(this, new Exception("READY FOR CARDS" + p.getName()));
+                new GameView(this, new Exception("READY FOR CARDS " + p.getName()));
             }
         }
         Turn();
@@ -308,10 +308,10 @@ public class Game implements Serializable {
                 if (p.getPlayerShipBoard().checkIfSplitted(c.getPosY(), c.getPosX())) {
                     p.setShipOK(false);
                     p.setPlayerState(new ShipWreckedState(this, p));
-                    new GameView(this, new Exception("YOU HAVE A SHIP WRECK" + p.getName()));
+                    new GameView(this, new Exception("YOU HAVE A SHIP WRECK " + p.getName()));
                 } else if (gameMode == 1) {
                     p.setPlayerState(new AddAlienState(this, p));
-                    new GameView(this, new Exception("YOU CAN ADD YOUR ALIENS" + p.getName()));
+                    new GameView(this, new Exception("YOU CAN ADD YOUR ALIENS " + p.getName()));
                 } else {
                     p.setReadyForCards(true);
                 }

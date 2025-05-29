@@ -9,6 +9,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -19,9 +20,12 @@ public class TUI implements UI{
 
     private final BlockingQueue<GameView> gameUpdatesQueue;
     private final Client client;
+    private List<String> playersList;
+    private int nameIndex;
 
     public TUI(Client client) {
         this.client = client;
+        this.playersList  = new ArrayList<>();
         gameUpdatesQueue = new LinkedBlockingQueue<>();
         startUpdateThread();
     }
@@ -36,6 +40,7 @@ public class TUI implements UI{
                 }
             }catch (Exception e) {
                 System.err.println("Error sending connection update to server: " + e.getMessage());
+                e.printStackTrace();
             }
         });
         UpdateThread.setDaemon(false);
@@ -52,39 +57,31 @@ public class TUI implements UI{
         }
     }
 
-    //stringbuilder per disegni migliori
+    //string builder per disegni migliori
     private void Draw() {
         GameView game = gameUpdatesQueue.poll();
+        assert game != null;
         if(game.getException() == null) {
             int i=0;
             System.out.println("Discovered tile: ");
             for (ComponentsView c : game.getComponentsDiscovered()) {
-                List<String> lines = List.of(DrawComponent(c));
-                for (String line : lines) System.out.println(line);
+                String[] s = DrawComponent(c);
+                for (String line : s) System.out.println(line);
                 System.out.println("[" + i + "]");
                 i++;
             }
-            System.out.println("\nCurrent tile:");
-            for (PlayerView player : game.getPlayers()) {
-                if (player.getDeckShowed() == null && player.getCurrentTile() != null) {
-                    List<String> current = List.of(DrawComponent(player.getCurrentTile()));
-                    for (String line : current) System.out.println(line);
-                    break;
-                }
-            }
 
             System.out.println("\nShipboard:");
-            DrawShipboard(game.getPlayers());
+            DrawShipboard(game.getPlayers(), game.getShipBoardLevel());
             System.out.println("Current Card: ");
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
             }
-            DrawShipboard(game.getPlayers());
-            System.out.println("Flightboard: ");
+            System.out.println("Flight board: ");
             DrawFlightBoard(game.getPlayers());
-            drawCommands(game);
-        }else
+        } else
             System.out.println(game.getException().getMessage());
+        drawCommands(game);
     }
 
     public void drawCommands(GameView game) {
@@ -92,8 +89,10 @@ public class TUI implements UI{
             //mancano set_name e set_position che sembra che non dobbiamo inserire
             case GAME_CREATION:
                 System.out.println(
-                        "Only the creator can start the game, so if you want to start the game, type:\n" +
-                        "   start_game\n");
+                        """
+                                Only the creator can start the game, so if you want to start the game, type:
+                                   start_game
+                                """);
                 break;
             case GAME_READY:
                 System.out.println(
@@ -117,8 +116,8 @@ public class TUI implements UI{
                                        end_activate_shields -> if you want to end the shield activation phase
                                        end_remove_best_goods -> if you want to end the remove best goods phase
                                        end_remove_astronauts -> if you want to end the remove astronauts phase
-                                       end_fix_ship_state -> if you want to end the fix ship phase 
-                                        
+                                       end_fix_ship_state -> if you want to end the fix ship phase
+                                    
                                        land_on_abandon true/false ->  true if you want to land, false otherwise
                                        land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
                                     
@@ -140,10 +139,14 @@ public class TUI implements UI{
                                        right_rotate -> if you want to right rotate the tile
                                        place_tile x y -> x,y are the coordinates of the cell where you want to place the tile
                                        discard_tile -> if you want to discard the component you picked
-                                       remove_tile x y -> x,y are the coordinates of the tile you want to remove
-                                    
                                        book_tile -> place the current component in a booked slot
                                        pick_booked_tile index -> if you want to pick a booked component with this index
+                                    
+                                       remove_tile x y -> x,y are the coordinates of the tile you want to remove
+                                       end_fix_ship -> if you want to end the fix ship phase
+                                    
+                                       choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
+                                       end_wrecked -> if you want to end the wrecked ship phase
                                     
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
@@ -173,109 +176,173 @@ public class TUI implements UI{
         }
 
     }
-    private String[] DrawComponent(ComponentsView comp) {
-        String[] box = new String[5]; // 4 righe + bordo inferiore
-        String[][] grid = new String[4][4];
-        for (int i = 0; i < 4; i++)
-            Arrays.fill(grid[i], " ");
-        if (comp != null) {
-            Connector[] conns =comp.getConnectors();
-            String type =comp.getType();
-            String[] initials =getComponentInitials(type);
 
-            grid[0][1] = getConnectorSymbol(conns[0]);
-            grid[1][0] = getConnectorSymbol(conns[3]);
-            grid[1][3] = getConnectorSymbol(conns[1]);
-            grid[3][1] = getConnectorSymbol(conns[2]);
-            grid[0][2] = getDirectionLetter(comp.getDirection());
-            grid[1][1] = initials[0];
-            if (initials.length > 1) grid[1][2] = initials[1];
+    private String[] DrawComponent(ComponentsView comp) {
+        String[] box = new String[9]; // 7 righe + bordi
+        box[0] = "┌─────────┐";
+        String[][] grid = new String[7][9];
+        for (String[] strings : grid) Arrays.fill(strings, " ");
+        if (comp != null) {
+            Connector[] connectors =comp.getConnectors();
+            String[] initials = getComponentInitials(comp.getType());
+
+            grid[0][4] = getConnectorSymbol(connectors[0]);
+            grid[5][0] = getConnectorSymbol(connectors[3]);
+            grid[5][8] = getConnectorSymbol(connectors[1]);
+            grid[6][4] = getConnectorSymbol(connectors[2]);
+            grid[0][8] = getDirectionLetter(comp.getDirection());
+
+            for (int i=0; i<initials.length; i++){
+                for(int j=0; j<initials[i].length(); j++)
+                    grid[i+1][j+1] = String.valueOf(initials[i].charAt(j));;
+            }
 
             String detail = getComponentDetail(comp);
-            for (int i =0; i< Math.min(4,detail.length()); i++) {
-                grid[2][i] = String.valueOf(detail.charAt(i));
+            for (int i = 0; i< Math.min(8,detail.length()); i++) {
+                grid[4][i] = String.valueOf(detail.charAt(i));
             }
         }
 
-        for (int i = 0; i < 4; i++) {
-            box[i] = "│" +String.join("", grid[i]) + "│";
+        for (int i = 0; i < 7; i++) {
+            int j = i+1;
+            box[j] = "│" +String.join("", grid[i]) + "│";
         }
 
         // Riga finale: chiusura del quadrato
-        box[4] = "└────┘";
+        box[8] = "└─────────┘";
         return box;
     }
-    private void DrawShipboard(List<PlayerView> players) {
+
+    private void DrawShipboard(List<PlayerView> players, int shipboardLevel) {
         final int ROWS = 5;
         final int COLS = 7;
 
         for (PlayerView player : players) {
-            System.out.println("Shipboard of " + player.getName() + ":");
+            System.out.println("Board of " + player.getName() + ":");
+            System.out.println("\nCurrent tile:");
+            if (player.getCurrentTile() != null) {
+                List<String> lines = List.of(DrawComponent(player.getCurrentTile()));
+                for (String line : lines) System.out.println(line);
+            }
 
-            System.out.print("     ");
+            System.out.println("\nBooked tiles:");
+            if(player.getShipboardView().getBookedComponents() != null){
+                for(ComponentsView c: player.getShipboardView().getBookedComponents()){
+                    List<String> lines = List.of(DrawComponent(c));
+                    for (String line : lines) System.out.println(line);
+                }
+            }
+
+            if (player.getDeckShowed() != null) {
+                System.out.println("\nDeck:");
+                for(AdventureCardView c: player.getDeckShowed()){
+                    DrawCurrentCard(c);
+                }
+            }
+
+            System.out.println("\nShipboard:");
+
+            System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.print(" Col " + col + " ");
+                System.out.printf("   Col %d    ", col);
             }
             System.out.println();
 
             ComponentsView[][] matrix = player.getShipboardView().getComponentsView();
 
             for (int row = 0; row < ROWS; row++) {
-                StringBuilder[] line = new StringBuilder[5];
-                for (int i = 0; i < 5; i++) line[i] = new StringBuilder();
+                StringBuilder[] line = new StringBuilder[9];
+                for (int i = 0; i < line.length; i++) line[i] = new StringBuilder();
+
                 for (int col = 0; col < COLS; col++) {
-                    String[] box = DrawComponent(matrix[row][col]);
-                    for (int i = 0; i < 5; i++) {
-                        line[i].append(box[i]).append(" ");
+                    if (shouldPrintCell(row, col, shipboardLevel)) {
+                        String[] box = DrawComponent(matrix[row][col]);
+                        for (int i = 0; i < line.length; i++) {
+                            line[i].append(box[i]).append("  ");
+                        }
+                    } else {
+                        //print spazio vuoto
+                        for (StringBuilder stringBuilder : line) {
+                            stringBuilder.append("             ");
+                        }
                     }
                 }
 
-                System.out.printf(" %d   %s\n", row, line[0].toString());
-                for (int i =1; i<5; i++) {
-                    System.out.print("     ");
+                System.out.printf(" %d     %s\n", row, line[0]);
+                for (int i = 1; i < line.length; i++) {
+                    System.out.print("       ");
                     System.out.println(line[i].toString());
                 }
             }
         }
     }
+
+    private boolean shouldPrintCell(int row, int col, int shipboardLevel) {
+        return switch (shipboardLevel) {
+            case 1 -> {
+                if (row == 0) {
+                    yield col == 3;
+                } else if (row == 1) {
+                    yield col >= 2 && col <= 4;
+                } else if (row == 2) {
+                    yield col >= 1 && col <= 5;
+                } else if (row == 3) {
+                    yield col >= 1 && col <= 5;
+                } else if (row == 4) {
+                    yield col == 1 || col == 2 || col == 4 || col == 5;
+                }
+                yield false;
+            }
+            case 2 -> {
+                if (row == 0) {
+                    yield col == 2 || col == 4;
+                } else if (row == 1) {
+                    yield col >= 1 && col <= 5;
+                } else if (row == 2) {
+                    yield col >= 0 && col <= 6;
+                } else if (row == 3) {
+                    yield col >= 0 && col <= 6;
+                } else if (row == 4) {
+                    yield (col >= 0 && col <= 2) || (col >= 4 && col <= 6);
+                }
+                yield false;
+            }
+            default -> true;
+        };
+    }
+
     private String[] getComponentInitials(String type) {
         return switch (type) {
-            case "Cabin" -> new String[]{"C", "b"};
-            case "Storage" -> new String[]{"S", "t"};
-            case "LifeSupportSystem" -> new String[]{"L", "S"};
-            case "Shield" -> new String[]{"S", "h"};
-            case "Cannon" -> new String[]{"C", "a"};
-            case "DoubleCannon" -> new String[]{"D", "c"};
-            case "Tubes" -> new String[]{"T", "b"};
-            case "Engine" -> new String[]{"E", "n"};
-            case "DoubleEngine" -> new String[]{"D", "e"};
+            case "Central Cabin" -> new String[]{"Central", "Cabin ", "       "};
+            case "Cabin" -> new String[]{"       ", " Cabin ", "       "};
+            case "Storage" -> new String[]{"       ", "Storage", "       "};
+            case "LifeSupportSystem" -> new String[]{"Life   ", "Support", "System "};
+            case "Shield" -> new String[]{"       ", "Shield ", "       "};
+            case "Cannon" -> new String[]{"       ", "Cannon ", "       "};
+            case "DoubleCannon" -> new String[]{"Double ", "Cannon ", "       "};
+            case "Tubes" -> new String[]{"       ", " Tubes ", "       "};
+            case "Engine" -> new String[]{"       ", "Engine ", "       "};
+            case "DoubleEngine" -> new String[]{"Double ", "Engine ", "       "};
+            case "BatteryStorage" -> new String[]{"Battery", "Storage", "       "};
             default -> new String[]{type.substring(0, 1)};
         };
     }
 
     private String getConnectorSymbol(Connector c) {
         return switch (c) {
-            case SINGLE:
-                yield "-";
-            case DOUBLE:
-                yield "=";
-            case UNIVERSAL:
-                yield "#";
-            default:
-                yield " ";
+            case SINGLE -> "S";
+            case DOUBLE -> "D";
+            case UNIVERSAL -> "U";
+            default -> "E";
         };
     }
 
     private String getDirectionLetter(Direction d) {
         return switch (d) {
-            case NORTH:
-                yield "N";
-            case EAST:
-                yield "E";
-            case SOUTH:
-                yield "S";
-            case WEST:
-                yield"W";
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
         };
     }
 
@@ -297,15 +364,17 @@ public class TUI implements UI{
 
             case "Storage":
                 StringBuilder goods = new StringBuilder();
-                List<GoodsView> goodsList = List.of(comp.getGoods());
-                for (int i = 0; i < goodsList.size(); i++) {
-                    GoodsColour color = goodsList.get(i).getColour();
-                    goods.append(getGoodColorSquare(color));
+                if(comp.getGoods()!=null){
+                    List<GoodsView> goodsList = List.of(comp.getGoods());
+                    for (GoodsView goodsView : goodsList) {
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                    }
                 }
                 return goods.toString();
 
             case "Shield":
-                return getDirectionArrow(comp.getDirection()) + getDirectionArrow(comp.getDirection());
+                return getDirectionArrow(comp.getShieldedDirections()[0]) + getDirectionArrow(comp.getShieldedDirections()[1]);
 
             default:
                 return "";
@@ -314,64 +383,59 @@ public class TUI implements UI{
 
     private String getAlienColorBlock(AlienColour color) {
         return switch (color) {
-            case BROWN:
-                yield"[B]";
-            case PURPLE:
-                yield "[P]";
+            case BROWN -> "[B]";
+            case PURPLE -> "[P]";
         };
     }
 
     private String getGoodColorSquare(GoodsColour colour) {
         return switch (colour) {
-            case RED:
-                yield"\u001B[41m█\u001B[0m";
-            case YELLOW:
-                yield "\u001B[43m█\u001B[0m";
-            case GREEN:
-                yield"\u001B[42m█\u001B[0m";
-            case BLUE:
-                yield"\u001B[44m█\u001B[0m";
+            case RED -> "\u001B[41m█\u001B[0m";
+            case YELLOW -> "\u001B[43m█\u001B[0m";
+            case GREEN -> "\u001B[42m█\u001B[0m";
+            case BLUE -> "\u001B[44m█\u001B[0m";
         };
     }
 
     private String getDirectionArrow(Direction d) {
         return switch (d) {
-            case NORTH:
-                yield"↑";
-            case EAST:
-                yield "→";
-            case SOUTH:
-                yield "↓";
-            case WEST:
-                yield "←";
+            case NORTH -> "↑";
+            case EAST -> "→";
+            case SOUTH -> "↓";
+            case WEST -> "←";
         };
     }
 
     private void DrawCurrentCard(AdventureCardView adventureCardView) {
         String type=adventureCardView.getType();
+        StringBuilder goods = new StringBuilder();
 
         switch (type){
             case "AbandonedShip":
                 System.out.println("AbandonedShip");
-                System.out.println(adventureCardView.getNumAstronauts());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
+                System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
+                System.out.println("Num credits " + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
                 break;
             case "AbandonedStation":
                 System.out.println("AbandonedStation");
-                System.out.println(adventureCardView.getNumAstronauts());
-                System.out.println(adventureCardView.getLostDays());
-                for(GoodsView goods: adventureCardView.getGoodsList()){
-                    System.out.println(goods);
+                System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
+                for (GoodsView goodsView : adventureCardView.getGoodsList()) {
+                    GoodsColour color = goodsView.getColour();
+                    goods.append(getGoodColorSquare(color));
+                    goods.append(" ");
                 }
+                System.out.println(goods);
                 break;
             case "Epidemic":
                 System.out.println("Epidemic");
                 break;
             case "MeteorCard":
                 System.out.println("MeteorCard");
-                for(Meteor meteor: adventureCardView.getMeteorList()){
-                    System.out.println(meteor);
+                for (Meteor meteor : adventureCardView.getMeteorList()) {
+                    System.out.println("Type: " + meteor.getType());
+                    System.out.println("Direction: " + meteor.getDirection());
                 }
                 break;
             case "OpenSpace":
@@ -379,35 +443,46 @@ public class TUI implements UI{
                 break;
             case "Pirates":
                 System.out.println("Pirates");
-                System.out.println(adventureCardView.getCannonPower());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
+                System.out.println("Cannon power " + adventureCardView.getCannonPower());
+                System.out.println("Credits " + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
                 for(CannonFire fire: adventureCardView.getCannonFireList()){
-                    System.out.println(fire);
+                    System.out.println("Type: " + fire.getType());
+                    System.out.println("Direction: " + fire.getDirection());
                 }
                 break;
             case "PlanetCard":
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
-                    System.out.println(planet.getPlanetNumber());
-                    System.out.println(planet.getGoods());
-                    System.out.println(adventureCardView.getLostDays());
+                    System.out.println("Planet number "+planet.getPlanetNumber());
+                    for (GoodsView goodsView : adventureCardView.getGoodsList()) {
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                        goods.append(" ");
+                    }
+                    System.out.println(goods);
+                    System.out.println("Lost days "+adventureCardView.getLostDays());
                 }
                 break;
             case "Slavers":
                 System.out.println("Slavers");
-                System.out.println(adventureCardView.getCannonPower());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
-                System.out.println(adventureCardView.getNumAstronauts());
+                System.out.println("Cannon power " + adventureCardView.getCannonPower());
+                System.out.println("Credits " +adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
+                System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
                 break;
             case "Smugglers":
                 System.out.println("Smugglers");
-                System.out.println(adventureCardView.getCannonPower());
-                System.out.println(adventureCardView.getNumCredits());
-                System.out.println(adventureCardView.getLostDays());
-                System.out.println(adventureCardView.getNumGoods());
-                System.out.println(adventureCardView.getGoodsList());
+                System.out.println("Cannon power" + adventureCardView.getCannonPower());
+                System.out.println("Credits" + adventureCardView.getNumCredits());
+                System.out.println("Lost days" + adventureCardView.getLostDays());
+                System.out.println("Num goods" + adventureCardView.getNumGoods());
+                for (GoodsView goodsView : adventureCardView.getGoodsList()) {
+                    GoodsColour color = goodsView.getColour();
+                    goods.append(getGoodColorSquare(color));
+                    goods.append(" ");
+                }
+                System.out.println(goods);
                 break;
             case "Stardust":
                 System.out.println("Stardust");
@@ -429,16 +504,19 @@ public class TUI implements UI{
 
                     switch (adventureCardView.getPenalties()[i]) {
                         case "LoseDays":
-                            System.out.println(adventureCardView.getLostDays());
+                            System.out.println("Lose days" + adventureCardView.getLostDays());
                             break;
                         case "LoseGoods":
-                            System.out.println(adventureCardView.getGoodsList());
+                            System.out.println("Num goods" +adventureCardView.getNumGoods());
                             break;
                         case "cannonFire":
-                            System.out.println(adventureCardView.getCannonFireList());
+                            for(CannonFire fire: adventureCardView.getCannonFireList()){
+                                System.out.println("Type: " + fire.getType());
+                                System.out.println("Direction: " + fire.getDirection());
+                            }
                             break;
                         case "LoseAstronauts":
-                            System.out.println(adventureCardView.getNumAstronauts());
+                            System.out.println("Num astronauts" + adventureCardView.getNumAstronauts());
                             break;
                     }
                 }
@@ -467,18 +545,55 @@ public class TUI implements UI{
         System.out.println(notifyClientMessage.getMessage());
     }
 
-    public void onNameAccepted(){}
-
-    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){}
-
-    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){}
-
-    public void printMessage(String message){
-        System.out.println(message);
+    @Override
+    public void onNameAccepted(){
+        System.out.println("Welcome " + client.getPlayerName() + "!");
     }
 
-    public void onCreateLobbyAccepted(){}
+    @Override
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){
+        playersList.add(name);
+        this.nameIndex = 0;
+        System.out.println("Lobby created with this parameters:\n" +
+                "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
+                "Connected players: \n" + playersList.getFirst());
+    }
 
     @Override
-    public void onUpdatePlayerList(List<String> updatedList){}
+    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){
+        this.playersList = names;
+        this.nameIndex = names.size() - 1;
+        System.out.println("Lobby created with this settings:\n" +
+                "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
+                "Connected players:");
+        for(String player: playersList){
+            if(player.equals(names.getLast())){
+                System.out.println(player + " (You)");
+            } else {
+                System.out.println(player);
+            }
+        }
+    }
+
+    @Override
+    public void onCreateLobbyAccepted(){
+        // does nothing for TUI, needed for GUI
+    }
+
+    @Override
+    public void onUpdatePlayerList(List<String> updatedList){
+        this.playersList = updatedList;
+        System.out.println("Somebody else joined!\n" +
+                "Connected players:" );
+        for(String player: playersList){
+            if(player.equals(updatedList.get(nameIndex))){
+                System.out.println(player + " (You)");
+            } else {
+                System.out.println(player);
+            }
+        }
+    }
+
+    @Override
+    public void startGui(){}
 }

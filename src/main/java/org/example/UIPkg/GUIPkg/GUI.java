@@ -26,51 +26,23 @@ import java.util.concurrent.CountDownLatch;
 
 public class GUI implements UI {
 
-    private final CountDownLatch guiReadyLatch = new CountDownLatch(1);
-    private GUIMain guiMain;
     private final Client client;
     private BlockingQueue<GameView> gameUpdatesQueue;
     private int numPlayers;
     private int shipboardLevel;
     private int gameMode;
     private  List<String> playersList;
-
-    private NameRequestSceneController nameRequestSceneController;
-    private SettingsSceneController settingsSceneController;
-    private WaitingRoomSceneController waitingRoomSceneController;
-    private BuildShipSceneController buildShipSceneController;
-    private PlayCardSceneController playCardSceneController;
-    private EndGameSceneController endGameSceneController;
+    private int nameIndex;
 
     public GUI(Client client){
         this.client = client;
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
         this.playersList = new ArrayList<>();
-
-        Thread guiThread = new Thread(() -> {
-            GUIMain.startGui(this);
-        });
-        guiThread.setDaemon(false);
-        guiThread.start();
-
-        waitForGuiReady();
     }
 
-    private void waitForGuiReady() {
-        try {
-            guiReadyLatch.await();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("GUI initialization interrupted", e);
-        }
-    }
-
-    public void notifyGuiReady() {
-        guiReadyLatch.countDown();
-    }
-
-    public void setGuiMain(GUIMain guiMain) {
-        this.guiMain = guiMain;
+    @Override
+    public void startGui() {
+        GUIMain.startGui(this);
     }
 
     @Override
@@ -83,71 +55,29 @@ public class GUI implements UI {
         }
     }
 
-    public void goToFirstScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        URL location = getClass().getResource("/org.example/FxmlPkg/nameRequestScene.fxml");
-        loader.setLocation(location);
-
-        Parent root = loader.load();
-
-        nameRequestSceneController = loader.getController();
-        nameRequestSceneController.setGUI(this);
-
-        Scene scene = new Scene(root, 800, 600);
-
-        scene.setUserData(nameRequestSceneController);
-        guiMain.sceneControllerMap.put(scene, nameRequestSceneController);
-
-        changeScene(scene);
-    }
-
     public void goToSettingsScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        URL location = getClass().getResource("/org.example/FxmlPkg/settingsScene.fxml");
-        loader.setLocation(location);
-
-        Parent root = loader.load();
-
-        settingsSceneController = loader.getController();
-        settingsSceneController.setGUI(this);
-
-        Scene scene = new Scene(root, 800, 600);
-        scene.setUserData(settingsSceneController);
-        guiMain.sceneControllerMap.put(scene, settingsSceneController);
-
-        changeScene(scene);
+        changeScene(GUIMain.SETTINGS_SCENE);
     }
 
     public void goToWaitingRoomScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        URL location = getClass().getResource("/org.example/FxmlPkg/waitingRoomScene.fxml");
-        loader.setLocation(location);
+        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
 
-        Parent root = loader.load();
+        controller.setMaxPlayers(numPlayers);
+        controller.setShipboardLevel(shipboardLevel);
+        controller.setGameMode(gameMode);
+        controller.updatePlayersList(playersList);
 
-        waitingRoomSceneController = loader.getController();
-        waitingRoomSceneController.setGUI(this);
-
-        waitingRoomSceneController.setMaxPlayers(numPlayers);
-        waitingRoomSceneController.setShipboardLevel(shipboardLevel);
-        waitingRoomSceneController.setGameMode(gameMode);
-        waitingRoomSceneController.setNames(playersList);
-        waitingRoomSceneController.updatePlayersList(playersList);
-
-        Scene scene = new Scene(root, 800, 600);
-        scene.setUserData(waitingRoomSceneController);
-        guiMain.sceneControllerMap.put(scene, waitingRoomSceneController);
-
-        changeScene(scene);
+        changeScene(GUIMain.WAITING_ROOM_SCENE);
     }
 
-    private void changeScene(Scene scene) {
-        Platform.runLater(() -> {
-            Stage stage = guiMain.getPrimaryStage();
-            stage.setTitle("Galaxy Trucker");
-            stage.setScene(scene);
-            stage.show();
-        });
+    private void changeScene(String scene) {
+        if(GUIMain.getGuiMain() != null){
+            GUIMain.getGuiMain().changeScene(scene);
+        }
+    }
+
+    public String getCurrentScene(){
+        return GUIMain.getGuiMain().getCurrentSceneName();
     }
 
     public Client getClient() {
@@ -156,46 +86,33 @@ public class GUI implements UI {
 
     @Override
     public void printNameInvalid() {
-        if (nameRequestSceneController != null) {
-            Platform.runLater(() -> nameRequestSceneController.printNameInvalid());
+        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.NAME_REQUEST_SCENE);
+        if (controller != null) {
+            Platform.runLater(controller::printNameInvalid);
         }
     }
 
     @Override
     public void askName(){
-        // Assicurati che il metodo venga eseguito sul JavaFX Application Thread
-        Platform.runLater(() -> {
-            if (nameRequestSceneController == null) {
-                try {
-                    goToFirstScene();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
-            }
 
-            if (nameRequestSceneController != null) {
-                nameRequestSceneController.askName();
-            } else {
-                System.err.println("Errore: nameRequestSceneController è ancora null dopo il tentativo di inizializzazione");
-            }
-        });
     }
 
     @Override
     public void readName(){
-        //does nothing, waits for button click
+        //does nothing, waits for the button click
     }
 
     @Override
     public void onNameAccepted() {
-        if (nameRequestSceneController != null) {
-            nameRequestSceneController.onNameAccepted();
+        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.NAME_REQUEST_SCENE);
+        if (controller != null) {
+            Platform.runLater(controller::onNameAccepted);
         }
     }
 
     @Override
     public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode) {
+        GuiController settingsSceneController = GUIMain.getGuiMain().getControllerMap().get(GUIMain.SETTINGS_SCENE);
         if (settingsSceneController != null) {
             settingsSceneController.onLobbyCreated();
         }
@@ -210,8 +127,10 @@ public class GUI implements UI {
                             this.gameMode = gameMode;
                             this.playersList.add(name);
                             goToWaitingRoomScene();
-                            if (waitingRoomSceneController != null) {
-                                waitingRoomSceneController.setLobbyCreator(true);
+                            GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
+                            if (controller != null) {
+                                controller.setLobbyCreator(true);
+                                this.nameIndex = 0;
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -233,8 +152,10 @@ public class GUI implements UI {
                 this.gameMode = gameMode;
                 this.playersList = alreadyLoggedNames;
                 goToWaitingRoomScene();
-                if (waitingRoomSceneController != null) {
-                    waitingRoomSceneController.setLobbyCreator(false);
+                GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
+                if (controller != null) {
+                    controller.setLobbyCreator(false);
+                    this.nameIndex = playersList.size() - 1;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -242,15 +163,22 @@ public class GUI implements UI {
         });
     }
 
+    public int getNameIndex(){
+        return nameIndex;
+    }
+
     @Override
     public void onCreateLobbyAccepted(){
-        nameRequestSceneController.onCreateLobbyAccepted();
+        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.NAME_REQUEST_SCENE);
+        if (controller != null) {
+            controller.onCreateLobbyAccepted();
+        }
     }
 
     @Override
     public void manageNotification(NotifyClientMessage notifyClientMessage) {
         Platform.runLater(() -> {
-            Stage stage = guiMain.getPrimaryStage();
+            Stage stage = GUIMain.getGuiMain().getStage();
             Scene currentScene = stage.getScene();
 
             if (currentScene != null) {
@@ -288,18 +216,18 @@ public class GUI implements UI {
     }
 
     public void onGameStarted() {
-        if (waitingRoomSceneController != null) {
-            waitingRoomSceneController.onGameStarted();
+        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
+        if (controller != null) {
+            controller.onGameStarted();
         }
     }
-
-    public void printMessage(String message){}
 
     @Override
     public void onUpdatePlayerList(List<String> updatedList){
         this.playersList = updatedList;
-        if(waitingRoomSceneController!=null){
-            waitingRoomSceneController.updatePlayersList(updatedList);
+        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
+        if (controller != null) {
+            controller.updatePlayersList(updatedList);
         }
     }
 }

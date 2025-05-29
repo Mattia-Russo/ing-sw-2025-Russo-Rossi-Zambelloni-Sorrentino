@@ -6,6 +6,7 @@ import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.RMIVirtualView;
 
@@ -15,13 +16,12 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface, Server {
     private final GameController controller;
     private final Map<RMIClientInterface, Long> clients;
-    private Map<String, GameUpdater> gameUpdater;
+    private final Map<String, GameUpdater> gameUpdater;
 
     public RMIServer(GameController controller) throws RemoteException {
         super();
@@ -42,6 +42,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         }
     }
 
+    @Override
     public void checkConnection() {
         Thread checkClient = new Thread(() -> {
             while (true) {
@@ -77,13 +78,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     public void registerClient(RMIClientInterface client) throws RemoteException {
         clients.put(client, System.currentTimeMillis());
         setGameUpdater(client);
-        controller.getNames().add(client.getPlayerName());
         System.out.println(client.getPlayerName() + " subscribed");
     }
 
     @Override
-    public void receiveMessage(Message message, String name) throws RemoteException {
-        message.setServer((Server) this);
+    public void receiveMessage(Message message, Handler handler) throws RemoteException {
+        message.setServer(this);
+        message.setHandler(handler);
         controller.addMessage(message);
     }
 
@@ -102,35 +103,24 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public synchronized void unregisterClient(RMIClientInterface client) throws RemoteException {
-        if (clients.remove(client) != null) { // Rimuove il client dalla mappa
+        if (clients.remove(client) != null) {
             System.out.println(client.getPlayerName() + " unsubscribed");
         } else {
             System.out.println("Client not found for unsubscription");
         }
     }
 
-    public synchronized List<String> getNames() {
-        return clients.keySet().stream()
-                .map(client -> {
-                    try {
-                        return client.getPlayerName();
-                    } catch (RemoteException e) {
-                        System.err.println("Error retrieving player name: " + e.getMessage());
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull) // Esclude eventuali nomi null (in caso di eccezioni)
-                .toList();
-    }
-
+    @Override
     public boolean getIfSubscribed(Handler handler) throws RemoteException {
         return clients.containsKey((RMIClientInterface) handler);
     }
 
+    @Override
     public GameController getController() throws RemoteException {
         return controller;
     }
 
+    @Override
     public void updateClientAlive(RMIClientInterface client) throws RemoteException {
         if (clients.containsKey(client)) {
             clients.put(client, System.currentTimeMillis());
@@ -144,28 +134,35 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.gameUpdater.put(client.getPlayerName() ,new RMIVirtualView(client));
     }
 
+    @Override
     public GameUpdater getGameUpdater(String name){
         return gameUpdater.get(name);
     }
 
     @Override
     public boolean checkName(String name) throws RemoteException {
+        System.out.println("Checking name " + name);
         return controller.checkName(name);
     }
 
+    @Override
     public void notifyClient(String name, String message) throws RemoteException {
+        System.out.println("Notifying client " + name + ": " + message);
         getClientByName(name).notifyClient(message);
     }
 
+    @Override
     public void notifyLobbyCreated(String name) throws RemoteException {
         getClientByName(name).notifyLobbyCreated(controller.getGame().getNumPlayer(), controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode());
     }
 
+    @Override
     public void notifyLobbyJoined(String name) throws RemoteException {
         getClientByName(name).notifyLobbyJoined(controller.getGame().getNumPlayer(),
                 controller.getGame().getShipBoardLevel(), controller.getGame().getGameMode(), controller.getNames());
     }
 
+    @Override
     public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
         for(RMIClientInterface clientInterface : clients.keySet()){
             if(!exclude.contains(clientInterface.getPlayerName())){
@@ -174,14 +171,24 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         }
     }
 
-    public void notifyCreatingLobby(){
-        controller.setGameCreating();
+    @Override
+    public void notifyCreatingLobby(String name) throws RemoteException {
+        if(controller.getLobbyState().equals(LobbyState.GAME_CREATION)){
+            notifyClient(name, "Somebody else is setting up a lobby");
+        } else if(controller.getLobbyState().equals((LobbyState.GAME_READY))) {
+            notifyClient(name, "There's already a lobby ready, join it!");
+        } else {
+            controller.setGameCreating();
+            acceptCreateLobby(name);
+        }
     }
 
+    @Override
     public void acceptCreateLobby(String name) throws RemoteException {
         getClientByName(name).acceptCreateLobby();
     }
 
+    @Override
     public void updatePlayerList(String exclude) throws RemoteException {
         for(RMIClientInterface clientInterface : clients.keySet()){
             if(!exclude.contains(clientInterface.getPlayerName())){

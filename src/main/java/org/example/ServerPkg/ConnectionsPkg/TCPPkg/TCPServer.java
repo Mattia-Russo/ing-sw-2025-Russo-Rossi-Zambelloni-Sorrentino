@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 public class TCPServer implements Server {
     public ArrayList<ClientProxy> clientsProxies;
-    private GameController controller;
+    private final GameController controller;
 
     public TCPServer(GameController controller){
         this.clientsProxies = new ArrayList<>();
@@ -39,9 +39,8 @@ public class TCPServer implements Server {
             return;
         }
 
-        System.out.println("Socket Server ready on port: " + serverSocket.getLocalPort());
+        System.out.println("TCP Socket Server is running on " + Settings.TCP_PORT + " port");
 
-        // Keep accepting connections
         while (true) {
             try {
                 final Socket socket = serverSocket.accept();
@@ -49,7 +48,6 @@ public class TCPServer implements Server {
                 SocketClientProxy clientProxy = new SocketClientProxy(controller, this, socket);
                 clientsProxies.add(clientProxy);
 
-                // Let the thread pool handle the communication with the client
                 threadPool.submit(clientProxy);
             } catch (IOException ignored) {
                 System.out.println("ERROR");
@@ -61,19 +59,12 @@ public class TCPServer implements Server {
         threadPool.shutdown();
     }
 
-    public synchronized List<String> getNames(){
-        return clientsProxies.stream().map(ClientProxy::getPlayerName).toList();
-    }
-
     public boolean getIfSubscribed(Handler handler){
         return clientsProxies.contains((ClientProxy) handler);
     }
 
     public synchronized void subscribe(ClientProxy clientProxy) {
-        controller.getNames().add(clientProxy.getPlayerName());
         System.out.println(clientProxy.getPlayerName() + " subscribed");
-        clientsProxies.add(clientProxy);
-
     }
 
     public synchronized void unsubscribe(ClientProxy clientProxy) {
@@ -113,12 +104,12 @@ public class TCPServer implements Server {
     }
 
     @Override
-    public void notifyLobbyJoined(String name) throws RemoteException {
+    public void notifyLobbyJoined(String name){
         getClientProxy(name).notifyLobbyJoined();
     }
 
     @Override
-    public void acceptCreateLobby(String name) throws RemoteException {
+    public void acceptCreateLobby(String name) {
         getClientProxy(name).acceptCreateLobby();
     }
 

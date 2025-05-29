@@ -23,7 +23,6 @@ public class TCPClient implements Client {
     private final UI userInterface;
     private final MessageGenerator msgGen;
     private long serverAlive;
-    private boolean nameSet = false;
     private String playerName;
 
     public TCPClient(String serverAddress, int port, String UI) throws IOException {
@@ -40,7 +39,10 @@ public class TCPClient implements Client {
             this.userInterface = new TUI(this);
         } else {
             this.userInterface = new GUI(this);
+            Thread guiThread = new Thread(userInterface::startGui);
+            guiThread.start();
         }
+        boolean nameSet = false;
         while(!nameSet){
             userInterface.askName();
             userInterface.readName();
@@ -60,10 +62,10 @@ public class TCPClient implements Client {
             }
         }
 
-        System.out.println("is connected to TCP server.");
+        System.out.println("Connected to TCP server.");
 
         startPingThread();
-        //checkServerConnection();
+        checkServerConnection();
         startListening();
         if(UI.equals("tui")){
             startKeyboardListener();
@@ -153,14 +155,15 @@ public class TCPClient implements Client {
                     Type a command:
                        create_lobby int1 int2 int3 -> int1 is number of player, int2 is the level of the shipboard, int3 is the game mode
                        join_lobby -> if you want to join an existing lobby
+                       start_game -> if you want to start the game
                     """);
 
             while (!socket.isClosed()) {
                 try {
                     String input = scanner.nextLine();
 
-                    // Dividi la riga di input in parole
-                    String[] words = input.split("\\s+"); // Divide in base ad uno o più spazi
+                    // Dividi la riga di ingresso in parole
+                    String[] words = input.split("\\s+"); // Divide in base a uno o più spazi
 
                     // Salva la prima parola se esiste
                     String cmd = words.length > 0 ? words[0] : "";
@@ -217,6 +220,7 @@ public class TCPClient implements Client {
                 out.flush();
             } catch (IOException e) {
                 System.out.println("Error sending message from client: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }

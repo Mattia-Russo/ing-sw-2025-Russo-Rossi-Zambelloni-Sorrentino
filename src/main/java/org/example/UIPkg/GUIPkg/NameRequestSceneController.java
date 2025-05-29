@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class NameRequestSceneController implements Initializable {
+public class NameRequestSceneController extends GuiController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
@@ -52,16 +52,13 @@ public class NameRequestSceneController implements Initializable {
     private VBox controls;
 
     private MediaPlayer mediaPlayer;
-    private GUI gui;
-
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Inizialmente nascondi tutti i controlli tranne quelli necessari
-        confirmNameButton.setVisible(false);
+        askName.setText("Enter your name:");
+        askName.setVisible(true);
+        confirmNameButton.setVisible(true);
         nameInvalid.setVisible(false);
         createLobbyButton.setVisible(false);
         joinLobbyButton.setVisible(false);
@@ -74,11 +71,11 @@ public class NameRequestSceneController implements Initializable {
         lobbyMessage.setVisible(false);
 
         // Setup del video di background
-        String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
-        Media backgroundMedia = new Media(videoPath);
+        //String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
+        //Media backgroundMedia = new Media(videoPath);
 
-        mediaPlayer = new MediaPlayer(backgroundMedia);
-        mediaPlayer.setAutoPlay(true);
+        //mediaPlayer = new MediaPlayer(backgroundMedia);
+        //mediaPlayer.setAutoPlay(true);
 
         MediaView mediaView = new MediaView(mediaPlayer);
         mediaView.fitWidthProperty().bind(borderPane.widthProperty());
@@ -102,20 +99,20 @@ public class NameRequestSceneController implements Initializable {
             nameInvalid.setText("Name cannot be empty");
             nameInvalid.setVisible(true);
         } else {
-            gui.getClient().registerName(name);
+            getGuiRoot().getClient().registerName(name);
         }
     }
 
     @FXML
     public void onCreateLobbyButtonClick() throws RemoteException {
         lobbyMessage.setVisible(false);
-        gui.getClient().notifyCreatingLobby();
+        getGuiRoot().getClient().notifyCreatingLobby();
     }
 
     public void onCreateLobbyAccepted(){
         Platform.runLater(() -> {
             try {
-                gui.goToSettingsScene();
+                getGuiRoot().goToSettingsScene();
             } catch (IOException e) {
                 e.printStackTrace();
                 lobbyMessage.setText("Error loading settings scene!");
@@ -129,11 +126,8 @@ public class NameRequestSceneController implements Initializable {
     public void onJoinLobbyButtonClick() throws RemoteException {
         lobbyMessage.setVisible(false);
 
-        Message message = gui.getClient().getMessageGenerator().generate("join_lobby", new ArrayList<>());
-        gui.getClient().sendMessage(message);
-
-        // passaggio alla scena con lista giocatori correnti
-
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("join_lobby", new ArrayList<>());
+        getGuiRoot().getClient().sendMessage(message);
     }
 
     public void onNameAccepted() {
@@ -142,7 +136,6 @@ public class NameRequestSceneController implements Initializable {
             nameBox.setVisible(false);
             confirmNameButton.setVisible(false);
             nameInvalid.setVisible(false);
-
             createLobbyButton.setVisible(true);
             joinLobbyButton.setVisible(true);
         });
@@ -152,14 +145,6 @@ public class NameRequestSceneController implements Initializable {
         Platform.runLater(() -> {
             nameInvalid.setText("Name already taken");
             nameInvalid.setVisible(true);
-        });
-    }
-
-    public void askName() {
-        Platform.runLater(() -> {
-            askName.setText("Enter your name:");
-            askName.setVisible(true);
-            confirmNameButton.setVisible(true);
         });
     }
 }

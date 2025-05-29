@@ -6,7 +6,7 @@ import org.example.ServerPkg.Model.ShipBoard;
 import java.io.Serializable;
 
 public class Shield extends Components implements Serializable {
-    private final Direction direction2;
+    private Direction direction2;
     private final int id;
 
     public Shield(int id, Direction direction, Connector[] connectors, Direction direction2) {
@@ -43,5 +43,17 @@ public class Shield extends Components implements Serializable {
     @Override
     public Shield isShield(){
         return this;
+    }
+
+    @Override
+    public void rightRotate(){
+         setDirection(Direction.values()[(getDirection().ordinal()+1)%4]);
+         direction2 = Direction.values()[(getDirection().ordinal()+1)%4];
+    }
+
+    @Override
+    public void leftRotate(){
+        setDirection(Direction.values()[(getDirection().ordinal()+3)%4]);
+        direction2 = Direction.values()[(getDirection().ordinal()+3)%4];
     }
 }

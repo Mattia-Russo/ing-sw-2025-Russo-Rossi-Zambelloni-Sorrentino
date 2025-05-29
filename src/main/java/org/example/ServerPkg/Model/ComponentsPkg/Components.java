@@ -60,6 +60,10 @@ public class Components implements Serializable {
         return posY;
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public Connector getDirConnector(Direction dir){ //restituisce il connettore che c'è nella direzione passata in modo assoluto
         switch(this.direction){
             case NORTH:

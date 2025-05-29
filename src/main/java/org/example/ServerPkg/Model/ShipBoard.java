@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public class ShipBoard implements Serializable {
 
     private int deletedComponentsCounter;
-    private boolean[][] availablePositionMatrix;
-    private Components[][] componentMatrix;
-    private Components[] bookedComponents;
-    private int[] shieldedDirections;
+    private final boolean[][] availablePositionMatrix;
+    private final Components[][] componentMatrix;
+    private final Components[] bookedComponents;
+    private final int[] shieldedDirections;
     private float singleCannonPower;
     private int singleEnginePower;
     private int totalBattery;

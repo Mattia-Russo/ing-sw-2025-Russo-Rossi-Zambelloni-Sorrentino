@@ -6,7 +6,6 @@ import org.example.ServerPkg.Model.Points;
 import java.util.*;
 import java.util.function.Function;
 
-// il client non viene notificita in caso di errore sul server: creare un messaggio di tipo error message con una stringa che indica l'errore
 public class MessageGenerator {
     private final Map<String, Function<List<String>, Message>> messageMap = new HashMap<>();
 
@@ -52,13 +51,15 @@ public class MessageGenerator {
         messageMap.put("end_build_ship", this::createEndBuildShipMessage);
         messageMap.put("book_tile", this::createBookComponentMessage);
         messageMap.put("notify", this::createNotifyClientMessage);
-        messageMap.put("end_fix_ship_state", this::createEndFixShipMessage);
+        messageMap.put("end_fix_ship", this::createEndFixShipMessage);
         messageMap.put("pick_booked_tile", this::createPickBookedTileMessage);
         messageMap.put("creating_lobby", this::createCreatingLobbyMessage);
         messageMap.put("joined_lobby", this::createLobbyJoinedMessage);
         messageMap.put("lobby_created", this::createLobbyCreatedMessage);
         messageMap.put("accept_create_lobby", this::createAcceptCreateLobbyMessage);
         messageMap.put("update_names", this::createUpdatePlayersListMessage);
+        messageMap.put("choose_wrecked", this::createChooseWreckedMessage);
+        messageMap.put("end_wrecked", this::createEndWreckedMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -77,7 +78,7 @@ public class MessageGenerator {
     }
 
     private Message createPickBookedTileMessage(List<String> args) {
-        int index = Integer.parseInt(args.get(0));
+        int index = Integer.parseInt(args.getFirst());
         return new PickBookedTileMessage(index);
     }
 
@@ -96,8 +97,7 @@ public class MessageGenerator {
     private Message createEndBuildShipMessage(List<String> args) {
         return new EndBuildShipMessage();
     }
-
-
+    
     private Message createPlaceTileMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
@@ -109,9 +109,8 @@ public class MessageGenerator {
         return new DiscardComponentMessage();
     }
 
-
     private Message createPickDiscoveredComponentMessage(List<String> args){
-        int x = Integer.parseInt(args.get(0));
+        int x = Integer.parseInt(args.getFirst());
         return new PickDiscoveredComponentMessage(x);
     }
 
@@ -150,7 +149,7 @@ public class MessageGenerator {
     }
 
     private Message createShowDeckMessage(List<String> args){
-        int numDeck = Integer.parseInt(args.get(0));
+        int numDeck = Integer.parseInt(args.getFirst());
         return new ShowDeckMessage(numDeck);
     }
 
@@ -166,45 +165,45 @@ public class MessageGenerator {
     }
 
     private Message createSetPlayerNameMessage(List<String> args) {
-        return new SetPlayerNameMessage(args.get(0));
+        return new SetPlayerNameMessage(args.getFirst());
     }
 
     private Message createAcceptRewardMessage(List<String> args) {
-        boolean bool = Boolean.parseBoolean(args.get(0));
+        boolean bool = Boolean.parseBoolean(args.getFirst());
         return new AcceptRewardMessage(bool);
     }
 
-    public Message createActivateCannonsMessage(List<String> args) {
-        ArrayList<Points> cannons = new ArrayList<>();
+    private ArrayList<Points> getPointsList(List<String> args){
+        ArrayList<Points> pointsList = new ArrayList<>();
         for (int i = 0; i < args.size(); i += 2) {
             int x = Integer.parseInt(args.get(i));
             int y = Integer.parseInt(args.get(i + 1));
-            cannons.add(new Points(x, y));
+            pointsList.add(new Points(x, y));
         }
+        return pointsList;
+    }
+
+    private Message createActivateCannonsMessage(List<String> args) {
+        ArrayList<Points> cannons = new ArrayList<>(getPointsList(args));
         return new ActivateCannonsMessage(cannons);
     }
 
-    public Message createActivateEnginesMessage(List<String> args) {
-        ArrayList<Points> engines = new ArrayList<>();
-        for (int i = 0; i < args.size(); i += 2) {
-            int x = Integer.parseInt(args.get(i));
-            int y = Integer.parseInt(args.get(i + 1));
-            engines.add(new Points(x, y));
-        }
+    private Message createActivateEnginesMessage(List<String> args) {
+        ArrayList<Points> engines = new ArrayList<>(getPointsList(args));
         return new ActivateEnginesMessage(engines);
     }
 
-    public Message createActivateShieldsMessage(List<String> args) {
-        ArrayList<Points> shields = new ArrayList<>();
-        for (int i = 0; i < args.size(); i += 2) {
-            int x = Integer.parseInt(args.get(i));
-            int y = Integer.parseInt(args.get(i + 1));
-            shields.add(new Points(x, y));
-        }
+    private Message createActivateShieldsMessage(List<String> args) {
+        ArrayList<Points> shields = new ArrayList<>(getPointsList(args));
         return new ActivateShieldsMessage(shields);
     }
 
-    public Message createAddGoodMessage(List<String> args) {
+    private Message createUseBatteriesMessage(List<String> args) {
+        ArrayList<Points> batteries = new ArrayList<>(getPointsList(args));
+        return new UseBatteriesMessage(batteries);
+    }
+
+    private Message createAddGoodMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         int numGood = Integer.parseInt(args.get(2));
@@ -212,79 +211,80 @@ public class MessageGenerator {
         return new AddGoodMessage(point, numGood);
     }
 
-    public Message createCreateLobbyMessage(List<String> args) {
+    private Message createCreateLobbyMessage(List<String> args) {
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
         return new CreateLobbyMessage(numPlayers, shipboardLevel, gameMode);
     }
 
-    public Message createEndActivateCannonsMessage(List<String> args) {
+    private Message createEndActivateCannonsMessage(List<String> args) {
         return new EndActivateCannonsMessage();
     }
 
-    public Message createEndActivateEnginesMessage(List<String> args) {
+    private Message createEndActivateEnginesMessage(List<String> args) {
         return new EndActivateEnginesMessage();
     }
 
-    public Message createEndChangeGoodsStateMessage(List<String> args) {
+    private Message createEndChangeGoodsStateMessage(List<String> args) {
         return new EndChangeGoodsState();
     }
 
-    public Message createEndActivateShieldsMessage(List<String> args) {
+    private Message createEndActivateShieldsMessage(List<String> args) {
         return new EndActivateShieldsMessage();
     }
 
-    public Message createEndRemoveBestGoodsMessage(List<String> args) {
+    private Message createEndRemoveBestGoodsMessage(List<String> args) {
         return new EndRemoveBestGoodsMessage();
     }
 
-    public Message createEndRemoveAstronautsMessage(List<String> args) {
+    private Message createEndRemoveAstronautsMessage(List<String> args) {
         return new EndRemoveAstronautsMessage();
     }
 
-    public Message createExitGameMessage(List<String> args) {
+    private Message createExitGameMessage(List<String> args) {
         return new ExitGameMessage();
     }
 
-    public Message createJoinLobbyMessage(List<String> args) {
+    private Message createJoinLobbyMessage(List<String> args) {
         return new JoinLobbyMessage();
     }
 
-    public Message createLandOnAbandonMessage(List<String> args) {
-        boolean bool = Boolean.parseBoolean(args.get(0));
+    private Message createLandOnAbandonMessage(List<String> args) {
+        boolean bool = Boolean.parseBoolean(args.getFirst());
         return new LandOnAbandonMessage(bool);
     }
 
-    public Message createLandOnPlanetMessage(List<String> args) {
+    private Message createLandOnPlanetMessage(List<String> args) {
         boolean bool = Boolean.parseBoolean(args.get(0));
         int numPlanet = Integer.parseInt(args.get(1));
         return new LandOnPlanetMessage(bool, numPlanet);
     }
 
-    public Message createPingMessage(List<String> args) {
+    private Message createPingMessage(List<String> args) {
         return new PingMessage();
     }
 
-    public Message createPongMessage(List<String> args) {
+    private Message createPongMessage(List<String> args) {
         return new PongMessage();
     }
 
-    public Message createRemoveGoodMessage(List<String> args) {
+    private Message createRemoveGoodMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         int numGood = Integer.parseInt(args.get(2));
         Points point = new Points(x, y);
         return new RemoveGoodMessage(point, numGood);
     }
-    public Message createRemoveAstronautsMessage(List<String> args) {
+
+    private Message createRemoveAstronautsMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
         return new RemoveAstronautsMessage(point);
     }
 
-    public Message createRemoveBestGoodMessage(List<String> args) {
+    private Message createRemoveBestGoodMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         int numGood = Integer.parseInt(args.get(2));
@@ -292,32 +292,22 @@ public class MessageGenerator {
         return new RemoveBestGoodMessage(point, numGood);
     }
 
-    public Message createRemoveBatteriesMessage(List<String> args) {
+    private Message createRemoveBatteriesMessage(List<String> args) {
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
         return new RemoveBatteriesMessage(point);
     }
 
-    public Message createStartGameMessage(List<String> args) {
+    private Message createStartGameMessage(List<String> args) {
         return new StartGameMessage();
     }
 
-    public Message createUseBatteriesMessage(List<String> args) {
-        ArrayList<Points> batteries = new ArrayList<>();
-        for (int i = 0; i < args.size(); i += 2) {
-            int x = Integer.parseInt(args.get(i));
-            int y = Integer.parseInt(args.get(i + 1));
-            batteries.add(new Points(x, y));
-        }
-        return new UseBatteriesMessage(batteries);
-    }
-
-    public Message createCreatingLobbyMessage(List<String> args) {
+    private Message createCreatingLobbyMessage(List<String> args) {
         return new SetUpLobbyMessage();
     }
 
-    public Message createLobbyJoinedMessage(List<String> args){
+    private Message createLobbyJoinedMessage(List<String> args){
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
@@ -325,18 +315,29 @@ public class MessageGenerator {
         return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode, names);
     }
 
-    public Message createLobbyCreatedMessage(List<String> args){
+    private Message createLobbyCreatedMessage(List<String> args){
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
         return new LobbyCreatedMessage(numPlayers, shipboardLevel, gameMode);
     }
 
-    public Message createAcceptCreateLobbyMessage(List<String> args){
+    private Message createAcceptCreateLobbyMessage(List<String> args){
         return new AcceptCreateLobbyMessage();
     }
 
-    public Message createUpdatePlayersListMessage(List<String> args){
+    private Message createChooseWreckedMessage(List<String> args){
+        int x = Integer.parseInt(args.get(0));
+        int y = Integer.parseInt(args.get(1));
+        Points point = new Points(x, y);
+        return new ChooseWreckedMessage(point);
+    }
+
+    private Message createEndWreckedMessage(List<String> args){
+        return new EndWreckedMessage();
+    }
+
+    private Message createUpdatePlayersListMessage(List<String> args){
         return new UpdatePlayersListMessage(args);
     }
 }

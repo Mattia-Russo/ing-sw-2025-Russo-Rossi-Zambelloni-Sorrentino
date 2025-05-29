@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class ShipboardView implements Serializable {
     private final ComponentsView[][] componentMatrixView = new ComponentsView[5][7];
-    private final Components[] bookedComponents;
+    private final ComponentsView[] bookedComponents= new ComponentsView[2];
 
     public ShipboardView(ShipBoard shipBoard) {
         for(int i = 0; i < shipBoard.getComponentMatrix().length; i++){
@@ -20,14 +20,19 @@ public class ShipboardView implements Serializable {
                 }
             }
         }
-        bookedComponents = shipBoard.getBookedComponents();
+        for(int i = 0; i < shipBoard.getBookedComponents().length; i++){
+            if(shipBoard.getBookedComponents()[i] != null) {
+                bookedComponents[i] = shipBoard.getBookedComponents()[i].createView();
+            }
+        }
+
     }
 
     public ComponentsView[][] getComponentsView() {
         return componentMatrixView;
     }
 
-    public Components[] getBookedComponents() {
+    public ComponentsView[] getBookedComponents() {
         return bookedComponents;
     }
 }
