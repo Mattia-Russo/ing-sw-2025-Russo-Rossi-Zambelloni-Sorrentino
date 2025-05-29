@@ -59,6 +59,51 @@
           <mainClass>org.example.UIPkg.GUIPkg.GUIMain</mainClass>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-assembly-client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>GalaxyTruckerClient</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>org.example.ClientPkg.ClientMain</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-assembly-server</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>GalaxyTruckerServer</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>org.example.ServerPkg.ServerMain</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>org.example.ClientPkg.ClientMain</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
