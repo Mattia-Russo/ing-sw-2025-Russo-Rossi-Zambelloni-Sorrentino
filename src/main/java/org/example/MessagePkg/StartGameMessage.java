@@ -15,7 +15,7 @@ public class StartGameMessage extends Message {
                     controller.startGame();
                 }catch(InvalidMinimumNumberPlayerException | InvalidLobbyStateException e){
                     getServer().notifyClient(playerName, "Error: " + e.getMessage());
-                    System.out.println("ERROR " + e.getMessage());
+                    System.out.println("Error, tried to start the lobby with too less players");
                 }
             }
         } else {
