@@ -9,10 +9,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -364,12 +361,10 @@ public class TUI implements UI{
 
             case "Storage":
                 StringBuilder goods = new StringBuilder();
-                if(comp.getGoods()!=null){
-                    List<GoodsView> goodsList = List.of(comp.getGoods());
-                    for (GoodsView goodsView : goodsList) {
-                        GoodsColour color = goodsView.getColour();
-                        goods.append(getGoodColorSquare(color));
-                    }
+                List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : Collections.emptyList();
+                for (GoodsView goodsView : goodsList) {
+                    GoodsColour color = goodsView.getColour();
+                    goods.append(getGoodColorSquare(color));
                 }
                 return goods.toString();
 
