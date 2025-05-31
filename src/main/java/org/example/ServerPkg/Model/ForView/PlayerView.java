@@ -14,6 +14,7 @@ public class PlayerView implements Serializable {
     private final int numCredits;
     private final boolean abandoned;
     private final String rocketColour;
+    private final boolean shipBuilded;
 
     public PlayerView(Player player){
         name = player.getName();
@@ -30,6 +31,7 @@ public class PlayerView implements Serializable {
         numCredits = player.getNumCredits();
         abandoned = player.isAbandoned();
         rocketColour = player.getRocketColour();
+        shipBuilded = player.getShipBuilded();
     }
 
     public ShipboardView getShipboardView() {
@@ -62,5 +64,9 @@ public class PlayerView implements Serializable {
 
     public boolean isAbandoned() {
         return abandoned;
+    }
+
+    public boolean isShipBuilded() {
+        return shipBuilded;
     }
 }

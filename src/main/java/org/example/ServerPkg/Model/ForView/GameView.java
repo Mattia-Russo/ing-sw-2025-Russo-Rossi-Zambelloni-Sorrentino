@@ -16,6 +16,7 @@ public class GameView implements Serializable{
     private Exception exception = null;
     private final LobbyState lobbyState;
     private final int shipBoardLevel;
+    private final int gamemode;
 
     public GameView(Game game, Exception exception) {
         if (exception == null){
@@ -34,6 +35,7 @@ public class GameView implements Serializable{
             this.exception = exception;
         this.lobbyState = game.getController().getLobbyState();
         this.shipBoardLevel = game.getShipBoardLevel();
+        this.gamemode = game.getGameMode();
         game.updateGame(this);
     }
 
@@ -59,5 +61,9 @@ public class GameView implements Serializable{
 
     public int getShipBoardLevel() {
         return shipBoardLevel;
+    }
+
+    public int getGameMode(){
+        return gamemode;
     }
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Player implements Serializable {
-    private final int id;
     private final String name;
     private int position;
     private ShipBoard playerShipBoard;
@@ -31,8 +30,7 @@ public class Player implements Serializable {
     private Components currentTile;
     private ArrayList<AdventureCard> deckShowed;
 
-    public Player(int id, String name, Game game){
-        this.id = id;
+    public Player(String name, Game game){
         this.position=0;
         this.playerShipBoard=null;
         this.abandoned=false;
@@ -61,10 +59,6 @@ public class Player implements Serializable {
         }else{
             playerShipBoard= ShipboardLoader.loadLevel1();
         }
-    }
-
-    public int getID(){
-        return this.id;
     }
 
     public int getPosition(){
@@ -162,11 +156,6 @@ public class Player implements Serializable {
             }
         }
         return true;
-    }
-
-    private Direction rotateRelative(Direction dir, Direction rotation) {
-        int index = (dir.ordinal() - rotation.ordinal() + 4) % 4;
-        return Direction.values()[index];
     }
 
     public Direction opposite(Direction dir) {
