@@ -141,7 +141,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public boolean checkName(String name) throws RemoteException {
-        System.out.println("Checking name " + name);
         return controller.checkName(name);
     }
 
