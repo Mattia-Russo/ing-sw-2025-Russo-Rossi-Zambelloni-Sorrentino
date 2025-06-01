@@ -251,4 +251,8 @@ public class GameController{
             s.updatePlayerList(exclude);
         }
     }
+
+    public boolean getFile() {
+        return fileLoaded;
+    }
 }
