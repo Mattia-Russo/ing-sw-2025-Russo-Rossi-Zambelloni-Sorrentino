@@ -143,7 +143,6 @@ public class Player implements Serializable {
                             if (myConn != Connector.UNIVERSAL && theirConn != Connector.UNIVERSAL && myConn != theirConn)
                                 return false;
                         }
-
                     }
                     if(c.checkRightCannon(this.playerShipBoard)){
                         return false;

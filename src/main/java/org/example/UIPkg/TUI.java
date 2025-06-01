@@ -499,10 +499,14 @@ public class TUI implements UI{
 
             case "Storage":
                 StringBuilder goods = new StringBuilder();
-                List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : Collections.emptyList();
+                List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
                 for (GoodsView goodsView : goodsList) {
-                    GoodsColour color = goodsView.getColour();
-                    goods.append(getGoodColorSquare(color));
+                    if(goodsView != null) {
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                    } else {
+                        goods.append("   ");
+                    }
                 }
                 return goods.toString();
 
