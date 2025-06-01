@@ -15,10 +15,10 @@ import java.util.ArrayList;
 public class OpenSpaceTest extends TestCase {
 
     public void testCheckEnginePower() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -52,9 +52,9 @@ public class OpenSpaceTest extends TestCase {
 
     public void testSetCardState() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a", null);
-        Player p2 = new Player(2, "b", null);
-        Player p3 = new Player( 3, "c", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("b", null);
+        Player p3 = new Player( "c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);
@@ -79,9 +79,9 @@ public class OpenSpaceTest extends TestCase {
 
     public void testPlayCard() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a", null);
-        Player p2 = new Player(2, "b", null);
-        Player p3 = new Player( 3, "c", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("b", null);
+        Player p3 = new Player("c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);

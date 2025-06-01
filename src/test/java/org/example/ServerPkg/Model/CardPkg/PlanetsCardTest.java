@@ -46,9 +46,9 @@ public class PlanetsCardTest extends TestCase {
 
     public void testSetCardState() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a", null);
-        Player p2 = new Player(2, "b", null);
-        Player p3 = new Player( 3, "c", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("b", null);
+        Player p3 = new Player( "c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);
@@ -98,9 +98,9 @@ public class PlanetsCardTest extends TestCase {
 
     public void testPlayCard() {
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player(1, "a", null);
-        Player p2 = new Player(2, "b", null);
-        Player p3 = new Player( 3, "c", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("b", null);
+        Player p3 = new Player("c", null);
         players.add(p1);
         players.add(p2);
         players.add(p3);
