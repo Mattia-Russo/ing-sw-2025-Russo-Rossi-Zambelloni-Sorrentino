@@ -37,7 +37,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private ImageView currentComponentImageView;
 
     @FXML
-    private Pane shipboardContainer; // Container per sovrapporre i componenti
+    private Pane shipboardContainer;
 
     @FXML
     private Button pickComponentButton;
@@ -81,7 +81,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         public List<String> connectors;
         public boolean isCentral;
         public String img;
-        public Integer capacity; // Per BATTERYSTORAGE
+        public Integer capacity;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         setupUI();
         loadComponentsFromJSON();
         loadShipboardImage();
-        loadInitialCabin();
+        //todo loadInitialCabin();
         validationMessage.setVisible(false);
     }
 
@@ -126,6 +126,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
+    //todo cambia in base al livello selezionato
     private void loadShipboardImage() {
         try {
             String imagePath = "src/main/resources/org.example/cardboard/cardboard-1.jpg";
@@ -319,14 +320,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
             component.direction = json.getString("direction");
             component.img = json.getString("img");
 
-            // Gestione connectors
             component.connectors = new ArrayList<>();
             JSONArray connectorsArray = json.getJSONArray("connectors");
             for (int i = 0; i < connectorsArray.length(); i++) {
                 component.connectors.add(connectorsArray.getString(i));
             }
 
-            // Campi opzionali
             if (json.has("isCentral")) {
                 component.isCentral = json.getBoolean("isCentral");
             }
@@ -354,7 +353,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
-    // Metodo per mostrare messaggio di successo
     public void showSuccessMessage(String message) {
         Platform.runLater(() -> {
             validationMessage.setText(message);

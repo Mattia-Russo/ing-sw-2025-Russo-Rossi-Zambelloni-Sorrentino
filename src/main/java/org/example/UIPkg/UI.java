@@ -28,4 +28,6 @@ public abstract class UI {
     public void onUpdatePlayerList(List<String> updatedList){}
 
     public void startGui(){}
+
+    public void onGameStarted(){}
 }

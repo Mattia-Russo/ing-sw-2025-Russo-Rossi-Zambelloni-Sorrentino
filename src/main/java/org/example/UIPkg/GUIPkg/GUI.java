@@ -70,6 +70,7 @@ public class GUI extends UI {
     }
 
     public void goToWaitingRoomScene() throws IOException {
+        preserveWindowSize();
         GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
 
         controller.setMaxPlayers(numPlayers);
@@ -213,10 +214,20 @@ public class GUI extends UI {
     }
 
     public void onGameStarted() {
-        GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
-        if (controller != null) {
-            controller.onGameStarted();
+        GuiController waitingRoomSceneController = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
+        if (waitingRoomSceneController != null) {
+            waitingRoomSceneController.onGameStarted();
         }
+        Platform.runLater(() -> {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                    Platform.runLater(this::goToBuildShipScene);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }).start();
+        });
     }
 
     @Override
@@ -226,5 +237,10 @@ public class GUI extends UI {
         if (controller != null) {
             controller.updatePlayersList(updatedList);
         }
+    }
+
+    private void goToBuildShipScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.BUILD_SHIP_SCENE);
     }
 }

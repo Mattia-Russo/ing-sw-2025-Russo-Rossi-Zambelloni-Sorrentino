@@ -169,4 +169,10 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     public MessageGenerator getMsgGen(){
         return msgGen;
     }
+
+    @Override
+    public void notifyGameStarted(){
+        Message message = msgGen.generate("game_started", null);
+        sendMessage(message);
+    }
 }

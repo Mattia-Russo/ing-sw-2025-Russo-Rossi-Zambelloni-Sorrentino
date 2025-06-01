@@ -194,4 +194,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
             }
         }
     }
+
+    @Override
+    public void notifyGameStarted() throws RemoteException {
+        for(RMIClientInterface client : clients.keySet()){
+            client.notifyGameStarted();
+        }
+    }
 }

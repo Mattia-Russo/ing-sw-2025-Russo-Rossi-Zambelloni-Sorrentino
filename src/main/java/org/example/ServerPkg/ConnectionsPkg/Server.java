@@ -22,4 +22,6 @@ public interface Server {
     void acceptCreateLobby(String name) throws RemoteException;
 
     void updatePlayerList(String exclude) throws RemoteException;
+
+    void notifyGameStarted() throws RemoteException;
 }

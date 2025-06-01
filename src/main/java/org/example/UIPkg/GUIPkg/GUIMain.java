@@ -20,6 +20,7 @@ public class GUIMain extends Application {
     public static final String NAME_REQUEST_SCENE = "/org.example/FxmlPkg/nameRequestScene.fxml";
     public static final String SETTINGS_SCENE = "/org.example/FxmlPkg/settingsScene.fxml";
     public static final String WAITING_ROOM_SCENE = "/org.example/FxmlPkg/waitingRoomScene.fxml";
+    public static final String BUILD_SHIP_SCENE = "/org.example/FxmlPkg/buildShipScene.fxml";
 
     public GUIMain() {
         guiMain = this;

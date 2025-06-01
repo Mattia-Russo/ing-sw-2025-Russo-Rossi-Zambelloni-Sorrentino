@@ -5,6 +5,7 @@ import org.example.ServerPkg.Model.Exceptions.InvalidLobbyStateException;
 import org.example.ServerPkg.Model.Exceptions.InvalidMinimumNumberPlayerException;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class StartGameMessage extends Message {
     @Override
@@ -13,6 +14,7 @@ public class StartGameMessage extends Message {
             if(checkClient()){
                 try{
                     controller.startGame();
+                    controller.notifyGameStarted();
                 }catch(InvalidMinimumNumberPlayerException | InvalidLobbyStateException e){
                     getServer().notifyClient(playerName, "Error: " + e.getMessage());
                     System.out.println("Error, tried to start the lobby with too less players");

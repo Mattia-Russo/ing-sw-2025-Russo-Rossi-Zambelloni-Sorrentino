@@ -36,6 +36,8 @@ public interface RMIClientInterface extends Remote, Handler {
     void acceptCreateLobby() throws RemoteException;
 
     void updatePlayerList(List<String> updatedList) throws RemoteException;
+
+    void notifyGameStarted() throws RemoteException;
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

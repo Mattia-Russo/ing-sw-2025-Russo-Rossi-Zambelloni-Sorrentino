@@ -235,4 +235,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void updatePlayerList(List<String> updatedList){
         userInterface.onUpdatePlayerList(updatedList);
     }
+
+    @Override
+    public void notifyGameStarted(){
+        this.userInterface.onGameStarted();
+    }
 }

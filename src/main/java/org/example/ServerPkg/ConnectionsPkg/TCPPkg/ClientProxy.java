@@ -72,4 +72,6 @@ public abstract class ClientProxy implements Handler {
     public void acceptCreateLobby() {}
 
     public MessageGenerator getMsgGen(){return null;}
+
+    public void notifyGameStarted(){}
 }

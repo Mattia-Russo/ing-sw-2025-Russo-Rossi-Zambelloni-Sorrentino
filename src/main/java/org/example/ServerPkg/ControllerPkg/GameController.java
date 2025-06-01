@@ -255,4 +255,10 @@ public class GameController{
     public boolean getFile() {
         return fileLoaded;
     }
+
+    public void notifyGameStarted() throws RemoteException {
+        for(Server s : serverList){
+            s.notifyGameStarted();
+        }
+    }
 }

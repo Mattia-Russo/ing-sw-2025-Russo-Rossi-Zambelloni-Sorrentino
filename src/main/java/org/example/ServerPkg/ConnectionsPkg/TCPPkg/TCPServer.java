@@ -120,4 +120,11 @@ public class TCPServer implements Server {
             }
         }
     }
+
+    @Override
+    public void notifyGameStarted(){
+        for(ClientProxy client : clientsProxies){
+            client.notifyGameStarted();
+        }
+    }
 }
