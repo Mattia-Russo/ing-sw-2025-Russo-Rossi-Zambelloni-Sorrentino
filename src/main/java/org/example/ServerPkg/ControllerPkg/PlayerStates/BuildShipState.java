@@ -80,8 +80,6 @@ public class BuildShipState extends PlayerState implements Serializable {
         if (p.getDeckShowed() == null){
             if(!p.getShipBuilded()) {
                 p.setCurrentTile(getGame().pickDiscoveredComponent(index));
-                System.out.println("picked tile: " + p.getCurrentTile().toString());
-                System.out.println("Connectors: " + Arrays.toString(p.getCurrentTile().getConnectors()));
                 new GameView(getGame(), null);
             }
         } else {

@@ -321,10 +321,32 @@ public class TUI implements UI{
             Connector[] connectors =comp.getConnectors();
             String[] initials = getComponentInitials(comp.getType());
 
-            grid[0][4] = getConnectorSymbol(connectors[0]);
-            grid[5][0] = getConnectorSymbol(connectors[3]);
-            grid[5][8] = getConnectorSymbol(connectors[1]);
-            grid[6][4] = getConnectorSymbol(connectors[2]);
+            switch (comp.getDirection()){
+                case NORTH:
+                    grid[0][4] = getConnectorSymbol(connectors[0]);
+                    grid[5][0] = getConnectorSymbol(connectors[3]);
+                    grid[5][8] = getConnectorSymbol(connectors[1]);
+                    grid[6][4] = getConnectorSymbol(connectors[2]);
+
+                case EAST:
+                    grid[0][4] = getConnectorSymbol(connectors[1]);
+                    grid[5][0] = getConnectorSymbol(connectors[0]);
+                    grid[5][8] = getConnectorSymbol(connectors[2]);
+                    grid[6][4] = getConnectorSymbol(connectors[3]);
+
+                case SOUTH:
+                    grid[0][4] = getConnectorSymbol(connectors[2]);
+                    grid[5][0] = getConnectorSymbol(connectors[1]);
+                    grid[5][8] = getConnectorSymbol(connectors[3]);
+                    grid[6][4] = getConnectorSymbol(connectors[0]);
+
+                case WEST:
+                    grid[0][4] = getConnectorSymbol(connectors[3]);
+                    grid[5][0] = getConnectorSymbol(connectors[2]);
+                    grid[5][8] = getConnectorSymbol(connectors[0]);
+                    grid[6][4] = getConnectorSymbol(connectors[1]);
+            }
+
             grid[0][8] = getDirectionLetter(comp.getDirection());
 
             for (int i=0; i<initials.length; i++){
