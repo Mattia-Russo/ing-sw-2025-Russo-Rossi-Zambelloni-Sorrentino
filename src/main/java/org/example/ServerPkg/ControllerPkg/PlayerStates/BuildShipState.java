@@ -184,8 +184,4 @@ public class BuildShipState extends PlayerState implements Serializable {
         setPosition(disconnectingPlayer);
         endBuildShip(disconnectingPlayer);
     }
-
-    public void setShipboard(Player player){
-        player.opShip();
-    }
 }
