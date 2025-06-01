@@ -5,6 +5,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnPlanetsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.ForView.PlanetView;
 import org.example.ServerPkg.Model.Game;
 
@@ -57,6 +58,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
             playersIndex = -1;
             game.Turn();
         } else {
+            new GameView(game, new Exception("LAND ON PLANET " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new LandOnPlanetsState(game));
         }
     }
@@ -67,6 +69,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         if (changeGoodsFlag){
             this.currentPlanetIndex = numPlanet;
             this.planetsVisited[numPlanet] = true;
+            new GameView(game, new Exception("LAND ON PLANET(Change goods) " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());

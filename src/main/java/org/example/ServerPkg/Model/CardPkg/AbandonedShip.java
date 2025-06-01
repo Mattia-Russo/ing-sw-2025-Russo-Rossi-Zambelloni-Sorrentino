@@ -55,6 +55,7 @@ public class AbandonedShip extends AdventureCard implements Serializable {
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
         } else {
+            new GameView(game, new Exception("LAND ON ABANDON " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
         }
     }

@@ -88,6 +88,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
         if (meteorList.get(currentMeteor).getType() == 0) {
             if (p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteor).getDirection(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol))) {
                 if (p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteor).getDirection())) {
+                    new GameView(g, new Exception("ACTIVATE SHIELDS  " + p.getName()));
                     p.setPlayerState(new ActivateShieldsState(g));
                 } else
                     this.playCard(g, null, null);
@@ -101,6 +102,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     protect = true;
                     this.playCard(g, null, null);
                 } else if (p.getPlayerShipBoard().getIfDoubleCannon(Direction.NORTH, rowOrCol)) {
+                    new GameView(g, new Exception("ACTIVATE CANNON  " + p.getName()));
                     p.setPlayerState(new ActivateCannonsState(g));
                 } else {
                     this.playCard(g, null, null);
@@ -110,6 +112,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     protect = true;
                     this.playCard(g, null, null);
                 } else if (p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol - 1) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol + 1)) {
+                    new GameView(g, new Exception("ACTIVATE CANNON  " + p.getName()));
                     p.setPlayerState(new ActivateCannonsState(g));
                 } else {
                     this.playCard(g, null, null);
@@ -140,6 +143,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                         setCardState(g);
                     } else {
                         protect = false;
+                        new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                         p.setPlayerState(new ShipWreckedState(g, p));
                     }
                 } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
@@ -163,6 +167,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                                 setCardState(g);
                             } else {
                                 protect = false;
+                                new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                 p.setPlayerState(new ShipWreckedState(g, p));
                             }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
@@ -172,6 +177,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                         new GameView(g, null);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
+                    new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
                 }
             }else {
@@ -192,6 +198,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                                 setCardState(g);
                             }else{
                                 protect=false;
+                                new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                 p.setPlayerState(new ShipWreckedState(g, p));
                             }
                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
@@ -200,8 +207,9 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     }else
                         new GameView(g, null);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
-                        System.out.println("Error" + e.getMessage());
-                        g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                    System.out.println("Error" + e.getMessage());
+                    new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + p.getName()));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                 }
 
             }
@@ -216,12 +224,14 @@ public class MeteorCard extends AdventureCard implements Serializable {
         while(!good && currentMeteor<meteorList.size()) {
             if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH || meteorList.get(currentMeteor).getDirection() == Direction.SOUTH) {
                 rowOrCol= p.rollDice();
+                new GameView(g, new Exception("METEOR  " + rowOrCol));
                 if(rowOrCol < 7){
                     good = true;
                 }else
                     currentMeteor++;
             } else {
                 rowOrCol= p.rollDice();
+                new GameView(g, new Exception("METEOR  " + rowOrCol));
                 if(rowOrCol < 5){
                     good = true;
                 }else

@@ -5,6 +5,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.ForView.GoodsView;
 import org.example.ServerPkg.Model.Game;
 
@@ -66,6 +67,7 @@ public class AbandonedStation extends AdventureCard implements Serializable {
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
         } else {
+            new GameView(game, new Exception("LAND ON ABANDON " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
         }
     }
@@ -73,6 +75,7 @@ public class AbandonedStation extends AdventureCard implements Serializable {
     @Override
     public void playCard(Game game) {
         if (changeGoodsFlag){
+            new GameView(game, new Exception("LAND ON ABANDON(Change goods) " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());

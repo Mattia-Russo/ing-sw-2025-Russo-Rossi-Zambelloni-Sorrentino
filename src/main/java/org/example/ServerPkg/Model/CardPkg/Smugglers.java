@@ -68,6 +68,7 @@ public class Smugglers extends Enemy implements Serializable {
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
         } else {
+            new GameView(game, new Exception("ACTIVATE CANNONS " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
         }
 
@@ -84,14 +85,17 @@ public class Smugglers extends Enemy implements Serializable {
             float power = game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries);
             new GameView(game, null);
             if ( power > this.getCannonPower()) {
+                new GameView(game, new Exception("WIN ENEMY  " + game.getPlayers().get(playersIndex).getName()));
                 game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
             } else if (power == this.getCannonPower()) {
                 this.setCardState(game);
             } else {
+                new GameView(game, new Exception("REMOVE GOODS  " + game.getPlayers().get(playersIndex).getName()));
                 game.getPlayers().get(playersIndex).setPlayerState(new RemoveBestGoodsState(game));
             }
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
             System.out.println("Error" + e.getMessage());
+            new GameView(game, new Exception(e.getMessage() + "ACTIVATE CANNONS " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
         }
     }
@@ -99,6 +103,7 @@ public class Smugglers extends Enemy implements Serializable {
     @Override
     public void playCard(Game game){
         if (accept){
+            new GameView(game, new Exception("CHANGE GOODS " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
             this.playCard(game, 0);

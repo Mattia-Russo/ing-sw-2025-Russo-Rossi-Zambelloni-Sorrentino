@@ -55,6 +55,7 @@ public class Pirates extends Enemy implements Serializable {
 
             if (currentPlayer < g.getPlayers().size()) {
                 if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
+                    new GameView(g, new Exception("ACTIVATE CANNON  " + g.getPlayers().get(currentPlayer).getName()));
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                 } else {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
@@ -68,6 +69,7 @@ public class Pirates extends Enemy implements Serializable {
             Player p= g.getPlayers().get(currentPlayer);
             if (cannonFireList.get(currentFire).getType() == 0) {
                 if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).getDirection())) {
+                    new GameView(g, new Exception("ACTIVATE SHIELD " + g.getPlayers().get(currentPlayer).getName()));
                     p.setPlayerState(new ActivateShieldsState(g));
                 }else{
                     this.playCard(g, null, null);
@@ -85,6 +87,7 @@ public class Pirates extends Enemy implements Serializable {
                 float power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
                 new GameView(g, null);
                 if (this.getCannonPower() < power) {
+                    new GameView(g, new Exception("WIN ENEMY " + g.getPlayers().get(currentPlayer).getName()));
                     g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
                 } else if (this.getCannonPower() > power) {
                     playerLost = true;
@@ -93,6 +96,7 @@ public class Pirates extends Enemy implements Serializable {
                 }
             }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                 System.out.println("Error" + e.getMessage());
+                new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
             }
         } else { // chiamata arriva da ActivateShieldsState, components sono scudi
@@ -111,6 +115,7 @@ public class Pirates extends Enemy implements Serializable {
                         }
                         // nave divisa
                         if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosY(), shipWreck.getPosX())){
+                            new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                             p.setPlayerState(new ShipWreckedState(g, p));
                             this.shipWrecked = true;
                         }
@@ -142,9 +147,11 @@ public class Pirates extends Enemy implements Serializable {
                                 if(currentFire < cannonFireList.size()-1) {
                                     currentFire++;
                                     chooseRowOrCol(p, g);
+                                    new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                     p.setPlayerState(new ShipWreckedState(g, p));
                                 }else{
                                     playerLost =false;
+                                    new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                     p.setPlayerState(new ShipWreckedState(g, p));
                                 }
                             }
@@ -155,6 +162,7 @@ public class Pirates extends Enemy implements Serializable {
                         new GameView(g, null);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
+                    new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
                 }
             }
@@ -218,12 +226,14 @@ public class Pirates extends Enemy implements Serializable {
         while(!good && currentFire<cannonFireList.size()) {
             if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
                 rowOrCol= p.rollDice();
+                new GameView(g, new Exception("SHOT  " + rowOrCol));
                 if(rowOrCol < 7){
                     good = true;
                 }else
                     currentFire++;
             } else {
                 rowOrCol= p.rollDice();
+                new GameView(g, new Exception("SHOT  " + rowOrCol));
                 if(rowOrCol < 5){
                     good = true;
                 }else

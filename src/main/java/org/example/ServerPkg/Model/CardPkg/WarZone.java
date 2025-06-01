@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WarZone extends AdventureCard implements Serializable {
-    private int numAstronauts;
-    private int numGoods;
-    private List<CannonFire> cannonFireList;
-    private String[] penalties;
-    private String[] criteria;
+    private final int numAstronauts;
+    private final int numGoods;
+    private final List<CannonFire> cannonFireList;
+    private final String[] penalties;
+    private final String[] criteria;
     private int pos;
     private int currentPlayer;
     private int currentFire;
@@ -84,6 +84,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             currentPlayer=-1;
                         } else {
                             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0) {
+                                new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer)));
                                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
                             } else {
                                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
@@ -102,6 +103,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             currentPlayer=-1;
                         } else {
                             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
+                                new GameView(g, new Exception("ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer)));
                                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                             } else {
                                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
@@ -117,6 +119,7 @@ public class WarZone extends AdventureCard implements Serializable {
             }else {
                 if (cannonFireList.get(currentFire).getType() == 0) {
                     if (loser.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).getDirection())) {
+                        new GameView(g, new Exception("ACTIVATE SHIELDS " + g.getPlayers().get(currentPlayer)));
                         loser.setPlayerState(new ActivateShieldsState(g));
                     }else{
                         this.playCard(g, null, null);
@@ -142,6 +145,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer)));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
 
                         }
@@ -154,6 +158,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer)));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
 
                         }
@@ -168,6 +173,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer)));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                         }
 
@@ -180,6 +186,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer)));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                         }
                     }
@@ -202,10 +209,11 @@ public class WarZone extends AdventureCard implements Serializable {
                     p = loser;
                     done=false;
                     loser=null;
+                    new GameView(g, new Exception("REMOVE BEST GOODS " + g.getPlayers().get(currentPlayer)));
                     p.setPlayerState(new RemoveBestGoodsState(g));
                     break;
                 case "cannonFire":
-                    chooseRowOrCol(loser);
+                    chooseRowOrCol(loser, g);
                     if (done) {
                         if (loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol) == null) {
                             protect = true;
@@ -224,21 +232,24 @@ public class WarZone extends AdventureCard implements Serializable {
                                     }
 
                                     if (!loser.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
-                                        chooseRowOrCol(loser);
+                                        chooseRowOrCol(loser, g);
                                         if (!done) {
                                             loser = null;
                                             pos++;
                                         }
                                         setCardState(g);
                                     } else {
-                                        chooseRowOrCol(loser);
+                                        chooseRowOrCol(loser, g);
                                         if (!done) {
                                             p = loser;
                                             loser = null;
                                             pos++;
+                                            new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                             p.setPlayerState(new ShipWreckedState(g, p));
-                                        } else
+                                        } else {
+                                            new GameView(g, new Exception("SHIP WRECK  " + loser.getName()));
                                             loser.setPlayerState(new ShipWreckedState(g, loser));
+                                        }
                                     }
                                 } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                                     System.out.println("Error" + e.getMessage());
@@ -257,21 +268,24 @@ public class WarZone extends AdventureCard implements Serializable {
                                             }
 
                                             if (!loser.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
-                                                chooseRowOrCol(loser);
+                                                chooseRowOrCol(loser, g);
                                                 if (!done) {
                                                     loser = null;
                                                     pos++;
                                                 }
                                                 setCardState(g);
                                             } else {
-                                                chooseRowOrCol(loser);
+                                                chooseRowOrCol(loser, g);
                                                 if (!done) {
                                                     p = loser;
                                                     loser = null;
                                                     pos++;
+                                                    new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                                     p.setPlayerState(new ShipWreckedState(g, p));
-                                                } else
+                                                } else {
+                                                    new GameView(g, new Exception("SHIP WRECK  " + loser.getName()));
                                                     loser.setPlayerState(new ShipWreckedState(g, loser));
+                                                }
                                             }
                                         } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                                             System.out.println("Error" + e.getMessage());
@@ -281,6 +295,7 @@ public class WarZone extends AdventureCard implements Serializable {
                                 } catch (InvalidPositionException | InvalidParameterException |
                                          BatteriesLessThenCannonException e) {
                                     System.out.println("Error" + e.getMessage());
+                                    new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + loser.getName()));
                                     loser.setPlayerState(new ActivateShieldsState(g));
                                 }
                             }
@@ -296,6 +311,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     p = loser;
                     done=false;
                     loser=null;
+                    new GameView(g, new Exception("REMOVE ASTRONAUTS " + p.getName()));
                     p.setPlayerState(new RemoveAstronautsState(g));
                     new GameView(g, null);
                     break;
@@ -303,11 +319,12 @@ public class WarZone extends AdventureCard implements Serializable {
         }
     }
 
-    private void chooseRowOrCol(Player p) {
+    private void chooseRowOrCol(Player p, Game g) {
         boolean good = false;
         while(!good && currentFire<cannonFireList.size()) {
             if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
                 rowOrCol= p.rollDice();
+                new GameView(g, new Exception("SHOT  " + rowOrCol));
                 if(rowOrCol < 7){
                     good = true;
                 }else

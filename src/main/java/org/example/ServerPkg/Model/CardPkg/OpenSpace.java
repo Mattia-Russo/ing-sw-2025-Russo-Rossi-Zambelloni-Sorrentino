@@ -44,9 +44,10 @@ public class OpenSpace extends AdventureCard implements Serializable {
         if(currentPlayer==g.getPlayers().size()) {
             g.Turn();
         }else {
-            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0)
+            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0) {
+                new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
-            else {
+            }else {
                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                 this.playCard(g, null, null);
             }
@@ -62,6 +63,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
             setCardState(g);
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
             System.out.println("Error" + e.getMessage());
+            new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + g.getPlayers().get(currentPlayer).getName()));
             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
         }
     }
