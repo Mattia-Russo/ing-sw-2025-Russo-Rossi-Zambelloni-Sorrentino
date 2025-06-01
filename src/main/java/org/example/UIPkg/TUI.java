@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class TUI implements UI{
+public class TUI extends UI{
 
     private final BlockingQueue<GameView> gameUpdatesQueue;
     private final Client client;
@@ -60,14 +60,8 @@ public class TUI implements UI{
         GameView game = gameUpdatesQueue.poll();
         assert game != null;
         if(game.getException() == null) {
-            int i=0;
             System.out.println("Discovered tile: ");
-            for (ComponentsView c : game.getComponentsDiscovered()) {
-                String[] s = DrawComponent(c);
-                for (String line : s) System.out.println(line);
-                System.out.println("[" + i + "]");
-                i++;
-            }
+            DrawDiscoveredTiles(game.getComponentsDiscovered());
 
             System.out.println("\nShipboard:");
             DrawShipboard(game.getPlayers(), game.getShipBoardLevel());
@@ -77,9 +71,63 @@ public class TUI implements UI{
             }
             System.out.println("Flight board: ");
             DrawFlightBoard(game.getPlayers(), game.getGameMode());
+            drawCommands(game);
         } else
-            System.out.println(game.getException().getMessage());
-        drawCommands(game);
+            System.out.println("\n" + game.getException().getMessage() + "\n");
+
+    }
+
+    private void DrawDiscoveredTiles(List<ComponentsView> components) {
+        if (components == null || components.isEmpty()) {
+            return;
+        }
+
+        final int TILES_PER_ROW = 10;
+        final int TILE_HEIGHT = 9;
+
+        for (int startIndex = 0; startIndex < components.size(); startIndex += TILES_PER_ROW) {
+            int endIndex = Math.min(startIndex + TILES_PER_ROW, components.size());
+            int tilesInThisRow = endIndex - startIndex;
+
+            String[][] allTileLines = new String[tilesInThisRow][TILE_HEIGHT];
+
+            for (int i = 0; i < tilesInThisRow; i++) {
+                ComponentsView component = components.get(startIndex + i);
+                allTileLines[i] = DrawComponent(component);
+            }
+
+            for (int lineIndex = 0; lineIndex < TILE_HEIGHT; lineIndex++) {
+                StringBuilder fullLine = new StringBuilder();
+                for (int tileIndex = 0; tileIndex < tilesInThisRow; tileIndex++) {
+                    fullLine.append(allTileLines[tileIndex][lineIndex]);
+                    if (tileIndex < tilesInThisRow - 1) {
+                        fullLine.append("  ");
+                    }
+                }
+                System.out.println(fullLine);
+            }
+
+            StringBuilder indexLine = new StringBuilder();
+            for (int i = 0; i < tilesInThisRow; i++) {
+                int tileIndex = startIndex + i;
+                String indexStr = "[" + tileIndex + "]";
+                int tileWidth = 11;
+                int padding = (tileWidth - indexStr.length()) / 2;
+
+                indexLine.append(" ".repeat(Math.max(0, padding)));
+                indexLine.append(indexStr);
+                indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
+
+                if (i < tilesInThisRow - 1) {
+                    indexLine.append("  ");
+                }
+            }
+            System.out.println(indexLine);
+            
+            if (endIndex < components.size()) {
+                System.out.println();
+            }
+        }
     }
 
     public void drawCommands(GameView game) {
@@ -327,18 +375,21 @@ public class TUI implements UI{
                     grid[5][0] = getConnectorSymbol(connectors[3]);
                     grid[5][8] = getConnectorSymbol(connectors[1]);
                     grid[6][4] = getConnectorSymbol(connectors[2]);
+                    break;
 
                 case EAST:
                     grid[0][4] = getConnectorSymbol(connectors[1]);
                     grid[5][0] = getConnectorSymbol(connectors[0]);
                     grid[5][8] = getConnectorSymbol(connectors[2]);
                     grid[6][4] = getConnectorSymbol(connectors[3]);
+                    break;
 
                 case SOUTH:
                     grid[0][4] = getConnectorSymbol(connectors[2]);
                     grid[5][0] = getConnectorSymbol(connectors[1]);
                     grid[5][8] = getConnectorSymbol(connectors[3]);
                     grid[6][4] = getConnectorSymbol(connectors[0]);
+                    break;
 
                 case WEST:
                     grid[0][4] = getConnectorSymbol(connectors[3]);
@@ -506,6 +557,7 @@ public class TUI implements UI{
     private String getComponentDetail(ComponentsView comp) {
         switch (comp.getType()) {
             case "Cabin":
+            case "Central Cabin":
                 if (comp.getAlienColour() != null) {
                     return getAlienColorBlock(comp.getAlienColour());
                 } else {
@@ -542,8 +594,8 @@ public class TUI implements UI{
 
     private String getAlienColorBlock(AlienColour color) {
         return switch (color) {
-            case BROWN -> "[B]";
-            case PURPLE -> "[P]";
+            case BROWN -> "[Brown]";
+            case PURPLE -> "[Purple]";
         };
     }
 
@@ -558,10 +610,10 @@ public class TUI implements UI{
 
     private String getDirectionArrow(Direction d) {
         return switch (d) {
-            case NORTH -> "↑";
-            case EAST -> "→";
-            case SOUTH -> "↓";
-            case WEST -> "←";
+            case NORTH -> "N ";
+            case EAST -> "E ";
+            case SOUTH -> "S ";
+            case WEST -> "W ";
         };
     }
 
@@ -721,9 +773,9 @@ public class TUI implements UI{
     public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){
         playersList.add(name);
         this.nameIndex = 0;
-        System.out.println("Lobby created with this parameters:\n" +
+        System.out.println("Lobby created with this parameters:" +
                 "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
-                "Connected players: \n" + playersList.getFirst());
+                "Connected players: \n" + playersList.getFirst() + " (You)");
     }
 
     @Override
@@ -733,18 +785,13 @@ public class TUI implements UI{
         System.out.println("Lobby created with this settings:\n" +
                 "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
                 "Connected players:");
-        for(String player: playersList){
-            if(player.equals(names.getLast())){
-                System.out.println(player + " (You)");
+        for(int i=0; i< playersList.size(); i++){
+            if(i == nameIndex){
+                System.out.println(playersList.get(i) + " (You)");
             } else {
-                System.out.println(player);
+                System.out.println(playersList.get(i));
             }
         }
-    }
-
-    @Override
-    public void onCreateLobbyAccepted(){
-        // does nothing for TUI, needed for GUI
     }
 
     @Override
@@ -752,15 +799,12 @@ public class TUI implements UI{
         this.playersList = updatedList;
         System.out.println("Somebody else joined!\n" +
                 "Connected players:" );
-        for(String player: playersList){
-            if(player.equals(updatedList.get(nameIndex))){
-                System.out.println(player + " (You)");
+        for(int i=0; i< playersList.size(); i++){
+            if(i == nameIndex){
+                System.out.println(playersList.get(i) + " (You)");
             } else {
-                System.out.println(player);
+                System.out.println(playersList.get(i));
             }
         }
     }
-
-    @Override
-    public void startGui(){}
 }

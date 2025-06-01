@@ -5,27 +5,27 @@ import org.example.ServerPkg.Model.ForView.GameView;
 
 import java.util.List;
 
-public interface UI {
+public abstract class UI {
 
-    void addGameUpdate(GameView game);
+    public void addGameUpdate(GameView game){}
 
-    void printNameInvalid();
+    public void printNameInvalid(){}
 
-    void askName();
+    public void askName(){}
 
-    void readName();
+    public void readName(){}
 
-    void manageNotification(NotifyClientMessage notifyClientMessage);
+    public void manageNotification(NotifyClientMessage notifyClientMessage){}
 
-    void onNameAccepted();
+    public void onNameAccepted(){}
 
-    void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode);
+    public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){}
 
-    void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode);
+    public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){}
 
-    void onCreateLobbyAccepted();
+    public void onCreateLobbyAccepted(){}
 
-    void onUpdatePlayerList(List<String> updatedList);
+    public void onUpdatePlayerList(List<String> updatedList){}
 
-    void startGui();
+    public void startGui(){}
 }

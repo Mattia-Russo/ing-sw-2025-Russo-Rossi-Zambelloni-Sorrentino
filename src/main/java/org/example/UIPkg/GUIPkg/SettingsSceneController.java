@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 
 import java.io.IOException;
@@ -44,11 +45,17 @@ public class SettingsSceneController extends GuiController implements Initializa
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         setupFieldValidation();
         validationMessage.setVisible(false);
 
         borderPane.setStyle("-fx-background-color: black;");
+
+        Platform.runLater(() -> {
+            Stage stage = GUIMain.getGuiMain().getStage();
+            if (stage != null) {
+                stage.setResizable(true);
+            }
+        });
     }
 
     private void setupFieldValidation() {

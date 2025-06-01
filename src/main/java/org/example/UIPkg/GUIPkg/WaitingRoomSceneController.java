@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -62,6 +63,13 @@ public class WaitingRoomSceneController extends GuiController implements Initial
         statusMessage.setVisible(false);
 
         setupLabelStyles();
+
+        Platform.runLater(() -> {
+            Stage stage = GUIMain.getGuiMain().getStage();
+            if (stage != null) {
+                stage.setResizable(true);
+            }
+        });
     }
 
     private void setupLabelStyles() {

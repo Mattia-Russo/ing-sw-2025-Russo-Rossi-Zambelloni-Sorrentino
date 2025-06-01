@@ -12,12 +12,12 @@ public class ComponentsView implements Serializable {
     private final int numBattery;
     private final int numAstronauts;
     private final AlienColour alienColour;
-    private GoodsView[] goods = new GoodsView[3];
+    private final GoodsView[] goods;
     private final Direction[] shieldedDirections = new Direction[2];
 
     public ComponentsView(Direction direction, Connector[] connectors, int id, String type, int numBattery, int numAstronauts, GoodsView[] goods, Direction shieldedDirections, AlienColour alienColour) {
         this.direction = direction;
-        this.connectors = connectors;
+        this.connectors = connectors != null ? connectors : new Connector[0];
         this.id = id;
         this.type = type;
         this.numBattery = numBattery;

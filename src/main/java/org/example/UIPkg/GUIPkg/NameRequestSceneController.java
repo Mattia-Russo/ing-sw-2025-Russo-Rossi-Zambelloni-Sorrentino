@@ -8,13 +8,17 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -52,42 +56,144 @@ public class NameRequestSceneController extends GuiController implements Initial
     private VBox controls;
 
     private MediaPlayer mediaPlayer;
+    private MediaView mediaView;
+    private ImageView titleImageView;
+    private VBox nameInputSection;
+    private HBox lobbyButtonsSection;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Inizialmente nascondi tutti i controlli tranne quelli necessari
+        setupTitleImage();
+        setupNameInputSection();
+        setupLobbyButtonsSection();
+        setupInitialState();
+        setupBackground();
+        layoutComponents();
+
+        // Set initial window size to match other scenes
+        Platform.runLater(() -> {
+            Stage stage = GUIMain.getGuiMain().getStage();
+            if (stage != null) {
+                stage.setWidth(800);
+                stage.setHeight(600);
+                stage.centerOnScreen();
+            }
+        });
+    }
+
+    private void setupTitleImage() {
+        try {
+            String imagePath = "C:\\Users\\matti\\OneDrive\\Documenti\\Mattia\\Uni\\Ingegneria_del_Software\\Progetto\\ing-sw-2025-Russo-Rossi-Zambelloni-Sorrentino\\Galaxy_Trucker\\src\\main\\resources\\org.example\\cardboard\\Galaxy_Trucker_Title.png";
+            File imageFile = new File(imagePath);
+
+            if (imageFile.exists()) {
+                Image titleImage = new Image(imageFile.toURI().toString());
+                titleImageView = new ImageView(titleImage);
+
+                titleImageView.setPreserveRatio(true);
+                titleImageView.setFitWidth(400);
+                titleImageView.setFitHeight(200);
+            } else {
+                titleImageView = new ImageView();
+                titleImageView.setFitWidth(400);
+                titleImageView.setFitHeight(100);
+                System.err.println("Title image not found at: " + imagePath);
+            }
+        } catch (Exception e) {
+            titleImageView = new ImageView();
+            titleImageView.setFitWidth(400);
+            titleImageView.setFitHeight(100);
+            System.err.println("Error loading title image: " + e.getMessage());
+        }
+    }
+
+    private void setupNameInputSection() {
         askName.setText("Enter your name:");
+        askName.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+
+        nameBox.setStyle("-fx-font-size: 14px; -fx-pref-width: 200px;");
+
+        confirmNameButton.setStyle("-fx-font-size: 14px; -fx-pref-width: 120px;");
+
+        nameInvalid.setStyle("-fx-text-fill: red; -fx-font-size: 12px; -fx-font-weight: bold;");
+
+        nameInputSection = new VBox(10);
+        nameInputSection.setAlignment(Pos.CENTER);
+        nameInputSection.getChildren().addAll(askName, nameBox, confirmNameButton, nameInvalid);
+        nameInputSection.setPadding(new Insets(20, 0, 20, 0));
+    }
+
+    private void setupLobbyButtonsSection() {
+        String buttonStyle = "-fx-font-size: 14px; -fx-pref-width: 150px; -fx-pref-height: 40px;";
+        createLobbyButton.setStyle(buttonStyle);
+        joinLobbyButton.setStyle(buttonStyle);
+
+        if (lobbyMessage == null) {
+            lobbyMessage = new Label();
+        }
+        lobbyMessage.setStyle("-fx-text-fill: orange; -fx-font-size: 14px; -fx-font-weight: bold;");
+
+        lobbyButtonsSection = new HBox(20);
+        lobbyButtonsSection.setAlignment(Pos.CENTER);
+        lobbyButtonsSection.getChildren().addAll(createLobbyButton, joinLobbyButton);
+        lobbyButtonsSection.setPadding(new Insets(20, 0, 20, 0));
+    }
+
+    private void setupInitialState() {
         askName.setVisible(true);
+        nameBox.setVisible(true);
         confirmNameButton.setVisible(true);
         nameInvalid.setVisible(false);
         createLobbyButton.setVisible(false);
         joinLobbyButton.setVisible(false);
-
-        // Inizializza la nuova label per i messaggi della lobby
-        if (lobbyMessage == null) {
-            lobbyMessage = new Label();
-            lobbyMessage.setStyle("-fx-text-fill: orange; -fx-font-size: 14px; -fx-font-weight: bold;");
-        }
         lobbyMessage.setVisible(false);
+    }
 
-        // Setup del video di background
-        //String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
-        //Media backgroundMedia = new Media(videoPath);
+    private void setupBackground() {
+        try {
+            String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
+            Media backgroundMedia = new Media(videoPath);
+            mediaPlayer = new MediaPlayer(backgroundMedia);
+            mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the video
 
-        //mediaPlayer = new MediaPlayer(backgroundMedia);
-        //mediaPlayer.setAutoPlay(true);
+            mediaView = new MediaView(mediaPlayer);
 
-        MediaView mediaView = new MediaView(mediaPlayer);
-        mediaView.fitWidthProperty().bind(borderPane.widthProperty());
-        mediaView.fitHeightProperty().bind(borderPane.heightProperty());
-        mediaView.setPreserveRatio(false);
+            // Make the video responsive to window size changes
+            mediaView.fitWidthProperty().bind(borderPane.widthProperty());
+            mediaView.fitHeightProperty().bind(borderPane.heightProperty());
+            mediaView.setPreserveRatio(false); // Allow stretching to fill the window
+
+        } catch (Exception e) {
+            System.err.println("Error loading background video: " + e.getMessage());
+            mediaPlayer = null;
+            mediaView = null;
+        }
+
         borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
 
-        // Ricrea il VBox con tutti i controlli inclusa la nuova label
-        controls = new VBox(10, askName, nameBox, confirmNameButton, nameInvalid, createLobbyButton, joinLobbyButton, lobbyMessage);
-        controls.setAlignment(Pos.CENTER);
+    private void layoutComponents() {
+        VBox mainContainer = new VBox(30);
+        mainContainer.setAlignment(Pos.CENTER);
+        mainContainer.setPadding(new Insets(30));
 
-        borderPane.setCenter(new StackPane(mediaView, controls));
+        mainContainer.getChildren().addAll(
+                titleImageView,
+                nameInputSection,
+                lobbyButtonsSection,
+                lobbyMessage
+        );
+
+        if (mediaView != null) {
+            // Create a StackPane with video background and UI overlay
+            StackPane centerPane = new StackPane();
+            centerPane.getChildren().addAll(mediaView, mainContainer);
+            borderPane.setCenter(centerPane);
+        } else {
+            // Fallback if video doesn't load
+            borderPane.setCenter(mainContainer);
+        }
     }
 
     @FXML

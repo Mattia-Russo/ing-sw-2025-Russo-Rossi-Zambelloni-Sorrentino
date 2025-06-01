@@ -3,7 +3,6 @@ package org.example.UIPkg.GUIPkg;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -17,14 +16,12 @@ import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.CountDownLatch;
 
-public class GUI implements UI {
+public class GUI extends UI {
 
     private final Client client;
     private BlockingQueue<GameView> gameUpdatesQueue;
@@ -55,7 +52,22 @@ public class GUI implements UI {
         }
     }
 
+    public void preserveWindowSize() {
+        if(GUIMain.getGuiMain() != null && GUIMain.getGuiMain().getStage() != null){
+            Stage stage = GUIMain.getGuiMain().getStage();
+            // Salva le dimensioni correnti
+            double currentWidth = stage.getWidth();
+            double currentHeight = stage.getHeight();
+            // Applica le dimensioni dopo il cambio di scena
+            Platform.runLater(() -> {
+                stage.setWidth(currentWidth);
+                stage.setHeight(currentHeight);
+            });
+        }
+    }
+
     public void goToSettingsScene() throws IOException {
+        preserveWindowSize();
         changeScene(GUIMain.SETTINGS_SCENE);
     }
 
@@ -67,6 +79,7 @@ public class GUI implements UI {
         controller.setGameMode(gameMode);
         controller.updatePlayersList(playersList);
 
+        preserveWindowSize();
         changeScene(GUIMain.WAITING_ROOM_SCENE);
     }
 
@@ -90,16 +103,6 @@ public class GUI implements UI {
         if (controller != null) {
             Platform.runLater(controller::printNameInvalid);
         }
-    }
-
-    @Override
-    public void askName(){
-
-    }
-
-    @Override
-    public void readName(){
-        //does nothing, waits for the button click
     }
 
     @Override
@@ -208,9 +211,9 @@ public class GUI implements UI {
         scene.setRoot(overlayRoot);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e -> {
-                    overlayRoot.getChildren().remove(originalRoot);
-                    scene.setRoot(originalRoot);
-                }
+            overlayRoot.getChildren().remove(originalRoot);
+            scene.setRoot(originalRoot);
+        }
         ));
         timeline.play();
     }
