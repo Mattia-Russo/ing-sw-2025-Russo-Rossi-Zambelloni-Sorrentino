@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.gc31.FxmlPkg.BuildShipView"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.layout.Pane?>
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.BuildShipSceneController">
+    <center>
+        <VBox alignment="CENTER" spacing="20.0">
+            <children>
+                <!-- Componente corrente in alto a sinistra della navicella -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <VBox alignment="TOP_LEFT" spacing="10.0">
+                            <children>
+                                <Label fx:id="currentComponentLabel" text="Current Component:" textFill="WHITE" />
+                                <ImageView fx:id="currentComponentImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                            </children>
+                        </VBox>
+                        <!-- Container per navicella + componenti sovrapposti -->
+                        <Pane fx:id="shipboardContainer">
+                            <children>
+                                <ImageView fx:id="shipboardImageView" fitHeight="400.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
+                            </children>
+                        </Pane>
+                    </children>
+                </HBox>
 
-</AnchorPane>
+                <!-- Messaggio di validazione -->
+                <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </center>
+
+    <left>
+        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
+            <children>
+                <Label text="Ship Building Controls" textFill="WHITE" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+                <!-- Pick Component Button -->
+                <Button fx:id="pickComponentButton" mnemonicParsing="false" onAction="#onPickComponentClick"
+                        prefWidth="150.0" text="Pick Component"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <!-- Discard Component Button -->
+                <Button fx:id="discardComponentButton" mnemonicParsing="false" onAction="#onDiscardComponentClick"
+                        prefWidth="150.0" text="Discard Component"
+                        style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <!-- Rotate Left Button -->
+                <Button fx:id="rotateLeftButton" mnemonicParsing="false" onAction="#onRotateLeftClick"
+                        prefWidth="150.0" text="Rotate Left"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <!-- Rotate Right Button -->
+                <Button fx:id="rotateRightButton" mnemonicParsing="false" onAction="#onRotateRightClick"
+                        prefWidth="150.0" text="Rotate Right"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <!-- Placement Controls -->
+                <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 10;">
+                    <children>
+                        <Label text="Place Component" textFill="WHITE" style="-fx-font-weight: bold;" />
+
+                        <HBox spacing="10.0" alignment="CENTER">
+                            <children>
+                                <Label fx:id="xLabel" text="X:" textFill="WHITE" />
+                                <TextField fx:id="xPositionField" prefWidth="50.0" promptText="0-6" />
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="10.0" alignment="CENTER">
+                            <children>
+                                <Label fx:id="yLabel" text="Y:" textFill="WHITE" />
+                                <TextField fx:id="yPositionField" prefWidth="50.0" promptText="0-4" />
+                            </children>
+                        </HBox>
+
+                        <Button fx:id="placeComponentButton" mnemonicParsing="false" onAction="#onPlaceComponentClick"
+                                prefWidth="120.0" text="Place Component"
+                                style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </left>
+</BorderPane>
