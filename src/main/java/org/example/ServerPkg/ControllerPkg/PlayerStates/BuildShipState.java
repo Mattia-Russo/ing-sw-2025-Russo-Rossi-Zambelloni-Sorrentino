@@ -118,8 +118,9 @@ public class BuildShipState extends PlayerState implements Serializable {
     public void placeTile(Player player, Points point){
         try {
             if(!player.getShipBuilded()) {
-                player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
-                player.setCurrentTile(null);
+                //player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
+                //player.setCurrentTile(null);
+                player.opShip();
                 new GameView(getGame(), null);
             }
         } catch (OccupiedPositionException | InvalidPositionException e) {

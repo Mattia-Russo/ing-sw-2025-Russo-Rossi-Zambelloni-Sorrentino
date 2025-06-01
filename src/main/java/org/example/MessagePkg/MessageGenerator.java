@@ -10,6 +10,7 @@ public class MessageGenerator {
     private final Map<String, Function<List<String>, Message>> messageMap = new HashMap<>();
 
     public MessageGenerator() {
+        messageMap.put("abandon", this::createAbandonMessage);
         messageMap.put("accept_reward", this::createAcceptRewardMessage);
         messageMap.put("activate_cannons", this::createActivateCannonsMessage);
         messageMap.put("activate_engines", this::createActivateEnginesMessage);
@@ -61,7 +62,6 @@ public class MessageGenerator {
         messageMap.put("choose_wrecked", this::createChooseWreckedMessage);
         messageMap.put("end_wrecked", this::createEndWreckedMessage);
         messageMap.put("game_started", this::createGameStartedMessage);
-        messageMap.put("op_ship", this::createOpShipMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -345,10 +345,6 @@ public class MessageGenerator {
 
     private Message createGameStartedMessage(List<String> args){
         return new GameStartedMessage();
-    }
-
-    private Message createOpShipMessage(List<String> args){
-        return new OpShipMessage();
     }
 
     private Message createAbandonMessage(List<String> args){
