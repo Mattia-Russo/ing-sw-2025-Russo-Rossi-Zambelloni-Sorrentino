@@ -36,8 +36,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
             System.out.println("Connected to RMI server");
 
-            //startUpdateThread();
-            //checkConnection();
+            startUpdateThread();
+            checkConnection();
 
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
