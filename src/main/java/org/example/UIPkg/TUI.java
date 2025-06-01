@@ -174,7 +174,7 @@ public class TUI implements UI{
         Map<Points, String> playerPositions = new HashMap<>();
 
         for (PlayerView player : players) {
-            if (player.isShipBuilded()) {
+            if (player.isShipOK()) {
                 int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions;
                 String playerColor = getPlayerColorSymbol(player.getRocketColour());
                 playerPositions.put(getCoordFromPos(normalizedPosition, gameMode), playerColor);
@@ -190,7 +190,8 @@ public class TUI implements UI{
 
         System.out.print("│");
         for (int col = 0; col < cols; col++) {
-            String content = playerPositions.getOrDefault(new Points(col, 0), String.format("%2d", col+1));
+            String colour = checkPlayer(playerPositions, new Points(col, 0));
+            String content = colour != null ? colour : String.format("%2d", col+1);
             System.out.printf(" %s │", content);
         }
         System.out.println();
@@ -222,10 +223,12 @@ public class TUI implements UI{
                 rightCellNum = 12;
             }
             if (col == 0) {
-                String content = playerPositions.getOrDefault(new Points(0, 1), String.format("%2d", leftCellNum));
+                String colour = checkPlayer(playerPositions, new Points(0, 1));
+                String content = colour != null ? colour : String.format("%2d", leftCellNum);
                 System.out.printf(" %s │", content);
             } else if (col == cols - 1) {
-                String content = playerPositions.getOrDefault(new Points(cols - 1, 1), String.format("%2d", rightCellNum));
+                String colour = checkPlayer(playerPositions, new Points(cols - 1, 1));
+                String content = colour != null ? colour : String.format("%2d", rightCellNum);
                 System.out.printf(" %s │", content);
             } else if (col == cols - 2) {
                 System.out.print("    │");
@@ -252,7 +255,8 @@ public class TUI implements UI{
 
         System.out.print("│");
         for (int col = 0; col < cols; col++) {
-            String content = playerPositions.getOrDefault(new Points(23 - numCell, 2), String.format("%2d", numCell));
+            String colour = checkPlayer(playerPositions, new Points(23 - numCell, 2));
+            String content = colour != null ? colour : String.format("%2d", numCell);
             System.out.printf(" %s │", content);
             numCell--;
         }
@@ -264,6 +268,14 @@ public class TUI implements UI{
             if (col < cols - 1) System.out.print("┴");
         }
         System.out.println("┘");
+    }
+
+    private String checkPlayer(Map<Points, String> playersPos, Points pos) {
+        for (Points pp : playersPos.keySet()) {
+            if(pp.getX() == pos.getX() && pp.getY() == pos.getY())
+                return playersPos.get(pp);
+        }
+        return null;
     }
 
     private String getPlayerColorSymbol(String rocketColour) {
@@ -554,9 +566,16 @@ public class TUI implements UI{
                 break;
             case "MeteorCard":
                 System.out.println("MeteorCard");
+                int i = 0;
                 for (Meteor meteor : adventureCardView.getMeteorList()) {
-                    System.out.println("Type: " + meteor.getType());
-                    System.out.println("Direction: " + meteor.getDirection());
+                    System.out.println("Meteor " + i++ + ":");
+                    String meteorType;
+                    if(meteor.getType() == 0){
+                        meteorType = "Small";
+                    } else {
+                        meteorType = "Big";
+                    }
+                    System.out.println("Type: " + meteorType + ", Direction: " + meteor.getDirection());
                 }
                 break;
             case "OpenSpace":
@@ -610,8 +629,8 @@ public class TUI implements UI{
                 break;
             case "WarZone":
                 System.out.println("WarZone");
-                for(int i=0; i<3; i++){
-                    switch (adventureCardView.getCriteria()[i]) {
+                for(int j=0; j<3; j++){
+                    switch (adventureCardView.getCriteria()[j]) {
                         case "FewestAstronauts":
                             System.out.println("FewestAstronauts");
                             break;
@@ -623,21 +642,22 @@ public class TUI implements UI{
                             break;
                     }
 
-                    switch (adventureCardView.getPenalties()[i]) {
+                    switch (adventureCardView.getPenalties()[j]) {
                         case "LoseDays":
-                            System.out.println("Lose days" + adventureCardView.getLostDays());
+                            System.out.println("Lose days: " + adventureCardView.getLostDays());
                             break;
                         case "LoseGoods":
-                            System.out.println("Num goods" +adventureCardView.getNumGoods());
+                            System.out.println("Num goods: " +adventureCardView.getNumGoods());
                             break;
                         case "cannonFire":
+                            int k = 0;
                             for(CannonFire fire: adventureCardView.getCannonFireList()){
-                                System.out.println("Type: " + fire.getType());
-                                System.out.println("Direction: " + fire.getDirection());
+                                System.out.println("CannonFire " + k++ + ":");
+                                System.out.println("Type: " + fire.getType() + ", Direction: " + fire.getDirection());
                             }
                             break;
                         case "LoseAstronauts":
-                            System.out.println("Num astronauts" + adventureCardView.getNumAstronauts());
+                            System.out.println("Num astronauts: " + adventureCardView.getNumAstronauts());
                             break;
                     }
                 }
