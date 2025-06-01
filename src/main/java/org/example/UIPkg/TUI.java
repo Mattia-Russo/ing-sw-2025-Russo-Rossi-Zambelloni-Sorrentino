@@ -377,7 +377,7 @@ public class TUI extends UI{
                     grid[6][4] = getConnectorSymbol(connectors[2]);
                     break;
 
-                case EAST:
+                case WEST:
                     grid[0][4] = getConnectorSymbol(connectors[1]);
                     grid[5][0] = getConnectorSymbol(connectors[0]);
                     grid[5][8] = getConnectorSymbol(connectors[2]);
@@ -391,7 +391,7 @@ public class TUI extends UI{
                     grid[6][4] = getConnectorSymbol(connectors[0]);
                     break;
 
-                case WEST:
+                case EAST:
                     grid[0][4] = getConnectorSymbol(connectors[3]);
                     grid[5][0] = getConnectorSymbol(connectors[2]);
                     grid[5][8] = getConnectorSymbol(connectors[0]);
@@ -434,11 +434,8 @@ public class TUI extends UI{
             }
 
             System.out.println("\nBooked tiles:");
-            if(player.getShipboardView().getBookedComponents() != null){
-                for(ComponentsView c: player.getShipboardView().getBookedComponents()){
-                    List<String> lines = List.of(DrawComponent(c));
-                    for (String line : lines) System.out.println(line);
-                }
+            if(player.getShipboardView().getBookedComponents() != null && (player.getShipboardView().getBookedComponents()[0] !=null || player.getShipboardView().getBookedComponents()[1] !=null)){
+                DrawBookedTiles(player.getShipboardView().getBookedComponents());
             }
 
             if (player.getDeckShowed() != null) {
@@ -469,7 +466,6 @@ public class TUI extends UI{
                             line[i].append(box[i]).append("  ");
                         }
                     } else {
-                        //print spazio vuoto
                         for (StringBuilder stringBuilder : line) {
                             stringBuilder.append("             ");
                         }
@@ -483,6 +479,45 @@ public class TUI extends UI{
                 }
             }
         }
+    }
+
+    private void DrawBookedTiles(ComponentsView[] bookedComponents) {
+        final int TILE_HEIGHT = 9;
+        final int NUM_SLOTS = 2;
+
+        String[][] allTileLines = new String[NUM_SLOTS][TILE_HEIGHT];
+
+        for (int i = 0; i < NUM_SLOTS; i++) {
+            ComponentsView component = (i < bookedComponents.length) ? bookedComponents[i] : null;
+            allTileLines[i] = DrawComponent(component);
+        }
+
+        for (int lineIndex = 0; lineIndex < TILE_HEIGHT; lineIndex++) {
+            StringBuilder fullLine = new StringBuilder();
+            for (int tileIndex = 0; tileIndex < NUM_SLOTS; tileIndex++) {
+                fullLine.append(allTileLines[tileIndex][lineIndex]);
+                if (tileIndex < NUM_SLOTS - 1) {
+                    fullLine.append("  ");
+                }
+            }
+            System.out.println(fullLine);
+        }
+
+        StringBuilder indexLine = new StringBuilder();
+        for (int i = 0; i < NUM_SLOTS; i++) {
+            String indexStr = "[" + i + "]";
+            int tileWidth = 11;
+            int padding = (tileWidth - indexStr.length()) / 2;
+
+            indexLine.append(" ".repeat(Math.max(0, padding)));
+            indexLine.append(indexStr);
+            indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
+
+            if (i < NUM_SLOTS - 1) {
+                indexLine.append("  ");
+            }
+        }
+        System.out.println(indexLine);
     }
 
     private boolean shouldPrintCell(int row, int col, int shipboardLevel) {

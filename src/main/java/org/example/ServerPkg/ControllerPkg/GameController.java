@@ -154,7 +154,7 @@ public class GameController{
                     }
                 }else {
                     addNewPlayer(name);
-                    new GameView(game, new Exception("Player joined " + name));
+                    new GameView(game, new Exception("Player" + name + " joined"));
                 }
                 game.setGameUpdaters(gameUpdaters);
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");

@@ -3,12 +3,10 @@ package org.example.UIPkg.GUIPkg;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class GUIMain extends Application {
@@ -58,7 +56,7 @@ public class GUIMain extends Application {
         }
     }
 
-    public void goToFirstScene() throws IOException {
+    public void goToFirstScene() {
         List<String> FxmlFiles = new ArrayList<>(Arrays.asList(NAME_REQUEST_SCENE, SETTINGS_SCENE, WAITING_ROOM_SCENE));
         try{
             for(String fxmlFile : FxmlFiles){
@@ -80,10 +78,6 @@ public class GUIMain extends Application {
 
     public Map<String, GuiController> getControllerMap() {
         return this.controllerMap;
-    }
-
-    public Map<String, Scene> getSceneMap() {
-        return sceneMap;
     }
 
     public void changeScene(String sceneName) {

@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.rmi.RemoteException;
@@ -123,7 +124,7 @@ public class WaitingRoomSceneController extends GuiController implements Initial
     public void onStartGameClick() throws RemoteException {
         if (isLobbyCreator && playersList.size() >= 2) {
 
-            getGuiRoot().getClient().sendMessage(getGuiRoot().getClient().getMessageGenerator().generate("start_game", List.of()));
+            getGuiRoot().getClient().sendMessage(getGuiRoot().getClient().getMessageGenerator().generate("start_game", new ArrayList<>()));
 
             statusMessage.setText("Starting game...");
             statusMessage.setStyle("-fx-text-fill: yellow; -fx-font-size: 14px; -fx-font-weight: bold;");
