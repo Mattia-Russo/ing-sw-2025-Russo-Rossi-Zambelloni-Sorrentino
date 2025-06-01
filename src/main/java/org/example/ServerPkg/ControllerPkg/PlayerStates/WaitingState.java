@@ -17,7 +17,6 @@ public class WaitingState extends PlayerState implements Serializable {
 
     @Override
     public void activateCannons(ArrayList<Points> cannons, Player player){
-
         new GameView(getGame(), new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
     }
 

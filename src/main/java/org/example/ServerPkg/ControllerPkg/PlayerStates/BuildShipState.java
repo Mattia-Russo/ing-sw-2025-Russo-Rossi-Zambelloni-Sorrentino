@@ -8,15 +8,12 @@ import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.TimerGenerator;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class BuildShipState extends PlayerState implements Serializable {
     private final TimerGenerator timer;
-    private int stopTurn;
     public BuildShipState(Game game, TimerGenerator timer) {
         super(game);
         this.timer = timer;
-        this.stopTurn=0;
     }
 
     @Override
@@ -25,8 +22,9 @@ public class BuildShipState extends PlayerState implements Serializable {
             return;
         }
         try{
-            if(stopTurn < 3) {
-                stopTurn = timer.start();
+            if(getGame().getTimerTurned() < 3) {
+                timer.start();
+                getGame().setTimerTurned();
                 new GameView(getGame(), new Exception("TIMER TURNED"));
             }else if(player.getShipBuilded()){
                 timer.start();

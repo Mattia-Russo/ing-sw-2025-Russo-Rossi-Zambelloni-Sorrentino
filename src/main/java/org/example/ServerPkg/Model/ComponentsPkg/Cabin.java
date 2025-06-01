@@ -65,13 +65,12 @@ public class Cabin extends Components implements Serializable {
     }
 
     public void changeNumAstronauts(int amount) {
-            if (numAstronauts + amount > 2) {
-                throw new OverloadedCapacityException("Cabin full!");
-            } else if (numAstronauts + amount < 0) {
-                throw new UnderloadedCapacityException("There are not enough Astronauts in this cabin!");
-            }
-
-            numAstronauts += amount;
+        if (numAstronauts + amount > 2) {
+            throw new OverloadedCapacityException("Cabin full!");
+        } else if (numAstronauts + amount < 0) {
+            throw new UnderloadedCapacityException("There are not enough Astronauts in this cabin!");
+        }
+        numAstronauts += amount;
     }
 
     public void addLifeSupportList(LifeSupportSystem l) {

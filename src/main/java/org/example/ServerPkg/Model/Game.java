@@ -19,14 +19,15 @@ import java.util.*;
 public class Game implements Serializable {
 
     private int numPlayer;
-    private ArrayList<Player> players;
-    private List<AdventureCard> deck;
+    private final ArrayList<Player> players;
+    private final List<AdventureCard> deck;
     private final int gameMode;
     private final int ShipBoardLevel;
     private final int lapLength;
+    private int timerTurned;
     private AdventureCard currentCard;
-    private List<Components> componentsList;
-    private ArrayList<Components> discoveredComponents;
+    private final List<Components> componentsList;
+    private final ArrayList<Components> discoveredComponents;
     private LobbyState lobbyState;
     private transient GameController controller;
     private transient Map<String, GameUpdater> gameUpdaters;
@@ -38,6 +39,7 @@ public class Game implements Serializable {
         this.controller = gameController;
         this.discoveredComponents = new ArrayList<>();
         this.lobbyState = controller.getLobbyState();
+        this.timerTurned = 0;
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
@@ -71,10 +73,6 @@ public class Game implements Serializable {
         return gameMode;
     }
 
-    public Map<String, GameUpdater> getGameUpdaters() {
-        return gameUpdaters;
-    }
-
     public void setPlayersShipboard(){
         int i=0;
         for(Player p: players) {
@@ -83,8 +81,8 @@ public class Game implements Serializable {
             }else {
                 p.setPlayerShipboard(ShipBoardLevel);
             }
-            p.getPlayerShipBoard().placeComponent(3,2, getComponentsList().get(0));
-            getComponentsList().remove(0);
+            p.getPlayerShipBoard().placeComponent(3,2, getComponentsList().getFirst());
+            getComponentsList().removeFirst();
             i++;
             switch(i){
                 case 0:
@@ -102,8 +100,8 @@ public class Game implements Serializable {
             }
         }
 
-        for(; i < 4-getPlayers().size(); i++) {
-            getComponentsList().remove(i);
+        for(i=0; i < 4-getPlayers().size(); i++) {
+            getComponentsList().removeFirst();
         }
 
         Collections.shuffle(componentsList);
@@ -158,8 +156,8 @@ public class Game implements Serializable {
         } else if (this.deck.isEmpty() && this.currentCard == null) {
             throw new EmptyDeckException("Deck initialized without cards");
         } else if (this.deck.size() == 1) {
-            this.currentCard = this.deck.get(0);
-            deck.remove(0);
+            this.currentCard = this.deck.getFirst();
+            deck.removeFirst();
         } else {
             Random rand = new Random();
             int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
@@ -212,10 +210,10 @@ public class Game implements Serializable {
                 i--;
                 if(bestShips.isEmpty()){    // selezione giocatori con nave con meno connettori esposti
                     bestShips.add(p);
-                } else if(p.getPlayerShipBoard().getTotalExposedConnectors() < bestShips.get(0).getPlayerShipBoard().getTotalExposedConnectors()){
+                } else if(p.getPlayerShipBoard().getTotalExposedConnectors() < bestShips.getFirst().getPlayerShipBoard().getTotalExposedConnectors()){
                     bestShips.clear();
                     bestShips.add(p);
-                } else if (p.getPlayerShipBoard().getTotalExposedConnectors() == bestShips.get(0).getPlayerShipBoard().getTotalExposedConnectors()){
+                } else if (p.getPlayerShipBoard().getTotalExposedConnectors() == bestShips.getFirst().getPlayerShipBoard().getTotalExposedConnectors()){
                     bestShips.add(p);
                 }
                 p.changeCredits((int) tmp_credits);     // vendita a prezzo intero
@@ -231,7 +229,7 @@ public class Game implements Serializable {
 
     private void checkForcedAbandon() {
         for(Player p : players) {
-            if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.get(0) && p.getPosition()<players.get(0).getPosition()-lapLength))) {
+            if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.getFirst() && p.getPosition()<players.getFirst().getPosition()-lapLength))) {
                     p.abandon(this);
             }
         }
@@ -305,6 +303,7 @@ public class Game implements Serializable {
                 i++;
             }
             if(i!=5) {
+                assert c != null;
                 if (p.getPlayerShipBoard().checkIfSplitted(c.getPosY(), c.getPosX())) {
                     p.setShipOK(false);
                     p.setPlayerState(new ShipWreckedState(this, p));
@@ -418,5 +417,13 @@ public class Game implements Serializable {
 
     public LobbyState getLobbyState() {
         return lobbyState;
+    }
+
+    public void setTimerTurned() {
+        this.timerTurned++;
+    }
+
+    public int getTimerTurned() {
+        return this.timerTurned;
     }
 }

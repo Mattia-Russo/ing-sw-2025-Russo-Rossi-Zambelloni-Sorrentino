@@ -2,12 +2,8 @@ package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
-import org.example.ServerPkg.Model.ForView.GameView;
-import org.example.ServerPkg.Model.ForView.PlayerView;
-import org.example.UIPkg.TUI;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerTest extends TestCase {
 
