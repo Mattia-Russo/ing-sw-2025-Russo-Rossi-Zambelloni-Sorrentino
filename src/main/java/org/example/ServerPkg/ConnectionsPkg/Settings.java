@@ -5,7 +5,7 @@ import java.net.InetAddress;
 public class Settings {
     public static int TCP_PORT = 9191;
     public static int RMI_PORT = 3600;
-    public static String SERVER_NAME = "127.0.0.1";
+    public static String SERVER_NAME = "192.168.1.40";
 
     static {
 

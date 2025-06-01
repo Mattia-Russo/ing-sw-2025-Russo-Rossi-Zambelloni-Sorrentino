@@ -54,7 +54,7 @@ public class AddAlienState extends PlayerState implements Serializable {
         new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
         for (Player p : getGame().getPlayers()) {
             if (!p.isAbandoned()) {
-                if (!p.getReadyForCards()) {
+                if (p.getReadyForCards()) {
                     return;
                 }
                 p.setPlayerState(new WaitingState(getGame()));

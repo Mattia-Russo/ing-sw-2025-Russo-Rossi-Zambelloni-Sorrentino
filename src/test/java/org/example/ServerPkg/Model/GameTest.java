@@ -11,10 +11,10 @@ import java.util.ArrayList;
 public class GameTest extends TestCase {
 
     public void testGetNumPlayers(){
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player(7, "a", null);
-        Player p3 = new Player(14, "a", null);
-        Player p4 = new Player(9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        Player p3 = new Player("a", null);
+        Player p4 = new Player("a", null);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -28,10 +28,10 @@ public class GameTest extends TestCase {
     }
 
     public void testGetPlayers() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player(7, "a", null);
-        Player p3 = new Player(14, "a", null);
-        Player p4 = new Player(9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        Player p3 = new Player("a", null);
+        Player p4 = new Player("a", null);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -44,10 +44,10 @@ public class GameTest extends TestCase {
     }
 
     public void testAdjustPlayerPositions() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player(7, "a", null);
-        Player p3 = new Player(14, "a", null);
-        Player p4 = new Player(9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        Player p3 = new Player("a", null);
+        Player p4 = new Player("a", null);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -69,10 +69,10 @@ public class GameTest extends TestCase {
     }
 
     public void testGetOccupiedPositions() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player(7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player(9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player("a", null);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -92,10 +92,10 @@ public class GameTest extends TestCase {
     }
 
     public void testPickCard() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player(14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player("a", null);
+        Player p4 = new Player( "a", null);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -113,10 +113,10 @@ public class GameTest extends TestCase {
     }
 
     public void testCheckGiveUp() {
-        Player p1 = new Player( 12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player( "a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player( "a", null);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -135,10 +135,10 @@ public class GameTest extends TestCase {
     }
 
     public void testCalculateWinners() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -283,10 +283,10 @@ public class GameTest extends TestCase {
     }
 
     public void testCalculateFinalCredits() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -451,10 +451,10 @@ public class GameTest extends TestCase {
     }
 
     public void testTurn() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -601,8 +601,8 @@ public class GameTest extends TestCase {
     }
 
     public void testCheckAllPlayersShip() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p2);
         players.add(p1);
@@ -625,8 +625,8 @@ public class GameTest extends TestCase {
     }
 
     public void testCheckAllWrackedShip() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p2);
         players.add(p1);
@@ -680,10 +680,10 @@ public class GameTest extends TestCase {
     }
 
     public void testStartBuildingShips() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        Player p3 = new Player("a", null);
+        Player p4 = new Player("a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -710,10 +710,10 @@ public class GameTest extends TestCase {
 
 
     public void testSetPlayersShipboard() {
-        Player p1 = new Player(12, "a", null);
-        Player p2 = new Player( 7, "a", null);
-        Player p3 = new Player( 14, "a", null);
-        Player p4 = new Player( 9, "a", null);
+        Player p1 = new Player("a", null);
+        Player p2 = new Player( "a", null);
+        Player p3 = new Player( "a", null);
+        Player p4 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);

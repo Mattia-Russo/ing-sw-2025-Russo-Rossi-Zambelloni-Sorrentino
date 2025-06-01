@@ -8,11 +8,9 @@ import org.example.ServerPkg.Model.ComponentsPkg.Connector;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.ForView.*;
+import org.example.ServerPkg.Model.Points;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -78,7 +76,7 @@ public class TUI implements UI{
                 DrawCurrentCard(game.getCurrentCard());
             }
             System.out.println("Flight board: ");
-            DrawFlightBoard(game.getPlayers());
+            DrawFlightBoard(game.getPlayers(), game.getGameMode());
         } else
             System.out.println(game.getException().getMessage());
         drawCommands(game);
@@ -168,13 +166,150 @@ public class TUI implements UI{
         }
     }
 
-    private void DrawFlightBoard(List<PlayerView> players) {
-        for(PlayerView player : players) {
-            System.out.println(player.getName());
-            System.out.println(player.getPosition());
-            System.out.println(player.getRocketColour());
+    private void DrawFlightBoard(List<PlayerView> players, int gameMode) {
+        int cols = (gameMode == 0) ? 8 : 11;
+        int totalPositions = 2 * cols + 2;
+        int numCell = totalPositions - 1;
+
+        Map<Points, String> playerPositions = new HashMap<>();
+
+        for (PlayerView player : players) {
+            if (player.isShipOK()) {
+                int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions;
+                String playerColor = getPlayerColorSymbol(player.getRocketColour());
+                playerPositions.put(getCoordFromPos(normalizedPosition, gameMode), playerColor);
+            }
         }
 
+        System.out.print("┌");
+        for (int col = 0; col < cols; col++) {
+            System.out.print("────");
+            if (col < cols - 1) System.out.print("┬");
+        }
+        System.out.println("┐");
+
+        System.out.print("│");
+        for (int col = 0; col < cols; col++) {
+            String colour = checkPlayer(playerPositions, new Points(col, 0));
+            String content = colour != null ? colour : String.format("%2d", col+1);
+            System.out.printf(" %s │", content);
+        }
+        System.out.println();
+
+        System.out.print("├");
+        for (int col = 0; col < cols; col++) {
+            System.out.print("────");
+            if (col < cols - 1) {
+                if (col == 0) {
+                    System.out.print("┼");
+                } else if(col == cols - 2) {
+                    System.out.print("┼");
+                } else {
+                    System.out.print("┴");
+                }
+            }
+        }
+        System.out.println("┤");
+
+        System.out.print("│");
+        for (int col = 0; col < cols; col++) {
+            int leftCellNum;
+            int rightCellNum;
+            if(gameMode == 0){
+                leftCellNum = 9;
+                rightCellNum = 18;
+            } else {
+                leftCellNum = 24;
+                rightCellNum = 12;
+            }
+            if (col == 0) {
+                String colour = checkPlayer(playerPositions, new Points(0, 1));
+                String content = colour != null ? colour : String.format("%2d", leftCellNum);
+                System.out.printf(" %s │", content);
+            } else if (col == cols - 1) {
+                String colour = checkPlayer(playerPositions, new Points(cols - 1, 1));
+                String content = colour != null ? colour : String.format("%2d", rightCellNum);
+                System.out.printf(" %s │", content);
+            } else if (col == cols - 2) {
+                System.out.print("    │");
+            } else {
+                System.out.print("     ");
+            }
+        }
+        System.out.println();
+
+        System.out.print("├");
+        for (int col = 0; col < cols; col++) {
+            System.out.print("────");
+            if (col < cols - 1) {
+                if (col == 0) {
+                    System.out.print("┼");
+                } else if(col == cols - 2) {
+                    System.out.print("┼");
+                } else {
+                    System.out.print("┬");
+                }
+            }
+        }
+        System.out.println("┤");
+
+        System.out.print("│");
+        for (int col = 0; col < cols; col++) {
+            String colour = checkPlayer(playerPositions, new Points(23 - numCell, 2));
+            String content = colour != null ? colour : String.format("%2d", numCell);
+            System.out.printf(" %s │", content);
+            numCell--;
+        }
+        System.out.println();
+
+        System.out.print("└");
+        for (int col = 0; col < cols; col++) {
+            System.out.print("────");
+            if (col < cols - 1) System.out.print("┴");
+        }
+        System.out.println("┘");
+    }
+
+    private String checkPlayer(Map<Points, String> playersPos, Points pos) {
+        for (Points pp : playersPos.keySet()) {
+            if(pp.getX() == pos.getX() && pp.getY() == pos.getY())
+                return playersPos.get(pp);
+        }
+        return null;
+    }
+
+    private String getPlayerColorSymbol(String rocketColour) {
+        return switch (rocketColour.toUpperCase()) {
+            case "RED" -> "\u001B[41m██\u001B[0m";
+            case "BLUE" -> "\u001B[44m██\u001B[0m";
+            case "GREEN" -> "\u001B[42m██\u001B[0m";
+            case "YELLOW" -> "\u001B[43m██\u001B[0m";
+            default -> rocketColour.substring(0, Math.min(2, rocketColour.length())).toUpperCase();
+        };
+    }
+
+    private Points getCoordFromPos(int pos, int gameMode){
+        if(gameMode == 0){
+            if(pos < 8) {
+                return new Points(pos, 0);
+            } else if (pos == 17) {
+                return new Points(7, 1);
+            } else if (pos == 9) {
+                return new Points(0, 1);
+            } else {
+                return new Points(17 - pos, 2);
+            }
+        } else {
+            if(pos < 11) {
+                return new Points(pos, 0);
+            } else if (pos == 23) {
+                return new Points(0, 1);
+            } else if (pos == 11) {
+                return new Points(10, 1);
+            } else {
+                return new Points(23 - pos, 2);
+            }
+        }
     }
 
     private String[] DrawComponent(ComponentsView comp) {
@@ -186,15 +321,37 @@ public class TUI implements UI{
             Connector[] connectors =comp.getConnectors();
             String[] initials = getComponentInitials(comp.getType());
 
-            grid[0][4] = getConnectorSymbol(connectors[0]);
-            grid[5][0] = getConnectorSymbol(connectors[3]);
-            grid[5][8] = getConnectorSymbol(connectors[1]);
-            grid[6][4] = getConnectorSymbol(connectors[2]);
+            switch (comp.getDirection()){
+                case NORTH:
+                    grid[0][4] = getConnectorSymbol(connectors[0]);
+                    grid[5][0] = getConnectorSymbol(connectors[3]);
+                    grid[5][8] = getConnectorSymbol(connectors[1]);
+                    grid[6][4] = getConnectorSymbol(connectors[2]);
+
+                case EAST:
+                    grid[0][4] = getConnectorSymbol(connectors[1]);
+                    grid[5][0] = getConnectorSymbol(connectors[0]);
+                    grid[5][8] = getConnectorSymbol(connectors[2]);
+                    grid[6][4] = getConnectorSymbol(connectors[3]);
+
+                case SOUTH:
+                    grid[0][4] = getConnectorSymbol(connectors[2]);
+                    grid[5][0] = getConnectorSymbol(connectors[1]);
+                    grid[5][8] = getConnectorSymbol(connectors[3]);
+                    grid[6][4] = getConnectorSymbol(connectors[0]);
+
+                case WEST:
+                    grid[0][4] = getConnectorSymbol(connectors[3]);
+                    grid[5][0] = getConnectorSymbol(connectors[2]);
+                    grid[5][8] = getConnectorSymbol(connectors[0]);
+                    grid[6][4] = getConnectorSymbol(connectors[1]);
+            }
+
             grid[0][8] = getDirectionLetter(comp.getDirection());
 
             for (int i=0; i<initials.length; i++){
                 for(int j=0; j<initials[i].length(); j++)
-                    grid[i+1][j+1] = String.valueOf(initials[i].charAt(j));;
+                    grid[i+1][j+1] = String.valueOf(initials[i].charAt(j));
             }
 
             String detail = getComponentDetail(comp);
@@ -364,11 +521,13 @@ public class TUI implements UI{
 
             case "Storage":
                 StringBuilder goods = new StringBuilder();
-                if(comp.getGoods()!=null){
-                    List<GoodsView> goodsList = List.of(comp.getGoods());
-                    for (GoodsView goodsView : goodsList) {
+                List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
+                for (GoodsView goodsView : goodsList) {
+                    if(goodsView != null) {
                         GoodsColour color = goodsView.getColour();
                         goods.append(getGoodColorSquare(color));
+                    } else {
+                        goods.append("   ");
                     }
                 }
                 return goods.toString();
@@ -433,9 +592,16 @@ public class TUI implements UI{
                 break;
             case "MeteorCard":
                 System.out.println("MeteorCard");
+                int i = 0;
                 for (Meteor meteor : adventureCardView.getMeteorList()) {
-                    System.out.println("Type: " + meteor.getType());
-                    System.out.println("Direction: " + meteor.getDirection());
+                    System.out.println("Meteor " + i++ + ":");
+                    String meteorType;
+                    if(meteor.getType() == 0){
+                        meteorType = "Small";
+                    } else {
+                        meteorType = "Big";
+                    }
+                    System.out.println("Type: " + meteorType + ", Direction: " + meteor.getDirection());
                 }
                 break;
             case "OpenSpace":
@@ -454,7 +620,7 @@ public class TUI implements UI{
             case "PlanetCard":
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
-                    System.out.println("Planet number "+planet.getPlanetNumber());
+                    System.out.println("Planet number "+ planet.getPlanetNumber());
                     for (GoodsView goodsView : adventureCardView.getGoodsList()) {
                         GoodsColour color = goodsView.getColour();
                         goods.append(getGoodColorSquare(color));
@@ -489,8 +655,8 @@ public class TUI implements UI{
                 break;
             case "WarZone":
                 System.out.println("WarZone");
-                for(int i=0; i<3; i++){
-                    switch (adventureCardView.getCriteria()[i]) {
+                for(int j=0; j<3; j++){
+                    switch (adventureCardView.getCriteria()[j]) {
                         case "FewestAstronauts":
                             System.out.println("FewestAstronauts");
                             break;
@@ -502,21 +668,22 @@ public class TUI implements UI{
                             break;
                     }
 
-                    switch (adventureCardView.getPenalties()[i]) {
+                    switch (adventureCardView.getPenalties()[j]) {
                         case "LoseDays":
-                            System.out.println("Lose days" + adventureCardView.getLostDays());
+                            System.out.println("Lose days: " + adventureCardView.getLostDays());
                             break;
                         case "LoseGoods":
-                            System.out.println("Num goods" +adventureCardView.getNumGoods());
+                            System.out.println("Num goods: " +adventureCardView.getNumGoods());
                             break;
                         case "cannonFire":
+                            int k = 0;
                             for(CannonFire fire: adventureCardView.getCannonFireList()){
-                                System.out.println("Type: " + fire.getType());
-                                System.out.println("Direction: " + fire.getDirection());
+                                System.out.println("CannonFire " + k++ + ":");
+                                System.out.println("Type: " + fire.getType() + ", Direction: " + fire.getDirection());
                             }
                             break;
                         case "LoseAstronauts":
-                            System.out.println("Num astronauts" + adventureCardView.getNumAstronauts());
+                            System.out.println("Num astronauts: " + adventureCardView.getNumAstronauts());
                             break;
                     }
                 }
