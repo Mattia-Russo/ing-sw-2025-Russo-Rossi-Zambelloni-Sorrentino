@@ -138,9 +138,7 @@ public class Player implements Serializable {
                             Connector myConn = c.getDirConnector(dir);
                             Connector theirConn = neighbor.getDirConnector(opposite(dir));
 
-                            if (theirConn == Connector.EMPTY) return false;
-
-                            if (myConn != Connector.UNIVERSAL && theirConn != Connector.UNIVERSAL && myConn != theirConn)
+                            if ((myConn != Connector.UNIVERSAL && theirConn != Connector.UNIVERSAL && myConn != theirConn) || (theirConn == Connector.EMPTY && theirConn!=myConn))
                                 return false;
                         }
                     }
