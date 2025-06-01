@@ -350,4 +350,8 @@ public class MessageGenerator {
     private Message createOpShipMessage(List<String> args){
         return new OpShipMessage();
     }
+
+    private Message createAbandonMessage(List<String> args){
+        return new AbandonMessage();
+    }
 }
