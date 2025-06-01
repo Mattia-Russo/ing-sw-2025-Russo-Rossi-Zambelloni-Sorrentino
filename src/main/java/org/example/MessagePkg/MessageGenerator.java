@@ -60,6 +60,7 @@ public class MessageGenerator {
         messageMap.put("update_names", this::createUpdatePlayersListMessage);
         messageMap.put("choose_wrecked", this::createChooseWreckedMessage);
         messageMap.put("end_wrecked", this::createEndWreckedMessage);
+        messageMap.put("game_started", this::createGameStartedMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -339,5 +340,9 @@ public class MessageGenerator {
 
     private Message createUpdatePlayersListMessage(List<String> args){
         return new UpdatePlayersListMessage(args);
+    }
+
+    private Message createGameStartedMessage(List<String> args){
+        return new GameStartedMessage();
     }
 }
