@@ -286,7 +286,7 @@ public class Game implements Serializable {
         checkAllWrackedShip();
         for(Player p : players) {
             if (!p.isAbandoned()) {
-                if (!p.getReadyForCards()) {
+                if (p.getReadyForCards()) {
                     return;
                 }
                 p.setPlayerState(new WaitingState(this));

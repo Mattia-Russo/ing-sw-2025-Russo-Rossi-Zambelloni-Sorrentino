@@ -19,7 +19,7 @@ public class StartGameMessage extends Message {
                 }
             }
         } else {
-            System.out.println("Only the creator can start the game");
+            getServer().notifyClient(playerName, "Error: Only the creator can start the game");
         }
    }
 }

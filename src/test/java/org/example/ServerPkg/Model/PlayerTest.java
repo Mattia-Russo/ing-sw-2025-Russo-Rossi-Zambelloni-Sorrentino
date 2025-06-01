@@ -12,7 +12,7 @@ import java.util.List;
 public class PlayerTest extends TestCase {
 
     public void testGetPosition() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
@@ -46,7 +46,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testIsAbandoned() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -54,7 +54,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testIsOnPlanet() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -62,7 +62,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testGetPlayerShipBoard() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard sh1=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
@@ -103,7 +103,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testChangeOnPlanet() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -113,7 +113,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testAbandon() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -123,7 +123,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testChangePosition() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
         Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
@@ -162,7 +162,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testGetNumCredits() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -170,7 +170,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testRollDice() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -184,7 +184,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testChangeCredits() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -222,7 +222,7 @@ public class PlayerTest extends TestCase {
         deck.add(s1);
         deck.add(s2);
 
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
 
@@ -233,7 +233,7 @@ public class PlayerTest extends TestCase {
     }
 
     public void testCheckShip() {
-        Player p = new Player(12, "a", null);
+        Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard sp1= p.getPlayerShipBoard();
         Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});

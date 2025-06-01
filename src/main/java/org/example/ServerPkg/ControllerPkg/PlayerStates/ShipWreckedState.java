@@ -40,7 +40,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
                 }else {
                     for (Player p : getGame().getPlayers()) {
                         if (!p.isAbandoned()) {
-                            if (!p.getReadyForCards()) {
+                            if (p.getReadyForCards()) {
                                 return;
                             }
                             p.setPlayerState(new WaitingState(getGame()));
@@ -77,7 +77,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             }
             for (Player p : getGame().getPlayers()) {
                 if (!p.isAbandoned()) {
-                    if (!p.getReadyForCards()) {
+                    if (p.getReadyForCards()) {
                         return;
                     }
                 }

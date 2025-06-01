@@ -30,4 +30,5 @@ module Galaxy.Trucker {
     exports org.example.ServerPkg.ConnectionsPkg.TCPPkg;
     exports org.example.ServerPkg.ConnectionsPkg;
     exports org.example.ServerPkg.Model.ComponentsPkg;
+    exports org.example.ServerPkg.ControllerPkg.PlayerStates;
 }
