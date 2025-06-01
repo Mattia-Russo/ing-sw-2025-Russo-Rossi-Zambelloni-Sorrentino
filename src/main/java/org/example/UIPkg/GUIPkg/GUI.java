@@ -55,10 +55,8 @@ public class GUI extends UI {
     public void preserveWindowSize() {
         if(GUIMain.getGuiMain() != null && GUIMain.getGuiMain().getStage() != null){
             Stage stage = GUIMain.getGuiMain().getStage();
-            // Salva le dimensioni correnti
             double currentWidth = stage.getWidth();
             double currentHeight = stage.getHeight();
-            // Applica le dimensioni dopo il cambio di scena
             Platform.runLater(() -> {
                 stage.setWidth(currentWidth);
                 stage.setHeight(currentHeight);
@@ -87,10 +85,6 @@ public class GUI extends UI {
         if(GUIMain.getGuiMain() != null){
             GUIMain.getGuiMain().changeScene(scene);
         }
-    }
-
-    public String getCurrentScene(){
-        return GUIMain.getGuiMain().getCurrentSceneName();
     }
 
     public Client getClient() {

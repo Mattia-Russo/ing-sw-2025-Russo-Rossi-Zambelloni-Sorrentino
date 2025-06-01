@@ -271,7 +271,7 @@ public class Game implements Serializable {
             if (!p.checkShip()) {
                 p.setShipOK(false);
                 p.setPlayerState(new FixShipState(this));
-                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP " + p.getName()));
+                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP " + p.getName() + ", REMOVE NOT RIGHT POSITIONED TILES"));
                 return;
             }
         }

@@ -70,7 +70,6 @@ public class NameRequestSceneController extends GuiController implements Initial
         setupBackground();
         layoutComponents();
 
-        // Set initial window size to match other scenes
         Platform.runLater(() -> {
             Stage stage = GUIMain.getGuiMain().getStage();
             if (stage != null) {
@@ -155,14 +154,13 @@ public class NameRequestSceneController extends GuiController implements Initial
             Media backgroundMedia = new Media(videoPath);
             mediaPlayer = new MediaPlayer(backgroundMedia);
             mediaPlayer.setAutoPlay(true);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the video
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
             mediaView = new MediaView(mediaPlayer);
 
-            // Make the video responsive to window size changes
             mediaView.fitWidthProperty().bind(borderPane.widthProperty());
             mediaView.fitHeightProperty().bind(borderPane.heightProperty());
-            mediaView.setPreserveRatio(false); // Allow stretching to fill the window
+            mediaView.setPreserveRatio(false);
 
         } catch (Exception e) {
             System.err.println("Error loading background video: " + e.getMessage());
@@ -186,12 +184,10 @@ public class NameRequestSceneController extends GuiController implements Initial
         );
 
         if (mediaView != null) {
-            // Create a StackPane with video background and UI overlay
             StackPane centerPane = new StackPane();
             centerPane.getChildren().addAll(mediaView, mainContainer);
             borderPane.setCenter(centerPane);
         } else {
-            // Fallback if video doesn't load
             borderPane.setCenter(mainContainer);
         }
     }

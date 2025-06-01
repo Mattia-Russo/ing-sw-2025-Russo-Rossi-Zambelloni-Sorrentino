@@ -1,4 +1,4 @@
 package org.example.UIPkg.GUIPkg;
 
-public abstract class PlayCardSceneController extends GuiController{
+public class PlayCardSceneController extends GuiController{
 }
