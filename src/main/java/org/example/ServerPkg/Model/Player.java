@@ -4,9 +4,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.AbandonedState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.PlayerState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.CardPkg.AdventureCard;
-import org.example.ServerPkg.Model.ComponentsPkg.Components;
-import org.example.ServerPkg.Model.ComponentsPkg.Connector;
-import org.example.ServerPkg.Model.ComponentsPkg.Direction;
+import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Exceptions.PlayerAbandonedException;
 import org.example.ServerPkg.Model.Exceptions.TilesEndedExceptions;
 import org.example.ServerPkg.Utils.ShipboardLoader;
@@ -14,6 +12,7 @@ import org.example.ServerPkg.Utils.ShipboardLoader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class Player implements Serializable {
     private final String name;
@@ -224,4 +223,34 @@ public class Player implements Serializable {
     }
 
     public boolean getReadyForCards(){return readyForCards;}
+
+    public void opShip(){
+        getPlayerShipBoard().placeComponent(3,2, new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(2,0, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(2,1, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(3,1, new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(4,0, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(1,1, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(4,1, new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(5,1, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(0,2, new Cannon(0,1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(1,2, new Shield(0, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST));
+        getPlayerShipBoard().placeComponent(2,2, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
+        getPlayerShipBoard().placeComponent(4, 2, new LifeSupportSystem(0, AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(5, 2, new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(6, 2, new Cannon(0,1, Direction.EAST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(0, 3, new Cannon(0,1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(1, 3, new Shield(0, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST));
+        getPlayerShipBoard().placeComponent(2,3, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
+        getPlayerShipBoard().placeComponent(3, 3, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(3,4, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(3,5, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
+        getPlayerShipBoard().placeComponent(3, 6, new Cannon(0, 2, Direction.EAST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(0, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(1, 4, new Cannon(0, 1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(2, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(4, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(5, 4, new Cannon(0, 1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(6, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL}));
+    }
 }
