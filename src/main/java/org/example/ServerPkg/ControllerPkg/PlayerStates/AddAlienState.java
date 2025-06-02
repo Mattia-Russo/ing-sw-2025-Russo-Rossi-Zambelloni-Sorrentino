@@ -14,10 +14,8 @@ import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 public class AddAlienState extends PlayerState implements Serializable {
-    private final Player player;
-    public AddAlienState(Game game, Player player){
+    public AddAlienState(Game game){
         super(game);
-        this.player=player;
     }
 
     @Override
@@ -50,11 +48,11 @@ public class AddAlienState extends PlayerState implements Serializable {
 
     @Override
     public void endAlienState(Player player){
-        this.player.setReadyForCards(true);
+        player.setReadyForCards(true);
         new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
         for (Player p : getGame().getPlayers()) {
             if (!p.isAbandoned()) {
-                if (p.getReadyForCards()) {
+                if (!p.getReadyForCards()) {
                     return;
                 }
                 p.setPlayerState(new WaitingState(getGame()));

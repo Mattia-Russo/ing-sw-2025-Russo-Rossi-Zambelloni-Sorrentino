@@ -64,7 +64,8 @@ public class BuildShipState extends PlayerState implements Serializable {
         if (p.getDeckShowed() == null) {
             if (p.getCurrentTile() == null) {
                 if (!p.getShipBuilded()) {
-                    p.setCurrentTile(getGame().pickComponentTile());
+                    p.opShip();
+                    //p.setCurrentTile(getGame().pickComponentTile());
                     new GameView(getGame(), null);
                 }
             }
@@ -118,9 +119,8 @@ public class BuildShipState extends PlayerState implements Serializable {
     public void placeTile(Player player, Points point){
         try {
             if(!player.getShipBuilded()) {
-                //player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
-                //player.setCurrentTile(null);
-                player.opShip();
+                player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
+                player.setCurrentTile(null);
                 new GameView(getGame(), null);
             }
         } catch (OccupiedPositionException | InvalidPositionException e) {

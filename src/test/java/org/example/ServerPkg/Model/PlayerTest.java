@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.AddAlienState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 
 import java.util.ArrayList;
@@ -230,8 +232,10 @@ public class PlayerTest extends TestCase {
 
     public void testCheckShip() {
         Player p = new Player( "a", null);
-        p.setPlayerShipboard(1);
-        ShipBoard sp1= p.getPlayerShipBoard();
+        new Game(2, 2,1, new GameController());
+        p.setPlayerShipboard(2);
+        p.opShip();
+        /*ShipBoard sp1= p.getPlayerShipBoard();
         Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s11 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
