@@ -19,8 +19,10 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     public void removeGood(Points point, int numGood, Player player){
         Storage storage = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
-            storage.removeGood(numGood);
-            new GameView(getGame(), null);
+            if(numGood < storage.getCapacity()) {
+                storage.removeGood(numGood);
+                new GameView(getGame(), null);
+            }else new GameView(getGame(), new Exception("Index must be below capacity " + player.getName()));
         } else {
             new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
         }
@@ -31,8 +33,10 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
         Storage storage = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
         if(storage!=null){
             try {
-                storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
-                new GameView(getGame(), null);
+                if(numGood < storage.getCapacity()) {
+                    storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
+                    new GameView(getGame(), null);
+                }else new GameView(getGame(), new Exception("Index must be below capacity " + player.getName()));
             } catch (RedGoodsNotAllowedException | StorageFullException e) {
                 Exception e1 = new Exception(e.getMessage() + " " + player.getName());
                 new GameView(getGame(), e1);

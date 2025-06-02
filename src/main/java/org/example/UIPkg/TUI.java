@@ -669,8 +669,7 @@ public class TUI extends UI{
                 System.out.println("Lost days " + adventureCardView.getLostDays());
                 for (GoodsView goodsView : adventureCardView.getGoodsList()) {
                     GoodsColour color = goodsView.getColour();
-                    goods.append(getGoodColorSquare(color));
-                    goods.append(" ");
+                    goods.append(getGoodColorSquare(color)).append(" ");
                 }
                 System.out.println(goods);
                 break;
@@ -710,8 +709,7 @@ public class TUI extends UI{
                     System.out.println("Planet number "+ planet.getPlanetNumber());
                     for (GoodsView goodsView : adventureCardView.getGoodsList()) {
                         GoodsColour color = goodsView.getColour();
-                        goods.append(getGoodColorSquare(color));
-                        goods.append(" ");
+                        goods.append(getGoodColorSquare(color)).append(" ");
                     }
                     System.out.println(goods);
                     System.out.println("Lost days "+adventureCardView.getLostDays());
@@ -732,8 +730,7 @@ public class TUI extends UI{
                 System.out.println("Num goods" + adventureCardView.getNumGoods());
                 for (GoodsView goodsView : adventureCardView.getGoodsList()) {
                     GoodsColour color = goodsView.getColour();
-                    goods.append(getGoodColorSquare(color));
-                    goods.append(" ");
+                    goods.append(getGoodColorSquare(color)).append(" ");
                 }
                 System.out.println(goods);
                 break;

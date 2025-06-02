@@ -35,7 +35,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
                 getGame().getCurrentCard().setCardState(getGame());
             } else {
                 if(getGame().getGameMode()==1) {
-                    player.setPlayerState(new AddAlienState(getGame(), player));
+                    player.setPlayerState(new AddAlienState(getGame()));
                     new GameView(getGame(), new Exception("YOU CAN ADD YOUR ALIENS " + player.getName()));
                 }else {
                     for (Player p : getGame().getPlayers()) {

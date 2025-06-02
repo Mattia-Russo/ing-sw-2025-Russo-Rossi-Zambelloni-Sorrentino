@@ -284,7 +284,7 @@ public class Game implements Serializable {
         checkAllWrackedShip();
         for(Player p : players) {
             if (!p.isAbandoned()) {
-                if (p.getReadyForCards()) {
+                if (!p.getReadyForCards()) {
                     return;
                 }
                 p.setPlayerState(new WaitingState(this));
@@ -309,13 +309,14 @@ public class Game implements Serializable {
                     p.setPlayerState(new ShipWreckedState(this, p));
                     new GameView(this, new Exception("YOU HAVE A SHIP WRECK " + p.getName()));
                 } else if (gameMode == 1) {
-                    p.setPlayerState(new AddAlienState(this, p));
+                    p.setPlayerState(new AddAlienState(this));
                     new GameView(this, new Exception("YOU CAN ADD YOUR ALIENS " + p.getName()));
                 } else {
                     p.setReadyForCards(true);
                 }
             }else if(gameMode == 1){
                 p.abandon(this);
+                new GameView(this, new Exception("YOU HAVE TO ABANDON " + p.getName()));
                 p.setPlayerState(new AbandonedState(this));
             }else {
                 p.setPlayerState(new WaitingState(this));
