@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class BuildShipSceneController extends GuiController implements Initializable {
 
-    private static final String COMPONENT_JSON_PATH = "/org.example/components.json"; // Adatta il path
+    private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
 
     @FXML
     private BorderPane borderPane;
@@ -126,13 +126,16 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
-    //todo cambia in base al livello selezionato
+    //todo l'immagine della shipboard cambia in base al livello selezionato
     private void loadShipboardImage() {
         try {
-            String imagePath = "src/main/resources/org.example/cardboard/cardboard-1.jpg";
-            Image shipboardImage = new Image(imagePath);
+            InputStream imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
+            if (imageStream == null) {
+                throw new IllegalArgumentException("Immagine non trovata nel classpath");
+            }
+            Image shipboardImage = new Image(imageStream);
             shipboardImageView.setImage(shipboardImage);
-            shipboardImageView.setFitWidth(400); // Adatta le dimensioni come necessario
+            shipboardImageView.setFitWidth(400);
             shipboardImageView.setFitHeight(300);
             shipboardImageView.setPreserveRatio(true);
         } catch (Exception e) {
