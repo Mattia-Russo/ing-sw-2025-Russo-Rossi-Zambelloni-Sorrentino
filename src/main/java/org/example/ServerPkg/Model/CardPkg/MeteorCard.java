@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeteorCard extends AdventureCard implements Serializable {
-    private List<Meteor> meteorList = new ArrayList<Meteor>();
+    private final List<Meteor> meteorList;
     int currentMeteor;
     int currentPlayer;
     int rowOrCol;
@@ -58,30 +58,18 @@ public class MeteorCard extends AdventureCard implements Serializable {
             do{
                 currentPlayer++;
             } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
-            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-            if(dice) {
-                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
-                    protect = true;
-                }
-                if (protect) {
-                    playCard(g, null, null);
-                } else
-                    Update(g, g.getPlayers().get(currentPlayer));
-            }else
-                g.Turn();
-        }else {
-            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-            if(dice) {
-                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
-                    protect = true;
-                }
-                if (protect) {
-                    playCard(g, null, null);
-                } else
-                    Update(g, g.getPlayers().get(currentPlayer));
-            }else
-                g.Turn();
         }
+        chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+        if(dice) {
+            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
+                protect = true;
+            }
+            if (protect) {
+                playCard(g, null, null);
+            } else
+                Update(g, g.getPlayers().get(currentPlayer));
+        }else
+            g.Turn();
     }
 
     private void Update(Game g, Player p) {

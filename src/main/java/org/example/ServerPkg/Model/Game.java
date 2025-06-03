@@ -151,6 +151,7 @@ public class Game implements Serializable {
     }
 
     private void pickCard() {
+        this.lobbyState = LobbyState.PLAYING_CARDS;
         if(this.deck == null){
             throw new DeckNotInitializedException("Deck has not been initialized");
         } else if (this.deck.isEmpty() && this.currentCard == null) {
