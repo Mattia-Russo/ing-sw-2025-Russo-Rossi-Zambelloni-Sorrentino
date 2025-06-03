@@ -158,7 +158,6 @@ public class Player implements Serializable {
         return Direction.values()[(dir.ordinal() + 2) % 4];
     }
 
-
     private int dx(Direction dir) {
         return switch (dir) {
             case EAST -> 1;
@@ -174,7 +173,6 @@ public class Player implements Serializable {
             default -> 0;
         };
     }
-
 
     public PlayerState getState() {
         return this.state;

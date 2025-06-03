@@ -78,10 +78,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     private void checkConnection() throws RemoteException {
+        serverAlive = System.currentTimeMillis();
         Thread checkClient = new Thread(() -> {
             try {
                 while (true) {
                     if (System.currentTimeMillis() - serverAlive > 14999) {
+                        System.out.println("Disconnect lato client");
                         disconnect();
                     }
                     Thread.sleep(5000);
