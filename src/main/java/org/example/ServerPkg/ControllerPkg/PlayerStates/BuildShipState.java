@@ -29,7 +29,7 @@ public class BuildShipState extends PlayerState implements Serializable {
             }else if(player.getShipBuilded()){
                 timer.start();
                 for(Player p : getGame().getPlayers()){
-                    if(!p.getShipBuilded()){
+                    if(!p.getShipBuilded() && getGame().getGameMode()==0){
                         setPosition(p);
                     }
                 }
@@ -130,7 +130,7 @@ public class BuildShipState extends PlayerState implements Serializable {
 
     @Override
     public void endBuildShip(Player player){
-        if(!player.getShipBuilded()){
+        if(!player.getShipBuilded() && getGame().getGameMode()==0){
             setPosition(player);
         }
         for(Player p : getGame().getPlayers()){

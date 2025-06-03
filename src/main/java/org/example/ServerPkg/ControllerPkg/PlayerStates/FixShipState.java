@@ -112,6 +112,7 @@ public class FixShipState extends PlayerState implements Serializable {
         }
 
         // gestire l'eventuale divisione
+        assert c != null;
         if(p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())){
             p.getPlayerShipBoard().removeWreck(c.getPosY(), c.getPosX());
             new GameView(getGame(), null);

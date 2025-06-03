@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 public class AddAlienState extends PlayerState implements Serializable {
+    private boolean positionSet=false;
     public AddAlienState(Game game){
         super(game);
     }
@@ -57,6 +58,7 @@ public class AddAlienState extends PlayerState implements Serializable {
                 }
             }
             player.setPosition(position);
+            positionSet = true;
         }catch (InvalidParameterException e){
             new GameView(getGame(), new Exception(e.getMessage() + " " + player.getName()));
         }
@@ -78,28 +80,30 @@ public class AddAlienState extends PlayerState implements Serializable {
 
     @Override
     public void endAlienState(Player player){
-        player.setReadyForCards(true);
-        new GameView(getGame(), new Exception(player.getName() + " IS READY FOR CARDS "));
-        for (Player p : getGame().getPlayers()) {
-            if (!p.isAbandoned()) {
-                if (!p.getReadyForCards()) {
-                    return;
+        if(positionSet) {
+            player.setReadyForCards(true);
+            new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
+            for (Player p : getGame().getPlayers()) {
+                if (!p.isAbandoned()) {
+                    if (!p.getReadyForCards()) {
+                        return;
+                    }
+                    p.setPlayerState(new WaitingState(getGame()));
                 }
-                p.setPlayerState(new WaitingState(getGame()));
             }
-        }
-        getGame().Turn();
+            getGame().Turn();
+        }else new GameView(getGame(), new Exception("You must select a position " + player.getName()));
     }
 
     @Override
     public void AbandonGame(Player player){
         player.abandon(getGame());
-        endAlienState(null);
+        endAlienState(player);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
-        endAlienState(null);
+        endAlienState(disconnectingPlayer);
     }
 }
