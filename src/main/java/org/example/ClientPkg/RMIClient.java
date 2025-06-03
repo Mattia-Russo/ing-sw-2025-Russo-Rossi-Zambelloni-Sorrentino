@@ -36,9 +36,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
             System.out.println("Connected to RMI server");
 
-            startUpdateThread();
-            checkConnection();
-
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
         }
@@ -54,6 +51,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             userInterface.askName();
             userInterface.readName();
         }
+
+        startUpdateThread();
+        checkConnection();
 
         if(UI.equals("tui")){
             startKeyboardListener();
