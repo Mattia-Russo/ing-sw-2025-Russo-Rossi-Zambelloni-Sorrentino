@@ -192,7 +192,7 @@ public class TUI extends UI{
                                        choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
                                        end_wrecked -> if you want to end the wrecked ship phase
                                     
-                                       select_position int -> int is the position you want to start from
+                                       select_position int -> int is the position you want to start from (Options: 0, -1, -2, -3)
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
                                        end_add_alien -> if you want to end the add alien phase
@@ -327,10 +327,10 @@ public class TUI extends UI{
 
     private String getPlayerColorSymbol(String rocketColour) {
         return switch (rocketColour.toUpperCase()) {
-            case "RED" -> "\u001B[41m██\u001B[0m";
-            case "BLUE" -> "\u001B[44m██\u001B[0m";
-            case "GREEN" -> "\u001B[42m██\u001B[0m";
-            case "YELLOW" -> "\u001B[43m██\u001B[0m";
+            case "RED" -> "\uD83D\uDFE5";
+            case "BLUE" -> "\uD83D\uDFE6";
+            case "GREEN" -> "\uD83D\uDFE9";
+            case "YELLOW" -> "\uD83D\uDFE8";
             default -> rocketColour.substring(0, Math.min(2, rocketColour.length())).toUpperCase();
         };
     }
@@ -635,10 +635,10 @@ public class TUI extends UI{
 
     private String getGoodColorSquare(GoodsColour colour) {
         return switch (colour) {
-            case RED -> "\u001B[41m█\u001B[0m";
-            case YELLOW -> "\u001B[43m█\u001B[0m";
-            case GREEN -> "\u001B[42m█\u001B[0m";
-            case BLUE -> "\u001B[44m█\u001B[0m";
+            case RED -> "\uD83D\uDFE5";
+            case BLUE -> "\uD83D\uDFE6";
+            case GREEN -> "\uD83D\uDFE9";
+            case YELLOW -> "\uD83D\uDFE8";
         };
     }
 

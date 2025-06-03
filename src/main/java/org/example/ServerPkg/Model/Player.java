@@ -29,7 +29,6 @@ public class Player implements Serializable {
     private ArrayList<AdventureCard> deckShowed;
 
     public Player(String name, Game game){
-        this.position=0;
         this.playerShipBoard=null;
         this.abandoned=false;
         this.onPlanet=false;

@@ -73,8 +73,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 System.err.println("Error sending connection update to server: " + e.getMessage());
             }
         });
-        UpdateThread.setDaemon(false);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
-        UpdateThread.start();  // Avvia il thread
+        UpdateThread.setDaemon(false);
+        UpdateThread.start();
     }
 
     private void checkConnection() throws RemoteException {
