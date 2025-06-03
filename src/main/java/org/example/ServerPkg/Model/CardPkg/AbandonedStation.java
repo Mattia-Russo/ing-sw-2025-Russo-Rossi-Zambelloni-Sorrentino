@@ -61,8 +61,7 @@ public class AbandonedStation extends AdventureCard implements Serializable {
     public void setCardState(Game game) {
         do {
             playersIndex++;
-        } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
-                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts);
+        } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts && game.getPlayers().get(playersIndex).isAbandoned());
 
         if(playersIndex == game.getPlayers().size()){
             game.Turn();

@@ -1,7 +1,7 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
-import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -65,10 +65,8 @@ public class AbandonedShip extends AdventureCard implements Serializable {
         game.getPlayers().get(playersIndex).getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
         game.getPlayers().get(playersIndex).changeCredits(this.Credits);
         game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
-        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
-        this.playersIndex=-1;
-        new GameView(game, null);
-        game.Turn();
+        game.getPlayers().get(playersIndex).setPlayerState(new RemoveAstronautsState(game));
+        this.playersIndex=game.getPlayers().size()-1;
     }
 
     @Override
