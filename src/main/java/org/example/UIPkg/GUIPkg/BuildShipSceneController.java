@@ -147,7 +147,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
     @FXML
     public void onPickComponentClick() {
         try {
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_component", java.util.Arrays.asList());
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_tile", java.util.Arrays.asList());
             getGuiRoot().getClient().sendMessage(message);
 
             // Abilita i pulsanti ora che abbiamo un componente
@@ -308,7 +308,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                     allComponents.add(component);
                 }
             }
-            System.out.println("Caricati " + allComponents.size() + " componenti dal JSON");
         } catch (Exception e) {
             System.err.println("Errore nel caricamento dei componenti: " + e.getMessage());
             e.printStackTrace();
