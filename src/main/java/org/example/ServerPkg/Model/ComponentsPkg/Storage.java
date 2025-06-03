@@ -33,6 +33,9 @@ public class Storage extends Components implements Serializable {
                 goodsView[i] = new GoodsView(goodsList[i]);
             }
         }
+        if(isSpecial){
+            return new ComponentsView(getDirection(), getConnectors(), id,"Special Storage", 0 ,0, goodsView, null, null);
+        }
         return new ComponentsView(getDirection(), getConnectors(), id,"Storage", 0 ,0, goodsView, null, null);
     }
 

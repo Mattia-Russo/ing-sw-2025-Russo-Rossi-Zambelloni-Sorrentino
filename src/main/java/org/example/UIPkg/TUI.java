@@ -558,6 +558,7 @@ public class TUI extends UI{
             case "Central Cabin" -> new String[]{"Central", "Cabin ", "       "};
             case "Cabin" -> new String[]{"       ", " Cabin ", "       "};
             case "Storage" -> new String[]{"       ", "Storage", "       "};
+            case "Special Storage" -> new String[]{"Special", "Storage", "       "};
             case "LifeSupportSystem" -> new String[]{"Life   ", "Support", "System "};
             case "Shield" -> new String[]{"       ", "Shield ", "       "};
             case "Cannon" -> new String[]{"       ", "Cannon ", "       "};

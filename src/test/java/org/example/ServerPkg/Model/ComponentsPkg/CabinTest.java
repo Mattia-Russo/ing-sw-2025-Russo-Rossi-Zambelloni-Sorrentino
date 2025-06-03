@@ -125,7 +125,7 @@ public class CabinTest extends TestCase {
         l.addLifeSupport(c);
         c.addAlien(a, s);
         assertEquals(a, c.getAlien());
-        c.removeAlien();
+        c.removeAlien(s);
         assertNull(c.getAlien());
     }
 
