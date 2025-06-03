@@ -25,10 +25,13 @@ public class Player implements Serializable {
     private int numCredits;
     private PlayerState state;
     private boolean shipOK;
+    private boolean posValid;
     private Components currentTile;
     private ArrayList<AdventureCard> deckShowed;
 
     public Player(String name, Game game){
+        this.position = 0;
+        this.posValid = false;
         this.playerShipBoard=null;
         this.abandoned=false;
         this.onPlanet=false;
@@ -60,6 +63,10 @@ public class Player implements Serializable {
 
     public int getPosition(){
         return this.position;
+    }
+
+    public boolean isPosValid(){
+        return this.posValid;
     }
 
     public boolean isAbandoned() {
@@ -97,6 +104,7 @@ public class Player implements Serializable {
 
     public void setPosition(int val){
         this.position = val;
+        this.posValid = true;
     }
 
     public int getNumCredits(){

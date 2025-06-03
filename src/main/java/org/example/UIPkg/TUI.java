@@ -222,7 +222,7 @@ public class TUI extends UI{
 
         for (PlayerView player : players) {
             if (player.isShipOK()) {
-                int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions + 1;
+                int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions;
                 String playerColor = getPlayerColorSymbol(player.getRocketColour());
                 playerPositions.put(getCoordFromPos(normalizedPosition, gameMode), playerColor);
             }
