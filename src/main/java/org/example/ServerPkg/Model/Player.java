@@ -7,13 +7,11 @@ import org.example.ServerPkg.Model.CardPkg.AdventureCard;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Exceptions.PlayerAbandonedException;
 import org.example.ServerPkg.Model.Exceptions.TilesEndedExceptions;
-import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Utils.ShipboardLoader;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class Player implements Serializable {
     private final String name;

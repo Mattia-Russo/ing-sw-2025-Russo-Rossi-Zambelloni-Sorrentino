@@ -36,7 +36,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
             Storage storage = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
 
             if(storage!=null){
-                if(storage.getGoods()[numGood].getColour() == goodsList.get(0).getColour()){
+                if(storage.getGoods()[numGood].getColour() == goodsList.getFirst().getColour()){
                     storage.removeGood(numGood);
                     goodsRemoved++;
                     new GameView(getGame(), null);
@@ -105,7 +105,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
         goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
 
         while(this.goodsRemoved < game.getCurrentCard().getNumGoodsLose() || !goodsList.isEmpty()){
-            Goods good = goodsList.get(0);
+            Goods good = goodsList.getFirst();
             Storage storage = good.getStorage();
             int i;
             for(i=0; i < storage.getGoods().length; i++){   // individuo l'indice del good
