@@ -97,17 +97,22 @@ public class Cabin extends Components implements Serializable {
             throw new DifferentLifeSupportColourException("This cabin has life support, but of a different colour!");
         }
         this.numAstronauts = 0;
-        ship.setNumAstronauts(-2);
+        ship.setNumAstronauts(-1);
         this.alien = newAlien;
     }
 
-    public void removeAlien() {
+    public void removeAlien(ShipBoard ship) {
         this.alien = null;
+        ship.setNumAstronauts(-1);
     }
 
     @Override
     public void remove(ShipBoard ship) {
-        ship.setNumAstronauts(-this.numAstronauts);
+        if(this.alien!=null){
+            ship.setNumAstronauts(-this.numAstronauts);
+        } else {
+            ship.setNumAstronauts(-1);
+        }
     }
 
     @Override
@@ -147,7 +152,7 @@ public class Cabin extends Components implements Serializable {
         }
         if (check) {
             if (this.getAlien()!=null && this.getAlien().getColour() == life.getColour()) {
-                this.removeAlien();
+                this.removeAlien(ship);
             }
             this.removeLifeSupport(life);
             if (this.getLifeSupportSystemArrayList().isEmpty()) {
@@ -173,7 +178,7 @@ public class Cabin extends Components implements Serializable {
         if(cabins.size()>1){
             for (Cabin c : cabins) {
                 if(c.getAlien()!=null){
-                    c.removeAlien();
+                    c.removeAlien(s);
                 } else {
                     c.changeNumAstronauts(-1);
                 }

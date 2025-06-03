@@ -73,7 +73,7 @@ public class AbandonedStation extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void playCard(Game game) {
+    public void playCard(Game game, int ignore) {
         if (changeGoodsFlag){
             new GameView(game, new Exception("LAND ON ABANDON(Change goods) " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));

@@ -27,7 +27,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
 
             if(cabin!=null){
                 if(cabin.getAlien()!=null){
-                    cabin.removeAlien();
+                    cabin.removeAlien(player.getPlayerShipBoard());
                     astronautsRemoved++;
                 } else if (cabin.getNumAstronauts()!=0){
                     cabin.changeNumAstronauts(-1);
@@ -43,7 +43,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
     @Override
     public void endRemoveAstronauts(Player player){
         if(astronautsRemoved < getGame().getCurrentCard().getNumAstronauts()){
-            new GameView(getGame(), new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts " + player.getName()));
+            new GameView(getGame(), new NotEnoughAstronautsRemovedException("Cannot end this phase, you need to remove more astronauts " + player.getName()));
         } else {
             getGame().getCurrentCard().setCardState(getGame());
         }
@@ -74,7 +74,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
                 Components c = p.getPlayerShipBoard().getComponentMatrix()[i][j];
                 if(c.isCabin() != null){
                     if(c.isCabin().hasAlien()!=null){
-                        c.isCabin().removeAlien();
+                        c.isCabin().removeAlien(p.getPlayerShipBoard());
                         astronautsRemoved++;
                         astronautsToRemove--;
                     }else if(((Cabin) c).getNumAstronauts() >= astronautsToRemove){

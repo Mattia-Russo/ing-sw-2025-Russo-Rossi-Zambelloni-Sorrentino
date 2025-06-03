@@ -207,7 +207,7 @@ public class ShipBoard implements Serializable {
     public int getTotalEnginePower(ArrayList<Points> enginesPos, ArrayList<Points> batteriesPos){
         int totalEnginePower = 0;
         if(enginesPos!=null&&batteriesPos!=null) {
-            ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
+            ArrayList<BatteryStorage> batteryStorages;
             ArrayList<Engine> engines = new ArrayList<>();
             for (Points p : enginesPos) {
                 if (!availablePositionMatrix[p.getX()][p.getY()]) {
@@ -324,18 +324,12 @@ public class ShipBoard implements Serializable {
     }
 
     public boolean getIfShielded(Direction direction){
-        switch(direction) {
-            case NORTH:
-                return getShieldedDirections()[0] > 0;
-            case EAST:
-                return getShieldedDirections()[1] > 0;
-            case SOUTH:
-                return getShieldedDirections()[2] > 0;
-            case WEST:
-                return getShieldedDirections()[3] > 0;
-            default:
-                return false;
-        }
+        return switch (direction) {
+            case NORTH -> getShieldedDirections()[0] > 0;
+            case EAST -> getShieldedDirections()[1] > 0;
+            case SOUTH -> getShieldedDirections()[2] > 0;
+            case WEST -> getShieldedDirections()[3] > 0;
+        };
     }
 
     public void addShieldInDirection(Direction direction) {
@@ -516,7 +510,7 @@ public class ShipBoard implements Serializable {
             }
         }
         return false;
-    }   // come fa a capire l'utente se è  meteor swarm o stray big meteor (l'immagine è la stessa, la gestione è diversa)
+    }   // come fa a capire l'utente se è meteor swarm o stray big meteor (l'immagine è la stessa, la gestione è diversa)
 
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0 && rowOrCol < 7) {
