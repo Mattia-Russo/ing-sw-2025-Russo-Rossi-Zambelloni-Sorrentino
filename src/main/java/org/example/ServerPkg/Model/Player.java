@@ -227,7 +227,9 @@ public class Player implements Serializable {
         for(int i = 0; i < playerShipBoard.getComponentMatrix().length; i++){
             for(int j = 0; j < playerShipBoard.getComponentMatrix()[i].length; j++){
                 if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
-                    getPlayerShipBoard().removeComponent(j,i);
+                    if(i!=3 && i!=2) {
+                        getPlayerShipBoard().removeComponent(j, i);
+                    }
                 }
             }
         }
