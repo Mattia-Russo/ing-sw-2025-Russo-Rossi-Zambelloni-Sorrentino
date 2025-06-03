@@ -221,7 +221,7 @@ public class TUI extends UI{
         Map<Points, String> playerPositions = new HashMap<>();
 
         for (PlayerView player : players) {
-            if (player.isShipOK()) {
+            if (player.isShipOK() && player.isPosValid()) {
                 int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions;
                 String playerColor = getPlayerColorSymbol(player.getRocketColour());
                 playerPositions.put(getCoordFromPos(normalizedPosition, gameMode), playerColor);
