@@ -90,7 +90,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         setupUI();
         loadComponentsFromJSON();
         loadShipboardImage();
-        //todo loadInitialCabin();
+        //ToDo loadInitialCabin();
         validationMessage.setVisible(false);
     }
 
@@ -126,7 +126,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
-    //todo l'immagine della shipboard cambia in base al livello selezionato
+    //ToDo l'immagine della shipboard cambia in base al livello selezionato
     private void loadShipboardImage() {
         try {
             InputStream imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
@@ -150,10 +150,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_tile", java.util.Arrays.asList());
             getGuiRoot().getClient().sendMessage(message);
 
-            // Abilita i pulsanti ora che abbiamo un componente
             enableComponentButtons();
             hideValidationMessage();
-
+            //ToDo non appare l'immagine del componente, nè dopo la pick, nè dopo la tile
         } catch (IOException e) {
             showValidationError("Errore nell'invio del messaggio pick_component!");
             e.printStackTrace();
