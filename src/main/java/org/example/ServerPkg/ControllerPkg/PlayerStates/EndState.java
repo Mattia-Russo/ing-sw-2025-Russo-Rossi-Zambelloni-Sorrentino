@@ -209,4 +209,9 @@ public class EndState extends PlayerState implements Serializable {
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
     }
+
+    @Override
+    public void selectPosition(int position, Player player){
+        new GameView(getGame(), new EndStateException("The game has ended, cannot do any action anymore " + player.getName()));
+    }
 }

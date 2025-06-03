@@ -226,6 +226,13 @@ public class Player implements Serializable {
     public boolean getReadyForCards(){return readyForCards;}
 
     public void opShip(){
+        for(int i = 0; i < playerShipBoard.getComponentMatrix().length; i++){
+            for(int j = 0; j < playerShipBoard.getComponentMatrix()[i].length; j++){
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
+                    getPlayerShipBoard().removeComponent(i,j);
+                }
+            }
+        }
         getPlayerShipBoard().placeComponent(2,0, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
         getPlayerShipBoard().placeComponent(2,1, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
         getPlayerShipBoard().placeComponent(3,1, new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));

@@ -194,6 +194,7 @@ public class TUI extends UI{
                                        choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
                                        end_wrecked -> if you want to end the wrecked ship phase
                                     
+                                       select_position int -> int is the position you want to start from
                                        add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
                                        add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
                                        end_add_alien -> if you want to end the add alien phase
@@ -668,8 +669,12 @@ public class TUI extends UI{
                 System.out.println("Num astronauts " + adventureCardView.getNumAstronauts());
                 System.out.println("Lost days " + adventureCardView.getLostDays());
                 for (GoodsView goodsView : adventureCardView.getGoodsList()) {
-                    GoodsColour color = goodsView.getColour();
-                    goods.append(getGoodColorSquare(color)).append(" ");
+                    if(goodsView != null) {
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                    } else {
+                        goods.append("   ");
+                    }
                 }
                 System.out.println(goods);
                 break;
@@ -708,8 +713,12 @@ public class TUI extends UI{
                 for(PlanetView planet: adventureCardView.getPlanetList()){
                     System.out.println("Planet number "+ planet.getPlanetNumber());
                     for (GoodsView goodsView : adventureCardView.getGoodsList()) {
-                        GoodsColour color = goodsView.getColour();
-                        goods.append(getGoodColorSquare(color)).append(" ");
+                        if(goodsView != null) {
+                            GoodsColour color = goodsView.getColour();
+                            goods.append(getGoodColorSquare(color));
+                        } else {
+                            goods.append("   ");
+                        }
                     }
                     System.out.println(goods);
                     System.out.println("Lost days "+adventureCardView.getLostDays());
@@ -729,8 +738,12 @@ public class TUI extends UI{
                 System.out.println("Lost days" + adventureCardView.getLostDays());
                 System.out.println("Num goods" + adventureCardView.getNumGoods());
                 for (GoodsView goodsView : adventureCardView.getGoodsList()) {
-                    GoodsColour color = goodsView.getColour();
-                    goods.append(getGoodColorSquare(color)).append(" ");
+                    if(goodsView != null) {
+                        GoodsColour color = goodsView.getColour();
+                        goods.append(getGoodColorSquare(color));
+                    } else {
+                        goods.append("   ");
+                    }
                 }
                 System.out.println(goods);
                 break;

@@ -33,6 +33,36 @@ public class AddAlienState extends PlayerState implements Serializable {
     }
 
     @Override
+    public void selectPosition(int position, Player player){
+        try {
+            switch (position) {
+                case 1:
+                    position = 0;
+                    break;
+                case 2:
+                    position = -1;
+                    break;
+                case 3:
+                    position = -2;
+                    break;
+                case 4:
+                    position = -3;
+                    break;
+                default:
+                    throw new InvalidParameterException("Invalid position");
+            }
+            for(Player p : getGame().getPlayers()){
+                if(p.getPosition() == position){
+                    throw new InvalidParameterException("Position already taken");
+                }
+            }
+            player.setPosition(position);
+        }catch (InvalidParameterException e){
+            new GameView(getGame(), new Exception(e.getMessage() + " " + player.getName()));
+        }
+    }
+
+    @Override
     public void addPurpleAlien(Points p, Player player){
         try{
             if(player.getPlayerShipBoard().getComponent(p.getX(), p.getY())!=null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin()!=null ){

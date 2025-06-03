@@ -64,8 +64,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         if (p.getDeckShowed() == null) {
             if (p.getCurrentTile() == null) {
                 if (!p.getShipBuilded()) {
-                    p.opShip();
-                    //p.setCurrentTile(getGame().pickComponentTile());
+                    p.setCurrentTile(getGame().pickComponentTile());
                     new GameView(getGame(), null);
                 }
             }

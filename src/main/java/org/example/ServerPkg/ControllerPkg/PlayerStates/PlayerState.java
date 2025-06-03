@@ -171,4 +171,8 @@ public class PlayerState implements Serializable {
     public void pickBookedTile(int index, Player p){
         new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));
     }
+
+    public void selectPosition(int position, Player player){
+        new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
+    }
 }
