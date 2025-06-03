@@ -80,6 +80,9 @@ public class MessageGenerator {
     }
 
     private Message createPickBookedTileMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int index = Integer.parseInt(args.getFirst());
         return new PickBookedTileMessage(index);
     }
@@ -101,6 +104,9 @@ public class MessageGenerator {
     }
     
     private Message createPlaceTileMessage(List<String> args) {
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
@@ -112,6 +118,9 @@ public class MessageGenerator {
     }
 
     private Message createPickDiscoveredComponentMessage(List<String> args){
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.getFirst());
         return new PickDiscoveredComponentMessage(x);
     }
@@ -125,6 +134,9 @@ public class MessageGenerator {
     }
 
     private Message createAddPurpleAlienMessage(List<String> args){
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
@@ -132,6 +144,9 @@ public class MessageGenerator {
     }
 
     private Message createAddBrownAlienMessage(List<String> args){
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
@@ -151,11 +166,17 @@ public class MessageGenerator {
     }
 
     private Message createShowDeckMessage(List<String> args){
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int numDeck = Integer.parseInt(args.getFirst());
         return new ShowDeckMessage(numDeck);
     }
 
     private Message createRemoveTileMessage(List<String> args){
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
@@ -167,10 +188,16 @@ public class MessageGenerator {
     }
 
     private Message createSetPlayerNameMessage(List<String> args) {
+        if(args.isEmpty()){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         return new SetPlayerNameMessage(args.getFirst());
     }
 
     private Message createAcceptRewardMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         boolean bool = Boolean.parseBoolean(args.getFirst());
         return new AcceptRewardMessage(bool);
     }
@@ -186,26 +213,49 @@ public class MessageGenerator {
     }
 
     private Message createActivateCannonsMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered any points");
+        } else if (args.size() % 2 != 0){
+            throw new IllegalArgumentException("You've entered a point with just x coordinate");
+        }
         ArrayList<Points> cannons = new ArrayList<>(getPointsList(args));
         return new ActivateCannonsMessage(cannons);
     }
 
     private Message createActivateEnginesMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered any points");
+        } else if (args.size() % 2 != 0){
+            throw new IllegalArgumentException("You've entered a point with just x coordinate");
+        }
         ArrayList<Points> engines = new ArrayList<>(getPointsList(args));
         return new ActivateEnginesMessage(engines);
     }
 
     private Message createActivateShieldsMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered any points");
+        } else if (args.size() % 2 != 0){
+            throw new IllegalArgumentException("You've entered a point with just x coordinate");
+        }
         ArrayList<Points> shields = new ArrayList<>(getPointsList(args));
         return new ActivateShieldsMessage(shields);
     }
 
     private Message createUseBatteriesMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered any points");
+        } else if (args.size() % 2 != 0){
+            throw new IllegalArgumentException("You've entered a point with just x coordinate");
+        }
         ArrayList<Points> batteries = new ArrayList<>(getPointsList(args));
         return new UseBatteriesMessage(batteries);
     }
 
     private Message createAddGoodMessage(List<String> args) {
+        if(args.size() < 3){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         int numGood = Integer.parseInt(args.get(2));
@@ -214,6 +264,9 @@ public class MessageGenerator {
     }
 
     private Message createCreateLobbyMessage(List<String> args) {
+        if(args.size() < 3){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
@@ -253,11 +306,17 @@ public class MessageGenerator {
     }
 
     private Message createLandOnAbandonMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         boolean bool = Boolean.parseBoolean(args.getFirst());
         return new LandOnAbandonMessage(bool);
     }
 
     private Message createLandOnPlanetMessage(List<String> args) {
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         boolean bool = Boolean.parseBoolean(args.get(0));
         int numPlanet = Integer.parseInt(args.get(1));
         return new LandOnPlanetMessage(bool, numPlanet);
@@ -272,6 +331,9 @@ public class MessageGenerator {
     }
 
     private Message createRemoveGoodMessage(List<String> args) {
+        if(args.size() < 3){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         int numGood = Integer.parseInt(args.get(2));
@@ -280,6 +342,9 @@ public class MessageGenerator {
     }
 
     private Message createRemoveAstronautsMessage(List<String> args) {
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
@@ -287,6 +352,9 @@ public class MessageGenerator {
     }
 
     private Message createRemoveBestGoodMessage(List<String> args) {
+        if(args.size() < 3){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         int numGood = Integer.parseInt(args.get(2));
@@ -295,6 +363,9 @@ public class MessageGenerator {
     }
 
     private Message createRemoveBatteriesMessage(List<String> args) {
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
@@ -309,7 +380,7 @@ public class MessageGenerator {
         return new SetUpLobbyMessage();
     }
 
-    private Message createLobbyJoinedMessage(List<String> args){
+    private Message createLobbyJoinedMessage(List<String> args){    // eccezione non serve, messaggio creato dal server
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
@@ -317,7 +388,7 @@ public class MessageGenerator {
         return new LobbyJoinedMessage(numPlayers, shipboardLevel, gameMode, names);
     }
 
-    private Message createLobbyCreatedMessage(List<String> args){
+    private Message createLobbyCreatedMessage(List<String> args){    // eccezione non serve, messaggio creato dal server
         int numPlayers = Integer.parseInt(args.get(0));
         int shipboardLevel = Integer.parseInt(args.get(1));
         int gameMode = Integer.parseInt(args.get(2));
@@ -329,6 +400,9 @@ public class MessageGenerator {
     }
 
     private Message createChooseWreckedMessage(List<String> args){
+        if(args.size() < 2){
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
         int x = Integer.parseInt(args.get(0));
         int y = Integer.parseInt(args.get(1));
         Points point = new Points(x, y);
