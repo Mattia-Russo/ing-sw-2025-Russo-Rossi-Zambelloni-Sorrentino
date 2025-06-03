@@ -29,8 +29,12 @@ public class BuildShipState extends PlayerState implements Serializable {
             }else if(player.getShipBuilded()){
                 timer.start();
                 for(Player p : getGame().getPlayers()){
-                    if(!p.getShipBuilded() && getGame().getGameMode()==0){
-                        setPosition(p);
+                    if(!p.getShipBuilded()){
+                        p.setShipBuilded();
+                        if(getGame().getGameMode()==0) {
+                            setPosition(p);
+                        }
+                        new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED FOR " + p.getName()));
                     }
                 }
                 endBuildShip(player);
@@ -130,8 +134,12 @@ public class BuildShipState extends PlayerState implements Serializable {
 
     @Override
     public void endBuildShip(Player player){
-        if(!player.getShipBuilded() && getGame().getGameMode()==0){
-            setPosition(player);
+        if(!player.getShipBuilded()){
+            player.setShipBuilded();
+            if(getGame().getGameMode()==0) {
+                setPosition(player);
+            }
+            new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED FOR " + player.getName()));
         }
         for(Player p : getGame().getPlayers()){
             if(!p.isAbandoned()) {
@@ -149,9 +157,7 @@ public class BuildShipState extends PlayerState implements Serializable {
             if(p.getShipBuilded())
                 pos--;
         }
-        player.setShipBuilded();
         player.setPosition(pos);
-        new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED FOR " + player.getName()));
     }
 
     @Override
