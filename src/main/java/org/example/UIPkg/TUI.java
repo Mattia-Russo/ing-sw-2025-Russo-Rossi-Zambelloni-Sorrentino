@@ -17,12 +17,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TUI extends UI{
 
     private final BlockingQueue<GameView> gameUpdatesQueue;
-    private final Client client;
     private List<String> playersList;
-    private int nameIndex;
 
     public TUI(Client client) {
-        this.client = client;
+        super(client);
         this.playersList  = new ArrayList<>();
         gameUpdatesQueue = new LinkedBlockingQueue<>();
         startUpdateThread();
@@ -801,7 +799,7 @@ public class TUI extends UI{
     public void readName(){
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        client.registerName(input);
+        getClient().registerName(input);
     }
 
     @Override
@@ -811,13 +809,12 @@ public class TUI extends UI{
 
     @Override
     public void onNameAccepted(){
-        System.out.println("Welcome " + client.getPlayerName() + "!");
+        System.out.println("Welcome " + getClient().getPlayerName() + "!");
     }
 
     @Override
     public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){
         playersList.add(name);
-        this.nameIndex = 0;
         System.out.println("Lobby created with this parameters:" +
                 "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
                 "Connected players: \n" + playersList.getFirst() + " (You)");
@@ -826,15 +823,14 @@ public class TUI extends UI{
     @Override
     public void onLobbyJoined(List<String> names, int numPlayers, int shipboardLevel, int gameMode){
         this.playersList = names;
-        this.nameIndex = names.size() - 1;
         System.out.println("Lobby created with this settings:\n" +
                 "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
                 "Connected players:");
-        for(int i=0; i< playersList.size(); i++){
-            if(i == nameIndex){
-                System.out.println(playersList.get(i) + " (You)");
+        for (String s : playersList) {
+            if (s.equals(getClient().getPlayerName())) {
+                System.out.println(s + " (You)");
             } else {
-                System.out.println(playersList.get(i));
+                System.out.println(s);
             }
         }
     }
@@ -844,11 +840,11 @@ public class TUI extends UI{
         this.playersList = updatedList;
         System.out.println("Somebody else joined!\n" +
                 "Connected players:" );
-        for(int i=0; i< playersList.size(); i++){
-            if(i == nameIndex){
-                System.out.println(playersList.get(i) + " (You)");
+        for (String s : playersList) {
+            if (s.equals(getClient().getPlayerName())) {
+                System.out.println(s + " (You)");
             } else {
-                System.out.println(playersList.get(i));
+                System.out.println(s);
             }
         }
     }

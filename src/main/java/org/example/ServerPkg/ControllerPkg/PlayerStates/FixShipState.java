@@ -37,7 +37,7 @@ public class FixShipState extends PlayerState implements Serializable {
 
     @Override
     public void AbandonGame(Player player){
-        new GameView(getGame(), new InvalidMethodCallException("You have to fix your ship " + player.getName()));
+        new GameView(getGame(), new InvalidMethodCallException( player.getName() + ", YOU HAVE TO FIX YOUR SHIP"));
     }
 
     @Override

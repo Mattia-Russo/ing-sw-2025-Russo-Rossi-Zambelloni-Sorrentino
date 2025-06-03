@@ -25,7 +25,7 @@ public class BuildShipState extends PlayerState implements Serializable {
             if(getGame().getTimerTurned() < 3) {
                 timer.start();
                 getGame().setTimerTurned();
-                new GameView(getGame(), new Exception("TIMER TURNED"));
+                new GameView(getGame(), new Exception(player.getName() + " TURNED THE TIMER"));
             }else if(player.getShipBuilded()){
                 timer.start();
                 for(Player p : getGame().getPlayers()){
@@ -151,7 +151,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         }
         player.setShipBuilded();
         player.setPosition(pos);
-        new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED " + player.getName()));
+        new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED FOR " + player.getName()));
     }
 
     @Override

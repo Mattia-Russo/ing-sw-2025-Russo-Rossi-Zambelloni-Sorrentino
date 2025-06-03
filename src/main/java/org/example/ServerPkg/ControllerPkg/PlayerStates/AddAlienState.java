@@ -79,7 +79,7 @@ public class AddAlienState extends PlayerState implements Serializable {
     @Override
     public void endAlienState(Player player){
         player.setReadyForCards(true);
-        new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
+        new GameView(getGame(), new Exception(player.getName() + " IS READY FOR CARDS "));
         for (Player p : getGame().getPlayers()) {
             if (!p.isAbandoned()) {
                 if (!p.getReadyForCards()) {

@@ -36,7 +36,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             } else {
                 if(getGame().getGameMode()==1) {
                     player.setPlayerState(new AddAlienState(getGame()));
-                    new GameView(getGame(), new Exception("YOU CAN ADD YOUR ALIENS " + player.getName()));
+                    new GameView(getGame(), new Exception(player.getName() + ", YOU CAN ADD YOUR ALIENS"));
                 }else {
                     for (Player p : getGame().getPlayers()) {
                         if (!p.isAbandoned()) {
@@ -44,13 +44,13 @@ public class ShipWreckedState extends PlayerState implements Serializable {
                                 return;
                             }
                             p.setPlayerState(new WaitingState(getGame()));
-                            new GameView(getGame(), new Exception("READY FOR CARDS " + p.getName()));
+                            new GameView(getGame(), new Exception(p.getName() + " IS READY FOR CARDS "));
                         }
                     }
                     getGame().Turn();
                 }
             }
-        }else new GameView(getGame(), new InvalidMethodCallException("Fix your ship " + player.getName()));
+        }else new GameView(getGame(), new InvalidMethodCallException(player.getName() + ", you have to fix your ship"));
     }
 
     @Override

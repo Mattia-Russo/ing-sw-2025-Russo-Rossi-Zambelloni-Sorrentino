@@ -88,7 +88,13 @@ public class WaitingRoomSceneController extends GuiController implements Initial
         Platform.runLater(() -> {
             playersList.clear();
             playersList.addAll(players);
-            playersList.set(getGuiRoot().getNameIndex(), players.get(getGuiRoot().getNameIndex()) + " (You)" );
+            int i;
+            for(i=0; i<playersList.size(); i++) {
+                if(playersList.get(i).equals(getGuiRoot().getClient().getPlayerName())) {
+                    break;
+                }
+            }
+            playersList.set(i, players.get(i) + " (You)" );
 
             playersLabel.setText("Players (" + players.size() + "/" + maxPlayers + ")");
 

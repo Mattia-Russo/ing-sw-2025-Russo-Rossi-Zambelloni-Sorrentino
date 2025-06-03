@@ -23,16 +23,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GUI extends UI {
 
-    private final Client client;
+
     private BlockingQueue<GameView> gameUpdatesQueue;
     private int numPlayers;
     private int shipboardLevel;
     private int gameMode;
     private  List<String> playersList;
-    private int nameIndex;
 
     public GUI(Client client){
-        this.client = client;
+        super(client);
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
         this.playersList = new ArrayList<>();
     }
@@ -88,10 +87,6 @@ public class GUI extends UI {
         }
     }
 
-    public Client getClient() {
-        return client;
-    }
-
     @Override
     public void printNameInvalid() {
         GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.NAME_REQUEST_SCENE);
@@ -128,7 +123,6 @@ public class GUI extends UI {
                             GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
                             if (controller != null) {
                                 controller.setLobbyCreator(true);
-                                this.nameIndex = 0;
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -153,16 +147,11 @@ public class GUI extends UI {
                 GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
                 if (controller != null) {
                     controller.setLobbyCreator(false);
-                    this.nameIndex = playersList.size() - 1;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-    }
-
-    public int getNameIndex(){
-        return nameIndex;
     }
 
     @Override
