@@ -28,7 +28,7 @@ public class Pirates extends Enemy implements Serializable {
     private final List<CannonFire> cannonFireList;
     private final int id;
 
-    public Pirates(int id, int credit, List<CannonFire> cannonFireList,int cardLevel, int lostDays,int cannonPower) {
+    public Pirates(int id, int credit, List<CannonFire> cannonFireList, int cardLevel, int lostDays, int cannonPower) {
         super(cardLevel, lostDays, cannonPower);
         this.cannonFireList = cannonFireList;
         this.credit = credit;
@@ -41,13 +41,13 @@ public class Pirates extends Enemy implements Serializable {
     }
 
     @Override
-    public AdventureCardView createView(){
-        return new AdventureCardView(id, "Pirates", getLostDays(),credit , 0, getCannonPower(), null, null, null, cannonFireList, 0,null,null);
+    public AdventureCardView createView() {
+        return new AdventureCardView(id, "Pirates", getLostDays(), credit, 0, getCannonPower(), null, null, null, cannonFireList, 0, null, null);
     }
 
     @Override
     public void setCardState(Game g) {
-        if(!playerLost) {
+        if (!playerLost) {
             do {
                 currentPlayer++;
                 this.currentFire = 0;
@@ -64,16 +64,16 @@ public class Pirates extends Enemy implements Serializable {
             } else {
                 g.Turn();
             }
-        }else{
-            Player p= g.getPlayers().get(currentPlayer);
+        } else {
+            Player p = g.getPlayers().get(currentPlayer);
             if (cannonFireList.get(currentFire).type() == 0) {
                 if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).direction())) {
                     new GameView(g, new Exception("ACTIVATE SHIELD " + g.getPlayers().get(currentPlayer).getName()));
                     p.setPlayerState(new ActivateShieldsState(g));
-                }else{
+                } else {
                     this.playCard(g, null, null);
                 }
-            }else
+            } else
                 this.playCard(g, null, null);
         }
     }
@@ -81,7 +81,7 @@ public class Pirates extends Enemy implements Serializable {
     @Override
     public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) {
 
-        if(!playerLost) { // chiamata arriva da setCardState, i components sono cannons
+        if (!playerLost) { // chiamata arriva da setCardState, i components sono cannons
             try {
                 float power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
                 new GameView(g, null);
@@ -92,98 +92,97 @@ public class Pirates extends Enemy implements Serializable {
                     playerLost = true;
                     chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
                     setCardState(g);    // riceve cannonate o passa al player successivo
-                }else {
+                } else {
                     setCardState(g);
                 }
-            }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+            } catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e) {
                 System.out.println("Error" + e.getMessage());
                 new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
             }
         } else { // chiamata arriva da ActivateShieldsState, components sono scudi
-            int i=0;
+            int i = 0;
             Components shipWreck = null;
             Player p = g.getPlayers().get(currentPlayer);
-            if(components == null || batteries == null) {   // non ha nulla attivo
+            if (components == null || batteries == null) {   // non ha nulla attivo
                 Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol);
                 try {
-                    if (c != null){
+                    if (c != null) {
                         p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
                         new GameView(g, null);
-                        while(shipWreck == null){   // cerco un componente a caso della nave
+                        while (shipWreck == null) {   // cerco un componente a caso della nave
                             shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
                             i++;
                         }
                         // nave divisa
-                        if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
+                        if (p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())) {
                             new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                             p.setPlayerState(new ShipWreckedState(g, p));
                             this.shipWrecked = true;
                         }
                     }
-                }catch (InvalidPositionException | AlreadyEmptyPositionException e){
+                } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
-            }else { // ha attivato degli scudi
+            } else { // ha attivato degli scudi
                 try {
                     if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).direction(), components, batteries)) {    // se scudo non protegge
-                    if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).direction(), components, batteries)) {    // se scudo non protegge
-                        new GameView(g, null);
-                        Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol);
-                        try {
-                            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                        if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).direction(), components, batteries)) {    // se scudo non protegge
                             new GameView(g, null);
-                            while(shipWreck == null){
-                                shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
-                                i++;
-                            }
-                            if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
-                                if(currentFire < cannonFireList.size()-1) {
-                                    currentFire++;
-                                    chooseRowOrCol(p, g);
-                                }else{
-                                    playerLost =false;
+                            Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol);
+                            try {
+                                p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+                                new GameView(g, null);
+                                while (shipWreck == null) {
+                                    shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
+                                    i++;
                                 }
-                                setCardState(g);
-                            }else{
-                                if(currentFire < cannonFireList.size()-1) {
-                                    currentFire++;
-                                    chooseRowOrCol(p, g);
+                                if (!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())) {
+                                    if (currentFire < cannonFireList.size() - 1) {
+                                        currentFire++;
+                                        chooseRowOrCol(p, g);
+                                    } else {
+                                        playerLost = false;
+                                    }
+                                    setCardState(g);
+                                } else {
+                                    if (currentFire < cannonFireList.size() - 1) {
+                                        currentFire++;
+                                        chooseRowOrCol(p, g);
+                                    } else {
+                                        playerLost = false;
+                                    }
                                     new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                                     p.setPlayerState(new ShipWreckedState(g, p));
-                                }else{
-                                    playerLost =false;
-                                    new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
-                                    p.setPlayerState(new ShipWreckedState(g, p));
                                 }
+                            } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+                                System.out.println("Error" + e.getMessage());
                             }
-                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
-                            System.out.println("Error" + e.getMessage());
-                        }
-                    }else
-                        new GameView(g, null);
+                        } else
+                            new GameView(g, null);
+                    }
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
-                    System.out.println("Error" + e.getMessage());
-                    new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
-                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
+                        System.out.println("Error" + e.getMessage());
+                        new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
+                        g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
                 }
-            }
 
-            if(!shipWrecked) {
-                if(currentFire < cannonFireList.size()-1) {
-                    currentFire++;
-                    this.chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-                }else{
-                    playerLost=false;
+                if (!shipWrecked) {
+                    if (currentFire < cannonFireList.size() - 1) {
+                        currentFire++;
+                        this.chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+                    } else {
+                        playerLost = false;
+                    }
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+                    setCardState(g);
                 }
-                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
-                setCardState(g);
             }
         }
     }
 
     @Override
-    public void playCard(Game game){
+    public void playCard (Game game){
         if (accept) {
             game.getPlayers().get(currentPlayer).changeCredits(this.credit);
             game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays());
@@ -195,71 +194,73 @@ public class Pirates extends Enemy implements Serializable {
     }
 
     @Override
-    public void playCard(Player disconnectingPlayer, Game game){
+    public void playCard (Player disconnectingPlayer, Game game){
         currentPlayer = -1;
         game.Turn();
     }
 
     @Override
-    public void setAccept(boolean accept) {
+    public void setAccept ( boolean accept){
         this.accept = accept;
     }
 
-    public int getCannonPower() {
+    public int getCannonPower () {
         return super.getCannonPower();
     }
 
-    public int getCardLevel() {
+    public int getCardLevel () {
         return super.getCardLevel();
     }
 
-    public int getCredit() {
+    public int getCredit () {
         return credit;
     }
 
-    public int getLostDays() {return super.getLostDays();}
+    public int getLostDays () {
+        return super.getLostDays();
+    }
 
-    public List<CannonFire> getCannonFireList() {
+    public List<CannonFire> getCannonFireList () {
         return cannonFireList;
     }
 
-    private void chooseRowOrCol(Player p, Game g) {
+    private void chooseRowOrCol (Player p, Game g){
         boolean good = false;
-        while(!good && currentFire<cannonFireList.size()) {
+        while (!good && currentFire < cannonFireList.size()) {
             if (cannonFireList.get(currentFire).direction() == Direction.NORTH || cannonFireList.get(currentFire).direction() == Direction.SOUTH) {
-                rowOrCol= p.rollDice();
+                rowOrCol = p.rollDice();
                 new GameView(g, new Exception("SHOT  " + rowOrCol));
-                if(rowOrCol < 7){
+                if (rowOrCol < 7) {
                     good = true;
-                }else
+                } else
                     currentFire++;
             } else {
-                rowOrCol= p.rollDice();
+                rowOrCol = p.rollDice();
                 new GameView(g, new Exception("SHOT  " + rowOrCol));
-                if(rowOrCol < 5){
+                if (rowOrCol < 5) {
                     good = true;
-                }else
+                } else
                     currentFire++;
             }
         }
 
-        if (currentFire >= cannonFireList.size()){
+        if (currentFire >= cannonFireList.size()) {
             playerLost = false;
         }
     }
 
     @Override
-    public void setShipWrecked(boolean shipWrecked) {
+    public void setShipWrecked ( boolean shipWrecked){
         this.shipWrecked = shipWrecked;
     }
 
     // usage only for tests
-    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+    public void setCurrentPlayerIndex ( int currentPlayerIndex){
         this.currentPlayer = currentPlayerIndex;
     }
 
     // usage only for tests
-    public boolean getAccept() {
+    public boolean getAccept () {
         return accept;
     }
 }
