@@ -125,7 +125,7 @@ public class Pirates extends Enemy implements Serializable {
                 }
             }else { // ha attivato degli scudi
                 try {
-                    if (!p.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {    // se scudo non protegge
+                    if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {    // se scudo non protegge
                         new GameView(g, null);
                         Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                         try {

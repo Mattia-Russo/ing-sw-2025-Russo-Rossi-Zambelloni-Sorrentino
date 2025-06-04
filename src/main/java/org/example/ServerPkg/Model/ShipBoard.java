@@ -172,8 +172,6 @@ public class ShipBoard implements Serializable {
             }
 
             batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
-
             if (batteryStorages.size() < cannons.size()) {
                 throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
             }
@@ -247,7 +245,7 @@ public class ShipBoard implements Serializable {
         return alienPower + totalEnginePower + this.singleEnginePower;
     }
 
-    public boolean ShieldProtects(Direction dir, ArrayList<Points> shield, ArrayList<Points> batteriesPos) {
+    public boolean shieldsNotProtects(Direction dir, ArrayList<Points> shield, ArrayList<Points> batteriesPos) {
         ArrayList<BatteryStorage> batteryStorages;
         ArrayList<Shield> user_shields = new ArrayList<>();
         for(Points p : shield){
@@ -269,10 +267,10 @@ public class ShipBoard implements Serializable {
         for (int i = 0; i< user_shields.size(); i++) {
             batteryStorages.get(i).setQuantity(-1, this);
             if(user_shields.get(i).getDirection1()==dir||user_shields.get(i).getDirection2()==dir) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean CannonProtects(Direction dir, int rowOrCol,  ArrayList<Points> cannon, ArrayList<Points> batteriesPos) {

@@ -121,7 +121,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 checkWreck(g, p, i);
             }else if(meteorList.get(currentMeteor).getType()==0){
                 try {
-                    if (!p.getPlayerShipBoard().ShieldProtects(meteorList.get(currentMeteor).getDirection(), component, battery)) {
+                    if (p.getPlayerShipBoard().shieldsNotProtects(meteorList.get(currentMeteor).getDirection(), component, battery)) {
                         new GameView(g, null);
                         checkWreck(g, p, i);
                     }else

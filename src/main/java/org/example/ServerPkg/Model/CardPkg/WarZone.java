@@ -256,7 +256,7 @@ public class WarZone extends AdventureCard implements Serializable {
                                 }
                             } else {
                                 try {
-                                    if (!loser.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
+                                    if (loser.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
                                         new GameView(g, null);
                                         Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
                                         try {
