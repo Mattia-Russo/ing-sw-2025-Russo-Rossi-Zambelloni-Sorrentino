@@ -44,7 +44,7 @@ public class EngineTest extends TestCase {
         s.placeComponent(5,9, c4);
         s.placeComponent(6,9, c3);
         s.placeComponent(8,8, c6);
-        s.placeComponent(9,8, c7);
+        s.placeComponent(9,8, e2);
         s.placeComponent(8,9, e1);
         s.placeComponent(9,9, c9);
         s.placeComponent(7,8, c8);
