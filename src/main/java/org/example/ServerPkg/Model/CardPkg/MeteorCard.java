@@ -157,7 +157,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
             new GameView(g, null);
             while (wreck == null) {
-                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), i);
+                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), i + 5);
                 i++;
             }
             if (!p.getPlayerShipBoard().checkIfSplit(wreck.getPosX(), wreck.getPosY())) {

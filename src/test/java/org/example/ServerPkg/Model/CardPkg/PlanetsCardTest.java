@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ChangeGoodsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnPlanetsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
@@ -53,7 +54,9 @@ public class PlanetsCardTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2,1, null);
+        Game game = new Game(3, 2,1, new GameController());
+        game.getPlayers().addAll(players);
+        game.setPlayersShipboard();
 
 
         Goods[] goods1 = new Goods[3];
@@ -105,7 +108,9 @@ public class PlanetsCardTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1, null);
+        Game game = new Game(3, 2, 1, new GameController());
+        game.getPlayers().addAll(players);
+        game.setPlayersShipboard();
 
 
         Goods[] goods1 = new Goods[3];

@@ -32,13 +32,12 @@ public class PlayerTest extends TestCase {
         s.placeComponent(7,7, c1);
         s.placeComponent(5,8, c5);
         s.placeComponent(6,8, c2);
-        s.placeComponent(4,9, c4);
+        s.placeComponent(5,9, c4);
         s.placeComponent(6,9, c3);
         s.placeComponent(8,7, c6);
         s.placeComponent(9,8, c7);
         s.placeComponent(8,9, c8);
         s.placeComponent(9,9, c9);
-
 
         assertEquals(0, p.getPosition());
     }
@@ -89,14 +88,7 @@ public class PlayerTest extends TestCase {
         sh1.placeComponent(8,9, c8);
         sh1.placeComponent(9,9, c9);
 
-        for(int i = 0; i<7; i++){
-            for(int j = 0; j<7; j++){
-                if (sh1.validPosition(i, j)){
-                    assertEquals(sh1.getComponentMatrix()[i][j], p.getPlayerShipBoard().getComponentMatrix()[i][j]);
-                }
-            }
-        }
-
+        assertEquals(sh1, p.getPlayerShipBoard());
 
     }
 
