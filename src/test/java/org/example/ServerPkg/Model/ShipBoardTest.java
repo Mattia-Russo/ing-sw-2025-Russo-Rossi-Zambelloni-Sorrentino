@@ -422,7 +422,7 @@ public class ShipBoardTest extends TestCase {
 
     }
 
-    public void testcheckIfSplitted(){
+    public void testcheckIfSplit(){
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
             for(int j=0; j<5; j++){
@@ -438,7 +438,7 @@ public class ShipBoardTest extends TestCase {
         BatteryStorage b2 = new BatteryStorage(0, 3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
-        assertTrue(s.checkIfSplitted(1,1));
+        assertTrue(s.checkIfSplit(1,1));
     }
 
     public void testremoveWreck(){
@@ -741,9 +741,9 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cannon c=new Cannon(0, 1,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        s.placeComponent(5,7,c);
+        s.placeComponent(9,7,c);
         Cannon c1=new Cannon(0, 1,Direction.NORTH,new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
-        s.placeComponent(5,6,c1);
+        s.placeComponent(9,6,c1);
         assertTrue(s.getIfExposed(Direction.WEST, c));
         assertFalse(s.getIfExposed(Direction.SOUTH, c1));
 

@@ -307,7 +307,7 @@ public class Game implements Serializable {
             }
             if(i!=10) {
                 assert c != null;
-                if (p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())) {
+                if (p.getPlayerShipBoard().checkIfSplit(c.getPosX(), c.getPosY())) {
                     p.setShipOK(false);
                     p.setPlayerState(new ShipWreckedState(this, p));
                     new GameView(this, new Exception("YOU HAVE A SHIP WRECK " + p.getName()));

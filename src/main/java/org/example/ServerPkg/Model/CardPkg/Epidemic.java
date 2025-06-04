@@ -46,13 +46,13 @@ public class Epidemic extends AdventureCard implements Serializable {
     }
 
     private void checkAdjacentCabins(ShipBoard s){
-        boolean[][] visited = new boolean[s.getComponentMatrix()[0].length][s.getComponentMatrix().length];
-        for(int i = 4; i < s.getComponentMatrix()[0].length + 4; i++){
-            for(int j = 5; j < s.getComponentMatrix().length + 5; j++){
-                if(s.getAvailablePositionMatrix()[i - 4][j - 5]){
+        boolean[][] visited = new boolean[s.getComponentMatrix().length][s.getComponentMatrix()[0].length];
+        for(int i = 5; i < s.getComponentMatrix().length + 5; i++){
+            for(int j = 4; j < s.getComponentMatrix()[0].length + 4; j++){
+                if(s.getAvailablePositionMatrix()[i - 5][j - 4]){
                     Components c = s.getComponent(i,j);
                     if(c != null){
-                        c.manageEpidemic(visited, s.getComponentMatrix()[0].length, s.getComponentMatrix().length, s);
+                        c.manageEpidemic(visited, s.getComponentMatrix().length + 5, s.getComponentMatrix()[0].length + 4, s);
                     }
                 }
             }

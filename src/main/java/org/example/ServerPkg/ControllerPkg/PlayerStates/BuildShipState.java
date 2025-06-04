@@ -26,11 +26,11 @@ public class BuildShipState extends PlayerState implements Serializable {
                 timer.start();
                 getGame().setTimerTurned();
                 new GameView(getGame(), new Exception(player.getName() + " TURNED THE TIMER"));
-            }else if(player.getShipBuilded()){
+            }else if(player.getShipBuilt()){
                 timer.start();
                 for(Player p : getGame().getPlayers()){
-                    if(!p.getShipBuilded()){
-                        p.setShipBuilded();
+                    if(!p.getShipBuilt()){
+                        p.setShipBuilt();
                         if(getGame().getGameMode()==0) {
                             setPosition(p);
                         }
@@ -67,7 +67,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     public void pickComponentTile(Player p){
         if (p.getDeckShowed() == null) {
             if (p.getCurrentTile() == null) {
-                if (!p.getShipBuilded()) {
+                if (!p.getShipBuilt()) {
                     p.setCurrentTile(getGame().pickComponentTile());
                     new GameView(getGame(), null);
                 }
@@ -80,7 +80,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     @Override
     public void pickDiscoveredComponent(Player p, int index){
         if (p.getDeckShowed() == null){
-            if(!p.getShipBuilded()) {
+            if(!p.getShipBuilt()) {
                 p.setCurrentTile(getGame().pickDiscoveredComponent(index));
                 new GameView(getGame(), null);
             }
@@ -121,7 +121,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     @Override
     public void placeTile(Player player, Points point){
         try {
-            if(!player.getShipBuilded()) {
+            if(!player.getShipBuilt()) {
                 player.getPlayerShipBoard().placeComponent(point.getX(), point.getY(), player.getCurrentTile());
                 player.setCurrentTile(null);
                 new GameView(getGame(), null);
@@ -134,8 +134,8 @@ public class BuildShipState extends PlayerState implements Serializable {
 
     @Override
     public void endBuildShip(Player player){
-        if(!player.getShipBuilded()){
-            player.setShipBuilded();
+        if(!player.getShipBuilt()){
+            player.setShipBuilt();
             if(getGame().getGameMode()==0) {
                 setPosition(player);
             }
@@ -143,7 +143,7 @@ public class BuildShipState extends PlayerState implements Serializable {
         }
         for(Player p : getGame().getPlayers()){
             if(!p.isAbandoned()) {
-                if (!p.getShipBuilded()) {
+                if (!p.getShipBuilt()) {
                     return;
                 }
             }
@@ -154,7 +154,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     private void setPosition(Player player){
         int pos=0;
         for(Player p : getGame().getPlayers()){
-            if(p.getShipBuilded())
+            if(p.getShipBuilt())
                 pos--;
         }
         player.setPosition(pos);

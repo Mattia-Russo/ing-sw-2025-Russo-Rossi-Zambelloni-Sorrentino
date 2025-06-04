@@ -132,7 +132,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 }
             }else {
                 try{
-                    if (!p.getPlayerShipBoard().CannonProtects(meteorList.get(currentMeteor).direction(), rowOrCol, component, battery)) {
+                    if (!p.getPlayerShipBoard().cannonProtects(meteorList.get(currentMeteor).direction(), rowOrCol, component, battery)) {
                         new GameView(g, null);
                         checkWreck(g, p, i);
                     }else
@@ -160,7 +160,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), i);
                 i++;
             }
-            if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
+            if (!p.getPlayerShipBoard().checkIfSplit(wreck.getPosX(), wreck.getPosY())) {
                 protect = false;
                 p.setPlayerState(new WaitingState(g));
                 setCardState(g);

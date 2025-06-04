@@ -115,7 +115,7 @@ public class Pirates extends Enemy implements Serializable {
                             i++;
                         }
                         // nave divisa
-                        if (p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())) {
+                        if (p.getPlayerShipBoard().checkIfSplit(shipWreck.getPosX(), shipWreck.getPosY())) {
                             new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                             p.setPlayerState(new ShipWreckedState(g, p));
                             this.shipWrecked = true;
@@ -137,7 +137,7 @@ public class Pirates extends Enemy implements Serializable {
                                     shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
                                     i++;
                                 }
-                                if (!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())) {
+                                if (!p.getPlayerShipBoard().checkIfSplit(shipWreck.getPosX(), shipWreck.getPosY())) {
                                     if (currentFire < cannonFireList.size() - 1) {
                                         currentFire++;
                                         chooseRowOrCol(p, g);

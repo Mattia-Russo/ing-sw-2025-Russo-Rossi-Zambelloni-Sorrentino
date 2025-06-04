@@ -22,20 +22,17 @@ public class GameController{
     private Game game;
     private LobbyState lobbyState;
     private final BlockingQueue<Message> messageQueue;
-    private volatile boolean isRunning;
-    private Thread messageProcessor;
-    private Map<String, GameUpdater> gameUpdaters;
-    private ArrayList<String> nameUsed;
-    private ArrayList<Player> PlayerToLoad;
+    private final Map<String, GameUpdater> gameUpdaters;
+    private final ArrayList<String> nameUsed;
+    private final ArrayList<Player> PlayerToLoad;
     private boolean fileLoaded;
-    private ArrayList<Server> serverList;
+    private final ArrayList<Server> serverList;
 
     public GameController(){
         this.game = null;
         this.lobbyState = LobbyState.GAME_NOT_EXISTS;
         this.messageQueue = new LinkedBlockingQueue<>();
-        this.isRunning = true;
-        gameUpdaters = new HashMap<>();
+        this.gameUpdaters = new HashMap<>();
         this.nameUsed = new ArrayList<>();
         this.fileLoaded = false;
         this.PlayerToLoad = new ArrayList<>();
@@ -44,15 +41,13 @@ public class GameController{
     }
 
     private void startMessageProcessing() {
-        messageProcessor = new Thread(() -> {
-            while (isRunning) {
+        Thread messageProcessor = new Thread(() -> {
+            while (true) {
                 try {
                     Message message = messageQueue.take();
                     processMessage(message);
                 } catch (InterruptedException e) {
-                    if (isRunning) {
-                        Thread.currentThread().interrupt();
-                    }
+                    Thread.currentThread().interrupt();
                 }
             }
         });
@@ -250,10 +245,6 @@ public class GameController{
         for(Server s : serverList){
             s.updatePlayerList(exclude);
         }
-    }
-
-    public boolean getFile() {
-        return fileLoaded;
     }
 
     public void notifyGameStarted() throws RemoteException {
