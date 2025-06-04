@@ -89,7 +89,7 @@ public class ShipBoard implements Serializable {
     }
 
     public Components getComponent(int posY, int posX){
-        return componentMatrix[posY - 4][posX - 5];
+        return componentMatrix[posY - 5][posX - 4];
     }
 
     public int getDeletedComponentsCounter(){

@@ -31,9 +31,9 @@ public class LifeSupportSystemTest extends TestCase {
     }
 
     public void testPlace() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++){
+        boolean[][] availablePositionMatrix = new boolean[5][7];
+        for(int i=0; i<5; i++){
+            for(int j=0; j<7; j++){
                 availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
             }
         }
