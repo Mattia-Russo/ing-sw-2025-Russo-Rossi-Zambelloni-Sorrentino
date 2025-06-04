@@ -487,7 +487,7 @@ public class TUI extends UI{
                     }
                 }
 
-                System.out.printf(" %d     %s\n", row, line[0]);
+                System.out.printf(" %d     %s\n", row + 5, line[0]);
                 for (int i = 1; i < line.length; i++) {
                     System.out.print("       ");
                     System.out.println(line[i].toString());
