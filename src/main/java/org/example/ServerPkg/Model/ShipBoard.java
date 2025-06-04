@@ -567,7 +567,7 @@ public class ShipBoard implements Serializable {
                 if(!validPosition(c.getPosY(), c.getPosX()-1) && c.getDirConnector(Direction.WEST) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.WEST) != Connector.EMPTY && componentMatrix[c.getPosX()-1][c.getPosY()] == null;
+                    return c.getDirConnector(Direction.WEST) != Connector.EMPTY && getComponent(c.getPosY(), c.getPosX()-1) == null;
             default:
                 return false;
         }
