@@ -62,6 +62,7 @@ public class MessageGenerator {
         messageMap.put("choose_wrecked", this::createChooseWreckedMessage);
         messageMap.put("end_wrecked", this::createEndWreckedMessage);
         messageMap.put("game_started", this::createGameStartedMessage);
+        messageMap.put("get_component_id", this::createRequestComponentByPositionMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -77,6 +78,14 @@ public class MessageGenerator {
             System.err.println("ERROR: " + e.getMessage());
             return null;
         }
+    }
+
+    private Message createRequestComponentByPositionMessage(List<String> args) {
+        String playerName = args.get(0);
+        int x = Integer.parseInt(args.get(1));
+        int y = Integer.parseInt(args.get(2));
+
+        return new RequestComponentByPositionMessage(playerName, x, y);
     }
 
     private Message createPickBookedTileMessage(List<String> args) {

@@ -13,15 +13,13 @@ public class Storage extends Components implements Serializable {
     private Goods[] goodsList = new Goods[3];
     private final boolean isSpecial;
     private final int capacity;
-    private final int id;
 
     public Storage(int id, boolean isSpecial, Direction direction, Connector[] connectors, int capacity) {
-        super(direction, connectors);
+        super(direction, connectors, id);
         this.isSpecial = isSpecial;
         this.capacity = capacity;
         this.goodsList = new Goods[capacity];
         Arrays.fill(goodsList, null);
-        this.id = id;
     }
 
     @Override
@@ -33,7 +31,7 @@ public class Storage extends Components implements Serializable {
                 goodsView[i] = new GoodsView(goodsList[i]);
             }
         }
-        return new ComponentsView(getDirection(), getConnectors(), id,"Storage", 0 ,0, goodsView, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), getId(),"Storage", 0 ,0, goodsView, null, null);
     }
 
     public Goods[] getGoods() {

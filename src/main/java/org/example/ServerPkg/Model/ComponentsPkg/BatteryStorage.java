@@ -11,19 +11,17 @@ import java.io.Serializable;
 public class BatteryStorage extends Components implements Serializable {
     private int capacity;
     private int quantity;
-    private int id;
 
 
     public BatteryStorage(int id, int capacity, Direction direction, Connector[] connectors){
-        super(direction, connectors);
+        super(direction, connectors, id);
         this.capacity = capacity;
         this.quantity = capacity;
-        this.id = id;
     }
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,"BatteryStorage", getQuantity() ,0, null, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), getId(),"BatteryStorage", getQuantity() ,0, null, null, null);
     }
 
     public int getQuantity(){

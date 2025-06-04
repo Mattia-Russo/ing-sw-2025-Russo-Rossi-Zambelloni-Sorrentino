@@ -3,10 +3,12 @@ package org.example.ServerPkg.ControllerPkg;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
+import org.example.ServerPkg.Model.ShipBoard;
 import org.example.ServerPkg.Model.TimerGenerator;
 
 import org.example.UIPkg.GameUpdater;
@@ -41,6 +43,28 @@ public class GameController{
         this.PlayerToLoad = new ArrayList<>();
         this.serverList = new ArrayList<>();
         startMessageProcessing();
+    }
+
+    public int getComponentByPosition(String playerName, int x, int y) {
+        Player player = game.getPlayerByName(playerName);
+
+        if (player == null) {
+            throw new IllegalArgumentException("Player " + playerName + " not found.");
+        }
+
+        ShipBoard shipboard = player.getPlayerShipBoard();
+
+        if (shipboard == null) {
+            throw new IllegalArgumentException("Shipboard of " + playerName + " not found.");
+        }
+
+        Components component = shipboard.getComponent(x, y);
+
+        if (component == null) {
+            throw new IllegalArgumentException("No component found at (" + x + ", " + y + ").");
+        }
+
+        return component.getId();
     }
 
     private void startMessageProcessing() {

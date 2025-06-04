@@ -7,13 +7,11 @@ import java.io.Serializable;
 
 public class Engine extends Components implements Serializable {
     private final int power;
-    private final int id;
     private final String type;
 
     public Engine(int id, int power, Direction direction, Connector[] connectors) {
-        super(direction, connectors);
+        super(direction, connectors, id);
         this.power = power;
-        this.id = id;
         if(power == 1){
             this.type = "Engine";
         }else {
@@ -23,7 +21,7 @@ public class Engine extends Components implements Serializable {
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,type, 0 ,0, null, null, null);
+        return new ComponentsView(getDirection(), getConnectors(), getId(),type, 0 ,0, null, null, null);
     }
 
 

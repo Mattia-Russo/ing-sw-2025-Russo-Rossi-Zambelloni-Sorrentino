@@ -13,18 +13,16 @@ public class Cabin extends Components implements Serializable {
     private final ArrayList<LifeSupportSystem> lifeSupportSystemArrayList;
     private final boolean isCentral;
     private Alien alien;
-    private final int id;
     private final String type;
 
 
     public Cabin(int id, boolean isCentral, Direction direction, Connector[] connectors) {
-        super(direction, connectors);
+        super(direction, connectors, id);
         this.numAstronauts = 0;
         this.withLifeSupport = false;
         this.lifeSupportSystemArrayList= new ArrayList<>();
         this.isCentral = isCentral;
         this.alien = null;
-        this.id = id;
         if(isCentral)
             type= "Central Cabin";
         else
@@ -34,9 +32,9 @@ public class Cabin extends Components implements Serializable {
     @Override
     public ComponentsView createView(){
         if(getAlien() == null) {
-            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, getNumAstronauts(), null, null, null);
+            return new ComponentsView(getDirection(), getConnectors(), getId(), type, 0, getNumAstronauts(), null, null, null);
         }else
-            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, 0, null, null, getAlien().getColour());
+            return new ComponentsView(getDirection(), getConnectors(), getId(), type, 0, 0, null, null, getAlien().getColour());
     }
 
     public int getNumAstronauts() {

@@ -37,6 +37,10 @@ public class GUI extends UI {
         this.playersList = new ArrayList<>();
     }
 
+    public int getShipBoardLevel(){
+        return this.shipboardLevel;
+    }
+
     @Override
     public void startGui() {
         GUIMain.startGui(this);

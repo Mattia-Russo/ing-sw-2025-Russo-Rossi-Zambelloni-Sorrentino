@@ -82,7 +82,7 @@ public class NameRequestSceneController extends GuiController implements Initial
 
     private void setupTitleImage() {
         try {
-            String imagePath = "C:\\Users\\matti\\OneDrive\\Documenti\\Mattia\\Uni\\Ingegneria_del_Software\\Progetto\\ing-sw-2025-Russo-Rossi-Zambelloni-Sorrentino\\Galaxy_Trucker\\src\\main\\resources\\org.example\\cardboard\\Galaxy_Trucker_Title.png";
+            String imagePath = "src\\main\\resources\\org.example\\cardboard\\Galaxy_Trucker_Title.png";
             File imageFile = new File(imagePath);
 
             if (imageFile.exists()) {
