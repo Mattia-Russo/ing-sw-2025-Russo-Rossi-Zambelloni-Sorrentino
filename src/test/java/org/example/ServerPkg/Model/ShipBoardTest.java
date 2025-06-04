@@ -12,7 +12,7 @@ public class ShipBoardTest extends TestCase {
         Components[][] ComponentMatrix = new Components[7][5];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -20,7 +20,7 @@ public class ShipBoardTest extends TestCase {
         assertEquals(5, s.getTotalAstronauts());
     }
 
-    public void testgetSingleEnginePower(){
+    public void testGetSingleEnginePower(){
         boolean[][] availablePositionMatrix = new boolean[5][7];
         Components[][] ComponentMatrix = new Components[7][5];
         for(int i=0; i<5; i++){
@@ -30,7 +30,7 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Engine engine = new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,2,engine);
+        s.placeComponent(6,7,engine);
         assertEquals(1,s.getSingleEnginePower());
     }
 
@@ -39,22 +39,18 @@ public class ShipBoardTest extends TestCase {
         Components[][] ComponentMatrix = new Components[7][5];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Storage storage1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon1 = new Cannon(0, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,1, cabin1);
+        s.placeComponent(5,6, cabin1);
         ComponentMatrix[1][1]=cabin1;
-        s.placeComponent(2,2, storage1);
+        s.placeComponent(6,7, storage1);
         ComponentMatrix[2][2]=storage1;
-        s.placeComponent(3,3, cannon1);
+        s.placeComponent(7,8, cannon1);
         ComponentMatrix[3][3]=cannon1;
         for(int i=0; i<5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -67,11 +63,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -86,21 +78,13 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    assertFalse(s.validPosition(i,j));
-                }else{
-                    assertTrue(s.validPosition(i,j));
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
     }
@@ -109,11 +93,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -134,11 +114,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -149,11 +125,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -166,11 +138,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -186,11 +154,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -205,11 +169,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -228,11 +188,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -246,11 +202,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -274,11 +226,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -303,11 +251,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -320,11 +264,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -337,11 +277,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -357,11 +293,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -378,11 +310,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -399,11 +327,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -418,11 +342,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -437,11 +357,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -457,11 +373,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -477,11 +389,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -494,11 +402,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -511,11 +415,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -588,7 +488,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
@@ -607,7 +507,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
@@ -621,11 +521,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -638,11 +534,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -655,11 +547,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -672,11 +560,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -690,11 +574,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -707,11 +587,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -724,7 +600,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
@@ -741,7 +617,7 @@ public class ShipBoardTest extends TestCase {
         boolean[][] availablePositionMatrix = new boolean[5][7];
         for(int i=0; i<5; i++){
             for(int j=0; j<7; j++){
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);

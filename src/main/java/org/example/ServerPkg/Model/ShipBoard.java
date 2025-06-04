@@ -552,17 +552,17 @@ public class ShipBoard implements Serializable {
                 if(!validPosition(c.getPosY()-1, c.getPosX()) && c.getDirConnector(Direction.NORTH) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && componentMatrix[c.getPosX()][c.getPosY()-1] == null;
+                    return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && getComponent(c.getPosY()-1, c.getPosX())== null;
             case EAST:
                 if(!validPosition(c.getPosY(), c.getPosX()+1) && c.getDirConnector(Direction.EAST) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.EAST) != Connector.EMPTY && componentMatrix[c.getPosX()+1][c.getPosY()] == null;
+                    return c.getDirConnector(Direction.EAST) != Connector.EMPTY && getComponent(c.getPosY(), c.getPosX()+1) == null;
             case SOUTH:
                 if(!validPosition(c.getPosY()+1, c.getPosX()) && c.getDirConnector(Direction.SOUTH) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && componentMatrix[c.getPosX()][c.getPosY()+1] == null;
+                    return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && getComponent(c.getPosY()+1, c.getPosX()) == null;
             case WEST:
                 if(!validPosition(c.getPosY(), c.getPosX()-1) && c.getDirConnector(Direction.WEST) != Connector.EMPTY)
                     return true;
