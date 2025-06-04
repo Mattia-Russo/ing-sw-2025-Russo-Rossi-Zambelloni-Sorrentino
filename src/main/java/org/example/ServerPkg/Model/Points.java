@@ -3,8 +3,8 @@ package org.example.ServerPkg.Model;
 import java.io.Serializable;
 
 public class Points implements Serializable {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public Points(int x, int y) {
         this.x = x;
@@ -15,15 +15,7 @@ public class Points implements Serializable {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 }

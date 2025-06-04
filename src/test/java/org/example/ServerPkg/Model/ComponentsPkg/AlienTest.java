@@ -6,7 +6,7 @@ public class AlienTest extends TestCase {
 
     public void testGetColour() {
         Alien a = new Alien(AlienColour.BROWN);
-        assertEquals(AlienColour.BROWN, a.getColour());
+        assertEquals(AlienColour.BROWN, a.colour());
     }
 
     public void testTestGetColour() {

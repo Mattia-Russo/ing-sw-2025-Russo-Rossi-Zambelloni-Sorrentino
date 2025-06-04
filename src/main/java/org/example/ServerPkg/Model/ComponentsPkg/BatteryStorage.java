@@ -9,9 +9,9 @@ import org.example.ServerPkg.Model.ShipBoard;
 import java.io.Serializable;
 
 public class BatteryStorage extends Components implements Serializable {
-    private int capacity;
+    private final int capacity;
     private int quantity;
-    private int id;
+    private final int id;
 
 
     public BatteryStorage(int id, int capacity, Direction direction, Connector[] connectors){

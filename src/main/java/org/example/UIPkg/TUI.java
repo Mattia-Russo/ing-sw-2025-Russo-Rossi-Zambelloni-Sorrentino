@@ -688,12 +688,12 @@ public class TUI extends UI{
                 for (Meteor meteor : adventureCardView.getMeteorList()) {
                     System.out.println("Meteor " + i++ + ":");
                     String meteorType;
-                    if(meteor.getType() == 0){
+                    if(meteor.type() == 0){
                         meteorType = "Small";
                     } else {
                         meteorType = "Big";
                     }
-                    System.out.println("Type: " + meteorType + ", Direction: " + meteor.getDirection());
+                    System.out.println("Type: " + meteorType + ", Direction: " + meteor.direction());
                 }
                 break;
             case "OpenSpace":
@@ -705,8 +705,8 @@ public class TUI extends UI{
                 System.out.println("Credits " + adventureCardView.getNumCredits());
                 System.out.println("Lost days " + adventureCardView.getLostDays());
                 for(CannonFire fire: adventureCardView.getCannonFireList()){
-                    System.out.println("Type: " + fire.getType());
-                    System.out.println("Direction: " + fire.getDirection());
+                    System.out.println("Type: " + fire.type());
+                    System.out.println("Direction: " + fire.direction());
                 }
                 break;
             case "PlanetCard":
@@ -777,7 +777,7 @@ public class TUI extends UI{
                             int k = 0;
                             for(CannonFire fire: adventureCardView.getCannonFireList()){
                                 System.out.println("CannonFire " + k++ + ":");
-                                System.out.println("Type: " + fire.getType() + ", Direction: " + fire.getDirection());
+                                System.out.println("Type: " + fire.type() + ", Direction: " + fire.direction());
                             }
                             break;
                         case "LoseAstronauts":
