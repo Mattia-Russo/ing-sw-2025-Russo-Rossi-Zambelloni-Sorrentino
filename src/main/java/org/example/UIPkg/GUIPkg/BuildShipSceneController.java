@@ -294,7 +294,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private void loadShipboardImage() {
         try {
             InputStream imageStream;
-            if(getGuiRoot().getShipBoardLevel()==1) {
+            if(getGuiRoot().getShipBoardLevel()==0) {
                 imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
             }else{
                 imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
