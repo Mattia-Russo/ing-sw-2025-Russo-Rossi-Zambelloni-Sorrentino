@@ -42,28 +42,6 @@ public class GameController{
         startMessageProcessing();
     }
 
-    public int getComponentByPosition(String playerName, int x, int y) {
-        Player player = game.getPlayerByName(playerName);
-
-        if (player == null) {
-            throw new IllegalArgumentException("Player " + playerName + " not found.");
-        }
-
-        ShipBoard shipboard = player.getPlayerShipBoard();
-
-        if (shipboard == null) {
-            throw new IllegalArgumentException("Shipboard of " + playerName + " not found.");
-        }
-
-        Components component = shipboard.getComponent(x, y);
-
-        if (component == null) {
-            throw new IllegalArgumentException("No component found at (" + x + ", " + y + ").");
-        }
-
-        return component.getId();
-    }
-
     private void startMessageProcessing() {
         Thread messageProcessor = new Thread(() -> {
             while (true) {

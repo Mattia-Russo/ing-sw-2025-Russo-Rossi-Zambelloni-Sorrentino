@@ -13,23 +13,17 @@ public class Components implements Serializable {
     private final Connector[] connectors;
     private int posX;
     private int posY;
-    private final int id;
 
-    public Components(Direction direction, Connector[] connectors, int id) {
+    public Components(Direction direction, Connector[] connectors) {
         this.direction = direction;
         this.connectors = connectors;
         this.isPositioned = false;
         this.posX = 0;
         this.posY = 0;
-        this.id=id;
-    }
-
-    public int getId() {
-        return this.id;
     }
 
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), 0,null,0 ,0, null, null, null);
+        return new ComponentsView(getPosX(),getPosY(), getDirection(), getConnectors(), 0,null,0 ,0, null, null, null);
     }
 
     public boolean getIfPositioned() {

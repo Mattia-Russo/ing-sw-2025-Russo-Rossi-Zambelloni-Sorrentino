@@ -44,6 +44,7 @@ public class GUIMain extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
+        guiRoot.startUpdateThread();
 
         goToFirstScene();
 

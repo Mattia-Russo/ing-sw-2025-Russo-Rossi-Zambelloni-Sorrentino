@@ -11,8 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.example.MessagePkg.Message;
-import org.example.MessagePkg.NotifyClientMessage;
+import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
+import org.example.ServerPkg.Model.ForView.GameViewCache;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -20,6 +21,7 @@ import org.json.JSONTokener;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.List;
 
 public class BuildShipSceneController extends GuiController implements Initializable {
 
@@ -58,25 +60,21 @@ public class BuildShipSceneController extends GuiController implements Initializ
     @FXML
     private Label validationMessage;
 
+    // Cache per la GameView locale
+    private GameViewCache gameViewCache;
+
     @Override
     public void setGui(GUI guiRoot) {
         super.setGui(guiRoot);
-        // Chiama i metodi necessari dopo che la GUI è stata impostata.
-        Platform.runLater(() -> {
-            loadShipboardImage();
-            requestInitialCabin(7, 7); // Incarico al server di restituire l'id del componente iniziale
-        });
+        this.gameViewCache = new GameViewCache(getGuiRoot().getClient().getPlayerName());
+        Platform.runLater(this::loadShipboardImage);
     }
-
-    //ToDo salvatre in locale sul client (nella gui)
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
-        loadShipboardImage();
-        //ToDo loadInitialCabin();
         validationMessage.setVisible(false);
-
+        setupFieldValidation();
     }
 
     private void setupUI() {
@@ -94,6 +92,188 @@ public class BuildShipSceneController extends GuiController implements Initializ
         rotateLeftButton.setDisable(true);
         rotateRightButton.setDisable(true);
         placeComponentButton.setDisable(true);
+    }
+
+    /**
+     * Aggiorna la GUI confrontando la nuova GameView con quella cached
+     */
+    public void updateGui(GameView game) {
+        if (gameViewCache == null) {
+            // Inizializza la cache se non esiste
+            gameViewCache = new GameViewCache(getGuiRoot().getClient().getPlayerName());
+        }
+
+        // Confronta la nuova GameView con quella cached
+        GameViewCache.GameViewDifferences differences = gameViewCache.compareAndUpdate(game);
+
+        // Se ci sono differenze, aggiorna la GUI
+        if (differences.hasChanges()) {
+            Platform.runLater(() -> {
+                // Aggiorna la shipboard con i nuovi componenti del giocatore
+                if (!differences.getNewShipboardComponents().isEmpty()) {
+                    updateShipBoardGUI(differences.getNewShipboardComponents());
+                }
+
+                // Aggiorna i componenti scoperti a destra della navicella
+                if (!differences.getNewDiscoveredComponents().isEmpty()) {
+                    updateDiscoveredComponentsGUI(differences.getNewDiscoveredComponents());
+                }
+
+                if (differences.isCurrentTileChanged()) {
+                    updateCurrentTileGUI(differences.getNewCurrentTile());
+                }
+            });
+        }
+    }
+
+    private void updateCurrentTileGUI(ComponentsView currentTile) {
+        if (currentTile == null) {
+            // Il currentTile è stato rimosso/consumato
+            clearCurrentTileFromGUI();
+            // Disabilita i pulsanti che dipendono dal currentTile
+            discardComponentButton.setDisable(true);
+            rotateLeftButton.setDisable(true);
+            rotateRightButton.setDisable(true);
+            placeComponentButton.setDisable(true);
+
+            System.out.println("CurrentTile rimosso - pulsanti disabilitati");
+        } else {
+            // Nuovo currentTile disponibile
+            displayCurrentTileInGUI(currentTile);
+            // Abilita i pulsanti per gestire il currentTile
+            discardComponentButton.setDisable(false);
+            rotateLeftButton.setDisable(false);
+            rotateRightButton.setDisable(false);
+            placeComponentButton.setDisable(false);
+
+            System.out.println("Nuovo currentTile disponibile: ID=" + currentTile.getId() +
+                    ", Tipo=" + currentTile.getType());
+        }
+    }
+
+    /**
+     * Visualizza il currentTile nella GUI (ad esempio in un'area dedicata)
+     */
+    private void displayCurrentTileInGUI(ComponentsView currentTile) {
+        try {
+            // Cerca il JSON del componente
+            JSONObject componentJson = findComponentJsonById(String.valueOf(currentTile.getId()));
+            if (componentJson == null) {
+                System.err.println("CurrentTile con ID " + currentTile.getId() + " non trovato nel JSON.");
+                return;
+            }
+
+            String imagePath = componentJson.getString("img");
+
+            // TODO: Implementare la visualizzazione del currentTile in un'area dedicata della GUI
+            // Ad esempio, potresti avere un ImageView dedicato per mostrare il componente corrente
+            // che il giocatore può piazzare/ruotare/scartare
+
+            System.out.println("Visualizzando currentTile: " + imagePath);
+
+            // Esempio di implementazione (da adattare al tuo layout):
+            // if (currentTileImageView != null) {
+            //     InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            //     if (imageStream != null) {
+            //         Image componentImage = new Image(imageStream);
+            //         currentTileImageView.setImage(componentImage);
+            //         double rotation = getRotationFromDirection(currentTile.getDirection());
+            //         currentTileImageView.setRotate(rotation);
+            //     }
+            // }
+
+        } catch (Exception e) {
+            System.err.println("Errore durante la visualizzazione del currentTile: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Rimuove il currentTile dalla visualizzazione GUI
+     */
+    private void clearCurrentTileFromGUI() {
+        // TODO: Implementare la rimozione del currentTile dalla GUI
+        // Ad esempio:
+        // if (currentTileImageView != null) {
+        //     currentTileImageView.setImage(null);
+        // }
+
+        System.out.println("CurrentTile rimosso dalla GUI");
+    }
+
+    /**
+     * Aggiorna la GUI della shipboard con i nuovi componenti del giocatore
+     */
+    private void updateShipBoardGUI(List<ComponentsView> newComponents) {
+        for (ComponentsView component : newComponents) {
+            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+        }
+    }
+
+    /**
+     * Aggiorna la GUI dei componenti scoperti (a destra della navicella)
+     */
+    private void updateDiscoveredComponentsGUI(List<ComponentsView> newDiscoveredComponents) {
+        // TODO: Implementare la visualizzazione dei componenti scoperti a destra della navicella
+        for (ComponentsView component : newDiscoveredComponents) {
+            System.out.println("Nuovo componente scoperto: ID=" + component.getId() +
+                    ", Tipo=" + component.getType());
+            // Aggiungi il componente alla sezione destra della GUI
+            addDiscoveredComponentToRightPanel(component);
+        }
+    }
+
+    /**
+     * Aggiunge un componente scoperto al pannello destro
+     */
+    private void addDiscoveredComponentToRightPanel(ComponentsView component) {
+        try {
+            // Cerca il JSON del componente
+            JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
+            if (componentJson == null) {
+                System.err.println("Componente scoperto con ID " + component.getId() + " non trovato nel JSON.");
+                return;
+            }
+
+            String imagePath = componentJson.getString("img");
+
+            // TODO: Implementare il posizionamento nel pannello destro
+            // Questo dipende dal layout della tua GUI
+            System.out.println("Aggiungendo componente scoperto: " + imagePath);
+
+        } catch (Exception e) {
+            System.err.println("Errore durante l'aggiunta del componente scoperto: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Piazza un componente sulla shipboard
+     */
+    private void placeComponentOnShipboard(ComponentsView component, int x, int y) {
+        try {
+            // Cerca il JSON del componente con l'ID corrispondente
+            JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
+
+            if (componentJson == null) {
+                System.err.println("Componente con ID " + component.getId() + " non trovato nel file JSON.");
+                return;
+            }
+
+            // Recupera il percorso dell'immagine dal JSON
+            String imagePath = componentJson.getString("img");
+
+            // Piazza l'immagine sulla shipboard con rotazione
+            placeImageOnShipboard(imagePath, x, y);
+
+            System.out.println("Componente piazzato sulla shipboard: ID=" + component.getId() +
+                    ", Posizione=(" + x + "," + y + ")" +
+                    ", Direzione=" + component.getDirection());
+
+        } catch (Exception e) {
+            System.err.println("Errore durante il piazzamento del componente sulla shipboard: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void setupFieldValidation() {
@@ -134,56 +314,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         }
     }
 
-    /**
-     * Invia una richiesta al server per ottenere l'ID del componente nella posizione `(x, y)`.
-     */
-    private void requestInitialCabin(int x, int y) {
-        try {
-            // Prepara il messaggio per il server
-            Message requestMessage = getGuiRoot().getClient().getMessageGenerator()
-                    .generate("get_component_id", java.util.Arrays.asList(String.valueOf(x), String.valueOf(y)));
-
-            // Invia il messaggio al server
-            getGuiRoot().getClient().sendMessage(requestMessage);
-
-            // Aspetta la risposta del server
-            getGuiRoot().getClient().onMessageReceived(response -> {
-                if (response instanceof NotifyClientMessage notifyMessage) {
-                    String receivedId = notifyMessage.getMessage();
-                    System.out.println("Ricevuto ID del componente dalla posizione (" + x + ", " + y + "): " + receivedId);
-
-                    // Cerca e piazza il componente in base all'ID ricevuto
-                    findAndPlaceComponent(receivedId, x, y);
-                }
-            });
-
-        } catch (Exception e) {
-            System.err.println("Errore durante la richiesta al server per ottenere l'ID del componente: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Cerca il componente nel JSON in base al suo ID e lo piazza sulla GUI.
-     */
-    private void findAndPlaceComponent(String componentId, int x, int y) {
-        try {
-            // Cerca il JSON del componente con l'ID corrispondente
-            JSONObject componentJson = findComponentJsonById(componentId);
-
-            if (componentJson == null) {
-                System.err.println("Componente con ID " + componentId + " non trovato nel file JSON.");
-                return;
-            }
-
-            // Recupera i dettagli del componente (esempio, immagine) e piazzalo
-            String imagePath = componentJson.getString("img");
-            placeImageOnGUI(imagePath, x, y);
-
-        } catch (Exception e) {
-            System.err.println("Errore durante il piazzamento del componente: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Cerca l'oggetto JSON di un componente in base al suo ID.
@@ -211,9 +341,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
     }
 
     /**
-     * Piazza un'immagine della nave sulla GUI in base alla posizione `(x, y)`.
+     * Piazza un'immagine sulla shipboard con direzione/rotazione
      */
-    private void placeImageOnGUI(String imagePath, int x, int y) {
+    private void placeImageOnShipboard(String imagePath, int x, int y) {
         try {
             // Calcola le dimensioni e la posizione nella griglia
             double cellWidth = shipboardImageView.getFitWidth() / 7.0; // Supponiamo 7 colonne
@@ -240,13 +370,15 @@ public class BuildShipSceneController extends GuiController implements Initializ
             componentImageView.setX(posX + (cellWidth * 0.1));
             componentImageView.setY(posY + (cellHeight * 0.1));
 
-            // Aggiungi l'immagine alla GUI
+            // Aggiungi l'immagine alla shipboard
             Platform.runLater(() -> shipboardContainer.getChildren().add(componentImageView));
+
         } catch (Exception e) {
-            System.err.println("Errore durante il posizionamento dell'immagine: " + e.getMessage());
+            System.err.println("Errore durante il posizionamento dell'immagine sulla shipboard: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
     private void showValidationError(String message) {
         Platform.runLater(() -> {
@@ -255,4 +387,35 @@ public class BuildShipSceneController extends GuiController implements Initializ
             validationMessage.setVisible(true);
         });
     }
+
+    /**
+     * Resetta la cache della GameView (utile per nuove partite)
+     */
+    public void resetGameViewCache() {
+        if (gameViewCache != null) {
+            gameViewCache.resetCache();
+        }
+    }
+
+    /**
+     * Aggiorna il nome del giocatore nella cache
+     */
+    public void updatePlayerName(String playerName) {
+        if (gameViewCache != null) {
+            gameViewCache.setCurrentPlayerName(playerName);
+        }
+    }
+
+    public void onPickComponentClick() {
+    }
+
+    public void onDiscardComponentClick() {
+    }
+
+    public void onRotateLeftClick() {
+    }
+
+    public void onRotateRightClick() {}
+
+    public void onPlaceComponentClick() {}
 }

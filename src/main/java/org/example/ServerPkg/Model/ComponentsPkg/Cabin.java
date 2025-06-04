@@ -18,7 +18,7 @@ public class Cabin extends Components implements Serializable {
 
 
     public Cabin(int id, boolean isCentral, Direction direction, Connector[] connectors) {
-        super(direction, connectors.);
+        super(direction, connectors);
         this.numAstronauts = 0;
         this.withLifeSupport = false;
         this.lifeSupportSystemArrayList= new ArrayList<>();
@@ -34,9 +34,9 @@ public class Cabin extends Components implements Serializable {
     @Override
     public ComponentsView createView(){
         if(getAlien() == null) {
-            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, getNumAstronauts(), null, null, null);
+            return new ComponentsView(getPosX(),getPosY(),getDirection(), getConnectors(), id, type, 0, getNumAstronauts(), null, null, null);
         }else
-            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, 0, null, null, getAlien().colour());
+            return new ComponentsView(getPosX(),getPosY(),getDirection(), getConnectors(), id, type, 0, 0, null, null, getAlien().colour());
     }
 
     public int getNumAstronauts() {

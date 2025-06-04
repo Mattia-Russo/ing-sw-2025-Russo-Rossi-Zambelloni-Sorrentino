@@ -1,5 +1,7 @@
 package org.example.UIPkg.GUIPkg;
 
+import org.example.ServerPkg.Model.ForView.GameView;
+
 import java.util.List;
 
 public abstract class GuiController {
@@ -32,4 +34,6 @@ public abstract class GuiController {
     public void onCreateLobbyAccepted(){}
 
     public void onGameStarted(){}
+
+    public void updateGui(GameView game){}
 }

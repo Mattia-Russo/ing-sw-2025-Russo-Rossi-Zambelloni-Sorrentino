@@ -14,8 +14,10 @@ public class ComponentsView implements Serializable {
     private final AlienColour alienColour;
     private final GoodsView[] goods;
     private final Direction[] shieldedDirections = new Direction[2];
+    private int posX;
+    private int posY;
 
-    public ComponentsView(Direction direction, Connector[] connectors, int id, String type, int numBattery, int numAstronauts, GoodsView[] goods, Direction shieldedDirections, AlienColour alienColour) {
+    public ComponentsView(int posX, int posY, Direction direction, Connector[] connectors, int id, String type, int numBattery, int numAstronauts, GoodsView[] goods, Direction shieldedDirections, AlienColour alienColour) {
         this.direction = direction;
         this.connectors = connectors != null ? connectors : new Connector[0];
         this.id = id;
@@ -26,6 +28,16 @@ public class ComponentsView implements Serializable {
         this.alienColour = alienColour;
         this.shieldedDirections[0] = direction;
         this.shieldedDirections[1] = shieldedDirections;
+        this.posX = posX;
+        this.posY = posY;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 
     public Direction getDirection() {

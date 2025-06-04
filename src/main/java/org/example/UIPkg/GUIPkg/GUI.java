@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import javafx.util.Duration;
 import org.example.MessagePkg.NotifyClientMessage;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
@@ -43,6 +44,26 @@ public class GUI extends UI {
     @Override
     public void startGui() {
         GUIMain.startGui(this);
+    }
+
+    public void startUpdateThread() {
+        Thread UpdateThread = new Thread(() -> {
+            try {
+                while (true) {
+                    if(!gameUpdatesQueue.isEmpty()) {
+                        GameView game = gameUpdatesQueue.poll();
+                        assert game != null;
+                        GuiController controller =  GUIMain.getGuiMain().getControllerMap().get(GUIMain.BUILD_SHIP_SCENE);
+                        controller.updateGui(game);
+                    }
+                }
+            }catch (Exception e) {
+                System.err.println("Error sending connection update to server: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+        UpdateThread.setDaemon(false);
+        UpdateThread.start();
     }
 
     @Override

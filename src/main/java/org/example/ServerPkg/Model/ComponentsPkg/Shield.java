@@ -7,15 +7,17 @@ import java.io.Serializable;
 
 public class Shield extends Components implements Serializable {
     private Direction direction2;
+    private final int id;
 
     public Shield(int id, Direction direction, Connector[] connectors, Direction direction2) {
-        super(direction, connectors, id);
+        super(direction, connectors);
         this.direction2 = direction2;
+        this.id = id;
     }
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection1(), getConnectors(), getId(),"Shield", 0 ,0, null, getDirection2(), null);
+        return new ComponentsView(getPosX(), getPosY(), getDirection1(), getConnectors(), id,"Shield", 0 ,0, null, getDirection2(), null);
     }
 
     public Direction getDirection1() {
