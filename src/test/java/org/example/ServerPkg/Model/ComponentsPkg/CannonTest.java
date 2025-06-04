@@ -34,19 +34,19 @@ public class CannonTest extends TestCase {
 
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        s.placeComponent(3,2, c1);
-        s.placeComponent(2,2, s2);
-        s.placeComponent(4,2, s1);
-        s.placeComponent(4,1, cannon);
-        s.placeComponent(1,3, cannon1);
-        s.placeComponent(2,3, c2);
-        s.placeComponent(1,4, c4);
-        s.placeComponent(2,4, c3);
-        s.placeComponent(4,3, c6);
-        s.placeComponent(5,3, c7);
-        s.placeComponent(4,4, e1);
-        s.placeComponent(5,4, c9);
-        s.placeComponent(3,3, c8);
+        s.placeComponent(7,7, c1);
+        s.placeComponent(6,7, s2);
+        s.placeComponent(8,7, s1);
+        s.placeComponent(8,6, cannon);
+        s.placeComponent(5,8, cannon1);
+        s.placeComponent(6,8, c2);
+        s.placeComponent(5,9, c4);
+        s.placeComponent(6,9, c3);
+        s.placeComponent(8,8, c6);
+        s.placeComponent(9,8, c7);
+        s.placeComponent(8,9, e1);
+        s.placeComponent(9,9, c9);
+        s.placeComponent(7,8, c8);
 
         assertEquals(1.5F, s.getSingleCannonPower());
         cannon.remove(s);
@@ -68,10 +68,10 @@ public class CannonTest extends TestCase {
 
 
     public void testCheckRightCannon() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++) {
-                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
+        boolean[][] availablePositionMatrix = new boolean[5][7];
+        for(int i=0; i<5; i++){
+            for(int j=0; j<7; j++) {
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
             }
         }
         Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
@@ -91,19 +91,19 @@ public class CannonTest extends TestCase {
 
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
-        s.placeComponent(3,2, c1);
-        s.placeComponent(2,2, s2);
-        s.placeComponent(4,2, s1);
-        s.placeComponent(4,1, cannon);
-        s.placeComponent(1,3, cannon1);
-        s.placeComponent(2,3, c2);
-        s.placeComponent(1,4, c4);
-        s.placeComponent(2,4, c3);
-        s.placeComponent(4,3, c6);
-        s.placeComponent(5,3, c7);
-        s.placeComponent(4,4, e1);
-        s.placeComponent(5,4, c9);
-        s.placeComponent(3,3, c8);
+        s.placeComponent(7,7, c1);
+        s.placeComponent(6,7, s2);
+        s.placeComponent(8,7, s1);
+        s.placeComponent(8,6, cannon);
+        s.placeComponent(5,8, cannon1);
+        s.placeComponent(6,8, c2);
+        s.placeComponent(5,9, c4);
+        s.placeComponent(6,9, c3);
+        s.placeComponent(8,8, c6);
+        s.placeComponent(9,8, c7);
+        s.placeComponent(8,9, e1);
+        s.placeComponent(9,9, c9);
+        s.placeComponent(7,8, c8);
 
         assertFalse(cannon.checkRightCannon(s));
         assertTrue(cannon1.checkRightCannon(s));
