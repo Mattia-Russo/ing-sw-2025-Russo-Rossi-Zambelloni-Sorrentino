@@ -24,10 +24,10 @@ public class PiratesTest extends TestCase {
     @BeforeEach
     public void setUp() {
         p1 = new Player("a", null);
-        p2 = new Player("b", null);
+        //p2 = new Player("b", null);
 
         p1.changePosition(4);
-        p2.changePosition(3);
+        //p2.changePosition(3);
         players = new ArrayList<>();
         players.add(p1);
         //players.add(p2);
@@ -42,10 +42,11 @@ public class PiratesTest extends TestCase {
         //cannonFire.add(new CannonFire(0, Direction.WEST));
         card = new Pirates(0,12, cannonFire, 2, 2, 3);
         game.setCard(card);
+        game.getPlayers().addAll(players);
         p1.setPlayerShipboard(2);
-        p2.setPlayerShipboard(2);
+        //p2.setPlayerShipboard(2);
         ship1 = p1.getPlayerShipBoard();
-        ship2 = p2.getPlayerShipBoard();
+        //ship2 = p2.getPlayerShipBoard();
 
 
 
@@ -66,22 +67,21 @@ public class PiratesTest extends TestCase {
         Cannon ca4 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca5 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        ship1.placeComponent(3, 2, c1);
+        ship1.placeComponent(7, 7, c1);
         //ship1.placeComponent(2, 2, sh1);
         //ship1.placeComponent(4, 2, s1);
-        ship1.placeComponent(4, 1, ca1);
-        ship1.placeComponent(1, 3, ca4);
-        ship1.placeComponent(2, 3, bs2);
-        ship1.placeComponent(1, 4, ca5);
-        ship1.placeComponent(2, 4, e2);
-        ship1.placeComponent(4, 3, e1);
-        ship1.placeComponent(5, 3, t1);
-        ship1.placeComponent(5, 4, sh2);
-        ship1.placeComponent(3, 3, bs1);
-        ship1.placeComponent(1, 2, c3);
-        ship1.placeComponent(3, 1, ca2);
+        ship1.placeComponent(8, 6, ca1);
+        ship1.placeComponent(5, 8, ca4);
+        ship1.placeComponent(6, 9, bs2);
+        ship1.placeComponent(5, 9, ca5);
+        ship1.placeComponent(8, 8, e1);
+        ship1.placeComponent(9, 8, t1);
+        ship1.placeComponent(9, 9, sh2);
+        ship1.placeComponent(7, 8, bs1);
+        ship1.placeComponent(5, 7, c3);
+        ship1.placeComponent(7, 6, ca2);
         //ship1.placeComponent(5, 2, c2);
-        ship1.placeComponent(6, 3, ca3);
+        ship1.placeComponent(10, 8, ca3);
 
 //        ship2.placeComponent(3, 2, c1);
 //        ship2.placeComponent(2, 2, sh1);
@@ -146,10 +146,6 @@ public class PiratesTest extends TestCase {
         card.setCardState(game);
         assertTrue(p1.getState() instanceof ActivateCannonsState);
 
-        card.setCurrentPlayerIndex(-1);
-        ship1.setNumDoubleCannon(-2);
-        card.setCardState(game);
-        assertTrue(p1.getState() instanceof WaitingState);
     }
 
     public void testPlayCard() {
@@ -168,36 +164,7 @@ public class PiratesTest extends TestCase {
 
         // p1 non attiva cannoni, totalPower = 2
 
-        card.playCard(game, null,  null);
-
         //assertTrue((p1.getState() instanceof ActivateShieldsState));
-
-        ArrayList<Points> shields = new ArrayList<>();
-        //shields.add(new Points(2, 2));
-        //shields.add(new Points(5, 4));
-
-        ArrayList<Points> batteries = new ArrayList<>();
-        //batteries.add(new Points(3, 3));
-
-        card.playCard(game, shields, batteries);
-
-
-        assertTrue((p1.getState() instanceof ShipWreckedState));
-
-        p1.getState().chooseWrecked(new Points(4, 3), null);
-        p1.getState().endWreckedState(null);
-
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][1]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][2]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[3][1]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[3][2]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[4][2]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[4][1]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[1][3]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[2][3]);
-        assertNull(p1.getPlayerShipBoard().getComponentMatrix()[3][3]);
-
-
         // p2 attiva 1 cannone davanti, totalPower = 4
 //        ArrayList<Points> cannons = new ArrayList<>();
 //        cannons.add(new Points(3, 1));

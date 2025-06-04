@@ -132,15 +132,15 @@ public class Player implements Serializable {
 
     public boolean checkShip() {
         for(int i = 5; i < playerShipBoard.getComponentMatrix().length + 5; i++){
-            for(int j = 4; j < playerShipBoard.getComponentMatrix()[i].length + 4; j++){
+            for(int j = 4; j < playerShipBoard.getComponentMatrix()[0].length + 4; j++){
                 if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i,j) != null) {
                     Components c = playerShipBoard.getComponent(i,j);
                     for (Direction dir : Direction.values()) {
                         int ni = i + dy(dir);
                         int nj = j + dx(dir);
-                        if ((ni < playerShipBoard.getComponentMatrix().length + 5 && ni > 5) && (nj > 4 && nj < playerShipBoard.getComponentMatrix()[ni].length + 4)){
-                            if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni][nj] != null) {
-                                Components neighbor = playerShipBoard.getComponentMatrix()[ni][nj];
+                        if ((ni < playerShipBoard.getComponentMatrix().length + 5 && ni > 5) && (nj > 4 && nj < playerShipBoard.getComponentMatrix()[0].length + 4)){
+                            if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni-5][nj-4] != null) {
+                                Components neighbor = playerShipBoard.getComponentMatrix()[ni-5][nj-4];
                                 Connector myConn = c.getDirConnector(dir);
                                 Connector theirConn = neighbor.getDirConnector(opposite(dir));
 

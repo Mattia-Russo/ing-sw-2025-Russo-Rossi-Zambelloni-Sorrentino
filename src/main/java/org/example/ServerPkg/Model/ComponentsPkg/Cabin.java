@@ -108,7 +108,7 @@ public class Cabin extends Components implements Serializable {
 
     @Override
     public void remove(ShipBoard ship) {
-        if(this.alien!=null){
+        if(this.alien==null){
             ship.setNumAstronauts(-this.numAstronauts);
         } else {
             ship.setNumAstronauts(-1);
@@ -199,13 +199,13 @@ public class Cabin extends Components implements Serializable {
             if(x+1 < dimX && !visited[y-5][x-3] && s.getComponent(y,x+1) != null){
                 s.getComponent(y,x+1).addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY, s);
             }
-            if (x-1 >= 0 && !visited[y-5][x-5] && s.getComponent(y, x-1) != null){
+            if (x-1 >= 4 && !visited[y-5][x-5] && s.getComponent(y, x-1) != null){
                 s.getComponent(y, x-1).addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY, s);
             }
             if (y+1 < dimY && !visited[y-4][x-4] && s.getComponent(y+1, x) != null){
                 s.getComponent(y+1, x).addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY, s);
             }
-            if (y-1 >= 0 && !visited[y-6][x-4] && s.getComponent(y-1, x) != null){
+            if (y-1 >= 5 && !visited[y-6][x-4] && s.getComponent(y-1, x) != null){
                 s.getComponent(y-1, x).addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY, s);
             }
         }

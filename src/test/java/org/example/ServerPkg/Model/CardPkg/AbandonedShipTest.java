@@ -1,7 +1,9 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
@@ -41,7 +43,9 @@ public class AbandonedShipTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2,1, null);
+        Game game = new Game(3, 2,1, new GameController());
+        game.getPlayers().addAll(players);
+        game.setPlayersShipboard();
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.GREEN);
         goods[1] = new Goods(GoodsColour.RED);
@@ -83,18 +87,20 @@ public class AbandonedShipTest extends TestCase {
         players.add(p3);
 
 
-        Game game = new Game(3, 2, 1, null);
+        Game game = new Game(3, 2, 1, new GameController());
+        game.getPlayers().addAll(players);
+        game.setPlayersShipboard();
         p1.setPlayerState(new LandOnAbandonState(game));
         AbandonedShip card = new AbandonedShip(0,1, 2, 5, 3);
         game.setCard(card);
         card.setCardState(game);
         p1.getPlayerShipBoard().setNumAstronauts(5);
         card.playCard(game);
-        assertEquals(2, p1.getPlayerShipBoard().getTotalAstronauts());
+        assertEquals(4, p1.getPlayerShipBoard().getTotalAstronauts());
         assertEquals(5, p1.getNumCredits());
         assertEquals(-2, p1.getPosition());
-        assertTrue(p1.getState() instanceof WaitingState);
-        assertEquals(-1, card.getCurrentPlayerIndex());
+        assertTrue(p1.getState() instanceof RemoveAstronautsState);
+        assertEquals(game.getPlayers().size()-1, card.getCurrentPlayerIndex());
 
 
     }

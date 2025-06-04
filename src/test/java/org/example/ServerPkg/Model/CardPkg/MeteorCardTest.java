@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
@@ -42,7 +43,9 @@ public class MeteorCardTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        Game g=new Game(4, 2, 1, null);
+        Game g=new Game(4, 2, 1, new GameController());
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
         Meteor meteor1=new Meteor(1,  Direction.EAST);
         Meteor meteor2=new Meteor(0, Direction.NORTH);
         List<Meteor> meteors=new ArrayList<>();
@@ -53,7 +56,6 @@ public class MeteorCardTest extends TestCase {
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
 
-        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
         Cannon ca11 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca12 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
@@ -69,7 +71,6 @@ public class MeteorCardTest extends TestCase {
         Engine e12 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
         Cannon ca14 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca15 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        sp1.placeComponent(7,7, c11);
         sp1.placeComponent(8,7, s11);
         sp1.placeComponent(8,6, ca11);
         sp1.placeComponent(5,9, ca12);
@@ -86,7 +87,6 @@ public class MeteorCardTest extends TestCase {
         sp1.placeComponent(10,8, ca14);
         sp1.placeComponent(7,6, ca15);
 
-        Cabin c21 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
         Cannon ca21 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca22 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
@@ -101,8 +101,6 @@ public class MeteorCardTest extends TestCase {
         BatteryStorage bs22 = new BatteryStorage(0,2, Direction.NORTH,  new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e22 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
         Cannon ca24 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        Cannon ca25 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        sp2.placeComponent(7,7, c21);
         sp2.placeComponent(8,7, s21);
         sp2.placeComponent(8,6, ca21);
         sp2.placeComponent(5,9, ca22);
@@ -117,7 +115,6 @@ public class MeteorCardTest extends TestCase {
         sp2.placeComponent(6,8, bs22);
         sp2.placeComponent(6,9, e22);
         sp2.placeComponent(10,8, ca24);
-        sp2.placeComponent(7,5, ca25);
 
         c.setCardState(g);
         assertNotNull(c12);
@@ -130,7 +127,9 @@ public class MeteorCardTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        Game g=new Game(4, 2, 1, null);
+        Game g=new Game(4, 2, 1, new GameController());
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
         Meteor meteor1=new Meteor(1,  Direction.EAST);
         Meteor meteor2=new Meteor(0, Direction.NORTH);
         List<Meteor> meteors=new ArrayList<>();
@@ -141,7 +140,6 @@ public class MeteorCardTest extends TestCase {
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
 
-        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
         Cannon ca11 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca12 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
@@ -157,7 +155,6 @@ public class MeteorCardTest extends TestCase {
         Engine e12 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
         Cannon ca14 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca15 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        sp1.placeComponent(7,7, c11);
         sp1.placeComponent(8,7, s11);
         sp1.placeComponent(8,6, ca11);
         sp1.placeComponent(5,9, ca12);
@@ -174,7 +171,6 @@ public class MeteorCardTest extends TestCase {
         sp1.placeComponent(10,8, ca14);
         sp1.placeComponent(7,6, ca15);
 
-        Cabin c21 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
         Cannon ca21 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca22 = new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY});
@@ -190,7 +186,6 @@ public class MeteorCardTest extends TestCase {
         Engine e22 = new Engine(0,2, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL});
         Cannon ca24 = new Cannon(0,1, Direction.WEST, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cannon ca25 = new Cannon(0,2, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        sp2.placeComponent(7,7, c21);
         sp2.placeComponent(8,7, s21);
         sp2.placeComponent(8,6, ca21);
         sp2.placeComponent(5,9, ca22);
@@ -205,7 +200,7 @@ public class MeteorCardTest extends TestCase {
         sp2.placeComponent(6,8, bs22);
         sp2.placeComponent(6,9, e22);
         sp2.placeComponent(10,8, ca24);
-        sp2.placeComponent(7,5, ca25);
+        sp2.placeComponent(7,6, ca25);
 
         c.setCardState(g);
     }
