@@ -232,8 +232,8 @@ public class Player implements Serializable {
 
     public void opShip(){
         for(int i = 4; i < playerShipBoard.getComponentMatrix().length + 4; i++){
-            for(int j = 5; j < playerShipBoard.getComponentMatrix()[i].length + 5; j++){
-                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
+            for(int j = 5; j < playerShipBoard.getComponentMatrix()[0].length + 5; j++){
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i, j) != null) {
                     if(i!=7 && j!=7) {
                         getPlayerShipBoard().removeComponent(i, j);
                     }
