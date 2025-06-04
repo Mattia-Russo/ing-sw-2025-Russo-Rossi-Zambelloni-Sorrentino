@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 public class BuildShipSceneController extends GuiController implements Initializable {
 
     private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
+    public Label currentComponentLabel;
 
     @FXML
     private BorderPane borderPane;

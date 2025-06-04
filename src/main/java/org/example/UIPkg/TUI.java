@@ -1,6 +1,7 @@
 package org.example.UIPkg;
 
 import org.example.MessagePkg.NotifyClientMessage;
+import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
@@ -58,11 +59,12 @@ public class TUI extends UI{
         GameView game = gameUpdatesQueue.poll();
         assert game != null;
         if(game.getException() == null) {
-            System.out.println("Discovered tile: ");
-            DrawDiscoveredTiles(game.getComponentsDiscovered());
-
+            if(game.getLobbyState() != LobbyState.PLAYING_CARDS){
+                System.out.println("Discovered tile: ");
+                DrawDiscoveredTiles(game.getComponentsDiscovered());
+            }
             System.out.println("\nShipboard:");
-            DrawShipboard(game.getPlayers(), game.getShipBoardLevel());
+            DrawShipboard(game.getLobbyState(), game.getPlayers(), game.getShipBoardLevel());
             System.out.println("Current Card: ");
             if (game.getCurrentCard() != null) {
                 DrawCurrentCard(game.getCurrentCard());
@@ -94,37 +96,50 @@ public class TUI extends UI{
                 allTileLines[i] = DrawComponent(component);
             }
 
-            for (int lineIndex = 0; lineIndex < TILE_HEIGHT; lineIndex++) {
-                StringBuilder fullLine = new StringBuilder();
-                for (int tileIndex = 0; tileIndex < tilesInThisRow; tileIndex++) {
-                    fullLine.append(allTileLines[tileIndex][lineIndex]);
-                    if (tileIndex < tilesInThisRow - 1) {
-                        fullLine.append("  ");
-                    }
-                }
-                System.out.println(fullLine);
-            }
+            printFullLines(tilesInThisRow, allTileLines);
 
-            StringBuilder indexLine = new StringBuilder();
-            for (int i = 0; i < tilesInThisRow; i++) {
-                int tileIndex = startIndex + i;
-                String indexStr = "[" + tileIndex + "]";
-                int tileWidth = 11;
-                int padding = (tileWidth - indexStr.length()) / 2;
-
-                indexLine.append(" ".repeat(Math.max(0, padding)));
-                indexLine.append(indexStr);
-                indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
-
-                if (i < tilesInThisRow - 1) {
-                    indexLine.append("  ");
-                }
-            }
+            StringBuilder indexLine = getStringBuilder(tilesInThisRow, startIndex);
             System.out.println(indexLine);
             
             if (endIndex < components.size()) {
                 System.out.println();
             }
+        }
+    }
+
+    private void printFullLines(int tilesInThisRow, String[][] allTileLines) {
+        for (int lineIndex = 0; lineIndex < 9; lineIndex++) {
+            StringBuilder fullLine = new StringBuilder();
+            for (int tileIndex = 0; tileIndex < tilesInThisRow; tileIndex++) {
+                fullLine.append(allTileLines[tileIndex][lineIndex]);
+                if (tileIndex < tilesInThisRow - 1) {
+                    fullLine.append("  ");
+                }
+            }
+            System.out.println(fullLine);
+        }
+    }
+
+    private StringBuilder getStringBuilder(int tilesInThisRow, int startIndex) {
+        StringBuilder indexLine = new StringBuilder();
+        for (int i = 0; i < tilesInThisRow; i++) {
+            int tileIndex = startIndex + i;
+            printIndexes(tilesInThisRow, indexLine, i, tileIndex);
+        }
+        return indexLine;
+    }
+
+    private void printIndexes(int tilesInThisRow, StringBuilder indexLine, int i, int tileIndex) {
+        String indexStr = "[" + tileIndex + "]";
+        int tileWidth = 11;
+        int padding = (tileWidth - indexStr.length()) / 2;
+
+        indexLine.append(" ".repeat(Math.max(0, padding)));
+        indexLine.append(indexStr);
+        indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
+
+        if (i < tilesInThisRow - 1) {
+            indexLine.append("  ");
         }
     }
 
@@ -143,69 +158,68 @@ public class TUI extends UI{
                         "If you are the lobby creator and there are enough players connected type start_game to start the game"
                 );
                 break;
+            case PLAYING_CARDS:
+                System.out.println(
+                        """
+                                Type one of the following command to do something:
+                                   accept_reward true/false -> true if you want to accept the reward, false otherwise
+                                   activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+                                   activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate
+                                   activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+                                   use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+                                
+                                   end_activate_cannons -> if you want to end the cannon activation phase
+                                   end_activate_engines -> if you want to end the engine activation phase
+                                   end_change_goods_state -> if you want to end the change good phase
+                                   end_activate_shields -> if you want to end the shield activation phase
+                                   end_remove_best_goods -> if you want to end the remove best goods phase
+                                   end_remove_astronauts -> if you want to end the remove astronauts phase
+                                   end_fix_ship_state -> if you want to end the fix ship phase
+                                
+                                   land_on_abandon true/false ->  true if you want to land, false otherwise
+                                   land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
+                                
+                                   add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
+                                   remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
+                                   remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
+                                   remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
+                                   remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries
+                                """
+                );
+                break;
+
             case GAME_STARTED:
-                if(game.getCurrentCard()!=null){
-                    System.out.println(
-                            """
-                                    Type one of the following command to do something:
-                                       accept_reward true/false -> true if you want to accept the reward, false otherwise
-                                       activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
-                                       activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate
-                                       activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
-                                       use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
-                                    
-                                       end_activate_cannons -> if you want to end the cannon activation phase
-                                       end_activate_engines -> if you want to end the engine activation phase
-                                       end_change_goods_state -> if you want to end the change good phase
-                                       end_activate_shields -> if you want to end the shield activation phase
-                                       end_remove_best_goods -> if you want to end the remove best goods phase
-                                       end_remove_astronauts -> if you want to end the remove astronauts phase
-                                       end_fix_ship_state -> if you want to end the fix ship phase
-                                    
-                                       land_on_abandon true/false ->  true if you want to land, false otherwise
-                                       land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
-                                    
-                                       add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
-                                       remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
-                                       remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
-                                       remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
-                                       remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries
-                                    """
-                    );
-                }
-                else{
-                    System.out.println(
-                            """
-                                    Type one of the following command to do something:
-                                       pick_tile -> if you want to pick a random covered component
-                                       pick_discovered_tile index-> if you want to pick discovered component with this index
-                                       left_rotate -> if you want to left rotate the tile
-                                       right_rotate -> if you want to right rotate the tile
-                                       place_tile x y -> x,y are the coordinates of the cell where you want to place the tile
-                                       discard_tile -> if you want to discard the component you picked
-                                       book_tile -> place the current component in a booked slot
-                                       pick_booked_tile index -> if you want to pick a booked component with this index
-                                    
-                                       remove_tile x y -> x,y are the coordinates of the tile you want to remove
-                                       end_fix_ship -> if you want to end the fix ship phase
-                                    
-                                       choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
-                                       end_wrecked -> if you want to end the wrecked ship phase
-                                    
-                                       select_position int -> int is the position you want to start from (Options: 0, -1, -2, -3)
-                                       add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
-                                       add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
-                                       end_add_alien -> if you want to end the add alien phase
-                                    
-                                       show_deck numDeck -> numDeck is the number of the deck you want to see
-                                       end_show_deck -> if you want to end the show deck phase
-                                    
-                                       turn_timer -> if you want to turn the timer
-                                    
-                                       end_build_ship -> if you to end the build ship phase
-                                    """
-                    );
-                }
+                System.out.println(
+                        """
+                                Type one of the following command to do something:
+                                   pick_tile -> if you want to pick a random covered component
+                                   pick_discovered_tile index-> if you want to pick discovered component with this index
+                                   left_rotate -> if you want to left rotate the tile
+                                   right_rotate -> if you want to right rotate the tile
+                                   place_tile x y -> x,y are the coordinates of the cell where you want to place the tile
+                                   discard_tile -> if you want to discard the component you picked
+                                   book_tile -> place the current component in a booked slot
+                                   pick_booked_tile index -> if you want to pick a booked component with this index
+                                
+                                   remove_tile x y -> x,y are the coordinates of the tile you want to remove
+                                   end_fix_ship -> if you want to end the fix ship phase
+                                
+                                   choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
+                                   end_wrecked -> if you want to end the wrecked ship phase
+                                
+                                   select_position int -> int is the position you want to start from (Options: 0, -1, -2, -3)
+                                   add_brown_alien x y -> x,y are the coordinates of the cabin where you want to add the brown alien
+                                   add_purple_alien x y -> x,y are the coordinates of the cabin where you want to add the purple alien
+                                   end_add_alien -> if you want to end the add alien phase
+                                
+                                   show_deck numDeck -> numDeck is the number of the deck you want to see
+                                   end_show_deck -> if you want to end the show deck phase
+                                
+                                   turn_timer -> if you want to turn the timer
+                                
+                                   end_build_ship -> if you to end the build ship phase
+                                """
+                );
                 break;
             case GAME_FINISHED:
                 System.out.println("Type the command: exit_game -> if you want to exit the game\n\n");
@@ -224,7 +238,7 @@ public class TUI extends UI{
             if (player.isShipOK() && player.isPosValid()) {
                 int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions;
                 String playerColor = getPlayerColorSymbol(player.getRocketColour());
-                playerPositions.put(getCoordFromPos(normalizedPosition, gameMode), playerColor);
+                playerPositions.put(getCoordinatesFromPos(normalizedPosition, gameMode), playerColor);
             }
         }
 
@@ -335,7 +349,7 @@ public class TUI extends UI{
         };
     }
 
-    private Points getCoordFromPos(int pos, int gameMode){
+    private Points getCoordinatesFromPos(int pos, int gameMode){
         if(gameMode == 0){
             if(pos < 8) {
                 return new Points(pos, 0);
@@ -420,35 +434,37 @@ public class TUI extends UI{
         return box;
     }
 
-    private void DrawShipboard(List<PlayerView> players, int shipboardLevel) {
+    private void DrawShipboard(LobbyState gameState, List<PlayerView> players, int shipboardLevel) {
         final int ROWS = 5;
         final int COLS = 7;
 
         for (PlayerView player : players) {
             System.out.println("Board of " + player.getName() + ":");
-            System.out.println("\nCurrent tile:");
-            if (player.getCurrentTile() != null) {
-                List<String> lines = List.of(DrawComponent(player.getCurrentTile()));
-                for (String line : lines) System.out.println(line);
-            }
-
-            System.out.println("\nBooked tiles:");
-            if(player.getShipboardView().getBookedComponents() != null && (player.getShipboardView().getBookedComponents()[0] !=null || player.getShipboardView().getBookedComponents()[1] !=null)){
-                DrawBookedTiles(player.getShipboardView().getBookedComponents());
-            }
-
-            if (player.getDeckShowed() != null) {
-                System.out.println("\nDeck:");
-                for(AdventureCardView c: player.getDeckShowed()){
-                    DrawCurrentCard(c);
+            if(gameState != LobbyState.PLAYING_CARDS){
+                System.out.println("\nCurrent tile:");
+                if (player.getCurrentTile() != null) {
+                    List<String> lines = List.of(DrawComponent(player.getCurrentTile()));
+                    for (String line : lines) System.out.println(line);
                 }
+                System.out.println("\nBooked tiles:");
+                if(player.getShipboardView().getBookedComponents() != null && (player.getShipboardView().getBookedComponents()[0] !=null || player.getShipboardView().getBookedComponents()[1] !=null)){
+                    DrawBookedTiles(player.getShipboardView().getBookedComponents());
+                }
+
+                if (player.getDeckShowed() != null) {
+                    System.out.println("\nDeck:");
+                    for(AdventureCardView c: player.getDeckShowed()){
+                        DrawCurrentCard(c);
+                    }
+                }
+            } else {
+                System.out.println("\nCredits:" + player.getNumCredits());
             }
 
             System.out.println("\nShipboard:");
-
             System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.printf("   Col %d    ", col);
+                System.out.printf("   Col %d    ", col + 4);
             }
             System.out.println();
 
@@ -471,7 +487,7 @@ public class TUI extends UI{
                     }
                 }
 
-                System.out.printf(" %d     %s\n", row, line[0]);
+                System.out.printf(" %d     %s\n", row + 5, line[0]);
                 for (int i = 1; i < line.length; i++) {
                     System.out.print("       ");
                     System.out.println(line[i].toString());
@@ -491,30 +507,11 @@ public class TUI extends UI{
             allTileLines[i] = DrawComponent(component);
         }
 
-        for (int lineIndex = 0; lineIndex < TILE_HEIGHT; lineIndex++) {
-            StringBuilder fullLine = new StringBuilder();
-            for (int tileIndex = 0; tileIndex < NUM_SLOTS; tileIndex++) {
-                fullLine.append(allTileLines[tileIndex][lineIndex]);
-                if (tileIndex < NUM_SLOTS - 1) {
-                    fullLine.append("  ");
-                }
-            }
-            System.out.println(fullLine);
-        }
+        printFullLines(NUM_SLOTS, allTileLines);
 
         StringBuilder indexLine = new StringBuilder();
         for (int i = 0; i < NUM_SLOTS; i++) {
-            String indexStr = "[" + i + "]";
-            int tileWidth = 11;
-            int padding = (tileWidth - indexStr.length()) / 2;
-
-            indexLine.append(" ".repeat(Math.max(0, padding)));
-            indexLine.append(indexStr);
-            indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
-
-            if (i < NUM_SLOTS - 1) {
-                indexLine.append("  ");
-            }
+            printIndexes(NUM_SLOTS, indexLine, i, i);
         }
         System.out.println(indexLine);
     }
@@ -607,16 +604,7 @@ public class TUI extends UI{
                 }
 
             case "Storage":
-                StringBuilder goods = new StringBuilder();
-                List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
-                for (GoodsView goodsView : goodsList) {
-                    if(goodsView != null) {
-                        GoodsColour color = goodsView.getColour();
-                        goods.append(getGoodColorSquare(color));
-                    } else {
-                        goods.append("   ");
-                    }
-                }
+                StringBuilder goods = getStringBuilder(comp);
                 return goods.toString();
 
             case "Shield":
@@ -625,6 +613,20 @@ public class TUI extends UI{
             default:
                 return "";
         }
+    }
+
+    private StringBuilder getStringBuilder(ComponentsView comp) {
+        StringBuilder goods = new StringBuilder();
+        List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
+        for (GoodsView goodsView : goodsList) {
+            if(goodsView != null) {
+                GoodsColour color = goodsView.getColour();
+                goods.append(getGoodColorSquare(color));
+            } else {
+                goods.append("   ");
+            }
+        }
+        return goods;
     }
 
     private String getAlienColorBlock(AlienColour color) {

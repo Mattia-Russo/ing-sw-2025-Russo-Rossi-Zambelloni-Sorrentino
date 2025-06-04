@@ -7,5 +7,6 @@ public enum LobbyState implements Serializable {
     GAME_CREATION,
     GAME_READY,
     GAME_STARTED,
+    PLAYING_CARDS,
     GAME_FINISHED
 }
