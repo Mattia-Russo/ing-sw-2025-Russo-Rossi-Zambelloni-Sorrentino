@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Game;
@@ -31,7 +32,7 @@ public class PiratesTest extends TestCase {
         players.add(p1);
         //players.add(p2);
 
-        game = new Game(4, 2, 1, null);
+        game = new Game(4, 2, 1, new GameController());
         ArrayList<CannonFire> cannonFire = new ArrayList<>();
         cannonFire.add(new CannonFire(0, Direction.SOUTH));
         //cannonFire.add(new CannonFire(1, Direction.NORTH));
@@ -41,9 +42,12 @@ public class PiratesTest extends TestCase {
         //cannonFire.add(new CannonFire(0, Direction.WEST));
         card = new Pirates(0,12, cannonFire, 2, 2, 3);
         game.setCard(card);
-
+        p1.setPlayerShipboard(2);
+        p2.setPlayerShipboard(2);
         ship1 = p1.getPlayerShipBoard();
         ship2 = p2.getPlayerShipBoard();
+
+
 
         Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);

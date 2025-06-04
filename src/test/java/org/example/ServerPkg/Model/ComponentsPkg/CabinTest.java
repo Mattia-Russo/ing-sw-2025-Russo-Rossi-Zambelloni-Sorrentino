@@ -314,12 +314,12 @@ public class CabinTest extends TestCase {
         c_test2.add(c9);
         boolean[][] visited=new boolean[7][5];
 
-        for(int i = 0; i < s.getComponentMatrix().length; i++){
-            for(int j = 0; j < s.getComponentMatrix()[0].length; j++){
+        for(int i = 0; i < s.getComponentMatrix()[0].length; i++){
+            for(int j = 0; j < s.getComponentMatrix().length; j++){
                 if(s.getAvailablePositionMatrix()[i][j]){
                     Components comp = s.getComponent(i,j);
                     if(comp != null){
-                        comp.manageEpidemic(visited, s.getComponentMatrix().length, s.getComponentMatrix()[0].length, s);
+                        comp.manageEpidemic(visited, s.getComponentMatrix()[0].length, s.getComponentMatrix().length, s);
                     }
                 }
             }

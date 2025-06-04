@@ -85,7 +85,7 @@ public class ShipBoard implements Serializable {
     }
 
     public boolean validPosition(int posX, int posY){
-        return (posY >= 5 && posY < componentMatrix[0].length + 5 && posX >= 4 && posX < componentMatrix.length + 4) && availablePositionMatrix[posX - 4][posY - 5];
+        return (posY >= 5 && posY < componentMatrix.length + 5 && posX >= 4 && posX < componentMatrix[0].length + 4) && availablePositionMatrix[posX - 4][posY - 5];
     }
 
     public Components getComponent(int posX, int posY){
@@ -120,8 +120,8 @@ public class ShipBoard implements Serializable {
 
     public ArrayList<Goods> getTotalGoods(){
         ArrayList<Goods> totalGoodsList = new ArrayList<>();
-        for(int i = 4; i < componentMatrix.length + 4; i++){
-            for(int j = 5; j < componentMatrix[0].length + 5; j++){
+        for(int i = 4; i < componentMatrix[0].length + 4; i++){
+            for(int j = 5; j < componentMatrix.length + 5; j++){
                 if(availablePositionMatrix[i - 4][j - 5]) {
                     Components c = getComponent(i, j);
                     if(c!=null) {
@@ -187,8 +187,8 @@ public class ShipBoard implements Serializable {
 
         int alienPower=0;
         if(totalCannonPower + this.singleCannonPower > 0){
-            for(int i = 0; i < componentMatrix.length; i++){
-                for(int j = 0; j < componentMatrix[0].length; j++){
+            for(int i = 0; i < componentMatrix[0].length; i++){
+                for(int j = 0; j < componentMatrix.length; j++){
                     if(availablePositionMatrix[i][j]) {
                         Components c = getComponent(i, j);
                         if(c!=null && c.hasAlien() != null && c.hasAlien().colour() == AlienColour.PURPLE){
@@ -229,8 +229,8 @@ public class ShipBoard implements Serializable {
 
         int alienPower = 0;
         if(totalEnginePower + this.singleEnginePower > 0){
-            for(int i = 4; i < componentMatrix.length + 4; i++){
-                for(int j = 5; j < componentMatrix[0].length + 5; j++){
+            for(int i = 4; i < componentMatrix[0].length + 4; i++){
+                for(int j = 5; j < componentMatrix.length + 5; j++){
                     if(availablePositionMatrix[i - 4][j - 5]) {
                         Components c = getComponent(i, j);
                         if (c!=null && c.hasAlien() != null && c.hasAlien().colour()==AlienColour.BROWN){
@@ -383,8 +383,8 @@ public class ShipBoard implements Serializable {
 
     public boolean checkIfSplitted(int x, int y){
         ArrayList<Components> connectedComponents = findConnectedComponents(x, y);
-        for(int i = 4; i < componentMatrix.length + 4; i++){
-            for(int j = 5; j < componentMatrix[0].length + 5; j++){
+        for(int i = 4; i < componentMatrix[0].length + 4; i++){
+            for(int j = 5; j < componentMatrix.length + 5; j++){
                 if(availablePositionMatrix[i - 4][j - 5] && componentMatrix[i - 4][j - 5] != null && !connectedComponents.contains(componentMatrix[i - 4][j - 5])){
                     return true;
                 }
@@ -395,8 +395,8 @@ public class ShipBoard implements Serializable {
 
     public void removeWreck(int x, int y){
         ArrayList<Components> connectedComponents = findConnectedComponents(x, y);
-        for(int i = 4; i < componentMatrix.length + 4; i++){
-            for(int j = 5; j < componentMatrix[0].length + 5; j++){
+        for(int i = 4; i < componentMatrix[0].length + 4; i++){
+            for(int j = 5; j < componentMatrix.length + 5; j++){
                 if(availablePositionMatrix[i - 4][j - 5] && componentMatrix[i - 4][j - 5]!=null && !connectedComponents.contains(componentMatrix[i - 4][j - 5])){
                     removeComponent(i,j);
                 }
@@ -406,7 +406,7 @@ public class ShipBoard implements Serializable {
 
     private ArrayList<Components> findConnectedComponents(int x, int y) {
         ArrayList<Components> connectedComponents = new ArrayList<>();
-        boolean[][] visited = new boolean[componentMatrix.length][componentMatrix[0].length];
+        boolean[][] visited = new boolean[componentMatrix[0].length][componentMatrix.length];
         dfs(y, x, visited, connectedComponents);
         return connectedComponents;
     }
@@ -445,7 +445,7 @@ public class ShipBoard implements Serializable {
     public Components getFirstComponent(Direction direction, int rowOrCol){
         switch (direction) {
             case EAST:
-                for (int i = componentMatrix[0].length + 4 /* + 5 - 1*/; i > 4; i--) {
+                for (int i = componentMatrix.length + 4 /* + 5 - 1*/; i > 4; i--) {
                     if (availablePositionMatrix[rowOrCol - 4][i - 5] && componentMatrix[rowOrCol - 4][i - 5]!=null) {
                         return componentMatrix[rowOrCol - 4][i - 5];
                     }
@@ -453,14 +453,14 @@ public class ShipBoard implements Serializable {
                 break;
 
             case SOUTH:
-                for (int i = componentMatrix.length + 3; i > 3 ; i--) {
+                for (int i = componentMatrix[0].length + 3; i > 3 ; i--) {
                     if (availablePositionMatrix[i - 4][rowOrCol - 5] && componentMatrix[i - 4][rowOrCol - 5]!=null) {
                         return componentMatrix[i - 4][rowOrCol - 5];
                     }
                 }
                 break;
             case WEST:
-                for (int i = 5; i < componentMatrix[0].length + 5; i++) {
+                for (int i = 5; i < componentMatrix.length + 5; i++) {
                     if (availablePositionMatrix[rowOrCol - 4][i - 5] && componentMatrix[rowOrCol - 4][i - 5]!=null) {
                         return componentMatrix[rowOrCol - 4][i - 5];
                     }
@@ -468,7 +468,7 @@ public class ShipBoard implements Serializable {
                 break;
 
             case NORTH:
-                for (int i = 4; i < componentMatrix.length + 4; i++) {
+                for (int i = 4; i < componentMatrix[0].length + 4; i++) {
                     if (availablePositionMatrix[i - 4][rowOrCol - 5] && componentMatrix[i - 4][rowOrCol - 5]!=null) {
                         return componentMatrix[i - 4][rowOrCol - 5];
                     }
@@ -480,7 +480,7 @@ public class ShipBoard implements Serializable {
 
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0 && rowOrCol < 11 && rowOrCol > 3) {
-            for(int i = 4; i < componentMatrix.length + 4; i++){
+            for(int i = 4; i < componentMatrix[0].length + 4; i++){
                 if(availablePositionMatrix[i - 4][rowOrCol - 5]){
                     Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isSingleCannon()!=null){
@@ -491,7 +491,7 @@ public class ShipBoard implements Serializable {
                 }
             }
         } else if(rowOrCol < 10 && rowOrCol > 4){
-            for(int i = 5; i < componentMatrix[0].length + 4; i++){
+            for(int i = 5; i < componentMatrix.length + 4; i++){
                 if(availablePositionMatrix[rowOrCol - 4][i - 5]){
                     Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isSingleCannon()!=null){
@@ -507,7 +507,7 @@ public class ShipBoard implements Serializable {
 
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
         if (dir.ordinal()%2 == 0 && rowOrCol < 11 && rowOrCol > 3) {
-            for(int i = 4; i < componentMatrix.length + 4; i++){
+            for(int i = 4; i < componentMatrix[0].length + 4; i++){
                 if(availablePositionMatrix[i - 4][rowOrCol - 5]){
                     Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isDoubleCannon()!=null){
@@ -518,7 +518,7 @@ public class ShipBoard implements Serializable {
                 }
             }
         } else if(rowOrCol < 10 && rowOrCol > 4){
-            for(int i = 5; i < componentMatrix[0].length + 4; i++){
+            for(int i = 5; i < componentMatrix.length + 4; i++){
                 if(availablePositionMatrix[rowOrCol - 4][i - 5]){
                     Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isDoubleCannon()!=null){
@@ -575,8 +575,8 @@ public class ShipBoard implements Serializable {
 
     public int getTotalExposedConnectors() {
         int totalExposedConnectors = 0;
-        for (int i=4; i < componentMatrix.length + 4; i++) {
-            for (int j=5; j < componentMatrix[i].length + 5; j++) {
+        for (int i=4; i < componentMatrix[0].length + 4; i++) {
+            for (int j=5; j < componentMatrix.length + 5; j++) {
                 if (availablePositionMatrix[i-4][j-5] && componentMatrix[i-4][j-5] != null) {
                     for(Direction d : Direction.values()) {     // in alcuni casi controllo la connessione 2 volte, può essere ottimizzato
                         if (getIfExposed(d, componentMatrix[i-4][j-5])) {

@@ -10,8 +10,8 @@ public class ShipboardView implements Serializable {
     private final ComponentsView[] bookedComponents= new ComponentsView[2];
 
     public ShipboardView(ShipBoard shipBoard) {
-        for(int i = 0; i < shipBoard.getComponentMatrix().length; i++){
-            for(int j = 0; j < shipBoard.getComponentMatrix()[0].length; j++){
+        for(int i = 0; i < shipBoard.getComponentMatrix()[0].length; i++){
+            for(int j = 0; j < shipBoard.getComponentMatrix().length; j++){
                 if(shipBoard.getAvailablePositionMatrix()[i][j]) {
                     Components c = shipBoard.getComponent(i, j);
                     if(c != null) {
