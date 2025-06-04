@@ -12,6 +12,8 @@ public abstract class Enemy extends AdventureCard implements Serializable {
     public int getCannonPower() {
         return cannonPower;
     }
+
     public int getCardLevel(){return super.getCardLevel();}
+
     public int getLostDays(){return super.getLostDays();}
 }

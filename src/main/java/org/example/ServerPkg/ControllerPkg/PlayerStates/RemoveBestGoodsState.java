@@ -61,7 +61,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
             if(!goodsList.isEmpty()){
                 new GameView(getGame(), new RemoveBatteriesBeforeGoodsException("You have to remove goods before batteries " + player.getName()));
             } else {
-                Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getX(),point.getY());
+                Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getY(),point.getX());
                 if(c!=null) {
                     BatteryStorage storage = c.isBatteryStorage();
                     if (storage != null) {
@@ -125,8 +125,8 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
 
         int itemsToRemove = game.getCurrentCard().getNumGoodsLose() - goodsRemoved;
 
-        for (int i=4; i< player.getPlayerShipBoard().getComponentMatrix().length +4 && itemsToRemove > 0; i++){
-            for(int j=5; j < player.getPlayerShipBoard().getComponentMatrix()[i].length + 5; j++){
+        for (int i=5; i< player.getPlayerShipBoard().getComponentMatrix().length +5 && itemsToRemove > 0; i++){
+            for(int j=4; j < player.getPlayerShipBoard().getComponentMatrix()[0].length + 4; j++){
                 Components c = player.getPlayerShipBoard().getComponent(i, j);
                 if(c!=null) {
                     if (c.isBatteryStorage() != null) {

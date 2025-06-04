@@ -28,40 +28,40 @@ public class LifeSupportSystem extends Components implements Serializable {
 
     @Override
     public void remove(ShipBoard ship) {
-        if(ship.getComponent(getPosX(), getPosY() + 1)!=null) {
-            ship.getComponent(getPosX(), getPosY() + 1).removeCabin(this, ship);
+        if(ship.getComponent(getPosY() + 1, getPosX())!=null) {
+            ship.getComponent(getPosY() + 1, getPosX()).removeCabin(this, ship);
         }
-        if(ship.getComponent(getPosX(), getPosY() - 1)!=null) {
-            ship.getComponent(getPosX(), getPosY() - 1).removeCabin(this, ship);
+        if(ship.getComponent(getPosY() - 1, getPosX())!=null) {
+            ship.getComponent(getPosY() - 1, getPosX()).removeCabin(this, ship);
         }
-        if(ship.getComponent(getPosX()+1, getPosY())!=null) {
-            ship.getComponent(getPosX() + 1, getPosY()).removeCabin(this, ship);
+        if(ship.getComponent(getPosY(), getPosX()+1)!=null) {
+            ship.getComponent(getPosY(), getPosX()+1).removeCabin(this, ship);
         }
-        if(ship.getComponent(getPosX()-1, getPosY())!=null) {
-            ship.getComponent(getPosX() - 1, getPosY()).removeCabin(this, ship);
+        if(ship.getComponent(getPosY(), getPosX()-1)!=null) {
+            ship.getComponent(getPosY(), getPosX()-1).removeCabin(this, ship);
         }
     }
 
     @Override
     public void place(ShipBoard ship) {
-        if (ship.validPosition(getPosX()+1,getPosY())) {
-            if(ship.getComponent(getPosX()+1,getPosY())!=null) {
-                ship.getComponent(getPosX() + 1, getPosY()).addCabin(this);
+        if (ship.validPosition(getPosY(),getPosX()+1)) {
+            if(ship.getComponent(getPosY(), getPosX()+1)!=null) {
+                ship.getComponent(getPosY(), getPosX()+1).addCabin(this);
             }
         }
-        if (ship.validPosition(getPosX()-1,getPosY())){
-            if(ship.getComponent(getPosX()-1,getPosY())!=null) {
-                ship.getComponent(getPosX() - 1, getPosY()).addCabin(this);
+        if (ship.validPosition(getPosY(), getPosX()-1)){
+            if(ship.getComponent(getPosY(), getPosX()-1)!=null) {
+                ship.getComponent(getPosY(), getPosX()-1).addCabin(this);
             }
         }
-        if (ship.validPosition(getPosX(),getPosY()+1)) {
-            if(ship.getComponent(getPosX(),getPosY()+1)!=null) {
-                ship.getComponent(getPosX(), getPosY()+1).addCabin(this);
+        if (ship.validPosition(getPosY() + 1, getPosX())) {
+            if(ship.getComponent(getPosY() + 1, getPosX())!=null) {
+                ship.getComponent(getPosY() + 1, getPosX()).addCabin(this);
             }
         }
-        if (ship.validPosition(getPosX(),getPosY()-1)) {
-            if(ship.getComponent(getPosX(),getPosY()-1)!=null) {
-                ship.getComponent(getPosX(), getPosY()-1).addCabin(this);
+        if (ship.validPosition(getPosY() - 1, getPosX())) {
+            if(ship.getComponent(getPosY() - 1, getPosX())!=null) {
+                ship.getComponent(getPosY() - 1, getPosX()).addCabin(this);
             }
         }
     }

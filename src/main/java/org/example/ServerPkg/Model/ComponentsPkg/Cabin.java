@@ -119,17 +119,17 @@ public class Cabin extends Components implements Serializable {
     public void place(ShipBoard ship) {
         ship.setNumAstronauts(2);
         this.numAstronauts = 2;
-        if (ship.validPosition(this.getPosX()+1, this.getPosY()) && ship.getComponent(this.getPosX()+1, this.getPosY())!=null){
-            ship.getComponent(this.getPosX()+1, this.getPosY()).addLifeSupport(this);
+        if (ship.validPosition(this.getPosY(), this.getPosX()+1) && ship.getComponent(this.getPosY(), this.getPosX()+1)!=null){
+            ship.getComponent(this.getPosY(), this.getPosX()+1).addLifeSupport(this);
         }
-        if (ship.validPosition(this.getPosX()-1, this.getPosY()) && ship.getComponent(this.getPosX()-1, this.getPosY())!=null){
-            ship.getComponent(this.getPosX()-1, this.getPosY()).addLifeSupport(this);
+        if (ship.validPosition(this.getPosY(), this.getPosX()-1) && ship.getComponent(this.getPosY(), this.getPosX()-1)!=null){
+            ship.getComponent(this.getPosY(), this.getPosX()-1).addLifeSupport(this);
         }
-        if (ship.validPosition(this.getPosX(), this.getPosY()+1) && ship.getComponent(this.getPosX(), this.getPosY()+1)!=null){
-            ship.getComponent(this.getPosX(), this.getPosY()+1).addLifeSupport(this);
+        if (ship.validPosition(this.getPosY()+1, this.getPosX()) && ship.getComponent(this.getPosY()+1, this.getPosX())!=null){
+            ship.getComponent(this.getPosY()+1, this.getPosX()).addLifeSupport(this);
         }
-        if (ship.validPosition(this.getPosX(), this.getPosY()-1) && ship.getComponent(this.getPosX(), this.getPosY()-1)!=null){
-            ship.getComponent(this.getPosX(), this.getPosY()-1).addLifeSupport(this);
+        if (ship.validPosition(this.getPosY()-1, this.getPosX()) && ship.getComponent(this.getPosY()-1, this.getPosX())!=null){
+            ship.getComponent(this.getPosY()-1, this.getPosX()).addLifeSupport(this);
         }
     }
 
@@ -173,7 +173,7 @@ public class Cabin extends Components implements Serializable {
   
     public void manageEpidemic(boolean[][] visited, int dimX, int dimY, ShipBoard s){
         ArrayList <Cabin> cabins = new ArrayList<>();
-        addEpidemicCabin(this.getPosY(), this.getPosX(), cabins, visited, dimX, dimY, s);
+        addEpidemicCabin(this.getPosX(), this.getPosY(), cabins, visited, dimX, dimY, s);
 
         if(cabins.size()>1){
             for (Cabin c : cabins) {
@@ -188,25 +188,25 @@ public class Cabin extends Components implements Serializable {
 
     @Override
     public void addEpidemicCabin(int x, int y, ArrayList<Cabin> cabins, boolean[][] visited, int dimX, int dimY, ShipBoard s){
-        if(!visited[x][y]){
-            visited[x][y] = true;
+        if(!visited[y-5][x-4]){
+            visited[y-5][x-4] = true;
             if (this.alien == null && this.getNumAstronauts() == 0) {
                 return;
             }
 
             cabins.add(this);
 
-            if(x+1 < dimX && !visited[x+1][y] && s.getComponentMatrix()[x+1][y] != null){
-                s.getComponentMatrix()[x+1][y].addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY, s);
+            if(x+1 < dimX && !visited[y-5][x-3] && s.getComponent(y,x+1) != null){
+                s.getComponent(y,x+1).addEpidemicCabin(x+1, y, cabins, visited, dimX, dimY, s);
             }
-            if (x-1 >= 0 && !visited[x-1][y] && s.getComponentMatrix()[x-1][y] != null){
-                s.getComponentMatrix()[x-1][y].addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY, s);
+            if (x-1 >= 0 && !visited[y-5][x-5] && s.getComponent(y, x-1) != null){
+                s.getComponent(y, x-1).addEpidemicCabin(x-1, y, cabins, visited, dimX, dimY, s);
             }
-            if (y+1 < dimY && !visited[x][y+1] && s.getComponentMatrix()[x][y+1] != null){
-                s.getComponentMatrix()[x][y+1].addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY, s);
+            if (y+1 < dimY && !visited[y-4][x-4] && s.getComponent(y+1, x) != null){
+                s.getComponent(y+1, x).addEpidemicCabin(x, y+1, cabins, visited, dimX, dimY, s);
             }
-            if (y-1 >= 0 && !visited[x][y-1] && s.getComponentMatrix()[x][y-1] != null){
-                s.getComponentMatrix()[x][y-1].addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY, s);
+            if (y-1 >= 0 && !visited[y-6][x-4] && s.getComponent(y-1, x) != null){
+                s.getComponent(y-1, x).addEpidemicCabin(x, y-1, cabins, visited, dimX, dimY, s);
             }
         }
     }

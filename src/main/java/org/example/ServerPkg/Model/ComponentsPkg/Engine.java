@@ -59,6 +59,6 @@ public class Engine extends Components implements Serializable {
 
     @Override
     public boolean checkRightEngine(ShipBoard ship){
-        return this.getDirection() != Direction.NORTH || (ship.validPosition(this.getPosX(), this.getPosY() + 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() + 1] != null);
+        return this.getDirection() != Direction.NORTH || (ship.validPosition(this.getPosY()+1, this.getPosX()) && ship.getComponent(this.getPosY()+1, this.getPosX()) != null);
     }
 }

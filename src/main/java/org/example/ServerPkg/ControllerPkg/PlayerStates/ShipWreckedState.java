@@ -19,7 +19,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
 
     @Override
     public void chooseWrecked(Points point, Player player){
-        player.getPlayerShipBoard().removeWreck(point.getY(), point.getX());
+        player.getPlayerShipBoard().removeWreck(point.getX(), point.getY());
         player.setShipOK(true);
         new GameView(getGame(), null);
         if(getGame().getGameMode()==0) {
@@ -64,10 +64,10 @@ public class ShipWreckedState extends PlayerState implements Serializable {
         assert c != null;
         chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);
         player.abandon(getGame());
-        AutoFix(player);
+        autoFix(player);
     }
 
-    private void AutoFix(Player player) {
+    private void autoFix(Player player) {
         if (getGame().getCurrentCard() != null) {
             getGame().getCurrentCard().setShipWrecked(false);
             getGame().getCurrentCard().setCardState(getGame());
@@ -98,6 +98,6 @@ public class ShipWreckedState extends PlayerState implements Serializable {
         chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);    // scegliamo noi un pezzo
         getGame().disconnectPlayer(disconnectingPlayer);
 
-        AutoFix(player);
+        autoFix(player);
     }
 }

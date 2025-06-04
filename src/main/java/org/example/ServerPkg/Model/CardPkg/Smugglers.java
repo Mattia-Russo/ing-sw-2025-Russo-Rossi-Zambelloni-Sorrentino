@@ -131,6 +131,4 @@ public class Smugglers extends Enemy implements Serializable {
     public int getNumGoodsLose(){
         return this.numGoodsLose;
     }
-    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
-    // CONFRONTA POI O CHIAMA GOODSWIN O LOSE E CAMBIA LE RISORSE
 }

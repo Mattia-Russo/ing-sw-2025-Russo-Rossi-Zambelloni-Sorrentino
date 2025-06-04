@@ -19,7 +19,7 @@ public class Player implements Serializable {
     private ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
-    private boolean shipBuilded;
+    private boolean shipBuilt;
     private boolean readyForCards;
     private String rocketColour;
     private int numCredits;
@@ -38,7 +38,7 @@ public class Player implements Serializable {
         this.readyForCards=false;
         this.numCredits=0;
         this.name=name;
-        this.shipBuilded=false;
+        this.shipBuilt =false;
         this.state = new WaitingState(game);
         this.shipOK=true;
         this.currentTile = null;
@@ -131,14 +131,14 @@ public class Player implements Serializable {
     }
 
     public boolean checkShip() {
-        for(int i = 4; i < playerShipBoard.getComponentMatrix().length + 4; i++){
-            for(int j = 5; j < playerShipBoard.getComponentMatrix()[i].length + 5; j++){
-                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
-                    Components c = playerShipBoard.getComponentMatrix()[i][j];
+        for(int i = 5; i < playerShipBoard.getComponentMatrix().length + 5; i++){
+            for(int j = 4; j < playerShipBoard.getComponentMatrix()[i].length + 4; j++){
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i,j) != null) {
+                    Components c = playerShipBoard.getComponent(i,j);
                     for (Direction dir : Direction.values()) {
                         int ni = i + dy(dir);
                         int nj = j + dx(dir);
-                        if ((ni < playerShipBoard.getComponentMatrix().length + 4 && ni > 4) && (nj > 5 && nj < playerShipBoard.getComponentMatrix()[ni].length + 5)){
+                        if ((ni < playerShipBoard.getComponentMatrix().length + 5 && ni > 5) && (nj > 4 && nj < playerShipBoard.getComponentMatrix()[ni].length + 4)){
                             if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni][nj] != null) {
                                 Components neighbor = playerShipBoard.getComponentMatrix()[ni][nj];
                                 Connector myConn = c.getDirConnector(dir);
@@ -206,12 +206,12 @@ public class Player implements Serializable {
         return this.currentTile;
     }
 
-    public boolean getShipBuilded(){
-        return this.shipBuilded;
+    public boolean getShipBuilt(){
+        return this.shipBuilt;
     }
 
-    public void setShipBuilded(){
-        this.shipBuilded = true;
+    public void setShipBuilt(){
+        this.shipBuilt = true;
     }
 
     public ArrayList<AdventureCard> getDeckShowed() {
@@ -231,9 +231,9 @@ public class Player implements Serializable {
     }
 
     public void opShip(){
-        for(int i = 4; i < playerShipBoard.getComponentMatrix().length + 4; i++){
-            for(int j = 5; j < playerShipBoard.getComponentMatrix()[i].length + 5; j++){
-                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
+        for(int i = 5; i < playerShipBoard.getComponentMatrix().length + 5; i++){
+            for(int j = 4; j < playerShipBoard.getComponentMatrix()[0].length + 4; j++){
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i,j) != null) {
                     if(i!=7 && j!=7) {
                         getPlayerShipBoard().removeComponent(i, j);
                     }
