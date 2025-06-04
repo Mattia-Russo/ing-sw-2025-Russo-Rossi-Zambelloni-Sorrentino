@@ -62,7 +62,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
         chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
 
         if(dice) {
-            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
+            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), rowOrCol) == null) {
                 protect = true;
             }
             if (protect) {
@@ -118,7 +118,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
             int i=0;
             if(component==null||battery==null){
                 checkWreck(g, p, i);
-            }else if(meteorList.get(currentMeteor).getType()==0){
+            }else if(meteorList.get(currentMeteor).type()==0){
                 try {
                     if (p.getPlayerShipBoard().shieldsNotProtects(meteorList.get(currentMeteor).direction(), component, battery)) {
                         new GameView(g, null);
@@ -152,12 +152,12 @@ public class MeteorCard extends AdventureCard implements Serializable {
 
     private void checkWreck(Game g, Player p, int i) {
         Components wreck = null;
-        Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
+        Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), rowOrCol);
         try {
             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
             new GameView(g, null);
             while (wreck == null) {
-                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
+                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), i);
                 i++;
             }
             if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
@@ -177,7 +177,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
     private void chooseRowOrCol(Player p, Game g) {
         boolean good = false;
         while(!good && currentMeteor<meteorList.size()) {
-            if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH || meteorList.get(currentMeteor).getDirection() == Direction.SOUTH) {
+            if (meteorList.get(currentMeteor).direction() == Direction.NORTH || meteorList.get(currentMeteor).direction() == Direction.SOUTH) {
                 rowOrCol = p.rollDice();
                 new GameView(g, new Exception("METEOR  " + rowOrCol));
                 if(rowOrCol < 11 && rowOrCol > 3){
