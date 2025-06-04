@@ -84,12 +84,12 @@ public class ShipBoard implements Serializable {
         return availablePositionMatrix;
     }
 
-    public boolean validPosition(int posX, int posY){
-        return (posX >= 0 && posX < componentMatrix[0].length && posY >= 0 && posY < componentMatrix.length) && availablePositionMatrix[posY][posX];
+    public boolean validPosition(int y, int x){
+        return (y >= 5 && y < componentMatrix.length + 5 && x >= 4 && x < componentMatrix[0].length + 4) && availablePositionMatrix[y - 5][x - 4];
     }
 
-    public Components getComponent(int posX, int posY){
-        return componentMatrix[posY][posX];
+    public Components getComponent(int posY, int posX){
+        return componentMatrix[posY - 5][posX - 4];
     }
 
     public int getDeletedComponentsCounter(){
@@ -120,10 +120,10 @@ public class ShipBoard implements Serializable {
 
     public ArrayList<Goods> getTotalGoods(){
         ArrayList<Goods> totalGoodsList = new ArrayList<>();
-        for(int i = 0; i < componentMatrix.length; i++){
-            for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j]) {
-                    Components c = getComponent(j, i);
+        for(int i = 5; i < componentMatrix.length + 5; i++){
+            for(int j = 4; j < componentMatrix.length + 4; j++){
+                if(availablePositionMatrix[i - 5][j - 4]) {
+                    Components c = getComponent(i, j);
                     if(c!=null) {
                         c.addStorage(totalGoodsList);
                     }
@@ -140,13 +140,13 @@ public class ShipBoard implements Serializable {
     private ArrayList<BatteryStorage> getBatteryStorageFromPosition(ArrayList<Points> pos){
         ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
         for(Points p : pos){
-            if(!availablePositionMatrix[p.getY()][p.getX()]) {
+            if(!availablePositionMatrix[p.getY() - 5][p.getX() - 4]) {
                 throw new InvalidPositionException("Position is invalid");
             }
-            if(getComponent(p.x,p.y).isBatteryStorage()==null) {
+            if(getComponent(p.getY(),p.getX()).isBatteryStorage()==null) {
                 throw new InvalidParameterException("Is not a Battery Storage");
             }
-            batteryStorages.add(getComponent(p.x,p.y).isBatteryStorage());
+            batteryStorages.add(getComponent(p.getY(),p.getX()).isBatteryStorage());
         }
         return batteryStorages;
     }
@@ -157,23 +157,20 @@ public class ShipBoard implements Serializable {
             ArrayList<Cannon> cannons = new ArrayList<>();
             ArrayList<BatteryStorage> batteryStorages;
             for (Points p : cannonPos) {
-                if (!availablePositionMatrix[p.getY()][p.getX()]) {
+                if (!availablePositionMatrix[p.getY() - 5][p.getX() - 4]) {
                     throw new InvalidPositionException("Position is invalid");
                 }
-                if (getComponent(p.getX(), p.getY()).isDoubleCannon() == null) {
+                if (getComponent(p.getY(), p.getX()).isDoubleCannon() == null) {
                     throw new InvalidParameterException("Is not a Double Cannon");
                 }
-                cannons.add(getComponent(p.getX(), p.getY()).isDoubleCannon());
+                cannons.add(getComponent(p.getY(), p.getX()).isDoubleCannon());
             }
-
 
             if(cannonPos.size()!=cannonPos.stream().distinct().count()){
                 throw new CannonSelectedTwiceException("You selected twice the same cannon");
             }
 
             batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
-
             if (batteryStorages.size() < cannons.size()) {
                 throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
             }
@@ -190,11 +187,11 @@ public class ShipBoard implements Serializable {
 
         int alienPower=0;
         if(totalCannonPower + this.singleCannonPower > 0){
-            for(int i = 0; i < componentMatrix.length; i++){
-                for(int j = 0; j < componentMatrix[0].length; j++){
-                    if(availablePositionMatrix[i][j]) {
-                        Components c = getComponent(j, i);
-                        if(c!=null && c.hasAlien() != null && c.hasAlien().getColour() == AlienColour.PURPLE){
+            for(int i = 5; i < componentMatrix.length + 5; i++){
+                for(int j = 4; j < componentMatrix[0].length + 4; j++){
+                    if(availablePositionMatrix[i - 5][j - 4]) {
+                        Components c = getComponent(i, j);
+                        if(c!=null && c.hasAlien() != null && c.hasAlien().colour() == AlienColour.PURPLE){
                             alienPower+=2;
                         }
                     }
@@ -206,21 +203,20 @@ public class ShipBoard implements Serializable {
 
     public int getTotalEnginePower(ArrayList<Points> enginesPos, ArrayList<Points> batteriesPos){
         int totalEnginePower = 0;
-        if(enginesPos!=null&&batteriesPos!=null) {
-            ArrayList<BatteryStorage> batteryStorages = new ArrayList<>();
+        if(enginesPos!=null && batteriesPos!=null) {
+            ArrayList<BatteryStorage> batteryStorages;
             ArrayList<Engine> engines = new ArrayList<>();
             for (Points p : enginesPos) {
-                if (!availablePositionMatrix[p.getX()][p.getY()]) {
+                if (!availablePositionMatrix[p.getY() - 5][p.getX() - 4]) {
                     throw new InvalidPositionException("Position is invalid");
                 }
-                if (getComponent(p.getX(), p.getY()).isDoubleEngine() == null) {
-                    throw new InvalidParameterException("Is not a Double engine");
+                if (getComponent(p.getY(), p.getX()).isDoubleEngine() == null) {
+                    throw new InvalidParameterException("Is not a Double Engine");
                 }
-                engines.add(getComponent(p.getX(), p.getY()).isDoubleEngine());
+                engines.add(getComponent(p.getY(), p.getX()).isDoubleEngine());
             }
 
             batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
             if (batteryStorages.size() < engines.size()) {
                 throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
             }
@@ -233,11 +229,11 @@ public class ShipBoard implements Serializable {
 
         int alienPower = 0;
         if(totalEnginePower + this.singleEnginePower > 0){
-            for(int i = 0; i < componentMatrix.length; i++){
-                for(int j = 0; j < componentMatrix[0].length; j++){
-                    if(availablePositionMatrix[i][j]) {
-                        Components c = getComponent(j, i);
-                        if (c!=null && c.hasAlien() != null && c.hasAlien().getColour()==AlienColour.BROWN){
+            for(int i = 5; i < componentMatrix.length + 5; i++){
+                for(int j = 4; j < componentMatrix[0].length + 4; j++){
+                    if(availablePositionMatrix[i - 5][j - 4]) {
+                        Components c = getComponent(i, j);
+                        if (c!=null && c.hasAlien() != null && c.hasAlien().colour()==AlienColour.BROWN){
                             alienPower+=2;
                         }
                     }
@@ -247,49 +243,47 @@ public class ShipBoard implements Serializable {
         return alienPower + totalEnginePower + this.singleEnginePower;
     }
 
-    public boolean ShieldProtects(Direction dir, ArrayList<Points> shield, ArrayList<Points> batteriesPos) {
+    public boolean shieldsNotProtects(Direction dir, ArrayList<Points> shield, ArrayList<Points> batteriesPos) {
         ArrayList<BatteryStorage> batteryStorages;
-        ArrayList<Shield> user_shields = new ArrayList<>();
+        ArrayList<Shield> userShields = new ArrayList<>();
         for(Points p : shield){
-            if(!availablePositionMatrix[p.getY()][p.getX()]) {
+            if(!availablePositionMatrix[p.getY() - 5][p.getX() - 4]) {
                 throw new InvalidPositionException("Position is invalid");
             }
-            if(getComponent(p.getX(),p.getY()).isShield()==null) {
+            if(getComponent(p.getY(),p.getX()).isShield()==null) {
                 throw new InvalidParameterException("Is not a Shield");
             }
-            user_shields.add(getComponent(p.getX(),p.getY()).isShield());
+            userShields.add(getComponent(p.getY(),p.getX()).isShield());
         }
 
         batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
-        if(batteryStorages.size()< user_shields.size()) {
+        if(batteryStorages.size()< userShields.size()) {
             throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate Shield protection!");
         }
 
-        for (int i = 0; i< user_shields.size(); i++) {
+        for (int i = 0; i< userShields.size(); i++) {
             batteryStorages.get(i).setQuantity(-1, this);
-            if(user_shields.get(i).getDirection1()==dir||user_shields.get(i).getDirection2()==dir) {
+            if(userShields.get(i).getDirection1()==dir||userShields.get(i).getDirection2()==dir) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean CannonProtects(Direction dir, int rowOrCol,  ArrayList<Points> cannon, ArrayList<Points> batteriesPos) {
+    public boolean cannonProtects(Direction dir, int rowOrCol, ArrayList<Points> cannon, ArrayList<Points> batteriesPos) {
         ArrayList<Cannon> cannons = new ArrayList<>();
         ArrayList<BatteryStorage> batteryStorages;
         for(Points p : cannon){
-            if(!availablePositionMatrix[p.getY()][p.getX()]) {
+            if(!availablePositionMatrix[p.getY() - 5][p.getX() - 4]) {
                 throw new InvalidPositionException("Position is invalid");
             }
-            if(getComponent(p.getX(),p.getY()).isDoubleCannon()==null) {
+            if(getComponent(p.getY(),p.getX()).isDoubleCannon()==null) {
                 throw new InvalidParameterException("Is not a Double Cannon");
             }
-            cannons.add(getComponent(p.getX(),p.getY()).isDoubleCannon());
+            cannons.add(getComponent(p.getY(),p.getX()).isDoubleCannon());
         }
 
         batteryStorages = getBatteryStorageFromPosition(batteriesPos);
-
         if(batteryStorages.size()<cannons.size()) {
             throw new BatteriesLessThenCannonException("Not enough batteries onboard to activate double cannons!");
         }
@@ -324,18 +318,12 @@ public class ShipBoard implements Serializable {
     }
 
     public boolean getIfShielded(Direction direction){
-        switch(direction) {
-            case NORTH:
-                return getShieldedDirections()[0] > 0;
-            case EAST:
-                return getShieldedDirections()[1] > 0;
-            case SOUTH:
-                return getShieldedDirections()[2] > 0;
-            case WEST:
-                return getShieldedDirections()[3] > 0;
-            default:
-                return false;
-        }
+        return switch (direction) {
+            case NORTH -> getShieldedDirections()[0] > 0;
+            case EAST -> getShieldedDirections()[1] > 0;
+            case SOUTH -> getShieldedDirections()[2] > 0;
+            case WEST -> getShieldedDirections()[3] > 0;
+        };
     }
 
     public void addShieldInDirection(Direction direction) {
@@ -371,15 +359,15 @@ public class ShipBoard implements Serializable {
     }
 
     public void removeComponent(int x, int y) {
-        if (!validPosition(x, y)) {
+        if (!validPosition(y, x)) {
             throw new InvalidPositionException("Position is invalid");
         }
 
-        if (componentMatrix[y][x] == null) {
+        if (componentMatrix[y - 5][x - 4] == null) {
             throw new AlreadyEmptyPositionException("Position already empty");
         }
-        componentMatrix[y][x].remove(this);
-        componentMatrix[y][x] = null;
+        componentMatrix[y - 5][x - 4].remove(this);
+        componentMatrix[y - 5][x - 4] = null;
         deletedComponentsCounter++;
     }
 
@@ -392,11 +380,11 @@ public class ShipBoard implements Serializable {
         }
     }
 
-    public boolean checkIfSplitted(int row,int col){
-        ArrayList<Components> connectedComponents = findConnectedComponents(row,col);
-        for(int i = 0; i < componentMatrix.length; i++){
-            for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j] && componentMatrix[i][j] != null && !connectedComponents.contains(componentMatrix[i][j])){
+    public boolean checkIfSplit(int x, int y){
+        ArrayList<Components> connectedComponents = findConnectedComponents(x, y);
+        for(int i = 5; i < componentMatrix.length + 5; i++){
+            for(int j = 4; j < componentMatrix[0].length + 4; j++){
+                if(availablePositionMatrix[i - 5][j - 4] && componentMatrix[i - 5][j - 4] != null && !connectedComponents.contains(componentMatrix[i - 5][j - 4])){
                     return true;
                 }
             }
@@ -404,21 +392,21 @@ public class ShipBoard implements Serializable {
         return false;
     }
 
-    public void removeWreck(int row,int col){
-        ArrayList<Components> connectedComponents = findConnectedComponents(row,col);
-        for(int i = 0; i < componentMatrix.length; i++){
-            for(int j = 0; j < componentMatrix[0].length; j++){
-                if(availablePositionMatrix[i][j] && componentMatrix[i][j]!=null && !connectedComponents.contains(componentMatrix[i][j])){
-                    removeComponent(j,i);
+    public void removeWreck(int x, int y){
+        ArrayList<Components> connectedComponents = findConnectedComponents(x, y);
+        for(int i = 5; i < componentMatrix.length + 5; i++){
+            for(int j = 4; j < componentMatrix[0].length + 4; j++){
+                if(availablePositionMatrix[i - 5][j - 4] && componentMatrix[i - 5][j - 4]!=null && !connectedComponents.contains(componentMatrix[i - 5][j - 4])){
+                    removeComponent(i,j);
                 }
             }
         }
     }
 
-    private ArrayList<Components> findConnectedComponents(int row, int col) {
+    private ArrayList<Components> findConnectedComponents(int x, int y) {
         ArrayList<Components> connectedComponents = new ArrayList<>();
         boolean[][] visited = new boolean[componentMatrix.length][componentMatrix[0].length];
-        dfs(row, col, visited, connectedComponents);
+        dfs(y, x, visited, connectedComponents);
         return connectedComponents;
     }
 
@@ -456,46 +444,44 @@ public class ShipBoard implements Serializable {
     public Components getFirstComponent(Direction direction, int rowOrCol){
         switch (direction) {
             case EAST:
-                for (int i = componentMatrix[0].length-1; i >= 0; i--) {
-                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
-                        return componentMatrix[rowOrCol][i];
+                for (int i = componentMatrix[0].length + 3 /* + 4 - 1*/; i > 3; i--) {
+                    if (availablePositionMatrix[rowOrCol - 5][i - 4] && componentMatrix[rowOrCol - 5][i - 4]!=null) {
+                        return componentMatrix[rowOrCol - 5][i - 4];
                     }
                 }
                 break;
 
             case SOUTH:
-                for (int i = componentMatrix.length-1; i > 0 ; i--) {
-                    if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
-                        return componentMatrix[i][rowOrCol];
+                for (int i = componentMatrix.length + 4; i > 4 ; i--) {
+                    if (availablePositionMatrix[i - 5][rowOrCol - 4] && componentMatrix[i - 5][rowOrCol - 4]!=null) {
+                        return componentMatrix[i - 5][rowOrCol - 4];
                     }
                 }
                 break;
             case WEST:
-                for (int i = 0; i < componentMatrix[0].length ; i++) {
-                    if (availablePositionMatrix[rowOrCol][i]&&componentMatrix[rowOrCol][i]!=null) {
-                        return componentMatrix[rowOrCol][i];
+                for (int i = 4; i < componentMatrix[0].length + 4; i++) {
+                    if (availablePositionMatrix[rowOrCol - 5][i - 4] && componentMatrix[rowOrCol - 5][i - 4]!=null) {
+                        return componentMatrix[rowOrCol - 5][i - 4];
                     }
                 }
                 break;
 
             case NORTH:
-                for (int i = 0; i < componentMatrix.length; i++) {
-                    if (availablePositionMatrix[i][rowOrCol]&&componentMatrix[i][rowOrCol]!=null) {
-                        return componentMatrix[i][rowOrCol];
+                for (int i = 5; i < componentMatrix.length + 5; i++) {
+                    if (availablePositionMatrix[i - 5][rowOrCol - 4] && componentMatrix[i - 5][rowOrCol - 4]!=null) {
+                        return componentMatrix[i - 5][rowOrCol - 4];
                     }
                 }
                 break;
-            default:
-                return null;
         }
         return null;
     }
 
     public boolean getIfSingleCannon(Direction dir, int rowOrCol){
-        if (dir.ordinal()%2 == 0 && rowOrCol < 7) {
-            for(int i = 0; i < componentMatrix.length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
-                    Components c = getComponent(rowOrCol, i);
+        if (dir.ordinal()%2 == 0 && rowOrCol < 11 && rowOrCol > 3) {
+            for(int i = 5; i < componentMatrix.length + 5; i++){
+                if(availablePositionMatrix[i - 5][rowOrCol - 4]){
+                    Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
@@ -503,10 +489,10 @@ public class ShipBoard implements Serializable {
                     }
                 }
             }
-        } else if(rowOrCol < 5){
-            for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
-                    Components c = getComponent(i, rowOrCol);
+        } else if(rowOrCol < 10 && rowOrCol > 4){
+            for(int i = 4; i < componentMatrix[0].length + 4; i++){
+                if(availablePositionMatrix[rowOrCol - 5][i - 4]){
+                    Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isSingleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
@@ -516,13 +502,13 @@ public class ShipBoard implements Serializable {
             }
         }
         return false;
-    }   // come fa a capire l'utente se è  meteor swarm o stray big meteor (l'immagine è la stessa, la gestione è diversa)
+    }
 
     public boolean getIfDoubleCannon(Direction dir, int rowOrCol){
-        if (dir.ordinal()%2 == 0 && rowOrCol < 7) {
-            for(int i = 0; i < componentMatrix.length; i++){
-                if(availablePositionMatrix[i][rowOrCol]){
-                    Components c = getComponent(rowOrCol, i);
+        if (dir.ordinal()%2 == 0 && rowOrCol < 11 && rowOrCol > 3) {
+            for(int i = 5; i < componentMatrix.length + 5; i++){
+                if(availablePositionMatrix[i - 5][rowOrCol - 4]){
+                    Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isDoubleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
@@ -530,10 +516,10 @@ public class ShipBoard implements Serializable {
                     }
                 }
             }
-        } else if(rowOrCol < 5){
-            for(int i = 0; i < componentMatrix[0].length; i++){
-                if(availablePositionMatrix[rowOrCol][i]){
-                    Components c = getComponent(i, rowOrCol);
+        } else if(rowOrCol < 10 && rowOrCol > 4){
+            for(int i = 4; i < componentMatrix[0].length + 4; i++){
+                if(availablePositionMatrix[rowOrCol - 5][i - 4]){
+                    Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isDoubleCannon()!=null){
                         if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
                             return true;
@@ -546,9 +532,9 @@ public class ShipBoard implements Serializable {
     }
 
     public void placeComponent(int x, int y, Components component){
-        if (validPosition(x, y)){
-            if (componentMatrix[y][x] == null) {
-                componentMatrix[y][x] = component;
+        if (validPosition(y, x)){
+            if (componentMatrix[y - 5][x - 4] == null) {
+                componentMatrix[y - 5][x - 4] = component;
                 component.setPosition(x, y);
                 component.place(this);
             } else {
@@ -563,25 +549,25 @@ public class ShipBoard implements Serializable {
     public boolean getIfExposed(Direction dir, Components c){
         switch(dir){
             case NORTH:
-                if(!validPosition(c.getPosX(), c.getPosY()-1) && c.getDirConnector(Direction.NORTH) != Connector.EMPTY)
+                if(!validPosition(c.getPosY()-1, c.getPosX()) && c.getDirConnector(Direction.NORTH) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && componentMatrix[c.getPosY()-1][c.getPosX()] == null;
+                    return c.getDirConnector(Direction.NORTH) != Connector.EMPTY && componentMatrix[c.getPosX()][c.getPosY()-1] == null;
             case EAST:
-                if(!validPosition(c.getPosX()+1, c.getPosY()) && c.getDirConnector(Direction.EAST) != Connector.EMPTY)
+                if(!validPosition(c.getPosY(), c.getPosX()+1) && c.getDirConnector(Direction.EAST) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.EAST) != Connector.EMPTY && componentMatrix[c.getPosY()][c.getPosX()+1] == null;
+                    return c.getDirConnector(Direction.EAST) != Connector.EMPTY && componentMatrix[c.getPosX()+1][c.getPosY()] == null;
             case SOUTH:
-                if(!validPosition(c.getPosX(), c.getPosY()+1) && c.getDirConnector(Direction.SOUTH) != Connector.EMPTY)
+                if(!validPosition(c.getPosY()+1, c.getPosX()) && c.getDirConnector(Direction.SOUTH) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && componentMatrix[c.getPosY()+1][c.getPosX()] == null;
+                    return c.getDirConnector(Direction.SOUTH) != Connector.EMPTY && componentMatrix[c.getPosX()][c.getPosY()+1] == null;
             case WEST:
-                if(!validPosition(c.getPosX()-1, c.getPosY()) && c.getDirConnector(Direction.WEST) != Connector.EMPTY)
+                if(!validPosition(c.getPosY(), c.getPosX()-1) && c.getDirConnector(Direction.WEST) != Connector.EMPTY)
                     return true;
                 else
-                    return c.getDirConnector(Direction.WEST) != Connector.EMPTY && componentMatrix[c.getPosY()][c.getPosX()-1] == null;
+                    return c.getDirConnector(Direction.WEST) != Connector.EMPTY && componentMatrix[c.getPosX()-1][c.getPosY()] == null;
             default:
                 return false;
         }
@@ -590,7 +576,7 @@ public class ShipBoard implements Serializable {
     public int getTotalExposedConnectors() {
         int totalExposedConnectors = 0;
         for (int i=0; i < componentMatrix.length; i++) {
-            for (int j=0; j < componentMatrix[i].length; j++) {
+            for (int j=0; j < componentMatrix[0].length; j++) {
                 if (availablePositionMatrix[i][j] && componentMatrix[i][j] != null) {
                     for(Direction d : Direction.values()) {     // in alcuni casi controllo la connessione 2 volte, può essere ottimizzato
                         if (getIfExposed(d, componentMatrix[i][j])) {

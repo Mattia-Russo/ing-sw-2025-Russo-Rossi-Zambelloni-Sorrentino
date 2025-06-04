@@ -23,27 +23,29 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
             new GameView(getGame(), new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more " + player.getName()));
         } else{
             Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
-            Cabin cabin = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isCabin();
-
-            if(cabin!=null){
-                if(cabin.getAlien()!=null){
-                    cabin.removeAlien();
-                    astronautsRemoved++;
-                } else if (cabin.getNumAstronauts()!=0){
-                    cabin.changeNumAstronauts(-1);
-                    astronautsRemoved++;
+            Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getY(), point.getX());
+            if(c!=null) {
+                Cabin cabin = c.isCabin();
+                if (cabin != null) {
+                    if (cabin.getAlien() != null) {
+                        cabin.removeAlien(player.getPlayerShipBoard());
+                        astronautsRemoved++;
+                    } else if (cabin.getNumAstronauts() != 0) {
+                        cabin.changeNumAstronauts(-1);
+                        astronautsRemoved++;
+                    }
+                    new GameView(getGame(), null);
+                } else {
+                    new GameView(getGame(), new NotCabinException("The component of given coordinates is not a cabin " + player.getName()));
                 }
-                new GameView(getGame(), null);
-            } else {
-                new GameView(getGame(), new NotCabinException("The component of given coordinates is not a cabin " + player.getName()));
-            }
+            }else new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
         }
     }
 
     @Override
     public void endRemoveAstronauts(Player player){
         if(astronautsRemoved < getGame().getCurrentCard().getNumAstronauts()){
-            new GameView(getGame(), new NotEnoughAstronautsRemovedException("Cannot end this phase, need to remove more astronauts " + player.getName()));
+            new GameView(getGame(), new NotEnoughAstronautsRemovedException("Cannot end this phase, you need to remove more astronauts " + player.getName()));
         } else {
             getGame().getCurrentCard().setCardState(getGame());
         }
@@ -69,22 +71,24 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
     private void removeLeftAstronauts(Player p, Game game) {
         int astronautsToRemove = game.getCurrentCard().getNumAstronauts() - astronautsRemoved;
 
-        for (int i=0; i< p.getPlayerShipBoard().getComponentMatrix().length && astronautsToRemove > 0; i++){
-            for(int j=0; j < p.getPlayerShipBoard().getComponentMatrix()[i].length && astronautsToRemove > 0; j++){
-                Components c = p.getPlayerShipBoard().getComponentMatrix()[i][j];
-                if(c.isCabin() != null){
-                    if(c.isCabin().hasAlien()!=null){
-                        c.isCabin().removeAlien();
-                        astronautsRemoved++;
-                        astronautsToRemove--;
-                    }else if(((Cabin) c).getNumAstronauts() >= astronautsToRemove){
-                        ((Cabin) c).changeNumAstronauts(-astronautsToRemove);
-                        astronautsRemoved +=  astronautsToRemove;
-                        astronautsToRemove = 0;
-                    } else {
-                        ((Cabin) c).changeNumAstronauts(-((Cabin) c).getNumAstronauts());
-                        astronautsRemoved += ((Cabin) c).getNumAstronauts();
-                        astronautsToRemove -= ((Cabin) c).getNumAstronauts();
+        for (int i=5; i< p.getPlayerShipBoard().getComponentMatrix().length + 5 && astronautsToRemove > 0; i++){
+            for(int j=4; j < p.getPlayerShipBoard().getComponentMatrix()[i].length + 4 && astronautsToRemove > 0; j++){
+                Components c = p.getPlayerShipBoard().getComponent(i,j);
+                if(c!= null) {
+                    if (c.isCabin() != null) {
+                        if (c.isCabin().hasAlien() != null) {
+                            c.isCabin().removeAlien(p.getPlayerShipBoard());
+                            astronautsRemoved++;
+                            astronautsToRemove--;
+                        } else if (((Cabin) c).getNumAstronauts() >= astronautsToRemove) {
+                            ((Cabin) c).changeNumAstronauts(-astronautsToRemove);
+                            astronautsRemoved += astronautsToRemove;
+                            astronautsToRemove = 0;
+                        } else {
+                            ((Cabin) c).changeNumAstronauts(-((Cabin) c).getNumAstronauts());
+                            astronautsRemoved += ((Cabin) c).getNumAstronauts();
+                            astronautsToRemove -= ((Cabin) c).getNumAstronauts();
+                        }
                     }
                 }
             }

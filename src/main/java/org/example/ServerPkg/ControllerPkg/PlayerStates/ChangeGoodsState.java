@@ -1,5 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -17,28 +18,38 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere
     @Override
     public void removeGood(Points point, int numGood, Player player){
-        Storage storage = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
-        if(storage!=null){
-            storage.removeGood(numGood);
-            new GameView(getGame(), null);
+        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getX(), point.getY());
+        if(c!=null){
+            Storage storage = c.isStorage();
+            if(storage!=null) {
+                if (numGood < storage.getCapacity()) {
+                    storage.removeGood(numGood);
+                    new GameView(getGame(), null);
+                } else new GameView(getGame(), new Exception("Index must be below capacity " + player.getName()));
+            }new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
         } else {
-            new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
+            new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
         }
     }
 
     @Override
     public void addGood(Points point, int numGood, Player player){
-        Storage storage = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
-        if(storage!=null){
-            try {
-                storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
-                new GameView(getGame(), null);
-            } catch (RedGoodsNotAllowedException | StorageFullException e) {
-                Exception e1 = new Exception(e.getMessage() + " " + player.getName());
-                new GameView(getGame(), e1);
-            }
+        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getX(), point.getY());
+        if(c!=null){
+            Storage storage = c.isStorage();
+            if(storage!=null) {
+                try {
+                    if (numGood < storage.getCapacity()) {
+                        storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
+                        new GameView(getGame(), null);
+                    } else new GameView(getGame(), new Exception("Index must be below capacity " + player.getName()));
+                } catch (RedGoodsNotAllowedException | StorageFullException e) {
+                    Exception e1 = new Exception(e.getMessage() + " " + player.getName());
+                    new GameView(getGame(), e1);
+                }
+            }new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
         } else {
-            new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
+            new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
         }
     }
 

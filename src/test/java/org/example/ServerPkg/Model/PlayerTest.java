@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.AddAlienState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 
 import java.util.ArrayList;
@@ -24,18 +26,18 @@ public class PlayerTest extends TestCase {
         Cabin c8 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        s.placeComponent(2,2, s2);
+        s.placeComponent(6,7, s2);
         //s.placeComponent(2,4, s1);
         //s.placeComponent(1,4, cannon);
-        s.placeComponent(3,2, c1);
-        s.placeComponent(1,3, c5);
-        s.placeComponent(2,3, c2);
-        s.placeComponent(1,4, c4);
-        s.placeComponent(2,4, c3);
-        s.placeComponent(4,2, c6);
-        s.placeComponent(5,3, c7);
-        s.placeComponent(4,4, c8);
-        s.placeComponent(5,4, c9);
+        s.placeComponent(7,7, c1);
+        s.placeComponent(5,8, c5);
+        s.placeComponent(6,8, c2);
+        s.placeComponent(4,9, c4);
+        s.placeComponent(6,9, c3);
+        s.placeComponent(8,7, c6);
+        s.placeComponent(9,8, c7);
+        s.placeComponent(8,9, c8);
+        s.placeComponent(9,9, c9);
 
 
         assertEquals(0, p.getPosition());
@@ -74,18 +76,18 @@ public class PlayerTest extends TestCase {
         Cabin c8 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        sh1.placeComponent(3,2, c1);
-        sh1.placeComponent(2,2, s2);
-        sh1.placeComponent(4,2, s1);
-        sh1.placeComponent(4,1, cannon);
-        sh1.placeComponent(1,3, c5);
-        sh1.placeComponent(2,3, c2);
-        sh1.placeComponent(1,4, c4);
-        sh1.placeComponent(2,4, c3);
-        sh1.placeComponent(4,3, c6);
-        sh1.placeComponent(5,3, c7);
-        sh1.placeComponent(4,4, c8);
-        sh1.placeComponent(5,4, c9);
+        sh1.placeComponent(7,7, c1);
+        sh1.placeComponent(6,7, s2);
+        sh1.placeComponent(8,7, s1);
+        sh1.placeComponent(8,6, cannon);
+        sh1.placeComponent(5,8, c5);
+        sh1.placeComponent(6,8, c2);
+        sh1.placeComponent(5,9, c4);
+        sh1.placeComponent(6,9, c3);
+        sh1.placeComponent(8,8, c6);
+        sh1.placeComponent(9,8, c7);
+        sh1.placeComponent(8,9, c8);
+        sh1.placeComponent(9,9, c9);
 
         for(int i = 0; i<7; i++){
             for(int j = 0; j<7; j++){
@@ -135,18 +137,18 @@ public class PlayerTest extends TestCase {
         Cabin c8 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        s.placeComponent(3,2, c1);
-        s.placeComponent(2,2, s2);
-        s.placeComponent(4,2, s1);
-        s.placeComponent(4,1, cannon);
-        s.placeComponent(1,3, c5);
-        s.placeComponent(2,3, c2);
-        s.placeComponent(1,4, c4);
-        s.placeComponent(2,4, c3);
-        s.placeComponent(4,3, c6);
-        s.placeComponent(5,3, c7);
-        s.placeComponent(4,4, c8);
-        s.placeComponent(5,4, c9);
+        s.placeComponent(7,7, c1);
+        s.placeComponent(6,7, s2);
+        s.placeComponent(8,7, s1);
+        s.placeComponent(8,6, cannon);
+        s.placeComponent(5,8, c5);
+        s.placeComponent(6,8, c2);
+        s.placeComponent(5,9, c4);
+        s.placeComponent(6,9, c3);
+        s.placeComponent(8,8, c6);
+        s.placeComponent(9,8, c7);
+        s.placeComponent(8,9, c8);
+        s.placeComponent(9,9, c9);
 
         assertEquals(0, p.getPosition());
 
@@ -230,8 +232,10 @@ public class PlayerTest extends TestCase {
 
     public void testCheckShip() {
         Player p = new Player( "a", null);
-        p.setPlayerShipboard(1);
-        ShipBoard sp1= p.getPlayerShipBoard();
+        new Game(2, 2,1, new GameController());
+        p.setPlayerShipboard(2);
+        p.opShip();
+        /*ShipBoard sp1= p.getPlayerShipBoard();
         Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s11 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});

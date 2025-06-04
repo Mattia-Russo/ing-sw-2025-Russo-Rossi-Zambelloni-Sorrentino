@@ -14,10 +14,9 @@ import java.io.Serializable;
 import java.security.InvalidParameterException;
 
 public class AddAlienState extends PlayerState implements Serializable {
-    private final Player player;
-    public AddAlienState(Game game, Player player){
+    private boolean positionSet=false;
+    public AddAlienState(Game game){
         super(game);
-        this.player=player;
     }
 
     @Override
@@ -31,6 +30,24 @@ public class AddAlienState extends PlayerState implements Serializable {
                 DifferentLifeSupportColourException e){
             Exception e1 = new Exception(e.getMessage() + " " + player.getName());
             new GameView(getGame(), e1);
+        }
+    }
+
+    @Override
+    public void selectPosition(int position, Player player){
+        try {
+            if(position >= -3 && position <= 0) {
+                for (Player p : getGame().getPlayers()) {
+                    if (p.isPosValid() && p.getPosition() == position) {
+                        throw new InvalidParameterException("Position already taken");
+                    }
+                }
+                player.setPosition(position);
+                positionSet = true;
+                new GameView(getGame(), null);
+            }else throw new InvalidParameterException("Invalid position");
+        }catch (InvalidParameterException e){
+            new GameView(getGame(), new Exception(e.getMessage() + " " + player.getName()));
         }
     }
 
@@ -50,28 +67,30 @@ public class AddAlienState extends PlayerState implements Serializable {
 
     @Override
     public void endAlienState(Player player){
-        this.player.setReadyForCards(true);
-        new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
-        for (Player p : getGame().getPlayers()) {
-            if (!p.isAbandoned()) {
-                if (p.getReadyForCards()) {
-                    return;
+        if(positionSet) {
+            player.setReadyForCards(true);
+            new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
+            for (Player p : getGame().getPlayers()) {
+                if (!p.isAbandoned()) {
+                    if (!p.getReadyForCards()) {
+                        return;
+                    }
+                    p.setPlayerState(new WaitingState(getGame()));
                 }
-                p.setPlayerState(new WaitingState(getGame()));
             }
-        }
-        getGame().Turn();
+            getGame().Turn();
+        }else new GameView(getGame(), new Exception("You must select a position " + player.getName()));
     }
 
     @Override
     public void AbandonGame(Player player){
         player.abandon(getGame());
-        endAlienState(null);
+        endAlienState(player);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
-        endAlienState(null);
+        endAlienState(disconnectingPlayer);
     }
 }

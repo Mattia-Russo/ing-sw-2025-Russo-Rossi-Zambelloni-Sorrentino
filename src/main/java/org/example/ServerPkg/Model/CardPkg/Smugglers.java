@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Smugglers extends Enemy implements Serializable {
-    private List<Goods> goodsWinList = new ArrayList<Goods>();
+    private final List<Goods> goodsWinList;
     private final int numGoodsLose;
     private int playersIndex;
     private boolean accept;
@@ -131,6 +131,4 @@ public class Smugglers extends Enemy implements Serializable {
     public int getNumGoodsLose(){
         return this.numGoodsLose;
     }
-    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
-    // CONFRONTA POI O CHIAMA GOODSWIN O LOSE E CAMBIA LE RISORSE
 }

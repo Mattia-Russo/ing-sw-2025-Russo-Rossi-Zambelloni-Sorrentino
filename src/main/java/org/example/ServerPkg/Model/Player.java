@@ -7,13 +7,11 @@ import org.example.ServerPkg.Model.CardPkg.AdventureCard;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Exceptions.PlayerAbandonedException;
 import org.example.ServerPkg.Model.Exceptions.TilesEndedExceptions;
-import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Utils.ShipboardLoader;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class Player implements Serializable {
     private final String name;
@@ -21,24 +19,26 @@ public class Player implements Serializable {
     private ShipBoard playerShipBoard;
     private boolean abandoned;
     private boolean onPlanet;
-    private boolean shipBuilded;
+    private boolean shipBuilt;
     private boolean readyForCards;
     private String rocketColour;
     private int numCredits;
     private PlayerState state;
     private boolean shipOK;
+    private boolean posValid;
     private Components currentTile;
     private ArrayList<AdventureCard> deckShowed;
 
     public Player(String name, Game game){
-        this.position=0;
+        this.position = 0;
+        this.posValid = false;
         this.playerShipBoard=null;
         this.abandoned=false;
         this.onPlanet=false;
         this.readyForCards=false;
         this.numCredits=0;
         this.name=name;
-        this.shipBuilded=false;
+        this.shipBuilt =false;
         this.state = new WaitingState(game);
         this.shipOK=true;
         this.currentTile = null;
@@ -63,6 +63,10 @@ public class Player implements Serializable {
 
     public int getPosition(){
         return this.position;
+    }
+
+    public boolean isPosValid(){
+        return this.posValid;
     }
 
     public boolean isAbandoned() {
@@ -100,6 +104,7 @@ public class Player implements Serializable {
 
     public void setPosition(int val){
         this.position = val;
+        this.posValid = true;
     }
 
     public int getNumCredits(){
@@ -126,20 +131,22 @@ public class Player implements Serializable {
     }
 
     public boolean checkShip() {
-        for(int i = 0; i < playerShipBoard.getComponentMatrix().length; i++){
-            for(int j = 0; j < playerShipBoard.getComponentMatrix()[i].length; j++){
-                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponentMatrix()[i][j] != null) {
-                    Components c = playerShipBoard.getComponentMatrix()[i][j];
+        for(int i = 5; i < playerShipBoard.getComponentMatrix().length + 5; i++){
+            for(int j = 4; j < playerShipBoard.getComponentMatrix()[i].length + 4; j++){
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i,j) != null) {
+                    Components c = playerShipBoard.getComponent(i,j);
                     for (Direction dir : Direction.values()) {
                         int ni = i + dy(dir);
                         int nj = j + dx(dir);
-                        if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni][nj] != null){
-                            Components neighbor = playerShipBoard.getComponentMatrix()[ni][nj];
-                            Connector myConn = c.getDirConnector(dir);
-                            Connector theirConn = neighbor.getDirConnector(opposite(dir));
+                        if ((ni < playerShipBoard.getComponentMatrix().length + 5 && ni > 5) && (nj > 4 && nj < playerShipBoard.getComponentMatrix()[ni].length + 4)){
+                            if (playerShipBoard.validPosition(ni, nj) && playerShipBoard.getComponentMatrix()[ni][nj] != null) {
+                                Components neighbor = playerShipBoard.getComponentMatrix()[ni][nj];
+                                Connector myConn = c.getDirConnector(dir);
+                                Connector theirConn = neighbor.getDirConnector(opposite(dir));
 
-                            if ((myConn != Connector.UNIVERSAL && theirConn != Connector.UNIVERSAL && myConn != theirConn) || (theirConn == Connector.EMPTY && theirConn!=myConn))
-                                return false;
+                                if ((myConn != Connector.UNIVERSAL && theirConn != Connector.UNIVERSAL && myConn != theirConn) || (theirConn == Connector.EMPTY && theirConn != myConn))
+                                    return false;
+                            }
                         }
                     }
                     if(c.checkRightCannon(this.playerShipBoard)){
@@ -159,7 +166,6 @@ public class Player implements Serializable {
         return Direction.values()[(dir.ordinal() + 2) % 4];
     }
 
-
     private int dx(Direction dir) {
         return switch (dir) {
             case EAST -> 1;
@@ -175,7 +181,6 @@ public class Player implements Serializable {
             default -> 0;
         };
     }
-
 
     public PlayerState getState() {
         return this.state;
@@ -201,12 +206,12 @@ public class Player implements Serializable {
         return this.currentTile;
     }
 
-    public boolean getShipBuilded(){
-        return this.shipBuilded;
+    public boolean getShipBuilt(){
+        return this.shipBuilt;
     }
 
-    public void setShipBuilded(){
-        this.shipBuilded = true;
+    public void setShipBuilt(){
+        this.shipBuilt = true;
     }
 
     public ArrayList<AdventureCard> getDeckShowed() {
@@ -221,35 +226,45 @@ public class Player implements Serializable {
         this.readyForCards = readyForCards;
     }
 
-    public boolean getReadyForCards(){return readyForCards;}
+    public boolean getReadyForCards(){
+        return readyForCards;
+    }
 
     public void opShip(){
-        getPlayerShipBoard().placeComponent(3,2, new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(2,0, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
-        getPlayerShipBoard().placeComponent(2,1, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(3,1, new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(4,0, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
-        getPlayerShipBoard().placeComponent(1,1, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
-        getPlayerShipBoard().placeComponent(4,1, new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(5,1, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(0,2, new Cannon(0,1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(1,2, new Shield(0, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST));
-        getPlayerShipBoard().placeComponent(2,2, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
-        getPlayerShipBoard().placeComponent(4, 2, new LifeSupportSystem(0, AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(5, 2, new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(6, 2, new Cannon(0,1, Direction.EAST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
-        getPlayerShipBoard().placeComponent(0, 3, new Cannon(0,1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(1, 3, new Shield(0, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST));
-        getPlayerShipBoard().placeComponent(2,3, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
-        getPlayerShipBoard().placeComponent(3, 3, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(3,4, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(3,5, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
-        getPlayerShipBoard().placeComponent(3, 6, new Cannon(0, 2, Direction.EAST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(0, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY}));
-        getPlayerShipBoard().placeComponent(1, 4, new Cannon(0, 1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(2, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(4, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY}));
-        getPlayerShipBoard().placeComponent(5, 4, new Cannon(0, 1, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
-        getPlayerShipBoard().placeComponent(6, 4, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL}));
+        for(int i = 5; i < playerShipBoard.getComponentMatrix().length + 5; i++){
+            for(int j = 4; j < playerShipBoard.getComponentMatrix()[0].length + 4; j++){
+                if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i,j) != null) {
+                    if(i!=7 && j!=7) {
+                        getPlayerShipBoard().removeComponent(i, j);
+                    }
+                }
+            }
+        }
+        getPlayerShipBoard().placeComponent(6,5, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(6,6, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(7,6, new Cannon(0,2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(8,5, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(5,6, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(8,6, new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(9,6, new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(4,7, new Cannon(0,1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(5,7, new Shield(0, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST));
+        getPlayerShipBoard().placeComponent(6,7, new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
+        getPlayerShipBoard().placeComponent(8, 7, new LifeSupportSystem(0, AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(9, 7, new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(10, 7, new Cannon(0,1, Direction.EAST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(4, 8, new Cannon(0,1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(5, 8, new Shield(0, Direction.SOUTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.EAST));
+        getPlayerShipBoard().placeComponent(6,8, new BatteryStorage(0,3, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(7, 8, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(8, 8, new Storage(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3));
+        getPlayerShipBoard().placeComponent(9, 8, new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(10, 8, new Cannon(0, 1, Direction.EAST, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(4, 9, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(5, 9, new Cannon(0, 1, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(6, 9, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(8, 9, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY}));
+        getPlayerShipBoard().placeComponent(9, 9, new Cannon(0, 1, Direction.SOUTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+        getPlayerShipBoard().placeComponent(10, 9, new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL}));
     }
 }

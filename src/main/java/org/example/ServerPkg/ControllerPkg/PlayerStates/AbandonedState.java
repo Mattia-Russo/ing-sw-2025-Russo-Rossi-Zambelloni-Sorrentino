@@ -209,4 +209,9 @@ public class AbandonedState extends PlayerState implements Serializable {
     public void disconnect(Player p){
         getGame().disconnectPlayer(p);
     }
+
+    @Override
+    public void selectPosition(int position, Player player){
+        new GameView(getGame(), new AbandonedStateException("You've abandoned, wait for the end of the game " + player.getName()));
+    }
 }

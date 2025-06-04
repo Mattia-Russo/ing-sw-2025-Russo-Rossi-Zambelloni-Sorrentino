@@ -36,9 +36,6 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
             System.out.println("Connected to RMI server");
 
-            startUpdateThread();
-            checkConnection();
-
         } catch (Exception e) {
             throw new RemoteException("Error connecting to server", e);
         }
@@ -54,6 +51,9 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             userInterface.askName();
             userInterface.readName();
         }
+
+        //startUpdateThread();
+        //checkConnection();
 
         if(UI.equals("tui")){
             startKeyboardListener();
@@ -73,15 +73,17 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                 System.err.println("Error sending connection update to server: " + e.getMessage());
             }
         });
-        UpdateThread.setDaemon(false);  // Usa un thread daemon, così termina automaticamente quando l'applicazione si chiude
-        UpdateThread.start();  // Avvia il thread
+        UpdateThread.setDaemon(false);
+        UpdateThread.start();
     }
 
     private void checkConnection() throws RemoteException {
+        serverAlive = System.currentTimeMillis();
         Thread checkClient = new Thread(() -> {
             try {
                 while (true) {
                     if (System.currentTimeMillis() - serverAlive > 14999) {
+                        System.out.println("Disconnect lato client");
                         disconnect();
                     }
                     Thread.sleep(5000);

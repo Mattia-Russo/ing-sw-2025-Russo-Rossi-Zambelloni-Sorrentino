@@ -36,7 +36,7 @@ public class Components implements Serializable {
         return this.isPositioned;
     }
 
-    public void setPosition(int x, int y) { // controllo se posizioni valide va fatto prima di chiamare questo metodo
+    public void setPosition(int x, int y) {
         this.isPositioned = true;
         this.posX = x;
         this.posY = y;
@@ -70,19 +70,13 @@ public class Components implements Serializable {
         this.direction = direction;
     }
 
-    public Connector getDirConnector(Direction dir){ //restituisce il connettore che c'è nella direzione passata in modo assoluto
-        switch(this.direction){
-            case NORTH:
-                return connectors[dir.ordinal()];
-            case EAST:
-                return connectors[(dir.ordinal()+3)%4];
-            case SOUTH:
-                return connectors[(dir.ordinal()+2)%4];
-            case WEST:
-                return connectors[(dir.ordinal()+1)%4];
-            default:
-                return null;
-        }
+    public Connector getDirConnector(Direction dir){
+        return switch (this.direction) {
+            case NORTH -> connectors[dir.ordinal()];
+            case EAST -> connectors[(dir.ordinal() + 3) % 4];
+            case SOUTH -> connectors[(dir.ordinal() + 2) % 4];
+            case WEST -> connectors[(dir.ordinal() + 1) % 4];
+        };
     }
 
     public void remove(ShipBoard ship){}

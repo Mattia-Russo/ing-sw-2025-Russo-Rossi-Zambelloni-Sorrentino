@@ -65,22 +65,22 @@ public class Cannon extends Components implements Serializable {
     public boolean checkRightCannon(ShipBoard ship){    // returns true se non va bene, false se va bene
         switch (this.getDirection()) {
             case NORTH:
-                if (ship.validPosition(this.getPosX(), this.getPosY() - 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() - 1] != null) {
+                if (ship.validPosition(this.getPosY()-1, this.getPosX()) && ship.getComponent(this.getPosY()-1, this.getPosX()) != null) {
                     return true;
                 }
                 break;
             case EAST:
-                if (ship.validPosition(this.getPosX() +1, this.getPosY()) && ship.getComponentMatrix()[this.getPosX()+1][this.getPosY()] != null) {
+                if (ship.validPosition(this.getPosY(), this.getPosX()+1) && ship.getComponent(this.getPosY(), this.getPosX()+1) != null) {
                     return true;
                 }
                 break;
             case SOUTH:
-                if (ship.validPosition(this.getPosX(), this.getPosY() + 1) && ship.getComponentMatrix()[this.getPosX()][this.getPosY() + 1] != null) {
+                if (ship.validPosition(this.getPosY()+1, this.getPosX()) && ship.getComponent(this.getPosY()+1, this.getPosX()) != null) {
                     return true;
                 }
                 break;
             case WEST:
-                if (ship.validPosition(this.getPosX() -1, this.getPosY()) && ship.getComponentMatrix()[this.getPosX()-1][this.getPosY()] != null) {
+                if (ship.validPosition(this.getPosY(), this.getPosX()-1) && ship.getComponent(this.getPosY(), this.getPosX()-1) != null) {
                     return true;
                 }
         }

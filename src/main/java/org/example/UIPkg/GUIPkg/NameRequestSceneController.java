@@ -20,6 +20,7 @@ import org.example.MessagePkg.Message;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
@@ -82,13 +83,10 @@ public class NameRequestSceneController extends GuiController implements Initial
 
     private void setupTitleImage() {
         try {
-            String imagePath = "src\\main\\resources\\org.example\\cardboard\\Galaxy_Trucker_Title.png";
-            File imageFile = new File(imagePath);
-
-            if (imageFile.exists()) {
-                Image titleImage = new Image(imageFile.toURI().toString());
+            InputStream imageStream = getClass().getResourceAsStream("/org.example/cardboard/TitleImage.jpg");
+            if (imageStream != null) {
+                Image titleImage = new Image(imageStream);
                 titleImageView = new ImageView(titleImage);
-
                 titleImageView.setPreserveRatio(true);
                 titleImageView.setFitWidth(400);
                 titleImageView.setFitHeight(200);
@@ -96,7 +94,7 @@ public class NameRequestSceneController extends GuiController implements Initial
                 titleImageView = new ImageView();
                 titleImageView.setFitWidth(400);
                 titleImageView.setFitHeight(100);
-                System.err.println("Title image not found at: " + imagePath);
+                System.err.println("Title image not found in resources.");
             }
         } catch (Exception e) {
             titleImageView = new ImageView();

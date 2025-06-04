@@ -209,4 +209,9 @@ public class WaitingState extends PlayerState implements Serializable {
     public void disconnect(Player p){
         getGame().disconnectPlayer(p);
     }
+
+    @Override
+    public void selectPosition(int position, Player player){
+        new GameView(getGame(), new WaitingStateException("Cannot do this action now, it's not your turn " + player.getName()));
+    }
 }

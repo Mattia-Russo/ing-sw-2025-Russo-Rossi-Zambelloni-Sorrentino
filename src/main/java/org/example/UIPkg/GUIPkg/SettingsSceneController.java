@@ -124,8 +124,8 @@ public class SettingsSceneController extends GuiController implements Initializa
                 return false;
             }
 
-            if (shipboardLevel < 1 || shipboardLevel > 3) {
-                showValidationError("Shipboard level must be between 1 and 3!");
+            if (shipboardLevel <1 || shipboardLevel > 2) {
+                showValidationError("Shipboard level must be between 1 and 2!");
                 return false;
             }
 

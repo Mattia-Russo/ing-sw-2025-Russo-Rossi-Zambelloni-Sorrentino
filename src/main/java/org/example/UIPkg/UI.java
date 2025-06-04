@@ -6,6 +6,15 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import java.util.List;
 
 public abstract class UI {
+    private final Client client;
+
+    protected UI(Client client) {
+        this.client = client;
+    }
+
+    public Client getClient() {
+        return this.client;
+    }
 
     public void addGameUpdate(GameView game){}
 

@@ -422,7 +422,7 @@ public class ShipBoardTest extends TestCase {
 
     }
 
-    public void testcheckIfSplitted(){
+    public void testcheckIfSplit(){
         boolean[][] availablePositionMatrix = new boolean[7][5];
         for(int i=0; i<7; i++){
             for(int j=0; j<5; j++){
@@ -438,7 +438,7 @@ public class ShipBoardTest extends TestCase {
         BatteryStorage b2 = new BatteryStorage(0, 3,Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE});
         s.placeComponent(1,1,b1);
         s.placeComponent(2,2,b2);
-        assertTrue(s.checkIfSplitted(1,1));
+        assertTrue(s.checkIfSplit(1,1));
     }
 
     public void testremoveWreck(){
@@ -588,7 +588,7 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
         Engine engine = new Engine(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        s.placeComponent(1, 1, engine);
+        s.placeComponent(5, 6, engine);
         assertEquals(1,s.getSingleEnginePower());
     }
 
@@ -603,11 +603,11 @@ public class ShipBoardTest extends TestCase {
         Engine engine1 = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Engine engine2 = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Engine engine3 = new Engine(0, 2, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        s.placeComponent(1, 1, engine1);
+        s.placeComponent(5, 6, engine1);
         assertEquals(1,s.getNumDoubleEngines());
-        s.placeComponent(1, 2, engine2);
+        s.placeComponent(5, 7, engine2);
         assertEquals(2,s.getNumDoubleEngines());
-        s.placeComponent(1, 3, engine3);
+        s.placeComponent(5, 8, engine3);
         assertEquals(3,s.getNumDoubleEngines());
     }
 
@@ -638,7 +638,7 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cannon c=new Cannon(0, 1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,1,c);
+        s.placeComponent(5,6,c);
         assertEquals(0.5F,s.getSingleCannonPower());
     }
 
@@ -689,8 +689,8 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cannon c=new Cannon(0, 1,Direction.WEST,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
-        s.placeComponent(1,1,c);
-        s.removeComponent(1,1);
+        s.placeComponent(5,6,c);
+        s.removeComponent(5,6);
         assertEquals(1, s.getDeletedComponentsCounter());
     }
 
@@ -741,9 +741,9 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cannon c=new Cannon(0, 1,Direction.NORTH,new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        s.placeComponent(1,2,c);
+        s.placeComponent(9,7,c);
         Cannon c1=new Cannon(0, 1,Direction.NORTH,new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
-        s.placeComponent(1,1,c1);
+        s.placeComponent(9,6,c1);
         assertTrue(s.getIfExposed(Direction.WEST, c));
         assertFalse(s.getIfExposed(Direction.SOUTH, c1));
 
@@ -770,15 +770,15 @@ public class ShipBoardTest extends TestCase {
         Cabin c7 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c8 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Cabin c9 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL});
-        s.placeComponent(3,2, c1);
-        s.placeComponent(2,3, c2);
-        s.placeComponent(2,4, c3);
-        s.placeComponent(1,4, c4);
-        s.placeComponent(1,3, c5);
-        s.placeComponent(4,3, c6);
-        s.placeComponent(5,3, c7);
-        s.placeComponent(3,3, c8);
-        s.placeComponent(5,4, c9);
+        s.placeComponent(7,7, c1);
+        s.placeComponent(6,8, c2);
+        s.placeComponent(6,9, c3);
+        s.placeComponent(5,9, c4);
+        s.placeComponent(5,8, c5);
+        s.placeComponent(8,8, c6);
+        s.placeComponent(9,8, c7);
+        s.placeComponent(7,8, c8);
+        s.placeComponent(9,9, c9);
         assertEquals(11, s.getTotalExposedConnectors());
     }
 }

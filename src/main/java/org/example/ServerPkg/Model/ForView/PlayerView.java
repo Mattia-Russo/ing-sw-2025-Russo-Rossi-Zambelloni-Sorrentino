@@ -15,6 +15,7 @@ public class PlayerView implements Serializable {
     private final boolean abandoned;
     private final String rocketColour;
     private final boolean shipOK;
+    private final boolean posValid;
 
     public PlayerView(Player player){
         name = player.getName();
@@ -32,6 +33,11 @@ public class PlayerView implements Serializable {
         abandoned = player.isAbandoned();
         rocketColour = player.getRocketColour();
         shipOK = player.getShipOK();
+        posValid = player.isPosValid();
+    }
+
+    public boolean isPosValid() {
+        return this.posValid;
     }
 
     public ShipboardView getShipboardView() {

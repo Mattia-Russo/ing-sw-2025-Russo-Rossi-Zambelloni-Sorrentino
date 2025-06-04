@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeteorCard extends AdventureCard implements Serializable {
-    private List<Meteor> meteorList = new ArrayList<Meteor>();
+    private final List<Meteor> meteorList;
     int currentMeteor;
     int currentPlayer;
     int rowOrCol;
@@ -58,36 +58,25 @@ public class MeteorCard extends AdventureCard implements Serializable {
             do{
                 currentPlayer++;
             } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
-            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-            if(dice) {
-                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
-                    protect = true;
-                }
-                if (protect) {
-                    playCard(g, null, null);
-                } else
-                    Update(g, g.getPlayers().get(currentPlayer));
-            }else
-                g.Turn();
-        }else {
-            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-            if(dice) {
-                if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol) == null) {
-                    protect = true;
-                }
-                if (protect) {
-                    playCard(g, null, null);
-                } else
-                    Update(g, g.getPlayers().get(currentPlayer));
-            }else
-                g.Turn();
         }
+        chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+
+        if(dice) {
+            if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), rowOrCol) == null) {
+                protect = true;
+            }
+            if (protect) {
+                playCard(g, null, null);
+            } else
+                Update(g, g.getPlayers().get(currentPlayer));
+        }else
+            g.Turn();
     }
 
     private void Update(Game g, Player p) {
-        if (meteorList.get(currentMeteor).getType() == 0) {
-            if (p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteor).getDirection(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol))) {
-                if (p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteor).getDirection())) {
+        if (meteorList.get(currentMeteor).type() == 0) {
+            if (p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteor).direction(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), rowOrCol))) {
+                if (p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteor).direction())) {
                     new GameView(g, new Exception("ACTIVATE SHIELDS  " + p.getName()));
                     p.setPlayerState(new ActivateShieldsState(g));
                 } else
@@ -97,7 +86,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 this.playCard(g, null, null);
             }
         } else {
-            if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH) {
+            if (meteorList.get(currentMeteor).direction() == Direction.NORTH) {
                 if (p.getPlayerShipBoard().getIfSingleCannon(Direction.NORTH, rowOrCol)) {
                     protect = true;
                     this.playCard(g, null, null);
@@ -108,10 +97,10 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     this.playCard(g, null, null);
                 }
             } else {
-                if (p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol) || p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol - 1) || p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol + 1)) {
+                if (p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).direction(), rowOrCol) || p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).direction(), rowOrCol - 1) || p.getPlayerShipBoard().getIfSingleCannon(meteorList.get(currentMeteor).direction(), rowOrCol + 1)) {
                     protect = true;
                     this.playCard(g, null, null);
-                } else if (p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol - 1) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).getDirection(), rowOrCol + 1)) {
+                } else if (p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).direction(), rowOrCol) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).direction(), rowOrCol - 1) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteor).direction(), rowOrCol + 1)) {
                     new GameView(g, new Exception("ACTIVATE CANNON  " + p.getName()));
                     p.setPlayerState(new ActivateCannonsState(g));
                 } else {
@@ -127,52 +116,13 @@ public class MeteorCard extends AdventureCard implements Serializable {
         Player p=g.getPlayers().get(currentPlayer);
         if(!protect){
             int i=0;
-            Components wreck=null;
             if(component==null||battery==null){
-                Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
+                checkWreck(g, p, i);
+            }else if(meteorList.get(currentMeteor).type()==0){
                 try {
-                    p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                    new GameView(g, null);
-                    while (wreck == null) {
-                        wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
-                        i++;
-                    }
-                    if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
-                        protect = false;
-                        p.setPlayerState(new WaitingState(g));
-                        setCardState(g);
-                    } else {
-                        protect = false;
-                        new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
-                        p.setPlayerState(new ShipWreckedState(g, p));
-                    }
-                } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
-                    System.out.println("Error" + e.getMessage());
-                }
-            }else if(meteorList.get(currentMeteor).getType()==0){
-                try {
-                    if (!p.getPlayerShipBoard().ShieldProtects(meteorList.get(currentMeteor).getDirection(), component, battery)) {
+                    if (p.getPlayerShipBoard().shieldsNotProtects(meteorList.get(currentMeteor).direction(), component, battery)) {
                         new GameView(g, null);
-                        Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
-                        try {
-                            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                            new GameView(g, null);
-                            while (wreck == null) {
-                                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
-                                i++;
-                            }
-                            if (!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
-                                protect = false;
-                                p.setPlayerState(new WaitingState(g));
-                                setCardState(g);
-                            } else {
-                                protect = false;
-                                new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
-                                p.setPlayerState(new ShipWreckedState(g, p));
-                            }
-                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
-                            System.out.println("Error" + e.getMessage());
-                        }
+                        checkWreck(g, p, i);
                     }else
                         new GameView(g, null);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
@@ -182,28 +132,9 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 }
             }else {
                 try{
-                    if (!p.getPlayerShipBoard().CannonProtects(meteorList.get(currentMeteor).getDirection(), rowOrCol, component, battery)) {
+                    if (!p.getPlayerShipBoard().cannonProtects(meteorList.get(currentMeteor).direction(), rowOrCol, component, battery)) {
                         new GameView(g, null);
-                        Components c = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), rowOrCol);
-                        try {
-                            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                            new GameView(g, null);
-                            while(wreck==null){
-                                wreck=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).getDirection(), i);
-                                i++;
-                            }
-                            if(!p.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())){
-                                protect=false;
-                                p.setPlayerState(new WaitingState(g));
-                                setCardState(g);
-                            }else{
-                                protect=false;
-                                new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
-                                p.setPlayerState(new ShipWreckedState(g, p));
-                            }
-                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
-                            System.out.println("Error" + e.getMessage());
-                        }
+                        checkWreck(g, p, i);
                     }else
                         new GameView(g, null);
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
@@ -219,20 +150,44 @@ public class MeteorCard extends AdventureCard implements Serializable {
         setCardState(g);
     }
 
+    private void checkWreck(Game g, Player p, int i) {
+        Components wreck = null;
+        Components c=p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), rowOrCol);
+        try {
+            p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+            new GameView(g, null);
+            while (wreck == null) {
+                wreck = p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteor).direction(), i);
+                i++;
+            }
+            if (!p.getPlayerShipBoard().checkIfSplit(wreck.getPosX(), wreck.getPosY())) {
+                protect = false;
+                p.setPlayerState(new WaitingState(g));
+                setCardState(g);
+            } else {
+                protect = false;
+                new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
+                p.setPlayerState(new ShipWreckedState(g, p));
+            }
+        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+    }
+
     private void chooseRowOrCol(Player p, Game g) {
         boolean good = false;
         while(!good && currentMeteor<meteorList.size()) {
-            if (meteorList.get(currentMeteor).getDirection() == Direction.NORTH || meteorList.get(currentMeteor).getDirection() == Direction.SOUTH) {
-                rowOrCol= p.rollDice();
+            if (meteorList.get(currentMeteor).direction() == Direction.NORTH || meteorList.get(currentMeteor).direction() == Direction.SOUTH) {
+                rowOrCol = p.rollDice();
                 new GameView(g, new Exception("METEOR  " + rowOrCol));
-                if(rowOrCol < 7){
+                if(rowOrCol < 11 && rowOrCol > 3){
                     good = true;
                 }else
                     currentMeteor++;
             } else {
-                rowOrCol= p.rollDice();
+                rowOrCol = p.rollDice();
                 new GameView(g, new Exception("METEOR  " + rowOrCol));
-                if(rowOrCol < 5){
+                if(rowOrCol < 10 && rowOrCol > 4){
                     good = true;
                 }else
                     currentMeteor++;

@@ -117,8 +117,8 @@ public class WarZone extends AdventureCard implements Serializable {
                     this.playCard(g, null, null);
                 }
             }else {
-                if (cannonFireList.get(currentFire).getType() == 0) {
-                    if (loser.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).getDirection())) {
+                if (cannonFireList.get(currentFire).type() == 0) {
+                    if (loser.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).direction())) {
                         new GameView(g, new Exception("ACTIVATE SHIELDS " + g.getPlayers().get(currentPlayer)));
                         loser.setPlayerState(new ActivateShieldsState(g));
                     }else{
@@ -215,81 +215,18 @@ public class WarZone extends AdventureCard implements Serializable {
                 case "cannonFire":
                     chooseRowOrCol(loser, g);
                     if (done) {
-                        if (loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol) == null) {
+                        if (loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol) == null) {
                             protect = true;
                         }
                         if (!protect) {
                             int i = 0;
-                            Components wreck = null;
                             if (components == null || batteries == null) {
-                                Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
-                                try {
-                                    loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                                    new GameView(g, null);
-                                    while (wreck == null) {
-                                        wreck = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
-                                        i++;
-                                    }
-
-                                    if (!loser.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
-                                        chooseRowOrCol(loser, g);
-                                        if (!done) {
-                                            loser = null;
-                                            pos++;
-                                        }
-                                        setCardState(g);
-                                    } else {
-                                        chooseRowOrCol(loser, g);
-                                        if (!done) {
-                                            p = loser;
-                                            loser = null;
-                                            pos++;
-                                            new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
-                                            p.setPlayerState(new ShipWreckedState(g, p));
-                                        } else {
-                                            new GameView(g, new Exception("SHIP WRECK  " + loser.getName()));
-                                            loser.setPlayerState(new ShipWreckedState(g, loser));
-                                        }
-                                    }
-                                } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
-                                    System.out.println("Error" + e.getMessage());
-                                }
+                                checkLoser(g, i);
                             } else {
                                 try {
-                                    if (!loser.getPlayerShipBoard().ShieldProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {
+                                    if (loser.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).direction(), components, batteries)) {
                                         new GameView(g, null);
-                                        Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
-                                        try {
-                                            loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
-                                            new GameView(g, null);
-                                            while (wreck == null) {
-                                                wreck = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
-                                                i++;
-                                            }
-
-                                            if (!loser.getPlayerShipBoard().checkIfSplitted(wreck.getPosX(), wreck.getPosY())) {
-                                                chooseRowOrCol(loser, g);
-                                                if (!done) {
-                                                    loser = null;
-                                                    pos++;
-                                                }
-                                                setCardState(g);
-                                            } else {
-                                                chooseRowOrCol(loser, g);
-                                                if (!done) {
-                                                    p = loser;
-                                                    loser = null;
-                                                    pos++;
-                                                    new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
-                                                    p.setPlayerState(new ShipWreckedState(g, p));
-                                                } else {
-                                                    new GameView(g, new Exception("SHIP WRECK  " + loser.getName()));
-                                                    loser.setPlayerState(new ShipWreckedState(g, loser));
-                                                }
-                                            }
-                                        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
-                                            System.out.println("Error" + e.getMessage());
-                                        }
+                                        checkLoser(g, i);
                                     }else
                                         new GameView(g, null);
                                 } catch (InvalidPositionException | InvalidParameterException |
@@ -319,19 +256,56 @@ public class WarZone extends AdventureCard implements Serializable {
         }
     }
 
+    private void checkLoser(Game g, int i) {
+        Components wreck = null;
+        Player p;
+        Components c = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol);
+        try {
+            loser.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
+            new GameView(g, null);
+            while (wreck == null) {
+                wreck = loser.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
+                i++;
+            }
+
+            if (!loser.getPlayerShipBoard().checkIfSplit(wreck.getPosX(), wreck.getPosY())) {
+                chooseRowOrCol(loser, g);
+                if (!done) {
+                    loser = null;
+                    pos++;
+                }
+                setCardState(g);
+            } else {
+                chooseRowOrCol(loser, g);
+                if (!done) {
+                    p = loser;
+                    loser = null;
+                    pos++;
+                    new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
+                    p.setPlayerState(new ShipWreckedState(g, p));
+                } else {
+                    new GameView(g, new Exception("SHIP WRECK  " + loser.getName()));
+                    loser.setPlayerState(new ShipWreckedState(g, loser));
+                }
+            }
+        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+    }
+
     private void chooseRowOrCol(Player p, Game g) {
         boolean good = false;
         while(!good && currentFire<cannonFireList.size()) {
-            if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
+            if (cannonFireList.get(currentFire).direction() == Direction.NORTH || cannonFireList.get(currentFire).direction() == Direction.SOUTH) {
                 rowOrCol= p.rollDice();
                 new GameView(g, new Exception("SHOT  " + rowOrCol));
-                if(rowOrCol < 7){
+                if(rowOrCol < 11 && rowOrCol > 3){
                     good = true;
                 }else
                     currentFire++;
             } else {
                 rowOrCol= p.rollDice();
-                if(rowOrCol < 5){
+                if(rowOrCol < 10 && rowOrCol > 4){
                     good = true;
                 }else
                     currentFire++;

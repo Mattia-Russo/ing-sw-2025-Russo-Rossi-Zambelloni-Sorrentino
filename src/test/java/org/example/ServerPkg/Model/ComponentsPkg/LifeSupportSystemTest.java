@@ -24,28 +24,24 @@ public class LifeSupportSystemTest extends TestCase {
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         LifeSupportSystem l = new LifeSupportSystem(0, AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        s.placeComponent(1,2,c);
-        s.placeComponent(2,2,l);
+        s.placeComponent(5,7,c);
+        s.placeComponent(6,7,l);
         l.remove(s);
         assertTrue(c.getLifeSupportSystemArrayList().isEmpty());
     }
 
     public void testPlace() {
-        boolean[][] availablePositionMatrix = new boolean[7][5];
-        for(int i=0; i<7; i++){
-            for(int j=0; j<5; j++){
-                if((i==0 && j==0) || (i==0 && j==1) || (i==1 && j==0) || (i==3 && j==0) || (i==5 && j==0) || (i==6 && j==0) || (i==6 && j==1) || (i==3 && j==4)){
-                    availablePositionMatrix[i][j] = false;
-                }else{
-                    availablePositionMatrix[i][j]=true;
-                }
+        boolean[][] availablePositionMatrix = new boolean[5][7];
+        for(int i=0; i<5; i++){
+            for(int j=0; j<7; j++){
+                availablePositionMatrix[i][j] = (i != 0 || j != 0) && (i != 0 || j != 1) && (i != 1 || j != 0) && (i != 3 || j != 0) && (i != 5 || j != 0) && (i != 6 || j != 0) && (i != 6 || j != 1) && (i != 3 || j != 4);
             }
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         LifeSupportSystem l = new LifeSupportSystem(0, AlienColour.BROWN, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        s.placeComponent(1,2,c);
-        s.placeComponent(2,2,l);
+        s.placeComponent(5,7,c);
+        s.placeComponent(4,7,l);
         assertTrue(c.getLifeSupportSystemArrayList().contains(l));
     }
 

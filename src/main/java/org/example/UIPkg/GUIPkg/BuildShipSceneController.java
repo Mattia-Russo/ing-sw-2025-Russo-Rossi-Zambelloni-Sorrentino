@@ -68,10 +68,15 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
+    //ToDo salvatre in locale sul client (nella gui)
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
-        setupFieldValidation();
+        loadShipboardImage();
+        //ToDo loadInitialCabin();
+        validationMessage.setVisible(false);
+
     }
 
     private void setupUI() {
