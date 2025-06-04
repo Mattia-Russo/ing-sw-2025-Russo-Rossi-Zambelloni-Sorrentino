@@ -81,21 +81,21 @@ public class Game implements Serializable {
             }else {
                 p.setPlayerShipboard(ShipBoardLevel);
             }
-            p.getPlayerShipBoard().placeComponent(3,2, getComponentsList().getFirst());
+            p.getPlayerShipBoard().placeComponent(7,7, getComponentsList().getFirst());
             getComponentsList().removeFirst();
             i++;
             switch(i){
                 case 0:
-                    p.setRocketColour("Blue");
+                    p.setRocketColour("RED");
                     break;
                 case 1:
-                    p.setRocketColour("Green");
+                    p.setRocketColour("YELLOW");
                     break;
                 case 2:
-                    p.setRocketColour("Red");
+                    p.setRocketColour("GREEN");
                     break;
                 case 3:
-                    p.setRocketColour("Yellow");
+                    p.setRocketColour("BLUE");
                     break;
             }
         }
@@ -109,7 +109,6 @@ public class Game implements Serializable {
     }
 
     // usage only for tests
-
     public void setCard(AdventureCard card) {
         deck.clear();
         deck.add(card);
@@ -161,9 +160,7 @@ public class Game implements Serializable {
         } else {
             Random rand = new Random();
             int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
-
             this.currentCard = deck.get(index);
-
             deck.remove(index);
         }
     }
@@ -252,7 +249,7 @@ public class Game implements Serializable {
             calculateFinalCredits();
             ArrayList<Player> winners = calculateWinners();
             for (Player player : winners) {
-                System.out.println("Congratulations player " + player.getName() + " won the game");
+                new GameView(this, new Exception("Congratulations player " + player.getName() + " won the game!"));
             }
         } else {
             adjustPlayerPositions();
@@ -271,7 +268,7 @@ public class Game implements Serializable {
             if (!p.checkShip()) {
                 p.setShipOK(false);
                 p.setPlayerState(new FixShipState(this));
-                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP " + p.getName() + ", REMOVE NOT RIGHT POSITIONED TILES"));
+                new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP " + p.getName() + ", REMOVE WRONG POSITIONED TILES"));
                 return;
             }
         }
@@ -296,15 +293,15 @@ public class Game implements Serializable {
 
     public void checkAllWrackedShip(){
         Components c=null;
-        int i=0;
+        int i=5;
         for (Player p : players) {
-            while(c==null && i < 5){
+            while(c==null && i < 10){
                 c=p.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
                 i++;
             }
-            if(i!=5) {
+            if(i!=10) {
                 assert c != null;
-                if (p.getPlayerShipBoard().checkIfSplitted(c.getPosY(), c.getPosX())) {
+                if (p.getPlayerShipBoard().checkIfSplitted(c.getPosX(), c.getPosY())) {
                     p.setShipOK(false);
                     p.setPlayerState(new ShipWreckedState(this, p));
                     new GameView(this, new Exception("YOU HAVE A SHIP WRECK " + p.getName()));
@@ -321,7 +318,7 @@ public class Game implements Serializable {
             }else {
                 p.setPlayerState(new WaitingState(this));
             }
-            i=0;
+            i=5;
             c=null;
         }
     }
@@ -341,11 +338,8 @@ public class Game implements Serializable {
         } else {
             Random rand = new Random();
             int index = rand.nextInt(componentsList.size()-1);  // prende un numero randomico tra 0 e card.length-1
-
-             Components c = componentsList.get(index);
-
+            Components c = componentsList.get(index);
             componentsList.remove(index);
-
             return c;
         }
     }
@@ -357,15 +351,12 @@ public class Game implements Serializable {
             throw new InvalidMethodCallException("Components heap is empty");
         } else {
             Components c = discoveredComponents.get(index);
-
             discoveredComponents.remove(index);
-
             return c;
         }
     }
 
     //usage only for test
-
     public List<Components> getComponentsList(){
         return this.componentsList;
     }
@@ -409,7 +400,7 @@ public class Game implements Serializable {
 
     public void setController(GameController controller) {
         this.controller = controller;
-        this.lobbyState = getLobbyState();
+        this.lobbyState = controller.getLobbyState();
     }
 
     public void setLobbyState(LobbyState lobbyState) {

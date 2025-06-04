@@ -22,15 +22,15 @@ public abstract class AdventureCard implements Serializable {
         return new AdventureCardView(0, null,0, 0,0,0, null,null,null,null,0, null, null);
     }
 
-    public void setCardState(Game game) {};
+    public void setCardState(Game game) {}
 
-    public void playCard(Player disconnectingPlayer, Game game){};
+    public void playCard(Player disconnectingPlayer, Game game){}
 
-    public void playCard(Game game){};
+    public void playCard(Game game){}
 
-    public void playCard(Game game, int numPlanet){};
+    public void playCard(Game game, int numPlanet){}
 
-    public void playCard(Game game, ArrayList<Points> Engines, ArrayList<Points> Batteries){};
+    public void playCard(Game game, ArrayList<Points> Engines, ArrayList<Points> Batteries){}
 
     public int getCardLevel(){return cardLevel;}
 
