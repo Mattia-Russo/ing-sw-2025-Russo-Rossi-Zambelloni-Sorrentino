@@ -397,7 +397,7 @@ public class ShipBoard implements Serializable {
         for(int i = 5; i < componentMatrix.length + 5; i++){
             for(int j = 4; j < componentMatrix[0].length + 4; j++){
                 if(availablePositionMatrix[i - 5][j - 4] && componentMatrix[i - 5][j - 4]!=null && !connectedComponents.contains(componentMatrix[i - 5][j - 4])){
-                    removeComponent(i,j);
+                    removeComponent(j,i);
                 }
             }
         }
