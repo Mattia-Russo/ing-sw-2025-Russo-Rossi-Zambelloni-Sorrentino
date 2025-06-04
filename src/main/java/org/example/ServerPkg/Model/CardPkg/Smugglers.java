@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Smugglers extends Enemy implements Serializable {
-    private List<Goods> goodsWinList = new ArrayList<Goods>();
+    private final List<Goods> goodsWinList;
     private final int numGoodsLose;
     private int playersIndex;
     private boolean accept;

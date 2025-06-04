@@ -56,8 +56,8 @@ public class ShipWreckedState extends PlayerState implements Serializable {
     @Override
     public void AbandonGame(Player player){
         Components c=null;
-        int i=0;
-        while(c==null && i < 5){
+        int i=5;
+        while(c==null && i < 10){
             c=player.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
             i++;
         }
@@ -89,8 +89,8 @@ public class ShipWreckedState extends PlayerState implements Serializable {
     @Override
     public void disconnect(Player disconnectingPlayer){
         Components c=null;
-        int i=0;
-        while(c==null && i < 5){
+        int i=5;
+        while(c==null && i < 10){
             c=disconnectingPlayer.getPlayerShipBoard().getFirstComponent(Direction.WEST, i);
             i++;
         }

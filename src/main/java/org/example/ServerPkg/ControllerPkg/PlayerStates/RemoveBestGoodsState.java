@@ -33,19 +33,21 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
             Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
             ArrayList<Goods> goodsList = currentPlayer.getPlayerShipBoard().getTotalGoods();
             goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
-            Storage storage = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isStorage();
-
-            if(storage!=null){
-                if(storage.getGoods()[numGood].getColour() == goodsList.getFirst().getColour()){
-                    storage.removeGood(numGood);
-                    goodsRemoved++;
-                    new GameView(getGame(), null);
+            Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getX(), point.getY());
+            if(c!=null) {
+                Storage storage = c.isStorage();
+                if (storage != null) {
+                    if (storage.getGoods()[numGood].getColour() == goodsList.getFirst().getColour()) {
+                        storage.removeGood(numGood);
+                        goodsRemoved++;
+                        new GameView(getGame(), null);
+                    } else {
+                        new GameView(getGame(), new NotStorageException("You've not selected the best good you have " + player.getName()));
+                    }
                 } else {
-                    new GameView(getGame(), new NotStorageException("You've not selected the best good you have " + player.getName()));
+                    new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
                 }
-            } else {
-                new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
-            }
+            } new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
         }
     }
 
@@ -59,18 +61,21 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
             if(!goodsList.isEmpty()){
                 new GameView(getGame(), new RemoveBatteriesBeforeGoodsException("You have to remove goods before batteries " + player.getName()));
             } else {
-                BatteryStorage storage = currentPlayer.getPlayerShipBoard().getComponentMatrix()[point.getX()][point.getY()].isBatteryStorage();
-                if(storage!=null){
-                    try {
-                        storage.setQuantity(-1, currentPlayer.getPlayerShipBoard());
-                        batteriesRemoved++;
-                        new GameView(getGame(), null);
-                    } catch (ValueUnderZeroException e) {
-                        System.out.println("Error: " + e.getMessage());
+                Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getX(),point.getY());
+                if(c!=null) {
+                    BatteryStorage storage = c.isBatteryStorage();
+                    if (storage != null) {
+                        try {
+                            storage.setQuantity(-1, currentPlayer.getPlayerShipBoard());
+                            batteriesRemoved++;
+                            new GameView(getGame(), null);
+                        } catch (ValueUnderZeroException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                    } else {
+                        new GameView(getGame(), new NotBatteryStorageException("The component of given coordinates is not a battery storage " + player.getName()));
                     }
-                } else {
-                    new GameView(getGame(), new NotBatteryStorageException("The component of given coordinates is not a battery storage " + player.getName()));
-                }
+                }else new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
             }
         }
     }
@@ -120,17 +125,19 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
 
         int itemsToRemove = game.getCurrentCard().getNumGoodsLose() - goodsRemoved;
 
-        for (int i=0; i< player.getPlayerShipBoard().getComponentMatrix().length && itemsToRemove > 0; i++){
-            for(int j=0; j < player.getPlayerShipBoard().getComponentMatrix()[i].length; j++){
-                Components c = player.getPlayerShipBoard().getComponentMatrix()[i][j];
-                if(c.isBatteryStorage() != null){
-                    if(((BatteryStorage) c).getQuantity() >= itemsToRemove){
-                        ((BatteryStorage) c).setQuantity(-itemsToRemove, player.getPlayerShipBoard());
-                        batteriesRemoved += itemsToRemove;
-                        break;
-                    } else {
-                        ((BatteryStorage) c).setQuantity(-((BatteryStorage) c).getQuantity(), player.getPlayerShipBoard());
-                        batteriesRemoved += ((BatteryStorage) c).getQuantity();
+        for (int i=4; i< player.getPlayerShipBoard().getComponentMatrix().length +4 && itemsToRemove > 0; i++){
+            for(int j=5; j < player.getPlayerShipBoard().getComponentMatrix()[i].length + 5; j++){
+                Components c = player.getPlayerShipBoard().getComponent(i, j);
+                if(c!=null) {
+                    if (c.isBatteryStorage() != null) {
+                        if (((BatteryStorage) c).getQuantity() >= itemsToRemove) {
+                            ((BatteryStorage) c).setQuantity(-itemsToRemove, player.getPlayerShipBoard());
+                            batteriesRemoved += itemsToRemove;
+                            break;
+                        } else {
+                            ((BatteryStorage) c).setQuantity(-((BatteryStorage) c).getQuantity(), player.getPlayerShipBoard());
+                            batteriesRemoved += ((BatteryStorage) c).getQuantity();
+                        }
                     }
                 }
             }

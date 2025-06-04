@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Storage extends Components implements Serializable {
-    private Goods[] goodsList = new Goods[3];
+    private final Goods[] goodsList;
     private final boolean isSpecial;
     private final int capacity;
     private final int id;

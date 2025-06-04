@@ -25,7 +25,7 @@ public class Pirates extends Enemy implements Serializable {
     private int currentFire;
     private int rowOrCol;
     private boolean shipWrecked;
-    private List<CannonFire> cannonFireList = new ArrayList<CannonFire>();
+    private final List<CannonFire> cannonFireList;
     private final int id;
 
     public Pirates(int id, int credit, List<CannonFire> cannonFireList,int cardLevel, int lostDays,int cannonPower) {
@@ -64,11 +64,10 @@ public class Pirates extends Enemy implements Serializable {
             } else {
                 g.Turn();
             }
-        }
-        else{
+        }else{
             Player p= g.getPlayers().get(currentPlayer);
-            if (cannonFireList.get(currentFire).getType() == 0) {
-                if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).getDirection())) {
+            if (cannonFireList.get(currentFire).type() == 0) {
+                if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).direction())) {
                     new GameView(g, new Exception("ACTIVATE SHIELD " + g.getPlayers().get(currentPlayer).getName()));
                     p.setPlayerState(new ActivateShieldsState(g));
                 }else{
@@ -93,6 +92,8 @@ public class Pirates extends Enemy implements Serializable {
                     playerLost = true;
                     chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
                     setCardState(g);    // riceve cannonate o passa al player successivo
+                }else {
+                    setCardState(g);
                 }
             }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                 System.out.println("Error" + e.getMessage());
@@ -104,17 +105,17 @@ public class Pirates extends Enemy implements Serializable {
             Components shipWreck = null;
             Player p = g.getPlayers().get(currentPlayer);
             if(components == null || batteries == null) {   // non ha nulla attivo
-                Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
+                Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol);
                 try {
                     if (c != null){
                         p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
                         new GameView(g, null);
                         while(shipWreck == null){   // cerco un componente a caso della nave
-                            shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                            shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
                             i++;
                         }
                         // nave divisa
-                        if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosY(), shipWreck.getPosX())){
+                        if(p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
                             new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                             p.setPlayerState(new ShipWreckedState(g, p));
                             this.shipWrecked = true;
@@ -125,14 +126,15 @@ public class Pirates extends Enemy implements Serializable {
                 }
             }else { // ha attivato degli scudi
                 try {
-                    if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).getDirection(), components, batteries)) {    // se scudo non protegge
+                    if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).direction(), components, batteries)) {    // se scudo non protegge
+                    if (p.getPlayerShipBoard().shieldsNotProtects(cannonFireList.get(currentFire).direction(), components, batteries)) {    // se scudo non protegge
                         new GameView(g, null);
-                        Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), rowOrCol);
+                        Components c = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), rowOrCol);
                         try {
                             p.getPlayerShipBoard().removeComponent(c.getPosX(), c.getPosY());
                             new GameView(g, null);
                             while(shipWreck == null){
-                                shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).getDirection(), i);
+                                shipWreck = p.getPlayerShipBoard().getFirstComponent(cannonFireList.get(currentFire).direction(), i);
                                 i++;
                             }
                             if(!p.getPlayerShipBoard().checkIfSplitted(shipWreck.getPosX(), shipWreck.getPosY())){
@@ -224,7 +226,7 @@ public class Pirates extends Enemy implements Serializable {
     private void chooseRowOrCol(Player p, Game g) {
         boolean good = false;
         while(!good && currentFire<cannonFireList.size()) {
-            if (cannonFireList.get(currentFire).getDirection() == Direction.NORTH || cannonFireList.get(currentFire).getDirection() == Direction.SOUTH) {
+            if (cannonFireList.get(currentFire).direction() == Direction.NORTH || cannonFireList.get(currentFire).direction() == Direction.SOUTH) {
                 rowOrCol= p.rollDice();
                 new GameView(g, new Exception("SHOT  " + rowOrCol));
                 if(rowOrCol < 7){

@@ -13,8 +13,8 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Slavers extends Enemy implements Serializable {
-    private int numAstronauts;
-    private int credits;
+    private final int numAstronauts;
+    private final int credits;
     private int playersIndex;
     private boolean accept;
     private final int id;
@@ -120,6 +120,4 @@ public class Slavers extends Enemy implements Serializable {
         return accept;
     }
 
-    //CONTROLLER CALCOLA POTENZA DI FUOCO USANDO UN METODO SUL MODEL , CHIAMA GETCANNONPOWER,
-    // CONFRONTA POI O CHIAMA getCredit O numAstronauts
 }

@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanetsCard extends AdventureCard implements Serializable{
-    private ArrayList<Planet> planets = new ArrayList<Planet>();
+    private final ArrayList<Planet> planets;
     private int playersIndex;
-    private boolean planetsVisited[];
+    private final boolean[] planetsVisited;
     private boolean changeGoodsFlag;
     private int currentPlanetIndex;
     private final int id;

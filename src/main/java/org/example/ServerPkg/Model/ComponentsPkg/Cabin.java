@@ -36,7 +36,7 @@ public class Cabin extends Components implements Serializable {
         if(getAlien() == null) {
             return new ComponentsView(getDirection(), getConnectors(), id, type, 0, getNumAstronauts(), null, null, null);
         }else
-            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, 0, null, null, getAlien().getColour());
+            return new ComponentsView(getDirection(), getConnectors(), id, type, 0, 0, null, null, getAlien().colour());
     }
 
     public int getNumAstronauts() {
@@ -92,7 +92,7 @@ public class Cabin extends Components implements Serializable {
         if (!withLifeSupport) {
             throw new WithoutLifeSupportException("This cabin does not have life support!");
         }
-        boolean hasMatchingLifeSupport = getLifeSupportSystemArrayList().stream().anyMatch(lss -> lss.getColour() == newAlien.getColour());
+        boolean hasMatchingLifeSupport = getLifeSupportSystemArrayList().stream().anyMatch(lss -> lss.getColour() == newAlien.colour());
         if (!hasMatchingLifeSupport) {
             throw new DifferentLifeSupportColourException("This cabin has life support, but of a different colour!");
         }
@@ -151,7 +151,7 @@ public class Cabin extends Components implements Serializable {
             }
         }
         if (check) {
-            if (this.getAlien()!=null && this.getAlien().getColour() == life.getColour()) {
+            if (this.getAlien()!=null && this.getAlien().colour() == life.getColour()) {
                 this.removeAlien(ship);
             }
             this.removeLifeSupport(life);
