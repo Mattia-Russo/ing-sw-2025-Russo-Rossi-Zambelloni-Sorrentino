@@ -96,37 +96,50 @@ public class TUI extends UI{
                 allTileLines[i] = DrawComponent(component);
             }
 
-            for (int lineIndex = 0; lineIndex < TILE_HEIGHT; lineIndex++) {
-                StringBuilder fullLine = new StringBuilder();
-                for (int tileIndex = 0; tileIndex < tilesInThisRow; tileIndex++) {
-                    fullLine.append(allTileLines[tileIndex][lineIndex]);
-                    if (tileIndex < tilesInThisRow - 1) {
-                        fullLine.append("  ");
-                    }
-                }
-                System.out.println(fullLine);
-            }
+            printFullLines(tilesInThisRow, allTileLines);
 
-            StringBuilder indexLine = new StringBuilder();
-            for (int i = 0; i < tilesInThisRow; i++) {
-                int tileIndex = startIndex + i;
-                String indexStr = "[" + tileIndex + "]";
-                int tileWidth = 11;
-                int padding = (tileWidth - indexStr.length()) / 2;
-
-                indexLine.append(" ".repeat(Math.max(0, padding)));
-                indexLine.append(indexStr);
-                indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
-
-                if (i < tilesInThisRow - 1) {
-                    indexLine.append("  ");
-                }
-            }
+            StringBuilder indexLine = getStringBuilder(tilesInThisRow, startIndex);
             System.out.println(indexLine);
             
             if (endIndex < components.size()) {
                 System.out.println();
             }
+        }
+    }
+
+    private void printFullLines(int tilesInThisRow, String[][] allTileLines) {
+        for (int lineIndex = 0; lineIndex < 9; lineIndex++) {
+            StringBuilder fullLine = new StringBuilder();
+            for (int tileIndex = 0; tileIndex < tilesInThisRow; tileIndex++) {
+                fullLine.append(allTileLines[tileIndex][lineIndex]);
+                if (tileIndex < tilesInThisRow - 1) {
+                    fullLine.append("  ");
+                }
+            }
+            System.out.println(fullLine);
+        }
+    }
+
+    private StringBuilder getStringBuilder(int tilesInThisRow, int startIndex) {
+        StringBuilder indexLine = new StringBuilder();
+        for (int i = 0; i < tilesInThisRow; i++) {
+            int tileIndex = startIndex + i;
+            printIndexes(tilesInThisRow, indexLine, i, tileIndex);
+        }
+        return indexLine;
+    }
+
+    private void printIndexes(int tilesInThisRow, StringBuilder indexLine, int i, int tileIndex) {
+        String indexStr = "[" + tileIndex + "]";
+        int tileWidth = 11;
+        int padding = (tileWidth - indexStr.length()) / 2;
+
+        indexLine.append(" ".repeat(Math.max(0, padding)));
+        indexLine.append(indexStr);
+        indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
+
+        if (i < tilesInThisRow - 1) {
+            indexLine.append("  ");
         }
     }
 
@@ -225,7 +238,7 @@ public class TUI extends UI{
             if (player.isShipOK() && player.isPosValid()) {
                 int normalizedPosition = ((player.getPosition() % totalPositions) + totalPositions) % totalPositions;
                 String playerColor = getPlayerColorSymbol(player.getRocketColour());
-                playerPositions.put(getCoordFromPos(normalizedPosition, gameMode), playerColor);
+                playerPositions.put(getCoordinatesFromPos(normalizedPosition, gameMode), playerColor);
             }
         }
 
@@ -336,7 +349,7 @@ public class TUI extends UI{
         };
     }
 
-    private Points getCoordFromPos(int pos, int gameMode){
+    private Points getCoordinatesFromPos(int pos, int gameMode){
         if(gameMode == 0){
             if(pos < 8) {
                 return new Points(pos, 0);
@@ -451,7 +464,7 @@ public class TUI extends UI{
             System.out.println("\nShipboard:");
             System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.printf("   Col %d    ", col);
+                System.out.printf("   Col %d    ", col + 4);
             }
             System.out.println();
 
@@ -494,30 +507,11 @@ public class TUI extends UI{
             allTileLines[i] = DrawComponent(component);
         }
 
-        for (int lineIndex = 0; lineIndex < TILE_HEIGHT; lineIndex++) {
-            StringBuilder fullLine = new StringBuilder();
-            for (int tileIndex = 0; tileIndex < NUM_SLOTS; tileIndex++) {
-                fullLine.append(allTileLines[tileIndex][lineIndex]);
-                if (tileIndex < NUM_SLOTS - 1) {
-                    fullLine.append("  ");
-                }
-            }
-            System.out.println(fullLine);
-        }
+        printFullLines(NUM_SLOTS, allTileLines);
 
         StringBuilder indexLine = new StringBuilder();
         for (int i = 0; i < NUM_SLOTS; i++) {
-            String indexStr = "[" + i + "]";
-            int tileWidth = 11;
-            int padding = (tileWidth - indexStr.length()) / 2;
-
-            indexLine.append(" ".repeat(Math.max(0, padding)));
-            indexLine.append(indexStr);
-            indexLine.append(" ".repeat(Math.max(0, tileWidth - padding - indexStr.length())));
-
-            if (i < NUM_SLOTS - 1) {
-                indexLine.append("  ");
-            }
+            printIndexes(NUM_SLOTS, indexLine, i, i);
         }
         System.out.println(indexLine);
     }
@@ -610,16 +604,7 @@ public class TUI extends UI{
                 }
 
             case "Storage":
-                StringBuilder goods = new StringBuilder();
-                List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
-                for (GoodsView goodsView : goodsList) {
-                    if(goodsView != null) {
-                        GoodsColour color = goodsView.getColour();
-                        goods.append(getGoodColorSquare(color));
-                    } else {
-                        goods.append("   ");
-                    }
-                }
+                StringBuilder goods = getStringBuilder(comp);
                 return goods.toString();
 
             case "Shield":
@@ -628,6 +613,20 @@ public class TUI extends UI{
             default:
                 return "";
         }
+    }
+
+    private StringBuilder getStringBuilder(ComponentsView comp) {
+        StringBuilder goods = new StringBuilder();
+        List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
+        for (GoodsView goodsView : goodsList) {
+            if(goodsView != null) {
+                GoodsColour color = goodsView.getColour();
+                goods.append(getGoodColorSquare(color));
+            } else {
+                goods.append("   ");
+            }
+        }
+        return goods;
     }
 
     private String getAlienColorBlock(AlienColour color) {

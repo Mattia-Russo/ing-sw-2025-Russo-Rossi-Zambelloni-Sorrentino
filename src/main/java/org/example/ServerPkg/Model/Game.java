@@ -161,7 +161,7 @@ public class Game implements Serializable {
             deck.removeFirst();
         } else {
             Random rand = new Random();
-            int index = rand.nextInt(deck.size()-1);  // prende un numero randomico tra 0 e card.length-1
+            int index = rand.nextInt(deck.size()-1);  // prende un numero random tra 0 e card.length-1
 
             this.currentCard = deck.get(index);
 
@@ -189,23 +189,7 @@ public class Game implements Serializable {
         int i = 4;
         ArrayList<Player> bestShips = new ArrayList<>();
         for (Player p : players) {
-            double tmp_credits = 0;
-            for (Goods g : p.getPlayerShipBoard().getTotalGoods()){     // vendita delle merci
-                switch (g.getColour()){
-                    case RED:
-                        tmp_credits += 4;
-                        break;
-                    case YELLOW:
-                        tmp_credits += 3;
-                        break;
-                    case GREEN:
-                        tmp_credits += 2;
-                        break;
-                    case BLUE:
-                        tmp_credits += 1;
-                        break;
-                }
-            }
+            double tmp_credits = getTmpCredits(p);
             if(!p.isAbandoned()){
                 p.changeCredits(i);     // aumento crediti in base all'ordine di arrivo
                 i--;
@@ -226,6 +210,27 @@ public class Game implements Serializable {
         for (Player p : bestShips) {    // aggiungi crediti in base alla nave con meno connettori esposti
             p.changeCredits(2);
         }
+    }
+
+    private double getTmpCredits(Player p) {
+        double tmp_credits = 0;
+        for (Goods g : p.getPlayerShipBoard().getTotalGoods()){     // vendita delle merci
+            switch (g.getColour()){
+                case RED:
+                    tmp_credits += 4;
+                    break;
+                case YELLOW:
+                    tmp_credits += 3;
+                    break;
+                case GREEN:
+                    tmp_credits += 2;
+                    break;
+                case BLUE:
+                    tmp_credits += 1;
+                    break;
+            }
+        }
+        return tmp_credits;
     }
 
     private void checkForcedAbandon() {
@@ -341,7 +346,7 @@ public class Game implements Serializable {
             throw new EmptyComponentListException("Components heap is empty");
         } else {
             Random rand = new Random();
-            int index = rand.nextInt(componentsList.size()-1);  // prende un numero randomico tra 0 e card.length-1
+            int index = rand.nextInt(componentsList.size()-1);  // prende un numero random tra 0 e card.length-1
 
              Components c = componentsList.get(index);
 
