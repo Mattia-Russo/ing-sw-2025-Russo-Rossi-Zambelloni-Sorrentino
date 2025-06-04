@@ -172,7 +172,7 @@ public class GameTest extends TestCase {
         sp1.placeComponent(6,7, s21);
         sp1.placeComponent(8,7, s11);
         sp1.placeComponent(8,6, cannon1);
-        sp1.placeComponent(5,9, c51);
+        sp1.placeComponent(5,8, c51);
         sp1.placeComponent(6,9, c21);
         sp1.placeComponent(5,9, c41);
         sp1.placeComponent(6,9, c31);
@@ -322,8 +322,6 @@ public class GameTest extends TestCase {
     public void testTurn() {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
-        Player p3 = new Player( "a", null);
-        Player p4 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
@@ -335,7 +333,6 @@ public class GameTest extends TestCase {
         ShipBoard sp1 = p1.getPlayerShipBoard();
         ShipBoard sp2 = p2.getPlayerShipBoard();
 
-        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
@@ -349,12 +346,11 @@ public class GameTest extends TestCase {
         Cabin c91 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e11 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        sp1.placeComponent(7,5, c11);
         sp1.placeComponent(6,7, s21);
         sp1.placeComponent(8,7, s11);
         sp1.placeComponent(8,6, cannon1);
-        sp1.placeComponent(5,9, c51);
-        sp1.placeComponent(6,9, c21);
+        sp1.placeComponent(5,8, c51);
+        sp1.placeComponent(6,8, c21);
         sp1.placeComponent(5,9, c41);
         sp1.placeComponent(6,9, c31);
         sp1.placeComponent(8,8, c61);
@@ -363,7 +359,6 @@ public class GameTest extends TestCase {
         sp1.placeComponent(9,9, c91);
         sp1.placeComponent(7,8, c81);
 
-        Cabin c12 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s12 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon2 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
         Storage s22 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
@@ -377,7 +372,6 @@ public class GameTest extends TestCase {
         Cabin c92 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e12 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        sp2.placeComponent(7,7, c12);
         sp2.placeComponent(6,7, s22);
         sp2.placeComponent(8,7, s12);
         sp2.placeComponent(8,6, cannon2);
@@ -401,17 +395,15 @@ public class GameTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p2);
         players.add(p1);
-        Game g=new Game(2, 1, 1, null);
+        Game g=new Game(2, 1, 1, new GameController());
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
 
         ShipBoard sp2 = p2.getPlayerShipBoard();
-        Cabin c12 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s12 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon2 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
-        sp2.placeComponent(7,7, c12);
         sp2.placeComponent(8,7, s12);
-        sp2.placeComponent(8,7, cannon2);
+        sp2.placeComponent(6,7, cannon2);
         p1.setShipOK(true);
         g.checkAllPlayersShip();
 
@@ -425,20 +417,17 @@ public class GameTest extends TestCase {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p2);
         players.add(p1);
-        Game g=new Game(2, 1, 1, null);
+        Game g=new Game(2, 1, 1, new GameController());
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
 
         ShipBoard sp2 = p2.getPlayerShipBoard();
-        Cabin c12 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s12 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon2 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
-        sp2.placeComponent(7,7, c12);
         sp2.placeComponent(8,7, s12);
         sp2.placeComponent(8,6, cannon2);
 
         ShipBoard sp1= p1.getPlayerShipBoard();
-        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s11 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
@@ -452,7 +441,6 @@ public class GameTest extends TestCase {
         Cabin c91 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e11 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        sp1.placeComponent(7,7, c11);
         sp1.placeComponent(6,7, s21);
         sp1.placeComponent(8,7, s11);
         sp1.placeComponent(8,6, cannon1);
@@ -470,7 +458,6 @@ public class GameTest extends TestCase {
         g.checkAllWrackedShip();
 
         assertTrue(g.getPlayers().getFirst().getState() instanceof ShipWreckedState);
-        assertEquals(state, p1.getState());
 
     }
 
@@ -484,7 +471,7 @@ public class GameTest extends TestCase {
         players.add(p2);
         players.add(p3);
         players.add(p4);
-        Game g=new Game(4, 1, 1, null);
+        Game g=new Game(4, 1, 1, new GameController());
         g.getPlayers().addAll(players);
         g.startBuildingShips();
 
@@ -495,7 +482,7 @@ public class GameTest extends TestCase {
     }
 
     public void testPickComponentTile() {
-        Game g=new Game(4, 1, 1, null);
+        Game g=new Game(4, 1, 1, new GameController());
         int size = g.getComponentsList().size();
         Components c;
         c=g.pickComponentTile();

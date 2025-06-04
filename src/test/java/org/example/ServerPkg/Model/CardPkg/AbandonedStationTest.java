@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ChangeGoodsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnAbandonState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
@@ -51,15 +52,16 @@ public class AbandonedStationTest extends TestCase {
     }
 
     public void testSetCardState() {
+        GameController g = new GameController();
+        g.createLobby("a",3,2,1);
+        g.joinLobby("b");
+        g.joinLobby("c");
+        Game game = g.getGame();
+        game.setPlayersShipboard();
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player("a", null);
-        Player p2 = new Player("b", null);
-        Player p3 = new Player( "c", null);
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-
-        Game game = new Game(3, 2, 1, null);
+        players.add(game.getPlayers().get(0));
+        players.add(game.getPlayers().get(1));
+        players.add(game.getPlayers().get(2));
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.GREEN);
         goods[1] = new Goods(GoodsColour.RED);
@@ -69,38 +71,40 @@ public class AbandonedStationTest extends TestCase {
         game.setCard(card);
 
         card.setCardState(game);
-        assertTrue(p1.getState() instanceof LandOnAbandonState);
-        assertTrue(p2.getState() instanceof WaitingState);
-        assertTrue(p3.getState() instanceof WaitingState);
-        p1.setPlayerState(new WaitingState(game));
+        assertTrue(players.get(0).getState() instanceof LandOnAbandonState);
+        assertTrue(players.get(1).getState() instanceof WaitingState);
+        assertTrue(players.get(2).getState() instanceof WaitingState);
+        players.get(0).setPlayerState(new WaitingState(game));
 
         card.setCardState(game);
-        assertTrue(p1.getState() instanceof WaitingState);
-        assertTrue(p2.getState() instanceof LandOnAbandonState);
-        assertTrue(p3.getState() instanceof WaitingState);
-        p2.setPlayerState(new WaitingState(game));
+        assertTrue(players.get(0).getState() instanceof WaitingState);
+        assertTrue(players.get(1).getState() instanceof LandOnAbandonState);
+        assertTrue(players.get(2).getState() instanceof WaitingState);
+        players.get(1).setPlayerState(new WaitingState(game));
 
         card.setCardState(game);
-        assertTrue(p1.getState() instanceof WaitingState);
-        assertTrue(p2.getState() instanceof WaitingState);
-        assertTrue(p3.getState() instanceof LandOnAbandonState);
-        p3.setPlayerState(new WaitingState(game));
+        assertTrue(players.get(0).getState() instanceof WaitingState);
+        assertTrue(players.get(1).getState() instanceof WaitingState);
+        assertTrue(players.get(2).getState() instanceof LandOnAbandonState);
+        players.get(2).setPlayerState(new WaitingState(game));
 
-        assertTrue(p1.getState() instanceof WaitingState);
-        assertTrue(p2.getState() instanceof WaitingState);
-        assertTrue(p3.getState() instanceof WaitingState);
+        assertTrue(players.get(0).getState() instanceof WaitingState);
+        assertTrue(players.get(1).getState() instanceof WaitingState);
+        assertTrue(players.get(2).getState() instanceof WaitingState);
     }
 
     public void testPlayCard() {
+        GameController g = new GameController();
+        g.createLobby("a",3,2,1);
+        g.joinLobby("b");
+        g.joinLobby("c");
+        Game game = g.getGame();
+        game.setPlayersShipboard();
         ArrayList<Player> players = new ArrayList<>();
-        Player p1 = new Player("a", null);
-        Player p2 = new Player("b", null);
-        Player p3 = new Player( "c", null);
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-
-        Game game = new Game(3, 2, 1, null);
+        players.add(game.getPlayers().get(0));
+        players.add(game.getPlayers().get(1));
+        players.add(game.getPlayers().get(2));
+        players.getFirst().getPlayerShipBoard().setNumAstronauts(3);
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.GREEN);
         goods[1] = new Goods(GoodsColour.RED);
@@ -109,12 +113,11 @@ public class AbandonedStationTest extends TestCase {
         AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
         game.setCard(card);
         card.setCardState(game);
-        card.playCard(game);
-        assertTrue(p1.getState() instanceof ChangeGoodsState);
+        assertTrue(players.getFirst().getState() instanceof LandOnAbandonState);
         card.setChangeGoodsFlag(false);
-        card.playCard(game);
-        assertEquals(-2, p1.getPosition());
-        assertTrue(p1.getState() instanceof WaitingState);
+        card.playCard(game, 0);
+        assertEquals(-2, players.getFirst().getPosition());
+        assertTrue(players.getFirst().getState() instanceof WaitingState);
         assertEquals(-1, card.getCurrentPlayerIndex());
         assertTrue(card.getChangeGoodsFlag());
     }

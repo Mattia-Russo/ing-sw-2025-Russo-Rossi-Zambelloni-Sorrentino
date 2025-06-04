@@ -13,7 +13,7 @@ public class ShipboardView implements Serializable {
         for(int i = 0; i < shipBoard.getComponentMatrix().length; i++){
             for(int j = 0; j < shipBoard.getComponentMatrix()[0].length; j++){
                 if(shipBoard.getAvailablePositionMatrix()[i][j]) {
-                    Components c = shipBoard.getComponent(i, j);
+                    Components c = shipBoard.getComponent(i+5, j+4);
                     if(c != null) {
                         componentMatrixView[i][j] = c.createView();
                     }

@@ -230,16 +230,16 @@ public class Pirates extends Enemy implements Serializable {
             if (cannonFireList.get(currentFire).direction() == Direction.NORTH || cannonFireList.get(currentFire).direction() == Direction.SOUTH) {
                 rowOrCol = p.rollDice();
                 new GameView(g, new Exception("SHOT  " + rowOrCol));
-                if (rowOrCol < 7) {
+                if(rowOrCol < 11 && rowOrCol > 3){
                     good = true;
-                } else
+                }else
                     currentFire++;
             } else {
                 rowOrCol = p.rollDice();
                 new GameView(g, new Exception("SHOT  " + rowOrCol));
-                if (rowOrCol < 5) {
+                if(rowOrCol < 10 && rowOrCol > 4){
                     good = true;
-                } else
+                }else
                     currentFire++;
             }
         }

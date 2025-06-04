@@ -219,7 +219,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             protect = true;
                         }
                         if (!protect) {
-                            int i = 0;
+                            int i = 5;
                             if (components == null || batteries == null) {
                                 checkLoser(g, i);
                             } else {
