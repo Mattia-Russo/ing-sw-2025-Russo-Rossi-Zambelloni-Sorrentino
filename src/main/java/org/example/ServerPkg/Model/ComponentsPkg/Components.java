@@ -13,13 +13,19 @@ public class Components implements Serializable {
     private final Connector[] connectors;
     private int posX;
     private int posY;
+    private final int id;
 
-    public Components(Direction direction, Connector[] connectors) {
+    public Components(Direction direction, Connector[] connectors, int id) {
         this.direction = direction;
         this.connectors = connectors;
         this.isPositioned = false;
         this.posX = 0;
         this.posY = 0;
+        this.id=id;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public ComponentsView createView(){

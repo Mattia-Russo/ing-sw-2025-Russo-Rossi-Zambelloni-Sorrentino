@@ -18,7 +18,7 @@ public class Cabin extends Components implements Serializable {
 
 
     public Cabin(int id, boolean isCentral, Direction direction, Connector[] connectors) {
-        super(direction, connectors);
+        super(direction, connectors.);
         this.numAstronauts = 0;
         this.withLifeSupport = false;
         this.lifeSupportSystemArrayList= new ArrayList<>();

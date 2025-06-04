@@ -8,17 +8,15 @@ import java.io.Serializable;
 
 public class LifeSupportSystem extends Components implements Serializable {
     private final AlienColour colour;
-    private final int id;
 
     public LifeSupportSystem(int id, AlienColour colour, Direction direction, Connector[] connectors) {
-        super(direction, connectors);
+        super(direction, connectors, id);
         this.colour = colour;
-        this.id = id;
     }
 
     @Override
     public ComponentsView createView(){
-        return new ComponentsView(getDirection(), getConnectors(), id,"LifeSupportSystem", 0 ,0, null, null, getColour());
+        return new ComponentsView(getDirection(), getConnectors(), getId(),"LifeSupportSystem", 0 ,0, null, null, getColour());
     }
 
     public AlienColour getColour() {
