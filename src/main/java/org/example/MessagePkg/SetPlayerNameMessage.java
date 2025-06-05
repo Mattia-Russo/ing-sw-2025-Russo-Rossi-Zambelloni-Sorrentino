@@ -13,7 +13,7 @@ public class SetPlayerNameMessage extends Message{
     }
 
     @Override
-    public void handle(GameController controller, String playerName) throws RemoteException {
+    public void handle(GameController controller, String name) throws RemoteException {
         if(getHandler()!=null) {
             if (controller.checkName(this.playerName)){
                 getHandler().setPlayerName(this.playerName);

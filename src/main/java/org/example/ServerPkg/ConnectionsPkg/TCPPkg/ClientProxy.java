@@ -34,7 +34,7 @@ public abstract class ClientProxy implements Handler {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
-        getServer().notifyClient(this.playerName, "true");
+        notifyClient("true");
     }
 
     protected synchronized void joinServer() {
