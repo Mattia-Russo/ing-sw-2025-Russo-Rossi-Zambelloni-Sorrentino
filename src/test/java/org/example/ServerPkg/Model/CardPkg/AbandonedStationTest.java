@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class AbandonedStationTest extends TestCase {
@@ -51,7 +52,7 @@ public class AbandonedStationTest extends TestCase {
         assertEquals(1,a.getLostDays());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         GameController g = new GameController();
         g.createLobby("a",3,2,1);
         g.joinLobby("b");
@@ -93,7 +94,7 @@ public class AbandonedStationTest extends TestCase {
         assertTrue(players.get(2).getState() instanceof WaitingState);
     }
 
-    public void testPlayCard() {
+    public void testPlayCard() throws RemoteException {
         GameController g = new GameController();
         g.createLobby("a",3,2,1);
         g.joinLobby("b");

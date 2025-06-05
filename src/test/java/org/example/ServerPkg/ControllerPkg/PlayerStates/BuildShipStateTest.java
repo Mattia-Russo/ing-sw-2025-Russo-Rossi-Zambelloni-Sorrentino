@@ -5,9 +5,11 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.rmi.RemoteException;
+
 public class BuildShipStateTest extends TestCase {
 
-    public void testTurnTimer() throws InterruptedException {
+    public void testTurnTimer() throws InterruptedException, RemoteException {
         GameController g=new GameController();
         g.createLobby("ciao", 2, 2, 1);
         g.joinLobby("ciao2");

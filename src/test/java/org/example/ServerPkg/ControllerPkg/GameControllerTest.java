@@ -9,11 +9,13 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameControllerTest extends TestCase{
 
-    public void testGetGame() {
+    public void testGetGame() throws RemoteException {
         GameController g=new GameController();
         g.createLobby("ciao", 2, 1, 0);
         assertNotNull(g.getGame());
@@ -25,7 +27,7 @@ public class GameControllerTest extends TestCase{
         assertEquals(LobbyState.GAME_FINISHED, g.getLobbyState());
     }
 
-    public void testExitGame() {
+    public void testExitGame() throws RemoteException {
         GameController g=new GameController();
         g.createLobby("ciao", 2, 1, 0);
         g.setLobbyState(LobbyState.GAME_FINISHED);
@@ -40,7 +42,7 @@ public class GameControllerTest extends TestCase{
     }
 
 
-    public void testStartGame() {
+    public void testStartGame() throws RemoteException {
         GameController g=new GameController();
         g.createLobby("ciao", 2, 1, 0);
         g.joinLobby("ciao2");
@@ -60,7 +62,7 @@ public class GameControllerTest extends TestCase{
 
     }
 
-    public void testJoinLobby() {
+    public void testJoinLobby() throws RemoteException {
         GameController g=new GameController();
         g.createLobby("ciao", 2, 1, 0);
         g.joinLobby("ciao2");
@@ -79,7 +81,7 @@ public class GameControllerTest extends TestCase{
     }
 
 
-    public void testCreateLobby() {
+    public void testCreateLobby() throws RemoteException {
         GameController g=new GameController();
         g.createLobby("ciao", 2, 1, 0);
         assertNotNull(g.getGame());
