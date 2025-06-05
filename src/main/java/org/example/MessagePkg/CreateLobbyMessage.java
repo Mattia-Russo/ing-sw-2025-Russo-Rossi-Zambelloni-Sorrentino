@@ -28,8 +28,6 @@ public class CreateLobbyMessage extends Message {
                 } else {
                     controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
                     controller.createLobby(playerName, numPlayers, shipboardLevel, gameMode);
-                    getServer().notifyLobbyCreated(getHandler().getPlayerName());
-                    System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipboardLevel + " gameMode: " + gameMode);
                 }
             }catch(InvalidParameterException | InvalidGameCreationException | InvalidLobbyStateException e) {
                 System.out.println("ERROR " + e.getMessage());

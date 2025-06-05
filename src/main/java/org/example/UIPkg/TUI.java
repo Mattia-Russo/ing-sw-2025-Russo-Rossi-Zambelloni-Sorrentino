@@ -818,7 +818,7 @@ public class TUI extends UI{
     @Override
     public void onLobbyCreated(String name, int numPlayers, int shipboardLevel, int gameMode){
         playersList.add(name);
-        System.out.println("Lobby created with this parameters:" +
+        System.out.println("Lobby created with this parameters: " +
                 "Max players: " + numPlayers + " Shipboard level: " + shipboardLevel + " Game mode: " + gameMode + "\n" +
                 "Connected players: \n" + playersList.getFirst() + " (You)");
     }

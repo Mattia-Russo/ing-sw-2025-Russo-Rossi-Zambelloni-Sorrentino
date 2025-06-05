@@ -116,6 +116,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
+    public Handler getHandlerByName(String name) throws RemoteException {
+        return getClientByName(name);
+    }
+
+    @Override
     public GameController getController() throws RemoteException {
         return controller;
     }

@@ -24,4 +24,6 @@ public interface Server {
     void updatePlayerList(String exclude) throws RemoteException;
 
     void notifyGameStarted() throws RemoteException;
+
+    Handler getHandlerByName(String name) throws RemoteException;
 }

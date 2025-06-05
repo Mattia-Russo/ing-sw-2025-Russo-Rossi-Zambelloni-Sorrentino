@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyCannonException;
 import org.example.ServerPkg.Model.Game;
@@ -19,10 +20,11 @@ public class ActivateCannonsStateTest extends TestCase {
 
         @BeforeEach
         public void setUp() {
-            Player p1 = new Player("a", null);
-            Player p2 = new Player( "a", null);
-            Player p3 = new Player("a", null);
-            Player p4 = new Player( "a", null);
+            Game game = new Game(4, 2, 1, new GameController());
+            Player p1 = new Player("a", game);
+            Player p2 = new Player( "a", game);
+            Player p3 = new Player("a", game);
+            Player p4 = new Player( "a", game);
 
             p1.changePosition(4);
             players = new ArrayList<>();
@@ -30,8 +32,6 @@ public class ActivateCannonsStateTest extends TestCase {
             players.add(p2);
             players.add(p3);
             players.add(p4);
-
-            game=new Game(4,1,  1, null);
         }
 
         public void testActivateCannons() {

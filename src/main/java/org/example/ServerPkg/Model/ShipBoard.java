@@ -412,7 +412,7 @@ public class ShipBoard implements Serializable {
 
     private void dfs(int row, int col, boolean[][] visited, ArrayList<Components> result) {
 
-        if (row < 0 || row >= componentMatrix.length || col < 0 || col >= componentMatrix[0].length || visited[row][col] || componentMatrix[row][col] == null) {
+        if (row < 5 || row >= componentMatrix.length + 5 || col < 4 || col >= componentMatrix[0].length + 4 || visited[row][col] || componentMatrix[row][col] == null) {
             return;
         }
 

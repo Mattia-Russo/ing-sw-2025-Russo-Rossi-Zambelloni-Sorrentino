@@ -72,6 +72,11 @@ public class TCPServer implements Server {
         }
     }
 
+    @Override
+    public Handler getHandlerByName(String name){
+        return getClientProxy(name);
+    }
+
     private ClientProxy getClientProxy(String playerName){
         for (ClientProxy clientProxy : clientsProxies) {
             if(clientProxy.getPlayerName().equals(playerName)){

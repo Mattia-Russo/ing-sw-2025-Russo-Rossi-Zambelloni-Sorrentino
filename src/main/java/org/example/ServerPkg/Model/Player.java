@@ -230,12 +230,13 @@ public class Player implements Serializable {
         return readyForCards;
     }
 
-    public void opShip(){
+    public void
+    opShip(){
         for(int i = 5; i < playerShipBoard.getComponentMatrix().length + 5; i++){
             for(int j = 4; j < playerShipBoard.getComponentMatrix()[0].length + 4; j++){
                 if (playerShipBoard.validPosition(i,j) && playerShipBoard.getComponent(i,j) != null) {
-                    if(i!=7 && j!=7) {
-                        getPlayerShipBoard().removeComponent(i, j);
+                    if(!(i==7 && j==7)) {
+                        getPlayerShipBoard().removeComponent(j, i);
                     }
                 }
             }

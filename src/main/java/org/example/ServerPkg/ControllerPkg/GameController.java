@@ -158,24 +158,38 @@ public class GameController{
         }else throw new InvalidLobbyStateException("Wait for the lobby to be set");
     }
 
-    public void createLobby(String name, int numPlayers, int ShipBoardLevel, int GameMode) {
+    public void createLobby(String name, int numPlayers, int shipBoardLevel, int gameMode) throws RemoteException {
         if(lobbyState == LobbyState.GAME_CREATION || lobbyState == LobbyState.GAME_NOT_EXISTS) {
             if(game==null) {
                 if(numPlayers<=4 && numPlayers>=2 ) {
-                    if(GameMode==0||GameMode==1) {
-                        if (ShipBoardLevel == 1 || ShipBoardLevel == 2){
-                            this.game = new Game(numPlayers, ShipBoardLevel, GameMode, this);
+                    if(gameMode==0||gameMode==1) {
+                        if (shipBoardLevel == 1 || shipBoardLevel == 2){
+                            this.game = new Game(numPlayers, shipBoardLevel, gameMode, this);
                             addNewPlayer(name);
                             game.setGameUpdaters(gameUpdaters);
                             this.lobbyState = LobbyState.GAME_READY;
                             game.setLobbyState(LobbyState.GAME_READY);
+                            for(Server s : serverList){
+                                if(s.getHandlerByName(name)!=null){
+                                    s.notifyLobbyCreated(name);
+                                }
+                            }
+                            System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipBoardLevel + " gameMode: " + gameMode);
                             new GameSaver(this);
                             new GameView(game, new Exception("Game created"));
-                        }else throw new InvalidParameterException("Ship board level must be 1 or 2");
-                    }else throw new InvalidParameterException("Game mode must be 0 or 1");
-                }else throw new InvalidParameterException("MIN 2 MAX 4 PLAYERS");
+                        }else notifyClient(name, "Ship board level must be 1 or 2");
+                    }else notifyClient(name, "Game mode must be 0 or 1");
+                }else notifyClient(name, "MIN 2 MAX 4 PLAYERS");
             }else new GameView(game, new InvalidGameCreationException("Game already created " + name));
-        }else throw new InvalidLobbyStateException("can't call this method");
+        }else notifyClient(name, "can't call this method");
+    }
+
+    private void notifyClient(String name, String message) throws RemoteException {
+        for(Server s : serverList){
+            if(s.getHandlerByName(name)!=null){
+                s.notifyClient(name, message);
+            }
+        }
     }
 
     public synchronized void disconnect(String playerName) {
