@@ -22,8 +22,8 @@ public class AddAlienState extends PlayerState implements Serializable {
     @Override
     public void addBrownAlien(Points p, Player player){
         try {
-            if (player.getPlayerShipBoard().getComponent(p.getX(), p.getY()) != null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin() != null) {
-                player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.BROWN), player.getPlayerShipBoard());
+            if (player.getPlayerShipBoard().getComponent(p.getY(), p.getX()) != null && player.getPlayerShipBoard().getComponent(p.getY(), p.getX()).isCabin() != null) {
+                player.getPlayerShipBoard().getComponent(p.getY(), p.getX()).isCabin().addAlien(new Alien(AlienColour.BROWN), player.getPlayerShipBoard());
                 new GameView(getGame(), null);
             } else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |
@@ -54,8 +54,8 @@ public class AddAlienState extends PlayerState implements Serializable {
     @Override
     public void addPurpleAlien(Points p, Player player){
         try{
-            if(player.getPlayerShipBoard().getComponent(p.getX(), p.getY())!=null && player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin()!=null ){
-                player.getPlayerShipBoard().getComponent(p.getX(), p.getY()).isCabin().addAlien(new Alien(AlienColour.PURPLE), player.getPlayerShipBoard());
+            if(player.getPlayerShipBoard().getComponent(p.getY(), p.getX())!=null && player.getPlayerShipBoard().getComponent(p.getY(), p.getX()).isCabin()!=null ){
+                player.getPlayerShipBoard().getComponent(p.getY(), p.getX()).isCabin().addAlien(new Alien(AlienColour.PURPLE), player.getPlayerShipBoard());
                 new GameView(getGame(), null);
             }else throw new InvalidParameterException("Invalid component");
         }catch (InvalidParameterException | AlreadyAlienException | WithoutLifeSupportException |

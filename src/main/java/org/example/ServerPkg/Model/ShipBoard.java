@@ -412,12 +412,12 @@ public class ShipBoard implements Serializable {
 
     private void dfs(int row, int col, boolean[][] visited, ArrayList<Components> result) {
 
-        if (row < 5 || row >= componentMatrix.length + 5 || col < 4 || col >= componentMatrix[0].length + 4 || visited[row][col] || componentMatrix[row][col] == null) {
+        if (row < 5 || row >= componentMatrix.length + 5 || col < 4 || col >= componentMatrix[0].length + 4 || visited[row-5][col-4] || componentMatrix[row-5][col-4] == null) {
             return;
         }
 
-        visited[row][col] = true;
-        result.add(componentMatrix[row][col]);
+        visited[row-5][col-4] = true;
+        result.add(componentMatrix[row-5][col-4]);
 
         exploreNear(row, col, row - 1, col, Direction.NORTH, visited, result);
         exploreNear(row, col, row + 1, col, Direction.SOUTH, visited, result);
@@ -427,8 +427,8 @@ public class ShipBoard implements Serializable {
 
     private void exploreNear(int row, int col, int newRow, int newCol, Direction dir, boolean[][] visited, ArrayList<Components> result) {
 
-        if (newRow >= 0 && newRow < componentMatrix.length && newCol >= 0 && newCol < componentMatrix[0].length && !visited[newRow][newCol] && componentMatrix[newRow][newCol] != null) {
-            if (getIfConnected(componentMatrix[row][col], componentMatrix[newRow][newCol], dir)) {
+        if (newRow >= 5 && newRow < componentMatrix.length +5 && newCol >= 4 && newCol < componentMatrix[0].length +4 && !visited[newRow-5][newCol-4] && componentMatrix[newRow-5][newCol-4] != null) {
+            if (getIfConnected(componentMatrix[row-5][col-4], componentMatrix[newRow-5][newCol-4], dir)) {
                 dfs(newRow, newCol, visited, result);
             }
         }
