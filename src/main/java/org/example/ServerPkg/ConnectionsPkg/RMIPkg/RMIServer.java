@@ -76,6 +76,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     @Override
     public void registerClient(RMIClientInterface client) throws RemoteException {
+        if(controller.getFileLoaded()){
+            controller.setServer(client.getPlayerName(), this);
+        }
         clients.put(client, System.currentTimeMillis());
         setGameUpdater(client);
         System.out.println(client.getPlayerName() + " subscribed");

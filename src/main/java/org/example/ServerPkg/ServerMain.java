@@ -19,7 +19,8 @@ public class ServerMain {
         if(args.length != 0) {
             Game game = loadGame(args[0]);
             if(game != null) {
-                gameController.setGame(game);
+                gameController = game.getController();
+                gameController.setGame();
             }
         }
 

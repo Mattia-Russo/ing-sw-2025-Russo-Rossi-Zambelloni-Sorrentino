@@ -46,7 +46,6 @@ public class TCPServer implements Server {
                 System.out.println("New socket connection!");
                 SocketClientProxy clientProxy = new SocketClientProxy(controller, this, socket);
                 clientsProxies.add(clientProxy);
-
                 threadPool.submit(clientProxy);
             } catch (IOException ignored) {
                 System.out.println("ERROR");
