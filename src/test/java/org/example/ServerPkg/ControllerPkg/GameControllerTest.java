@@ -2,16 +2,11 @@ package org.example.ServerPkg.ControllerPkg;
 
 import junit.framework.TestCase;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
-import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipStateTest;
 import org.example.ServerPkg.Model.Exceptions.InvalidAddPlayerException;
 import org.example.ServerPkg.Model.Exceptions.InvalidUserNameException;
-import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
-import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class GameControllerTest extends TestCase{
 

@@ -3,12 +3,10 @@ package org.example.ServerPkg.ControllerPkg;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.ConnectionsPkg.Server;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.BuildShipState;
-import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
-import org.example.ServerPkg.Model.ShipBoard;
 import org.example.ServerPkg.Model.TimerGenerator;
 
 import org.example.UIPkg.GameUpdater;
@@ -18,27 +16,24 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.security.InvalidParameterException;
 
 public class GameController implements Serializable{
     private Game game;
     private LobbyState lobbyState;
     private final BlockingQueue<Message> messageQueue;
     private final Map<String, GameUpdater> gameUpdaters;
-    private final ArrayList<String> nameUsed;
+    private final Map<String, Server> nameUsed;
     private final ArrayList<Player> PlayerToLoad;
     private boolean fileLoaded;
-    private final ArrayList<Server> serverList;
 
     public GameController(){
         this.game = null;
         this.lobbyState = LobbyState.GAME_NOT_EXISTS;
         this.messageQueue = new LinkedBlockingQueue<>();
         this.gameUpdaters = new HashMap<>();
-        this.nameUsed = new ArrayList<>();
+        this.nameUsed = new HashMap<>();
         this.fileLoaded = false;
         this.PlayerToLoad = new ArrayList<>();
-        this.serverList = new ArrayList<>();
         startMessageProcessing();
     }
 
@@ -55,10 +50,6 @@ public class GameController implements Serializable{
         });
         messageProcessor.setName("MessageProcessor");
         messageProcessor.start();
-    }
-
-    public void addServer(Server server){
-        serverList.add(server);
     }
 
     private void processMessage(Message message) {
@@ -125,11 +116,6 @@ public class GameController implements Serializable{
     }
 
     private void addNewPlayer(String name){
-        for (Player p : game.getPlayers()) {
-            if (p.getName().equals(name)) {
-                throw new InvalidUserNameException("The player " + name + " already exists");
-            }
-        }
         if (game.getPlayers().size() < game.getNumPlayer()) {
             Player p = new Player(name, game);
             game.getPlayers().add(p);
@@ -169,11 +155,7 @@ public class GameController implements Serializable{
                             game.setGameUpdaters(gameUpdaters);
                             this.lobbyState = LobbyState.GAME_READY;
                             game.setLobbyState(LobbyState.GAME_READY);
-                            for(Server s : serverList){
-                                if(s.getHandlerByName(name)!=null){
-                                    s.notifyLobbyCreated(name);
-                                }
-                            }
+                            nameUsed.get(name).notifyLobbyCreated(name);
                             System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipBoardLevel + " gameMode: " + gameMode);
                             new GameSaver(this);
                             new GameView(game, new Exception("Game created"));
@@ -185,11 +167,7 @@ public class GameController implements Serializable{
     }
 
     private void notifyClient(String name, String message) throws RemoteException {
-        for(Server s : serverList){
-            if(s.getHandlerByName(name)!=null){
-                s.notifyClient(name, message);
-            }
-        }
+        nameUsed.get(name).notifyClient(name, message);
     }
 
     public synchronized void disconnect(String playerName) {
@@ -223,28 +201,29 @@ public class GameController implements Serializable{
         game.setController(this);
         PlayerToLoad.addAll(game.getPlayers());
         for(Player p : game.getPlayers()) {
-            nameUsed.add(p.getName());
+            //ToDo aggiungere ad ogni player il server
+            // nameUsed.add(p.getName());
         }
         fileLoaded = true;
         new GameSaver(this);
     }
 
-    public boolean checkName(String name){
-        if(fileLoaded && !nameUsed.contains(name)) {
+    public boolean checkName(String name, Server server){
+        if(fileLoaded && !nameUsed.containsKey(name)) {
             return false;
         }else if(!fileLoaded ) {
-            for (String s : this.nameUsed) {
+            for (String s : nameUsed.keySet()) {
                 if (s.equals(name)){
                     return false;
                 }
             }
         }
-        nameUsed.add(name);
+        nameUsed.put(name, server);
         return true;
     }
 
     public ArrayList<String> getNames(){
-        return this.nameUsed;
+        return new ArrayList<>(nameUsed.keySet());
     }
 
     public void setGameCreating(){
@@ -252,20 +231,20 @@ public class GameController implements Serializable{
     }
 
     public void notifyBroadcast(List<String> exclude, String message) throws RemoteException {
-        for(Server s : serverList){
-            s.notifyBroadcast(exclude, message);
+        for(String s : nameUsed.keySet()){
+            nameUsed.get(s).notifyBroadcast(exclude, message);
         }
     }
 
     public void updatePlayerList(String exclude) throws RemoteException {
-        for(Server s : serverList){
-            s.updatePlayerList(exclude);
+        for(String s : nameUsed.keySet()){
+            nameUsed.get(s).updatePlayerList(exclude);
         }
     }
 
     public void notifyGameStarted() throws RemoteException {
-        for(Server s : serverList){
-            s.notifyGameStarted();
+        for(String s : nameUsed.keySet()){
+            nameUsed.get(s).notifyGameStarted();
         }
     }
 }
