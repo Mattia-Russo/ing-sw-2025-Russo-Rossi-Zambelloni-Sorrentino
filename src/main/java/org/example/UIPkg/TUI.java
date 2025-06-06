@@ -170,7 +170,7 @@ public class TUI extends UI{
                                 
                                    end_activate_cannons -> if you want to end the cannon activation phase
                                    end_activate_engines -> if you want to end the engine activation phase
-                                   end_change_goods_state -> if you want to end the change good phase
+                                   end_change_goods -> if you want to end the change good phase
                                    end_activate_shields -> if you want to end the shield activation phase
                                    end_remove_best_goods -> if you want to end the remove best goods phase
                                    end_remove_astronauts -> if you want to end the remove astronauts phase
@@ -713,10 +713,10 @@ public class TUI extends UI{
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
                     System.out.println("Planet number "+ planet.getPlanetNumber());
-                    for (GoodsView goodsView : adventureCardView.getGoodsList()) {
+                    for (GoodsView goodsView : planet.getGoods()) {
                         if(goodsView != null) {
                             GoodsColour color = goodsView.getColour();
-                            goods.append(getGoodColorSquare(color));
+                            goods.append(getGoodColorSquare(color)).append(" ");
                         } else {
                             goods.append("   ");
                         }

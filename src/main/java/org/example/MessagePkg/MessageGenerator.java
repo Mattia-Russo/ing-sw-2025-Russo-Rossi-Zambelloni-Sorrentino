@@ -19,7 +19,7 @@ public class MessageGenerator {
         messageMap.put("create_lobby", this::createCreateLobbyMessage);
         messageMap.put("end_activate_cannons", this::createEndActivateCannonsMessage);
         messageMap.put("end_activate_engines", this::createEndActivateEnginesMessage);
-        messageMap.put("end_change_goods_state", this::createEndChangeGoodsStateMessage);
+        messageMap.put("end_change_goods", this::createEndChangeGoodsStateMessage);
         messageMap.put("end_activate_shields", this::createEndActivateShieldsMessage);
         messageMap.put("end_remove_best_goods", this::createEndRemoveBestGoodsMessage);
         messageMap.put("end_remove_astronauts", this::createEndRemoveAstronautsMessage);

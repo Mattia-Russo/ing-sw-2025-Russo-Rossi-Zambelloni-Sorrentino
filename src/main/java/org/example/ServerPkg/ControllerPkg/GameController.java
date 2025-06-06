@@ -61,6 +61,7 @@ public class GameController implements Serializable{
             }
         } catch (Exception e) {
             System.err.println("Error managing the message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

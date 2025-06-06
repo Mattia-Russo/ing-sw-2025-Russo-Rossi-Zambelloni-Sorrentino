@@ -10,8 +10,8 @@ import org.example.ServerPkg.Model.Player;
 import java.rmi.RemoteException;
 
 public class LandOnPlanetMessage extends Message {
-    private boolean bool;
-    private int numPlanet;
+    private final boolean bool;
+    private final int numPlanet;
 
     public LandOnPlanetMessage(boolean bool, int numPlanet) {
         this.bool = bool;

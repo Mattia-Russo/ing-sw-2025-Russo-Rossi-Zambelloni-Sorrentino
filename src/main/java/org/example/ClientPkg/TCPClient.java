@@ -179,7 +179,7 @@ public class TCPClient implements Client {
                     message.setClient(this);
                     sendMessage(message);
                 } catch (Exception e) {
-                    System.out.println("Error sending the command: " + e.getMessage());
+                    System.out.println("Try again");
                 }
             }
         });

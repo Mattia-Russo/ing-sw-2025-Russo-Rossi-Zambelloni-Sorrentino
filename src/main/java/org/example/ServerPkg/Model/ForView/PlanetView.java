@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PlanetView implements Serializable {
     private final int planetNumber;
-    private final List<GoodsView> goods= new ArrayList<GoodsView>();
+    private final List<GoodsView> goods= new ArrayList<>();
     public PlanetView(Planet planet) {
         planetNumber = planet.getPlanetNumber();
         for(int i=0; i<planet.getGoodsList().length; i++){
