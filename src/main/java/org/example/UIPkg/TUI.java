@@ -687,7 +687,7 @@ public class TUI extends UI{
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
                     System.out.println("Planet number "+ planet.getPlanetNumber());
-                    for (GoodsView goodsView : adventureCardView.getGoodsList()) {
+                    for (GoodsView goodsView : planet.getGoods()) {
                         if(goodsView != null) {
                             GoodsColour color = goodsView.getColour();
                             goods.append(getGoodColorSquare(color));
