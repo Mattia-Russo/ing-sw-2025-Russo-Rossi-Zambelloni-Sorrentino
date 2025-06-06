@@ -29,7 +29,7 @@ public class Game implements Serializable {
     private final List<Components> componentsList;
     private final ArrayList<Components> discoveredComponents;
     private LobbyState lobbyState;
-    private transient GameController controller;
+    private GameController controller;
     private transient Map<String, GameUpdater> gameUpdaters;
 
     public Game(int numPlayer, int ShipBoardLevel, int gameMode, GameController gameController) {

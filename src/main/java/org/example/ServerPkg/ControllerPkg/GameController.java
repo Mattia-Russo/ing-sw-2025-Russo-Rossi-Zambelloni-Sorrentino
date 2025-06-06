@@ -20,7 +20,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.security.InvalidParameterException;
 
-public class GameController{
+public class GameController implements Serializable{
     private Game game;
     private LobbyState lobbyState;
     private final BlockingQueue<Message> messageQueue;
