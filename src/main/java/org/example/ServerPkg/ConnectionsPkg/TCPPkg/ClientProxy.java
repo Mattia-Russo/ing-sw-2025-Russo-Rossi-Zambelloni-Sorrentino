@@ -35,6 +35,9 @@ public abstract class ClientProxy implements Handler {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
         notifyClient("true");
+        if(controller.getFileLoaded()){
+            controller.setServer(this.playerName, this.TCPServer);
+        }
     }
 
     protected synchronized void joinServer() {

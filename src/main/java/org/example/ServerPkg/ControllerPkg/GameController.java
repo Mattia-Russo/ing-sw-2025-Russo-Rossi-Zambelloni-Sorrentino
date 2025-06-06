@@ -21,9 +21,8 @@ public class GameController implements Serializable{
     private Game game;
     private LobbyState lobbyState;
     private final BlockingQueue<Message> messageQueue;
-    private final Map<String, GameUpdater> gameUpdaters;
-    private final Map<String, Server> nameUsed;
-    private final ArrayList<Player> PlayerToLoad;
+    private transient final Map<String, GameUpdater> gameUpdaters;
+    private transient Map<String, Server> nameUsed;
     private boolean fileLoaded;
 
     public GameController(){
@@ -33,7 +32,6 @@ public class GameController implements Serializable{
         this.gameUpdaters = new HashMap<>();
         this.nameUsed = new HashMap<>();
         this.fileLoaded = false;
-        this.PlayerToLoad = new ArrayList<>();
         startMessageProcessing();
     }
 
@@ -97,15 +95,14 @@ public class GameController implements Serializable{
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
-    public void startGame(){
-        if(fileLoaded && game.getLobbyState() == LobbyState.GAME_STARTED) {
-            throw new InvalidLobbyStateException("can't call this method");
-        }
+    public void setServer(String name, Server server){
+        nameUsed.put(name, server);
+    }
 
+    public void startGame(){
         if(lobbyState == LobbyState.GAME_READY) {
             if (game.getPlayers().size() >= 2) {
                 lobbyState = LobbyState.GAME_STARTED;
-                game.setLobbyState(lobbyState);
                 TimerGenerator t = new TimerGenerator();
                 game.setPlayersShipboard();
                 for (Player player : game.getPlayers()) {
@@ -125,20 +122,8 @@ public class GameController implements Serializable{
     public void joinLobby(String name){
         if(lobbyState == LobbyState.GAME_READY) {
             if (game != null) {
-                if(fileLoaded){
-                    if(PlayerToLoad.contains(game.getPlayerByName(name))){
-                        PlayerToLoad.remove(game.getPlayerByName(name));
-                    }else
-                        throw new InvalidUserNameException("The player " + name + " didn't exist");
-
-                    if(PlayerToLoad.isEmpty()){
-                        lobbyState = game.getLobbyState();
-                        new GameView(game, null);
-                    }
-                }else {
-                    addNewPlayer(name);
-                    new GameView(game, new Exception("Player " + name + " joined"));
-                }
+                addNewPlayer(name);
+                new GameView(game, new Exception("Player " + name + " joined"));
                 game.setGameUpdaters(gameUpdaters);
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("Wait for the lobby to be set");
@@ -154,7 +139,6 @@ public class GameController implements Serializable{
                             addNewPlayer(name);
                             game.setGameUpdaters(gameUpdaters);
                             this.lobbyState = LobbyState.GAME_READY;
-                            game.setLobbyState(LobbyState.GAME_READY);
                             nameUsed.get(name).notifyLobbyCreated(name);
                             System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipBoardLevel + " gameMode: " + gameMode);
                             new GameSaver(this);
@@ -196,30 +180,34 @@ public class GameController implements Serializable{
         }
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-        game.setController(this);
-        PlayerToLoad.addAll(game.getPlayers());
-        for(Player p : game.getPlayers()) {
-            //ToDo aggiungere ad ogni player il server
-            // nameUsed.add(p.getName());
-        }
+    public void setGame() {
         fileLoaded = true;
+        nameUsed = new HashMap<>();
         new GameSaver(this);
     }
 
+    public boolean getFileLoaded(){
+        return fileLoaded;
+    }
+
     public boolean checkName(String name, Server server){
-        if(fileLoaded && !nameUsed.containsKey(name)) {
+        if(fileLoaded) {
+            for(Player p : game.getPlayers()){
+                if(p.getName().equals(name) && !nameUsed.containsKey(name)){
+                    nameUsed.put(name, server);
+                    return true;
+                }
+            }
             return false;
-        }else if(!fileLoaded ) {
+        }else{
             for (String s : nameUsed.keySet()) {
                 if (s.equals(name)){
                     return false;
                 }
             }
+            nameUsed.put(name, server);
+            return true;
         }
-        nameUsed.put(name, server);
-        return true;
     }
 
     public ArrayList<String> getNames(){

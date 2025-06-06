@@ -28,7 +28,6 @@ public class Game implements Serializable {
     private AdventureCard currentCard;
     private final List<Components> componentsList;
     private final ArrayList<Components> discoveredComponents;
-    private LobbyState lobbyState;
     private GameController controller;
     private transient Map<String, GameUpdater> gameUpdaters;
 
@@ -38,7 +37,6 @@ public class Game implements Serializable {
         this.ShipBoardLevel = ShipBoardLevel;
         this.controller = gameController;
         this.discoveredComponents = new ArrayList<>();
-        this.lobbyState = controller.getLobbyState();
         this.timerTurned = 0;
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
@@ -150,7 +148,7 @@ public class Game implements Serializable {
     }
 
     private void pickCard() {
-        this.lobbyState = LobbyState.PLAYING_CARDS;
+        this.controller.setLobbyState(LobbyState.PLAYING_CARDS);
         if(this.deck == null){
             throw new DeckNotInitializedException("Deck has not been initialized");
         } else if (this.deck.isEmpty() && this.currentCard == null) {
@@ -407,15 +405,6 @@ public class Game implements Serializable {
 
     public void setController(GameController controller) {
         this.controller = controller;
-        this.lobbyState = controller.getLobbyState();
-    }
-
-    public void setLobbyState(LobbyState lobbyState) {
-        this.lobbyState = lobbyState;
-    }
-
-    public LobbyState getLobbyState() {
-        return lobbyState;
     }
 
     public void setTimerTurned() {
