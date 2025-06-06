@@ -30,7 +30,16 @@ public class Slavers extends Enemy implements Serializable {
 
     @Override
     public AdventureCardView createView(){
-        return new AdventureCardView(id, "Slavers", getLostDays(),credits , numAstronauts,getCannonPower(), null, null, null, null, 0,null,null);
+        String command = """
+               You are playing the slavers card, you can type:
+               activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+               end_activate_cannons -> if you want to end the cannon activation phase
+              
+               remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
+               accept_reward true/false -> true if you want to accept the reward, false otherwise
+              """;
+        return new AdventureCardView(command, id, "Slavers", getLostDays(),credits , numAstronauts,getCannonPower(), null, null, null, null, 0,null,null);
     }
 
     public int getCannonPower() {

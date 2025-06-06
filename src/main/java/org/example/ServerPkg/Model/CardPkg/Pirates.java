@@ -42,7 +42,22 @@ public class Pirates extends Enemy implements Serializable {
 
     @Override
     public AdventureCardView createView() {
-        return new AdventureCardView(id, "Pirates", getLostDays(), credit, 0, getCannonPower(), null, null, null, cannonFireList, 0, null, null);
+        String command = """
+               You are playing the pirates card, you can type:
+               activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+               activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+            
+               end_activate_cannons -> if you want to end the cannon activation phase
+               end_activate_shields -> if you want to end the shield activation phase
+              
+               choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
+               end_wrecked -> if you want to end the wrecked ship phase
+              
+               accept_reward true/false -> true if you want to accept the reward, false otherwise
+              
+              """;
+        return new AdventureCardView(command, id, "Pirates", getLostDays(), credit, 0, getCannonPower(), null, null, null, cannonFireList, 0, null, null);
     }
 
     @Override

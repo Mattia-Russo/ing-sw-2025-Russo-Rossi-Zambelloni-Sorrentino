@@ -28,7 +28,14 @@ public class OpenSpace extends AdventureCard implements Serializable {
 
     @Override
     public AdventureCardView createView(){
-        return new AdventureCardView(id, "OpenSpace", getLostDays(),0 , 0,0, null, null, null, null, 0,null,null);
+        String command = """
+               You are playing the open space card, you can type:
+               activate_engines x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+           
+               end_activate_engines -> if you want to end the engine activation phase
+               """;
+        return new AdventureCardView(command, id, "OpenSpace", getLostDays(),0 , 0,0, null, null, null, null, 0,null,null);
     }
 
     @Override
@@ -63,8 +70,8 @@ public class OpenSpace extends AdventureCard implements Serializable {
             setCardState(g);
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
             System.out.println("Error" + e.getMessage());
-            new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + g.getPlayers().get(currentPlayer).getName()));
-            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
+            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
         }
     }
 

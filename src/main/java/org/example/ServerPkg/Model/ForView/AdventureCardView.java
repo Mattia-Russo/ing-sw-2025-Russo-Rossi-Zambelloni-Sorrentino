@@ -21,9 +21,10 @@ public class AdventureCardView implements Serializable{
     private final String type;
     private final String[] criteria;
     private final String[] penalties;
+    private final String commands;
     private final int lostDays;
 
-    public AdventureCardView(int id, String type, int lostDays, int numCredits, int numAstronauts, int cannonPower, List<Meteor> meteorList, List<PlanetView> planets, List<GoodsView> goods, List<CannonFire> fire, int numLostGoods, String[] criteria, String[] penalties) {
+    public AdventureCardView(String commands,int id, String type, int lostDays, int numCredits, int numAstronauts, int cannonPower, List<Meteor> meteorList, List<PlanetView> planets, List<GoodsView> goods, List<CannonFire> fire, int numLostGoods, String[] criteria, String[] penalties) {
         this.cannonFireList = fire != null ? fire : new ArrayList<>();
         this.id = id;
         this.numCredits = numCredits;
@@ -37,6 +38,7 @@ public class AdventureCardView implements Serializable{
         this.criteria = criteria != null ? criteria : new String[0];
         this.penalties = penalties != null ? penalties : new String[0];
         this.lostDays = lostDays;
+        this.commands = commands;
     }
 
     public int getId(){
@@ -90,4 +92,6 @@ public class AdventureCardView implements Serializable{
     public int getLostDays(){
         return lostDays;
     }
+
+    public String getCommands(){return commands;}
 }
