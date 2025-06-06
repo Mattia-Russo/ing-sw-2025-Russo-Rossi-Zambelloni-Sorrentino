@@ -47,6 +47,7 @@ public class Smugglers extends Enemy implements Serializable {
                accept_reward true/false -> true if you want to accept the reward, false otherwise
                add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
                remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove""\";
+               end_change_goods -> if you want to terminate the exchanging goods phase
               
                remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
             
