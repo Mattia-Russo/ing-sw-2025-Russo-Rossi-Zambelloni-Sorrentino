@@ -232,6 +232,7 @@ public class Game implements Serializable {
         for(Player p : players) {
             if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.getFirst() && p.getPosition()<players.getFirst().getPosition()-lapLength))) {
                     p.abandon(this);
+                    new GameView(this, new Exception("YOU HAVE TO ABANDON " + p.getName()));
             }
         }
     }
@@ -259,7 +260,6 @@ public class Game implements Serializable {
             adjustPlayerPositions();
             if(gameMode==1) {
                 checkForcedAbandon();
-                new GameView(this, null);
             }
             pickCard();
             new GameView(this, null);
