@@ -15,7 +15,7 @@ public class SetPlayerNameMessage extends Message{
     @Override
     public void handle(GameController controller, String name) throws RemoteException {
         if(getHandler()!=null) {
-            if (controller.checkName(this.playerName)){
+            if (controller.checkName(this.playerName, getServer())){
                 getHandler().setPlayerName(this.playerName);
                 getHandler().setGameUpdater();
             } else {

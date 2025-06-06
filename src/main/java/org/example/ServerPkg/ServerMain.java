@@ -24,7 +24,6 @@ public class ServerMain {
         }
 
         TCPServer TCPServer = new TCPServer(gameController);
-        gameController.addServer(TCPServer);
         Thread TCPServerThread = new Thread(() -> {
             System.out.println("Starting server TCP...");
             TCPServer.startSocket();
@@ -33,7 +32,6 @@ public class ServerMain {
 
         try {
             RMIServer RMIServer = new RMIServer(gameController);
-            gameController.addServer(RMIServer);
             Thread RMIServerThread = new Thread(() -> {
                 System.out.println("Starting server RMI...");
                 RMIServer.startRMIServer();
