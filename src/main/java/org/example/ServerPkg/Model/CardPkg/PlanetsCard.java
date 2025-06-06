@@ -37,7 +37,13 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         for(Planet planet : planets) {
             p.add(new PlanetView(planet));
         }
-        return new AdventureCardView(id, "PlanetCard", getLostDays(),0 , 0,0, null, p, null, null, 0,null,null);
+        String command = """
+               You are playing the planet card, you can type:
+               land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
+               add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
+               remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove""";
+
+        return new AdventureCardView(command, id, "PlanetCard", getLostDays(),0 , 0,0, null, p, null, null, 0,null,null);
     }
 
     public List<Planet> getPlanets(){

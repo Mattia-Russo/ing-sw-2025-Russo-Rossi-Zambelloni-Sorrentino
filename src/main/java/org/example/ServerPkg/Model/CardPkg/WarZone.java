@@ -51,7 +51,22 @@ public class WarZone extends AdventureCard implements Serializable {
 
     @Override
     public AdventureCardView createView(){
-        return new AdventureCardView(id, "WarZone", getLostDays(),0 , numAstronauts,0, null, null, null, cannonFireList, numGoods, criteria, penalties);
+        String command = """
+               You are playing the war zone card, you can type:
+               activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+               activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate
+               activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+            
+               end_activate_cannons -> if you want to end the cannon activation phase
+               end_activate_engines -> if you want to end the engine activation phase
+               end_activate_shields -> if you want to end the shield activation phase
+               
+               end_remove_best_goods -> if you want to end the remove best goods phase
+               end_remove_astronauts -> if you want to end the remove astronauts phase
+               
+               """;
+        return new AdventureCardView(command, id, "WarZone", getLostDays(),0 , numAstronauts,0, null, null, null, cannonFireList, numGoods, criteria, penalties);
     }
 
     @Override

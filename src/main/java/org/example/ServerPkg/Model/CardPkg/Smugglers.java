@@ -38,7 +38,20 @@ public class Smugglers extends Enemy implements Serializable {
         for(Goods good : goodsWinList){
             goods.add(new GoodsView(good));
         }
-        return new AdventureCardView(id, "Smugglers", getLostDays(),0 , 0,getCannonPower(), null, null, goods, null, numGoodsLose,null,null);
+        String command = """
+               You are playing the smugglers card, you can type:
+               activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+               end_activate_cannons -> if you want to end the cannon activation phase
+              
+               accept_reward true/false -> true if you want to accept the reward, false otherwise
+               add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
+               remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove""\";
+              
+               remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
+            
+              """;
+        return new AdventureCardView(command, id, "Smugglers", getLostDays(),0 , 0,getCannonPower(), null, null, goods, null, numGoodsLose,null,null);
     }
 
     public int getCannonPower() {

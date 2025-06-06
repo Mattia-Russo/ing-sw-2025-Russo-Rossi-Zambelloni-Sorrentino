@@ -19,7 +19,7 @@ public abstract class AdventureCard implements Serializable {
     }
 
     public AdventureCardView createView(){
-        return new AdventureCardView(0, null,0, 0,0,0, null,null,null,null,0, null, null);
+        return new AdventureCardView(null, 0, null,0, 0,0,0, null,null,null,null,0, null, null);
     }
 
     public void setCardState(Game game) {}

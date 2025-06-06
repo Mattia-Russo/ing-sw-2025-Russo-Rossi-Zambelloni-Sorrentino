@@ -36,7 +36,13 @@ public class AbandonedStation extends AdventureCard implements Serializable {
         for(Goods good : goodsList){
             goods.add(new GoodsView(good));
         }
-        return new AdventureCardView(id, "AbandonedStation", getLostDays(),0 , numAstronauts,0, null, null, goods, null, 0,null,null);
+        String command = """
+                You are playing the abandoned station card, you can type:
+                land_on_abandon true/false -> true if you want to land, false otherwise
+                add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
+                remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove""";
+
+        return new AdventureCardView(command, id, "AbandonedStation", getLostDays(),0 , numAstronauts,0, null, null, goods, null, 0,null,null);
     }
 
     public int getCardLevel() {

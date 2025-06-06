@@ -18,7 +18,10 @@ public class Epidemic extends AdventureCard implements Serializable {
 
     @Override
     public AdventureCardView createView(){
-        return new AdventureCardView(id, "Epidemic", getLostDays(),0 , 0,0, null, null, null, null, 0,null,null);
+        String command = """
+                You are playing the epidemic card, this card is automatic
+                """;
+        return new AdventureCardView(command, id, "Epidemic", getLostDays(),0 , 0,0, null, null, null, null, 0,null,null);
     }
 
     public int getCardLevel(){

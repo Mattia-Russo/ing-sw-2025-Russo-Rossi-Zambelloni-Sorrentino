@@ -159,33 +159,7 @@ public class TUI extends UI{
                 );
                 break;
             case PLAYING_CARDS:
-                System.out.println(
-                        """
-                                Type one of the following command to do something:
-                                   accept_reward true/false -> true if you want to accept the reward, false otherwise
-                                   activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
-                                   activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate
-                                   activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
-                                   use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
-                                
-                                   end_activate_cannons -> if you want to end the cannon activation phase
-                                   end_activate_engines -> if you want to end the engine activation phase
-                                   end_change_goods -> if you want to end the change good phase
-                                   end_activate_shields -> if you want to end the shield activation phase
-                                   end_remove_best_goods -> if you want to end the remove best goods phase
-                                   end_remove_astronauts -> if you want to end the remove astronauts phase
-                                   end_fix_ship_state -> if you want to end the fix ship phase
-                                
-                                   land_on_abandon true/false ->  true if you want to land, false otherwise
-                                   land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
-                                
-                                   add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
-                                   remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
-                                   remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
-                                   remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
-                                   remove_batteries x y -> x,y are the coordinates of the cabin where you want to remove batteries
-                                """
-                );
+                System.out.println(game.getCurrentCard().getCommands());
                 break;
 
             case GAME_STARTED:
@@ -439,7 +413,7 @@ public class TUI extends UI{
         final int COLS = 7;
 
         for (PlayerView player : players) {
-            System.out.println("Board of " + player.getName() + getPlayerColorSymbol(player.getRocketColour())+ ":");
+            System.out.println("Board of " + player.getName() + ":");
             if(gameState != LobbyState.PLAYING_CARDS){
                 System.out.println("\nCurrent tile:");
                 if (player.getCurrentTile() != null) {
@@ -713,10 +687,10 @@ public class TUI extends UI{
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
                     System.out.println("Planet number "+ planet.getPlanetNumber());
-                    for (GoodsView goodsView : planet.getGoods()) {
+                    for (GoodsView goodsView : adventureCardView.getGoodsList()) {
                         if(goodsView != null) {
                             GoodsColour color = goodsView.getColour();
-                            goods.append(getGoodColorSquare(color)).append(" ");
+                            goods.append(getGoodColorSquare(color));
                         } else {
                             goods.append("   ");
                         }
