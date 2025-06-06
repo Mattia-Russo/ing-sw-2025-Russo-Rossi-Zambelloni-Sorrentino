@@ -690,16 +690,14 @@ public class TUI extends UI{
             case "PlanetCard":
                 System.out.println("PlanetCard");
                 for(PlanetView planet: adventureCardView.getPlanetList()){
-                    System.out.println("Planet number "+ planet.getPlanetNumber());
+                    System.out.println("Planet number "+ (planet.getPlanetNumber() - 1));
                     for (GoodsView goodsView : planet.getGoods()) {
                         if(goodsView != null) {
-                            GoodsColour color = goodsView.getColour();
-                            goods.append(getGoodColorSquare(color));
+                            goods.append(getGoodColorSquare(goodsView.getColour()));
                         } else {
                             goods.append("   ");
                         }
                     }
-                    System.out.println(goods);
                     System.out.println("Lost days "+adventureCardView.getLostDays());
                 }
                 break;
