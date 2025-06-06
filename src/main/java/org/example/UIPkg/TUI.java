@@ -414,6 +414,7 @@ public class TUI extends UI{
 
         for (PlayerView player : players) {
             System.out.println("Board of " + player.getName() + ":");
+            System.out.println("Player's colour: " + getPlayerColorSymbol(player.getRocketColour()));
             if(gameState != LobbyState.PLAYING_CARDS){
                 System.out.println("\nCurrent tile:");
                 if (player.getCurrentTile() != null) {
@@ -583,6 +584,9 @@ public class TUI extends UI{
 
             case "Shield":
                 return getDirectionArrow(comp.getShieldedDirections()[0]) + getDirectionArrow(comp.getShieldedDirections()[1]);
+
+            case "Battery Storage":
+                return String.valueOf(comp.getNumBattery());
 
             default:
                 return "";

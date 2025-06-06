@@ -14,8 +14,8 @@ public class ComponentsView implements Serializable {
     private final AlienColour alienColour;
     private final GoodsView[] goods;
     private final Direction[] shieldedDirections = new Direction[2];
-    private int posX;
-    private int posY;
+    private final int posX;
+    private final int posY;
 
     public ComponentsView(int posX, int posY, Direction direction, Connector[] connectors, int id, String type, int numBattery, int numAstronauts, GoodsView[] goods, Direction shieldedDirections, AlienColour alienColour) {
         this.direction = direction;
