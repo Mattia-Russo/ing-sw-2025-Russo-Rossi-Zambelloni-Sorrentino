@@ -33,7 +33,7 @@ public class GameView implements Serializable{
             }
         }else
             this.exception = exception;
-        this.lobbyState = game.getController().getLobbyState();
+        this.lobbyState = game.getLobbyState();
         this.shipBoardLevel = game.getShipBoardLevel();
         this.gameMode = game.getGameMode();
         game.updateGame(this);

@@ -17,7 +17,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     private final ObjectOutputStream out;
     private long clientAlive;
     private GameUpdater gameUpdater;
-    private MessageGenerator msgGen;
+    private final MessageGenerator msgGen;
 
     public SocketClientProxy(GameController controller, TCPServer TCPServer, Socket socket) throws IOException {
         super(controller, TCPServer);

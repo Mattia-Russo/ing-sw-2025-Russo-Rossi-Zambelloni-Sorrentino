@@ -439,7 +439,7 @@ public class TUI extends UI{
         final int COLS = 7;
 
         for (PlayerView player : players) {
-            System.out.println("Board of " + player.getName() + ":");
+            System.out.println("Board of " + player.getName() + getPlayerColorSymbol(player.getRocketColour())+ ":");
             if(gameState != LobbyState.PLAYING_CARDS){
                 System.out.println("\nCurrent tile:");
                 if (player.getCurrentTile() != null) {
