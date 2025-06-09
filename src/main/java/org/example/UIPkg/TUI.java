@@ -693,7 +693,7 @@ public class TUI extends UI{
                     System.out.println("Planet number "+ (planet.getPlanetNumber() - 1));
                     for (GoodsView goodsView : planet.getGoods()) {
                         if(goodsView != null) {
-                            goods.append(getGoodColorSquare(goodsView.getColour()));
+                            goods.append(getGoodColorSquare(goodsView.getColour())).append(" ");
                         } else {
                             goods.append("   ");
                         }
@@ -710,10 +710,10 @@ public class TUI extends UI{
                 break;
             case "Smugglers":
                 System.out.println("Smugglers");
-                System.out.println("Cannon power" + adventureCardView.getCannonPower());
-                System.out.println("Credits" + adventureCardView.getNumCredits());
-                System.out.println("Lost days" + adventureCardView.getLostDays());
-                System.out.println("Num goods" + adventureCardView.getNumGoods());
+                System.out.println("Cannon power " + adventureCardView.getCannonPower());
+                System.out.println("Credits " + adventureCardView.getNumCredits());
+                System.out.println("Lost days " + adventureCardView.getLostDays());
+                System.out.println("Num goods " + adventureCardView.getNumGoods());
                 for (GoodsView goodsView : adventureCardView.getGoodsList()) {
                     if(goodsView != null) {
                         GoodsColour color = goodsView.getColour();

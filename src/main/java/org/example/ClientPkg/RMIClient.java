@@ -3,7 +3,6 @@ package org.example.ClientPkg;
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.MessagePkg.NotifyClientMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -124,7 +123,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     Message message = msgGen.generate(cmd, args);
                     message.setClient(this);
                     sendMessage(message);
-                } catch (NullPointerException | RemoteException e) {
+                } catch (NullPointerException | RemoteException | IllegalArgumentException e) {
                     System.out.println("Try again");
                 }
             }
@@ -156,7 +155,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     notifyNameAlreadyUsed();
                 }
             } catch (RemoteException e){
-                e.printStackTrace();
+                userInterface.manageNotification(new NotifyClientMessage("An error occurred while registering a new name: " + e.getMessage()));
             }
         } else {
             System.out.println("Player name already set");
