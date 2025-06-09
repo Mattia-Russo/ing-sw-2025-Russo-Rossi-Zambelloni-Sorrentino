@@ -18,7 +18,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere
     @Override
     public void removeGood(Points point, int numGood, Player player){
-        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getX(), point.getY());
+        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getY(), point.getX());
         if(c!=null){
             Storage storage = c.isStorage();
             if(storage!=null) {
