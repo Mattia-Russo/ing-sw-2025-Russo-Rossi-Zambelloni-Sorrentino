@@ -36,4 +36,11 @@ public abstract class GuiController {
     public void onGameStarted(){}
 
     public void updateGui(GameView game){}
+
+    public void loadShipboardImage() {
+    }
+
+    public void updatePlayerShipboardButtons(GameView game) {
+
+    }
 }

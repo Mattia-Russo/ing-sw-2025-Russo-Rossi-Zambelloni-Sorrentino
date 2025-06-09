@@ -7,7 +7,7 @@
     "cardLevel": 1,
     "cannonPower": 6,
     "numAstronauts": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_01.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_01.jpg"
 
   },
   {
@@ -18,7 +18,7 @@
     "cardLevel": 2,
     "cannonPower": 7,
     "numAstronauts": 4,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_01.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_01.jpg"
 
   },
 
@@ -34,7 +34,7 @@
       { "colour": "GREEN" },
       { "colour": "BLUE" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_012.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_012.jpg"
   },
   {
     "cardname": "SMUGGLERS",
@@ -48,7 +48,7 @@
       { "colour": "YELLOW" },
       { "colour": "YELLOW" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_012.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_012.jpg"
   },
 
   {
@@ -63,7 +63,7 @@
       { "type": 1, "direction": "NORTH" },
       { "type": 0, "direction": "NORTH" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_013.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_013.jpg"
   },
   {
     "cardname": "PIRATES",
@@ -77,14 +77,14 @@
       { "type": 0, "direction": "NORTH" },
       { "type": 1, "direction": "NORTH" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_013.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_013.jpg"
   },
   {
     "cardname": "STARDUST",
     "id": 7,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_014.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_014.jpg"
   },
   {
     "cardname": "STARDUST",
@@ -92,35 +92,35 @@
     "id": 8,
     "lostDays": 0,
     "state": "covered",
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_014.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_014.jpg"
   },
   {
     "cardname": "EPIDEMIC",
     "id": 9,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_015.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_015.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 10,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_015.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_015.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 11,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_16.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_16.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 12,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_16.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_16.jpg"
   },
 
   {
@@ -128,28 +128,28 @@
     "id": 13,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_17.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_17.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 14,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_17.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_17.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 15,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_18.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_18.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 16,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_18.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_18.jpg"
   },
   {
     "cardname": "METEORCARD",
@@ -161,7 +161,7 @@
       { "type": 1, "direction": "NORTH" },
       { "type": 0, "direction":  "WEST"}
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_019.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_019.jpg"
 
   },
   {
@@ -176,7 +176,7 @@
       { "type": 0, "direction": "NORTH" },
       { "type": 0, "direction":  "NORTH"}
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_019.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_019.jpg"
 
   },
   {
@@ -191,7 +191,7 @@
       { "type": 0, "direction":  "WEST"},
       { "type": 0, "direction": "SOUTH" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0110.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0110.jpg"
   },
   {
     "cardname": "METEORCARD",
@@ -204,7 +204,7 @@
       { "type": 0, "direction":  "SOUTH"},
       { "type": 0, "direction": "SOUTH" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0110.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_0110.jpg"
   },
   {
     "cardname": "METEORCARD",
@@ -216,7 +216,7 @@
       { "type": 1, "direction": "NORTH" },
       { "type": 1, "direction": "NORTH" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0111.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0111.jpg"
   },
   {
     "cardname": "METEORCARD",
@@ -230,14 +230,14 @@
       { "type": 0, "direction": "EAST" },
       { "type": 0, "direction": "EAST" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0111.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_0111.jpg"
   },
   {
     "cardname": "PLANETSCARD",
     "id": 23,
     "cardLevel": 1,
     "lostDays": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0112.jpg",
+    "img": "/org.example/cards/GT-cards_I_IT_0112.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -280,7 +280,7 @@
     "id": 24,
     "cardLevel": 1,
     "lostDays": 4,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0112.jpg",
+    "img": "/org.example/cards/GT-cards_II_IT_0112.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -317,7 +317,7 @@
     "id": 25,
     "cardLevel": 1,
     "lostDays": 2,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0113.jpg",
+    "img": "/org.example/cards/GT-cards_I_IT_0113.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -347,7 +347,7 @@
     "id": 26,
     "cardLevel": 2,
     "lostDays": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0113.jpg",
+    "img": "/org.example/cards/GT-cards_II_IT_0113.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -372,7 +372,7 @@
     "id": 27,
     "cardLevel": 1,
     "lostDays": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0114.jpg",
+    "img": "/org.example/cards/GT-cards_I_IT_0114.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -397,7 +397,7 @@
     "id": 28,
     "cardLevel": 2,
     "lostDays": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0114.jpg",
+    "img": "/org.example/cards/GT-cards_II_IT_0114.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -434,7 +434,7 @@
     "id": 29,
     "cardLevel": 1,
     "lostDays": 1,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0115.jpg",
+    "img": "/org.example/cards/GT-cards_I_IT_0115.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -464,7 +464,7 @@
     "id": 30,
     "cardLevel": 2,
     "lostDays": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0115.jpg",
+    "img": "/org.example/cards/GT-cards_II_IT_0115.jpg",
     "planets": [
       {
         "planetNumber": 1,
@@ -498,7 +498,7 @@
     "id": 31,
     "cardLevel": 1,
     "lostDays": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0116.jpg",
+    "img": "/org.example/cards/GT-cards_I_IT_0116.jpg",
     "numAstronauts": 2,
     "numGoods": 0,
     "cannonFireList": [
@@ -513,7 +513,7 @@
     "id": 32,
     "cardLevel": 2,
     "lostDays": 4,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0116.jpg",
+    "img": "/org.example/cards/GT-cards_II_IT_0116.jpg",
     "numAstronauts": 0,
     "numGoods": 3,
     "cannonFireList": [
@@ -532,7 +532,7 @@
     "lostDays": 1,
     "credits": 3,
     "numAstronauts": 2,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0117.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0117.jpg"
   },
   {
     "cardname": "ABANDONEDSHIP",
@@ -541,7 +541,7 @@
     "lostDays": 1,
     "credits": 6,
     "numAstronauts": 4,
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0117.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_0117.jpg"
   },
   {
     "cardname": "ABANDONEDSHIP",
@@ -550,7 +550,7 @@
     "lostDays": 1,
     "credits": 4,
     "numAstronauts": 3,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0118.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0118.jpg"
   },
   {
     "cardname": "ABANDONEDSHIP",
@@ -559,7 +559,7 @@
     "lostDays": 2,
     "credits": 8,
     "numAstronauts": 5,
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0118.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0118.jpg"
   },
   {
     "cardname": "ABANDONEDSTATION",
@@ -571,7 +571,7 @@
       { "colour": "YELLOW" },
       { "colour": "GREEN" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0119.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0119.jpg"
   },
   {
     "cardname": "ABANDONEDSTATION",
@@ -583,7 +583,7 @@
       { "colour": "RED" },
       { "colour": "YELLOW" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_II_IT_0119.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_0119.jpg"
   },
   {
     "cardname": "ABANDONEDSTATION",
@@ -595,7 +595,7 @@
       { "colour": "RED" },
       { "colour": "RED" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0120.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0120.jpg"
   },
   {
     "cardname": "ABANDONEDSTATION",
@@ -608,7 +608,7 @@
       { "colour": "YELLOW" },
       { "colour": "GREEN" }
     ],
-    "img": "src/main/resources/org.example/cards/GT-cards_I_IT_0120.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_0120.jpg"
   }
 
 ]
