@@ -9,7 +9,7 @@
     ],
     "matrixWidth": 7,
     "matrixHeight": 5,
-    "img": "src/main/resources/org.example/cardboard/cardboard-1.jpg"
+    "img": "/org.example/cardboard/cardboard-1.jpg"
   },
   {
     "availablePositionMatrix": [
@@ -21,6 +21,6 @@
     ],
     "matrixWidth": 7,
     "matrixHeight": 5,
-    "img": "src/main/resources/org.example/cardboard/cardboard-1b.jpg"
+    "img": "/org.example/cardboard/cardboard-1b.jpg"
   }
 ]

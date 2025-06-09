@@ -28,7 +28,42 @@
                     <ImageView fx:id="shipboardImageView" fitHeight="400.0" fitWidth="500.0" pickOnBounds="true"
                                preserveRatio="true"/>
                 </Pane>
+
+                <!-- Pannello per componenti scoperti -->
+                <VBox fx:id="discoveredComponentsPanel" spacing="10.0" style="-fx-padding: 10; -fx-border-color: #555; -fx-border-width: 1;">
+                    <Label text="Discovered Components:" textFill="WHITE" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <HBox fx:id="discoveredComponentsContainer" spacing="15.0" alignment="CENTER_LEFT" style="-fx-padding: 5;"/>
+                </VBox>
             </HBox>
+
+            <VBox spacing="10.0" style="-fx-padding: 10;">
+                <!-- Riga con la scritta e i pulsanti degli altri giocatori -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <Label text="View Other Players' Shipboards:" textFill="WHITE" style="-fx-font-weight: bold;"/>
+                    <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard"
+                            text="Show Player1's Shipboard" visible="false"
+                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="showPlayer2ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard"
+                            text="Show Player2's Shipboard" visible="false"
+                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="showPlayer3ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard"
+                            text="Show Player3's Shipboard" visible="false"
+                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <!-- Messaggio del timer -->
+                <Label fx:id="timerMessage" text="" textFill="#FFD700" visible="false"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+
+                <!-- Riga separata per il pulsante personale -->
+                <HBox alignment="CENTER_LEFT">
+                    <Button fx:id="showOwnShipboardButton" mnemonicParsing="false" onAction="#onShowOwnShipboard"
+                            prefWidth="180.0" text="Show My Shipboard"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+
+
 
             <!-- Messaggio di validazione -->
             <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false"/>
@@ -43,6 +78,33 @@
             <Button fx:id="pickComponentButton" mnemonicParsing="false" onAction="#onPickComponentClick"
                     prefWidth="150.0" text="Pick Component"
                     style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+            <!-- Pick Discovered Component Button -->
+            <VBox spacing="5.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 5;">
+                <Label text="Pick Discovered" textFill="WHITE" style="-fx-font-weight: bold; -fx-font-size: 12px;"/>
+                <HBox spacing="5.0" alignment="CENTER">
+                    <TextField fx:id="discoveredIndexField" prefWidth="40.0" promptText="Index"/>
+                    <Button fx:id="pickDiscoveredButton" mnemonicParsing="false" onAction="#onPickDiscoveredClick"
+                            prefWidth="80.0" text="Pick"
+                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Book Component Button -->
+            <Button fx:id="bookComponentButton" mnemonicParsing="false" onAction="#onBookComponentClick"
+                    prefWidth="150.0" text="Book Component"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+            <!-- Pick Booked Component Button -->
+            <VBox spacing="5.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 5;">
+                <Label text="Pick Booked" textFill="WHITE" style="-fx-font-weight: bold; -fx-font-size: 12px;"/>
+                <HBox spacing="5.0" alignment="CENTER">
+                    <TextField fx:id="bookedIndexField" prefWidth="40.0" promptText="0 or 1"/>
+                    <Button fx:id="pickBookedButton" mnemonicParsing="false" onAction="#onPickBookedClick"
+                            prefWidth="80.0" text="Pick"
+                            style="-fx-background-color: #795548; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px;"/>
+                </HBox>
+            </VBox>
 
             <!-- Discard Component Button -->
             <Button fx:id="discardComponentButton" mnemonicParsing="false" onAction="#onDiscardComponentClick"
@@ -77,6 +139,11 @@
                         prefWidth="120.0" text="Place Component"
                         style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold;"/>
             </VBox>
+
+            <!-- Turn Timer Button -->
+            <Button fx:id="turnTimerButton" mnemonicParsing="false" onAction="#onTurnTimerClick"
+                    prefWidth="150.0" text="Turn Timer"
+                    style="-fx-background-color: #E91E63; -fx-text-fill: white; -fx-font-weight: bold;"/>
         </VBox>
     </left>
 </BorderPane>
