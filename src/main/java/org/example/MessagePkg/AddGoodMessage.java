@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 
 public class AddGoodMessage extends Message {
     private Points point;
-    private int numGood;
+    private final int numGood;
 
     public AddGoodMessage(Points point, int numGood) {
         this.point = point;

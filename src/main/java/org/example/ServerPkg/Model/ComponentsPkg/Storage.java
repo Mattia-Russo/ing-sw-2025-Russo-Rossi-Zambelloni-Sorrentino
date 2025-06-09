@@ -66,7 +66,6 @@ public class Storage extends Components implements Serializable {
                 return;
             }
         }
-
         throw new StorageFullException("Storage full!");
     }
 

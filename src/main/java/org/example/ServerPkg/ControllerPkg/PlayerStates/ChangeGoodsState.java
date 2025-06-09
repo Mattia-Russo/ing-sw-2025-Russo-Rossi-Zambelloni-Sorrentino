@@ -39,10 +39,10 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
             Storage storage = c.isStorage();
             if(storage!=null) {
                 try {
-                    if (numGood < storage.getCapacity()) {
+                    if (numGood < getGame().getCurrentCard().getGoodsList().length && numGood >= 0) {
                         storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
                         new GameView(getGame(), null);
-                    } else new GameView(getGame(), new Exception("Index must be below capacity " + player.getName()));
+                    } else new GameView(getGame(), new Exception("Index must be between the bounds " + player.getName()));
                 } catch (RedGoodsNotAllowedException | StorageFullException e) {
                     Exception e1 = new Exception(e.getMessage() + " " + player.getName());
                     new GameView(getGame(), e1);
