@@ -11,7 +11,7 @@ public class TimerGenerator implements Serializable {
     private boolean isAvailable;
 
     public TimerGenerator() {
-        this.countdownValue = 5;
+        this.countdownValue = 60;
         this.isAvailable = true;
     }
 
