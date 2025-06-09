@@ -111,13 +111,6 @@ public class Player implements Serializable {
         return numCredits;
     }
 
-    public int rollDice() {
-        Random random = new Random();
-        int die1 = random.nextInt(6) + 1;
-        int die2 = random.nextInt(6) + 1;
-        return die1 + die2;
-    }
-
     public void changeCredits(int num){
         numCredits+=num;
     }

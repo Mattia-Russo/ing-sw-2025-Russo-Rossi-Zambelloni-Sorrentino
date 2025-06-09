@@ -60,38 +60,42 @@ public class MeteorCard extends AdventureCard implements Serializable {
         return new AdventureCardView(command, id, "MeteorCard", 0, 0, 0, 0, meteorList, null, null, null, 0, null, null);
     }
 
-    @Override
-    public void setCardState(Game g) {
+    private boolean setCurrentPlayer(Game g){
+        if(currentPlayer == g.getPlayers().size() || first){
+            currentPlayer = -1;
+            first = false;
+            if(currentMeteorIndex != meteorList.size()-1){
+                currentMeteorIndex++;
+                chooseRowOrCol(g);
+                if(currentMeteorIndex == meteorList.size()){
+                    return false;
+                }
+            }else
+                return false;
+        }
         do {
             currentPlayer++;
         } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
+        if(currentPlayer == g.getPlayers().size()){
+            return setCurrentPlayer(g);
+        }else
+            return true;
+    }
 
-        if (first) {
-            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-            first = false;
-        }
-
-        if (currentPlayer == g.getPlayers().size()) {
-            if (currentMeteorIndex + 1 == meteorList.size()) {
-                System.out.println("Meteor Card ended");
-                //g.Turn();
-            } else {
-                currentMeteorIndex++;
-                currentPlayer = -1;
-                do {
-                    currentPlayer++;
-                } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
-                chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
-            }
-        } else {
+    @Override
+    public void setCardState(Game g) {
+        if(setCurrentPlayer(g)){
             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteorIndex).direction(), rowOrCol) == null) {
                 protect = true;
             }
             if (protect) {
                 playCard(g, null, null);
-            } else{
+            } else {
                 Update(g, g.getPlayers().get(currentPlayer));
             }
+        }else {
+            //g.Turn();
+            System.out.println("MeteorCard: end of meteor list");
         }
     }
 
@@ -199,12 +203,12 @@ public class MeteorCard extends AdventureCard implements Serializable {
         }
     }
 
-    private void chooseRowOrCol(Player p, Game g) {
+    private void chooseRowOrCol(Game g) {
         boolean good = false;
         Meteor currentMeteor = meteorList.get(currentMeteorIndex);
-        while(!good && currentMeteorIndex <meteorList.size()) {
+        while(!good && currentMeteorIndex < meteorList.size()) {
             if (currentMeteor.direction() == Direction.NORTH || currentMeteor.direction() == Direction.SOUTH) {
-                rowOrCol = p.rollDice();
+                rowOrCol = g.rollDice();
                 if(currentMeteor.type() == 0){
                     new GameView(g, new Exception("SMALL METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol));
                 } else {
@@ -216,7 +220,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 }else
                     currentMeteorIndex++;
             } else {
-                rowOrCol = p.rollDice();
+                rowOrCol = g.rollDice();
                 if(currentMeteor.type() == 0){
                     new GameView(g, new Exception("SMALL METEOR FROM " + currentMeteor.direction() + " AT ROW " + rowOrCol));
                 } else {
