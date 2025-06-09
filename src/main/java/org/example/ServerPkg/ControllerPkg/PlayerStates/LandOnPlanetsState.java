@@ -21,6 +21,7 @@ public class LandOnPlanetsState extends PlayerState implements Serializable {
                 getGame().getCurrentCard().playCard(getGame(), numPlanet);
             }
         } else {
+            player.setPlayerState(new WaitingState(getGame()));
             getGame().getCurrentCard().setCardState(getGame());
         }
     }

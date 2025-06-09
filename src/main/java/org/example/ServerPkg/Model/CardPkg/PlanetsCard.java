@@ -8,6 +8,7 @@ import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.ForView.PlanetView;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         if (changeGoodsFlag){
             this.currentPlanetIndex = numPlanet;
             this.planetsVisited[numPlanet] = true;
-            new GameView(game, new Exception("LAND ON PLANET(Change goods) " + game.getPlayers().get(playersIndex).getName()));
+            new GameView(game, new Exception("LAND ON PLANET (Change goods) " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));

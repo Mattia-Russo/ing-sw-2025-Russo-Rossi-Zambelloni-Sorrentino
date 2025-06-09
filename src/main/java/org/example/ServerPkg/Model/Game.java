@@ -135,25 +135,29 @@ public class Game implements Serializable {
     }
 
     public int getOccupiedPositions(Player player, int numPos) {
-        int i = 0;
-        if(numPos > 0){
-            for (int j=players.indexOf(player)-1; j>=0; j--) {
-                if(!players.get(j).isAbandoned()){
-                    if (players.get(j).getPosition() <= numPos + i + player.getPosition() && players.get(j).getPosition() >= player.getPosition()) {
-                        i++;
+
+        int startPos = player.getPosition();
+        int endPos = startPos + numPos;
+        int occupiedCount = 0;
+
+        if(numPos>0){
+            for (Player p : players) {
+                if (p != player && !p.isAbandoned()) {
+                    if (p.getPosition() > startPos && p.getPosition() <= endPos + occupiedCount) {
+                        occupiedCount++;
                     }
                 }
             }
         } else {
-            for (int j=players.indexOf(player)+1; j<players.size(); j++) {
-                if(!players.get(j).isAbandoned()){
-                    if (players.get(j).getPosition() >= numPos + i + player.getPosition() && players.get(j).getPosition() <= player.getPosition()) {
-                        i--;
+            for (Player p : players) {
+                if (p != player && !p.isAbandoned()) {
+                    if (p.getPosition() >= endPos + occupiedCount && p.getPosition() < startPos) {
+                        occupiedCount--;
                     }
                 }
             }
         }
-        return i;
+        return occupiedCount;
     }
 
     private void pickCard() {
@@ -213,6 +217,9 @@ public class Game implements Serializable {
         }
         for (Player p : bestShips) {    // aggiungi crediti in base alla nave con meno connettori esposti
             p.changeCredits(2);
+        }
+        for(Player p : players) {
+            System.out.println("Player " + p.getName() + " has " + p.getNumCredits() + " credits");
         }
     }
 

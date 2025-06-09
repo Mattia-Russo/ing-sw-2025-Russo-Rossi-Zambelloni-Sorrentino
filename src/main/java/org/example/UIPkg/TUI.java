@@ -698,6 +698,7 @@ public class TUI extends UI{
                         }
                     }
                     System.out.println(goods);
+                    goods.setLength(0); // pulisce lo string builder
                     System.out.println("Lost days "+adventureCardView.getLostDays());
                 }
                 break;
