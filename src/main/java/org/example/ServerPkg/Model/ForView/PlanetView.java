@@ -12,7 +12,9 @@ public class PlanetView implements Serializable {
     public PlanetView(Planet planet) {
         planetNumber = planet.getPlanetNumber();
         for(int i=0; i<planet.getGoodsList().length; i++){
-            goods.add(new GoodsView(planet.getGoodsList()[i]));
+            if(planet.getGoodsList()[i]!=null){
+                goods.add(new GoodsView(planet.getGoodsList()[i]));
+            }
         }
     }
 

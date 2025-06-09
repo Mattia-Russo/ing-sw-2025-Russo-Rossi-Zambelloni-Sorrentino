@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import javafx.util.Duration;
 import org.example.MessagePkg.NotifyClientMessage;
-import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
@@ -24,8 +23,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GUI extends UI {
 
-
-    private BlockingQueue<GameView> gameUpdatesQueue;
+    //ToDo
+    //posizione migliore dei componenti sulla shipboard
+    // dopo place component togliere la tile da current component
+    // dopo che pick discovered rimane nella lista e non la toglie
+    // quando book component è full e riprendi una file rimane full, non si può riprenotare una tile
+    private final BlockingQueue<GameView> gameUpdatesQueue;
     private int numPlayers;
     private int shipboardLevel;
     private int gameMode;

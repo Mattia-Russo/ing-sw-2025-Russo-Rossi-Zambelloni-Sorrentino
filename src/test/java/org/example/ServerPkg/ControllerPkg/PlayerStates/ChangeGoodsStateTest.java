@@ -35,7 +35,7 @@ public class ChangeGoodsStateTest extends TestCase {
         goods1[2] = new Goods(GoodsColour.GREEN);
         Planet planet1 = new Planet(1, goods1);
         Planet planet2 = new Planet(2, goods2);
-        ArrayList<Planet> planetList = new ArrayList<Planet>();
+        ArrayList<Planet> planetList = new ArrayList<>();
         planetList.add(planet1);
         planetList.add(planet2);
         PlanetsCard card= new PlanetsCard(0,3, 5, planetList);
