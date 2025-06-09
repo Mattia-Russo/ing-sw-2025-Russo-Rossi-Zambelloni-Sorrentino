@@ -94,8 +94,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 Update(g, g.getPlayers().get(currentPlayer));
             }
         }else {
-            //g.Turn();
-            System.out.println("MeteorCard: end of meteor list");
+            g.Turn();
         }
     }
 
