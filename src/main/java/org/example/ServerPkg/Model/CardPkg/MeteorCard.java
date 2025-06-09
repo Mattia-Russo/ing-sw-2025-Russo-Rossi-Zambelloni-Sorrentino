@@ -35,7 +35,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
     public MeteorCard(int id, int cardLevel, int lostDays, List<Meteor> meteorList) {
         super(cardLevel, lostDays);
         this.meteorList = meteorList;
-        this.currentMeteorIndex = 0;
+        this.currentMeteorIndex = -1;
         this.currentPlayer = -1;
         this.rowOrCol = -1;
         this.protect = false;
@@ -65,10 +65,8 @@ public class MeteorCard extends AdventureCard implements Serializable {
         if(currentPlayer == g.getPlayers().size() || first){
             currentPlayer = -1;
             first = false;
-            if(currentMeteorIndex != meteorList.size()-1){
-                if(currentMeteorIndex!=0) {
-                    currentMeteorIndex++;
-                }
+        if(currentMeteorIndex != meteorList.size()-1){
+                currentMeteorIndex++;
                 chooseRowOrCol(g);
                 if(currentMeteorIndex == meteorList.size()){
                     return false;
@@ -212,7 +210,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
             if (currentMeteor.direction() == Direction.NORTH || currentMeteor.direction() == Direction.SOUTH) {
                 rowOrCol = g.rollDice();
                 if(currentMeteor.type() == 0){
-                    new GameView(g, new Exception("SMALL METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol + "Meteor index: " + currentMeteorIndex));
+                    new GameView(g, new Exception("SMALL METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol + " Meteor index: " + currentMeteorIndex));
                 } else {
                     new GameView(g, new Exception("BIG METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol));
                 }
