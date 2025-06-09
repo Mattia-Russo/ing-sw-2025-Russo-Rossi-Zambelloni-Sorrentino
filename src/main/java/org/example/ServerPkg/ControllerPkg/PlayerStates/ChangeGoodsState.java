@@ -34,7 +34,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
 
     @Override
     public void addGood(Points point, int numGood, Player player){
-        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getX(), point.getY());
+        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getY(), point.getX());
         if(c!=null){
             Storage storage = c.isStorage();
             if(storage!=null) {

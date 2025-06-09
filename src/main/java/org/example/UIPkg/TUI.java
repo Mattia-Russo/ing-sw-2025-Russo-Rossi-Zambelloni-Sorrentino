@@ -98,7 +98,7 @@ public class TUI extends UI{
 
             printFullLines(tilesInThisRow, allTileLines);
 
-            StringBuilder indexLine = getStringBuilder(tilesInThisRow, startIndex);
+            StringBuilder indexLine = getGoodsString(tilesInThisRow, startIndex);
             System.out.println(indexLine);
             
             if (endIndex < components.size()) {
@@ -120,7 +120,7 @@ public class TUI extends UI{
         }
     }
 
-    private StringBuilder getStringBuilder(int tilesInThisRow, int startIndex) {
+    private StringBuilder getGoodsString(int tilesInThisRow, int startIndex) {
         StringBuilder indexLine = new StringBuilder();
         for (int i = 0; i < tilesInThisRow; i++) {
             int tileIndex = startIndex + i;
@@ -579,8 +579,7 @@ public class TUI extends UI{
                 }
 
             case "Storage":
-                StringBuilder goods = getStringBuilder(comp);
-                return goods.toString();
+                return getGoodsString(comp).toString();
 
             case "Shield":
                 return getDirectionArrow(comp.getShieldedDirections()[0]) + getDirectionArrow(comp.getShieldedDirections()[1]);
@@ -593,13 +592,13 @@ public class TUI extends UI{
         }
     }
 
-    private StringBuilder getStringBuilder(ComponentsView comp) {
+    private StringBuilder getGoodsString(ComponentsView comp) {
         StringBuilder goods = new StringBuilder();
         List<GoodsView> goodsList = comp.getGoods() != null ? Arrays.asList(comp.getGoods()) : new ArrayList<>();
         for (GoodsView goodsView : goodsList) {
             if(goodsView != null) {
                 GoodsColour color = goodsView.getColour();
-                goods.append(getGoodColorSquare(color));
+                goods.append(getGoodColorSquare(color)).append(" ");
             } else {
                 goods.append("   ");
             }
@@ -698,6 +697,7 @@ public class TUI extends UI{
                             goods.append("   ");
                         }
                     }
+                    System.out.println(goods);
                     System.out.println("Lost days "+adventureCardView.getLostDays());
                 }
                 break;

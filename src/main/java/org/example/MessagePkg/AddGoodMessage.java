@@ -23,7 +23,7 @@ public class AddGoodMessage extends Message {
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()){
             try{
-                Player player= controller.getGame().getPlayerByName(playerName);
+                Player player = controller.getGame().getPlayerByName(playerName);
                 player.getState().addGood(point, numGood, player);
             } catch (NotStorageException | EndStateException | WaitingStateException | AbandonedStateException e) {
                 System.out.println("Error: " + e.getMessage());
