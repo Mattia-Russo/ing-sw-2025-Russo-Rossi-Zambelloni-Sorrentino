@@ -63,7 +63,9 @@ public class MeteorCard extends AdventureCard implements Serializable {
     @Override
     public void setCardState(Game g) {
         do {
-            currentPlayer++;
+            if(currentPlayer < g.getPlayers().size()) {
+                currentPlayer++;
+            }
         } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
         if (first) {
@@ -74,7 +76,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
         if (currentPlayer == g.getPlayers().size()) {
             if (currentMeteorIndex + 1 == meteorList.size()) {
                 System.out.println("Meteor Card ended");
-                //g.Turn();
+                g.Turn();
             } else {
                 currentMeteorIndex++;
                 currentPlayer = -1;
