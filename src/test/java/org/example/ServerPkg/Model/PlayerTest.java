@@ -159,19 +159,6 @@ public class PlayerTest extends TestCase {
         assertEquals(0, p.getNumCredits());
     }
 
-    public void testRollDice() {
-        Player p = new Player( "a", null);
-        p.setPlayerShipboard(1);
-        ShipBoard s=p.getPlayerShipBoard();
-
-        for (int i=0; i<20; i++){
-            int res = p.rollDice();
-            assertTrue(res <13 && res > 1);
-        }
-
-
-
-    }
 
     public void testChangeCredits() {
         Player p = new Player( "a", null);

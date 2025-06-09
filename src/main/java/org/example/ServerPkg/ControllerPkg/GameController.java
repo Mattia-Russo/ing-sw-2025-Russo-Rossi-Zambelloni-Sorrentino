@@ -106,6 +106,10 @@ public class GameController implements Serializable{
                 lobbyState = LobbyState.GAME_STARTED;
                 TimerGenerator t = new TimerGenerator();
                 game.setPlayersShipboard();
+                if(game.getGameMode()==1) {
+                    t.start();
+                    getGame().setTimerTurned();
+                }
                 for (Player player : game.getPlayers()) {
                     player.setPlayerState(new BuildShipState(game, t));
                 }

@@ -414,4 +414,11 @@ public class Game implements Serializable {
     public int getTimerTurned() {
         return this.timerTurned;
     }
+
+    public int rollDice() {
+        Random random = new Random();
+        int die1 = random.nextInt(6) + 1;
+        int die2 = random.nextInt(6) + 1;
+        return die1 + die2;
+    }
 }
