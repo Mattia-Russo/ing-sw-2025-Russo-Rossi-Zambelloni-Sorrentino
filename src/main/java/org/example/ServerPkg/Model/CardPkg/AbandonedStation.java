@@ -89,7 +89,7 @@ public class AbandonedStation extends AdventureCard implements Serializable {
             new GameView(game, new Exception("LAND ON ABANDON(Change goods) " + game.getPlayers().get(playersIndex).getName()));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
-            game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
+            game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));
             game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
             playersIndex = -1;
             this.changeGoodsFlag = true;

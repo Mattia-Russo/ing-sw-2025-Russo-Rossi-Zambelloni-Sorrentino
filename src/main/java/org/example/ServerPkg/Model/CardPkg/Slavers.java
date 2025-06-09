@@ -6,6 +6,7 @@ import org.example.ServerPkg.Model.Exceptions.InvalidPositionException;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
@@ -104,8 +105,9 @@ public class Slavers extends Enemy implements Serializable {
     @Override
     public void playCard(Game game){
         if (accept){
-            game.getPlayers().get(playersIndex).changeCredits(getCredits());
-            game.getPlayers().get(playersIndex).changePosition(-getLostDays());
+            Player p = game.getPlayers().get(playersIndex);
+            p.changeCredits(getCredits());
+            p.changePosition(-getLostDays() + game.getOccupiedPositions(p, -getLostDays()));
             new GameView(game, null);
         } else {
             this.playCard(game, 0);

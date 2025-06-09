@@ -136,11 +136,20 @@ public class Game implements Serializable {
 
     public int getOccupiedPositions(Player player, int numPos) {
         int i = 0;
-        for (int j=players.indexOf(player)-1; j>=0; j--) {
-            if(!players.get(j).isAbandoned()){
-                int diff = players.get(j).getPosition() + i - player.getPosition();
-                if (diff <= numPos) {
-                    i++;
+        if(numPos > 0){
+            for (int j=players.indexOf(player)-1; j>=0; j--) {
+                if(!players.get(j).isAbandoned()){
+                    if (players.get(j).getPosition() <= numPos + i + player.getPosition() && players.get(j).getPosition() >= player.getPosition()) {
+                        i++;
+                    }
+                }
+            }
+        } else {
+            for (int j=players.indexOf(player)+1; j<players.size(); j++) {
+                if(!players.get(j).isAbandoned()){
+                    if (players.get(j).getPosition() >= numPos + i + player.getPosition() && players.get(j).getPosition() <= player.getPosition()) {
+                        i--;
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 
 import java.io.Serializable;
 
@@ -67,10 +68,11 @@ public class AbandonedShip extends AdventureCard implements Serializable {
 
     @Override
     public void playCard(Game game){
-        game.getPlayers().get(playersIndex).getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
-        game.getPlayers().get(playersIndex).changeCredits(this.Credits);
-        game.getPlayers().get(playersIndex).changePosition(-this.getLostDays());
-        game.getPlayers().get(playersIndex).setPlayerState(new RemoveAstronautsState(game));
+        Player p = game.getPlayers().get(playersIndex);
+        p.getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
+        p.changeCredits(this.Credits);
+        p.changePosition(-this.getLostDays() + game.getOccupiedPositions(p, -this.getLostDays()));
+        p.setPlayerState(new RemoveAstronautsState(game));
         this.playersIndex=game.getPlayers().size()-1;
     }
 
