@@ -132,11 +132,15 @@ public class MeteorCardTest extends TestCase {
         g.setPlayersShipboard();
         p1.opShip();
         p2.opShip();
-        Meteor meteor1=new Meteor(1,  Direction.EAST);
-        Meteor meteor2=new Meteor(0, Direction.NORTH);
+        Meteor meteor1=new Meteor(1,  Direction.NORTH);
+        Meteor meteor2=new Meteor(1, Direction.NORTH);
+        Meteor meteor3=new Meteor(0, Direction.SOUTH);
+        Meteor meteor4=new Meteor(0, Direction.SOUTH);
         List<Meteor> meteors=new ArrayList<>();
         meteors.add(meteor1);
         meteors.add(meteor2);
+        meteors.add(meteor3);
+        meteors.add(meteor4);
         MeteorCard c= new MeteorCard(0,1,0,meteors);
         c.setCardState(g);
     }

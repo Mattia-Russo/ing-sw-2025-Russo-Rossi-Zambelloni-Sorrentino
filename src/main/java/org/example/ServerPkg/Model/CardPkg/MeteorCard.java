@@ -66,7 +66,9 @@ public class MeteorCard extends AdventureCard implements Serializable {
             currentPlayer = -1;
             first = false;
             if(currentMeteorIndex != meteorList.size()-1){
-                currentMeteorIndex++;
+                if(currentMeteorIndex!=0) {
+                    currentMeteorIndex++;
+                }
                 chooseRowOrCol(g);
                 if(currentMeteorIndex == meteorList.size()){
                     return false;
@@ -210,7 +212,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
             if (currentMeteor.direction() == Direction.NORTH || currentMeteor.direction() == Direction.SOUTH) {
                 rowOrCol = g.rollDice();
                 if(currentMeteor.type() == 0){
-                    new GameView(g, new Exception("SMALL METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol));
+                    new GameView(g, new Exception("SMALL METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol + "Meteor index: " + currentMeteorIndex));
                 } else {
                     new GameView(g, new Exception("BIG METEOR FROM " + currentMeteor.direction() + " AT COLUMN " + rowOrCol));
                 }
