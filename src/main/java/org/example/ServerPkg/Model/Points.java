@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Points implements Serializable {
     private int x;
@@ -18,4 +19,18 @@ public class Points implements Serializable {
     public int getY() {
         return y;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true; // Verifica se sono lo stesso oggetto
+        if (o == null || getClass() != o.getClass()) return false; // Verifica la classe
+        Points points = (Points) o; // Fai il cast a Points
+        return x == points.x && y == points.y; // Confronta i valori di x e y
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y); // Usa un hash basato sui valori di x e y
+    }
+
 }

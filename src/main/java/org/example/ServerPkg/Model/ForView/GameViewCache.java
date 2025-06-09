@@ -118,9 +118,6 @@ public class GameViewCache {
         return new GameViewDifferences(newShipboardComponents, newDiscoveredComponents, newCurrentTile, currentTileChanged);
     }
 
-    /**
-     * Trova un giocatore per nome nella GameView
-     */
     private PlayerView findPlayerByName(GameView gameView, String playerName) {
         for (PlayerView player : gameView.getPlayers()) {
             if (player.getName().equals(playerName)) {

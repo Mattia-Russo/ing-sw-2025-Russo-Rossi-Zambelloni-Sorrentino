@@ -55,6 +55,13 @@ public class GUI extends UI {
                         assert game != null;
                         GuiController controller =  GUIMain.getGuiMain().getControllerMap().get(GUIMain.BUILD_SHIP_SCENE);
                         controller.updateGui(game);
+                        controller.loadShipboardImage();
+
+                        if (game.getException() == null &&
+                                game.getPlayers() != null &&
+                                !game.getPlayers().isEmpty()) {
+                            controller.updatePlayerShipboardButtons(game);
+                        }
                     }
                 }
             }catch (Exception e) {
