@@ -23,67 +23,76 @@ import java.util.List;
 
 public class MeteorCard extends AdventureCard implements Serializable {
     private final List<Meteor> meteorList;
-    int currentMeteorIndex;
-    int currentPlayer;
-    int rowOrCol;
-    boolean protect;
-    boolean dice;
+    private int currentMeteorIndex;
+    private int currentPlayer;
+    private int rowOrCol;
+    private boolean protect;
     private final int id;
+    private boolean first;
 
 
-    public MeteorCard(int id,int cardLevel,int lostDays,List<Meteor> meteorList){
+    public MeteorCard(int id, int cardLevel, int lostDays, List<Meteor> meteorList) {
         super(cardLevel, lostDays);
-        this.meteorList=meteorList;
-        this.currentMeteorIndex =0;
-        this.currentPlayer=-1;
-        this.rowOrCol =-1;
-        this.protect=false;
-        this.dice=true;
+        this.meteorList = meteorList;
+        this.currentMeteorIndex = 0;
+        this.currentPlayer = -1;
+        this.rowOrCol = -1;
+        this.protect = false;
+        this.first = true;
         this.id = id;
     }
 
     @Override
-    public AdventureCardView createView(){
+    public AdventureCardView createView() {
         String command = """
-               You are playing the meteor card, you can type:
-               activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
-               activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
-               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
-            
-               end_activate_cannons -> if you want to end the cannon activation phase
-               end_activate_shields -> if you want to end the shield activation phase
-              
-               choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
-               end_wrecked -> if you want to end the wrecked ship phase
-              """;
+                 You are playing the meteor card, you can type:
+                 activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+                 activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+                 use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+                
+                 end_activate_cannons -> if you want to end the cannon activation phase
+                 end_activate_shields -> if you want to end the shield activation phase
+                
+                 choose_wrecked x y -> x,y are the coordinates of one of the tile from the part you want to keep
+                 end_wrecked -> if you want to end the wrecked ship phase
+                """;
 
-        return new AdventureCardView(command, id, "MeteorCard", 0,0 , 0,0, meteorList, null, null, null, 0,null,null);
+        return new AdventureCardView(command, id, "MeteorCard", 0, 0, 0, 0, meteorList, null, null, null, 0, null, null);
     }
 
     @Override
-    public void setCardState(Game g){
+    public void setCardState(Game g) {
         do {
             currentPlayer++;
         } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
 
-        if(currentPlayer == g.getPlayers().size()){
-            currentPlayer=-1;
-            do{
-                currentPlayer++;
-            } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
+        if (first) {
+            chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+            first = false;
         }
-        chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
 
-        if(dice) {
+        if (currentPlayer == g.getPlayers().size()) {
+            if (currentMeteorIndex + 1 == meteorList.size()) {
+                System.out.println("Meteor Card ended");
+                //g.Turn();
+            } else {
+                currentMeteorIndex++;
+                currentPlayer = -1;
+                do {
+                    currentPlayer++;
+                } while (currentPlayer < g.getPlayers().size() && g.getPlayers().get(currentPlayer).isAbandoned());
+                chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
+            }
+        } else {
             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteorIndex).direction(), rowOrCol) == null) {
                 protect = true;
             }
             if (protect) {
                 playCard(g, null, null);
-            } else
+            } else{
                 Update(g, g.getPlayers().get(currentPlayer));
-        }else
-            g.Turn();
+            }
+        }
     }
 
     private void Update(Game g, Player p) {
@@ -136,8 +145,10 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     if (p.getPlayerShipBoard().shieldsNotProtects(meteorList.get(currentMeteorIndex).direction(), component, battery)) {
                         new GameView(g, null);
                         checkWreck(g, p, i);
-                    }else
+                    }else {
                         new GameView(g, null);
+                        p.setPlayerState(new WaitingState(g));
+                    }
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
@@ -148,8 +159,10 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     if (!p.getPlayerShipBoard().cannonProtects(meteorList.get(currentMeteorIndex).direction(), rowOrCol, component, battery)) {
                         new GameView(g, null);
                         checkWreck(g, p, i);
-                    }else
+                    }else {
                         new GameView(g, null);
+                        p.setPlayerState(new WaitingState(g));
+                    }
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + p.getName()));
@@ -159,7 +172,6 @@ public class MeteorCard extends AdventureCard implements Serializable {
             }
         }
         protect=false;
-        p.setPlayerState(new WaitingState(g));
         setCardState(g);
     }
 
@@ -215,9 +227,6 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 }else
                     currentMeteorIndex++;
             }
-        }
-        if (currentMeteorIndex >= meteorList.size()){
-            dice=false;
         }
     }
 

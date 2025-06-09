@@ -62,6 +62,8 @@ public class WarZone extends AdventureCard implements Serializable {
                end_activate_engines -> if you want to end the engine activation phase
                end_activate_shields -> if you want to end the shield activation phase
                
+               remove_astronauts x y -> x,y are the coordinates of the component where you want to remove the astronauts
+               remove_best_good x y -> x,y are the coordinates of the component where you want to remove the goods
                end_remove_best_goods -> if you want to end the remove best goods phase
                end_remove_astronauts -> if you want to end the remove astronauts phase
                
@@ -99,7 +101,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             currentPlayer=-1;
                         } else {
                             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0) {
-                                new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer)));
+                                new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
                             } else {
                                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
@@ -118,7 +120,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             currentPlayer=-1;
                         } else {
                             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
-                                new GameView(g, new Exception("ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer)));
+                                new GameView(g, new Exception("ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
                                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                             } else {
                                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
@@ -134,7 +136,7 @@ public class WarZone extends AdventureCard implements Serializable {
             }else {
                 if (cannonFireList.get(currentFire).type() == 0) {
                     if (loser.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).direction())) {
-                        new GameView(g, new Exception("ACTIVATE SHIELDS " + g.getPlayers().get(currentPlayer)));
+                        new GameView(g, new Exception("ACTIVATE SHIELDS " + g.getPlayers().get(currentPlayer).getName()));
                         loser.setPlayerState(new ActivateShieldsState(g));
                     }else{
                         this.playCard(g, null, null);
@@ -160,7 +162,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
-                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer)));
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
 
                         }
@@ -173,7 +175,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
-                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer)));
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
 
                         }
@@ -188,7 +190,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
-                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer)));
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                         }
 
@@ -201,7 +203,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, null);
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
-                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer)));
+                            new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
                         }
                     }
@@ -224,7 +226,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     p = loser;
                     done=false;
                     loser=null;
-                    new GameView(g, new Exception("REMOVE BEST GOODS " + g.getPlayers().get(currentPlayer)));
+                    new GameView(g, new Exception("REMOVE BEST GOODS " + g.getPlayers().get(currentPlayer).getName()));
                     p.setPlayerState(new RemoveBestGoodsState(g));
                     break;
                 case "cannonFire":

@@ -22,8 +22,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
         if(astronautsRemoved == getGame().getCurrentCard().getNumAstronauts()){
             new GameView(getGame(), new EnoughAstronautsRemovedException("You've removed enough astronauts, don't need more " + player.getName()));
         } else{
-            Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
-            Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getY(), point.getX());
+            Components c = player.getPlayerShipBoard().getComponent(point.getY(), point.getX());
             if(c!=null) {
                 Cabin cabin = c.isCabin();
                 if (cabin != null) {
