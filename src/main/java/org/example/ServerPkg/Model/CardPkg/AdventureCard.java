@@ -50,10 +50,6 @@ public abstract class AdventureCard implements Serializable {
         return null;
     }
 
-    public int getCurrentPlayerIndex(){
-        return -1;
-    }
-
     public void setAccept(boolean accept) {}
 
     public int getNumGoodsLose(){

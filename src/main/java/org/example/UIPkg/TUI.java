@@ -712,7 +712,6 @@ public class TUI extends UI{
             case "Smugglers":
                 System.out.println("Smugglers");
                 System.out.println("Cannon power " + adventureCardView.getCannonPower());
-                System.out.println("Credits " + adventureCardView.getNumCredits());
                 System.out.println("Lost days " + adventureCardView.getLostDays());
                 System.out.println("Num goods " + adventureCardView.getNumGoods());
                 for (GoodsView goodsView : adventureCardView.getGoodsList()) {

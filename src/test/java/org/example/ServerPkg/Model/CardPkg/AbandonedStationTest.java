@@ -119,7 +119,6 @@ public class AbandonedStationTest extends TestCase {
         card.playCard(game, 0);
         assertEquals(-2, players.getFirst().getPosition());
         assertTrue(players.getFirst().getState() instanceof WaitingState);
-        assertEquals(-1, card.getCurrentPlayerIndex());
         assertTrue(card.getChangeGoodsFlag());
     }
 
@@ -136,16 +135,5 @@ public class AbandonedStationTest extends TestCase {
         assertFalse(card.getChangeGoodsFlag());
         card.setChangeGoodsFlag(true);
         assertTrue(card.getChangeGoodsFlag());
-    }
-
-    public void testGetCurrentPlayerIndex() {
-        Goods[] goods = new Goods[3];
-        goods[0] = new Goods(GoodsColour.GREEN);
-        goods[1] = new Goods(GoodsColour.RED);
-        goods[2] = new Goods(GoodsColour.YELLOW);
-
-        AbandonedStation card = new AbandonedStation(0,1, 2, 3, goods);
-
-        assertEquals(-1,card.getCurrentPlayerIndex());
     }
 }

@@ -102,11 +102,6 @@ public class AbandonedStation extends AdventureCard implements Serializable {
         this.changeGoodsFlag = changeGoodsFlag;
     }
 
-    @Override
-    public int getCurrentPlayerIndex(){
-        return playersIndex;
-    }
-
     // usage only for testing
     public boolean getChangeGoodsFlag() {
         return this.changeGoodsFlag;

@@ -231,7 +231,5 @@ public class PlanetsCardTest extends TestCase {
         planets.add(planet2);
 
         PlanetsCard card = new PlanetsCard(0,2, 5, planets);
-
-        assertEquals(-1,card.getCurrentPlayerIndex());
     }
 }

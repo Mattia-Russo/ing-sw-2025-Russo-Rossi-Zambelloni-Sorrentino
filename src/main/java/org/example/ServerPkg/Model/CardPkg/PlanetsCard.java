@@ -102,11 +102,6 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         return planetsVisited;
     }
 
-    @Override
-    public int getCurrentPlayerIndex(){
-        return playersIndex;
-    }
-
     // usage only for tests
     public void setPlanetIndex(int planetIndex){
         this.currentPlanetIndex = planetIndex;
