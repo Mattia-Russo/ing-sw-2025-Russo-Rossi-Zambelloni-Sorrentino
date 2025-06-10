@@ -25,9 +25,6 @@ public class GUI extends UI {
 
     //ToDo
     //posizione migliore dei componenti sulla shipboard
-    // dopo place component togliere la tile da current component
-    // dopo che pick discovered rimane nella lista e non la toglie
-    // quando book component è full e riprendi una file rimane full, non si può riprenotare una tile
     private final BlockingQueue<GameView> gameUpdatesQueue;
     private int numPlayers;
     private int shipboardLevel;
