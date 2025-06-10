@@ -47,10 +47,8 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
                     Exception e1 = new Exception(e.getMessage() + " " + player.getName());
                     new GameView(getGame(), e1);
                 }
-            }new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
-        } else {
-            new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
-        }
+            } else new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
+        } else new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
     }
 
     @Override
