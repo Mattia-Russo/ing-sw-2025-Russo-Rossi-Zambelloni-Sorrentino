@@ -66,15 +66,6 @@ public class MessageGenerator {
         messageMap.put("select_position", this::createSelectPositionMessage);
     }
 
-    private Message createSelectPositionMessage(List<String> args) {
-        int index = Integer.parseInt(args.getFirst());
-        return new SelectPositionMessage(index);
-    }
-
-    private Message createBuildShipMessage(List<String> args) {
-        return new BuildShipMessage();
-    }
-
     public Message generate(String command, List<String> args) {
         try {
             Function<List<String>, Message> generator = messageMap.get(command.toLowerCase());
@@ -88,6 +79,18 @@ public class MessageGenerator {
             System.err.println("ERROR: " + e.getMessage());
             return null;
         }
+    }
+
+    private Message createSelectPositionMessage(List<String> args) {
+        if(args.isEmpty()) {
+            throw new IllegalArgumentException("You've not entered all the fields required for this command");
+        }
+        int index = Integer.parseInt(args.getFirst());
+        return new SelectPositionMessage(index);
+    }
+
+    private Message createBuildShipMessage(List<String> args) {
+        return new BuildShipMessage();
     }
 
     private Message createPickBookedTileMessage(List<String> args) {

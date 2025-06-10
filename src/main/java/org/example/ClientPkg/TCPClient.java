@@ -206,9 +206,13 @@ public class TCPClient implements Client {
 
     public void registerName(String name){
         this.playerName = name;
-        Message message = msgGen.generate("set_name", List.of(name));
-        if(message != null){
-            sendMessage(message);
+        try {
+            Message message = msgGen.generate("set_name", List.of(name));
+            if(message != null){
+                sendMessage(message);
+            }
+        }catch(IllegalArgumentException e){
+            System.out.println("Try again");
         }
     }
 

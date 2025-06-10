@@ -332,7 +332,7 @@ public class TUI extends UI{
             } else if (pos == 9) {
                 return new Points(0, 1);
             } else {
-                return new Points(17 - pos, 2);
+                return new Points(16 - pos, 2);
             }
         } else {
             if(pos < 11) {
@@ -342,7 +342,7 @@ public class TUI extends UI{
             } else if (pos == 11) {
                 return new Points(10, 1);
             } else {
-                return new Points(23 - pos, 2);
+                return new Points(22 - pos, 2);
             }
         }
     }
