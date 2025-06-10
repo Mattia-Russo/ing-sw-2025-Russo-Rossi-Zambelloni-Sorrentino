@@ -100,6 +100,7 @@ public class ShipBoard implements Serializable {
         for (int i = 0; i < bookedComponents.length; i++) {
             if (bookedComponents[i] == null) {
                 bookedComponents[i] = component;
+                component.setBooked();
                 return;
             }
         }

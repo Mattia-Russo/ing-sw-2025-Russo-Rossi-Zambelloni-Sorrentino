@@ -111,10 +111,12 @@ public class BuildShipState extends PlayerState implements Serializable {
 
     @Override
     public void discardComponent(Player p){
-        if(p.getCurrentTile() != null) {
+        if(p.getCurrentTile() != null && !p.getCurrentTile().getBooked()) {
             getGame().addDiscoveredComponent(p.getCurrentTile());
             p.setCurrentTile(null);
             new GameView(getGame(), null);
+        } else if (p.getCurrentTile().getBooked()){
+            new GameView(getGame(), new InvalidMethodCallException("You cannot discard a card that was booked"));
         }
     }
 

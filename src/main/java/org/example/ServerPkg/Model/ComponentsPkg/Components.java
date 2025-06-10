@@ -13,6 +13,7 @@ public class Components implements Serializable {
     private final Connector[] connectors;
     private int posX;
     private int posY;
+    private boolean wasBooked;
 
     public Components(Direction direction, Connector[] connectors) {
         this.direction = direction;
@@ -20,6 +21,7 @@ public class Components implements Serializable {
         this.isPositioned = false;
         this.posX = 0;
         this.posY = 0;
+        this.wasBooked = false;
     }
 
     public ComponentsView createView(){
@@ -124,5 +126,13 @@ public class Components implements Serializable {
     }
 
     public Cabin isCabin(){return null;}
+
+    public void setBooked(){
+        wasBooked = true;
+    }
+
+    public boolean getBooked(){
+        return wasBooked;
+    }
 
 }
