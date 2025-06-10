@@ -164,7 +164,6 @@ public class WarZone extends AdventureCard implements Serializable {
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
-
                         }
                     } else{
                         try {

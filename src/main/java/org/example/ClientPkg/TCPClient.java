@@ -179,7 +179,7 @@ public class TCPClient implements Client {
                     message.setClient(this);
                     sendMessage(message);
                 } catch (Exception e) {
-                    System.out.println("Try again");
+                    System.out.println("Try again: " + e.getMessage());
                 }
             }
         });
@@ -212,7 +212,7 @@ public class TCPClient implements Client {
                 sendMessage(message);
             }
         }catch(IllegalArgumentException e){
-            System.out.println("Try again");
+            System.out.println("Try again: " + e.getMessage());
         }
     }
 
