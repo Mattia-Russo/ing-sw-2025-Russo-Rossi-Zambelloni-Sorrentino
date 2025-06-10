@@ -75,9 +75,4 @@ public class AbandonedShip extends AdventureCard implements Serializable {
         p.setPlayerState(new RemoveAstronautsState(game));
         this.playersIndex=game.getPlayers().size()-1;
     }
-
-    @Override
-    public int getCurrentPlayerIndex(){
-        return playersIndex;
-    }
 }

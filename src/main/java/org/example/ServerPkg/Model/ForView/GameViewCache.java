@@ -106,10 +106,16 @@ public class GameViewCache {
             newDiscoveredComponents.addAll(newGameView.getComponentsDiscovered());
         } else {
             // Confronta con i componenti scoperti cached
-            newDiscoveredComponents = findComponentDifferences(
-                    cachedGameView.getComponentsDiscovered(),
-                    newGameView.getComponentsDiscovered()
-            );
+            List<ComponentsView> cachedDiscovered = cachedGameView.getComponentsDiscovered();
+            List<ComponentsView> currentDiscovered = newGameView.getComponentsDiscovered();
+
+            // Se le liste hanno dimensioni diverse, significa che sono cambiati
+            if (cachedDiscovered.size() != currentDiscovered.size()) {
+                newDiscoveredComponents.addAll(currentDiscovered);
+            } else {
+                // Se hanno la stessa dimensione, controlla le differenze normalmente
+                newDiscoveredComponents = findComponentDifferences(cachedDiscovered, currentDiscovered);
+            }
         }
 
         // Aggiorna la cache con la nuova GameView

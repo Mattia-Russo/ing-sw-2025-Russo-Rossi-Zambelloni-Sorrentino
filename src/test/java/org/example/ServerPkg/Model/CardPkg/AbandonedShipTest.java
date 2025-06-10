@@ -100,13 +100,7 @@ public class AbandonedShipTest extends TestCase {
         assertEquals(5, p1.getNumCredits());
         assertEquals(-2, p1.getPosition());
         assertTrue(p1.getState() instanceof RemoveAstronautsState);
-        assertEquals(game.getPlayers().size()-1, card.getCurrentPlayerIndex());
 
 
-    }
-
-    public void testGetCurrentPlayerIndex() {
-        AbandonedShip card = new AbandonedShip(0,1, 2, 5, 3);
-        assertEquals(-1,card.getCurrentPlayerIndex());
     }
 }

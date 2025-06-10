@@ -18,7 +18,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere
     @Override
     public void removeGood(Points point, int numGood, Player player){
-        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getY(), point.getX());
+        Components c = player.getPlayerShipBoard().getComponent(point.getY(), point.getX());
         if(c!=null){
             Storage storage = c.isStorage();
             if(storage!=null) {
@@ -34,7 +34,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
 
     @Override
     public void addGood(Points point, int numGood, Player player){
-        Components c = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex()).getPlayerShipBoard().getComponent(point.getY(), point.getX());
+        Components c = player.getPlayerShipBoard().getComponent(point.getY(), point.getX());
         if(c!=null){
             Storage storage = c.isStorage();
             if(storage!=null) {
@@ -47,7 +47,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
                     Exception e1 = new Exception(e.getMessage() + " " + player.getName());
                     new GameView(getGame(), e1);
                 }
-            } else new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage" + player.getName()));
+            } else new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
         } else new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
     }
 

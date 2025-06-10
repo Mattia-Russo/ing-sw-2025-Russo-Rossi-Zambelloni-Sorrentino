@@ -30,10 +30,9 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
         if(goodsRemoved == getGame().getCurrentCard().getNumGoodsLose()){
             new GameView(getGame(), new EnoughBestGoodsRemovedException("You've removed enough goods, don't need more " + player.getName()));
         } else {
-            Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
-            ArrayList<Goods> goodsList = currentPlayer.getPlayerShipBoard().getTotalGoods();
+            ArrayList<Goods> goodsList = player.getPlayerShipBoard().getTotalGoods();
             goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
-            Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getX(), point.getY());
+            Components c = player.getPlayerShipBoard().getComponent(point.getX(), point.getY());
             if(c!=null) {
                 Storage storage = c.isStorage();
                 if (storage != null) {
@@ -56,17 +55,16 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
         if (goodsRemoved + batteriesRemoved == getGame().getCurrentCard().getNumGoodsLose()){
             new GameView(getGame(), new EnoughBatteriesRemovedException("You've removed enough batteries " + player.getName()));
         } else {
-            Player currentPlayer = getGame().getPlayers().get(getGame().getCurrentCard().getCurrentPlayerIndex());
-            ArrayList<Goods> goodsList = currentPlayer.getPlayerShipBoard().getTotalGoods();
+            ArrayList<Goods> goodsList = player.getPlayerShipBoard().getTotalGoods();
             if(!goodsList.isEmpty()){
                 new GameView(getGame(), new RemoveBatteriesBeforeGoodsException("You have to remove goods before batteries " + player.getName()));
             } else {
-                Components c = currentPlayer.getPlayerShipBoard().getComponent(point.getY(),point.getX());
+                Components c = player.getPlayerShipBoard().getComponent(point.getY(),point.getX());
                 if(c!=null) {
                     BatteryStorage storage = c.isBatteryStorage();
                     if (storage != null) {
                         try {
-                            storage.setQuantity(-1, currentPlayer.getPlayerShipBoard());
+                            storage.setQuantity(-1, player.getPlayerShipBoard());
                             batteriesRemoved++;
                             new GameView(getGame(), null);
                         } catch (ValueUnderZeroException e) {
