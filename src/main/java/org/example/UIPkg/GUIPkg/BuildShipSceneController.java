@@ -195,7 +195,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 turnTimerButton.setDisable(!timerEnabled);
             });
         }
-        
+
         if (game.getException() != null) {
             Platform.runLater(() -> {
                 timerMessage.setText(game.getException().getMessage());
@@ -313,11 +313,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
     }
 
     private void clearCurrentTileFromGUI() {
-        // TODO: Implementare la rimozione del currentTile dalla GUI
-        // Ad esempio:
-        // if (currentTileImageView != null) {
-        //     currentTileImageView.setImage(null);
-        // }
+        Platform.runLater(() -> {
+            if (currentComponentImageView != null) {
+                currentComponentImageView.setImage(null);
+            }
+        });
+        System.out.println("CurrentTile rimosso dalla GUI");
     }
 
 
@@ -582,6 +583,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         rotateLeftButton.setDisable(false);
         rotateRightButton.setDisable(false);
         placeComponentButton.setDisable(false);
+        pickDiscoveredButton.setDisable(true);
 
     }
 
@@ -594,6 +596,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         rotateLeftButton.setDisable(true);
         rotateRightButton.setDisable(true);
         placeComponentButton.setDisable(true);
+        pickDiscoveredButton.setDisable(false);
     }
 
     public void onRotateLeftClick() throws RemoteException{
@@ -625,11 +628,14 @@ public class BuildShipSceneController extends GuiController implements Initializ
             rotateRightButton.setDisable(true);
             placeComponentButton.setDisable(true);
             pickBookedButton.setDisable(false);
+            pickDiscoveredButton.setDisable(false);
 
             Points p = new Points(x, y);
             occupiedCells.add(p);
 
             hideValidationMessage();
+
+            clearCurrentTileFromGUI();
 
         }else{
             showValidationError("Please, insert valid inputs for X and Y");
@@ -849,7 +855,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             rotateRightButton.setDisable(false);
             placeComponentButton.setDisable(false);
 
-            // Pulisci il campo
             discoveredIndexField.clear();
             hideValidationMessage();
 

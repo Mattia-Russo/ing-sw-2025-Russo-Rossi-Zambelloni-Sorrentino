@@ -475,7 +475,7 @@
       "id": 59,
       "direction": "NORTH",
       "connectors": ["UNIVERSAL", "DOUBLE", "DOUBLE", "UNIVERSAL"],
-      "img": "/org.example/tiles/GT-new_tiles_16_for web60jpg"
+      "img": "/org.example/tiles/GT-new_tiles_16_for web60.jpg"
     },
     {
       "type": "STORAGE",
