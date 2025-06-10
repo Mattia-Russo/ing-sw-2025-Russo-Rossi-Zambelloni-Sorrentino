@@ -253,8 +253,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             showPlayer1ShipboardButton.setVisible(true);
             showPlayer2ShipboardButton.setVisible(true);
             showPlayer3ShipboardButton.setVisible(true);
-
-            System.out.println("CurrentTile rimosso - pulsanti disabilitati");
         } else {
 
             displayCurrentTileOnGUI(currentTile);
@@ -266,9 +264,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             boolean canBook = (localBookedComponents[0] == null || localBookedComponents[1] == null);
             bookComponentButton.setDisable(!canBook);
-
-            System.out.println("Nuovo currentTile disponibile: ID=" + currentTile.getId() +
-                    ", Tipo=" + currentTile.getType());
         }
     }
 
@@ -311,9 +306,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                     System.out.println("Direzione non riconosciuta, impostata rotazione a 0 gradi");
                     break;
             }
-
-            System.out.println("Visualizzando currentTile: " + imagePath + " con direzione: " + direction);
-
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione del currentTile: " + e.getMessage());
             e.printStackTrace();
@@ -326,8 +318,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         // if (currentTileImageView != null) {
         //     currentTileImageView.setImage(null);
         // }
-
-        System.out.println("CurrentTile rimosso dalla GUI");
     }
 
 
@@ -398,9 +388,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             // Aggiungi al pannello principale
             discoveredComponentsContainer.getChildren().add(componentContainer);
-
-            System.out.println("Componente scoperto aggiunto al pannello: ID=" + component.getId() + ", Index=" + index);
-
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiunta del componente scoperto: " + e.getMessage());
             e.printStackTrace();
@@ -422,11 +409,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Direction direction = component.getDirection();
 
             placeImageOnShipboard(imagePath, x, y, direction);
-
-            System.out.println("Componente piazzato sulla shipboard: ID=" + component.getId() +
-                    ", Posizione=(" + x + "," + y + ")" +
-                    ", Direzione=" + component.getDirection());
-
         } catch (Exception e) {
             System.err.println("Errore durante il piazzamento del componente sulla shipboard: " + e.getMessage());
             e.printStackTrace();
@@ -746,7 +728,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         // Se la GameView cached contiene un'eccezione, usa l'ultima GameView valida
         // per evitare errori di "player not found"
         if (cachedGame.getException() != null) {
-            System.out.println("GameView contiene un'eccezione, mantenendo la visualizzazione corrente per " + playerName);
             // Non fare nulla, mantieni la visualizzazione corrente
             return;
         }
@@ -789,8 +770,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showOwnShipboardButton.setDisable(false);
 
         currentDisplayedPlayer = playerName;
-
-        System.out.println("Visualizzando shipboard di: " + playerName);
         showValidationError("Now showing " + playerName + "'s shipboard");
 
         if (!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
@@ -978,10 +957,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             bookedComponentImages[index] = componentImageView;
             shipboardContainer.getChildren().add(componentImageView);
-
-            System.out.println("Componente prenotato visualizzato: ID=" + component.getId() +
-                    ", Index=" + index + ", Posizione=(" + (x+4) + "," + (y+5) + ")");
-
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione del componente prenotato: " + e.getMessage());
             e.printStackTrace();
