@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class UseBatteriesMessage extends Message {
-    private ArrayList<Points> batteries;
+    private final ArrayList<Points> batteries;
 
     public UseBatteriesMessage(ArrayList<Points> batteries){
         this.batteries=batteries;
@@ -24,7 +24,7 @@ public class UseBatteriesMessage extends Message {
                 try{
                     Player player= controller.getGame().getPlayerByName(playerName);
                     player.getState().useBatteries(batteries, player);
-                } catch (AlreadyBatteryException | EndStateException | WaitingStateException | AbandonedStateException e) {
+                } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             }

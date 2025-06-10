@@ -124,7 +124,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
                     message.setClient(this);
                     sendMessage(message);
                 } catch (NullPointerException | RemoteException | IllegalArgumentException e) {
-                    System.out.println("Try again");
+                    System.out.println("Try again: " + e.getMessage());
                 }
             }
         });
