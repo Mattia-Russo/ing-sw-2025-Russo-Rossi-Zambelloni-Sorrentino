@@ -65,6 +65,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
     public void playCard(Game g, ArrayList<Points> engines, ArrayList<Points> batteries) {
         try {
             g.getPlayers().get(currentPlayer).changePosition(g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries) + + g.getOccupiedPositions(g.getPlayers().get(currentPlayer), g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries)));
+            g.adjustPlayerPositions();
             g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
             new GameView(g, null);
             setCardState(g);

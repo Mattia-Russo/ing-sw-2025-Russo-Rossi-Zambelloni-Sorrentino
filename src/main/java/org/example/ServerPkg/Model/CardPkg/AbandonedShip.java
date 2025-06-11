@@ -55,8 +55,8 @@ public class AbandonedShip extends AdventureCard implements Serializable {
     public void setCardState(Game game){
         do{
             playersIndex++;
-        } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned()
-                && game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts);
+        } while (playersIndex < game.getPlayers().size() && (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts
+                || game.getPlayers().get(playersIndex).isAbandoned()));
 
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
@@ -72,6 +72,7 @@ public class AbandonedShip extends AdventureCard implements Serializable {
         p.getPlayerShipBoard().setNumAstronauts(-this.numAstronauts);
         p.changeCredits(this.Credits);
         p.changePosition(-this.getLostDays() + game.getOccupiedPositions(p, -this.getLostDays()));
+        game.adjustPlayerPositions();
         p.setPlayerState(new RemoveAstronautsState(game));
         this.playersIndex=game.getPlayers().size()-1;
     }

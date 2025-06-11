@@ -70,14 +70,11 @@ public class Slavers extends Enemy implements Serializable {
         if(playersIndex == game.getPlayers().size()){
             game.Turn();
         } else {
-            new GameView(game, new Exception("ACTIVATE CANNON  " + game.getPlayers().get(playersIndex).getName()));
-            game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
-        }
-
-        for (int i = playersIndex + 1; i < game.getPlayers().size(); i++){
-            if (!game.getPlayers().get(i).isAbandoned()){
-                game.getPlayers().get(i).setPlayerState(new WaitingState(game));
-            }
+            if(game.getPlayers().get(playersIndex).getPlayerShipBoard().getNumDoubleCannon()!=0) {
+                new GameView(game, new Exception("ACTIVATE CANNON  " + game.getPlayers().get(playersIndex).getName()));
+                game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
+            }else
+                playCard(game, null, null);
         }
     }
 
@@ -108,6 +105,7 @@ public class Slavers extends Enemy implements Serializable {
             Player p = game.getPlayers().get(playersIndex);
             p.changeCredits(getCredits());
             p.changePosition(-getLostDays() + game.getOccupiedPositions(p, -getLostDays()));
+            game.adjustPlayerPositions();
             new GameView(game, null);
         }
         this.playCard(game, 0);
