@@ -616,10 +616,10 @@ public class TUI extends UI{
 
     private String getGoodColorSquare(GoodsColour colour) {
         return switch (colour) {
-            case RED -> " \uD83D\uDFE5";
-            case BLUE -> " \uD83D\uDFE6";
-            case GREEN -> " \uD83D\uDFE9";
-            case YELLOW -> " \uD83D\uDFE8";
+            case RED -> "\uD83D\uDFE5";
+            case BLUE -> "\uD83D\uDFE6";
+            case GREEN -> "\uD83D\uDFE9";
+            case YELLOW -> "\uD83D\uDFE8";
         };
     }
 
