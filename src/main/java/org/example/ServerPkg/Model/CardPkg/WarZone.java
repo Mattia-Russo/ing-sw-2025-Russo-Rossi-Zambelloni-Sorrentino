@@ -214,6 +214,7 @@ public class WarZone extends AdventureCard implements Serializable {
             switch (penalties[pos]) {
                 case "LoseDays":
                     loser.changePosition(-getLostDays() + g.getOccupiedPositions(loser, -getLostDays()));
+                    g.adjustPlayerPositions();
                     pos++;
                     done=false;
                     loser=null;

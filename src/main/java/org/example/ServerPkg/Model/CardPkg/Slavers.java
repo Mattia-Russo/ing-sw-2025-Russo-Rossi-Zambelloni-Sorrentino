@@ -105,6 +105,7 @@ public class Slavers extends Enemy implements Serializable {
             Player p = game.getPlayers().get(playersIndex);
             p.changeCredits(getCredits());
             p.changePosition(-getLostDays() + game.getOccupiedPositions(p, -getLostDays()));
+            game.adjustPlayerPositions();
             new GameView(game, null);
         }
         this.playCard(game, 0);

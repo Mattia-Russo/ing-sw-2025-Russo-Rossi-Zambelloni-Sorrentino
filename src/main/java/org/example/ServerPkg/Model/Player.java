@@ -96,8 +96,8 @@ public class Player implements Serializable {
 
     public void changePosition(int val){
         if (!this.abandoned) {
-
             this.position += val;
+
         } else {
             throw new PlayerAbandonedException("The player has abandoned");
         }

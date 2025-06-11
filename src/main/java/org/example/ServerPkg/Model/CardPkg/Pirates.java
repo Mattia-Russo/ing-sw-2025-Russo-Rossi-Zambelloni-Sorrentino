@@ -200,6 +200,7 @@ public class Pirates extends Enemy implements Serializable {
     public void playCard (Game game){
         if (accept) {
             game.getPlayers().get(currentPlayer).changeCredits(this.credit);
+            game.adjustPlayerPositions();
             game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(currentPlayer), -this.getLostDays()));
             new GameView(game, null);
         }
