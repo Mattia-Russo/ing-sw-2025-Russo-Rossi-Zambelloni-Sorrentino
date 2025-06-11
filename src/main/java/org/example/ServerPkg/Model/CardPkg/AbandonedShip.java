@@ -29,7 +29,8 @@ public class AbandonedShip extends AdventureCard implements Serializable {
         String command = """
                 You are playing the abandoned ship card, you can type:
                 land_on_abandon true/false -> true if you want to land, false otherwise
-                remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts""";
+                remove_astronauts x y -> x,y are the coordinates of the cabin where you want to remove the astronauts
+                end_remove_astronauts -> to end remove astronauts state""";
                                    
         return new AdventureCardView(command, id, "AbandonedShip", getLostDays(), Credits, numAstronauts,0, null, null, null, null,0,null, null);
     }
