@@ -695,12 +695,12 @@ public class TUI extends UI{
                         if(goodsView != null) {
                             goods.append(getGoodColorSquare(goodsView.getColour())).append(" ");
                         } else {
-                            goods.append("   ");
+                            goods.append("[ ]");
                         }
                     }
                     System.out.println(goods);
                     goods.setLength(0); // pulisce lo string builder
-                    System.out.println("Lost days "+adventureCardView.getLostDays());
+                    System.out.println("Lost days " + adventureCardView.getLostDays());
                 }
                 break;
             case "Slavers":
@@ -720,7 +720,7 @@ public class TUI extends UI{
                         GoodsColour color = goodsView.getColour();
                         goods.append(getGoodColorSquare(color));
                     } else {
-                        goods.append("   ");
+                        goods.append("[ ]");
                     }
                 }
                 System.out.println(goods);

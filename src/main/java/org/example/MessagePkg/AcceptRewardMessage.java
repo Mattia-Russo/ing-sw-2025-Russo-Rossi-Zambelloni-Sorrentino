@@ -9,7 +9,7 @@ import org.example.ServerPkg.Model.Player;
 import java.rmi.RemoteException;
 
 public class AcceptRewardMessage extends Message {
-    private boolean bool;
+    private final boolean bool;
 
     public AcceptRewardMessage(boolean bool) {
         this.bool = bool;
