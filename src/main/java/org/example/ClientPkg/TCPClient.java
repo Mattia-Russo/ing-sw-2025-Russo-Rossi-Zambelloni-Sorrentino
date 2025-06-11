@@ -176,8 +176,10 @@ public class TCPClient implements Client {
                     List<String> args = new ArrayList<>(Arrays.asList(words).subList(1, words.length));
 
                     Message message = msgGen.generate(cmd, args);
-                    message.setClient(this);
-                    sendMessage(message);
+                    if(message!=null){
+                        message.setClient(this);
+                        sendMessage(message);
+                    }
                 } catch (Exception e) {
                     System.out.println("Try again: " + e.getMessage());
                 }

@@ -125,14 +125,14 @@ public class SmugglersTest extends TestCase {
         assertEquals(2,s.getLostDays());
     }
 
-    public void testGetGoodsWin() {
+    public void testGetGoodsList() {
         List<Goods> goods= new ArrayList<Goods>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
         Smugglers s= new Smugglers(0,1,2,10, 5, goods);
-        assertEquals(goods,s.getGoodsWin());
-        assertEquals(3,s.getGoodsWin().size());
+        assertEquals(goods,s.getGoodsList());
+        assertEquals(3,s.getGoodsList().size());
     }
 
     public void testGetGoodsLost() {

@@ -65,8 +65,9 @@ public class Smugglers extends Enemy implements Serializable {
 
     public int getLostDays() {return super.getLostDays();}
 
-    public List<Goods> getGoodsWin() {
-        return goodsWinList;
+    @Override
+    public Goods[] getGoodsList() {
+        return goodsWinList.toArray(new Goods[0]);
     }
 
     public int getGoodsLost() {

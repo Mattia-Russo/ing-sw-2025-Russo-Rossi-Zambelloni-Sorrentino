@@ -393,7 +393,7 @@ public class TUI extends UI{
             }
 
             String detail = getComponentDetail(comp);
-            for (int i = 0; i< Math.min(8,detail.length()); i++) {
+            for (int i = 0; i< Math.min(9,detail.length()); i++) {
                 grid[4][i] = String.valueOf(detail.charAt(i));
             }
         }
@@ -439,7 +439,7 @@ public class TUI extends UI{
             System.out.println("\nShipboard:");
             System.out.print("       ");
             for (int col = 0; col < COLS; col++) {
-                System.out.printf("   Col %d    ", col + 4);
+                System.out.printf("   Col %d     ", col + 4);
             }
             System.out.println();
 
@@ -578,13 +578,14 @@ public class TUI extends UI{
                     return "";
                 }
 
+            case "Special Storage":
             case "Storage":
                 return getGoodsString(comp).toString();
 
             case "Shield":
                 return getDirectionArrow(comp.getShieldedDirections()[0]) + getDirectionArrow(comp.getShieldedDirections()[1]);
 
-            case "Battery Storage":
+            case "BatteryStorage":
                 return String.valueOf(comp.getNumBattery());
 
             default:
@@ -598,9 +599,9 @@ public class TUI extends UI{
         for (GoodsView goodsView : goodsList) {
             if(goodsView != null) {
                 GoodsColour color = goodsView.getColour();
-                goods.append(getGoodColorSquare(color)).append(" ");
+                goods.append(getGoodColorSquare(color));
             } else {
-                goods.append("   ");
+                goods.append("[ ]");
             }
         }
         return goods;
