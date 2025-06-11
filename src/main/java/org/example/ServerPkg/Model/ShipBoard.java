@@ -484,7 +484,7 @@ public class ShipBoard implements Serializable {
                 if(availablePositionMatrix[i - 5][rowOrCol - 4]){
                     Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isSingleCannon()!=null){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
+                        if (((c.getDirection().ordinal())%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -495,7 +495,7 @@ public class ShipBoard implements Serializable {
                 if(availablePositionMatrix[rowOrCol - 5][i - 4]){
                     Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isSingleCannon()!=null){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
+                        if (((c.getDirection().ordinal())%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -511,7 +511,7 @@ public class ShipBoard implements Serializable {
                 if(availablePositionMatrix[i - 5][rowOrCol - 4]){
                     Components c = getComponent(i, rowOrCol);
                     if(c!=null && c.isDoubleCannon()!=null){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
+                        if (((c.getDirection().ordinal())%4) == dir.ordinal()){
                             return true;
                         }
                     }
@@ -522,7 +522,7 @@ public class ShipBoard implements Serializable {
                 if(availablePositionMatrix[rowOrCol - 5][i - 4]){
                     Components c = getComponent(rowOrCol, i);
                     if(c!=null && c.isDoubleCannon()!=null){
-                        if (((c.getDirection().ordinal()+2)%4) == dir.ordinal()){
+                        if (((c.getDirection().ordinal())%4) == dir.ordinal()){
                             return true;
                         }
                     }

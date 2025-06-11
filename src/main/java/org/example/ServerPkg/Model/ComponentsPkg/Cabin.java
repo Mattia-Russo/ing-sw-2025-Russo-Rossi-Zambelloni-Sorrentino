@@ -64,13 +64,14 @@ public class Cabin extends Components implements Serializable {
         return this;
     }
 
-    public void changeNumAstronauts(int amount) {
+    public void changeNumAstronauts(int amount, ShipBoard s) {
         if (numAstronauts + amount > 2) {
             throw new OverloadedCapacityException("Cabin full!");
         } else if (numAstronauts + amount < 0) {
             throw new UnderloadedCapacityException("There are not enough Astronauts in this cabin!");
         }
         numAstronauts += amount;
+        s.setNumAstronauts(amount);
     }
 
     public void addLifeSupportList(LifeSupportSystem l) {
@@ -180,7 +181,7 @@ public class Cabin extends Components implements Serializable {
                 if(c.getAlien()!=null){
                     c.removeAlien(s);
                 } else {
-                    c.changeNumAstronauts(-1);
+                    c.changeNumAstronauts(-1, s);
                 }
             }
         }

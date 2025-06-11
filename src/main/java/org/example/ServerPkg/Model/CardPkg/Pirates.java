@@ -245,14 +245,23 @@ public class Pirates extends Enemy implements Serializable {
         while (!good && currentFire < cannonFireList.size()) {
             if (cannonFireList.get(currentFire).direction() == Direction.NORTH || cannonFireList.get(currentFire).direction() == Direction.SOUTH) {
                 rowOrCol = g.rollDice();
-                new GameView(g, new Exception("SHOT  " + rowOrCol));
+                if(cannonFireList.get(currentFire).type()== 0){
+                    new GameView(g, new Exception("SMALL SHOT FROM " + cannonFireList.get(currentFire).direction() + " AT COLUMN " + rowOrCol));
+                } else {
+                    new GameView(g, new Exception("BIG SHOT FROM " + cannonFireList.get(currentFire).direction() + " AT COLUMN " + rowOrCol));
+                }
+
                 if(rowOrCol < 11 && rowOrCol > 3){
                     good = true;
                 }else
                     currentFire++;
             } else {
                 rowOrCol = g.rollDice();
-                new GameView(g, new Exception("SHOT  " + rowOrCol));
+                if(cannonFireList.get(currentFire).type()== 0){
+                    new GameView(g, new Exception("SMALL SHOT FROM " + cannonFireList.get(currentFire).direction() + " AT ROW " + rowOrCol));
+                } else {
+                    new GameView(g, new Exception("BIG SHOT FROM " + cannonFireList.get(currentFire).direction() + " AT ROW " + rowOrCol));
+                }
                 if(rowOrCol < 10 && rowOrCol > 4){
                     good = true;
                 }else
