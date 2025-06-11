@@ -193,7 +193,7 @@ public class ShipBoardTest extends TestCase {
         }
         ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin cabin1 = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
-        cabin1.changeNumAstronauts(2);
+        cabin1.changeNumAstronauts(2, s);
         s.placeComponent(5,6,cabin1);
         assertEquals(2, s.getTotalAstronauts());
     }

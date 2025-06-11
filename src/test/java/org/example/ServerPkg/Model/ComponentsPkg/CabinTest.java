@@ -8,8 +8,16 @@ import java.util.ArrayList;
 public class CabinTest extends TestCase {
 
     public void testGetNumAstronauts() {
+        boolean[][] availablePositionMatrix = new boolean[5][7];
+        for(int i=0; i<5; i++){
+            for(int j=0; j<7; j++) {
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        c.changeNumAstronauts(2);
+        s.placeComponent(6, 7, c);
+        c.changeNumAstronauts(2, s);
         assertEquals(2,c.getNumAstronauts());
     }
 
@@ -51,8 +59,16 @@ public class CabinTest extends TestCase {
     }
 
     public void testChangeNumAstronauts() {
+        boolean[][] availablePositionMatrix = new boolean[5][7];
+        for(int i=0; i<5; i++){
+            for(int j=0; j<7; j++) {
+                availablePositionMatrix[i][j] = (j != 0 || i != 0) && (j != 0 || i != 1) && (j != 1 || i != 0) && (j!= 3 || i != 0) && (j != 5 || i != 0) && (j != 6 || i != 0) && (j != 6 || i != 1) && (j != 3 || i!= 4);
+            }
+        }
+        ShipBoard s=new ShipBoard(availablePositionMatrix, 7, 5);
         Cabin c = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
-        c.changeNumAstronauts(2);
+        s.placeComponent(6,8, c);
+        c.changeNumAstronauts(2, s);
         assertEquals(2,c.getNumAstronauts());
     }
 

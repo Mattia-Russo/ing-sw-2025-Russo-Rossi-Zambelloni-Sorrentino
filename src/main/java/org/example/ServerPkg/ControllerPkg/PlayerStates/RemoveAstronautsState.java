@@ -30,7 +30,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
                         cabin.removeAlien(player.getPlayerShipBoard());
                         astronautsRemoved++;
                     } else if (cabin.getNumAstronauts() != 0) {
-                        cabin.changeNumAstronauts(-1);
+                        cabin.changeNumAstronauts(-1, player.getPlayerShipBoard());
                         astronautsRemoved++;
                     }
                     new GameView(getGame(), null);
@@ -80,11 +80,11 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
                             astronautsRemoved++;
                             astronautsToRemove--;
                         } else if (((Cabin) c).getNumAstronauts() >= astronautsToRemove) {
-                            ((Cabin) c).changeNumAstronauts(-astronautsToRemove);
+                            ((Cabin) c).changeNumAstronauts(-astronautsToRemove, p.getPlayerShipBoard() );
                             astronautsRemoved += astronautsToRemove;
                             astronautsToRemove = 0;
                         } else {
-                            ((Cabin) c).changeNumAstronauts(-((Cabin) c).getNumAstronauts());
+                            ((Cabin) c).changeNumAstronauts(-((Cabin) c).getNumAstronauts(), p.getPlayerShipBoard());
                             astronautsRemoved += ((Cabin) c).getNumAstronauts();
                             astronautsToRemove -= ((Cabin) c).getNumAstronauts();
                         }

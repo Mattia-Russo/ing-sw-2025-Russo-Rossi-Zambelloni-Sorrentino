@@ -77,11 +77,10 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         if (changeGoodsFlag){
             this.currentPlanetIndex = numPlanet;
             this.planetsVisited[numPlanet] = true;
-            new GameView(game, new Exception("LAND ON PLANET (Change goods) " + game.getPlayers().get(playersIndex).getName()));
+            new GameView(game, new Exception(game.getPlayers().get(playersIndex).getName() + " LANDED ON PLANET NUMBER " + (currentPlanetIndex - 1) + "\n" + game.getPlayers().get(playersIndex).getName() + " MANAGE YOUR GOODS' EXCHANGE"));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
         } else {
-            game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));
-            game.adjustPlayerPositions();
+            game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));
             game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
             this.changeGoodsFlag = true;
             this.setCardState(game);
