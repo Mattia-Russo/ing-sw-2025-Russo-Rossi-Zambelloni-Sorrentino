@@ -394,9 +394,7 @@ public class TUI extends UI{
 
             String detail = getComponentDetail(comp);
             if(comp.getType().equals("Storage") || comp.getType().equals("Special Storage")){
-                grid[4][8] = null;
-                grid[4][7] = null;
-                grid[4][6] = null;
+                grid[4][8] = "";
             }
             for (int i = 0; i< Math.min(9,detail.length()); i++) {
                 grid[4][i] = String.valueOf(detail.charAt(i));

@@ -159,7 +159,6 @@ public class WarZone extends AdventureCard implements Serializable {
                         try {
                             this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
                             loser = g.getPlayers().get(currentPlayer);
-                            new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
@@ -171,14 +170,11 @@ public class WarZone extends AdventureCard implements Serializable {
                                 this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
                                 loser = g.getPlayers().get(currentPlayer);
                             }
-                            new GameView(g, null);
                         }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
-
                         }
-
                     }
                     break;
                 case "LessCannonPower":
