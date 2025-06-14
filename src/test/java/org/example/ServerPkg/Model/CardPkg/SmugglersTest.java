@@ -8,7 +8,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
-import org.junit.jupiter.api.BeforeEach;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,7 @@ public class SmugglersTest extends TestCase {
     private Game game;
     private Smugglers smugglers;
     private  ArrayList<Player> players;
-    ShipBoard sp3;
 
-    @BeforeEach
     public void setUp() {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
@@ -32,7 +30,7 @@ public class SmugglersTest extends TestCase {
         game=new Game(2,1,  1, new GameController());
         game.getPlayers().addAll(players);
         game.setPlayersShipboard();
-        List<Goods> goods= new ArrayList<Goods>();
+        List<Goods> goods= new ArrayList<>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
@@ -43,7 +41,7 @@ public class SmugglersTest extends TestCase {
         ShipBoard sp2 = p2.getPlayerShipBoard();
 
 
-        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        //Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
@@ -132,11 +130,11 @@ public class SmugglersTest extends TestCase {
         goods.add(new Goods(GoodsColour.GREEN));
         Smugglers s= new Smugglers(0,1,2,10, 5, goods);
         assertEquals(goods,s.getGoodsList());
-        assertEquals(3,s.getGoodsList().size());
+        assertEquals(3,s.getGoodsList().length);
     }
 
     public void testGetGoodsLost() {
-        List<Goods> goods= new ArrayList<Goods>();
+        List<Goods> goods= new ArrayList<>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));

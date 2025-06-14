@@ -32,7 +32,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
         } else {
             ArrayList<Goods> goodsList = player.getPlayerShipBoard().getTotalGoods();
             goodsList.sort(Comparator.comparing(Goods::getColour)); // ordina i goods in base al colore, da REd a BLUE
-            Components c = player.getPlayerShipBoard().getComponent(point.getX(), point.getY());
+            Components c = player.getPlayerShipBoard().getComponent(point.getY(), point.getX());
             if(c!=null) {
                 Storage storage = c.isStorage();
                 if (storage != null) {
@@ -46,7 +46,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
                 } else {
                     new GameView(getGame(), new NotStorageException("The component of given coordinates is not a storage " + player.getName()));
                 }
-            } new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
+            } else new GameView(getGame(), new NotStorageException("No component in these coordinates " + player.getName()));
         }
     }
 

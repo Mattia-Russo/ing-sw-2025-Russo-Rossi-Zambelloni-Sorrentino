@@ -1,6 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
+import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ComponentsPkg.Storage;
 import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -39,11 +40,14 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
             Storage storage = c.isStorage();
             if(storage!=null) {
                 try {
-                    if (numGood < getGame().getCurrentCard().getGoodsList().length && numGood >= 0 && getGame().getCurrentCard().getGoodsList()[numGood] != null) {
-                        storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
-                        getGame().getCurrentCard().getGoodsList()[numGood] = null;
-                        new GameView(getGame(), null);
-                    } else new GameView(getGame(), new Exception("Index must be between the bounds or you have already picked it" + player.getName()));
+                    Goods good = getGame().getCurrentCard().getGoodsList()[numGood];
+                    if (numGood < getGame().getCurrentCard().getGoodsList().length && numGood >= 0 && good != null) {
+                        if(!good.isTaken()) {
+                            storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
+                            getGame().getCurrentCard().getGoodsList()[numGood] = null;
+                            new GameView(getGame(), null);
+                        } else new GameView(getGame(), new Exception("You've already taken this good " + player.getName()));
+                    } else new GameView(getGame(), new Exception("Index must be between the bounds or you have already picked it " + player.getName()));
                 } catch (RedGoodsNotAllowedException | StorageFullException e) {
                     Exception e1 = new Exception(e.getMessage() + " " + player.getName());
                     new GameView(getGame(), e1);

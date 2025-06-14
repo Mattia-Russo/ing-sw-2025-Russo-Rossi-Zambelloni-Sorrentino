@@ -8,8 +8,8 @@ import org.example.ServerPkg.Model.Points;
 import java.rmi.RemoteException;
 
 public class RemoveBestGoodMessage extends Message {
-    private Points point;
-    private int numGood;
+    private final Points point;
+    private final int numGood;
 
     public RemoveBestGoodMessage(Points point, int numGood) {
         this.point = point;

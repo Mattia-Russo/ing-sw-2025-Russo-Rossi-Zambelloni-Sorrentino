@@ -50,7 +50,7 @@ public class Smugglers extends Enemy implements Serializable {
                end_change_goods -> if you want to terminate the exchanging goods phase
               
                remove_best_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
-            
+               end_remove_best_goods -> to end the phase of removing your best goods
               """;
         return new AdventureCardView(command, id, "Smugglers", getLostDays(),0 , 0,getCannonPower(), null, null, goods, null, numGoodsLose,null,null);
     }

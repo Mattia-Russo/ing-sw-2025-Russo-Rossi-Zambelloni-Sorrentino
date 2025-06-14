@@ -5,10 +5,12 @@ import java.io.Serializable;
 public class Goods implements Serializable {
     private final GoodsColour colour;
     private Storage storage;
+    private boolean taken;
 
     public Goods(GoodsColour colour) {
         this.colour = colour;
         this.storage = null;
+        this.taken = false;
     }
 
     public GoodsColour getColour() {
@@ -21,5 +23,13 @@ public class Goods implements Serializable {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    public void setTaken() {
+        this.taken = true;
+    }
+
+    public boolean isTaken() {
+        return taken;
     }
 }
