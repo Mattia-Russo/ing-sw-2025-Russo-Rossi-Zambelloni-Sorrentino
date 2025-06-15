@@ -461,14 +461,14 @@
       "id": 57,
       "direction": "NORTH",
       "connectors": ["UNIVERSAL", "SINGLE", "DOUBLE", "DOUBLE"],
-      "img": "/org.example/tiles/GT-new_tiles_16_for web58jpg"
+      "img": "/org.example/tiles/GT-new_tiles_16_for web58.jpg"
     },
     {
       "type": "TUBES",
       "id": 58,
       "direction": "NORTH",
       "connectors": ["UNIVERSAL", "DOUBLE", "EMPTY", "UNIVERSAL"],
-      "img": "/org.example/tiles/GT-new_tiles_16_for web59jpg"
+      "img": "/org.example/tiles/GT-new_tiles_16_for web59.jpg"
     },
     {
       "type": "TUBES",

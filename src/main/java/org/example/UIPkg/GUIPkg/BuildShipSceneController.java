@@ -181,8 +181,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             button.setDisable(true);
         }
     }
-
-
+    
     public void updateGui(GameView game) {
 
         if (gameViewCache == null) {
@@ -250,9 +249,10 @@ public class BuildShipSceneController extends GuiController implements Initializ
             rotateRightButton.setDisable(true);
             placeComponentButton.setDisable(true);
             bookComponentButton.setDisable(true);
-            showPlayer1ShipboardButton.setVisible(true);
-            showPlayer2ShipboardButton.setVisible(true);
-            showPlayer3ShipboardButton.setVisible(true);
+
+            if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
+                updatePlayerShipboardButtons(gameViewCache.getCachedGameView());
+            }
         } else {
 
             displayCurrentTileOnGUI(currentTile);
@@ -352,6 +352,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
+
     private void addDiscoveredComponentToPanel(ComponentsView component, int index) {
         try {
             JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
@@ -446,7 +447,13 @@ public class BuildShipSceneController extends GuiController implements Initializ
     public void loadShipboardImage() {
         try {
             InputStream imageStream;
-            if(getGuiRoot().getShipBoardLevel()==1) {
+
+            int shipBoardLevel = getGuiRoot().getShipBoardLevel();
+            if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
+                GameView cachedGame = gameViewCache.getCachedGameView();
+                shipBoardLevel = cachedGame.getShipBoardLevel();
+            }
+            if(shipBoardLevel==1) {
                 imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
             }else{
                 imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
@@ -494,8 +501,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
             y=y-5;
 
             // Calcola le dimensioni e la posizione nella griglia
-            double cellWidth = shipboardImageView.getFitWidth() / 7.0; // Supponiamo 7 colonne
-            double cellHeight = shipboardImageView.getFitHeight() / 5.0; // Supponiamo 5 righe
+            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
+            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
 
             double posX = x * cellWidth;
             double posY = y * cellHeight;
@@ -511,25 +518,25 @@ public class BuildShipSceneController extends GuiController implements Initializ
             ImageView componentImageView = new ImageView(componentImage);
 
             // Dimensiona e posiziona l'immagine correttamente
-            componentImageView.setFitWidth(cellWidth * 0.8);
-            componentImageView.setFitHeight(cellHeight * 0.8);
+            componentImageView.setFitWidth(cellWidth * 0.94);
+            componentImageView.setFitHeight(cellHeight * 0.94);
             componentImageView.setPreserveRatio(true);
 
-            componentImageView.setX(posX + (cellWidth * 0.1));
-            componentImageView.setY(posY + (cellHeight * 0.1));
+            componentImageView.setX(posX + (cellWidth * 0.2));
+            componentImageView.setY(posY + (cellHeight * 0.2));
 
             switch (direction) {
                 case NORTH:
                     componentImageView.setRotate(0);
                     break;
                 case WEST:
-                    componentImageView.setRotate(-90); // 90 gradi a sinistra
+                    componentImageView.setRotate(-90);
                     break;
                 case EAST:
-                    componentImageView.setRotate(90);  // 90 gradi a destra
+                    componentImageView.setRotate(90);
                     break;
                 case SOUTH:
-                    componentImageView.setRotate(180); // 180 gradi
+                    componentImageView.setRotate(180);
                     break;
                 default:
                     componentImageView.setRotate(0);
@@ -683,6 +690,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
     public void onShowPlayer1Shipboard() {
         saveButtonStates();
         disableAllButtons();
+        showPlayer2ShipboardButton.setDisable(true);
+        showPlayer3ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
     }
 
@@ -690,6 +699,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
     public void onShowPlayer2Shipboard() {
         saveButtonStates();
         disableAllButtons();
+        showPlayer1ShipboardButton.setDisable(true);
+        showPlayer3ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
     }
 
@@ -697,6 +708,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
     public void onShowPlayer3Shipboard() {
         saveButtonStates();
         disableAllButtons();
+        showPlayer1ShipboardButton.setDisable(true);
+        showPlayer2ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
     }
 
@@ -706,6 +719,10 @@ public class BuildShipSceneController extends GuiController implements Initializ
         restoreButtonStates();
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
+
+        if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
+            updatePlayerShipboardButtons(gameViewCache.getCachedGameView());
+        }
         hideValidationMessage();
 
         // Ripristina la visibilità dei componenti prenotati
@@ -901,7 +918,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 }
             }
 
-            // Abilita/disabilita il pulsante pick booked
+
             boolean hasBookedComponents = (localBookedComponents[0] != null || localBookedComponents[1] != null);
             pickBookedButton.setDisable(!hasBookedComponents);
         });
@@ -925,8 +942,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
             x = x - 4;
             y = y - 5;
 
-            double cellWidth = shipboardImageView.getFitWidth() / 7.0;
-            double cellHeight = shipboardImageView.getFitHeight() / 5.0;
+            double cellWidth = shipboardImageView.getFitWidth() / 7.18;
+            double cellHeight = shipboardImageView.getFitHeight() / 4;
 
             double posX = x * cellWidth;
             double posY = y * cellHeight;
@@ -940,8 +957,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Image componentImage = new Image(imageStream);
             ImageView componentImageView = new ImageView(componentImage);
 
-            componentImageView.setFitWidth(cellWidth * 0.6);
-            componentImageView.setFitHeight(cellHeight * 0.6);
+            componentImageView.setFitWidth(cellWidth * 0.7);
+            componentImageView.setFitHeight(cellHeight * 0.7);
             componentImageView.setPreserveRatio(true);
 
             componentImageView.setX(posX + (cellWidth * 0.2));
@@ -979,7 +996,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         rotateRightButton.setDisable(true);
         placeComponentButton.setDisable(true);
         bookComponentButton.setDisable(true);
-
         pickComponentButton.setDisable(false);
 
         hideValidationMessage();

@@ -23,8 +23,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GUI extends UI {
 
-    //ToDo
-    //posizione migliore dei componenti sulla shipboard
     private final BlockingQueue<GameView> gameUpdatesQueue;
     private int numPlayers;
     private int shipboardLevel;

@@ -24,8 +24,7 @@
                                pickOnBounds="true" preserveRatio="true"/>
                 </VBox>
                 <!-- Container per navicella + componenti sovrapposti -->
-                <Pane fx:id="shipboardContainer">
-                    <ImageView fx:id="shipboardImageView" fitHeight="400.0" fitWidth="500.0" pickOnBounds="true"
+                <Pane fx:id="shipboardContainer" prefHeight="300.0" prefWidth="400.0" minHeight="300.0" minWidth="400.0" maxHeight="300.0" maxWidth="400.0">                    <ImageView fx:id="shipboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true"
                                preserveRatio="true"/>
                 </Pane>
 
