@@ -113,6 +113,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private List<Boolean> previousButtonStates;
     private ComponentsView[] localBookedComponents = new ComponentsView[2];
     private ImageView[] bookedComponentImages = new ImageView[2];
+    private boolean isViewingOtherPlayerShipboard = false;
     private String currentDisplayedPlayer;
 
     @Override
@@ -149,8 +150,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 placeComponentButton, pickDiscoveredButton, bookComponentButton, pickBookedButton
         );
 
-
-        // Disabilita i pulsanti che dipendono da un componente
         discardComponentButton.setDisable(true);
         rotateLeftButton.setDisable(true);
         rotateRightButton.setDisable(true);
@@ -181,7 +180,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             button.setDisable(true);
         }
     }
-    
+
     public void updateGui(GameView game) {
 
         if (gameViewCache == null) {
@@ -227,16 +226,14 @@ public class BuildShipSceneController extends GuiController implements Initializ
                     updateShipBoardGUI(differences.getNewShipboardComponents());
                 }
 
-                // Aggiorna i componenti scoperti a destra della navicella
-                if (!differences.getNewDiscoveredComponents().isEmpty()) {
-                    updateDiscoveredComponentsGUI(differences.getNewDiscoveredComponents());
-                }
-
                 if (differences.isCurrentTileChanged()) {
                     updateCurrentTileGUI(differences.getNewCurrentTile());
                 }
             });
         }
+
+        GameView cachedGame = gameViewCache.getCachedGameView();
+        updateDiscoveredComponentsGUI(cachedGame.getComponentsDiscovered());
     }
 
     private void updateCurrentTileGUI(ComponentsView currentTile) {
@@ -332,17 +329,14 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     private void updateDiscoveredComponentsGUI(List<ComponentsView> newDiscoveredComponents) {
         Platform.runLater(() -> {
-            // Mostra il pannello se ci sono componenti scoperti
+
             if (!newDiscoveredComponents.isEmpty()) {
                 discoveredComponentsPanel.setVisible(true);
-                pickDiscoveredButton.setDisable(false);
             }
 
-            // Ottieni tutti i componenti scoperti dalla cache
             GameView cachedGame = gameViewCache.getCachedGameView();
             List<ComponentsView> allDiscoveredComponents = cachedGame.getComponentsDiscovered();
 
-            // Rigenera tutto il pannello
             discoveredComponentsContainer.getChildren().clear();
 
             for (int i = 0; i < allDiscoveredComponents.size(); i++) {
@@ -590,8 +584,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         rotateLeftButton.setDisable(false);
         rotateRightButton.setDisable(false);
         placeComponentButton.setDisable(false);
-        pickDiscoveredButton.setDisable(true);
-
+        pickBookedButton.setDisable(true);
     }
 
     public void onDiscardComponentClick() throws RemoteException{
@@ -604,6 +597,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
         rotateRightButton.setDisable(true);
         placeComponentButton.setDisable(true);
         pickDiscoveredButton.setDisable(false);
+
+        boolean hasBookedComponents = (localBookedComponents[0] != null || localBookedComponents[1] != null);
+        pickBookedButton.setDisable(!hasBookedComponents);
     }
 
     public void onRotateLeftClick() throws RemoteException{
@@ -688,6 +684,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     @FXML
     public void onShowPlayer1Shipboard() {
+        isViewingOtherPlayerShipboard = true;
         saveButtonStates();
         disableAllButtons();
         showPlayer2ShipboardButton.setDisable(true);
@@ -697,6 +694,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     @FXML
     public void onShowPlayer2Shipboard() {
+        isViewingOtherPlayerShipboard = true;
         saveButtonStates();
         disableAllButtons();
         showPlayer1ShipboardButton.setDisable(true);
@@ -706,6 +704,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     @FXML
     public void onShowPlayer3Shipboard() {
+        isViewingOtherPlayerShipboard = true;
         saveButtonStates();
         disableAllButtons();
         showPlayer1ShipboardButton.setDisable(true);
@@ -715,6 +714,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     @FXML
     public void onShowOwnShipboard() {
+        isViewingOtherPlayerShipboard = false;
         showPlayerShipboard(getGuiRoot().getClient().getPlayerName());
         restoreButtonStates();
         showOwnShipboardButton.setDisable(true);
@@ -864,13 +864,13 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_discovered_tile", args);
             getGuiRoot().getClient().sendMessage(message);
 
-            // Aggiorna lo stato dei pulsanti
             pickComponentButton.setDisable(true);
             pickDiscoveredButton.setDisable(true);
             discardComponentButton.setDisable(false);
             rotateLeftButton.setDisable(false);
             rotateRightButton.setDisable(false);
             placeComponentButton.setDisable(false);
+            pickBookedButton.setDisable(true);
 
             discoveredIndexField.clear();
             hideValidationMessage();
@@ -909,7 +909,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                     bookedComponentImages[i] = null;
                 }
 
-                // Aggiorna il componente locale
                 if (serverBookedComponents != null && i < serverBookedComponents.length && serverBookedComponents[i] != null) {
                     localBookedComponents[i] = serverBookedComponents[i];
                     displayBookedComponent(localBookedComponents[i], i);
@@ -918,9 +917,18 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 }
             }
 
+            if(isViewingOtherPlayerShipboard) {
+                pickBookedButton.setDisable(true);
+            }else{
+                boolean hasCurrentTile=!discardComponentButton.isDisable();
+                boolean hasBookedComponents = (localBookedComponents[0] != null || localBookedComponents[1] != null);
 
-            boolean hasBookedComponents = (localBookedComponents[0] != null || localBookedComponents[1] != null);
-            pickBookedButton.setDisable(!hasBookedComponents);
+                if(hasCurrentTile) {
+                    pickBookedButton.setDisable(true);
+                }else{
+                    pickBookedButton.setDisable(!hasBookedComponents);
+                }
+            }
         });
     }
 
@@ -990,13 +998,18 @@ public class BuildShipSceneController extends GuiController implements Initializ
         Message message = getGuiRoot().getClient().getMessageGenerator().generate("book_tile", new ArrayList<>());
         getGuiRoot().getClient().sendMessage(message);
 
-        // Disabilita i pulsanti currentTile
+
         discardComponentButton.setDisable(true);
         rotateLeftButton.setDisable(true);
         rotateRightButton.setDisable(true);
         placeComponentButton.setDisable(true);
         bookComponentButton.setDisable(true);
         pickComponentButton.setDisable(false);
+
+        if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
+            List <ComponentsView> discoveredComponents = gameViewCache.getCachedGameView().getComponentsDiscovered();
+            pickDiscoveredButton.setDisable(discoveredComponents.isEmpty());
+        }
 
         hideValidationMessage();
     }
