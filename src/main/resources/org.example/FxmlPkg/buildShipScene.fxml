@@ -41,13 +41,13 @@
                     <Label text="View Other Players' Shipboards:" textFill="WHITE" style="-fx-font-weight: bold;"/>
                     <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard"
                             text="Show Player1's Shipboard" visible="false"
-                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
                     <Button fx:id="showPlayer2ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard"
                             text="Show Player2's Shipboard" visible="false"
-                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
                     <Button fx:id="showPlayer3ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard"
                             text="Show Player3's Shipboard" visible="false"
-                            style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 </HBox>
 
                 <!-- Messaggio del timer -->
@@ -92,13 +92,13 @@
             <!-- Book Component Button -->
             <Button fx:id="bookComponentButton" mnemonicParsing="false" onAction="#onBookComponentClick"
                     prefWidth="150.0" text="Book Component"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    style="-fx-background-color: #21f3a3; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
             <!-- Pick Booked Component Button -->
             <VBox spacing="5.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 5;">
                 <Label text="Pick Booked" textFill="WHITE" style="-fx-font-weight: bold; -fx-font-size: 12px;"/>
                 <HBox spacing="5.0" alignment="CENTER">
-                    <TextField fx:id="bookedIndexField" prefWidth="40.0" promptText="0 or 1"/>
+                    <TextField fx:id="bookedIndexField" prefWidth="40.0" promptText="0/1"/>
                     <Button fx:id="pickBookedButton" mnemonicParsing="false" onAction="#onPickBookedClick"
                             prefWidth="80.0" text="Pick"
                             style="-fx-background-color: #795548; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px;"/>

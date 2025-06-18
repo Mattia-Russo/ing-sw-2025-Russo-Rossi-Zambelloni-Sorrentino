@@ -157,6 +157,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
         pickDiscoveredButton.setDisable(true);
+        bookComponentButton.setDisable(true);
 
         turnTimerButton.setVisible(false);
         turnTimerButton.setDisable(true);
@@ -322,6 +323,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private void updateShipBoardGUI(List<ComponentsView> newComponents) {
         for (ComponentsView component : newComponents) {
             placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+
+            Points p = new Points(component.getPosX(), component.getPosY());
+            if(!occupiedCells.contains(p)){
+              occupiedCells.add(p);
+            }
         }
 
         updateBookedComponentsDisplay();
@@ -633,12 +639,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
             pickBookedButton.setDisable(false);
             pickDiscoveredButton.setDisable(false);
 
-            Points p = new Points(x, y);
-            occupiedCells.add(p);
-
             hideValidationMessage();
 
             clearCurrentTileFromGUI();
+
+            xPositionField.clear();
+            yPositionField.clear();
 
         }else{
             showValidationError("Please, insert valid inputs for X and Y");
@@ -1042,20 +1048,16 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_booked_tile", args);
             getGuiRoot().getClient().sendMessage(message);
 
-            // Rimuovi l'immagine dalla shipboard
             if (bookedComponentImages[index] != null) {
                 Platform.runLater(() -> {
                     shipboardContainer.getChildren().remove(bookedComponentImages[index]);
                     bookedComponentImages[index] = null;
                     localBookedComponents[index] = null;
 
-                    // Disabilita il pulsante se non ci sono più componenti prenotati
-                    boolean hasBookedComponents = (localBookedComponents[0] != null || localBookedComponents[1] != null);
-                    pickBookedButton.setDisable(!hasBookedComponents);
+                    pickBookedButton.setDisable(true);
                 });
             }
 
-            // Aggiorna lo stato dei pulsanti
             pickComponentButton.setDisable(true);
             pickDiscoveredButton.setDisable(true);
             pickBookedButton.setDisable(true);
