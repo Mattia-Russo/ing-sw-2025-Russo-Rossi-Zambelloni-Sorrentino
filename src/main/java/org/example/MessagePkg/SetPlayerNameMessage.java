@@ -18,6 +18,9 @@ public class SetPlayerNameMessage extends Message{
             if (controller.checkName(this.playerName, getServer())){
                 getHandler().setPlayerName(this.playerName);
                 getHandler().setGameUpdater();
+                if(controller.getFileLoaded()){
+                    controller.addGameUpdater(getServer().getGameUpdater(getHandler().getPlayerName()), getHandler().getPlayerName());
+                }
             } else {
                 getHandler().notifyNameAlreadyUsed();
             }

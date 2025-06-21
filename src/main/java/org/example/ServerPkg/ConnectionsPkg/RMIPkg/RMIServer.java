@@ -81,6 +81,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         }
         clients.put(client, System.currentTimeMillis());
         setGameUpdater(client);
+        if(controller.getFileLoaded()){
+            controller.addGameUpdater(getGameUpdater(client.getPlayerName()), client.getPlayerName());
+        }
         System.out.println(client.getPlayerName() + " subscribed");
     }
 

@@ -21,7 +21,7 @@ public class GameController implements Serializable{
     private Game game;
     private LobbyState lobbyState;
     private final BlockingQueue<Message> messageQueue;
-    private transient final Map<String, GameUpdater> gameUpdaters;
+    private transient Map<String, GameUpdater> gameUpdaters;
     private transient Map<String, Server> nameUsed;
     private boolean fileLoaded;
 
@@ -167,6 +167,9 @@ public class GameController implements Serializable{
 
     public void addGameUpdater(GameUpdater gameUpdater, String name) {
         this.gameUpdaters.put(name, gameUpdater);
+        if(fileLoaded){
+            game.setGameUpdaters(gameUpdaters);
+        }
     }
 
     public void saveGame(String path){
@@ -187,6 +190,8 @@ public class GameController implements Serializable{
     public void setGame() {
         fileLoaded = true;
         nameUsed = new HashMap<>();
+        gameUpdaters = new HashMap<>();
+        startMessageProcessing();
         new GameSaver(this);
     }
 
