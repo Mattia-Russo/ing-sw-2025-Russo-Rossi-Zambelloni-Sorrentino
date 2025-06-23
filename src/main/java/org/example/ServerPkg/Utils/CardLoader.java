@@ -33,11 +33,6 @@ public class CardLoader {
             Collections.shuffle(level2);
             Collections.shuffle(level1);
 
-            // Verify we have enough cards
-            if (level2.size() < 8 || level1.size() < 4) {
-                throw new IllegalStateException("Insufficient cards for pattern (need 8 L2 and 4 L1)");
-            }
-
             // Build 2-2-1 pattern
             List<AdventureCard> deck = new ArrayList<>(12);
             for (int cycle = 0; cycle < 4; cycle++) {
@@ -63,7 +58,7 @@ public class CardLoader {
                     .collect(Collectors.toList());
 
             Collections.shuffle(filtered);
-            return filtered.subList(0, Math.min(8, filtered.size()));
+            return filtered;
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to load filtered cards", e);

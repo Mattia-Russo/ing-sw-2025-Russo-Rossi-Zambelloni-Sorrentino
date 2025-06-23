@@ -130,8 +130,8 @@ public class MeteorCardTest extends TestCase {
         Game g=new Game(2, 2, 1, new GameController());
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
-        p1.opShip();
-        p2.opShip();
+        p1.opShip(g);
+        p2.opShip(g);
         Meteor meteor1=new Meteor(1,  Direction.NORTH);
         Meteor meteor2=new Meteor(1, Direction.NORTH);
         Meteor meteor3=new Meteor(0, Direction.SOUTH);

@@ -105,8 +105,8 @@ public class AbandonedStationTest extends TestCase {
         Game g=new Game(2, 2, 1, new GameController());
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
-        p1.opShip();
-        p2.opShip();
+        p1.opShip(g);
+        p2.opShip(g);
         p1.getPlayerShipBoard().getComponent(6,8).isCabin().addAlien(new Alien(AlienColour.BROWN), p1.getPlayerShipBoard());
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.GREEN);

@@ -26,8 +26,8 @@ public class ChangeGoodsStateTest extends TestCase {
         Game g=new Game(2, 2, 1, new GameController());
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
-        p1.opShip();
-        p2.opShip();
+        p1.opShip(g);
+        p2.opShip(g);
         Goods[] goods1 = new Goods[3];
         goods1[0] = new Goods(GoodsColour.RED);
         goods1[1] = new Goods(GoodsColour.YELLOW);

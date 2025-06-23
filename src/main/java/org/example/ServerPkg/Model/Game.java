@@ -34,14 +34,17 @@ public class Game implements Serializable {
     public Game(int numPlayer, int ShipBoardLevel, int gameMode, GameController gameController) {
         this.numPlayer = numPlayer;
         this.gameMode = gameMode;
-        this.ShipBoardLevel = ShipBoardLevel;
+        if(gameMode==0){
+            this.ShipBoardLevel = 1;
+        }else
+            this.ShipBoardLevel = ShipBoardLevel;
         this.controller = gameController;
         this.discoveredComponents = new ArrayList<>();
         this.timerTurned = 0;
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
-            Set<String> desiredTypes = Set.of("ABANDONEDSHIP", "ABANDONEDSTATION", "PLANETSCARD", "SMUGGLERS", "OPENSPACE", "METEORCARD", "STARDUST", "WARZONE");
+            Set<String> desiredTypes = Set.of("WARZONE"); //"ABANDONEDSHIP", "ABANDONEDSTATION", "PLANETSCARD", "SMUGGLERS", "OPENSPACE", "METEORCARD", "STARDUST",
             this.deck = CardLoader.loadFilteredRandomCards(desiredTypes);
         }
         this.currentCard = null;

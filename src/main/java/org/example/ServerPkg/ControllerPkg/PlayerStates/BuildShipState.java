@@ -137,10 +137,10 @@ public class BuildShipState extends PlayerState implements Serializable {
     @Override
     public void endBuildShip(Player player){
         if(!player.getShipBuilt()){
-            player.setShipBuilt();
             if(getGame().getGameMode()==0) {
                 setPosition(player);
             }
+            player.setShipBuilt();
             new GameView(getGame(), new Exception("SHIP BUILD STATE ENDED FOR " + player.getName()));
         }
         for(Player p : getGame().getPlayers()){

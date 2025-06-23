@@ -211,9 +211,9 @@ public class PlayerTest extends TestCase {
 
     public void testCheckShip() {
         Player p = new Player( "a", null);
-        new Game(2, 2,1, new GameController());
+        Game g=new Game(2, 2,1, new GameController());
         p.setPlayerShipboard(2);
-        p.opShip();
+        p.opShip(g);
         /*ShipBoard sp1= p.getPlayerShipBoard();
         Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Storage s11 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, 3);
