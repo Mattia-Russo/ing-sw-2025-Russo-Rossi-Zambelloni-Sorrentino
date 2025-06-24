@@ -117,10 +117,15 @@ public class GameController implements Serializable{
     }
 
     private void addNewPlayer(String name){
+        for(Player player : game.getPlayers()) {
+            if(player.getName().equals(name)) {
+                throw new InvalidAddPlayerException("You are already in the game");
+            }
+        }
         if (game.getPlayers().size() < game.getNumPlayer()) {
             Player p = new Player(name, game);
             game.getPlayers().add(p);
-        } else throw new InvalidAddPlayerException("can't add any more players");
+        } else new GameView(game, new InvalidAddPlayerException("can't add any more players"));
     }
 
     public void joinLobby(String name){
