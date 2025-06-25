@@ -511,7 +511,7 @@
   {
     "cardname": "WARZONE",
     "id": 32,
-    "cardLevel": 1,
+    "cardLevel": 2,
     "lostDays": 4,
     "img": "/org.example/cards/GT-cards_II_IT_0116.jpg",
     "numAstronauts": 0,

@@ -59,19 +59,23 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     @Override
     public void endChangeGoods(Player player){
         getGame().getCurrentCard().setChangeGoodsFlag(false);
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         getGame().getCurrentCard().playCard(getGame(), 0); // 0 è messo a caso, viene ignorato in questo caso
     }
 
     @Override
     public void AbandonGame(Player player){
         player.abandon(getGame());
-        endChangeGoods(null);
+        endChangeGoods(player);
     }
   
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
-        endChangeGoods(null);
+        disconnectingPlayer.abandon(getGame());
+        endChangeGoods(disconnectingPlayer);
     }
 
 }

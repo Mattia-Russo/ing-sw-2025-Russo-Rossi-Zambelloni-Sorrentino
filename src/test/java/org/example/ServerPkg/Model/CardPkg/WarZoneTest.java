@@ -1,11 +1,13 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
+import org.example.MessagePkg.CreateLobbyMessage;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
+import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
 
 import java.util.ArrayList;
@@ -164,5 +166,29 @@ public class WarZoneTest extends TestCase {
 
         c.setCardState(g);
         assertTrue(p1.getState() instanceof RemoveAstronautsState);
+    }
+
+    public void testWarZone(){
+        Player p1 = new Player("Giacomo", null);
+        Player p2 = new Player("Mattia", null);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p1);
+        players.add(p2);
+        GameController c =  new GameController();
+        Game g =new Game(2, 1, 0, c);
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
+        p1.opShip(g);
+        p2.opShip(g);
+        g.Turn();
+        p2.getState().endActivateEngines(p2);
+        p1.getState().endActivateEngines(p1);
+        Points p = new Points(8,7);
+        p2.getState().removeAstronauts(p, p2);
+        p2.getState().removeAstronauts(p, p2);
+        p2.getState().endRemoveAstronauts(p2);
+        p2.getState().endActivateCannons(p2);
+        p1.getState().endActivateCannons(p1);
+        p2.getState().endActivateShields(p2);
     }
 }

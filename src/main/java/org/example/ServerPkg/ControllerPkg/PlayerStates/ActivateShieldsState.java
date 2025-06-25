@@ -35,15 +35,19 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
     }
 
     public void endActivateShields(Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         getGame().getCurrentCard().playCard(getGame(), shields, batteries);
     }
 
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
+        disconnectingPlayer.abandon(getGame());
         shields=null;
         batteries=null;
-        endActivateShields(null);
+        endActivateShields(disconnectingPlayer);
     }
 
     @Override
@@ -51,6 +55,6 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
         batteries = null;
         shields = null;
         player.abandon(getGame());
-        endActivateShields(null);
+        endActivateShields(player);
     }
 }

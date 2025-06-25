@@ -36,6 +36,9 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
     }
 
     public void endActivateEngines(Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         getGame().getCurrentCard().playCard(getGame(), engines, batteries);
     }
 
@@ -44,14 +47,15 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
         batteries = null;
         engines = null;
         player.abandon(getGame());
-        endActivateEngines(null);
+        endActivateEngines(player);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
+        disconnectingPlayer.abandon(getGame());
         engines =null;
         batteries =null;
-        endActivateEngines(null);
+        endActivateEngines(disconnectingPlayer);
     }
 }
