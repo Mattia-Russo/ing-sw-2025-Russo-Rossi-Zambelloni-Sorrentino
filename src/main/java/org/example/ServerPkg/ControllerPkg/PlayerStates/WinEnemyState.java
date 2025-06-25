@@ -12,6 +12,9 @@ public class WinEnemyState extends PlayerState implements Serializable {
 
     @Override
     public void acceptReward(boolean accept, Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         getGame().getCurrentCard().setAccept(accept);
         getGame().getCurrentCard().playCard(getGame());
     }
@@ -19,12 +22,13 @@ public class WinEnemyState extends PlayerState implements Serializable {
     @Override
     public void AbandonGame(Player player){
         player.abandon(getGame());
-        acceptReward(false, null);
+        acceptReward(false, player);
     }
   
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
-        acceptReward(false, null);    // se abbandona consideriamo come se rifiutasse
+        disconnectingPlayer.abandon(getGame());
+        acceptReward(false, disconnectingPlayer);    // se abbandona consideriamo come se rifiutasse
     }
 }

@@ -44,7 +44,7 @@ public class Game implements Serializable {
         if(gameMode == 1) {
             this.deck = CardLoader.loadPatternDeck();
         }else{
-            Set<String> desiredTypes = Set.of("WARZONE"); //"ABANDONEDSHIP", "ABANDONEDSTATION", "PLANETSCARD", "SMUGGLERS", "OPENSPACE", "METEORCARD", "STARDUST",
+            Set<String> desiredTypes = Set.of("ABANDONEDSHIP", "ABANDONEDSTATION", "PLANETSCARD", "SMUGGLERS", "OPENSPACE", "METEORCARD", "STARDUST","WARZONE");
             this.deck = CardLoader.loadFilteredRandomCards(desiredTypes);
         }
         this.currentCard = null;
@@ -220,9 +220,6 @@ public class Game implements Serializable {
         }
         for (Player p : bestShips) {    // aggiungi crediti in base alla nave con meno connettori esposti
             p.changeCredits(2);
-        }
-        for(Player p : players) {
-            System.out.println("Player " + p.getName() + " has " + p.getNumCredits() + " credits");
         }
     }
 

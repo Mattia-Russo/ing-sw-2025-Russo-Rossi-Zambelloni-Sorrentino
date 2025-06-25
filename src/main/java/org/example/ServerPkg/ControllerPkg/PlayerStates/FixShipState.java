@@ -32,6 +32,9 @@ public class FixShipState extends PlayerState implements Serializable {
     @Override
     public void endFixShip(Player player){
         player.setShipOK(true);
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         getGame().checkAllPlayersShip();
     }
 
@@ -119,6 +122,7 @@ public class FixShipState extends PlayerState implements Serializable {
             }
         }
         getGame().disconnectPlayer(p);
+        p.abandon(getGame());
         endFixShip(p);
     }
 }

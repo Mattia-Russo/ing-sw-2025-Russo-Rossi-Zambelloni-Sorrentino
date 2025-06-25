@@ -91,6 +91,7 @@ public class AddAlienState extends PlayerState implements Serializable {
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
+        disconnectingPlayer.abandon(getGame());
         endAlienState(disconnectingPlayer);
     }
 }

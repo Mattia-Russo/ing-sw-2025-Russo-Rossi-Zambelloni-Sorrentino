@@ -13,6 +13,9 @@ public class LandOnAbandonState extends PlayerState implements Serializable {
     // landed true vuol dire che è atterrato
     @Override
     public void landOnAbandon(boolean landed, Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         if(landed){
             getGame().getCurrentCard().playCard(getGame());
         } else {
@@ -23,12 +26,13 @@ public class LandOnAbandonState extends PlayerState implements Serializable {
     @Override
     public void AbandonGame(Player player){
         player.abandon(getGame());
-        landOnAbandon(false, null);
+        landOnAbandon(false, player);
     }
     
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
-        landOnAbandon(false, null);
+        disconnectingPlayer.abandon(getGame());
+        landOnAbandon(false, disconnectingPlayer);
     }
 }
