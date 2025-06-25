@@ -43,9 +43,16 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
 
     @Override
     public void endRemoveAstronauts(Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
+
         if(astronautsRemoved < getGame().getCurrentCard().getNumAstronauts()){
             new GameView(getGame(), new NotEnoughAstronautsRemovedException("Cannot end this phase, you need to remove more astronauts " + player.getName()));
         } else {
+            if(!player.isAbandoned()) {
+                player.setPlayerState(new WaitingState(getGame()));
+            }
             getGame().getCurrentCard().setCardState(getGame());
         }
     }
@@ -55,16 +62,16 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
         removeLeftAstronauts(player, getGame());
         new GameView(getGame(), null);
         player.abandon(getGame());
-        endRemoveAstronauts(null);
+        endRemoveAstronauts(player);
     }
 
     @Override
     public void disconnect(Player p){
-        // rimuovere noi gli astronauti
         removeLeftAstronauts(p, getGame());
         getGame().disconnectPlayer(p);
+        p.abandon(getGame());
         new GameView(getGame(), null);
-        endRemoveAstronauts(null);
+        endRemoveAstronauts(p);
     }
 
     private void removeLeftAstronauts(Player p, Game game) {

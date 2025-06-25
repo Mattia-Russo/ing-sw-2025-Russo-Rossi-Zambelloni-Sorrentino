@@ -80,6 +80,9 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
 
     @Override
     public void endRemoveBestGoods(Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         if(goodsRemoved + batteriesRemoved < getGame().getCurrentCard().getNumGoodsLose()){
             new GameView(getGame(), new NotEnoughBestGoodsRemovedException("Cannot end this phase, need to remove more goods " + player.getName()));
         } else {
@@ -92,7 +95,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
         removeBestGoodsLeft(player, getGame());
         new GameView(getGame(), null);
         player.abandon(getGame());
-        endRemoveBestGoods(null);
+        endRemoveBestGoods(player);
     }
 
     @Override
@@ -100,7 +103,8 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
         // rimuovere noi i good migliori
         removeBestGoodsLeft(p, getGame());
         getGame().disconnectPlayer(p);
-        endRemoveBestGoods(null);
+        p.abandon(getGame());
+        endRemoveBestGoods(p);
     }
 
     private void removeBestGoodsLeft(Player player, Game game) {

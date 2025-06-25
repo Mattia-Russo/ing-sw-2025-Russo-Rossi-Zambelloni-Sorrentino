@@ -40,6 +40,9 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
 
     @Override
     public void endActivateCannons(Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
         getGame().getCurrentCard().playCard(getGame(), cannons, batteries);
     }
 
@@ -48,15 +51,16 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
         batteries = null;
         cannons = null;
         player.abandon(getGame());
-        endActivateCannons(null);
+        endActivateCannons(player);
     }
 
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
+        disconnectingPlayer.abandon(getGame());
         cannons=null;
         batteries=null;
-        endActivateCannons(null);
+        endActivateCannons(disconnectingPlayer);
     }
 
 }

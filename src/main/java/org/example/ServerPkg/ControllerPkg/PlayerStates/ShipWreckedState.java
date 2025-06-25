@@ -97,7 +97,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
         assert c != null;
         chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);    // scegliamo noi un pezzo
         getGame().disconnectPlayer(disconnectingPlayer);
-
+        disconnectingPlayer.abandon(getGame());
         autoFix(player);
     }
 }

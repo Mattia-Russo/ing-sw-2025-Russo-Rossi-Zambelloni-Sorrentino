@@ -14,14 +14,17 @@ public class LandOnPlanetsState extends PlayerState implements Serializable {
 
     @Override
     public void landOnPlanet(boolean landed, int numPlanet, Player player){
+        if(!player.isAbandoned()) {
+            player.setPlayerState(new WaitingState(getGame()));
+        }
+
         if(landed){
             if(getGame().getCurrentCard().getPlanetsVisited()[numPlanet]){
-               new GameView(getGame(), new PlanetAlreadyVisitedException("Planet " + numPlanet + " already visited, choose another one " + player.getName()));
+                new GameView(getGame(), new PlanetAlreadyVisitedException("Planet " + numPlanet + " already visited, choose another one " + player.getName()));
             } else {
                 getGame().getCurrentCard().playCard(getGame(), numPlanet);
             }
         } else {
-            player.setPlayerState(new WaitingState(getGame()));
             getGame().getCurrentCard().setCardState(getGame());
         }
     }
@@ -29,13 +32,14 @@ public class LandOnPlanetsState extends PlayerState implements Serializable {
     @Override
     public void AbandonGame(Player player){
         player.abandon(getGame());
-        landOnPlanet(false, 0, null);
+        landOnPlanet(false, 0, player);
     }
   
     @Override
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer(disconnectingPlayer);
-        landOnPlanet(false, 0, null);
+        disconnectingPlayer.abandon(getGame());
+        landOnPlanet(false, 0, disconnectingPlayer);
     }
 
 }

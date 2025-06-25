@@ -148,6 +148,7 @@ public class BuildShipState extends PlayerState implements Serializable {
                 if (!p.getShipBuilt()) {
                     return;
                 }
+                p.setPlayerState(new WaitingState(getGame()));
             }
         }
         getGame().checkAllPlayersShip();
@@ -190,6 +191,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     public void disconnect(Player disconnectingPlayer){
         getGame().disconnectPlayer( disconnectingPlayer);
         setPosition(disconnectingPlayer);
+        disconnectingPlayer.abandon(getGame());
         endBuildShip(disconnectingPlayer);
     }
 }
