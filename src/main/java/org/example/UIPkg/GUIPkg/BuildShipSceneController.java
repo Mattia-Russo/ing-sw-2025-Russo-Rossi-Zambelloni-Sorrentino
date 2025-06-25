@@ -187,7 +187,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         if (gameViewCache == null) {
             gameViewCache = new GameViewCache(getGuiRoot().getClient().getPlayerName());
 
-            // Imposta la visibilità del pulsante turn timer solo la prima volta
             Platform.runLater(() -> {
                 boolean timerEnabled = (game.getGameMode() != 0);
                 turnTimerButton.setVisible(timerEnabled);
@@ -200,7 +199,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 timerMessage.setText(game.getException().getMessage());
                 timerMessage.setVisible(true);
 
-                // Nascondere il messaggio dopo 30 secondi
                 new Thread(() -> {
                     try {
                         Thread.sleep(30000);
@@ -211,18 +209,13 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 }).start();
             });
 
-            // Se c'è un'eccezione, non aggiornare il resto della GUI
-            // per evitare problemi con dati incompleti
             return;
         }
 
-        // Confronta la nuova GameView con quella cached
         GameViewCache.GameViewDifferences differences = gameViewCache.compareAndUpdate(game);
 
-        // Se ci sono differenze, aggiorna la GUI
         if (differences.hasChanges()) {
             Platform.runLater(() -> {
-                // Aggiorna la shipboard con i nuovi componenti del giocatore
                 if (!differences.getNewShipboardComponents().isEmpty()) {
                     updateShipBoardGUI(differences.getNewShipboardComponents());
                 }
@@ -267,7 +260,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     private void displayCurrentTileOnGUI(ComponentsView currentTile) {
         try {
-            // Cerca il JSON del componente
             JSONObject componentJson = findComponentJsonById(String.valueOf(currentTile.getId()));
             if (componentJson == null) {
                 System.err.println("CurrentTile con ID " + currentTile.getId() + " non trovato nel JSON.");
@@ -276,28 +268,24 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             String imagePath = componentJson.getString("img");
 
-            // Crea l'immagine dal path
             Image image = new Image(getClass().getResourceAsStream(imagePath));
 
-            // Imposta l'immagine nell'ImageView del componente corrente
             currentComponentImageView.setImage(image);
 
-            // Ottieni la direzione del componente e applica la rotazione
             Direction direction = currentTile.getDirection();
 
-            // Applica la rotazione in base alla direzione
             switch (direction) {
                 case NORTH:
                     currentComponentImageView.setRotate(0);
                     break;
                 case WEST:
-                    currentComponentImageView.setRotate(-90); // 90 gradi a sinistra
+                    currentComponentImageView.setRotate(-90);
                     break;
                 case EAST:
-                    currentComponentImageView.setRotate(90);  // 90 gradi a destra
+                    currentComponentImageView.setRotate(90);
                     break;
                 case SOUTH:
-                    currentComponentImageView.setRotate(180); // 180 gradi
+                    currentComponentImageView.setRotate(180);
                     break;
                 default:
                     currentComponentImageView.setRotate(0);
@@ -363,7 +351,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             String imagePath = componentJson.getString("img");
 
-            // Crea l'immagine del componente
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
             if (imageStream == null) {
                 System.err.println("Immagine non trovata: " + imagePath);
@@ -373,22 +360,18 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Image componentImage = new Image(imageStream);
             ImageView componentImageView = new ImageView(componentImage);
 
-            // Dimensiona l'immagine
             componentImageView.setFitWidth(60);
             componentImageView.setFitHeight(60);
             componentImageView.setPreserveRatio(true);
 
-            // Crea la label con l'indice
             Label indexLabel = new Label(String.valueOf(index));
             indexLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; " +
                     "-fx-background-color: #333; -fx-padding: 2; -fx-border-radius: 3;");
 
-            // Container per immagine + indice
             VBox componentContainer = new VBox(5);
             componentContainer.setAlignment(javafx.geometry.Pos.CENTER);
             componentContainer.getChildren().addAll(componentImageView, indexLabel);
 
-            // Aggiungi al pannello principale
             discoveredComponentsContainer.getChildren().add(componentContainer);
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiunta del componente scoperto: " + e.getMessage());
@@ -398,7 +381,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     private void placeComponentOnShipboard(ComponentsView component, int x, int y) {
         try {
-            // Cerca il JSON del componente con l'ID corrispondente
             JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
 
             if (componentJson == null) {
@@ -406,7 +388,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 return;
             }
 
-            // Recupera il percorso dell'immagine dal JSON
             String imagePath = componentJson.getString("img");
             Direction direction = component.getDirection();
 
@@ -418,7 +399,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
     }
 
     private void setupFieldValidation() {
-        // Imposta i campi X e Y per accettare solo numeri
         xPositionField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 xPositionField.setText(newValue.replaceAll("\\D", ""));
@@ -482,11 +462,10 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             JSONArray jsonArray = new JSONArray(new JSONTokener(is));
 
-            // Cerca il componente con l'ID corrispondente nel JSON
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject json = jsonArray.getJSONObject(i);
                 if (String.valueOf(json.getInt("id")).equals(componentId)) {
-                    return json; // Restituisce il componente trovato
+                    return json;
                 }
             }
         } catch (Exception e) {
@@ -500,14 +479,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
             x=x-4;
             y=y-5;
 
-            // Calcola le dimensioni e la posizione nella griglia
             double cellWidth = shipboardImageView.getFitWidth() / 7.32;
             double cellHeight = shipboardImageView.getFitHeight() / 5.52;
 
             double posX = x * cellWidth;
             double posY = y * cellHeight;
 
-            // Carica l'immagine
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
             if (imageStream == null) {
                 System.err.println("Immagine non trovata nel percorso: " + imagePath);
@@ -517,7 +494,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             Image componentImage = new Image(imageStream);
             ImageView componentImageView = new ImageView(componentImage);
 
-            // Dimensiona e posiziona l'immagine correttamente
             componentImageView.setFitWidth(cellWidth * 0.94);
             componentImageView.setFitHeight(cellHeight * 0.94);
             componentImageView.setPreserveRatio(true);
@@ -731,7 +707,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         }
         hideValidationMessage();
 
-        // Ripristina la visibilità dei componenti prenotati
         Platform.runLater(() -> {
             for (int i = 0; i < bookedComponentImages.length; i++) {
                 if (bookedComponentImages[i] != null) {
@@ -754,14 +729,10 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         GameView cachedGame = gameViewCache.getCachedGameView();
 
-        // Se la GameView cached contiene un'eccezione, usa l'ultima GameView valida
-        // per evitare errori di "player not found"
         if (cachedGame.getException() != null) {
-            // Non fare nulla, mantieni la visualizzazione corrente
             return;
         }
 
-        // Verifica che ci siano giocatori nella GameView
         if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
             System.err.println("Lista giocatori vuota nella GameView cached");
             return;
@@ -778,7 +749,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         if (targetPlayer == null) {
             System.err.println("Giocatore " + playerName + " non trovato nella GameView corrente");
-            // Non mostrare errore all'utente se è una GameView con eccezione
             if (cachedGame.getException() == null) {
                 showValidationError("Player " + playerName + " not found");
             }
@@ -855,7 +825,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         try {
             int index = Integer.parseInt(indexText);
 
-            // Verifica che l'indice sia valido
             if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
                 List<ComponentsView> discoveredComponents = gameViewCache.getCachedGameView().getComponentsDiscovered();
                 if (index < 0 || index >= discoveredComponents.size()) {
@@ -864,7 +833,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 }
             }
 
-            // Invia il messaggio al server
             List<String> args = new ArrayList<>();
             args.add(indexText);
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_discovered_tile", args);
@@ -909,7 +877,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         Platform.runLater(() -> {
             for (int i = 0; i < 2; i++) {
-                // Rimuovi l'immagine precedente se esiste
                 if (bookedComponentImages[i] != null) {
                     shipboardContainer.getChildren().remove(bookedComponentImages[i]);
                     bookedComponentImages[i] = null;
@@ -948,11 +915,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             String imagePath = componentJson.getString("img");
 
-            // Posizioni fisse per i componenti prenotati
             int x = (index == 0) ? 9 : 10;
             int y = 5;
 
-            // Converti le coordinate per la visualizzazione
             x = x - 4;
             y = y - 5;
 
@@ -978,7 +943,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             componentImageView.setX(posX + (cellWidth * 0.2));
             componentImageView.setY(posY + (cellHeight * 0.2));
 
-            // Applica la rotazione
             Direction direction = component.getDirection();
             switch (direction) {
                 case NORTH: componentImageView.setRotate(0); break;
@@ -988,7 +952,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 default: componentImageView.setRotate(0); break;
             }
 
-            // Aggiungi un bordo per distinguere i componenti prenotati
             componentImageView.setStyle("-fx-effect: dropshadow(gaussian, orange, 3, 0.7, 0, 0);");
 
             bookedComponentImages[index] = componentImageView;
@@ -1016,7 +979,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             List <ComponentsView> discoveredComponents = gameViewCache.getCachedGameView().getComponentsDiscovered();
             pickDiscoveredButton.setDisable(discoveredComponents.isEmpty());
         }
-
         hideValidationMessage();
     }
 
@@ -1042,7 +1004,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 return;
             }
 
-            // Invia il messaggio al server
             List<String> args = new ArrayList<>();
             args.add(indexText);
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("pick_booked_tile", args);
