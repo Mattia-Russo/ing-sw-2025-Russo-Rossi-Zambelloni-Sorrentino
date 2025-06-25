@@ -103,6 +103,9 @@ public class AddAlienSceneController extends GuiController implements Initializa
         setupFieldValidation();
         validationMessage.setVisible(false);
         statusMessage.setText("Add aliens to your shipboard");
+
+        showOwnShipboardButton.setDisable(true);
+        showOwnShipboardButton.setVisible(false);
     }
 
     private void setupUI() {

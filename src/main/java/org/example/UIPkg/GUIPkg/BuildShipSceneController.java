@@ -722,6 +722,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer2ShipboardButton.setDisable(true);
         showPlayer3ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
+        showPlayer1ShipboardButton.setDisable(true);
     }
 
     @FXML
@@ -732,6 +733,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer1ShipboardButton.setDisable(true);
         showPlayer3ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
+        showPlayer2ShipboardButton.setDisable(true);
     }
 
     @FXML
@@ -742,6 +744,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer1ShipboardButton.setDisable(true);
         showPlayer2ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
+        showPlayer3ShipboardButton.setDisable(true);
     }
 
     @FXML
@@ -751,6 +754,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
         restoreButtonStates();
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer2ShipboardButton.setDisable(true);
+        showPlayer3ShipboardButton.setDisable(true);
 
         if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
             updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
