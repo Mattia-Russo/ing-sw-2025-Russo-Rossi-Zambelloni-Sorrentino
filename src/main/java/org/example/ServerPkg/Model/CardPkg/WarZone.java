@@ -64,6 +64,7 @@ public class WarZone extends AdventureCard implements Serializable {
                
                remove_astronauts x y -> x,y are the coordinates of the component where you want to remove the astronauts
                remove_best_good x y -> x,y are the coordinates of the component where you want to remove the goods
+               remove_batteries x y -> x,y are the coordinates of the battery storage where you want to remove the battery
                end_remove_best_goods -> if you want to end the remove best goods phase
                end_remove_astronauts -> if you want to end the remove astronauts phase
                
