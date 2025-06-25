@@ -8,10 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
@@ -25,6 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.List;
 
@@ -75,6 +73,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private Button showPlayer2ShipboardButton;
 
     @FXML
+    private Button endBuildShipButton;
+
+    @FXML
     private Button showPlayer3ShipboardButton;
 
     @FXML
@@ -107,19 +108,16 @@ public class BuildShipSceneController extends GuiController implements Initializ
     @FXML
     private Label timerMessage;
 
-    private GameViewCache gameViewCache;
     private List<Points> occupiedCells;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
     private ComponentsView[] localBookedComponents = new ComponentsView[2];
     private ImageView[] bookedComponentImages = new ImageView[2];
     private boolean isViewingOtherPlayerShipboard = false;
-    private String currentDisplayedPlayer;
 
     @Override
     public void setGui(GUI guiRoot) {
         super.setGui(guiRoot);
-        this.gameViewCache = null;
     }
 
     @Override
@@ -130,8 +128,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
         occupiedCells = new ArrayList<>();
         localBookedComponents = new ComponentsView[2];
         bookedComponentImages = new ImageView[2];
+    }
 
-        //Platform.runLater(this::loadShipboardImage);
+    public void setUp(GameView game){
+        updateGui(game);
+        loadShipboardImage();
     }
 
     private void setupUI() {
@@ -143,7 +144,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 stage.setResizable(true);
             }
         });
-        this.gameViewCache = null;
+        endBuildShipButton.setDisable(false);
 
         allButtons = List.of(
                 pickComponentButton, discardComponentButton, rotateLeftButton, rotateRightButton,
@@ -184,8 +185,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     public void updateGui(GameView game) {
 
-        if (gameViewCache == null) {
-            gameViewCache = new GameViewCache(getGuiRoot().getClient().getPlayerName());
+        if (getGuiRoot().getGameCache() == null) {
+
 
             // Imposta la visibilità del pulsante turn timer solo la prima volta
             Platform.runLater(() -> {
@@ -217,7 +218,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         }
 
         // Confronta la nuova GameView con quella cached
-        GameViewCache.GameViewDifferences differences = gameViewCache.compareAndUpdate(game);
+        GameViewCache.GameViewDifferences differences = getGuiRoot().getGameCache().compareAndUpdate(game);
 
         // Se ci sono differenze, aggiorna la GUI
         if (differences.hasChanges()) {
@@ -233,7 +234,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             });
         }
 
-        GameView cachedGame = gameViewCache.getCachedGameView();
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
         updateDiscoveredComponentsGUI(cachedGame.getComponentsDiscovered());
     }
 
@@ -248,8 +249,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
             placeComponentButton.setDisable(true);
             bookComponentButton.setDisable(true);
 
-            if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
-                updatePlayerShipboardButtons(gameViewCache.getCachedGameView());
+            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+                updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
             }
         } else {
 
@@ -277,36 +278,40 @@ public class BuildShipSceneController extends GuiController implements Initializ
             String imagePath = componentJson.getString("img");
 
             // Crea l'immagine dal path
-            Image image = new Image(getClass().getResourceAsStream(imagePath));
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
 
-            // Imposta l'immagine nell'ImageView del componente corrente
+            // Imposta l'immagine nella ImageView del componente corrente
             currentComponentImageView.setImage(image);
 
             // Ottieni la direzione del componente e applica la rotazione
             Direction direction = currentTile.getDirection();
 
             // Applica la rotazione in base alla direzione
-            switch (direction) {
-                case NORTH:
-                    currentComponentImageView.setRotate(0);
-                    break;
-                case WEST:
-                    currentComponentImageView.setRotate(-90); // 90 gradi a sinistra
-                    break;
-                case EAST:
-                    currentComponentImageView.setRotate(90);  // 90 gradi a destra
-                    break;
-                case SOUTH:
-                    currentComponentImageView.setRotate(180); // 180 gradi
-                    break;
-                default:
-                    currentComponentImageView.setRotate(0);
-                    System.out.println("Direzione non riconosciuta, impostata rotazione a 0 gradi");
-                    break;
-            }
+            rotate(direction, currentComponentImageView);
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione del currentTile: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private void rotate(Direction direction, ImageView currentComponentImageView) {
+        switch (direction) {
+            case NORTH:
+                currentComponentImageView.setRotate(0);
+                break;
+            case WEST:
+                currentComponentImageView.setRotate(-90); // 90 gradi a sinistra
+                break;
+            case EAST:
+                currentComponentImageView.setRotate(90);  // 90 gradi a destra
+                break;
+            case SOUTH:
+                currentComponentImageView.setRotate(180); // 180 gradi
+                break;
+            default:
+                currentComponentImageView.setRotate(0);
+                System.out.println("Direzione non riconosciuta, impostata rotazione a 0 gradi");
+                break;
         }
     }
 
@@ -316,7 +321,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 currentComponentImageView.setImage(null);
             }
         });
-        System.out.println("CurrentTile rimosso dalla GUI");
     }
 
 
@@ -335,30 +339,61 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     private void updateDiscoveredComponentsGUI(List<ComponentsView> newDiscoveredComponents) {
         Platform.runLater(() -> {
-
             if (!newDiscoveredComponents.isEmpty()) {
                 discoveredComponentsPanel.setVisible(true);
+                discoveredComponentsPanel.setMaxHeight(Region.USE_COMPUTED_SIZE);
             }
 
-            GameView cachedGame = gameViewCache.getCachedGameView();
+            GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
             List<ComponentsView> allDiscoveredComponents = cachedGame.getComponentsDiscovered();
 
             discoveredComponentsContainer.getChildren().clear();
 
+            // Crea una griglia per organizzare i componenti in righe di 5
+            VBox gridContainer = new VBox(10);
+            gridContainer.setMaxWidth(350);
+            gridContainer.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+            HBox currentRow = new HBox(10);
+            currentRow.setMaxWidth(1100); // Imposta larghezza massima per contenere 5 componenti
+            currentRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
             for (int i = 0; i < allDiscoveredComponents.size(); i++) {
                 ComponentsView component = allDiscoveredComponents.get(i);
-                addDiscoveredComponentToPanel(component, i);
+                VBox componentContainer = createDiscoveredComponentContainer(component, i);
+
+                currentRow.getChildren().add(componentContainer);
+
+                // Ogni 5 componenti, crea una nuova riga
+                if ((i + 1) % 5 == 0 || i == allDiscoveredComponents.size() - 1) {
+                    gridContainer.getChildren().add(currentRow);
+                    currentRow = new HBox(10);
+                    currentRow.setMaxWidth(1100);
+                    currentRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+                }
+            }
+
+            // Aggiungi ScrollPane se ci sono più di 20 componenti (4 righe)
+            if (allDiscoveredComponents.size() > 20) {
+                javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane(gridContainer);
+                scrollPane.setStyle("-fx-background: black; -fx-background-color: black;");
+                scrollPane.setFitToWidth(true);
+                scrollPane.setMaxHeight(600); // Altezza massima per 4 righe circa
+                scrollPane.setVbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.AS_NEEDED);
+                scrollPane.setHbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER);
+                discoveredComponentsContainer.getChildren().add(scrollPane);
+            } else {
+                discoveredComponentsContainer.getChildren().add(gridContainer);
             }
         });
     }
 
 
-    private void addDiscoveredComponentToPanel(ComponentsView component, int index) {
+    private VBox createDiscoveredComponentContainer(ComponentsView component, int index) {
         try {
             JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
             if (componentJson == null) {
                 System.err.println("Componente scoperto con ID " + component.getId() + " non trovato nel JSON.");
-                return;
+                return new VBox();
             }
 
             String imagePath = componentJson.getString("img");
@@ -367,7 +402,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
             if (imageStream == null) {
                 System.err.println("Immagine non trovata: " + imagePath);
-                return;
+                return new VBox();
             }
 
             Image componentImage = new Image(imageStream);
@@ -388,11 +423,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
             componentContainer.setAlignment(javafx.geometry.Pos.CENTER);
             componentContainer.getChildren().addAll(componentImageView, indexLabel);
 
-            // Aggiungi al pannello principale
-            discoveredComponentsContainer.getChildren().add(componentContainer);
+            return componentContainer;
         } catch (Exception e) {
-            System.err.println("Errore durante l'aggiunta del componente scoperto: " + e.getMessage());
+            System.err.println("Errore durante la creazione del container del componente scoperto: " + e.getMessage());
             e.printStackTrace();
+            return new VBox();
         }
     }
 
@@ -419,27 +454,31 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     private void setupFieldValidation() {
         // Imposta i campi X e Y per accettare solo numeri
-        xPositionField.textProperty().addListener((observable, oldValue, newValue) -> {
+        setUpNumberField(xPositionField, yPositionField, discoveredIndexField);
+
+        bookedIndexField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("[01]?")) {
+                bookedIndexField.setText(oldValue);
+            }
+        });
+    }
+
+    static void setUpNumberField(TextField xPositionField, TextField yPositionField, TextField discoveredIndexField) {
+        xPositionField.textProperty().addListener((_, _, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 xPositionField.setText(newValue.replaceAll("\\D", ""));
             }
         });
 
-        yPositionField.textProperty().addListener((observable, oldValue, newValue) -> {
+        yPositionField.textProperty().addListener((_, _, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 yPositionField.setText(newValue.replaceAll("\\D", ""));
             }
         });
 
-        discoveredIndexField.textProperty().addListener((observable, oldValue, newValue) -> {
+        discoveredIndexField.textProperty().addListener((_, _, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 discoveredIndexField.setText(newValue.replaceAll("\\D", ""));
-            }
-        });
-
-        bookedIndexField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[01]?")) {
-                bookedIndexField.setText(oldValue);
             }
         });
     }
@@ -449,8 +488,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
             InputStream imageStream;
 
             int shipBoardLevel = getGuiRoot().getShipBoardLevel();
-            if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
-                GameView cachedGame = gameViewCache.getCachedGameView();
+            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+                GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
                 shipBoardLevel = cachedGame.getShipBoardLevel();
             }
             if(shipBoardLevel==1) {
@@ -525,24 +564,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             componentImageView.setX(posX + (cellWidth * 0.2));
             componentImageView.setY(posY + (cellHeight * 0.2));
 
-            switch (direction) {
-                case NORTH:
-                    componentImageView.setRotate(0);
-                    break;
-                case WEST:
-                    componentImageView.setRotate(-90);
-                    break;
-                case EAST:
-                    componentImageView.setRotate(90);
-                    break;
-                case SOUTH:
-                    componentImageView.setRotate(180);
-                    break;
-                default:
-                    componentImageView.setRotate(0);
-                    System.out.println("Direzione non riconosciuta, impostata rotazione a 0 gradi");
-                    break;
-            }
+            rotate(direction, componentImageView);
 
             Platform.runLater(() -> shipboardContainer.getChildren().add(componentImageView));
 
@@ -551,7 +573,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             e.printStackTrace();
         }
     }
-
 
     private void showValidationError(String message) {
         Platform.runLater(() -> {
@@ -562,20 +583,18 @@ public class BuildShipSceneController extends GuiController implements Initializ
     }
 
     private void hideValidationMessage() {
-        Platform.runLater(() -> {
-            validationMessage.setVisible(false);
-        });
+        Platform.runLater(() -> validationMessage.setVisible(false));
     }
 
     public void resetGameViewCache() {
-        if (gameViewCache != null) {
-            gameViewCache.resetCache();
+        if (getGuiRoot().getGameCache() != null) {
+            getGuiRoot().getGameCache().resetCache();
         }
     }
 
     public void updatePlayerName(String playerName) {
-        if (gameViewCache != null) {
-            gameViewCache.setCurrentPlayerName(playerName);
+        if (getGuiRoot().getGameCache() != null) {
+            getGuiRoot().getGameCache().setCurrentPlayerName(playerName);
         }
     }
 
@@ -623,47 +642,47 @@ public class BuildShipSceneController extends GuiController implements Initializ
         args[0] = xPositionField.getText();
         args[1] = yPositionField.getText();
 
-        int x = Integer.parseInt(args[0]);
-        int y = Integer.parseInt(args[1]);
+        try {
+            int x = Integer.parseInt(args[0]);
+            int y = Integer.parseInt(args[1]);
 
-        if(validateInputs(x,y)) {
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("place_tile", java.util.Arrays.asList(args));
-            getGuiRoot().getClient().sendMessage(message);
+            if(validateInputs(x,y)) {
+                Message message = getGuiRoot().getClient().getMessageGenerator().generate("place_tile", java.util.Arrays.asList(args));
+                getGuiRoot().getClient().sendMessage(message);
 
-            pickComponentButton.setDisable(false);
-            pickDiscoveredButton.setDisable(false);
-            discardComponentButton.setDisable(true);
-            rotateLeftButton.setDisable(true);
-            rotateRightButton.setDisable(true);
-            placeComponentButton.setDisable(true);
-            pickBookedButton.setDisable(false);
-            pickDiscoveredButton.setDisable(false);
+                pickComponentButton.setDisable(false);
+                pickDiscoveredButton.setDisable(false);
+                discardComponentButton.setDisable(true);
+                rotateLeftButton.setDisable(true);
+                rotateRightButton.setDisable(true);
+                placeComponentButton.setDisable(true);
+                pickBookedButton.setDisable(false);
+                pickDiscoveredButton.setDisable(false);
 
-            hideValidationMessage();
+                hideValidationMessage();
 
-            clearCurrentTileFromGUI();
+                clearCurrentTileFromGUI();
 
-            xPositionField.clear();
-            yPositionField.clear();
+                xPositionField.clear();
+                yPositionField.clear();
 
-        }else{
+            }else{
+                showValidationError("Please, insert valid inputs for X and Y");
+            }
+        } catch (NumberFormatException e) {
             showValidationError("Please, insert valid inputs for X and Y");
         }
+
     }
 
     private boolean validateInputs(int x, int y){
         if (getGuiRoot().getShipBoardLevel()==1) {
-            if(x<5 || x>9 || y<5 || y>9 || x==5 && y==5 || x==5 && y==6 || x==6 && y==5
-                || x==9 && y==5 || x==9 && y==6 || x==7 && y==9 || occupiedCells.contains(new Points(x, y))) {
-                return false;
-            }
+            return x >= 5 && x <= 9 && y >= 5 && y <= 9 && (x != 5 || y != 5) && (x != 5 || y != 6) && (x != 6 || y != 5)
+                    && (x != 9 || y != 5) && (x != 9 || y != 6) && (x != 7 || y != 9) && !occupiedCells.contains(new Points(x, y));
         }else {
-            if(x<4 || x>10 || y<5 || y>9 || x==4 && y==5 || x==4 && y==6 || x==5 && y==5 || x==7 && y==9
-                || x==7 && y==5 || x==10 && y==5 || x==10 && y==6 || x==9 && y==5 || occupiedCells.contains(new Points(x, y))) {
-                return false;
-            }
+            return x >= 4 && x <= 10 && y >= 5 && y <= 9 && (x != 4 || y != 5) && (x != 4 || y != 6) && (x != 5 || y != 5) && (x != 7 || y != 9)
+                    && (x != 7 || y != 5) && (x != 10 || y != 5) && (x != 10 || y != 6) && (x != 9 || y != 5) && !occupiedCells.contains(new Points(x, y));
         }
-        return true;
     }
 
     public void updatePlayerShipboardButtons(GameView game) {
@@ -675,14 +694,21 @@ public class BuildShipSceneController extends GuiController implements Initializ
             showPlayer2ShipboardButton.setVisible(false);
             showPlayer3ShipboardButton.setVisible(false);
 
-            int buttonIndex = 0;
-            Button[] buttons = {showPlayer1ShipboardButton, showPlayer2ShipboardButton, showPlayer3ShipboardButton};
-
+            int buttonIndex = 1;
             for (PlayerView player : players) {
-                if (!player.getName().equals(currentPlayerName) && buttonIndex < 3) {
-                    buttons[buttonIndex].setText("Show " + player.getName() + "'s Shipboard");
-                    buttons[buttonIndex].setVisible(true);
-                    buttonIndex++;
+                if (!player.getName().equals(currentPlayerName)) {
+                    Button button = switch (buttonIndex) {
+                        case 1 -> showPlayer1ShipboardButton;
+                        case 2 -> showPlayer2ShipboardButton;
+                        case 3 -> showPlayer3ShipboardButton;
+                        default -> null;
+                    };
+
+                    if (button != null) {
+                        button.setText("Show " + player.getName() + "'s Shipboard");
+                        button.setVisible(true);
+                        buttonIndex++;
+                    }
                 }
             }
         });
@@ -696,6 +722,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer2ShipboardButton.setDisable(true);
         showPlayer3ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
+        showPlayer1ShipboardButton.setDisable(true);
     }
 
     @FXML
@@ -706,6 +733,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer1ShipboardButton.setDisable(true);
         showPlayer3ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
+        showPlayer2ShipboardButton.setDisable(true);
     }
 
     @FXML
@@ -716,6 +744,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer1ShipboardButton.setDisable(true);
         showPlayer2ShipboardButton.setDisable(true);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
+        showPlayer3ShipboardButton.setDisable(true);
     }
 
     @FXML
@@ -725,17 +754,20 @@ public class BuildShipSceneController extends GuiController implements Initializ
         restoreButtonStates();
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer2ShipboardButton.setDisable(true);
+        showPlayer3ShipboardButton.setDisable(true);
 
-        if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
-            updatePlayerShipboardButtons(gameViewCache.getCachedGameView());
+        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
         }
         hideValidationMessage();
 
         // Ripristina la visibilità dei componenti prenotati
         Platform.runLater(() -> {
-            for (int i = 0; i < bookedComponentImages.length; i++) {
-                if (bookedComponentImages[i] != null) {
-                    bookedComponentImages[i].setVisible(true);
+            for (ImageView bookedComponentImage : bookedComponentImages) {
+                if (bookedComponentImage != null) {
+                    bookedComponentImage.setVisible(true);
                 }
             }
         });
@@ -747,12 +779,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
     }
 
     private void showPlayerShipboard(String playerName) {
-        if (gameViewCache == null || !gameViewCache.hasCachedGameView()) {
+        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
             System.err.println("Nessuna GameView disponibile per mostrare la shipboard");
             return;
         }
 
-        GameView cachedGame = gameViewCache.getCachedGameView();
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
 
         // Se la GameView cached contiene un'eccezione, usa l'ultima GameView valida
         // per evitare errori di "player not found"
@@ -797,49 +829,17 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         showOwnShipboardButton.setVisible(true);
         showOwnShipboardButton.setDisable(false);
-
-        currentDisplayedPlayer = playerName;
         showValidationError("Now showing " + playerName + "'s shipboard");
 
         if (!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
             Platform.runLater(() -> {
-                for (int i = 0; i < bookedComponentImages.length; i++) {
-                    if (bookedComponentImages[i] != null) {
-                        bookedComponentImages[i].setVisible(false);
+                for (ImageView bookedComponentImage : bookedComponentImages) {
+                    if (bookedComponentImage != null) {
+                        bookedComponentImage.setVisible(false);
                     }
                 }
             });
         }
-    }
-
-    private List<ComponentsView> getShipboardComponents(ShipboardView shipboardView) {
-        List<ComponentsView> components = new ArrayList<>();
-
-        if (shipboardView == null) {
-            return components;
-        }
-
-        ComponentsView[][] componentMatrix = shipboardView.getComponentsView();
-        if (componentMatrix != null) {
-            for (int i = 0; i < componentMatrix.length; i++) {
-                for (int j = 0; j < componentMatrix[i].length; j++) {
-                    if (componentMatrix[i][j] != null) {
-                        components.add(componentMatrix[i][j]);
-                    }
-                }
-            }
-        }
-
-        ComponentsView[] bookedComponents = shipboardView.getBookedComponents();
-        if (bookedComponents != null) {
-            for (ComponentsView bookedComponent : bookedComponents) {
-                if (bookedComponent != null) {
-                    components.add(bookedComponent);
-                }
-            }
-        }
-
-        return components;
     }
 
     @FXML
@@ -856,8 +856,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
             int index = Integer.parseInt(indexText);
 
             // Verifica che l'indice sia valido
-            if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
-                List<ComponentsView> discoveredComponents = gameViewCache.getCachedGameView().getComponentsDiscovered();
+            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+                List<ComponentsView> discoveredComponents = getGuiRoot().getGameCache().getCachedGameView().getComponentsDiscovered();
                 if (index < 0 || index >= discoveredComponents.size()) {
                     showValidationError("Index out of range. Valid range: 0-" + (discoveredComponents.size() - 1));
                     return;
@@ -887,11 +887,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
     }
 
     private void updateBookedComponentsDisplay() {
-        if (gameViewCache == null || !gameViewCache.hasCachedGameView()) {
+        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
             return;
         }
 
-        GameView cachedGame = gameViewCache.getCachedGameView();
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
         PlayerView currentPlayer = null;
 
         for (PlayerView player : cachedGame.getPlayers()) {
@@ -950,11 +950,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
             // Posizioni fisse per i componenti prenotati
             int x = (index == 0) ? 9 : 10;
-            int y = 5;
+            int y = 0;
 
             // Converti le coordinate per la visualizzazione
             x = x - 4;
-            y = y - 5;
+
 
             double cellWidth = shipboardImageView.getFitWidth() / 7.18;
             double cellHeight = shipboardImageView.getFitHeight() / 4;
@@ -985,7 +985,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 case WEST: componentImageView.setRotate(-90); break;
                 case EAST: componentImageView.setRotate(90); break;
                 case SOUTH: componentImageView.setRotate(180); break;
-                default: componentImageView.setRotate(0); break;
             }
 
             // Aggiungi un bordo per distinguere i componenti prenotati
@@ -1012,8 +1011,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
         bookComponentButton.setDisable(true);
         pickComponentButton.setDisable(false);
 
-        if (gameViewCache != null && gameViewCache.hasCachedGameView()) {
-            List <ComponentsView> discoveredComponents = gameViewCache.getCachedGameView().getComponentsDiscovered();
+        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            List <ComponentsView> discoveredComponents = getGuiRoot().getGameCache().getCachedGameView().getComponentsDiscovered();
             pickDiscoveredButton.setDisable(discoveredComponents.isEmpty());
         }
 
@@ -1081,4 +1080,22 @@ public class BuildShipSceneController extends GuiController implements Initializ
         getGuiRoot().getClient().sendMessage(message);
     }
 
+    @FXML
+    public void onEndBuildShipClick() throws RemoteException {
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_build_ship", new ArrayList<>());
+        getGuiRoot().getClient().sendMessage(message);
+        saveCurrentShipboardState();
+
+        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+            int gameMode = cachedGame.getGameMode();
+
+            if (gameMode == 0) {
+                getGuiRoot().goToReadyForCardsScene();
+            } else if (gameMode == 1) {
+                getGuiRoot().goToAddAlienScene();
+            }
+        }
+
+    }
 }

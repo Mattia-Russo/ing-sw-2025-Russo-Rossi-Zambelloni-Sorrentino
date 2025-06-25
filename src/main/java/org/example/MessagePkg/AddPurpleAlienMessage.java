@@ -7,7 +7,7 @@ import org.example.ServerPkg.Model.Points;
 import java.rmi.RemoteException;
 
 public class AddPurpleAlienMessage extends Message{
-    private Points point;
+    private final Points point;
 
     public AddPurpleAlienMessage(Points point){
         this.point=point;

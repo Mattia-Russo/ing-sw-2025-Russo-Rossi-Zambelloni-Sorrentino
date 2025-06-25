@@ -120,6 +120,11 @@
                     prefWidth="150.0" text="Rotate Right"
                     style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
+            <!-- End Build Ship Button -->
+            <Button fx:id="endBuildShipButton" mnemonicParsing="false" onAction="#onEndBuildShipClick"
+                    prefWidth="150.0" text="End Build Ship"
+                    style="-fx-background-color: #607D8B; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
             <!-- Placement Controls -->
             <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 10;">
                 <Label text="Place Component" textFill="WHITE" style="-fx-font-weight: bold;"/>

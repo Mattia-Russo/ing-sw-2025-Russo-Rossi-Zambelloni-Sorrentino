@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.MessagePkg.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
+import org.example.ServerPkg.Model.ForView.GameViewCache;
 import org.example.UIPkg.Client;
 import org.example.UIPkg.UI;
 
@@ -28,11 +29,25 @@ public class GUI extends UI {
     private int shipboardLevel;
     private int gameMode;
     private  List<String> playersList;
+    private GameViewCache gameCache;
 
     public GUI(Client client){
         super(client);
         this.gameUpdatesQueue = new LinkedBlockingQueue<>();
         this.playersList = new ArrayList<>();
+        this.gameCache=null;
+    }
+
+    public int getGameMode(){
+        return gameMode;
+    }
+
+    public List<String> getPlayers(){
+        return playersList;
+    }
+
+    public GameViewCache getGameCache() {
+        return gameCache;
     }
 
     public int getShipBoardLevel(){
@@ -49,17 +64,23 @@ public class GUI extends UI {
             try {
                 while (true) {
                     if(!gameUpdatesQueue.isEmpty()) {
+                        if(gameCache == null){
+                            gameCache = new GameViewCache(getClient().getPlayerName());
+                        }
                         GameView game = gameUpdatesQueue.poll();
                         assert game != null;
-                        GuiController controller =  GUIMain.getGuiMain().getControllerMap().get(GUIMain.BUILD_SHIP_SCENE);
-                        controller.updateGui(game);
-                        controller.loadShipboardImage();
+                        //if(game.getException()==null) {
+                            GuiController controller = GUIMain.getGuiMain().getCurrentController();
+                            controller.setUp(game);
 
-                        if (game.getException() == null &&
-                                game.getPlayers() != null &&
-                                !game.getPlayers().isEmpty()) {
-                            controller.updatePlayerShipboardButtons(game);
-                        }
+                            if (game.getException() == null &&
+                                    game.getPlayers() != null &&
+                                    !game.getPlayers().isEmpty()) {
+                                controller.updatePlayerShipboardButtons(game);
+                            }
+//                        } else {
+//                            manageNotification(new NotifyClientMessage(game.getException().getMessage()));
+//                        }
                     }
                 }
             }catch (Exception e) {
@@ -261,5 +282,15 @@ public class GUI extends UI {
     private void goToBuildShipScene(){
         preserveWindowSize();
         changeScene(GUIMain.BUILD_SHIP_SCENE);
+    }
+
+    public void goToAddAlienScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.ADD_ALIEN_SCENE);
+    }
+
+    public void goToReadyForCardsScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.READY_FOR_CARDS_SCENE);
     }
 }

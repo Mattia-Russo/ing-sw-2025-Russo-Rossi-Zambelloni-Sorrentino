@@ -59,23 +59,7 @@ public class SettingsSceneController extends GuiController implements Initializa
     }
 
     private void setupFieldValidation() {
-        numberOfPlayersField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                numberOfPlayersField.setText(newValue.replaceAll("\\D", ""));
-            }
-        });
-
-        shipboardLevelField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                shipboardLevelField.setText(newValue.replaceAll("\\D", ""));
-            }
-        });
-
-        gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                gameModeField.setText(newValue.replaceAll("\\D", ""));
-            }
-        });
+        BuildShipSceneController.setUpNumberField(numberOfPlayersField, shipboardLevelField, gameModeField);
 
         gameModeField.textProperty().addListener((observable, oldValue, newValue) -> {
             if ("0".equals(newValue)) {

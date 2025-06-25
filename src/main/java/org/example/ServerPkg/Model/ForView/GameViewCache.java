@@ -238,4 +238,9 @@ public class GameViewCache {
     public void setCurrentPlayerName(String playerName) {
         this.currentPlayerName = playerName;
     }
+
+    // Aggiungi questo metodo nella classe GameViewCache se non è già presente
+    public String getCurrentPlayerName() {
+        return currentPlayerName;
+    }
 }
