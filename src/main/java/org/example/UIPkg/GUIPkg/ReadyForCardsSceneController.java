@@ -346,25 +346,4 @@ public class ReadyForCardsSceneController extends GuiController implements Initi
             statusMessage.setText("Now showing " + playerName + "'s shipboard");
         }
     }
-
-    private List<ComponentsView> getShipboardComponents(ShipboardView shipboardView) {
-        List<ComponentsView> components = new ArrayList<>();
-
-        if (shipboardView == null) {
-            return components;
-        }
-
-        ComponentsView[][] componentMatrix = shipboardView.getComponentsView();
-        if (componentMatrix != null) {
-            for (ComponentsView[] matrix : componentMatrix) {
-                for (ComponentsView componentsView : matrix) {
-                    if (componentsView != null) {
-                        components.add(componentsView);
-                    }
-                }
-            }
-        }
-
-        return components;
-    }
 }

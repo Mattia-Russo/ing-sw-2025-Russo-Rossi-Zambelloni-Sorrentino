@@ -642,32 +642,37 @@ public class BuildShipSceneController extends GuiController implements Initializ
         args[0] = xPositionField.getText();
         args[1] = yPositionField.getText();
 
-        int x = Integer.parseInt(args[0]);
-        int y = Integer.parseInt(args[1]);
+        try {
+            int x = Integer.parseInt(args[0]);
+            int y = Integer.parseInt(args[1]);
 
-        if(validateInputs(x,y)) {
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("place_tile", java.util.Arrays.asList(args));
-            getGuiRoot().getClient().sendMessage(message);
+            if(validateInputs(x,y)) {
+                Message message = getGuiRoot().getClient().getMessageGenerator().generate("place_tile", java.util.Arrays.asList(args));
+                getGuiRoot().getClient().sendMessage(message);
 
-            pickComponentButton.setDisable(false);
-            pickDiscoveredButton.setDisable(false);
-            discardComponentButton.setDisable(true);
-            rotateLeftButton.setDisable(true);
-            rotateRightButton.setDisable(true);
-            placeComponentButton.setDisable(true);
-            pickBookedButton.setDisable(false);
-            pickDiscoveredButton.setDisable(false);
+                pickComponentButton.setDisable(false);
+                pickDiscoveredButton.setDisable(false);
+                discardComponentButton.setDisable(true);
+                rotateLeftButton.setDisable(true);
+                rotateRightButton.setDisable(true);
+                placeComponentButton.setDisable(true);
+                pickBookedButton.setDisable(false);
+                pickDiscoveredButton.setDisable(false);
 
-            hideValidationMessage();
+                hideValidationMessage();
 
-            clearCurrentTileFromGUI();
+                clearCurrentTileFromGUI();
 
-            xPositionField.clear();
-            yPositionField.clear();
+                xPositionField.clear();
+                yPositionField.clear();
 
-        }else{
+            }else{
+                showValidationError("Please, insert valid inputs for X and Y");
+            }
+        } catch (NumberFormatException e) {
             showValidationError("Please, insert valid inputs for X and Y");
         }
+
     }
 
     private boolean validateInputs(int x, int y){
@@ -689,14 +694,21 @@ public class BuildShipSceneController extends GuiController implements Initializ
             showPlayer2ShipboardButton.setVisible(false);
             showPlayer3ShipboardButton.setVisible(false);
 
-            int buttonIndex = 0;
-            Button[] buttons = {showPlayer1ShipboardButton, showPlayer2ShipboardButton, showPlayer3ShipboardButton};
-
+            int buttonIndex = 1;
             for (PlayerView player : players) {
-                if (!player.getName().equals(currentPlayerName) && buttonIndex < 3) {
-                    buttons[buttonIndex].setText("Show " + player.getName() + "'s Shipboard");
-                    buttons[buttonIndex].setVisible(true);
-                    buttonIndex++;
+                if (!player.getName().equals(currentPlayerName)) {
+                    Button button = switch (buttonIndex) {
+                        case 1 -> showPlayer1ShipboardButton;
+                        case 2 -> showPlayer2ShipboardButton;
+                        case 3 -> showPlayer3ShipboardButton;
+                        default -> null;
+                    };
+
+                    if (button != null) {
+                        button.setText("Show " + player.getName() + "'s Shipboard");
+                        button.setVisible(true);
+                        buttonIndex++;
+                    }
                 }
             }
         });
@@ -822,36 +834,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 }
             });
         }
-    }
-
-    private List<ComponentsView> getShipboardComponents(ShipboardView shipboardView) {
-        List<ComponentsView> components = new ArrayList<>();
-
-        if (shipboardView == null) {
-            return components;
-        }
-
-        ComponentsView[][] componentMatrix = shipboardView.getComponentsView();
-        if (componentMatrix != null) {
-            for (ComponentsView[] matrix : componentMatrix) {
-                for (ComponentsView componentsView : matrix) {
-                    if (componentsView != null) {
-                        components.add(componentsView);
-                    }
-                }
-            }
-        }
-
-        ComponentsView[] bookedComponents = shipboardView.getBookedComponents();
-        if (bookedComponents != null) {
-            for (ComponentsView bookedComponent : bookedComponents) {
-                if (bookedComponent != null) {
-                    components.add(bookedComponent);
-                }
-            }
-        }
-
-        return components;
     }
 
     @FXML
@@ -1110,5 +1092,4 @@ public class BuildShipSceneController extends GuiController implements Initializ
         }
 
     }
-
 }

@@ -4,9 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import org.example.ServerPkg.Model.ForView.GameView;
-import org.example.ServerPkg.Model.ForView.GameViewCache;
-import org.example.ServerPkg.Model.ForView.PlayerView;
+import org.example.ServerPkg.Model.ForView.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,4 +169,34 @@ public abstract class GuiController {
     public void loadFlightBoardImage() {}
     public void updatePlayerShipboardButtons(GameView game) {}
     public void setUp(GameView game){}
+
+    public List<ComponentsView> getShipboardComponents(ShipboardView shipboardView) {
+        List<ComponentsView> components = new ArrayList<>();
+
+        if (shipboardView == null) {
+            return components;
+        }
+
+        ComponentsView[][] componentMatrix = shipboardView.getComponentsView();
+        if (componentMatrix != null) {
+            for (ComponentsView[] matrix : componentMatrix) {
+                for (ComponentsView componentsView : matrix) {
+                    if (componentsView != null) {
+                        components.add(componentsView);
+                    }
+                }
+            }
+        }
+
+        ComponentsView[] bookedComponents = shipboardView.getBookedComponents();
+        if (bookedComponents != null) {
+            for (ComponentsView bookedComponent : bookedComponents) {
+                if (bookedComponent != null) {
+                    components.add(bookedComponent);
+                }
+            }
+        }
+
+        return components;
+    }
 }

@@ -42,6 +42,10 @@ public class GUI extends UI {
         return gameMode;
     }
 
+    public List<String> getPlayers(){
+        return playersList;
+    }
+
     public GameViewCache getGameCache() {
         return gameCache;
     }
@@ -65,14 +69,18 @@ public class GUI extends UI {
                         }
                         GameView game = gameUpdatesQueue.poll();
                         assert game != null;
-                        GuiController controller =  GUIMain.getGuiMain().getCurrentController();
-                        controller.setUp(game);
+                        //if(game.getException()==null) {
+                            GuiController controller = GUIMain.getGuiMain().getCurrentController();
+                            controller.setUp(game);
 
-                        if (game.getException() == null &&
-                                game.getPlayers() != null &&
-                                !game.getPlayers().isEmpty()) {
-                            controller.updatePlayerShipboardButtons(game);
-                        }
+                            if (game.getException() == null &&
+                                    game.getPlayers() != null &&
+                                    !game.getPlayers().isEmpty()) {
+                                controller.updatePlayerShipboardButtons(game);
+                            }
+//                        } else {
+//                            manageNotification(new NotifyClientMessage(game.getException().getMessage()));
+//                        }
                     }
                 }
             }catch (Exception e) {
