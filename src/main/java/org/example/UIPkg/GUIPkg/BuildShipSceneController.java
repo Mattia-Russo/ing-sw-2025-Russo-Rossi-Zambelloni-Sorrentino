@@ -1090,11 +1090,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
             GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
             int gameMode = cachedGame.getGameMode();
 
-            if (gameMode == 0) {
-                getGuiRoot().goToReadyForCardsScene();
-            } else if (gameMode == 1) {
+//            if (gameMode == 0) {
+//                getGuiRoot().goToReadyForCardsScene();
+//            } else if (gameMode == 1) {
                 getGuiRoot().goToAddAlienScene();
-            }
+//            }
+            //ToDo se game mode è 0 andare in add alien con tutti i bottoni disattivati
         }
 
     }

@@ -144,22 +144,35 @@ public class AddAlienSceneController extends GuiController implements Initializa
             
             // Aggiungi questa parte per caricare immediatamente le tile esistenti
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
-
                 for (PlayerView player : game.getPlayers()) {
-                    if (player != null && player.getShipboardView() != null) {
-                        List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
-                        for(ComponentsView component : existingComponents) {
-                            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
-                        }
-
-                        // Aggiorna la GUI con i componenti esistenti
-                        if (!existingComponents.isEmpty()) {
-                            updateShipBoardGUI(existingComponents);
-                        }
+                    if(player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
+                        loadShipboardTiles(player);
+                        break;
+                    }
+                }
+            } else if (super.getGuiRoot().getGameCache() != null) {
+                for(PlayerView player : super.getGuiRoot().getGameCache().getCachedGameView().getPlayers()) {
+                    if(player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
+                        loadShipboardTiles(player);
+                        break;
                     }
                 }
             }
         });
+    }
+
+    private void loadShipboardTiles(PlayerView player) {
+        if (player != null && player.getShipboardView() != null) {
+            List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
+            for (ComponentsView component : existingComponents) {
+                placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+            }
+
+            // Aggiorna la GUI con i componenti esistenti
+            if (!existingComponents.isEmpty()) {
+                updateShipBoardGUI(existingComponents);
+            }
+        }
     }
 
     // Aggiungi questo metodo per caricare l'immagine della flightboard
@@ -194,9 +207,9 @@ public class AddAlienSceneController extends GuiController implements Initializa
 
                 for(String playerName : getGuiRoot().getPlayers()) {
                     if(!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
-                        if(showPlayer1ShipboardButton.getText()==null){
+                        if(showPlayer1ShipboardButton.getText()==null || showPlayer1ShipboardButton.getText().isEmpty()){
                             showPlayer1ShipboardButton.setText("Show " + playerName + "'s Shipboard");
-                        } else if (showPlayer2ShipboardButton.getText()==null){
+                        } else if (showPlayer2ShipboardButton.getText()==null || showPlayer2ShipboardButton.getText().isEmpty()){
                             showPlayer2ShipboardButton.setText("Show " + playerName + "'s Shipboard");
                         } else {
                             showPlayer3ShipboardButton.setText("Show " + playerName + "'s Shipboard");
@@ -253,8 +266,8 @@ public class AddAlienSceneController extends GuiController implements Initializa
         saveButtonStates();
         disableAllButtons();
         showPlayer1ShipboardButton.setVisible(false);
-        showOwnShipboardButton.setDisable(false);
         showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
     }
 
@@ -306,13 +319,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
 
         GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
 
-        // Se la GameView cached contiene un'eccezione, usa l'ultima GameView valida
-        // per evitare errori di "player not found"
-        if (cachedGame.getException() != null) {
-            // Non fare nulla, mantieni la visualizzazione corrente
-            return;
-        }
-
         // Verifica che ci siano giocatori nella GameView
         if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
             System.err.println("Lista giocatori vuota nella GameView cached");
@@ -347,7 +353,8 @@ public class AddAlienSceneController extends GuiController implements Initializa
             updateShipBoardGUI(playerComponents);
         }
 
-        resetShowShipboardButtons();
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
         showValidationError("Now showing " + playerName + "'s shipboard");
     }
 

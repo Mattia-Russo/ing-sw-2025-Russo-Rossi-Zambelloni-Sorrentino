@@ -119,7 +119,9 @@ public class GameViewCache {
         }
 
         // Aggiorna la cache con la nuova GameView
-        cachedGameView = newGameView;
+        if(newGameView.getException()==null){
+            cachedGameView = newGameView;
+        }
 
         return new GameViewDifferences(newShipboardComponents, newDiscoveredComponents, newCurrentTile, currentTileChanged);
     }

@@ -69,18 +69,11 @@ public class GUI extends UI {
                         }
                         GameView game = gameUpdatesQueue.poll();
                         assert game != null;
-                        //if(game.getException()==null) {
-                            GuiController controller = GUIMain.getGuiMain().getCurrentController();
-                            controller.setUp(game);
-
-                            if (game.getException() == null &&
-                                    game.getPlayers() != null &&
-                                    !game.getPlayers().isEmpty()) {
-                                controller.updatePlayerShipboardButtons(game);
-                            }
-//                        } else {
-//                            manageNotification(new NotifyClientMessage(game.getException().getMessage()));
-//                        }
+                        GuiController controller = GUIMain.getGuiMain().getCurrentController();
+                        controller.setUp(game);
+                        if (game.getException() == null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
+                            controller.updatePlayerShipboardButtons(game);
+                        }
                     }
                 }
             }catch (Exception e) {
@@ -287,10 +280,5 @@ public class GUI extends UI {
     public void goToAddAlienScene(){
         preserveWindowSize();
         changeScene(GUIMain.ADD_ALIEN_SCENE);
-    }
-
-    public void goToReadyForCardsScene(){
-        preserveWindowSize();
-        changeScene(GUIMain.READY_FOR_CARDS_SCENE);
     }
 }
