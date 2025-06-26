@@ -45,4 +45,6 @@ public abstract class UI {
     public void goToFixShipScene(){}
 
     public void goToAddAlienScene(){}
+
+    public void goToActivateCannonsScene(){}
 }

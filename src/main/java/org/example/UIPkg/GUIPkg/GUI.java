@@ -295,6 +295,12 @@ public class GUI extends UI {
         changeScene(GUIMain.SHIP_WRECK_SCENE);
     }
 
+    @Override
+    public void goToActivateCannonsScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.ACTIVATE_CANNONS_SCENE);
+    }
+
     public void goToWaitingScene(){
         preserveWindowSize();
         changeScene(GUIMain.WAITING_SCENE);

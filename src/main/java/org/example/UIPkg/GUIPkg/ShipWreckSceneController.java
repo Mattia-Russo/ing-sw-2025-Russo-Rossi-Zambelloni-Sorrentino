@@ -77,6 +77,7 @@ public class ShipWreckSceneController extends GuiController implements Initializ
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
+    private List<Points> occupiedCells;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,6 +89,8 @@ public class ShipWreckSceneController extends GuiController implements Initializ
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
+
+        occupiedCells = new ArrayList<>();
     }
 
     private void setupUI() {
