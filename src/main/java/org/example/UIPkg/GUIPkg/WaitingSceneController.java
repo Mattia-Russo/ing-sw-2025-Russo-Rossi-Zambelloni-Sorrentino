@@ -25,7 +25,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class AddAlienSceneController extends GuiController implements Initializable {
+public class WaitingSceneController extends GuiController implements Initializable {
 
     private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
 
@@ -39,28 +39,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
     private Pane shipboardContainer;
 
     @FXML
-    private TextField startingPositionField;
-
-    @FXML
-    private RadioButton purpleAlienRadio;
-
-    @FXML
-    private RadioButton brownAlienRadio;
-
-    @FXML
-    private Button addAlienButton;
-
-    @FXML
-    private Button endAddAlienButton;
-
-    @FXML
     private Label validationMessage;
-
-    @FXML
-    private Label statusMessage;
-
-    @FXML
-    private Button selectPositionButton;
 
     @FXML
     private Button showPlayer1ShipboardButton;
@@ -80,27 +59,14 @@ public class AddAlienSceneController extends GuiController implements Initializa
     @FXML
     private Pane flightboardContainer;
 
-    @FXML
-    private TextField alienPosX;
-
-    @FXML
-    private TextField alienPosY;
-
     // Variabile per tenere traccia se stiamo visualizzando la shipboard di un altro giocatore
     private boolean isViewingOtherPlayerShipboard = false;
-    private List<Button> allButtons;
-    private List<Boolean> previousButtonStates;
     private final List<ImageView> playerPositionImages = new ArrayList<>();
-
-    private ToggleGroup alienTypeGroup;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
-        setupFieldValidation();
         validationMessage.setVisible(false);
-        statusMessage.setText("Add aliens to your shipboard");
-
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
     }
@@ -114,15 +80,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
                 stage.setResizable(true);
             }
         });
-
-        // Setup radio button group
-        alienTypeGroup = new ToggleGroup();
-        purpleAlienRadio.setToggleGroup(alienTypeGroup);
-        brownAlienRadio.setToggleGroup(alienTypeGroup);
-
-        allButtons = Arrays.asList(selectPositionButton, addAlienButton, endAddAlienButton);
-
-        saveButtonStates();
     }
 
     @Override
@@ -136,9 +93,8 @@ public class AddAlienSceneController extends GuiController implements Initializa
         Platform.runLater(() -> {
             updateGui(game);
             loadShipboardImage();
-            loadFlightboardImage();
-            resetShowShipboardButtons();
-            
+            loadFlightboardImage(flightboardImageView);
+
             // Aggiungi questa parte per caricare immediatamente le tile esistenti
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                 for (PlayerView player : game.getPlayers()) {
@@ -172,27 +128,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
         }
     }
 
-    // Aggiungi questo metodo per caricare l'immagine della flightboard
-    public void loadFlightboardImage() {
-        try {
-            String imagePath;
-            if(getGuiRoot().getGameMode()==0){
-                imagePath = "/org.example/cardboard/cardboard-3.jpg";
-            } else {
-                imagePath = "/org.example/cardboard/cardboard-5.jpg";
-            }
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream != null) {
-                Image image = new Image(imageStream);
-                flightboardImageView.setImage(image);
-            } else {
-                System.err.println("Flightboard image not found: " + imagePath);
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading flightboard image: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+
 
     // Modifica il metodo updateGui per includere il caricamento della flightboard
     @Override
@@ -200,7 +136,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
         Platform.runLater(() -> {
             try {
                 loadShipboardImage();
-                loadFlightboardImage();
+                loadFlightboardImage(flightboardImageView);
 
                 for(String playerName : getGuiRoot().getPlayers()) {
                     if(!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
@@ -215,7 +151,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
                 }
 
                 GameViewCache.GameViewDifferences differences = getGuiRoot().getGameCache().compareAndUpdate(game);
-                
+
                 if (differences.hasChanges()) {
                     if (!differences.getNewShipboardComponents().isEmpty()) {
                         updateShipBoardGUI(differences.getNewShipboardComponents());
@@ -227,10 +163,10 @@ public class AddAlienSceneController extends GuiController implements Initializa
                         updatePlayerPositions(differences.getPlayersWithChangedPositions(), game);
                     }
                 }
-                
+
                 // Aggiorna i pulsanti per visualizzare le shipboard degli altri giocatori
                 updatePlayerShipboardButtons(game);
-                
+
             } catch (Exception e) {
                 System.err.println("Error updating GUI: " + e.getMessage());
                 e.printStackTrace();
@@ -525,10 +461,10 @@ public class AddAlienSceneController extends GuiController implements Initializa
 
     @Override
     public void updatePlayerShipboardButtons(GameView game) {
-        
+
         List<PlayerView> players = game.getPlayers();
         String currentPlayerName = getGuiRoot().getClient().getPlayerName();
-        
+
         int buttonIndex = 1;
         for (PlayerView player : players) {
             if (!player.getName().equals(currentPlayerName)) {
@@ -551,8 +487,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
     @FXML
     public void onShowPlayer1Shipboard() {
         isViewingOtherPlayerShipboard = true;
-        saveButtonStates();
-        disableAllButtons();
         showPlayer1ShipboardButton.setVisible(false);
         showOwnShipboardButton.setVisible(true);
         showOwnShipboardButton.setDisable(false);
@@ -562,8 +496,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
     @FXML
     public void onShowPlayer2Shipboard() {
         isViewingOtherPlayerShipboard = true;
-        saveButtonStates();
-        disableAllButtons();
         showPlayer2ShipboardButton.setVisible(false);
         showOwnShipboardButton.setDisable(false);
         showOwnShipboardButton.setVisible(true);
@@ -573,8 +505,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
     @FXML
     public void onShowPlayer3Shipboard() {
         isViewingOtherPlayerShipboard = true;
-        saveButtonStates();
-        disableAllButtons();
         showPlayer3ShipboardButton.setVisible(false);
         showOwnShipboardButton.setDisable(false);
         showOwnShipboardButton.setVisible(true);
@@ -585,8 +515,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
     public void onShowOwnShipboard() {
         isViewingOtherPlayerShipboard = false;
         showPlayerShipboard(getGuiRoot().getClient().getPlayerName());
-        restoreButtonStates();
-        resetShowShipboardButtons();
 
         if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
             updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
@@ -646,27 +574,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
         showValidationError("Now showing " + playerName + "'s shipboard");
     }
 
-    private void saveButtonStates() {
-        previousButtonStates = new ArrayList<>();
-        for (Button button : allButtons) {
-            previousButtonStates.add(button.isDisable());
-        }
-    }
-
-    private void disableAllButtons() {
-        for (Button button : allButtons) {
-            button.setDisable(true);
-        }
-    }
-
-    private void restoreButtonStates() {
-        for (int i = 0; i < allButtons.size(); i++) {
-            allButtons.get(i).setDisable(previousButtonStates.get(i));
-        }
-    }
-
-
-
     public void loadShipboardImage() {
         try {
             InputStream imageStream;
@@ -695,32 +602,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
         } catch (Exception e) {
             System.err.println("Error loading shipboard image: " + e.getMessage());
             showValidationError("Error loading shipboard image!");
-        }
-    }
-
-    private void setupFieldValidation() {
-        startingPositionField.textProperty().addListener((_, oldValue, newValue) -> {
-            // Allow only numbers from 0 to -3
-            if (!newValue.matches("-?[0-3]?")) {
-                startingPositionField.setText(oldValue);
-            }
-        });
-    }
-
-    private void resetShowShipboardButtons() {
-        showOwnShipboardButton.setDisable(false);
-        showPlayer1ShipboardButton.setDisable(false);
-        showPlayer3ShipboardButton.setDisable(false);
-        showPlayer2ShipboardButton.setDisable(false);
-        showOwnShipboardButton.setVisible(false);
-        showPlayer1ShipboardButton.setVisible(true);
-        showPlayer2ShipboardButton.setVisible(false);
-        showPlayer3ShipboardButton.setVisible(false);
-        if(getGuiRoot().getPlayers().size()>=3){
-            showPlayer2ShipboardButton.setVisible(true);
-            if(getGuiRoot().getPlayers().size()==4){
-                showPlayer3ShipboardButton.setVisible(true);
-            }
         }
     }
 
@@ -935,68 +816,5 @@ public class AddAlienSceneController extends GuiController implements Initializa
             return x >= 4 && x <= 10 && y >= 5 && y <= 9 && (x != 4 || y != 5) && (x != 4 || y != 6) && (x != 5 || y != 5) && (x != 7 || y != 9)
                     && (x != 7 || y != 5) && (x != 10 || y != 5) && (x != 10 || y != 6) && (x != 9 || y != 5);
         }
-    }
-
-    @FXML
-    public void onAddAlienClick() throws RemoteException {
-        try {
-            String posX = alienPosX.getText().trim();
-            String posY = alienPosY.getText().trim();
-
-            if (validateInputs(Integer.parseInt(alienPosX.getText().trim()), Integer.parseInt(alienPosY.getText().trim()))) {
-                RadioButton selectedAlien = (RadioButton) alienTypeGroup.getSelectedToggle();
-                if (selectedAlien == null) {
-                    showValidationError("Please select an alien type");
-                    return;
-                }
-
-                String messageType;
-                if (selectedAlien == purpleAlienRadio) {
-                    messageType = "add_purple_alien";  // Nota: purple invece di purple
-                } else {
-                    messageType = "add_brown_alien";
-                }
-
-                List<String> args = Arrays.asList(posX, posY);
-                Message message = getGuiRoot().getClient().getMessageGenerator().generate(messageType, args);
-                getGuiRoot().getClient().sendMessage(message);
-
-                hideValidationMessage();
-                statusMessage.setText("Alien added successfully!");
-            }
-        } catch (NumberFormatException e) {
-            showValidationError("Please, insert valid inputs for X and Y");
-        }
-    }
-
-    @FXML
-    public void onSelectPositionClick() throws RemoteException {
-        hideValidationMessage();
-        int pos = Integer.parseInt(startingPositionField.getText());
-        if(pos<=0 && pos>=-3){
-            try{
-                Message message = getGuiRoot().getClient().getMessageGenerator().generate("select_position", Collections.singletonList(startingPositionField.getText()));
-                getGuiRoot().getClient().sendMessage(message);
-            } catch (NumberFormatException e) {
-                showValidationError("Please, insert valid input for starting position");
-            }
-
-            statusMessage.setText("Position selection sent!");
-            selectPositionButton.setDisable(true);
-        } else {
-            showValidationError("Please, insert a valid starting position");
-        }
-
-    }
-
-    @FXML
-    public void onEndAddAlienClick() throws RemoteException {
-        // Salva lo stato prima di cambiare scena
-        saveCurrentShipboardState();
-        
-        // Resto della logica esistente...
-        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_add_alien", new ArrayList<>());
-        getGuiRoot().getClient().sendMessage(message);
-        getGuiRoot().goToWaitingScene();
     }
 }
