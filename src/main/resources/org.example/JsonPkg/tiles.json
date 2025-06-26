@@ -355,7 +355,7 @@
       "direction": "NORTH",
       "connectors": ["DOUBLE", "SINGLE", "DOUBLE", "DOUBLE"],
       "isCentral": false,
-      "img": "/org.example/tiles/GT-new_tiles_16_for web43jpg"
+      "img": "/org.example/tiles/GT-new_tiles_16_for web43.jpg"
     },
     {
       "type": "CABIN",
