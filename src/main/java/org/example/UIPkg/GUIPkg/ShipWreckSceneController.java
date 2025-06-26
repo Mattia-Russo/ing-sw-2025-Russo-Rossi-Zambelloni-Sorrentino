@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
+import org.example.ServerPkg.Model.Points;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -467,6 +468,7 @@ public class ShipWreckSceneController extends GuiController implements Initializ
             double basePosY = y * cellHeight;
 
             double indicatorSize = Math.min(cellWidth, cellHeight) * 0.4;
+
             double centerX = basePosX + (cellWidth / 2);
             double centerY = basePosY + (cellHeight / 2);
 
@@ -597,6 +599,16 @@ public class ShipWreckSceneController extends GuiController implements Initializ
             int x = Integer.parseInt(xCoordinateField.getText().trim());
             int y = Integer.parseInt(yCoordinateField.getText().trim());
 
+            if (!occupiedCells.contains(new Points(x, y))) {
+                showValidationError("Please enter valid numbers for X and Y coordinates");
+            }else {
+                List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
+                Message message = getGuiRoot().getClient().getMessageGenerator().generate("choose_wrecked", args);
+                getGuiRoot().getClient().sendMessage(message);
+                hideValidationMessage();
+                statusMessage.setText("Wreck Ship ended successfully!");
+                confirmButton.setDisable(true);
+            }
             List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("choose_wrecked", args);
             getGuiRoot().getClient().sendMessage(message);
