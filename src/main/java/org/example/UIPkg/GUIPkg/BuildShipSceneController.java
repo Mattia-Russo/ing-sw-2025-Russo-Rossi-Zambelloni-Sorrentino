@@ -159,9 +159,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showOwnShipboardButton.setVisible(false);
         pickDiscoveredButton.setDisable(true);
         bookComponentButton.setDisable(true);
-
-        turnTimerButton.setVisible(false);
-        turnTimerButton.setDisable(true);
     }
 
     private void saveButtonStates() {

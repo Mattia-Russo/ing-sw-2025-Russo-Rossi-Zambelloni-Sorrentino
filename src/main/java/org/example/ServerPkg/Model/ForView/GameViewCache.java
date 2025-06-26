@@ -17,17 +17,24 @@ public class GameViewCache {
     public static class GameViewDifferences {
         private final List<ComponentsView> newShipboardComponents;
         private final List<ComponentsView> newDiscoveredComponents;
+        private final List<ComponentsView> changedShipboardComponents;
         private final ComponentsView newCurrentTile;
         private final boolean currentTileChanged;
 
         public GameViewDifferences(List<ComponentsView> newShipboardComponents,
                                    List<ComponentsView> newDiscoveredComponents,
+                                   List<ComponentsView> changedShipboardComponents, // AGGIUNTO
                                    ComponentsView newCurrentTile,
                                    boolean currentTileChanged) {
             this.newShipboardComponents = newShipboardComponents != null ? newShipboardComponents : new ArrayList<>();
             this.newDiscoveredComponents = newDiscoveredComponents != null ? newDiscoveredComponents : new ArrayList<>();
+            this.changedShipboardComponents = changedShipboardComponents != null ? changedShipboardComponents : new ArrayList<>(); // AGGIUNTO
             this.newCurrentTile = newCurrentTile;
             this.currentTileChanged = currentTileChanged;
+        }
+
+        public List<ComponentsView> getChangedShipboardComponents() {
+            return changedShipboardComponents;
         }
 
         public List<ComponentsView> getNewShipboardComponents() {
@@ -47,7 +54,8 @@ public class GameViewCache {
         }
 
         public boolean hasChanges() {
-            return !newShipboardComponents.isEmpty() || !newDiscoveredComponents.isEmpty() || currentTileChanged;
+            return !newShipboardComponents.isEmpty() || !newDiscoveredComponents.isEmpty() ||
+                    !changedShipboardComponents.isEmpty() || currentTileChanged;
         }
     }
 
@@ -59,6 +67,7 @@ public class GameViewCache {
     public GameViewDifferences compareAndUpdate(GameView newGameView) {
         List<ComponentsView> newShipboardComponents = new ArrayList<>();
         List<ComponentsView> newDiscoveredComponents = new ArrayList<>();
+        List<ComponentsView> changedComponents = new ArrayList<>();
         ComponentsView newCurrentTile = null;
         boolean currentTileChanged = false;
 
@@ -80,6 +89,8 @@ public class GameViewCache {
                     List<ComponentsView> cachedShipboardComponents = getShipboardComponents(cachedPlayer.getShipboardView());
                     List<ComponentsView> currentShipboardComponents = getShipboardComponents(currentPlayer.getShipboardView());
                     newShipboardComponents = findComponentDifferences(cachedShipboardComponents, currentShipboardComponents);
+                    // Trova i componenti che hanno cambiato quantità
+                    changedComponents = findComponentQuantityChanges(cachedShipboardComponents, currentShipboardComponents);
 
                     // Confronta il currentTile
                     ComponentsView cachedCurrentTile = cachedPlayer.getCurrentTile();
@@ -123,7 +134,7 @@ public class GameViewCache {
             cachedGameView = newGameView;
         }
 
-        return new GameViewDifferences(newShipboardComponents, newDiscoveredComponents, newCurrentTile, currentTileChanged);
+        return new GameViewDifferences(newShipboardComponents, newDiscoveredComponents, changedComponents, newCurrentTile, currentTileChanged);
     }
 
     private PlayerView findPlayerByName(GameView gameView, String playerName) {
@@ -197,7 +208,36 @@ public class GameViewCache {
      */
     private boolean componentsEqual(ComponentsView comp1, ComponentsView comp2) {
         return comp1.getId() == comp2.getId() &&
-                comp1.getDirection() == comp2.getDirection();
+                comp1.getDirection() == comp2.getDirection() &&
+                comp1.getNumAstronauts() == comp2.getNumAstronauts() &&
+                comp1.getNumBattery() == comp2.getNumBattery() &&
+                comp1.getAlienColour() == comp2.getAlienColour() &&
+                java.util.Arrays.equals(comp1.getGoods(), comp2.getGoods());
+    }
+
+    /**
+     * Trova i componenti che hanno cambiato le loro quantità/proprietà
+     */
+    private List<ComponentsView> findComponentQuantityChanges(List<ComponentsView> oldComponents, List<ComponentsView> newComponents) {
+        List<ComponentsView> changedComponents = new ArrayList<>();
+
+        for (ComponentsView newComponent : newComponents) {
+            for (ComponentsView oldComponent : oldComponents) {
+                if (newComponent.getId() == oldComponent.getId() &&
+                        newComponent.getDirection() == oldComponent.getDirection() &&
+                        newComponent.getPosX() == oldComponent.getPosX() &&
+                        newComponent.getPosY() == oldComponent.getPosY()) {
+
+                    // Stesso componente, controlla se le quantità sono cambiate
+                    if (!componentsEqual(oldComponent, newComponent)) {
+                        changedComponents.add(newComponent);
+                    }
+                    break;
+                }
+            }
+        }
+
+        return changedComponents;
     }
 
     /**

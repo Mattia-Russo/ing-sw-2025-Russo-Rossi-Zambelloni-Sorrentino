@@ -223,6 +223,9 @@ public class AddAlienSceneController extends GuiController implements Initializa
                     if (!differences.getNewShipboardComponents().isEmpty()) {
                         updateShipBoardGUI(differences.getNewShipboardComponents());
                     }
+                    if (!differences.getChangedShipboardComponents().isEmpty()) {
+                        updateShipBoardGUI(differences.getChangedShipboardComponents());
+                    }
                 }
                 
                 // Aggiorna i pulsanti per visualizzare le shipboard degli altri giocatori
@@ -453,6 +456,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
             String imagePath = componentJson.getString("img");
             Direction direction = component.getDirection();
             placeImageOnShipboard(imagePath, x, y, direction);
+            placeQuantityIndicatorsOnShipboard(component, x, y);
         } catch (Exception e) {
             System.err.println("Error placing component on shipboard: " + e.getMessage());
             e.printStackTrace();
@@ -492,6 +496,104 @@ public class AddAlienSceneController extends GuiController implements Initializa
 
         } catch (Exception e) {
             System.err.println("Error positioning image on shipboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void placeQuantityIndicatorsOnShipboard(ComponentsView component, int x, int y) {
+        try {
+            x = x - 4;
+            y = y - 5;
+
+            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
+            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
+
+            double basePosX = x * cellWidth;
+            double basePosY = y * cellHeight;
+
+            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
+            double centerX = basePosX + (cellWidth / 2);
+            double centerY = basePosY + (cellHeight / 2);
+
+            // Lista per tenere traccia delle posizioni occupate
+            int positionIndex = 0;
+            double[][] positions = {
+                    {centerX - indicatorSize/2, centerY - indicatorSize/2},           // Centro
+                    {centerX + indicatorSize*0.3, centerY - indicatorSize/2},         // Destra del centro
+                    {centerX - indicatorSize*0.8, centerY - indicatorSize/2},         // Sinistra del centro
+                    {centerX - indicatorSize/2, centerY + indicatorSize*0.3},         // Sotto il centro
+                    {centerX + indicatorSize*0.3, centerY + indicatorSize*0.3},       // Destra-sotto
+                    {centerX - indicatorSize*0.8, centerY + indicatorSize*0.3}        // Sinistra-sotto
+            };
+
+            // Astronauti
+            if (component.getNumAstronauts() > 0) {
+                for (int i = 0; i < component.getNumAstronauts() && positionIndex < positions.length; i++) {
+                    placeQuantityIndicator("/org.example/cardboard/Astronaut.jpg",
+                            positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                    positionIndex++;
+                }
+            }
+
+            // Alieni
+            if (component.getAlienColour() != null && positionIndex < positions.length) {
+                String alienImagePath = component.getAlienColour().toString().toLowerCase().equals("brown") ?
+                        "/org.example/cardboard/brownAlien.jpg" : "/org.example/cardboard/purpleAlien.jpg";
+                placeQuantityIndicator(alienImagePath,
+                        positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                positionIndex++;
+            }
+
+            // Batterie
+            if (component.getNumBattery() > 0) {
+                for (int i = 0; i < component.getNumBattery() && positionIndex < positions.length; i++) {
+                    placeQuantityIndicator("/org.example/cardboard/battery.jpg",
+                            positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                    positionIndex++;
+                }
+            }
+
+            // Goods
+            if (component.getGoods() != null) {
+                for (int i = 0; i < component.getGoods().length && positionIndex < positions.length; i++) {
+                    if (component.getGoods()[i] != null) {
+                        String goodColor = component.getGoods()[i].getColour().toString().toLowerCase();
+                        String goodImagePath = "/org.example/cardboard/" + goodColor + "Good.jpg";
+                        placeQuantityIndicator(goodImagePath,
+                                positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                        positionIndex++;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error placing quantity indicators: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    private void placeQuantityIndicator(String imagePath, double x, double y, double size) {
+        try {
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream == null) {
+                System.err.println("Indicator image not found: " + imagePath);
+                return;
+            }
+
+            Image indicatorImage = new Image(imageStream);
+            ImageView indicatorImageView = new ImageView(indicatorImage);
+
+            indicatorImageView.setFitWidth(size);
+            indicatorImageView.setFitHeight(size);
+            indicatorImageView.setPreserveRatio(true);
+            indicatorImageView.setX(x);
+            indicatorImageView.setY(y);
+
+            Platform.runLater(() -> shipboardContainer.getChildren().add(indicatorImageView));
+
+        } catch (Exception e) {
+            System.err.println("Error placing quantity indicator: " + e.getMessage());
             e.printStackTrace();
         }
     }
