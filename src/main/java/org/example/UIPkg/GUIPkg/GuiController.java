@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.example.ServerPkg.Model.ForView.*;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -198,5 +199,26 @@ public abstract class GuiController {
         }
 
         return components;
+    }
+
+    public void loadFlightboardImage(ImageView flightboardImageView) {
+        try {
+            String imagePath;
+            if(getGuiRoot().getGameMode()==0){
+                imagePath = "/org.example/cardboard/cardboard-3.jpg";
+            } else {
+                imagePath = "/org.example/cardboard/cardboard-5.jpg";
+            }
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream != null) {
+                Image image = new Image(imageStream);
+                flightboardImageView.setImage(image);
+            } else {
+                System.err.println("Flightboard image not found: " + imagePath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading flightboard image: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

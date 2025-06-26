@@ -466,7 +466,7 @@ public class ShipWreckSceneController extends GuiController implements Initializ
             double basePosX = x * cellWidth;
             double basePosY = y * cellHeight;
 
-            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
+            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.4;
             double centerX = basePosX + (cellWidth / 2);
             double centerY = basePosY + (cellHeight / 2);
 

@@ -24,6 +24,7 @@ public class GUIMain extends Application {
     public static final String ADD_ALIEN_SCENE = "/org.example/FxmlPkg/addAlienScene.fxml";
     public static final String FIX_SHIP_SCENE = "/org.example/FxmlPkg/fixShipScene.fxml";
     public static final String SHIP_WRECK_SCENE = "/org.example/FxmlPkg/shipWreckScene.fxml";
+    public static final String WAITING_SCENE = "/org.example/FxmlPkg/waitingScene.fxml";
 
     public GUIMain() {
         guiMain = this;
