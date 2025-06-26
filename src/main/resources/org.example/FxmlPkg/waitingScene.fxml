@@ -3,16 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.WaitingSceneController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.WaitingSceneController">
     <center>
         <VBox alignment="CENTER" spacing="20.0">
             <padding>
@@ -49,10 +46,11 @@
                 <!-- Riga separata per il pulsante personale -->
                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                     <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
-                    <Button fx:id="showPlayer2ShipboardButton" alignment="CENTER" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="showPlayer2ShipboardButton" alignment="CENTER" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
                 </HBox>
             </VBox>
+         <Label text="Waiting for other players to build their ship" />
 
             <!-- Messaggio di validazione -->
             <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false" />

@@ -63,7 +63,7 @@ public class GUIMain extends Application {
     }
 
     public void goToFirstScene() {
-        List<String> FxmlFiles = new ArrayList<>(Arrays.asList(NAME_REQUEST_SCENE, SETTINGS_SCENE, WAITING_ROOM_SCENE, BUILD_SHIP_SCENE, ADD_ALIEN_SCENE, FIX_SHIP_SCENE, SHIP_WRECK_SCENE));
+        List<String> FxmlFiles = new ArrayList<>(Arrays.asList(NAME_REQUEST_SCENE, SETTINGS_SCENE, WAITING_ROOM_SCENE, BUILD_SHIP_SCENE, ADD_ALIEN_SCENE, FIX_SHIP_SCENE, SHIP_WRECK_SCENE, WAITING_SCENE));
         try{
             for(String fxmlFile : FxmlFiles){
                 FXMLLoader loader = new FXMLLoader(GUI.class.getResource(fxmlFile));
