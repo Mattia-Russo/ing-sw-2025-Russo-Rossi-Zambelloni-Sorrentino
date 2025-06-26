@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.example.ServerPkg.Model.ForView.*;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,7 @@ public abstract class GuiController {
     private GUI guiRoot;
 
     // Mappa statica per mantenere le immagini tra le scene
-    private static Map<String, List<ComponentImageInfo>> persistentShipboardImages = new HashMap<>();
+    private static final Map<String, List<ComponentImageInfo>> persistentShipboardImages = new HashMap<>();
 
     // Riferimenti ai container delle immagini (da impostare nelle sottoclassi)
     protected Pane shipboardContainer;
@@ -39,8 +38,7 @@ public abstract class GuiController {
             List<ComponentImageInfo> imageInfos = new ArrayList<>();
 
             for (Node node : shipboardContainer.getChildren()) {
-                if (node instanceof ImageView && node != shipboardImageView) {
-                    ImageView img = (ImageView) node;
+                if (node instanceof ImageView img && node != shipboardImageView) {
                     // Salva solo se l'immagine ha un URL valido
                     if (img.getImage() != null && img.getImage().getUrl() != null) {
                         ComponentImageInfo info = new ComponentImageInfo(
@@ -171,51 +169,35 @@ public abstract class GuiController {
         }
     }
 
-    // Metodi astratti esistenti
-    public void setMaxPlayers(int numPlayers) {
-    }
+    public void setMaxPlayers(int numPlayers) {}
 
-    public void setShipboardLevel(int shipboardLevel) {
-    }
+    public void setShipBoardLevel(int shipboardLevel) {}
 
-    public void setGameMode(int gameMode) {
-    }
+    public void setGameMode(int gameMode) {}
 
-    public void updatePlayersList(List<String> playersList) {
-    }
+    public void updatePlayersList(List<String> playersList) {}
 
-    public void printNameInvalid() {
-    }
+    public void printNameInvalid() {}
 
-    public void onNameAccepted() {
-    }
+    public void onNameAccepted() {}
 
-    public void onLobbyCreated() {
-    }
+    public void onLobbyCreated() {}
 
-    public void setLobbyCreator(boolean lobbyCreator) {
-    }
+    public void setLobbyCreator(boolean lobbyCreator) {}
 
-    public void onCreateLobbyAccepted() {
-    }
+    public void onCreateLobbyAccepted() {}
 
-    public void onGameStarted() {
-    }
+    public void onGameStarted() {}
 
-    public void updateGui(GameView game) {
-    }
+    public void updateGui(GameView game) {}
 
-    public void loadShipboardImage() {
-    }
+    public void loadShipBoardImage() {}
 
-    public void loadFlightBoardImage() {
-    }
+    public void loadFlightBoardImage() {}
 
-    public void updatePlayerShipboardButtons(GameView game) {
-    }
+    public void updatePlayerShipboardButtons(GameView game) {}
 
-    public void setUp(GameView game) {
-    }
+    public void setUp(GameView game) {}
 
     public List<ComponentsView> getShipboardComponents(ShipboardView shipboardView) {
         List<ComponentsView> components = new ArrayList<>();

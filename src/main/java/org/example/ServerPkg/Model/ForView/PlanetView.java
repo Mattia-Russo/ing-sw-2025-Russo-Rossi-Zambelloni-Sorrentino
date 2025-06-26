@@ -9,8 +9,11 @@ import java.util.List;
 public class PlanetView implements Serializable {
     private final int planetNumber;
     private final List<GoodsView> goods= new ArrayList<>();
+    private boolean isVisited;
+
     public PlanetView(Planet planet) {
         planetNumber = planet.getPlanetNumber();
+        isVisited = planet.isVisited();
         for(int i=0; i<planet.getGoodsList().length; i++){
             if(planet.getGoodsList()[i]!=null){
                 goods.add(new GoodsView(planet.getGoodsList()[i]));
@@ -20,6 +23,10 @@ public class PlanetView implements Serializable {
 
     public int getPlanetNumber() {
         return planetNumber;
+    }
+
+    public boolean isVisited() {
+        return isVisited;
     }
 
     public List<GoodsView> getGoods() {

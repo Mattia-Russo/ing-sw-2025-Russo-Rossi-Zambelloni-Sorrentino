@@ -23,7 +23,7 @@ public class LandOnPlanetsState extends PlayerState implements Serializable {
         }
 
         if(landed){
-            if(getGame().getCurrentCard().getPlanetsVisited()[numPlanet]){
+            if(getGame().getCurrentCard().getPlanetsList().get(numPlanet).isVisited()){
                 new GameView(getGame(), new PlanetAlreadyVisitedException("Planet " + numPlanet + " already visited, choose another one " + player.getName()));
             } else {
                 getGame().getCurrentCard().playCard(getGame(), numPlanet);

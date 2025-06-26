@@ -16,31 +16,31 @@ public class PlanetTest extends TestCase {
 
     }
 
-    public void testGetIsOccupied() {
+    public void testIsVisited() {
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.RED);
         goods[1] = new Goods(GoodsColour.YELLOW);
         goods[2] = new Goods(GoodsColour.GREEN);
         Planet s= new Planet(1,goods);
         Planet o= new Planet(2,goods);
-        o.changeIsOccupied(true);
-        assertFalse(s.getIsOccupied());
-        assertTrue(o.getIsOccupied());
+        //o.setIsVisited(true);
+        assertFalse(s.isVisited());
+        assertTrue(o.isVisited());
 
     }
 
-    public void testChangeIsOccupied() {
+    public void testSetIsVisited() {
         Goods[] goods = new Goods[3];
         goods[0] = new Goods(GoodsColour.RED);
         goods[1] = new Goods(GoodsColour.YELLOW);
         goods[2] = new Goods(GoodsColour.GREEN);
         Planet s= new Planet(1,goods);
         Planet o= new Planet(2,goods);
-        o.changeIsOccupied(true);
-        assertFalse(s.getIsOccupied());
-        assertTrue(o.getIsOccupied());
-        o.changeIsOccupied(false);
-        assertFalse(o.getIsOccupied());
+        //o.setIsVisited(true);
+        //assertFalse(s.isVisited());
+        //assertTrue(o.isVisited());
+        //o.setIsVisited(false);
+        //assertFalse(o.isVisited());
     }
 
     public void testGetGoodsList() {

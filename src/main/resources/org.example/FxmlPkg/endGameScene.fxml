@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.gc31.FxmlPkg.EndGameView"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<ScrollPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.UIPkg.GUIPkg.EndGameSceneController">
+    <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #2c3e50;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+        </padding>
+        <Label fx:id="titleLabel" style="-fx-text-fill: #f39c12;" text="🎉 GAME OVER 🎉">
+            <font>
+                <Font name="Arial Bold" size="36.0"/>
+            </font>
+        </Label>
+        <Label fx:id="subtitleLabel" style="-fx-text-fill: #ecf0f1;" text="Congratulazioni ai vincitori!">
+            <font>
+                <Font name="Arial" size="20.0"/>
+            </font>
+        </Label>
+        <VBox fx:id="winnersContainer" alignment="CENTER" spacing="15.0">
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
+        </VBox>
+    </VBox>
+</ScrollPane>

@@ -146,7 +146,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     public void setUp(GameView game){
         updateGui(game);
-        loadShipboardImage();
+        loadShipBoardImage();
     }
 
     private void setupUI() {
@@ -514,7 +514,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
-    public void loadShipboardImage() {
+    public void loadShipBoardImage() {
         try {
             InputStream imageStream;
 

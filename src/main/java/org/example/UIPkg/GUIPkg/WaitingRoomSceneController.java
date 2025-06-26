@@ -154,7 +154,7 @@ public class WaitingRoomSceneController extends GuiController implements Initial
         });
     }
 
-    public void setShipboardLevel(int shipboardLevel) {
+    public void setShipBoardLevel(int shipboardLevel) {
         Platform.runLater(() -> {
             shipboardLevelLabel.setText("Shipboard Level: " + shipboardLevel);
         });

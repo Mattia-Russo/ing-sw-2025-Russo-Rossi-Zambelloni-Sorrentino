@@ -71,6 +71,10 @@ public class GameViewCache {
         this.cachedGameView = null; // Inizialmente null per rilevare la prima GameView
     }
 
+    public AdventureCardView getCurrentCard(){
+        return cachedGameView.getCurrentCard();
+    }
+
     public GameViewDifferences compareAndUpdate(GameView newGameView) {
         List<ComponentsView> newShipboardComponents = new ArrayList<>();
         List<ComponentsView> newDiscoveredComponents = new ArrayList<>();

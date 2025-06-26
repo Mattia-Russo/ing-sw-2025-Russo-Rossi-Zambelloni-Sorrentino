@@ -71,6 +71,9 @@ public class GUI extends UI {
                         assert game != null;
                         GuiController controller = GUIMain.getGuiMain().getCurrentController();
                         controller.setUp(game);
+                        if(game.getException()!=null){
+                            manageNotification(new NotifyClientMessage(game.getException().getMessage()));
+                        }
                         if (game.getException() == null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                             controller.updatePlayerShipboardButtons(game);
                         }
@@ -117,7 +120,7 @@ public class GUI extends UI {
         GuiController controller = GUIMain.getGuiMain().getControllerMap().get(GUIMain.WAITING_ROOM_SCENE);
 
         controller.setMaxPlayers(numPlayers);
-        controller.setShipboardLevel(shipboardLevel);
+        controller.setShipBoardLevel(shipboardLevel);
         controller.setGameMode(gameMode);
         controller.updatePlayersList(playersList);
 
