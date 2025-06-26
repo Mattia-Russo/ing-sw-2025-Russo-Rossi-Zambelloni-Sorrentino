@@ -13,6 +13,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -302,7 +303,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     loser.setPlayerState(new ShipWreckedState(g, loser));
                 }
             }
-        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+        } catch (InvalidPositionException | AlreadyEmptyPositionException | RemoteException e) {
             System.out.println("Error" + e.getMessage());
         }
     }

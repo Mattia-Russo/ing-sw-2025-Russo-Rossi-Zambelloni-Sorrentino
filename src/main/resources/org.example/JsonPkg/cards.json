@@ -113,14 +113,14 @@
     "id": 11,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "/org.example/cards/GT-cards_II_IT_16.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_016.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 12,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "/org.example/cards/GT-cards_I_IT_16.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_016.jpg"
   },
 
   {
@@ -128,28 +128,28 @@
     "id": 13,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "/org.example/cards/GT-cards_I_IT_17.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_017.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 14,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "/org.example/cards/GT-cards_II_IT_17.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_017.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 15,
     "cardLevel": 1,
     "lostDays": 0,
-    "img": "/org.example/cards/GT-cards_I_IT_18.jpg"
+    "img": "/org.example/cards/GT-cards_I_IT_018.jpg"
   },
   {
     "cardname": "OPENSPACE",
     "id": 16,
     "cardLevel": 2,
     "lostDays": 0,
-    "img": "/org.example/cards/GT-cards_II_IT_18.jpg"
+    "img": "/org.example/cards/GT-cards_II_IT_018.jpg"
   },
   {
     "cardname": "METEORCARD",

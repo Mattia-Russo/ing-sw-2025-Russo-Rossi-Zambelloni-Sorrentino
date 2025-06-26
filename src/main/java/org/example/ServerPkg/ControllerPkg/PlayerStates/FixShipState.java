@@ -1,5 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyFixShipMessage;
+import org.example.MessagePkg.NotifyShipWreckedMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Connector;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
@@ -12,10 +15,14 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class FixShipState extends PlayerState implements Serializable {
-    public FixShipState(Game game) {
-        super(game);
+    public FixShipState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyFixShipMessage message = new NotifyFixShipMessage();
+        handler.sendMessage(message);
     }
 
     @Override
@@ -30,7 +37,7 @@ public class FixShipState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endFixShip(Player player){
+    public void endFixShip(Player player) throws RemoteException {
         player.setShipOK(true);
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
@@ -44,7 +51,7 @@ public class FixShipState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void disconnect(Player p){
+    public void disconnect(Player p) throws RemoteException {
         for(int i = 5; i < p.getPlayerShipBoard().getComponentMatrix().length+5; i++){
             for(int j = 4; j < p.getPlayerShipBoard().getComponentMatrix()[0].length+4; j++){
                 if (p.getPlayerShipBoard().validPosition(i,j) && p.getPlayerShipBoard().getComponent(i,j) != null) {

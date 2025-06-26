@@ -14,6 +14,7 @@ import org.example.ServerPkg.Utils.TileLoader;
 import org.example.UIPkg.GameUpdater;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class Game implements Serializable {
@@ -284,11 +285,11 @@ public class Game implements Serializable {
         }
     }
 
-    public void checkAllPlayersShip(){
+    public void checkAllPlayersShip() throws RemoteException {
         for (Player p : players) {
             if (!p.checkShip()) {
                 p.setShipOK(false);
-                p.setPlayerState(new FixShipState(this));
+                p.setPlayerState(new FixShipState(this, p));
                 new GameView(this, new Exception("YOU HAVE TO FIX YOUR SHIP " + p.getName() + ", REMOVE WRONG POSITIONED TILES"));
                 return;
             }
@@ -312,7 +313,7 @@ public class Game implements Serializable {
         Turn();
     }
 
-    public void checkAllWrackedShip(){
+    public void checkAllWrackedShip() throws RemoteException {
         Components c=null;
         int i=5;
         for (Player p : players) {
@@ -327,7 +328,7 @@ public class Game implements Serializable {
                     p.setPlayerState(new ShipWreckedState(this, p));
                     new GameView(this, new Exception("YOU HAVE A SHIP WRECK " + p.getName()));
                 } else if (gameMode == 1) {
-                    p.setPlayerState(new AddAlienState(this));
+                    p.setPlayerState(new AddAlienState(this, p));
                     new GameView(this, new Exception("YOU CAN ADD YOUR ALIENS " + p.getName()));
                 } else {
                     p.setReadyForCards(true);

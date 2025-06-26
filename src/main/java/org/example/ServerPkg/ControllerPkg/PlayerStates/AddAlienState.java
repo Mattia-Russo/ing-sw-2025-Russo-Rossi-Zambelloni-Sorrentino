@@ -1,5 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyAddAlienMessage;
+import org.example.MessagePkg.NotifyShipWreckedMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Alien;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
 import org.example.ServerPkg.Model.Exceptions.AlreadyAlienException;
@@ -11,12 +14,16 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
 
 public class AddAlienState extends PlayerState implements Serializable {
     private boolean positionSet=false;
-    public AddAlienState(Game game){
-        super(game);
+    public AddAlienState(Game game, Player player) throws RemoteException {
+        super(game,player);
+        Handler handler = game.getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName());
+        NotifyAddAlienMessage message = new NotifyAddAlienMessage();
+        handler.sendMessage(message);
     }
 
     @Override

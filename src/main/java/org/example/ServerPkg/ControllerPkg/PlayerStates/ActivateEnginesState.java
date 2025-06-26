@@ -15,7 +15,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
     ArrayList<Points> batteries;
 
     public ActivateEnginesState(Game game) {
-        super(game);
+        super(game, null);
         this.engines =null;
         this.batteries =null;
     }

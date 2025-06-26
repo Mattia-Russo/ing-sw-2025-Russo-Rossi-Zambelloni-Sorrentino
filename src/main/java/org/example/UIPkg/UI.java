@@ -41,4 +41,8 @@ public abstract class UI {
     public void onGameStarted(){}
 
     public void goToShipWreckedScene(){}
+
+    public void goToFixShipScene(){}
+
+    public void goToAddAlienScene(){}
 }
