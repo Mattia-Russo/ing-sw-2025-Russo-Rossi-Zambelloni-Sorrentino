@@ -12,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
-import org.example.ServerPkg.Model.Points;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -22,6 +21,9 @@ import java.net.URL;
 import java.util.*;
 
 public class WaitingSceneController extends GuiController implements Initializable {
+
+    private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
+    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
 
     @FXML
     private BorderPane borderPane;
@@ -53,10 +55,12 @@ public class WaitingSceneController extends GuiController implements Initializab
     @FXML
     private Pane flightboardContainer;
 
+    @FXML
+    private ImageView currentCardImageView;
+
     // Variabile per tenere traccia se stiamo visualizzando la shipboard di un altro giocatore
     private boolean isViewingOtherPlayerShipboard = false;
     private final List<ImageView> playerPositionImages = new ArrayList<>();
-    private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,8 +93,9 @@ public class WaitingSceneController extends GuiController implements Initializab
             updateGui(game);
             loadShipboardImage();
             loadFlightboardImage();
+            loadCurrentCard(game);
+            resetShowShipboardButtons();
 
-            // Aggiungi questa parte per caricare immediatamente le tile esistenti
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                 for (PlayerView player : game.getPlayers()) {
                     if(player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
@@ -107,6 +112,98 @@ public class WaitingSceneController extends GuiController implements Initializab
                 }
             }
         });
+    }
+
+    private void loadShipboardTiles(PlayerView player) {
+        if (player != null && player.getShipboardView() != null) {
+            List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
+            for (ComponentsView component : existingComponents) {
+                placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+            }
+
+            // Aggiorna la GUI con i componenti esistenti
+            if (!existingComponents.isEmpty()) {
+                updateShipBoardGUI(existingComponents);
+            }
+        }
+    }
+
+    // Aggiungi questo metodo per caricare l'immagine della flightboard
+    public void loadFlightboardImage() {
+        try {
+            String imagePath;
+            if(getGuiRoot().getGameMode()==0){
+                imagePath = "/org.example/cardboard/cardboard-3.jpg";
+            } else {
+                imagePath = "/org.example/cardboard/cardboard-5.jpg";
+            }
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream != null) {
+                Image image = new Image(imageStream);
+                flightboardImageView.setImage(image);
+            } else {
+                System.err.println("Flightboard image not found: " + imagePath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading flightboard image: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCurrentCard(GameView game) {
+        if (currentCardImageView == null) {
+            System.err.println("currentCardImageView is null - check FXML binding");
+            return;
+        }
+
+        try {
+            if (game != null && game.getCurrentCard() != null) {
+                JSONObject cardJson = findCardJsonById(String.valueOf(game.getCurrentCard().getId()));
+                if (cardJson != null) {
+                    String imagePath = cardJson.getString("img");
+                    InputStream imageStream = getClass().getResourceAsStream(imagePath);
+                    if (imageStream != null) {
+                        Image cardImage = new Image(imageStream);
+                        currentCardImageView.setImage(cardImage);
+                        currentCardImageView.setVisible(true);
+                    } else {
+                        System.err.println("Card image not found: " + imagePath);
+                        currentCardImageView.setVisible(false);
+                    }
+                } else {
+                    System.err.println("Card with ID " + game.getCurrentCard().getId() + " not found in JSON");
+                    currentCardImageView.setVisible(false);
+                }
+            } else {
+                // Nessuna carta corrente disponibile
+                currentCardImageView.setVisible(false);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading current card: " + e.getMessage());
+            e.printStackTrace();
+            currentCardImageView.setVisible(false);
+        }
+    }
+
+    private JSONObject findCardJsonById(String cardId) {
+        try (InputStream is = getClass().getResourceAsStream(CARDS_JSON_PATH)) {
+            if (is == null) {
+                System.err.println("JSON file not found: " + CARDS_JSON_PATH);
+                return null;
+            }
+
+            JSONArray jsonArray = new JSONArray(new JSONTokener(is));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                if (String.valueOf(json.getInt("id")).equals(cardId)) {
+                    return json;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading cards JSON file: " + e.getMessage());
+        }
+        return null;
     }
 
     // Modifica il metodo updateGui per includere il caricamento della flightboard
@@ -151,168 +248,6 @@ public class WaitingSceneController extends GuiController implements Initializab
                 e.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public void updatePlayerShipboardButtons(GameView game) {
-
-        List<PlayerView> players = game.getPlayers();
-        String currentPlayerName = getGuiRoot().getClient().getPlayerName();
-
-        int buttonIndex = 1;
-        for (PlayerView player : players) {
-            if (!player.getName().equals(currentPlayerName)) {
-                Button button = switch (buttonIndex) {
-                    case 1 -> showPlayer1ShipboardButton;
-                    case 2 -> showPlayer2ShipboardButton;
-                    case 3 -> showPlayer3ShipboardButton;
-                    default -> null;
-                };
-
-                if (button != null) {
-                    button.setText("Show " + player.getName() + "'s Shipboard");
-                    button.setVisible(true);
-                    buttonIndex++;
-                }
-            }
-        }
-    }
-
-    @FXML
-    public void onShowPlayer1Shipboard() {
-        isViewingOtherPlayerShipboard = true;
-        showPlayer1ShipboardButton.setVisible(false);
-        showOwnShipboardButton.setVisible(true);
-        showOwnShipboardButton.setDisable(false);
-        showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
-    }
-
-    @FXML
-    public void onShowPlayer2Shipboard() {
-        isViewingOtherPlayerShipboard = true;
-        showPlayer2ShipboardButton.setVisible(false);
-        showOwnShipboardButton.setDisable(false);
-        showOwnShipboardButton.setVisible(true);
-        showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
-    }
-
-    @FXML
-    public void onShowPlayer3Shipboard() {
-        isViewingOtherPlayerShipboard = true;
-        showPlayer3ShipboardButton.setVisible(false);
-        showOwnShipboardButton.setDisable(false);
-        showOwnShipboardButton.setVisible(true);
-        showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
-    }
-
-    @FXML
-    public void onShowOwnShipboard() {
-        isViewingOtherPlayerShipboard = false;
-        showPlayerShipboard(getGuiRoot().getClient().getPlayerName());
-
-        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
-            updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
-        }
-        hideValidationMessage();
-    }
-
-    private String getPlayerNameFromButton(Button button) {
-        String buttonText = button.getText();
-        return buttonText.substring(5, buttonText.indexOf("'s Shipboard"));
-    }
-
-    private void showPlayerShipboard(String playerName) {
-        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
-            System.err.println("Nessuna GameView disponibile per mostrare la shipboard");
-            return;
-        }
-
-        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
-
-        // Verifica che ci siano giocatori nella GameView
-        if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
-            System.err.println("Lista giocatori vuota nella GameView cached");
-            return;
-        }
-
-        PlayerView targetPlayer = null;
-
-        for (PlayerView player : cachedGame.getPlayers()) {
-            if (player.getName().equals(playerName)) {
-                targetPlayer = player;
-                break;
-            }
-        }
-
-        if (targetPlayer == null) {
-            System.err.println("Giocatore " + playerName + " non trovato nella GameView corrente");
-            // Non mostrare errore all'utente se è una GameView con eccezione
-            if (cachedGame.getException() == null) {
-                showValidationError("Player " + playerName + " not found");
-            }
-            return;
-        }
-
-        Platform.runLater(() -> {
-            shipboardContainer.getChildren().clear();
-            shipboardContainer.getChildren().add(shipboardImageView);
-        });
-
-        if (targetPlayer.getShipboardView() != null) {
-            List<ComponentsView> playerComponents = getShipboardComponents(targetPlayer.getShipboardView());
-            updateShipBoardGUI(playerComponents);
-        }
-
-        showOwnShipboardButton.setVisible(true);
-        showOwnShipboardButton.setDisable(false);
-        showValidationError("Now showing " + playerName + "'s shipboard");
-    }
-
-    private void showValidationError(String message) {
-        Platform.runLater(() -> {
-            validationMessage.setText(message);
-            validationMessage.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
-            validationMessage.setVisible(true);
-        });
-    }
-
-    private void updateShipBoardGUI(List<ComponentsView> newComponents) {
-        for (ComponentsView component : newComponents) {
-            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
-        }
-    }
-
-    public void loadFlightboardImage() {
-        try {
-            String imagePath;
-            if(getGuiRoot().getGameMode()==0){
-                imagePath = "/org.example/cardboard/cardboard-3.jpg";
-            } else {
-                imagePath = "/org.example/cardboard/cardboard-5.jpg";
-            }
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream != null) {
-                Image image = new Image(imageStream);
-                flightboardImageView.setImage(image);
-            } else {
-                System.err.println("Flightboard image not found: " + imagePath);
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading flightboard image: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void loadShipboardTiles(PlayerView player) {
-        if (player != null && player.getShipboardView() != null) {
-            List<ComponentsView> existingComponents = new ArrayList<>(getShipboardComponents(player.getShipboardView()));
-            for (ComponentsView component : existingComponents) {
-                placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
-            }
-            if (!existingComponents.isEmpty()) {
-                updateShipBoardGUI(existingComponents);
-            }
-        }
     }
 
     private void updatePlayerPositions(List<PlayerView> playersWithChangedPositions, GameView game) {
@@ -599,8 +534,175 @@ public class WaitingSceneController extends GuiController implements Initializab
         playerPositionImages.clear();
     }
 
-    private void hideValidationMessage() {
-        Platform.runLater(() -> validationMessage.setVisible(false));
+
+    @Override
+    public void updatePlayerShipboardButtons(GameView game) {
+
+        List<PlayerView> players = game.getPlayers();
+        String currentPlayerName = getGuiRoot().getClient().getPlayerName();
+
+        int buttonIndex = 1;
+        for (PlayerView player : players) {
+            if (!player.getName().equals(currentPlayerName)) {
+                Button button = switch (buttonIndex) {
+                    case 1 -> showPlayer1ShipboardButton;
+                    case 2 -> showPlayer2ShipboardButton;
+                    case 3 -> showPlayer3ShipboardButton;
+                    default -> null;
+                };
+
+                if (button != null) {
+                    button.setText("Show " + player.getName() + "'s Shipboard");
+                    button.setVisible(true);
+                    buttonIndex++;
+                }
+            }
+        }
+    }
+
+    @FXML
+    public void onShowPlayer1Shipboard() {
+        isViewingOtherPlayerShipboard = true;
+        showPlayer1ShipboardButton.setVisible(false);
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
+    }
+
+    @FXML
+    public void onShowPlayer2Shipboard() {
+        isViewingOtherPlayerShipboard = true;
+        showPlayer2ShipboardButton.setVisible(false);
+        showOwnShipboardButton.setDisable(false);
+        showOwnShipboardButton.setVisible(true);
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
+    }
+
+    @FXML
+    public void onShowPlayer3Shipboard() {
+        isViewingOtherPlayerShipboard = true;
+        showPlayer3ShipboardButton.setVisible(false);
+        showOwnShipboardButton.setDisable(false);
+        showOwnShipboardButton.setVisible(true);
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
+    }
+
+    @FXML
+    public void onShowOwnShipboard() {
+        isViewingOtherPlayerShipboard = false;
+        showPlayerShipboard(getGuiRoot().getClient().getPlayerName());
+        resetShowShipboardButtons();
+
+        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
+        }
+        hideValidationMessage();
+    }
+
+    private String getPlayerNameFromButton(Button button) {
+        String buttonText = button.getText();
+        return buttonText.substring(5, buttonText.indexOf("'s Shipboard"));
+    }
+
+    private void showPlayerShipboard(String playerName) {
+        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
+            System.err.println("Nessuna GameView disponibile per mostrare la shipboard");
+            return;
+        }
+
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+
+        // Verifica che ci siano giocatori nella GameView
+        if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
+            System.err.println("Lista giocatori vuota nella GameView cached");
+            return;
+        }
+
+        PlayerView targetPlayer = null;
+
+        for (PlayerView player : cachedGame.getPlayers()) {
+            if (player.getName().equals(playerName)) {
+                targetPlayer = player;
+                break;
+            }
+        }
+
+        if (targetPlayer == null) {
+            System.err.println("Giocatore " + playerName + " non trovato nella GameView corrente");
+            // Non mostrare errore all'utente se è una GameView con eccezione
+            if (cachedGame.getException() == null) {
+                showValidationError("Player " + playerName + " not found");
+            }
+            return;
+        }
+
+        Platform.runLater(() -> {
+            shipboardContainer.getChildren().clear();
+            shipboardContainer.getChildren().add(shipboardImageView);
+        });
+
+        if (targetPlayer.getShipboardView() != null) {
+            List<ComponentsView> playerComponents = getShipboardComponents(targetPlayer.getShipboardView());
+            updateShipBoardGUI(playerComponents);
+        }
+
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
+        showValidationError("Now showing " + playerName + "'s shipboard");
+    }
+
+    public void loadShipboardImage() {
+        try {
+            InputStream imageStream;
+            int shipBoardLevel = getGuiRoot().getShipBoardLevel();
+
+            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+                GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+                shipBoardLevel = cachedGame.getShipBoardLevel();
+            }
+
+            if(shipBoardLevel == 1) {
+                imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
+            } else {
+                imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
+            }
+
+            if (imageStream == null) {
+                throw new IllegalArgumentException("Shipboard image not found!");
+            }
+
+            Image shipboardImage = new Image(imageStream);
+            shipboardImageView.setImage(shipboardImage);
+            shipboardImageView.setFitWidth(400);
+            shipboardImageView.setFitHeight(300);
+            shipboardImageView.setPreserveRatio(true);
+        } catch (Exception e) {
+            System.err.println("Error loading shipboard image: " + e.getMessage());
+            showValidationError("Error loading shipboard image!");
+        }
+    }
+
+    private void resetShowShipboardButtons() {
+        showOwnShipboardButton.setDisable(false);
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer3ShipboardButton.setDisable(false);
+        showPlayer2ShipboardButton.setDisable(false);
+        showOwnShipboardButton.setVisible(false);
+        showPlayer1ShipboardButton.setVisible(true);
+        showPlayer2ShipboardButton.setVisible(false);
+        showPlayer3ShipboardButton.setVisible(false);
+        if(getGuiRoot().getPlayers().size()>=3){
+            showPlayer2ShipboardButton.setVisible(true);
+            if(getGuiRoot().getPlayers().size()==4){
+                showPlayer3ShipboardButton.setVisible(true);
+            }
+        }
+    }
+
+    private void updateShipBoardGUI(List<ComponentsView> newComponents) {
+        for (ComponentsView component : newComponents) {
+            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+        }
     }
 
     private void placeComponentOnShipboard(ComponentsView component, int x, int y) {
@@ -669,7 +771,7 @@ public class WaitingSceneController extends GuiController implements Initializab
             double basePosX = x * cellWidth;
             double basePosY = y * cellHeight;
 
-            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
+            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.4;
             double centerX = basePosX + (cellWidth / 2);
             double centerY = basePosY + (cellHeight / 2);
 
@@ -786,5 +888,27 @@ public class WaitingSceneController extends GuiController implements Initializab
             System.err.println("Error reading JSON file: " + e.getMessage());
         }
         return null;
+    }
+
+    private void showValidationError(String message) {
+        Platform.runLater(() -> {
+            validationMessage.setText(message);
+            validationMessage.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
+            validationMessage.setVisible(true);
+        });
+    }
+
+    private void hideValidationMessage() {
+        Platform.runLater(() -> validationMessage.setVisible(false));
+    }
+
+    private boolean validateInputs(int x, int y){
+        if (getGuiRoot().getShipBoardLevel()==1) {
+            return x >= 5 && x <= 9 && y >= 5 && y <= 9 && (x != 5 || y != 5) && (x != 5 || y != 6) && (x != 6 || y != 5)
+                    && (x != 9 || y != 5) && (x != 9 || y != 6) && (x != 7 || y != 9);
+        }else {
+            return x >= 4 && x <= 10 && y >= 5 && y <= 9 && (x != 4 || y != 5) && (x != 4 || y != 6) && (x != 5 || y != 5) && (x != 7 || y != 9)
+                    && (x != 7 || y != 5) && (x != 10 || y != 5) && (x != 10 || y != 6) && (x != 9 || y != 5);
+        }
     }
 }

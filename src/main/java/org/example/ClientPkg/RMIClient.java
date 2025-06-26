@@ -309,7 +309,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void goToWaitingState(){
-
+        userInterface.goToWaitingScene();
     }
 
     @Override

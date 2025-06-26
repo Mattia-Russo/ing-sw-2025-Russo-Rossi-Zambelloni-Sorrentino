@@ -46,6 +46,8 @@ public abstract class UI {
 
     public void goToAddAlienScene(){}
 
+    public void goToWaitingScene(){}
+
     public void goToActivateCannonsScene(){}
 
     public void goToActivateEngineScene(){}
