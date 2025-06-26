@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
+import org.example.ServerPkg.Model.Points;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -76,6 +77,7 @@ public class ShipWreckSceneController extends GuiController implements Initializ
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
+    private List<Points> occupiedCells = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,6 +89,8 @@ public class ShipWreckSceneController extends GuiController implements Initializ
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
+
+        occupiedCells = new ArrayList<>();
     }
 
     private void setupUI() {
@@ -138,6 +142,7 @@ public class ShipWreckSceneController extends GuiController implements Initializ
         if (player != null && player.getShipboardView() != null) {
             List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
             for (ComponentsView component : existingComponents) {
+                occupiedCells.add(new Points(component.getPosX(), component.getPosY()));
                 placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
             }
 
@@ -592,16 +597,20 @@ public class ShipWreckSceneController extends GuiController implements Initializ
 
     @FXML
     public void onChoosePartClick() throws RemoteException {
-        confirmButton.setDisable(true);
         try {
             int x = Integer.parseInt(xCoordinateField.getText().trim());
             int y = Integer.parseInt(yCoordinateField.getText().trim());
 
-            List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("choose_wrecked", args);
-            getGuiRoot().getClient().sendMessage(message);
-            hideValidationMessage();
-            statusMessage.setText("Wreck Ship ended successfully!");
+            if (!occupiedCells.contains(new Points(x, y))) {
+                showValidationError("Please enter valid numbers for X and Y coordinates");
+            }else {
+                List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
+                Message message = getGuiRoot().getClient().getMessageGenerator().generate("choose_wrecked", args);
+                getGuiRoot().getClient().sendMessage(message);
+                hideValidationMessage();
+                statusMessage.setText("Wreck Ship ended successfully!");
+                confirmButton.setDisable(true);
+            }
 
         } catch (NumberFormatException e) {
             showValidationError("Please enter valid numbers for X and Y coordinates");
