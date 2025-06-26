@@ -23,6 +23,7 @@ import java.util.*;
 public class WaitingSceneController extends GuiController implements Initializable {
 
     private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
+    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
 
     @FXML
     private BorderPane borderPane;
@@ -53,6 +54,9 @@ public class WaitingSceneController extends GuiController implements Initializab
 
     @FXML
     private Pane flightboardContainer;
+
+    @FXML
+    private ImageView currentCardImageView;
 
     // Variabile per tenere traccia se stiamo visualizzando la shipboard di un altro giocatore
     private boolean isViewingOtherPlayerShipboard = false;
@@ -89,9 +93,9 @@ public class WaitingSceneController extends GuiController implements Initializab
             updateGui(game);
             loadShipboardImage();
             loadFlightboardImage();
+            loadCurrentCard(game);
             resetShowShipboardButtons();
 
-            // Aggiungi questa parte per caricare immediatamente le tile esistenti
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                 for (PlayerView player : game.getPlayers()) {
                     if(player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
@@ -144,6 +148,62 @@ public class WaitingSceneController extends GuiController implements Initializab
             System.err.println("Error loading flightboard image: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void loadCurrentCard(GameView game) {
+        if (currentCardImageView == null) {
+            System.err.println("currentCardImageView is null - check FXML binding");
+            return;
+        }
+
+        try {
+            if (game != null && game.getCurrentCard() != null) {
+                JSONObject cardJson = findCardJsonById(String.valueOf(game.getCurrentCard().getId()));
+                if (cardJson != null) {
+                    String imagePath = cardJson.getString("img");
+                    InputStream imageStream = getClass().getResourceAsStream(imagePath);
+                    if (imageStream != null) {
+                        Image cardImage = new Image(imageStream);
+                        currentCardImageView.setImage(cardImage);
+                        currentCardImageView.setVisible(true);
+                    } else {
+                        System.err.println("Card image not found: " + imagePath);
+                        currentCardImageView.setVisible(false);
+                    }
+                } else {
+                    System.err.println("Card with ID " + game.getCurrentCard().getId() + " not found in JSON");
+                    currentCardImageView.setVisible(false);
+                }
+            } else {
+                // Nessuna carta corrente disponibile
+                currentCardImageView.setVisible(false);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading current card: " + e.getMessage());
+            e.printStackTrace();
+            currentCardImageView.setVisible(false);
+        }
+    }
+
+    private JSONObject findCardJsonById(String cardId) {
+        try (InputStream is = getClass().getResourceAsStream(CARDS_JSON_PATH)) {
+            if (is == null) {
+                System.err.println("JSON file not found: " + CARDS_JSON_PATH);
+                return null;
+            }
+
+            JSONArray jsonArray = new JSONArray(new JSONTokener(is));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                if (String.valueOf(json.getInt("id")).equals(cardId)) {
+                    return json;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading cards JSON file: " + e.getMessage());
+        }
+        return null;
     }
 
     // Modifica il metodo updateGui per includere il caricamento della flightboard

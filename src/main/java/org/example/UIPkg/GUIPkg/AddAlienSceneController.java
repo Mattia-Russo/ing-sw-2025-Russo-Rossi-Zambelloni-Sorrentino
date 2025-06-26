@@ -665,8 +665,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
         }
     }
 
-
-
     public void loadShipboardImage() {
         try {
             InputStream imageStream;
