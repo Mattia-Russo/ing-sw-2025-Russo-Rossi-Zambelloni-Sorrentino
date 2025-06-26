@@ -66,6 +66,12 @@
 
             <!-- Messaggio di validazione -->
             <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false"/>
+
+            <!-- Deck Cards Display -->
+            <HBox fx:id="deckCardsContainer" spacing="15.0" alignment="CENTER" visible="false"
+                  style="-fx-background-color: #333; -fx-padding: 20; -fx-border-color: #666; -fx-border-width: 2;">
+                <Label text="Deck Cards:" textFill="WHITE" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+            </HBox>
         </VBox>
     </center>
 
@@ -148,6 +154,22 @@
             <Button fx:id="turnTimerButton" mnemonicParsing="false" onAction="#onTurnTimerClick"
                     prefWidth="150.0" text="Turn Timer"
                     style="-fx-background-color: #E91E63; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+            <!-- Show Deck Button -->
+            <VBox spacing="5.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 5;">
+                <Label text="Show Deck" textFill="WHITE" style="-fx-font-weight: bold; -fx-font-size: 12px;"/>
+                <HBox spacing="5.0" alignment="CENTER">
+                    <TextField fx:id="deckIndexField" prefWidth="40.0" promptText="0-2"/>
+                    <Button fx:id="showDeckButton" mnemonicParsing="false" onAction="#onShowDeckClick"
+                            prefWidth="80.0" text="Show"
+                            style="-fx-background-color: #673AB7; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px;"/>
+                </HBox>
+            </VBox>
+
+            <!-- End Show Deck Button -->
+            <Button fx:id="endShowDeckButton" mnemonicParsing="false" onAction="#onEndShowDeckClick"
+                    prefWidth="150.0" text="End Show Deck" visible="false"
+                    style="-fx-background-color: #8BC34A; -fx-text-fill: white; -fx-font-weight: bold;"/>
         </VBox>
     </left>
 </BorderPane>
