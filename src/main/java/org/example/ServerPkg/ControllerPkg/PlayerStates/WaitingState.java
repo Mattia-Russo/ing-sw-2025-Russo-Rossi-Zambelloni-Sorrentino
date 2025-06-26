@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class WaitingState extends PlayerState implements Serializable {
     public WaitingState(Game game){
-        super(game);
+        super(game, null);
     }
 
     @Override

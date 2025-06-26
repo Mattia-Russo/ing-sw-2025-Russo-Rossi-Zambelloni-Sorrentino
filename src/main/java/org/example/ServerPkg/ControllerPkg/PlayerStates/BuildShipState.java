@@ -8,11 +8,12 @@ import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.TimerGenerator;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class BuildShipState extends PlayerState implements Serializable {
     private final TimerGenerator timer;
     public BuildShipState(Game game, TimerGenerator timer) {
-        super(game);
+        super(game, null);
         this.timer = timer;
     }
 
@@ -39,7 +40,7 @@ public class BuildShipState extends PlayerState implements Serializable {
                 }
                 endBuildShip(player);
             }
-        }catch(InvalidMethodCallException e){
+        }catch(InvalidMethodCallException | RemoteException e){
             new GameView(getGame(), e);
         }
     }
@@ -135,7 +136,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endBuildShip(Player player){
+    public void endBuildShip(Player player) throws RemoteException {
         if(!player.getShipBuilt()){
             if(getGame().getGameMode()==0) {
                 setPosition(player);
@@ -188,7 +189,7 @@ public class BuildShipState extends PlayerState implements Serializable {
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer( disconnectingPlayer);
         setPosition(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());

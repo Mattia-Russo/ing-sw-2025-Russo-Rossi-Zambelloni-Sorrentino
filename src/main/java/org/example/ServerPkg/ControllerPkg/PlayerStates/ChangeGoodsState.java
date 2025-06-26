@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 public class ChangeGoodsState extends PlayerState implements Serializable {
     public ChangeGoodsState(Game game){
-        super(game);
+        super(game, null);
     }
 
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere

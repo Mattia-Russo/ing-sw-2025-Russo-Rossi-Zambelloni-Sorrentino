@@ -6,6 +6,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.CardPkg.*;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class GameTest extends TestCase {
@@ -389,7 +390,7 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testCheckAllPlayersShip() {
+    public void testCheckAllPlayersShip() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
@@ -411,7 +412,7 @@ public class GameTest extends TestCase {
         assertTrue(g.getPlayers().get(1).getState() instanceof WaitingState);
     }
 
-    public void testCheckAllWrackedShip() {
+    public void testCheckAllWrackedShip() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class LandOnAbandonState extends PlayerState implements Serializable {
     public LandOnAbandonState(Game game){
-        super(game);
+        super(game, null);
     }
 
     // landed true vuol dire che è atterrato

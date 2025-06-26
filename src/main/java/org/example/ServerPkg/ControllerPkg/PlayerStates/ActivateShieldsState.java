@@ -15,7 +15,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
     ArrayList<Points> batteries;
 
     public ActivateShieldsState(Game game){
-        super(game);
+        super(game, null);
         this.shields =null;
         this.batteries=null;
     }

@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class RemoveAstronautsState extends PlayerState implements Serializable {
     private int astronautsRemoved;
     public RemoveAstronautsState(Game game) {
-        super(game);
+        super(game, null);
         this.astronautsRemoved=0;
     }
 

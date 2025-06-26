@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class WinEnemyState extends PlayerState implements Serializable {
     public WinEnemyState(Game game){
-        super(game);
+        super(game, null);
     }
 
     @Override

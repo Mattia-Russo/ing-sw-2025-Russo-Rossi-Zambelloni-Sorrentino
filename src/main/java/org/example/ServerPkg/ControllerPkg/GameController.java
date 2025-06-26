@@ -167,7 +167,7 @@ public class GameController implements Serializable{
         nameUsed.get(name).notifyClient(name, message);
     }
 
-    public synchronized void disconnect(String playerName) {
+    public synchronized void disconnect(String playerName) throws RemoteException {
         if(this.game!=null) {
             Player disconnectingPlayer = game.getPlayerByName(playerName);
             disconnectingPlayer.getState().disconnect(disconnectingPlayer);

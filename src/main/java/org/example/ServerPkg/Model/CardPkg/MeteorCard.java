@@ -18,6 +18,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +199,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 new GameView(g, new Exception("SHIP WRECK  " + p.getName()));
                 p.setPlayerState(new ShipWreckedState(g, p));
             }
-        } catch (InvalidPositionException | AlreadyEmptyPositionException e) {
+        } catch (InvalidPositionException | AlreadyEmptyPositionException | RemoteException e) {
             System.out.println("Error" + e.getMessage());
         }
     }

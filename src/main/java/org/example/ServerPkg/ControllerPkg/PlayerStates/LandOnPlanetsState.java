@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class LandOnPlanetsState extends PlayerState implements Serializable {
     public LandOnPlanetsState(Game game){
-        super(game);
+        super(game, null);
     }
 
     @Override

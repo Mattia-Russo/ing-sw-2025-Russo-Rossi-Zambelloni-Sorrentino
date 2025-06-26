@@ -19,7 +19,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     private int batteriesRemoved;
 
     public RemoveBestGoodsState(Game game){
-        super(game);
+        super(game, null);
         this.goodsRemoved=0;
         this.batteriesRemoved=0;
     }

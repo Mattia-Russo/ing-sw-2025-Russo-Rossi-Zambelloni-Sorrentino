@@ -15,10 +15,8 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 
 public class ShipWreckedState extends PlayerState implements Serializable {
-    private final Player player;
     public ShipWreckedState(Game game, Player player) throws RemoteException {
-        super(game);
-        this.player= player;
+        super(game, player);
         Handler handler = game.getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName());
         NotifyShipWreckedMessage message = new NotifyShipWreckedMessage();
         handler.sendMessage(message);
@@ -35,14 +33,14 @@ public class ShipWreckedState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endWreckedState(Player player){
+    public void endWreckedState(Player player) throws RemoteException {
         if (player.getShipOK()) {
             if (getGame().getCurrentCard() != null) {
                 getGame().getCurrentCard().setShipWrecked(false);
                 getGame().getCurrentCard().setCardState(getGame());
             } else {
                 if(getGame().getGameMode()==1) {
-                    player.setPlayerState(new AddAlienState(getGame()));
+                    player.setPlayerState(new AddAlienState(getGame(), player));
                     new GameView(getGame(), new Exception(player.getName() + ", YOU CAN ADD YOUR ALIENS"));
                 }else {
                     for (Player p : getGame().getPlayers()) {
@@ -102,9 +100,9 @@ public class ShipWreckedState extends PlayerState implements Serializable {
             i++;
         }
         assert c != null;
-        chooseWrecked(new Points(c.getPosX(), c.getPosY()), player);    // scegliamo noi un pezzo
+        chooseWrecked(new Points(c.getPosX(), c.getPosY()), getPlayer());    // scegliamo noi un pezzo
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
-        autoFix(player);
+        autoFix(getPlayer());
     }
 }

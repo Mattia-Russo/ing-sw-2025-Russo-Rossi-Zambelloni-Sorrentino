@@ -6,16 +6,23 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class PlayerState implements Serializable {
     private final Game game;
-    public PlayerState(Game game){
+    private final Player player;
+    public PlayerState(Game game, Player player) {
         this.game = game;
+        this.player = player;
     }
 
     public Game getGame() {
         return game;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void activateCannons(ArrayList<Points> cannons, Player player){
@@ -94,7 +101,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endWreckedState(Player player){
+    public void endWreckedState(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -102,7 +109,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endFixShip(Player player){
+    public void endFixShip(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -130,7 +137,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endBuildShip(Player player){
+    public void endBuildShip(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -154,7 +161,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void disconnect(Player disconnectingPlayer){}
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {}
 
     public void discardComponent(Player p){
         new GameView(game, new IllegalStateException("You can't do this now " + p.getName()));

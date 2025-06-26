@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class EndState extends PlayerState implements Serializable {
 
     public EndState(Game game){
-        super(game);
+        super(game, null);
     }
 
     @Override
