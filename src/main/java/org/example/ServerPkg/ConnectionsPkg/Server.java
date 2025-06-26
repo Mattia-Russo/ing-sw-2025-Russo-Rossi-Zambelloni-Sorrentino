@@ -26,4 +26,6 @@ public interface Server {
     void notifyGameStarted() throws RemoteException;
 
     Handler getHandlerByName(String name) throws RemoteException;
+
+    void notifyGameEnded() throws RemoteException;
 }

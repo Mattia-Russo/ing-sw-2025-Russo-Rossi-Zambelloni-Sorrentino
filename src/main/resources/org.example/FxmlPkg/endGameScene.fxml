@@ -17,7 +17,7 @@
                 <Font name="Arial Bold" size="36.0"/>
             </font>
         </Label>
-        <Label fx:id="subtitleLabel" style="-fx-text-fill: #ecf0f1;" text="Congratulazioni ai vincitori!">
+        <Label fx:id="subtitleLabel" style="-fx-text-fill: #ecf0f1;" text="Congratulation to winners!">
             <font>
                 <Font name="Arial" size="20.0"/>
             </font>

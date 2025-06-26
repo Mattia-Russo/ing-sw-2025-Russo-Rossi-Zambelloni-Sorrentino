@@ -1,5 +1,7 @@
 package org.example.MessagePkg;
 
+import org.example.MessagePkg.ToClient.*;
+import org.example.MessagePkg.ToServer.*;
 import org.example.ServerPkg.Model.Exceptions.CommandNotFoundException;
 import org.example.ServerPkg.Model.Points;
 

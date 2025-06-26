@@ -32,6 +32,11 @@ public class GUIMain extends Application {
     public static final String CHANGE_GOODS_SCENE = "/org.example/FxmlPkg/changeGoodsScene.fxml";
     public static final String REMOVE_ASTRONAUTS_SCENE = "/org.example/FxmlPkg/removeAstronautsScene.fxml";
     public static final String REMOVE_BEST_GOODS_SCENE = "/org.example/FxmlPkg/removeBestGoodsScene.fxml";
+    public static final String REWARD_SCENE = "/org.example/FxmlPkg/rewardScene.fxml";
+    public static final String LAND_ON_ABANDON_SCENE = "/org.example/FxmlPkg/landOnAbandonScene.fxml";
+    public static final String LAND_ON_PLANET_SCENE = "/org.example/FxmlPkg/landOnPlanetScene.fxml";
+    public static final String END_GAME_SCENE = "/org.example/FxmlPkg/endGameScene.fxml";
+
 
     public GUIMain() {
         guiMain = this;
@@ -71,7 +76,8 @@ public class GUIMain extends Application {
 
     public void goToFirstScene() {
         List<String> FxmlFiles = new ArrayList<>(Arrays.asList(NAME_REQUEST_SCENE, SETTINGS_SCENE, WAITING_ROOM_SCENE, BUILD_SHIP_SCENE, ADD_ALIEN_SCENE, FIX_SHIP_SCENE,
-                SHIP_WRECK_SCENE, ACTIVATE_CANNONS_SCENE, WAITING_SCENE, ACTIVATE_ENGINES_SCENE, ACTIVATE_SHIELDS_SCENE, ABANDON_SCENE, CHANGE_GOODS_SCENE, REMOVE_ASTRONAUTS_SCENE, REMOVE_BEST_GOODS_SCENE));
+                SHIP_WRECK_SCENE, ACTIVATE_CANNONS_SCENE, WAITING_SCENE, ACTIVATE_ENGINES_SCENE, ACTIVATE_SHIELDS_SCENE, ABANDON_SCENE, CHANGE_GOODS_SCENE, REMOVE_ASTRONAUTS_SCENE, REMOVE_BEST_GOODS_SCENE,
+                REWARD_SCENE, LAND_ON_ABANDON_SCENE, LAND_ON_PLANET_SCENE, END_GAME_SCENE));
         try{
             for(String fxmlFile : FxmlFiles){
                 FXMLLoader loader = new FXMLLoader(GUI.class.getResource(fxmlFile));

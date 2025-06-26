@@ -89,8 +89,6 @@ public abstract class ClientProxy implements Handler {
 
     public void goToChangeGoods() throws RemoteException{}
 
-    public void goToEndState() throws RemoteException {}
-
     public void goToLandOnAbandon() throws RemoteException {}
 
     public void goToLandOnPlanet() throws RemoteException{}
@@ -106,4 +104,6 @@ public abstract class ClientProxy implements Handler {
     public void goToWaitingState() throws RemoteException{}
 
     public void goToWinEnemy() throws RemoteException {}
+
+    public void notifyGameEnded() throws RemoteException {}
 }

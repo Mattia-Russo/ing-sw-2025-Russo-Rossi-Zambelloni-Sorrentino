@@ -10,7 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import javafx.util.Duration;
-import org.example.MessagePkg.NotifyClientMessage;
+import org.example.MessagePkg.ToClient.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.ForView.GameViewCache;
 import org.example.UIPkg.Client;
@@ -344,5 +344,29 @@ public class GUI extends UI {
     public void goToRemoveBestGoodsScene(){
         preserveWindowSize();
         changeScene(GUIMain.REMOVE_BEST_GOODS_SCENE);
+    }
+
+    @Override
+    public void goToEndGameScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.END_GAME_SCENE);
+    }
+
+    @Override
+    public void goToLandOnAbandonScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.LAND_ON_ABANDON_SCENE);
+    }
+
+    @Override
+    public void goToLandOnPlanetScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.LAND_ON_PLANET_SCENE);
+    }
+
+    @Override
+    public void goToRewardScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.REWARD_SCENE);
     }
 }

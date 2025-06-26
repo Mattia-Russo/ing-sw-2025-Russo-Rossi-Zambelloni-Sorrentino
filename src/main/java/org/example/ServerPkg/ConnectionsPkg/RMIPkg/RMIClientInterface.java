@@ -51,8 +51,6 @@ public interface RMIClientInterface extends Remote, Handler {
 
     void goToChangeGoods() throws RemoteException;
 
-    void goToEndState() throws RemoteException;
-
     void goToLandOnAbandon() throws RemoteException;
 
     void goToLandOnPlanet() throws RemoteException;
@@ -68,6 +66,8 @@ public interface RMIClientInterface extends Remote, Handler {
     void goToWaitingState() throws RemoteException;
 
     void goToWinEnemy() throws RemoteException;
+
+    void notifyGameEnded() throws RemoteException;
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

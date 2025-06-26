@@ -270,6 +270,7 @@ public class Game implements Serializable {
             }
             calculateFinalCredits();
             ArrayList<Player> winners = calculateWinners();
+            controller.notifyGameEnded();
             new GameView(this, new Exception("THE GAME HAS ENDED"));
             for (Player player : winners) {
                 new GameView(this, new Exception("Congratulations player " + player.getName() + " won the game with " + player.getNumCredits() + " credits!"));

@@ -1,6 +1,6 @@
 package org.example.UIPkg;
 
-import org.example.MessagePkg.NotifyClientMessage;
+import org.example.MessagePkg.ToClient.NotifyClientMessage;
 import org.example.ServerPkg.ControllerPkg.LobbyState;
 import org.example.ServerPkg.Model.CardPkg.CannonFire;
 import org.example.ServerPkg.Model.CardPkg.Meteor;

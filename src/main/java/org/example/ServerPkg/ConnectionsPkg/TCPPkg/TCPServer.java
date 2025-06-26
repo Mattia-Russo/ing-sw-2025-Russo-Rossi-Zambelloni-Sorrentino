@@ -11,6 +11,7 @@ import org.example.UIPkg.GameUpdater;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -129,6 +130,13 @@ public class TCPServer implements Server {
     public void notifyGameStarted(){
         for(ClientProxy client : clientsProxies){
             client.notifyGameStarted();
+        }
+    }
+
+    @Override
+    public void notifyGameEnded() throws RemoteException {
+        for(ClientProxy client : clientsProxies){
+            client.notifyGameEnded();
         }
     }
 }

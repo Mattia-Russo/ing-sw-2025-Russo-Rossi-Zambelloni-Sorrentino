@@ -1,6 +1,8 @@
 package org.example.ServerPkg.ConnectionsPkg.TCPPkg;
 
 import org.example.MessagePkg.*;
+import org.example.MessagePkg.ToClient.*;
+import org.example.MessagePkg.ToServer.SetPlayerNameMessage;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.UIPkg.GameUpdater;
 import org.example.UIPkg.TCPVirtualView;
@@ -207,11 +209,6 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     }
 
     @Override
-    public void goToEndState(){
-        sendMessage(new NotifyEndStateMessage());
-    }
-
-    @Override
     public void goToLandOnAbandon(){
         sendMessage(new NotifyLandOnAbandonMessage());
     }
@@ -249,5 +246,11 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     @Override
     public void goToWinEnemy(){
         sendMessage(new NotifyWinEnemyMessage());
+    }
+
+    @Override
+    public void notifyGameEnded(){
+        Message message = new NotifyGameEndedMessage();
+        sendMessage(message);
     }
 }

@@ -1,6 +1,6 @@
 package org.example.UIPkg;
 
-import org.example.MessagePkg.NotifyClientMessage;
+import org.example.MessagePkg.ToClient.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 
 import java.util.List;
@@ -61,4 +61,12 @@ public abstract class UI {
     public void goToRemoveAstronautScene(){}
 
     public void goToRemoveBestGoodsScene(){}
+
+    public void goToEndGameScene(){}
+
+    public void goToLandOnAbandonScene(){}
+
+    public void goToLandOnPlanetScene(){}
+
+    public void goToRewardScene(){}
 }

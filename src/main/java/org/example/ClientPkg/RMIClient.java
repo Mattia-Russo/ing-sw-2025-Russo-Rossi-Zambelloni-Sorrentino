@@ -2,7 +2,7 @@ package org.example.ClientPkg;
 
 import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
-import org.example.MessagePkg.NotifyClientMessage;
+import org.example.MessagePkg.ToClient.NotifyClientMessage;
 import org.example.ServerPkg.ConnectionsPkg.RMIPkg.RMIClientInterface;
 import org.example.ServerPkg.ConnectionsPkg.Settings;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -274,18 +274,13 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void goToEndState(){
-
-    }
-
-    @Override
     public void goToLandOnAbandon(){
-
+        userInterface.goToLandOnAbandonScene();
     }
 
     @Override
     public void goToLandOnPlanet(){
-
+        userInterface.goToLandOnPlanetScene();
     }
 
     @Override
@@ -315,6 +310,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void goToWinEnemy(){
+        userInterface.goToRewardScene();
+    }
 
+    @Override
+    public void notifyGameEnded(){
+        userInterface.goToEndGameScene();
     }
 }

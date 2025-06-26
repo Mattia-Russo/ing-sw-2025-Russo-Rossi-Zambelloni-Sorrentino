@@ -30,8 +30,6 @@ public interface Handler extends Remote {
 
     void goToChangeGoods() throws RemoteException;
 
-    void goToEndState() throws RemoteException;
-
     void goToLandOnAbandon() throws RemoteException;
 
     void goToLandOnPlanet() throws RemoteException;

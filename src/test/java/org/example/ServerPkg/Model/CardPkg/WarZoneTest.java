@@ -1,7 +1,6 @@
 package org.example.ServerPkg.Model.CardPkg;
 
 import junit.framework.TestCase;
-import org.example.MessagePkg.CreateLobbyMessage;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;

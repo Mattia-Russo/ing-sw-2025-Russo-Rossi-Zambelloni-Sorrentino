@@ -1,6 +1,7 @@
 package org.example.ClientPkg;
 
 import org.example.MessagePkg.*;
+import org.example.MessagePkg.ToClient.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.UIPkg.Client;
 import org.example.UIPkg.GUIPkg.GUI;

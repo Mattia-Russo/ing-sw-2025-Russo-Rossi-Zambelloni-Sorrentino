@@ -253,4 +253,10 @@ public class GameController implements Serializable{
             nameUsed.get(s).notifyGameStarted();
         }
     }
+
+    public void notifyGameEnded() throws RemoteException {
+        for(String s : nameUsed.keySet()){
+            nameUsed.get(s).notifyGameEnded();
+        }
+    }
 }
