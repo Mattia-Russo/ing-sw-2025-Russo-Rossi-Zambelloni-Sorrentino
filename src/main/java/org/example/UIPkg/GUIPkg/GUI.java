@@ -74,11 +74,15 @@ public class GUI extends UI {
                         if(game.getException()!=null){
                             manageNotification(new NotifyClientMessage(game.getException().getMessage()));
                         }
-                        if (game.getException() == null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
-                            controller.updatePlayerShipboardButtons(game);
-                        }
+//                        if (game.getException() == null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
+//                            controller.updatePlayerShipboardButtons(game);
+//                        }
                     }
+                    Thread.sleep(1000);
                 }
+            }catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("UpdateThread interrupted");
             }catch (Exception e) {
                 System.err.println("Error sending connection update to server: " + e.getMessage());
                 e.printStackTrace();

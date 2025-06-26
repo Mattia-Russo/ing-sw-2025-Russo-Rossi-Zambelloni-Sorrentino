@@ -53,7 +53,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         }
 
         startUpdateThread();
-        checkConnection();
+        //checkConnection();
 
         if(UI.equals("tui")){
             startKeyboardListener();
