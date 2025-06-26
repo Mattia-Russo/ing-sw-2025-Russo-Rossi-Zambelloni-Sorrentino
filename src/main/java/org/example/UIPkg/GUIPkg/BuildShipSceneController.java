@@ -29,6 +29,7 @@ import java.util.List;
 public class BuildShipSceneController extends GuiController implements Initializable {
 
     private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
+    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
 
     @FXML
     private BorderPane borderPane;
@@ -126,7 +127,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private ComponentsView[] localBookedComponents = new ComponentsView[2];
     private ImageView[] bookedComponentImages = new ImageView[2];
     private boolean isViewingOtherPlayerShipboard = false;
-    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
     private boolean isShowingDeck = false;
 
     @Override
@@ -357,9 +357,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
         for (ComponentsView component : newComponents) {
             placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
 
-            Points p = new Points(component.getPosX(), component.getPosY());
-            if(!occupiedCells.contains(p)){
-              occupiedCells.add(p);
+            if(!isViewingOtherPlayerShipboard){
+                Points p = new Points(component.getPosX(), component.getPosY());
+                if(!occupiedCells.contains(p)){
+                  occupiedCells.add(p);
+                }
             }
         }
 
