@@ -64,6 +64,10 @@ public class GameController implements Serializable{
         }
     }
 
+    public Map<String, Server> getNameServerMap() {
+        return nameUsed;
+    }
+
     public void addMessage(Message message) {
         try {
             messageQueue.put(message);

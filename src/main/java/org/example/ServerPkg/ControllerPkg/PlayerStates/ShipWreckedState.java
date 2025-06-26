@@ -1,5 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.Message;
+import org.example.MessagePkg.NotifyShipWreckedMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.Exceptions.InvalidMethodCallException;
@@ -9,12 +12,16 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class ShipWreckedState extends PlayerState implements Serializable {
     private final Player player;
-    public ShipWreckedState(Game game, Player player) {
+    public ShipWreckedState(Game game, Player player) throws RemoteException {
         super(game);
         this.player= player;
+        Handler handler = game.getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName());
+        NotifyShipWreckedMessage message = new NotifyShipWreckedMessage();
+        handler.sendMessage(message);
     }
 
     @Override
