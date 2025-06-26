@@ -94,7 +94,7 @@ public class SettingsSceneController extends GuiController implements Initializa
         String gameModeText = gameModeField.getText();
 
         if (playersText.isEmpty() || shipboardText.isEmpty() || gameModeText.isEmpty()) {
-            showValidationError("All fields are required!");
+            showValidationError("All fields are required!", validationMessage);
             return false;
         }
 
@@ -104,38 +104,30 @@ public class SettingsSceneController extends GuiController implements Initializa
             int gameMode = Integer.parseInt(gameModeText);
 
             if (numPlayers < 2 || numPlayers > 4) {
-                showValidationError("Number of players must be between 2 and 4!");
+                showValidationError("Number of players must be between 2 and 4!", validationMessage);
                 return false;
             }
 
-            if (shipboardLevel <1 || shipboardLevel > 2) {
-                showValidationError("Shipboard level must be between 1 and 2!");
+            if (shipboardLevel < 1 || shipboardLevel > 2) {
+                showValidationError("Shipboard level must be between 1 and 2!", validationMessage);
                 return false;
             }
 
             if (gameMode != 0 && gameMode != 1) {
-                showValidationError("Game mode must be 0 or 1!");
+                showValidationError("Game mode must be 0 or 1!", validationMessage);
                 return false;
             }
 
             if (gameMode == 0 && shipboardLevel != 1) {
-                showValidationError("With game mode 0, shipboard level must be 1!");
+                showValidationError("With game mode 0, shipboard level must be 1!", validationMessage);
                 return false;
             }
             return true;
 
         } catch (NumberFormatException e) {
-            showValidationError("Please enter valid numbers!");
+            showValidationError("Please enter valid numbers!", validationMessage);
             return false;
         }
-    }
-
-    private void showValidationError(String message) {
-        Platform.runLater(() -> {
-            validationMessage.setText(message);
-            validationMessage.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
-            validationMessage.setVisible(true);
-        });
     }
 
     private void hideValidationMessage() {

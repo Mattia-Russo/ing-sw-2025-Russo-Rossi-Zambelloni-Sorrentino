@@ -14,11 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
-import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -135,7 +131,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);
-            loadShipboardImage();
+            loadShipboardImage(validationMessage);
             loadFlightboardImage();
             resetShowShipboardButtons();
             
@@ -156,20 +152,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
                 }
             }
         });
-    }
-
-    private void loadShipboardTiles(PlayerView player) {
-        if (player != null && player.getShipboardView() != null) {
-            List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
-            for (ComponentsView component : existingComponents) {
-                placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
-            }
-
-            // Aggiorna la GUI con i componenti esistenti
-            if (!existingComponents.isEmpty()) {
-                updateShipBoardGUI(existingComponents);
-            }
-        }
     }
 
     // Aggiungi questo metodo per caricare l'immagine della flightboard
@@ -199,7 +181,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
     public void updateGui(GameView game) {
         Platform.runLater(() -> {
             try {
-                loadShipboardImage();
+                loadShipboardImage(validationMessage);
                 loadFlightboardImage();
 
                 for(String playerName : getGuiRoot().getPlayers()) {
@@ -556,7 +538,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
         showPlayer1ShipboardButton.setVisible(false);
         showOwnShipboardButton.setVisible(true);
         showOwnShipboardButton.setDisable(false);
-        showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton), validationMessage, showOwnShipboardButton);
     }
 
     @FXML
@@ -567,7 +549,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
         showPlayer2ShipboardButton.setVisible(false);
         showOwnShipboardButton.setDisable(false);
         showOwnShipboardButton.setVisible(true);
-        showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton), validationMessage, showOwnShipboardButton);
     }
 
     @FXML
@@ -578,72 +560,25 @@ public class AddAlienSceneController extends GuiController implements Initializa
         showPlayer3ShipboardButton.setVisible(false);
         showOwnShipboardButton.setDisable(false);
         showOwnShipboardButton.setVisible(true);
-        showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton), validationMessage, showOwnShipboardButton);
     }
 
     @FXML
     public void onShowOwnShipboard() {
         isViewingOtherPlayerShipboard = false;
-        showPlayerShipboard(getGuiRoot().getClient().getPlayerName());
+        showPlayerShipboard(getGuiRoot().getClient().getPlayerName(), validationMessage, showOwnShipboardButton);
         restoreButtonStates();
         resetShowShipboardButtons();
 
         if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
             updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
         }
-        hideValidationMessage();
+        hideValidationMessage(validationMessage);
     }
 
     private String getPlayerNameFromButton(Button button) {
         String buttonText = button.getText();
         return buttonText.substring(5, buttonText.indexOf("'s Shipboard"));
-    }
-
-    private void showPlayerShipboard(String playerName) {
-        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
-            System.err.println("Nessuna GameView disponibile per mostrare la shipboard");
-            return;
-        }
-
-        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
-
-        // Verifica che ci siano giocatori nella GameView
-        if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
-            System.err.println("Lista giocatori vuota nella GameView cached");
-            return;
-        }
-
-        PlayerView targetPlayer = null;
-
-        for (PlayerView player : cachedGame.getPlayers()) {
-            if (player.getName().equals(playerName)) {
-                targetPlayer = player;
-                break;
-            }
-        }
-
-        if (targetPlayer == null) {
-            System.err.println("Giocatore " + playerName + " non trovato nella GameView corrente");
-            // Non mostrare errore all'utente se è una GameView con eccezione
-            if (cachedGame.getException() == null) {
-                showValidationError("Player " + playerName + " not found");
-            }
-            return;
-        }
-
-        Platform.runLater(() -> {
-            shipboardContainer.getChildren().clear();
-            shipboardContainer.getChildren().add(shipboardImageView);
-        });
-
-        if (targetPlayer.getShipboardView() != null) {
-            List<ComponentsView> playerComponents = getShipboardComponents(targetPlayer.getShipboardView());
-            updateShipBoardGUI(playerComponents);
-        }
-
-        showOwnShipboardButton.setVisible(true);
-        showOwnShipboardButton.setDisable(false);
-        showValidationError("Now showing " + playerName + "'s shipboard");
     }
 
     private void saveButtonStates() {
@@ -662,39 +597,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
     private void restoreButtonStates() {
         for (int i = 0; i < allButtons.size(); i++) {
             allButtons.get(i).setDisable(previousButtonStates.get(i));
-        }
-    }
-
-
-
-    public void loadShipboardImage() {
-        try {
-            InputStream imageStream;
-            int shipBoardLevel = getGuiRoot().getShipBoardLevel();
-
-            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
-                GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
-                shipBoardLevel = cachedGame.getShipBoardLevel();
-            }
-
-            if(shipBoardLevel == 1) {
-                imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
-            } else {
-                imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
-            }
-
-            if (imageStream == null) {
-                throw new IllegalArgumentException("Shipboard image not found!");
-            }
-
-            Image shipboardImage = new Image(imageStream);
-            shipboardImageView.setImage(shipboardImage);
-            shipboardImageView.setFitWidth(400);
-            shipboardImageView.setFitHeight(300);
-            shipboardImageView.setPreserveRatio(true);
-        } catch (Exception e) {
-            System.err.println("Error loading shipboard image: " + e.getMessage());
-            showValidationError("Error loading shipboard image!");
         }
     }
 
@@ -724,209 +626,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
         }
     }
 
-    private void updateShipBoardGUI(List<ComponentsView> newComponents) {
-        for (ComponentsView component : newComponents) {
-            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
-        }
-    }
-
-    private void placeComponentOnShipboard(ComponentsView component, int x, int y) {
-        try {
-            JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
-            if (componentJson == null) {
-                System.err.println("Component with ID " + component.getId() + " not found in JSON.");
-                return;
-            }
-
-            String imagePath = componentJson.getString("img");
-            Direction direction = component.getDirection();
-            placeImageOnShipboard(imagePath, x, y, direction);
-            placeQuantityIndicatorsOnShipboard(component, x, y);
-        } catch (Exception e) {
-            System.err.println("Error placing component on shipboard: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void placeImageOnShipboard(String imagePath, int x, int y, Direction direction) {
-        try {
-            x = x - 4;
-            y = y - 5;
-
-            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
-            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
-
-            double posX = x * cellWidth;
-            double posY = y * cellHeight;
-
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream == null) {
-                System.err.println("Image not found: " + imagePath);
-                return;
-            }
-
-            Image componentImage = new Image(imageStream);
-            ImageView componentImageView = new ImageView(componentImage);
-
-            componentImageView.setFitWidth(cellWidth * 0.94);
-            componentImageView.setFitHeight(cellHeight * 0.94);
-            componentImageView.setPreserveRatio(true);
-
-            componentImageView.setX(posX + (cellWidth * 0.2));
-            componentImageView.setY(posY + (cellHeight * 0.2));
-
-            rotate(direction, componentImageView);
-
-            Platform.runLater(() -> shipboardContainer.getChildren().add(componentImageView));
-
-        } catch (Exception e) {
-            System.err.println("Error positioning image on shipboard: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void placeQuantityIndicatorsOnShipboard(ComponentsView component, int x, int y) {
-        try {
-            x = x - 4;
-            y = y - 5;
-
-            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
-            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
-
-            double basePosX = x * cellWidth;
-            double basePosY = y * cellHeight;
-
-            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
-            double centerX = basePosX + (cellWidth / 2);
-            double centerY = basePosY + (cellHeight / 2);
-
-            // Lista per tenere traccia delle posizioni occupate
-            int positionIndex = 0;
-            double[][] positions = {
-                    {centerX - indicatorSize/2, centerY - indicatorSize/2},           // Centro
-                    {centerX + indicatorSize*0.3, centerY - indicatorSize/2},         // Destra del centro
-                    {centerX - indicatorSize*0.8, centerY - indicatorSize/2},         // Sinistra del centro
-                    {centerX - indicatorSize/2, centerY + indicatorSize*0.3},         // Sotto il centro
-                    {centerX + indicatorSize*0.3, centerY + indicatorSize*0.3},       // Destra-sotto
-                    {centerX - indicatorSize*0.8, centerY + indicatorSize*0.3}        // Sinistra-sotto
-            };
-
-            // Astronauti
-            if (component.getNumAstronauts() > 0) {
-                for (int i = 0; i < component.getNumAstronauts() && positionIndex < positions.length; i++) {
-                    placeQuantityIndicator("/org.example/cardboard/Astronaut.jpg",
-                            positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
-                    positionIndex++;
-                }
-            }
-
-            // Alieni
-            if (component.getAlienColour() != null &&
-                    !component.getType().equals("LifeSupportSystem") &&
-                    positionIndex < positions.length) {
-                String alienImagePath = component.getAlienColour().toString().equalsIgnoreCase("brown") ?
-                        "/org.example/cardboard/brownAlien.jpg" : "/org.example/cardboard/purpleAlien.jpg";
-                placeQuantityIndicator(alienImagePath,
-                        positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
-                positionIndex++;
-            }
-
-            // Batterie
-            if (component.getNumBattery() > 0) {
-                for (int i = 0; i < component.getNumBattery() && positionIndex < positions.length; i++) {
-                    placeQuantityIndicator("/org.example/cardboard/battery.jpg",
-                            positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
-                    positionIndex++;
-                }
-            }
-
-            // Goods
-            if (component.getGoods() != null) {
-                for (int i = 0; i < component.getGoods().length && positionIndex < positions.length; i++) {
-                    if (component.getGoods()[i] != null) {
-                        String goodColor = component.getGoods()[i].getColour().toString().toLowerCase();
-                        String goodImagePath = "/org.example/cardboard/" + goodColor + "Good.jpg";
-                        placeQuantityIndicator(goodImagePath,
-                                positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
-                        positionIndex++;
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error placing quantity indicators: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-    private void placeQuantityIndicator(String imagePath, double x, double y, double size) {
-        try {
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream == null) {
-                System.err.println("Indicator image not found: " + imagePath);
-                return;
-            }
-
-            Image indicatorImage = new Image(imageStream);
-            ImageView indicatorImageView = new ImageView(indicatorImage);
-
-            indicatorImageView.setFitWidth(size);
-            indicatorImageView.setFitHeight(size);
-            indicatorImageView.setPreserveRatio(true);
-            indicatorImageView.setX(x);
-            indicatorImageView.setY(y);
-
-            Platform.runLater(() -> shipboardContainer.getChildren().add(indicatorImageView));
-
-        } catch (Exception e) {
-            System.err.println("Error placing quantity indicator: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void rotate(Direction direction, ImageView imageView) {
-        switch (direction) {
-            case WEST: imageView.setRotate(-90); break;
-            case EAST: imageView.setRotate(90); break;
-            case SOUTH: imageView.setRotate(180); break;
-            default: imageView.setRotate(0); break;
-        }
-    }
-
-    private JSONObject findComponentJsonById(String componentId) {
-        try (InputStream is = getClass().getResourceAsStream(COMPONENT_JSON_PATH)) {
-            if (is == null) {
-                System.err.println("JSON file not found: " + COMPONENT_JSON_PATH);
-                return null;
-            }
-
-            JSONArray jsonArray = new JSONArray(new JSONTokener(is));
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = jsonArray.getJSONObject(i);
-                if (String.valueOf(json.getInt("id")).equals(componentId)) {
-                    return json;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Error reading JSON file: " + e.getMessage());
-        }
-        return null;
-    }
-
-    private void showValidationError(String message) {
-        Platform.runLater(() -> {
-            validationMessage.setText(message);
-            validationMessage.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
-            validationMessage.setVisible(true);
-        });
-    }
-
-    private void hideValidationMessage() {
-        Platform.runLater(() -> validationMessage.setVisible(false));
-    }
-
     private boolean validateInputs(int x, int y){
         if (getGuiRoot().getShipBoardLevel()==1) {
             return x >= 5 && x <= 9 && y >= 5 && y <= 9 && (x != 5 || y != 5) && (x != 5 || y != 6) && (x != 6 || y != 5)
@@ -946,7 +645,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
             if (validateInputs(Integer.parseInt(alienPosX.getText().trim()), Integer.parseInt(alienPosY.getText().trim()))) {
                 RadioButton selectedAlien = (RadioButton) alienTypeGroup.getSelectedToggle();
                 if (selectedAlien == null) {
-                    showValidationError("Please select an alien type");
+                    showValidationError("Please select an alien type", validationMessage);
                     return;
                 }
 
@@ -961,30 +660,30 @@ public class AddAlienSceneController extends GuiController implements Initializa
                 Message message = getGuiRoot().getClient().getMessageGenerator().generate(messageType, args);
                 getGuiRoot().getClient().sendMessage(message);
 
-                hideValidationMessage();
+                hideValidationMessage(validationMessage);
                 statusMessage.setText("Alien added successfully!");
             }
         } catch (NumberFormatException e) {
-            showValidationError("Please, insert valid inputs for X and Y");
+            showValidationError("Please, insert valid inputs for X and Y", validationMessage);
         }
     }
 
     @FXML
     public void onSelectPositionClick() throws RemoteException {
-        hideValidationMessage();
+        hideValidationMessage(validationMessage);
         int pos = Integer.parseInt(startingPositionField.getText());
         if(pos<=0 && pos>=-3){
             try{
                 Message message = getGuiRoot().getClient().getMessageGenerator().generate("select_position", Collections.singletonList(startingPositionField.getText()));
                 getGuiRoot().getClient().sendMessage(message);
             } catch (NumberFormatException e) {
-                showValidationError("Please, insert valid input for starting position");
+                showValidationError("Please, insert valid input for starting position", validationMessage);
             }
 
             statusMessage.setText("Position selection sent!");
             selectPositionButton.setDisable(true);
         } else {
-            showValidationError("Please, insert a valid starting position");
+            showValidationError("Please, insert a valid starting position", validationMessage);
         }
 
     }
