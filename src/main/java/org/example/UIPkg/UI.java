@@ -51,4 +51,14 @@ public abstract class UI {
     public void goToActivateCannonsScene(){}
 
     public void goToActivateEngineScene(){}
+
+    public void goToActivateShieldScene(){}
+
+    public void goToAbandonScene(){}
+
+    public void goToChangeGoodsScene(){}
+
+    public void goToRemoveAstronautScene(){}
+
+    public void goToRemoveBestGoodsScene(){}
 }

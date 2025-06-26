@@ -16,6 +16,7 @@ module Galaxy.Trucker {
     requires javafx.web;
     requires javafx.media;
     requires javafx.fxml;
+    requires java.desktop;
 
     opens org.example.UIPkg.GUIPkg to javafx.fxml;
     opens org.example.FxmlPkg to javafx.fxml;

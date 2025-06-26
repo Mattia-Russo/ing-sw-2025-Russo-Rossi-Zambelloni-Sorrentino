@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.RemoveAstronautsSceneController">
+    <center>
+        <HBox alignment="CENTER" spacing="40.0">
+            <!-- Shipboard a sinistra -->
+            <VBox alignment="CENTER" spacing="10.0">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Shipboard" textFill="WHITE" />
+                <Pane fx:id="shipboardContainer" maxHeight="300.0" maxWidth="400.0" minHeight="300.0" minWidth="400.0" prefHeight="300.0" prefWidth="400.0">
+                    <ImageView fx:id="shipboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                </Pane>
+
+                <!-- Pulsanti per visualizzare altre shipboard -->
+                <VBox spacing="10.0" style="-fx-padding: 10;">
+                    <Label style="-fx-font-weight: bold;" text="View Other Players' Shipboards:" textFill="WHITE" />
+                    <HBox alignment="CENTER" spacing="15.0">
+                        <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        <Button fx:id="showPlayer2ShipboardButton" alignment="CENTER" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                        <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    </HBox>
+                    <Button fx:id="showOwnShipboardButton" mnemonicParsing="false" onAction="#onShowOwnShipboard" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Show My Shipboard" visible="false" />
+                </VBox>
+            </VBox>
+
+            <!-- Flightboard a destra -->
+            <VBox alignment="CENTER" spacing="10.0">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Flightboard" textFill="WHITE" />
+                <Pane fx:id="flightboardContainer" prefHeight="300.0" prefWidth="400.0">
+                    <ImageView fx:id="flightboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                </Pane>
+            </VBox>
+        </HBox>
+    </center>
+
+    <left>
+        <ScrollPane fitToWidth="true" style="-fx-background: #2a2a2a;" vbarPolicy="AS_NEEDED">
+            <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Remove Astronauts" textFill="WHITE" />
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Sezione informazioni della carta corrente -->
+                <VBox spacing="8.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 15; -fx-background-color: #3a3a3a;">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Current Card Requirements:" textFill="#FFD700" />
+                    <Label fx:id="requiredAstronautsLabel" style="-fx-font-size: 12px;" text="Astronauts to remove: 0" textFill="WHITE" />
+                    <Label fx:id="removedAstronautsLabel" style="-fx-font-size: 12px;" text="Astronauts removed: 0" textFill="#4CAF50" />
+                    <Label fx:id="remainingAstronautsLabel" style="-fx-font-size: 12px;" text="Remaining: 0" textFill="#FF6B6B" />
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Input per coordinate X e Y -->
+                <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 10;">
+                    <Label style="-fx-font-weight: bold;" text="Select Cabin Coordinates" textFill="WHITE" />
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="X:" textFill="WHITE" />
+                        <TextField fx:id="xCoordinateField" prefWidth="50.0" />
+                    </HBox>
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="Y:" textFill="WHITE" />
+                        <TextField fx:id="yCoordinateField" prefWidth="50.0" />
+                    </HBox>
+
+                    <!-- Pulsante azione -->
+                    <VBox spacing="8.0" alignment="CENTER">
+                        <Button fx:id="removeAstronautButton" mnemonicParsing="false" onAction="#onRemoveAstronaut" prefWidth="150.0" style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-font-weight: bold;" text="Remove Astronaut" />
+                    </VBox>
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Sezione riassunto rimozioni -->
+                <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 15; -fx-background-color: #3a3a3a;">
+                    <Label fx:id="removedFromCabinsLabel" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Removed from Cabins:" textFill="#FF6B6B" />
+                    <ScrollPane fitToWidth="true" maxHeight="120.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
+                        <VBox fx:id="removedAstronautsBox" spacing="5.0" style="-fx-background-color: transparent;">
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Pulsanti di controllo -->
+                <VBox spacing="10.0">
+                    <Button fx:id="endRemoveAstronautsButton" mnemonicParsing="false" onAction="#onEndRemoveAstronauts" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="End Remove Astronauts" />
+                    <Button fx:id="abandonGameButton" mnemonicParsing="false" onAction="#onAbandonGame" prefWidth="180.0" style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-font-weight: bold;" text="Abandon Game" />
+                </VBox>
+
+                <!-- Messaggi di stato -->
+                <Label fx:id="statusMessage" textFill="WHITE" wrapText="true" />
+                <Label fx:id="validationMessage" textFill="RED" visible="false" />
+            </VBox>
+        </ScrollPane>
+    </left>
+</BorderPane>

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-public class ActivateEnginesSceneController extends GuiController implements Initializable {
+public class ActivateShieldsSceneController extends GuiController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
@@ -50,13 +50,13 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
     private TextField yCoordinateField;
 
     @FXML
-    private Button activateEngineButton;
+    private Button activateShieldButton;
 
     @FXML
     private Button useBatteriesButton;
 
     @FXML
-    private Button endActivateEnginesButton;
+    private Button endActivateShieldButton;
 
     @FXML
     private Label statusMessage;
@@ -77,13 +77,13 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
     private Button showOwnShipboardButton;
 
     @FXML
-    private VBox activatedEnginesBox;
+    private VBox activatedShieldsBox;
 
     @FXML
     private VBox usedBatteriesBox;
 
     @FXML
-    private Label activatedEnginesLabel;
+    private Label activatedShieldsLabel;
 
     @FXML
     private Label usedBatteriesLabel;
@@ -91,23 +91,23 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
-    private List<Points> doubleEnginesCells;
+    private List<Points> ShieldsCells;
     private List<Points> batteryStorageCells;
-    private List<Points> activatedEngines;
+    private List<Points> activatedShields;
     private List<Points> usedBatteries;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
         validationMessage.setVisible(false);
-        statusMessage.setText("Insert coordinates to activate engines or use batteries");
+        statusMessage.setText("Insert coordinates to activate shields or use batteries");
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
 
-        doubleEnginesCells = new ArrayList<>();
+        ShieldsCells = new ArrayList<>();
         batteryStorageCells = new ArrayList<>();
-        activatedEngines = new ArrayList<>();
+        activatedShields = new ArrayList<>();
         usedBatteries = new ArrayList<>();
 
         updateSummaryLabels();
@@ -123,7 +123,7 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
             }
         });
 
-        allButtons = Arrays.asList(activateEngineButton, useBatteriesButton, endActivateEnginesButton);
+        allButtons = Arrays.asList(activateShieldButton, useBatteriesButton, endActivateShieldButton);
         saveButtonStates();
     }
 
@@ -163,8 +163,8 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
             List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
             for (ComponentsView component : existingComponents) {
                 // Verifica il tipo di componente e aggiunge alle liste appropriate
-                if ("DoubleEngine".equals(component.getType())) {
-                    doubleEnginesCells.add(new Points(component.getPosX(), component.getPosY()));
+                if ("Shield".equals(component.getType())) {
+                    ShieldsCells.add(new Points(component.getPosX(), component.getPosY()));
                 } else if ("BatteryStorage".equals(component.getType())) {
                     batteryStorageCells.add(new Points(component.getPosX(), component.getPosY()));
                 }
@@ -622,18 +622,18 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
 
     private void updateSummaryLabels() {
         Platform.runLater(() -> {
-            activatedEnginesLabel.setText("Activated Engines (" + activatedEngines.size() + "):");
+            activatedShieldsLabel.setText("Activated Shields (" + activatedShields.size() + "):");
             usedBatteriesLabel.setText("Used Batteries (" + usedBatteries.size() + "):");
 
             // Clear existing summary items
-            activatedEnginesBox.getChildren().clear();
+            activatedShieldsBox.getChildren().clear();
             usedBatteriesBox.getChildren().clear();
 
-            // Add activated engines to summary
-            for (Points engines : activatedEngines) {
-                Label engineLabel = new Label("Engine at (" + engines.getX() + ", " + engines.getY() + ")");
-                engineLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-                activatedEnginesBox.getChildren().add(engineLabel);
+            // Add activated shields to summary
+            for (Points shields : activatedShields) {
+                Label shieldsLabel = new Label("Shield at (" + shields.getX() + ", " + shields.getY() + ")");
+                shieldsLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+                activatedShieldsBox.getChildren().add(shieldsLabel);
             }
 
             // Add used batteries to summary
@@ -646,9 +646,9 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
     }
 
     @FXML
-    public void onActivateEngine() throws RemoteException {
+    public void onActivateShield() throws RemoteException {
         if (isViewingOtherPlayerShipboard) {
-            showValidationError("Cannot activate engines while viewing another player's shipboard");
+            showValidationError("Cannot activate shields while viewing another player's shipboard");
             return;
         }
 
@@ -658,24 +658,24 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
 
             Points targetPoint = new Points(x, y);
 
-            if (!doubleEnginesCells.contains(targetPoint)) {
-                showValidationError("No double engine found at coordinates (" + x + ", " + y + ")");
+            if (!ShieldsCells.contains(targetPoint)) {
+                showValidationError("No shield found at coordinates (" + x + ", " + y + ")");
                 return;
             }
 
-            if (activatedEngines.contains(targetPoint)) {
-                showValidationError("Engine at (" + x + ", " + y + ") already activated");
+            if (activatedShields.contains(targetPoint)) {
+                showValidationError("Shield at (" + x + ", " + y + ") already activated");
                 return;
             }
 
             List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("activate_engines", args);
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("activate_shields", args);
             getGuiRoot().getClient().sendMessage(message);
 
-            activatedEngines.add(targetPoint);
+            activatedShields.add(targetPoint);
             updateSummaryLabels();
             hideValidationMessage();
-            statusMessage.setText("Engine activated at (" + x + ", " + y + ")");
+            statusMessage.setText("Shield activated at (" + x + ", " + y + ")");
 
             // Clear input fields
             xCoordinateField.clear();
@@ -728,10 +728,10 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
     }
 
     @FXML
-    public void onEndActivateEngines() throws RemoteException {
+    public void onEndActivateShields() throws RemoteException {
         // Salva lo stato prima di cambiare scena
         saveCurrentShipboardState();
-        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_activate_engines", new ArrayList<>());
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_activate_shields", new ArrayList<>());
         getGuiRoot().getClient().sendMessage(message);
     }
 }

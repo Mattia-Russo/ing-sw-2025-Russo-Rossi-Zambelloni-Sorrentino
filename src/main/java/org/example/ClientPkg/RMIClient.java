@@ -250,6 +250,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void goToAbandoned(){
+        userInterface.goToAbandonScene();
     }
 
     @Override
@@ -264,12 +265,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void goToActivateShields(){
-
+        userInterface.goToActivateShieldScene();
     }
 
     @Override
     public void goToChangeGoods(){
-
+        userInterface.goToChangeGoodsScene();
     }
 
     @Override
@@ -289,12 +290,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void goToRemoveAstronauts(){
-
+        userInterface.goToRemoveAstronautScene();
     }
 
     @Override
     public void goToRemoveBestGoods(){
-
+        userInterface.goToRemoveBestGoodsScene();
     }
 
     @Override
