@@ -81,7 +81,9 @@ public class ShipWreckSceneController extends GuiController implements Initializ
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
         validationMessage.setVisible(false);
-        statusMessage.setText("Insert coordinates and confirm");
+        statusMessage.setText("Insert coordinates of one tile that " +
+                "belongs to the part of " +
+                "shipboard you want to keep");
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
@@ -589,7 +591,8 @@ public class ShipWreckSceneController extends GuiController implements Initializ
     }
 
     @FXML
-    public void onWreckConfirm() throws RemoteException {
+    public void onChoosePartClick() throws RemoteException {
+        confirmButton.setDisable(true);
         try {
             int x = Integer.parseInt(xCoordinateField.getText().trim());
             int y = Integer.parseInt(yCoordinateField.getText().trim());

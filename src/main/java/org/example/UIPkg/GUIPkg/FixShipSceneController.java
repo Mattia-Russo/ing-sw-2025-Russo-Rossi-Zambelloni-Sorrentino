@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.example.MessagePkg.Message;
 import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
+import org.example.ServerPkg.Model.Points;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -76,6 +77,7 @@ public class FixShipSceneController extends GuiController implements Initializab
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
+    private List<Points> occupiedCells;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,6 +87,8 @@ public class FixShipSceneController extends GuiController implements Initializab
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
+
+        occupiedCells = new ArrayList<>();
     }
 
     private void setupUI() {
@@ -136,6 +140,7 @@ public class FixShipSceneController extends GuiController implements Initializab
         if (player != null && player.getShipboardView() != null) {
             List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
             for (ComponentsView component : existingComponents) {
+                occupiedCells.add(new Points(component.getPosX(), component.getPosY()));
                 placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
             }
 
@@ -589,19 +594,48 @@ public class FixShipSceneController extends GuiController implements Initializab
     }
 
     @FXML
-    public void onFixConfirm() throws RemoteException {
+    public void onRemoveTile() throws RemoteException {
         try {
             int x = Integer.parseInt(xCoordinateField.getText().trim());
             int y = Integer.parseInt(yCoordinateField.getText().trim());
 
-            List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("remove_tile", args);
-            getGuiRoot().getClient().sendMessage(message);
-            hideValidationMessage();
-            statusMessage.setText("Fix Ship ended successfully!");
+            if (!occupiedCells.contains(new Points(x, y))) {
+                showValidationError("Please enter valid numbers for X and Y coordinates");
+            } else {
+                List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
+                Message message = getGuiRoot().getClient().getMessageGenerator().generate("remove_tile", args);
+                getGuiRoot().getClient().sendMessage(message);
+                hideValidationMessage();
+                statusMessage.setText("Tile removed successfully");
 
-        } catch (NumberFormatException e) {
-            showValidationError("Please enter valid numbers for X and Y coordinates");
+                removeComponentFromShipBoardGUI(x, y);
+            }
+        } catch(NumberFormatException e){
+                showValidationError("Please enter valid numbers for X and Y coordinates");
+        }
+    }
+
+
+    private void removeComponentFromShipBoardGUI(int x, int y) {
+        occupiedCells.remove(new Points(x, y));
+
+        shipboardContainer.getChildren().clear();
+        shipboardContainer.getChildren().add(shipboardImageView);
+
+        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+            for (PlayerView player : cachedGame.getPlayers()) {
+                if (player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
+                    if (player.getShipboardView() != null) {
+                        List<ComponentsView> components = new ArrayList<>(getShipboardComponents(player.getShipboardView()));
+
+                        components.removeIf(component -> component.getPosX() == x && component.getPosY() == y);
+
+                        updateShipBoardGUI(components);
+                    }
+                    break;
+                }
+            }
         }
     }
 
