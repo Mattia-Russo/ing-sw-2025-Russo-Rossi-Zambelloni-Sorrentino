@@ -392,52 +392,106 @@ public class RemoveBestGoodsSceneController extends GuiController implements Ini
         }
     }
 
-    // Metodi per la gestione delle shipboard degli altri giocatori
     @FXML
-    private void onShowPlayer1Shipboard() {
-        showPlayerShipboard(0);
+    public void onShowPlayer1Shipboard() {
+        isViewingOtherPlayerShipboard = true;
+        saveButtonStates();
+        disableAllButtons();
+        showPlayer1ShipboardButton.setVisible(false);
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
     }
 
     @FXML
-    private void onShowPlayer2Shipboard() {
-        showPlayerShipboard(1);
+    public void onShowPlayer2Shipboard() {
+        isViewingOtherPlayerShipboard = true;
+        saveButtonStates();
+        disableAllButtons();
+        showPlayer2ShipboardButton.setVisible(false);
+        showOwnShipboardButton.setDisable(false);
+        showOwnShipboardButton.setVisible(true);
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
     }
 
     @FXML
-    private void onShowPlayer3Shipboard() {
-        showPlayerShipboard(2);
+    public void onShowPlayer3Shipboard() {
+        isViewingOtherPlayerShipboard = true;
+        saveButtonStates();
+        disableAllButtons();
+        showPlayer3ShipboardButton.setVisible(false);
+        showOwnShipboardButton.setDisable(false);
+        showOwnShipboardButton.setVisible(true);
+        showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
     }
 
     @FXML
-    private void onShowOwnShipboard() {
-        showOwnShipboard();
+    public void onShowOwnShipboard() {
+        isViewingOtherPlayerShipboard = false;
+        showPlayerShipboard(getGuiRoot().getClient().getPlayerName());
+        restoreButtonStates();
+        resetShowShipboardButtons();
+
+        if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());
+        }
+        hideValidationMessage();
     }
 
-    private void showPlayerShipboard(int playerIndex) {
-        GameView game = getGuiRoot().getGameCache().getCachedGameView();
-        if (game != null && game.getPlayers() != null && playerIndex < game.getPlayers().size()) {
-            PlayerView player = game.getPlayers().get(playerIndex);
-            if (player != null && !player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
-                isViewingOtherPlayerShipboard = true;
-                currentlyViewedPlayer = player.getName();
+    private void disableAllButtons() {
+        for (Button button : allButtons) {
+            button.setDisable(true);
+        }
+    }
 
-                saveButtonStates();
-                disableModificationControls();
+    private String getPlayerNameFromButton(Button button) {
+        String buttonText = button.getText();
+        return buttonText.substring(5, buttonText.indexOf("'s Shipboard"));
+    }
 
-                Platform.runLater(() -> {
-                    shipboardContainer.getChildren().clear();
-                    shipboardContainer.getChildren().add(shipboardImageView);
-                });
+    private void showPlayerShipboard(String playerName) {
+        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
+            System.err.println("No GameView available to show shipboard");
+            return;
+        }
 
-                loadShipboardTiles(player);
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
 
-                showOwnShipboardButton.setVisible(true);
-                showOwnShipboardButton.setDisable(false);
+        if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
+            System.err.println("Empty player list in cached GameView");
+            return;
+        }
 
-                statusMessage.setText("Viewing " + player.getName() + "'s shipboard");
-                hideValidationMessage();
+        PlayerView targetPlayer = null;
+
+        for (PlayerView player : cachedGame.getPlayers()) {
+            if (player.getName().equals(playerName)) {
+                targetPlayer = player;
+                break;
             }
         }
+
+        if (targetPlayer == null) {
+            System.err.println("Player " + playerName + " not found in current GameView");
+            if (cachedGame.getException() == null) {
+                showValidationError("Player " + playerName + " not found");
+            }
+            return;
+        }
+
+        Platform.runLater(() -> {
+            shipboardContainer.getChildren().clear();
+            shipboardContainer.getChildren().add(shipboardImageView);
+        });
+
+        if (targetPlayer.getShipboardView() != null) {
+            List<ComponentsView> playerComponents = getShipboardComponents(targetPlayer.getShipboardView());
+            updateShipBoardGUI(playerComponents);
+        }
+
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
+        showValidationError("Now showing " + playerName + "'s shipboard");
     }
 
     private void showOwnShipboard() {
