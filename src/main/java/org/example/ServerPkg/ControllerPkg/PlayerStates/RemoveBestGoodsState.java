@@ -19,8 +19,9 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     private int goodsRemoved;
     private int batteriesRemoved;
 
-    public RemoveBestGoodsState(Game game){
-        super(game, null);
+    public RemoveBestGoodsState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToRemoveBestGoods();
         this.goodsRemoved=0;
         this.batteriesRemoved=0;
     }

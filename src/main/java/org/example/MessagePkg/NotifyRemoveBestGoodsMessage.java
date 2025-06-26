@@ -2,7 +2,7 @@ package org.example.MessagePkg;
 
 import org.example.ServerPkg.ControllerPkg.GameController;
 
-public class NotifyWinEnemyMessage extends Message{
+public class NotifyRemoveBestGoodsMessage extends Message{
     @Override
     public void handle(GameController controller, String playerName){
 

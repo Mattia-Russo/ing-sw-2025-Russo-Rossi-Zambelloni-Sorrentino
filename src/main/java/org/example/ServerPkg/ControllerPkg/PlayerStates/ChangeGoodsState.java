@@ -1,7 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyChangeGoodsMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ComponentsPkg.Storage;
@@ -17,9 +15,7 @@ import java.rmi.RemoteException;
 public class ChangeGoodsState extends PlayerState implements Serializable {
     public ChangeGoodsState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyChangeGoodsMessage message = new NotifyChangeGoodsMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToChangeGoods();
     }
 
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere

@@ -16,9 +16,7 @@ import java.util.ArrayList;
 public class WaitingState extends PlayerState implements Serializable {
     public WaitingState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyWaitingStateMessage message = new NotifyWaitingStateMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToWaitingState();
     }
 
     @Override

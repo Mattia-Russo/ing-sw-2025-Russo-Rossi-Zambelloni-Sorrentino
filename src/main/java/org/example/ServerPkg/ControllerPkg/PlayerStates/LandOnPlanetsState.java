@@ -13,9 +13,7 @@ import java.rmi.RemoteException;
 public class LandOnPlanetsState extends PlayerState implements Serializable {
     public LandOnPlanetsState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyLandOnPlanetMessage message = new NotifyLandOnPlanetMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToLandOnPlanet();
     }
 
     @Override

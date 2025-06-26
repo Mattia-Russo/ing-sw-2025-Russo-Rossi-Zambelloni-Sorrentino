@@ -11,9 +11,7 @@ import java.rmi.RemoteException;
 public class WinEnemyState extends PlayerState implements Serializable {
     public WinEnemyState(Game game,Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyWinEnemyMessage message = new NotifyWinEnemyMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToWinEnemy();
     }
 
     @Override
