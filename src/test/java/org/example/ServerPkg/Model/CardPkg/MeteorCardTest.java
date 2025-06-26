@@ -7,6 +7,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.ShipBoard;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MeteorCardTest extends TestCase {
         assertEquals(2, m.getCardLevel());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
@@ -121,7 +122,7 @@ public class MeteorCardTest extends TestCase {
         //assertTrue(p1.getState() instanceof ActivateShieldsState);
     }
 
-    public void testPlayCard() {
+    public void testPlayCard() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "b", null);
         ArrayList<Player> players = new ArrayList<>();

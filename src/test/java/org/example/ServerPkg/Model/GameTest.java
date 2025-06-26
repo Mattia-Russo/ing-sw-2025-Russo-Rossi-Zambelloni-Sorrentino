@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class GameTest extends TestCase {
 
-    public void testGetNumPlayers(){
+    public void testGetNumPlayers() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
         Player p3 = new Player("a", null);
@@ -28,7 +28,7 @@ public class GameTest extends TestCase {
         assertEquals(4,g.getNumPlayer());
     }
 
-    public void testGetPlayers() {
+    public void testGetPlayers() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
         Player p3 = new Player("a", null);
@@ -44,7 +44,7 @@ public class GameTest extends TestCase {
         assertEquals(players,g.getPlayers());
     }
 
-    public void testAdjustPlayerPositions() {
+    public void testAdjustPlayerPositions() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
         Player p3 = new Player("a", null);
@@ -69,7 +69,7 @@ public class GameTest extends TestCase {
         }
     }
 
-    public void testGetOccupiedPositions() {
+    public void testGetOccupiedPositions() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
         Player p3 = new Player( "a", null);
@@ -92,7 +92,7 @@ public class GameTest extends TestCase {
         assertEquals(1, g.getOccupiedPositions(p1, 2));
     }
 
-    public void testPickCard() {
+    public void testPickCard() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         Player p3 = new Player("a", null);
@@ -113,7 +113,7 @@ public class GameTest extends TestCase {
         assertFalse(g.getDeck(0).contains(pickedCard));
     }
 
-    public void testCheckGiveUp() {
+    public void testCheckGiveUp() throws RemoteException {
         Player p1 = new Player( "a", null);
         Player p2 = new Player( "a", null);
         Player p3 = new Player( "a", null);
@@ -135,7 +135,7 @@ public class GameTest extends TestCase {
         assertFalse(g.checkGiveUp(p4));
     }
 
-    public void testCalculateWinners() {
+    public void testCalculateWinners() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         Player p3 = new Player( "a", null);
@@ -223,7 +223,7 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testCalculateFinalCredits() {
+    public void testCalculateFinalCredits() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         Player p3 = new Player( "a", null);
@@ -320,7 +320,7 @@ public class GameTest extends TestCase {
         assertNull(g.getCurrentCard());
     }
 
-    public void testTurn() {
+    public void testTurn() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         ArrayList<Player> players = new ArrayList<>();
@@ -462,7 +462,7 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testStartBuildingShips() {
+    public void testStartBuildingShips() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
         Player p3 = new Player("a", null);
@@ -492,7 +492,7 @@ public class GameTest extends TestCase {
     }
 
 
-    public void testSetPlayersShipboard() {
+    public void testSetPlayersShipboard() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         Player p3 = new Player( "a", null);

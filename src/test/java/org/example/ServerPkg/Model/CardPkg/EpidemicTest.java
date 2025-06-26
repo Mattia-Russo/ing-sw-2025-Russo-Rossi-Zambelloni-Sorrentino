@@ -9,11 +9,12 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.ShipBoard;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class EpidemicTest extends TestCase {
 
-    public void testCheckAdjacentCabins() {
+    public void testCheckAdjacentCabins() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         players.add(p1);

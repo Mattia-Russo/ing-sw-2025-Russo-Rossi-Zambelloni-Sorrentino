@@ -9,6 +9,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class WarZoneTest extends TestCase {
         assertEquals(expectedCriteria, warZone2.getCriteria());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
         ArrayList<Player> players = new ArrayList<>();
@@ -167,7 +168,7 @@ public class WarZoneTest extends TestCase {
         assertTrue(p1.getState() instanceof RemoveAstronautsState);
     }
 
-    public void testWarZone(){
+    public void testWarZone() throws RemoteException {
         Player p1 = new Player("Giacomo", null);
         Player p2 = new Player("Mattia", null);
         ArrayList<Player> players = new ArrayList<>();

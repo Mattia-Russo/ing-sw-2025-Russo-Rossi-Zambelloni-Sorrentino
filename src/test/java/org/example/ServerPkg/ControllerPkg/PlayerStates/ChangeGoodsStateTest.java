@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ChangeGoodsStateTest extends TestCase {
@@ -17,7 +18,7 @@ public class ChangeGoodsStateTest extends TestCase {
     public void testRemoveGood() {
     }
 
-    public void testAddGood() {
+    public void testAddGood() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "b", null);
         ArrayList<Player> players = new ArrayList<>();

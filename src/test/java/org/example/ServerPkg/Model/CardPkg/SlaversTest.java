@@ -13,6 +13,7 @@ import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class SlaversTest extends TestCase {
@@ -22,7 +23,7 @@ public class SlaversTest extends TestCase {
     ShipBoard sp3;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
 
@@ -121,13 +122,13 @@ public class SlaversTest extends TestCase {
         assertEquals(10,s.getCredits());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         slavers.setCardState(game);
         assertTrue(players.get(0).getState() instanceof ActivateCannonsState);
         assertTrue(players.get(1).getState() instanceof WaitingState);
     }
 
-    public void testPlayCard3Par() {
+    public void testPlayCard3Par() throws RemoteException {
         slavers.setCardState(game);
         slavers.playCard(game, null, null);
         assertTrue(players.get(0).getState() instanceof RemoveAstronautsState);
@@ -142,7 +143,7 @@ public class SlaversTest extends TestCase {
 
     }
 
-    public void testPlayCard1Par() {
+    public void testPlayCard1Par() throws RemoteException {
         slavers.setCardState(game);
         slavers.setAccept(true);
         slavers.playCard(game);

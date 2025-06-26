@@ -5,11 +5,12 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.AddAlienState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class PlayerTest extends TestCase {
 
-    public void testGetPosition() {
+    public void testGetPosition() throws RemoteException {
         Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -42,7 +43,7 @@ public class PlayerTest extends TestCase {
         assertEquals(0, p.getPosition());
     }
 
-    public void testIsAbandoned() {
+    public void testIsAbandoned() throws RemoteException {
         Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -50,7 +51,7 @@ public class PlayerTest extends TestCase {
         assertFalse(p.isAbandoned());
     }
 
-    public void testIsOnPlanet() {
+    public void testIsOnPlanet() throws RemoteException {
         Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -58,7 +59,7 @@ public class PlayerTest extends TestCase {
         assertFalse(p.isOnPlanet());
     }
 
-    public void testGetPlayerShipBoard() {
+    public void testGetPlayerShipBoard() throws RemoteException {
         Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard sh1=p.getPlayerShipBoard();
@@ -92,7 +93,7 @@ public class PlayerTest extends TestCase {
 
     }
 
-    public void testChangeOnPlanet() {
+    public void testChangeOnPlanet() throws RemoteException {
         Player p = new Player("a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -102,7 +103,7 @@ public class PlayerTest extends TestCase {
         assertTrue(p.isOnPlanet());
     }
 
-    public void testAbandon() {
+    public void testAbandon() throws RemoteException {
         Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -112,7 +113,7 @@ public class PlayerTest extends TestCase {
         assertTrue(p.isAbandoned());
     }
 
-    public void testChangePosition() {
+    public void testChangePosition() throws RemoteException {
         Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -151,7 +152,7 @@ public class PlayerTest extends TestCase {
         assertEquals(7, p.getPosition());
     }
 
-    public void testGetNumCredits() {
+    public void testGetNumCredits() throws RemoteException {
         Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -160,7 +161,7 @@ public class PlayerTest extends TestCase {
     }
 
 
-    public void testChangeCredits() {
+    public void testChangeCredits() throws RemoteException {
         Player p = new Player( "a", null);
         p.setPlayerShipboard(1);
         ShipBoard s=p.getPlayerShipBoard();
@@ -172,7 +173,7 @@ public class PlayerTest extends TestCase {
         assertEquals(7, p.getNumCredits());
     }
 
-    public void testPickComponent() {
+    public void testPickComponent() throws RemoteException {
         Cabin c1 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE});
         Storage s1 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.EMPTY});
@@ -209,7 +210,7 @@ public class PlayerTest extends TestCase {
         }
     }
 
-    public void testCheckShip() {
+    public void testCheckShip() throws RemoteException {
         Player p = new Player( "a", null);
         Game g=new Game(2, 2,1, new GameController());
         p.setPlayerShipboard(2);
