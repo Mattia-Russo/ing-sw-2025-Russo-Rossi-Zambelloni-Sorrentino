@@ -37,6 +37,20 @@ public class AddAlienState extends PlayerState implements Serializable {
     public void selectPosition(int position, Player player){
         try {
             if(position >= -3 && position <= 0) {
+                if(getGame().getGameMode()==0 && position==0){
+                    position++;
+                } else {
+                    switch(position){
+                        case 0:
+                            position++;
+                            break;
+                        case -1:
+                            position--;
+                            break;
+                        default:
+                            position-=2;
+                    }
+                }
                 for (Player p : getGame().getPlayers()) {
                     if (p.isPosValid() && p.getPosition() == position) {
                         throw new InvalidParameterException("Position already taken");

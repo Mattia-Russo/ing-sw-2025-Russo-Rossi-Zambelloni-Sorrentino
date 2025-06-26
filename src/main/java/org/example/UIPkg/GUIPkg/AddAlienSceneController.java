@@ -23,10 +23,7 @@ import org.json.JSONTokener;
 import java.io.InputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddAlienSceneController extends GuiController implements Initializable {
 
@@ -77,7 +74,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
     @FXML
     private Button showOwnShipboardButton;
 
-    // Aggiungi questo campo FXML nella classe
     @FXML
     private ImageView flightboardImageView;
 
@@ -94,6 +90,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
+    private List<ImageView> playerPositionImages = new ArrayList<>();
 
     private ToggleGroup alienTypeGroup;
 
@@ -226,6 +223,9 @@ public class AddAlienSceneController extends GuiController implements Initializa
                     if (!differences.getChangedShipboardComponents().isEmpty()) {
                         updateShipBoardGUI(differences.getChangedShipboardComponents());
                     }
+                    if (!differences.getPlayersWithChangedPositions().isEmpty()) {
+                        updatePlayerPositions(differences.getPlayersWithChangedPositions(), game);
+                    }
                 }
                 
                 // Aggiorna i pulsanti per visualizzare le shipboard degli altri giocatori
@@ -237,6 +237,116 @@ public class AddAlienSceneController extends GuiController implements Initializa
             }
         });
     }
+
+    private void updatePlayerPositions(List<PlayerView> playersWithChangedPositions, GameView game) {
+        // Rimuovi prima tutte le immagini delle posizioni esistenti
+        clearPlayerPositions();
+
+        // Aggiungi tutti i giocatori con posizioni valide alla flightboard
+        for (PlayerView player : game.getPlayers()) {
+            if (player.isPosValid()) {
+                placePlayerOnFlightboard(player, game.getGameMode());
+            }
+        }
+    }
+
+
+    private void placePlayerOnFlightboard(PlayerView player, int gameMode) {
+        if (!player.isPosValid()) {
+            return;
+        }
+
+        // Calcola la posizione sulla flightboard
+        double[] position = calculateFlightboardPosition(player.getPosition(), gameMode);
+        double x = position[0];
+        double y = position[1];
+
+        // Ottieni il percorso dell'immagine in base al colore del razzo del giocatore
+        String imagePath = getPlayerColorImagePath(player.getRocketColour());
+
+        try {
+            // Carica l'immagine del giocatore
+            InputStream playerImagePath = getClass().getResourceAsStream(imagePath);
+            assert playerImagePath != null;
+            Image playerImage = new Image(playerImagePath);
+            ImageView playerImageView = new ImageView(playerImage);
+
+            // Imposta le dimensioni dell'immagine
+            playerImageView.setFitWidth(30);
+            playerImageView.setFitHeight(30);
+            playerImageView.setPreserveRatio(true);
+
+            // Posiziona l'immagine sulla flightboard
+            playerImageView.setLayoutX(x);
+            playerImageView.setLayoutY(y);
+
+            // Aggiungi l'immagine al container della flightboard
+            flightboardContainer.getChildren().add(playerImageView);
+
+            // Tieni traccia dell'immagine per poterla rimuovere successivamente
+            playerPositionImages.add(playerImageView);
+
+        } catch (Exception e) {
+            System.err.println("Errore nel caricare l'immagine del giocatore: " + imagePath);
+            e.printStackTrace();
+        }
+    }
+
+
+    private String getPlayerColorImagePath(String color) {
+        return switch (color) {
+            case "RED" -> "/org.example/cardboard/redCircle.jpg";
+            case "GREEN" -> "/org.example/cardboard/greenCircle.jpg";
+            case "YELLOW" -> "/org.example/cardboard/yellowCircle.jpg";
+            case "BLUE" -> "/org.example/cardboard/blueCircle.jpg";
+            default -> "/org.example/cardboard/redCircle.jpg"; // Default fallback
+        };
+    }
+
+    private double[] calculateFlightboardPosition(int playerPosition, int gameMode) {
+        // Dimensioni approssimative della flightboard
+        double flightboardWidth = flightboardImageView.getFitWidth();
+        double flightboardHeight = flightboardImageView.getFitHeight();
+
+        // La posizione 0 è la casella prima dell'1
+        // Assumendo che ci siano circa 30-40 caselle sulla flightboard
+        int totalPositions = 40; // Numero totale di caselle sulla flightboard
+
+        // Calcola la posizione effettiva (posizione 0 = prima casella)
+        int effectivePosition = playerPosition + 1;
+
+        double x, y;
+
+        if (gameMode == 1) {
+            if (effectivePosition <= totalPositions / 2) {
+                x = (effectivePosition * flightboardWidth) / ((double) totalPositions / 2);
+                y = flightboardHeight * 0.25;
+            } else {
+                int reversePos = totalPositions - effectivePosition;
+                x = (reversePos * flightboardWidth) / ((double) totalPositions / 2);
+                y = flightboardHeight * 0.75;
+            }
+        } else {
+            if (effectivePosition <= totalPositions / 2) {
+                x = (effectivePosition * flightboardWidth) / ((double) totalPositions / 2);
+                y = flightboardHeight * 0.75;
+            } else {
+                int reversePos = totalPositions - effectivePosition;
+                x = (reversePos * flightboardWidth) / ((double) totalPositions / 2);
+                y = flightboardHeight * 0.25;
+            }
+        }
+        return new double[]{x, y};
+    }
+
+    private void clearPlayerPositions() {
+        // Rimuovi tutte le immagini delle posizioni dei giocatori precedenti
+        for (ImageView playerImage : playerPositionImages) {
+            flightboardContainer.getChildren().remove(playerImage);
+        }
+        playerPositionImages.clear();
+    }
+
 
     @Override
     public void updatePlayerShipboardButtons(GameView game) {
@@ -536,8 +646,10 @@ public class AddAlienSceneController extends GuiController implements Initializa
             }
 
             // Alieni
-            if (component.getAlienColour() != null && positionIndex < positions.length) {
-                String alienImagePath = component.getAlienColour().toString().toLowerCase().equals("brown") ?
+            if (component.getAlienColour() != null &&
+                    !component.getType().equals("LifeSupportSystem") &&
+                    positionIndex < positions.length) {
+                String alienImagePath = component.getAlienColour().toString().equalsIgnoreCase("brown") ?
                         "/org.example/cardboard/brownAlien.jpg" : "/org.example/cardboard/purpleAlien.jpg";
                 placeQuantityIndicator(alienImagePath,
                         positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
@@ -600,7 +712,6 @@ public class AddAlienSceneController extends GuiController implements Initializa
 
     private void rotate(Direction direction, ImageView imageView) {
         switch (direction) {
-            case NORTH: imageView.setRotate(0); break;
             case WEST: imageView.setRotate(-90); break;
             case EAST: imageView.setRotate(90); break;
             case SOUTH: imageView.setRotate(180); break;
@@ -686,9 +797,13 @@ public class AddAlienSceneController extends GuiController implements Initializa
     @FXML
     public void onSelectPositionClick() throws RemoteException {
         hideValidationMessage();
+        try{
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("select_position", Collections.singletonList(startingPositionField.getText()));
+            getGuiRoot().getClient().sendMessage(message);
+        } catch (NumberFormatException e) {
+            showValidationError("Please, insert valid input for starting position");
+        }
 
-        Message message = getGuiRoot().getClient().getMessageGenerator().generate("select_position", new ArrayList<>());
-        getGuiRoot().getClient().sendMessage(message);
 
         statusMessage.setText("Position selection sent!");
     }

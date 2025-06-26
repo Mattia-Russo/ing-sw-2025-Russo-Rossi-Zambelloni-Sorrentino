@@ -6,7 +6,7 @@ import org.example.ServerPkg.Model.Player;
 import java.rmi.RemoteException;
 
 public class SelectPositionMessage extends Message{
-    private int index;
+    private final int index;
     public SelectPositionMessage(int index){
         this.index = index;
     }

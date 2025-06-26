@@ -20,21 +20,28 @@ public class GameViewCache {
         private final List<ComponentsView> changedShipboardComponents;
         private final ComponentsView newCurrentTile;
         private final boolean currentTileChanged;
+        private final List<PlayerView> playersWithChangedPositions;
 
         public GameViewDifferences(List<ComponentsView> newShipboardComponents,
                                    List<ComponentsView> newDiscoveredComponents,
-                                   List<ComponentsView> changedShipboardComponents, // AGGIUNTO
+                                   List<ComponentsView> changedShipboardComponents,
                                    ComponentsView newCurrentTile,
-                                   boolean currentTileChanged) {
+                                   boolean currentTileChanged,
+                                   List<PlayerView> playersWithChangedPositions) {
             this.newShipboardComponents = newShipboardComponents != null ? newShipboardComponents : new ArrayList<>();
             this.newDiscoveredComponents = newDiscoveredComponents != null ? newDiscoveredComponents : new ArrayList<>();
-            this.changedShipboardComponents = changedShipboardComponents != null ? changedShipboardComponents : new ArrayList<>(); // AGGIUNTO
+            this.changedShipboardComponents = changedShipboardComponents != null ? changedShipboardComponents : new ArrayList<>();
             this.newCurrentTile = newCurrentTile;
             this.currentTileChanged = currentTileChanged;
+            this.playersWithChangedPositions = playersWithChangedPositions != null ? playersWithChangedPositions : new ArrayList<>();
         }
 
         public List<ComponentsView> getChangedShipboardComponents() {
             return changedShipboardComponents;
+        }
+
+        public List<PlayerView> getPlayersWithChangedPositions() {
+            return playersWithChangedPositions;
         }
 
         public List<ComponentsView> getNewShipboardComponents() {
@@ -55,7 +62,7 @@ public class GameViewCache {
 
         public boolean hasChanges() {
             return !newShipboardComponents.isEmpty() || !newDiscoveredComponents.isEmpty() ||
-                    !changedShipboardComponents.isEmpty() || currentTileChanged;
+                    !changedShipboardComponents.isEmpty() || currentTileChanged || !playersWithChangedPositions.isEmpty();
         }
     }
 
@@ -68,6 +75,7 @@ public class GameViewCache {
         List<ComponentsView> newShipboardComponents = new ArrayList<>();
         List<ComponentsView> newDiscoveredComponents = new ArrayList<>();
         List<ComponentsView> changedComponents = new ArrayList<>();
+        List<PlayerView> playersWithChangedPositions = new ArrayList<>();
         ComponentsView newCurrentTile = null;
         boolean currentTileChanged = false;
 
@@ -129,12 +137,14 @@ public class GameViewCache {
             }
         }
 
+        playersWithChangedPositions = findPlayerPositionChanges(cachedGameView, newGameView);
+
         // Aggiorna la cache con la nuova GameView
         if(newGameView.getException()==null){
             cachedGameView = newGameView;
         }
 
-        return new GameViewDifferences(newShipboardComponents, newDiscoveredComponents, changedComponents, newCurrentTile, currentTileChanged);
+        return new GameViewDifferences(newShipboardComponents, newDiscoveredComponents, changedComponents, newCurrentTile, currentTileChanged, playersWithChangedPositions);
     }
 
     private PlayerView findPlayerByName(GameView gameView, String playerName) {
@@ -179,6 +189,24 @@ public class GameViewCache {
         }
 
         return components;
+    }
+
+    private List<PlayerView> findPlayerPositionChanges(GameView oldGameView, GameView newGameView) {
+        List<PlayerView> playersWithChangedPositions = new ArrayList<>();
+
+        if (oldGameView == null) {
+            // Prima GameView: tutti i giocatori sono considerati cambiati
+            return new ArrayList<>(newGameView.getPlayers());
+        }
+
+        for (PlayerView newPlayer : newGameView.getPlayers()) {
+            PlayerView oldPlayer = findPlayerByName(oldGameView, newPlayer.getName());
+            if (oldPlayer == null || newPlayer.getPosition() != oldPlayer.getPosition()) {
+                playersWithChangedPositions.add(newPlayer);
+            }
+        }
+
+        return playersWithChangedPositions;
     }
 
     /**
