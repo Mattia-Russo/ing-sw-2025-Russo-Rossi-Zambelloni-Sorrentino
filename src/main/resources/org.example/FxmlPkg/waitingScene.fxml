@@ -50,10 +50,20 @@
                     <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
                 </HBox>
             </VBox>
-         <Label text="Waiting for other players to end their actions" />
 
             <!-- Messaggio di validazione -->
             <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false" />
         </VBox>
     </center>
+
+    <left>
+        <VBox alignment="CENTER" prefHeight="518.0" prefWidth="235.0" spacing="15.0"
+              style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
+            <VBox prefHeight="478.0" prefWidth="239.0" spacing="20.0">
+                <Label alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="201.0" text="Current card"
+                       textAlignment="CENTER"/>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+            </VBox>
+        </VBox>
+    </left>
 </BorderPane>
