@@ -1,7 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyAddAlienMessage;
-import org.example.MessagePkg.NotifyShipWreckedMessage;
 import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Alien;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
