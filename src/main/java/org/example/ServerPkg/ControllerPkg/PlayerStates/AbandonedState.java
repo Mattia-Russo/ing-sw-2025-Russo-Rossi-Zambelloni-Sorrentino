@@ -16,9 +16,7 @@ import java.util.ArrayList;
 public class AbandonedState extends PlayerState implements Serializable {
     public AbandonedState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyAbandonMessage message = new NotifyAbandonMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToAbandoned();
     }
 
     @Override

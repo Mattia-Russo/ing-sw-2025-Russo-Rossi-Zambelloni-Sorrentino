@@ -240,7 +240,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     done=false;
                     loser=null;
                     new GameView(g, new Exception("REMOVE BEST GOODS " + p.getName()));
-                    p.setPlayerState(new RemoveBestGoodsState(g));
+                    p.setPlayerState(new RemoveBestGoodsState(g, p));
                     break;
                 case "cannonFire":
                     if (!protect) {

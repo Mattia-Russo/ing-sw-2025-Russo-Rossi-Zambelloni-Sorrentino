@@ -178,7 +178,76 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
 
     @Override
     public void goToAddAlien(){
-        Message message = msgGen.generate("go_to_add_alien", null);
-        sendMessage(message);
+        sendMessage(new NotifyAddAlienMessage());
+    }
+
+    @Override
+    public void goToAbandoned(){
+        sendMessage(new NotifyLandOnAbandonMessage());
+    }
+
+    @Override
+    public void goToActivateCannons(){
+        sendMessage(new NotifyActivateCannonsMessage());
+    }
+
+    @Override
+    public void goToActivateEngines(){
+        sendMessage(new NotifyActivateEnginesMessage());
+    }
+
+    @Override
+    public void goToActivateShields(){
+        sendMessage(new NotifyActivateShieldsMessage());
+    }
+
+    @Override
+    public void goToChangeGoods(){
+        sendMessage(new NotifyChangeGoodsMessage());
+    }
+
+    @Override
+    public void goToEndState(){
+        sendMessage(new NotifyEndStateMessage());
+    }
+
+    @Override
+    public void goToLandOnAbandon(){
+        sendMessage(new NotifyLandOnAbandonMessage());
+    }
+
+    @Override
+    public void goToLandOnPlanet(){
+        sendMessage(new NotifyLandOnPlanetMessage());
+    }
+
+    @Override
+    public void goToRemoveAstronauts(){
+        sendMessage(new NotifyRemoveAstronautsMessage());
+    }
+
+    @Override
+    public void goToRemoveBestGoods(){
+        sendMessage(new NotifyRemoveBestGoodsMessage());
+    }
+
+    @Override
+    public void goToFixShip(){
+        sendMessage(new NotifyFixShipMessage());
+    }
+
+    @Override
+    public void goToShipWreck(){
+        sendMessage(new NotifyShipWreckedMessage());
+    }
+
+    @Override
+    public void goToWaitingState(){
+        sendMessage(new NotifyWaitingStateMessage());
+    }
+
+    @Override
+    public void goToWinEnemy(){
+        sendMessage(new NotifyWinEnemyMessage());
     }
 }

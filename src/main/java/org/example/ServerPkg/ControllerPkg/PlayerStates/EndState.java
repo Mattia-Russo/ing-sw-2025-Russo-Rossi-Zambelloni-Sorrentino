@@ -1,7 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyEndStateMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
@@ -16,9 +14,7 @@ public class EndState extends PlayerState implements Serializable {
 
     public EndState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyEndStateMessage message = new NotifyEndStateMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToEndState();
     }
 
     @Override

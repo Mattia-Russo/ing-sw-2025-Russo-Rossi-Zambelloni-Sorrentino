@@ -247,4 +247,73 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void goToAddAlien(){
         userInterface.goToAddAlienScene();
     }
+
+    @Override
+    public void goToAbandoned(){
+    }
+
+    @Override
+    public void goToActivateCannons(){
+
+    }
+
+    @Override
+    public void goToActivateEngines(){
+
+    }
+
+    @Override
+    public void goToActivateShields(){
+
+    }
+
+    @Override
+    public void goToChangeGoods(){
+
+    }
+
+    @Override
+    public void goToEndState(){
+
+    }
+
+    @Override
+    public void goToLandOnAbandon(){
+
+    }
+
+    @Override
+    public void goToLandOnPlanet(){
+
+    }
+
+    @Override
+    public void goToRemoveAstronauts(){
+
+    }
+
+    @Override
+    public void goToRemoveBestGoods(){
+
+    }
+
+    @Override
+    public void goToFixShip(){
+        userInterface.goToFixShipScene();
+    }
+
+    @Override
+    public void goToShipWreck(){
+        userInterface.goToShipWreckedScene();
+    }
+
+    @Override
+    public void goToWaitingState(){
+
+    }
+
+    @Override
+    public void goToWinEnemy(){
+
+    }
 }

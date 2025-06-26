@@ -1,7 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyLandOnAbandonMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
@@ -11,9 +9,7 @@ import java.rmi.RemoteException;
 public class LandOnAbandonState extends PlayerState implements Serializable {
     public LandOnAbandonState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyLandOnAbandonMessage message = new NotifyLandOnAbandonMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToLandOnAbandon();
     }
 
     // landed true vuol dire che è atterrato

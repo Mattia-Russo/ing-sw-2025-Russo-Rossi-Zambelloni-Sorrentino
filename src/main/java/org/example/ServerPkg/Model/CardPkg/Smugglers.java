@@ -108,7 +108,7 @@ public class Smugglers extends Enemy implements Serializable {
                 this.setCardState(game);
             } else {
                 new GameView(game, new Exception("REMOVE GOODS  " + game.getPlayers().get(playersIndex).getName()));
-                game.getPlayers().get(playersIndex).setPlayerState(new RemoveBestGoodsState(game));
+                game.getPlayers().get(playersIndex).setPlayerState(new RemoveBestGoodsState(game, game.getPlayers().get(playersIndex)));
             }
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException | RemoteException e){
             System.out.println("Error" + e.getMessage());

@@ -20,9 +20,7 @@ import java.rmi.RemoteException;
 public class FixShipState extends PlayerState implements Serializable {
     public FixShipState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyFixShipMessage message = new NotifyFixShipMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToFixShip();
     }
 
     @Override

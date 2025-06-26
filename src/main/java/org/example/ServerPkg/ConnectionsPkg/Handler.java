@@ -19,4 +19,32 @@ public interface Handler extends Remote {
     void notifyNameAlreadyUsed() throws RemoteException;
 
     void goToAddAlien() throws RemoteException;
+
+    void goToAbandoned() throws RemoteException;
+
+    void goToActivateCannons() throws RemoteException;
+
+    void goToActivateEngines() throws RemoteException;
+
+    void goToActivateShields() throws RemoteException;
+
+    void goToChangeGoods() throws RemoteException;
+
+    void goToEndState() throws RemoteException;
+
+    void goToLandOnAbandon() throws RemoteException;
+
+    void goToLandOnPlanet() throws RemoteException;
+
+    void goToRemoveAstronauts() throws RemoteException;
+
+    void goToRemoveBestGoods() throws RemoteException;
+
+    void goToFixShip() throws RemoteException;
+
+    void goToShipWreck() throws RemoteException;
+
+    void goToWaitingState() throws RemoteException;
+
+    void goToWinEnemy() throws RemoteException;
 }
