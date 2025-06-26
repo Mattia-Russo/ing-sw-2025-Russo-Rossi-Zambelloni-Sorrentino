@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.NameRequestSceneController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.NameRequestSceneController">
     <center>
         <VBox fx:id="controls" alignment="CENTER" spacing="10.0">
             <Label fx:id="askName" text="Enter your name:" textFill="WHITE" visible="false"
