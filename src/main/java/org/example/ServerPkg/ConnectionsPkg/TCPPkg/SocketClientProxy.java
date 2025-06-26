@@ -27,7 +27,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
         this.clientAlive = System.currentTimeMillis();
-        checkClientConnection();
+        //checkClientConnection();
     }
 
     private void checkClientConnection(){
@@ -173,6 +173,12 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
     @Override
     public void notifyGameStarted(){
         Message message = msgGen.generate("game_started", null);
+        sendMessage(message);
+    }
+
+    @Override
+    public void goToAddAlien(){
+        Message message = msgGen.generate("go_to_add_alien", null);
         sendMessage(message);
     }
 }

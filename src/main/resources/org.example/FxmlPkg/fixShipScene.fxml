@@ -45,7 +45,7 @@
 
     <left>
         <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Coordinate Input" textFill="WHITE" />
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Fix Ship" textFill="WHITE" />
 
             <Separator prefWidth="150.0" style="-fx-background-color: #555555;" />
 
@@ -60,11 +60,11 @@
                     <Label text="Y:" textFill="WHITE" />
                     <TextField fx:id="yCoordinateField" prefWidth="50.0" />
                 </HBox>
-                <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onFixConfirm" prefWidth="150.0" style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-weight: bold;" text="End Coordinates phase" />
+                <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onRemoveTile" prefWidth="150.0" style="-fx-background-color: #223fff; -fx-text-fill: white; -fx-font-weight: bold;" text="Remove Tile" />
             </VBox>
 
             <VBox spacing="10.0">
-                <Button fx:id="endFixShipButton" mnemonicParsing="false" onAction="#onEndFixShipClick" prefWidth="150.0" style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-weight: bold;" text="End Fix Ship Phase" />
+                <Button fx:id="endFixShipButton" mnemonicParsing="false" onAction="#onEndFixShipClick" prefWidth="150.0" style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-weight: bold;" text="End Fix Ship" />
             </VBox>
 
             <!-- Messaggio di stato -->

@@ -17,4 +17,6 @@ public interface Handler extends Remote {
     void setGameUpdater() throws RemoteException;
 
     void notifyNameAlreadyUsed() throws RemoteException;
+
+    void goToAddAlien() throws RemoteException;
 }

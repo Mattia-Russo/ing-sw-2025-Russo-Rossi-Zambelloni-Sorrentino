@@ -53,7 +53,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
         }
 
         startUpdateThread();
-        checkConnection();
+        //checkConnection();
 
         if(UI.equals("tui")){
             startKeyboardListener();
@@ -241,5 +241,10 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     @Override
     public void notifyGameStarted(){
         this.userInterface.onGameStarted();
+    }
+
+    @Override
+    public void goToAddAlien(){
+        userInterface.goToAddAlienScene();
     }
 }

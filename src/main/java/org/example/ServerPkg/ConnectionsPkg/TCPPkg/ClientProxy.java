@@ -77,4 +77,6 @@ public abstract class ClientProxy implements Handler {
     public MessageGenerator getMsgGen(){return null;}
 
     public void notifyGameStarted(){}
+
+    public void goToAddAlien() throws RemoteException {}
 }

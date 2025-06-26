@@ -64,6 +64,7 @@ public class MessageGenerator {
         messageMap.put("game_started", this::createGameStartedMessage);
         messageMap.put("build_ship", this::createBuildShipMessage);
         messageMap.put("select_position", this::createSelectPositionMessage);
+        messageMap.put("go_to_add_alien", this::createGoToAddAlienMessage);
     }
 
     public Message generate(String command, List<String> args) {
@@ -87,6 +88,10 @@ public class MessageGenerator {
         }
         int index = Integer.parseInt(args.getFirst());
         return new SelectPositionMessage(index);
+    }
+
+    private Message createGoToAddAlienMessage(List<String> args){
+        return  new NotifyAddAlienMessage();
     }
 
     private Message createBuildShipMessage(List<String> args) {

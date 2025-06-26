@@ -256,29 +256,34 @@ public class AddAlienSceneController extends GuiController implements Initializa
             return;
         }
 
-        // Calcola la posizione sulla flightboard
+        // Calcola la posizione sulla flightboard (x, y sono il centro desiderato della posizione)
         double[] position = calculateFlightboardPosition(player.getPosition(), gameMode);
         double x = position[0];
         double y = position[1];
 
-        // Ottieni il percorso dell'immagine in base al colore del razzo del giocatore
         String imagePath = getPlayerColorImagePath(player.getRocketColour());
 
         try {
-            // Carica l'immagine del giocatore
             InputStream playerImagePath = getClass().getResourceAsStream(imagePath);
             assert playerImagePath != null;
             Image playerImage = new Image(playerImagePath);
             ImageView playerImageView = new ImageView(playerImage);
 
             // Imposta le dimensioni dell'immagine
-            playerImageView.setFitWidth(30);
-            playerImageView.setFitHeight(30);
+            playerImageView.setFitWidth(20);
+            playerImageView.setFitHeight(20);
             playerImageView.setPreserveRatio(true);
 
-            // Posiziona l'immagine sulla flightboard
-            playerImageView.setLayoutX(x);
-            playerImageView.setLayoutY(y);
+            // *** MODIFICA QUI per centrare l'immagine (già discussa) ***
+            // Ottieni le dimensioni effettive dopo aver impostato fitWidth/Height
+            double markerWidth = playerImageView.getFitWidth();
+            double markerHeight = playerImageView.getFitHeight();
+
+            // Posiziona l'immagine sottraendo metà delle sue dimensioni
+            playerImageView.setLayoutX(x - (markerWidth / 2));
+            playerImageView.setLayoutY(y - (markerHeight / 2));
+
+            // Non è necessaria alcuna rotazione per un cerchio.
 
             // Aggiungi l'immagine al container della flightboard
             flightboardContainer.getChildren().add(playerImageView);
@@ -304,38 +309,208 @@ public class AddAlienSceneController extends GuiController implements Initializa
     }
 
     private double[] calculateFlightboardPosition(int playerPosition, int gameMode) {
-        // Dimensioni approssimative della flightboard
+        double x = 0;
+        double y = 0;
+        int absPos = 0;
+
+        // Dimensioni reali dell'immagine della nave blu: cardboard-3.jpg
+        double blue_board_width = 985.0;
+        double blue_board_height = 546.0;
+
+        // Dimensioni reali dell'immagine della nave viola: cardboard-5.jpg
+        double purple_board_width = 1055.0;
+        double purple_board_height = 639.0;
+
+        // Ottieni le dimensioni reali e gli offset dell'ImageView della flightboard
         double flightboardWidth = flightboardImageView.getFitWidth();
         double flightboardHeight = flightboardImageView.getFitHeight();
+        double offsetX = flightboardImageView.getLayoutX();
+        double offsetY = flightboardImageView.getLayoutY();
 
-        // La posizione 0 è la casella prima dell'1
-        // Assumendo che ci siano circa 30-40 caselle sulla flightboard
-        int totalPositions = 40; // Numero totale di caselle sulla flightboard
+        if (gameMode == 0) { // Nave blu (18 posizioni) - senso orario
+            absPos = ((playerPosition % 18) + 18) % 18;
 
-        // Calcola la posizione effettiva (posizione 0 = prima casella)
-        int effectivePosition = playerPosition + 1;
-
-        double x, y;
-
-        if (gameMode == 1) {
-            if (effectivePosition <= totalPositions / 2) {
-                x = (effectivePosition * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.25;
-            } else {
-                int reversePos = totalPositions - effectivePosition;
-                x = (reversePos * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.75;
+            // Coordinate corrette per centrare sui triangoli
+            // Basate sulle immagini fornite: pos 0, -2(16), -4(14), -5(13)
+            switch (absPos) {   // todo aggiustare le position del volo di prova
+                case 0: // Triangolo in basso a destra (dalle immagini)
+                    x = offsetX + flightboardWidth * (750.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (420.0 / blue_board_height);
+                    break;
+                case 1: // '1' marcato sulla scheda
+                    x = offsetX + flightboardWidth * (820.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (400.0 / blue_board_height);
+                    break;
+                case 2: // Continuando in senso orario
+                    x = offsetX + flightboardWidth * (880.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (350.0 / blue_board_height);
+                    break;
+                case 3:
+                    x = offsetX + flightboardWidth * (920.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / blue_board_height);
+                    break;
+                case 4:
+                    x = offsetX + flightboardWidth * (940.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / blue_board_height);
+                    break;
+                case 5:
+                    x = offsetX + flightboardWidth * (920.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (120.0 / blue_board_height);
+                    break;
+                case 6: // In alto a destra
+                    x = offsetX + flightboardWidth * (880.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (50.0 / blue_board_height);
+                    break;
+                case 7:
+                    x = offsetX + flightboardWidth * (820.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (30.0 / blue_board_height);
+                    break;
+                case 8:
+                    x = offsetX + flightboardWidth * (750.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (20.0 / blue_board_height);
+                    break;
+                case 9: // In alto al centro
+                    x = offsetX + flightboardWidth * (490.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (15.0 / blue_board_height);
+                    break;
+                case 10:
+                    x = offsetX + flightboardWidth * (240.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (20.0 / blue_board_height);
+                    break;
+                case 11:
+                    x = offsetX + flightboardWidth * (170.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (30.0 / blue_board_height);
+                    break;
+                case 12: // In alto a sinistra
+                    x = offsetX + flightboardWidth * (110.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (50.0 / blue_board_height);
+                    break;
+                case 13: // Posizione -5 dalle immagini (triangolo a sinistra)
+                    x = offsetX + flightboardWidth * (80.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (120.0 / blue_board_height);
+                    break;
+                case 14: // Posizione -4 dalle immagini (triangolo in basso a sinistra)
+                    x = offsetX + flightboardWidth * (65.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / blue_board_height);
+                    break;
+                case 15:
+                    x = offsetX + flightboardWidth * (80.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / blue_board_height);
+                    break;
+                case 16: // Posizione -2 dalle immagini (triangolo in basso)
+                    x = offsetX + flightboardWidth * (110.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (350.0 / blue_board_height);
+                    break;
+                case 17: // Posizione -1
+                    x = offsetX + flightboardWidth * (170.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (400.0 / blue_board_height);
+                    break;
             }
-        } else {
-            if (effectivePosition <= totalPositions / 2) {
-                x = (effectivePosition * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.75;
-            } else {
-                int reversePos = totalPositions - effectivePosition;
-                x = (reversePos * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.25;
+
+        } else if (gameMode == 1) { // Nave viola (24 posizioni) - senso orario
+            absPos = ((playerPosition % 24) + 24) % 24;
+
+            // Coordinate per la nave viola - aggiustate per centrare sui triangoli
+            switch (absPos) {
+                case 0: // Triangolo subito a sinistra del '1' marcato
+                    x = offsetX + flightboardWidth * (650.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (80.0 / purple_board_height);
+                    break;
+                case 1: // '1' marcato sulla scheda viola
+                    x = offsetX + flightboardWidth * (730.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (100.0 / purple_board_height);
+                    break;
+                case 2:
+                    x = offsetX + flightboardWidth * (800.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (130.0 / purple_board_height);
+                    break;
+                case 3:
+                    x = offsetX + flightboardWidth * (870.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / purple_board_height);
+                    break;
+                case 4:
+                    x = offsetX + flightboardWidth * (900.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / purple_board_height);
+                    break;
+                case 5:
+                    x = offsetX + flightboardWidth * (900.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (360.0 / purple_board_height);
+                    break;
+                case 6:
+                    x = offsetX + flightboardWidth * (870.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (430.0 / purple_board_height);
+                    break;
+                case 7:
+                    x = offsetX + flightboardWidth * (800.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (460.0 / purple_board_height);
+                    break;
+                case 8:
+                    x = offsetX + flightboardWidth * (730.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (500.0 / purple_board_height);
+                    break;
+                case 9:
+                    x = offsetX + flightboardWidth * (650.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (510.0 / purple_board_height);
+                    break;
+                case 10:
+                    x = offsetX + flightboardWidth * (560.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (520.0 / purple_board_height);
+                    break;
+                case 11:
+                    x = offsetX + flightboardWidth * (470.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (520.0 / purple_board_height);
+                    break;
+                case 12: // Centro in alto
+                    x = offsetX + flightboardWidth * (390.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (510.0 / purple_board_height);
+                    break;
+                case 13:
+                    x = offsetX + flightboardWidth * (330.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (500.0 / purple_board_height);
+                    break;
+                case 14:
+                    x = offsetX + flightboardWidth * (280.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (460.0 / purple_board_height);
+                    break;
+                case 15:
+                    x = offsetX + flightboardWidth * (230.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (430.0 / purple_board_height);
+                    break;
+                case 16:
+                    x = offsetX + flightboardWidth * (180.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (360.0 / purple_board_height);
+                    break;
+                case 17:
+                    x = offsetX + flightboardWidth * (180.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / purple_board_height);
+                    break;
+                case 18:
+                    x = offsetX + flightboardWidth * (230.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / purple_board_height);
+                    break;
+                case 19:
+                    x = offsetX + flightboardWidth * (280.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (130.0 / purple_board_height);
+                    break;
+                case 20:
+                    x = offsetX + flightboardWidth * (330.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (100.0 / purple_board_height);
+                    break;
+                case 21:
+                    x = offsetX + flightboardWidth * (390.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (80.0 / purple_board_height);
+                    break;
+                case 22:
+                    x = offsetX + flightboardWidth * (470.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (70.0 / purple_board_height);
+                    break;
+                case 23:
+                    x = offsetX + flightboardWidth * (560.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (70.0 / purple_board_height);
+                    break;
             }
         }
+
         return new double[]{x, y};
     }
 
@@ -804,8 +979,8 @@ public class AddAlienSceneController extends GuiController implements Initializa
             showValidationError("Please, insert valid input for starting position");
         }
 
-
         statusMessage.setText("Position selection sent!");
+        selectPositionButton.setDisable(true);
     }
 
     @FXML
