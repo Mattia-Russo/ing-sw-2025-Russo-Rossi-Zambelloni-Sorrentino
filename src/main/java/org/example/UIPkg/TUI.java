@@ -251,8 +251,8 @@ public class TUI extends UI{
             int leftCellNum;
             int rightCellNum;
             if(gameMode == 0){
-                leftCellNum = 9;
-                rightCellNum = 18;
+                leftCellNum = 18;
+                rightCellNum = 9;
             } else {
                 leftCellNum = 24;
                 rightCellNum = 12;
@@ -328,9 +328,9 @@ public class TUI extends UI{
             if(pos < 8) {
                 return new Points(pos, 0);
             } else if (pos == 17) {
-                return new Points(7, 1);
-            } else if (pos == 9) {
                 return new Points(0, 1);
+            } else if (pos == 9) {
+                return new Points(7, 1);
             } else {
                 return new Points(16 - pos, 2);
             }
