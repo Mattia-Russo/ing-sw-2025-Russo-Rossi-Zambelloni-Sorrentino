@@ -254,12 +254,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void goToActivateCannons(){
-
+        userInterface.goToActivateCannonsScene();
     }
 
     @Override
     public void goToActivateEngines(){
-
+        userInterface.goToActivateEngineScene();
     }
 
     @Override

@@ -301,8 +301,15 @@ public class GUI extends UI {
         changeScene(GUIMain.ACTIVATE_CANNONS_SCENE);
     }
 
+    
     public void goToWaitingScene(){
         preserveWindowSize();
         changeScene(GUIMain.WAITING_SCENE);
+    }
+
+    @Override
+    public void goToActivateEngineScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.ACTIVATE_ENGINES_SCENE);
     }
 }

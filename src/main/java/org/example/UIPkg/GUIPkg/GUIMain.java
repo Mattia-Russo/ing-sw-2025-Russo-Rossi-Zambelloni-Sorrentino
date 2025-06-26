@@ -26,6 +26,7 @@ public class GUIMain extends Application {
     public static final String SHIP_WRECK_SCENE = "/org.example/FxmlPkg/shipWreckScene.fxml";
     public static final String WAITING_SCENE = "/org.example/FxmlPkg/waitingScene.fxml";
     public static final String ACTIVATE_CANNONS_SCENE = "/org.example/FxmlPkg/activateCannonsScene.fxml";
+    public static final String ACTIVATE_ENGINES_SCENE = "/org.example/FxmlPkg/activateEngineScene.fxml";
 
     public GUIMain() {
         guiMain = this;
@@ -65,7 +66,7 @@ public class GUIMain extends Application {
 
     public void goToFirstScene() {
         List<String> FxmlFiles = new ArrayList<>(Arrays.asList(NAME_REQUEST_SCENE, SETTINGS_SCENE, WAITING_ROOM_SCENE, BUILD_SHIP_SCENE, ADD_ALIEN_SCENE, FIX_SHIP_SCENE,
-                SHIP_WRECK_SCENE, ACTIVATE_CANNONS_SCENE, WAITING_SCENE));
+                SHIP_WRECK_SCENE, ACTIVATE_CANNONS_SCENE, WAITING_SCENE, ACTIVATE_ENGINES_SCENE));
         try{
             for(String fxmlFile : FxmlFiles){
                 FXMLLoader loader = new FXMLLoader(GUI.class.getResource(fxmlFile));
