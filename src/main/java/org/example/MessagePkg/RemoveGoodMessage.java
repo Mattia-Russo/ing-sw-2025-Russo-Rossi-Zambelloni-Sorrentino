@@ -12,8 +12,8 @@ import java.rmi.RemoteException;
 
 
 public class RemoveGoodMessage extends Message {
-    private Points point;
-    private int numGood;
+    private final Points point;
+    private final int numGood;
 
     public RemoveGoodMessage(Points point, int numGood) {
         this.point = point;

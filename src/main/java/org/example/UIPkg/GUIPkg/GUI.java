@@ -281,4 +281,15 @@ public class GUI extends UI {
         preserveWindowSize();
         changeScene(GUIMain.ADD_ALIEN_SCENE);
     }
+
+    public void goToFixShipScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.FIX_SHIP_SCENE);
+    }
+
+    @Override
+    public void goToShipWreckedScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.SHIP_WRECK_SCENE);
+    }
 }

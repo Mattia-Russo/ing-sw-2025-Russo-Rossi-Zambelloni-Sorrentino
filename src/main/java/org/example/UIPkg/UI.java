@@ -39,4 +39,6 @@ public abstract class UI {
     public void startGui(){}
 
     public void onGameStarted(){}
+
+    public void goToShipWreckedScene(){}
 }
