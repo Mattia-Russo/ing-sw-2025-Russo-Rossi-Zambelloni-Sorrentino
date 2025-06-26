@@ -14,7 +14,7 @@ public class EndState extends PlayerState implements Serializable {
 
     public EndState(Game game, Player player) throws RemoteException {
         super(game, player);
-        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToEndState();
+        game.getController().notifyGameEnded();
     }
 
     @Override
