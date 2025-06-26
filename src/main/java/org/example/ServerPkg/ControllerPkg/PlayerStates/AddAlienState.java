@@ -19,8 +19,7 @@ public class AddAlienState extends PlayerState implements Serializable {
     private boolean positionSet=false;
     public AddAlienState(Game game, Player player) throws RemoteException {
         super(game,player);
-        Handler handler = game.getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName());
-        handler.goToAddAlien();
+        getGame().getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName()).goToAddAlien();
     }
 
     @Override
