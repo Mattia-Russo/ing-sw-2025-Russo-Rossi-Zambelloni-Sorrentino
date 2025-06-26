@@ -86,7 +86,7 @@ public class AddAlienState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endAlienState(Player player){
+    public void endAlienState(Player player) throws RemoteException {
         if(positionSet) {
             player.setReadyForCards(true);
             new GameView(getGame(), new Exception("READY FOR CARDS " + player.getName()));
@@ -95,7 +95,7 @@ public class AddAlienState extends PlayerState implements Serializable {
                     if (!p.getReadyForCards()) {
                         return;
                     }
-                    p.setPlayerState(new WaitingState(getGame()));
+                    p.setPlayerState(new WaitingState(getGame(), p));
                 }
             }
             getGame().Turn();
@@ -103,13 +103,13 @@ public class AddAlienState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         player.abandon(getGame());
         endAlienState(player);
     }
     
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
         endAlienState(disconnectingPlayer);

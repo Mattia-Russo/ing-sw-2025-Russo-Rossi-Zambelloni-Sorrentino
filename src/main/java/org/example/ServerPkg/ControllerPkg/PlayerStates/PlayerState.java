@@ -149,7 +149,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endAlienState(Player player){
+    public void endAlienState(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
