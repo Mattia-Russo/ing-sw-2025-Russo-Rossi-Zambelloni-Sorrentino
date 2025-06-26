@@ -152,7 +152,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                         checkWreck(g, p, i);
                     }else {
                         new GameView(g, null);
-                        p.setPlayerState(new WaitingState(g));
+                        p.setPlayerState(new WaitingState(g, p));
                     }
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
@@ -166,7 +166,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                         checkWreck(g, p, i);
                     }else {
                         new GameView(g, null);
-                        p.setPlayerState(new WaitingState(g));
+                        p.setPlayerState(new WaitingState(g, p));
                     }
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
@@ -192,7 +192,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
             }
             if (!p.getPlayerShipBoard().checkIfSplit(wreck.getPosX(), wreck.getPosY())) {
                 protect = false;
-                p.setPlayerState(new WaitingState(g));
+                p.setPlayerState(new WaitingState(g, p));
                 setCardState(g);
             } else {
                 protect = false;

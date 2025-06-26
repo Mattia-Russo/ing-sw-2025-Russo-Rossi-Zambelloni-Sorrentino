@@ -5,6 +5,7 @@ import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class Stardust extends AdventureCard implements Serializable {
     private final int id;
@@ -23,12 +24,12 @@ public class Stardust extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game g){
+    public void setCardState(Game g) throws RemoteException {
         this.playCard(g);
     }
 
     @Override
-    public void playCard(Game g){
+    public void playCard(Game g) throws RemoteException {
         for(int i=g.getPlayers().size()-1; i>=0; i--) {
             if (!g.getPlayers().get(i).isAbandoned()) {
                 g.getPlayers().get(i).changePosition(-g.getPlayers().get(i).getPlayerShipBoard().getTotalExposedConnectors() + g.getOccupiedPositions(g.getPlayers().get(i), -g.getPlayers().get(i).getPlayerShipBoard().getTotalExposedConnectors()));

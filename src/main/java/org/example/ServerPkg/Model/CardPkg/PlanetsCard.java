@@ -81,7 +81,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game, game.getPlayers().get(playersIndex)));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));
-            game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game, game.getPlayers().get(playersIndex)));
             this.changeGoodsFlag = true;
             this.setCardState(game);
         }

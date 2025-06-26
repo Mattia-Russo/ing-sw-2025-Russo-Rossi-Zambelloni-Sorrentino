@@ -95,7 +95,7 @@ public class AddAlienState extends PlayerState implements Serializable {
                     if (!p.getReadyForCards()) {
                         return;
                     }
-                    p.setPlayerState(new WaitingState(getGame(), p));
+                    p.setPlayerState(new WaitingState(getGame(),p));
                 }
             }
             getGame().Turn();

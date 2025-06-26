@@ -82,7 +82,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     @Override
     public void endRemoveBestGoods(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
         if(goodsRemoved + batteriesRemoved < getGame().getCurrentCard().getNumGoodsLose()){
             new GameView(getGame(), new NotEnoughBestGoodsRemovedException("Cannot end this phase, need to remove more goods " + player.getName()));

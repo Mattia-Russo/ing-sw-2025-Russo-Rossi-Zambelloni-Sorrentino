@@ -245,7 +245,7 @@ public class Game implements Serializable {
         return tmp_credits;
     }
 
-    private void checkForcedAbandon() {
+    private void checkForcedAbandon() throws RemoteException {
         for(Player p : players) {
             if (!p.isAbandoned() && (p.getPlayerShipBoard().getTotalAstronauts()==0 || (p!= players.getFirst() && p.getPosition()<players.getFirst().getPosition()-lapLength))) {
                     p.abandon(this);
@@ -298,7 +298,7 @@ public class Game implements Serializable {
             if (!p.getShipOK()) {
                 return;
             }
-            p.setPlayerState(new WaitingState(this));
+            p.setPlayerState(new WaitingState(this, p));
         }
         checkAllWrackedShip();
         for(Player p : players) {
@@ -306,7 +306,7 @@ public class Game implements Serializable {
                 if (!p.getReadyForCards()) {
                     return;
                 }
-                p.setPlayerState(new WaitingState(this));
+                p.setPlayerState(new WaitingState(this, p));
                 new GameView(this, new Exception("READY FOR CARDS " + p.getName()));
             }
         }
@@ -338,7 +338,7 @@ public class Game implements Serializable {
                 new GameView(this, new Exception("YOU HAVE TO ABANDON " + p.getName()));
                 p.setPlayerState(new AbandonedState(this, p));
             }else {
-                p.setPlayerState(new WaitingState(this));
+                p.setPlayerState(new WaitingState(this, p));
             }
             i=5;
             c=null;

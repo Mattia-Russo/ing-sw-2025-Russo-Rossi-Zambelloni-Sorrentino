@@ -48,7 +48,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
                             if (p.getReadyForCards()) {
                                 return;
                             }
-                            p.setPlayerState(new WaitingState(getGame()));
+                            p.setPlayerState(new WaitingState(getGame(), p));
                             new GameView(getGame(), new Exception(p.getName() + " IS READY FOR CARDS "));
                         }
                     }
@@ -59,7 +59,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         Components c=null;
         int i=5;
         while(c==null && i < 10){
@@ -72,7 +72,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
         autoFix(player);
     }
 
-    private void autoFix(Player player) {
+    private void autoFix(Player player) throws RemoteException {
         if (getGame().getCurrentCard() != null) {
             getGame().getCurrentCard().setShipWrecked(false);
             getGame().getCurrentCard().setCardState(getGame());
@@ -92,7 +92,7 @@ public class ShipWreckedState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         Components c=null;
         int i=5;
         while(c==null && i < 10){

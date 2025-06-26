@@ -25,7 +25,7 @@ public abstract class AdventureCard implements Serializable {
 
     public void setCardState(Game game) throws RemoteException {}
 
-    public void playCard(Player disconnectingPlayer, Game game){}
+    public void playCard(Player disconnectingPlayer, Game game) throws RemoteException {}
 
     public void playCard(Game game) throws RemoteException {}
 
