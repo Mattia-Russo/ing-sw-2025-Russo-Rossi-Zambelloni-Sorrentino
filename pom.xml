@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <javafx.version>21.0.6</javafx.version>
+        <javafx.version>21.0.2</javafx.version>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <java.version>21</java.version>
@@ -83,6 +83,7 @@
                     <include>**/*.fxml</include>
                     <include>**/*.json</include>
                     <include>**/*.jpg</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
         </resources>

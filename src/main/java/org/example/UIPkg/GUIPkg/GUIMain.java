@@ -80,7 +80,7 @@ public class GUIMain extends Application {
                 REWARD_SCENE, LAND_ON_ABANDON_SCENE, LAND_ON_PLANET_SCENE, END_GAME_SCENE));
         try{
             for(String fxmlFile : FxmlFiles){
-                FXMLLoader loader = new FXMLLoader(GUI.class.getResource(fxmlFile));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
                 if(fxmlFile.equals(NAME_REQUEST_SCENE)) {
                     this.sceneMap.put(fxmlFile, new Scene(loader.load(), 800, 600));
                 } else {
