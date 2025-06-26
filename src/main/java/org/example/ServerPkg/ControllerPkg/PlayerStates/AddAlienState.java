@@ -1,7 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyAddAlienMessage;
-import org.example.MessagePkg.NotifyShipWreckedMessage;
 import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Alien;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
@@ -21,8 +19,7 @@ public class AddAlienState extends PlayerState implements Serializable {
     private boolean positionSet=false;
     public AddAlienState(Game game, Player player) throws RemoteException {
         super(game,player);
-        Handler handler = game.getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName());
-        handler.goToAddAlien();
+        getGame().getController().getNameServerMap().get(player.getName()).getHandlerByName(player.getName()).goToAddAlien();
     }
 
     @Override

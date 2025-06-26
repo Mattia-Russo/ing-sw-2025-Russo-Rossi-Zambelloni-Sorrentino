@@ -459,6 +459,7 @@ public class FixShipSceneController extends GuiController implements Initializab
     }
 
     private void placeQuantityIndicatorsOnShipboard(ComponentsView component, int x, int y) {
+        // todo spostare il duplicate code nella sopraclasse
         try {
             x = x - 4;
             y = y - 5;
@@ -469,7 +470,7 @@ public class FixShipSceneController extends GuiController implements Initializab
             double basePosX = x * cellWidth;
             double basePosY = y * cellHeight;
 
-            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
+            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.4;
             double centerX = basePosX + (cellWidth / 2);
             double centerY = basePosY + (cellHeight / 2);
 

@@ -294,4 +294,9 @@ public class GUI extends UI {
         preserveWindowSize();
         changeScene(GUIMain.SHIP_WRECK_SCENE);
     }
+
+    public void goToWaitingScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.WAITING_SCENE);
+    }
 }
