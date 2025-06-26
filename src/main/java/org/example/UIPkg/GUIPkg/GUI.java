@@ -78,7 +78,7 @@ public class GUI extends UI {
 //                            controller.updatePlayerShipboardButtons(game);
 //                        }
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }
             }catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

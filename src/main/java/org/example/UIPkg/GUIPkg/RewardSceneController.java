@@ -762,7 +762,7 @@ public class RewardSceneController extends GuiController implements Initializabl
             // Astronauti
             if (component.getNumAstronauts() > 0) {
                 for (int i = 0; i < component.getNumAstronauts() && positionIndex < positions.length; i++) {
-                    placeQuantityIndicator("/org.example/cardboard/Astronaut.jpg",
+                    placeQuantityIndicator("/org.example/cardboard/astronaut.jpg",
                             positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
                     positionIndex++;
                 }
