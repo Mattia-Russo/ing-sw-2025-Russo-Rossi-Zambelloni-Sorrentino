@@ -1,6 +1,5 @@
 package org.example.ServerPkg.Model.CardPkg;
 
-import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateEnginesState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
@@ -13,6 +12,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game g) {
+    public void setCardState(Game g) throws RemoteException {
         if(currentPlayer==-1 && g.getGameMode()==1) {
            checkEnginePower(g.getPlayers(), g);
         }
@@ -54,7 +54,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
         }else {
             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0) {
                 new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
-                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g, g.getPlayers().get(currentPlayer)));
             }else {
                 g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                 this.playCard(g, null, null);
@@ -63,17 +63,18 @@ public class OpenSpace extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void playCard(Game g, ArrayList<Points> engines, ArrayList<Points> batteries) {
+    public void playCard(Game g, ArrayList<Points> engines, ArrayList<Points> batteries) throws RemoteException {
         try {
             int enginePower = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries);
             g.getPlayers().get(currentPlayer).changePosition(enginePower + g.getOccupiedPositions(g.getPlayers().get(currentPlayer), enginePower));
             g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
             new GameView(g, null);
             setCardState(g);
-        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException | ValueUnderZeroException e){
+        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException |
+               ValueUnderZeroException | RemoteException e){
             System.out.println("Error" + e.getMessage());
             new GameView(g, new Exception(e.getMessage() + "\nACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
-            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g,  g.getPlayers().get(currentPlayer)));
         }
     }
 

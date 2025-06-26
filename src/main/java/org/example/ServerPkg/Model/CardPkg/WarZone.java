@@ -74,7 +74,7 @@ public class WarZone extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game g){
+    public void setCardState(Game g) throws RemoteException {
         if(!done) {
             switch (criteria[pos]) {
                 case "FewestAstronauts":
@@ -109,7 +109,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     } else {
                         if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleEngines() != 0) {
                             new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
-                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g,  g.getPlayers().get(currentPlayer)));
                         } else {
                             g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                             this.playCard(g, null, null);
@@ -131,7 +131,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     } else {
                         if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
                             new GameView(g, new Exception("ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
-                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
                         } else {
                             g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                             this.playCard(g, null, null);
@@ -150,7 +150,7 @@ public class WarZone extends AdventureCard implements Serializable {
                 } else if (cannonFireList.get(currentFire).type() == 0) {
                     if (loser.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).direction())) {
                         new GameView(g, new Exception("ACTIVATE SHIELDS " + loser.getName()));
-                        loser.setPlayerState(new ActivateShieldsState(g));
+                        loser.setPlayerState(new ActivateShieldsState(g, loser));
                     } else {
                         this.playCard(g, null, null);
                     }
@@ -164,7 +164,7 @@ public class WarZone extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries){
+    public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) throws RemoteException {
         if(!done) {
             switch (criteria[pos]) {
                 case "LessEnginePower":
@@ -173,10 +173,11 @@ public class WarZone extends AdventureCard implements Serializable {
                             this.power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(components, batteries);
                             loser = g.getPlayers().get(currentPlayer);
                             setCardState(g);
-                        }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                        }catch (InvalidPositionException | InvalidParameterException |
+                                BatteriesLessThenCannonException | RemoteException e){
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
-                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g,  g.getPlayers().get(currentPlayer)));
                         }
                     } else{
                         try {
@@ -185,10 +186,11 @@ public class WarZone extends AdventureCard implements Serializable {
                                 loser = g.getPlayers().get(currentPlayer);
                             }
                             setCardState(g);
-                        }catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                        }catch (InvalidPositionException | InvalidParameterException |
+                                BatteriesLessThenCannonException | RemoteException e){
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
-                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g,  g.getPlayers().get(currentPlayer)));
                         }
                     }
                     break;
@@ -198,10 +200,11 @@ public class WarZone extends AdventureCard implements Serializable {
                             power = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalCannonPower(components, batteries);
                             loser = g.getPlayers().get(currentPlayer);
                             setCardState(g);
-                        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+                        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException |
+                               RemoteException e){
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
-                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
                         }
 
                     } else{
@@ -214,7 +217,7 @@ public class WarZone extends AdventureCard implements Serializable {
                         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                             System.out.println("Error" + e.getMessage());
                             new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
-                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
                         }
                     }
                     break;
@@ -255,7 +258,7 @@ public class WarZone extends AdventureCard implements Serializable {
                                      BatteriesLessThenCannonException e) {
                                 System.out.println("Error" + e.getMessage());
                                 new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + loser.getName()));
-                                loser.setPlayerState(new ActivateShieldsState(g));
+                                loser.setPlayerState(new ActivateShieldsState(g, loser));
                             }
                         }
                     }
@@ -268,7 +271,7 @@ public class WarZone extends AdventureCard implements Serializable {
                     done=false;
                     loser=null;
                     new GameView(g, new Exception("REMOVE ASTRONAUTS " + p.getName()));
-                    p.setPlayerState(new RemoveAstronautsState(g));
+                    p.setPlayerState(new RemoveAstronautsState(g, p));
                     break;
             }
         }

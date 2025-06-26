@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyActivateShieldsMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyShieldException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -8,14 +10,18 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ActivateShieldsState extends PlayerState implements Serializable {
     ArrayList<Points> shields;
     ArrayList<Points> batteries;
 
-    public ActivateShieldsState(Game game){
-        super(game, null);
+    public ActivateShieldsState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyActivateShieldsMessage message = new NotifyActivateShieldsMessage();
+        handler.sendMessage(message);
         this.shields =null;
         this.batteries=null;
     }
@@ -34,7 +40,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
             new GameView(getGame(),  new AlreadyBatteryException("Batteries already activated" + player.getName()));
     }
 
-    public void endActivateShields(Player player){
+    public void endActivateShields(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
         }
@@ -42,7 +48,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
         shields=null;
@@ -51,7 +57,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         batteries = null;
         shields = null;
         player.abandon(getGame());

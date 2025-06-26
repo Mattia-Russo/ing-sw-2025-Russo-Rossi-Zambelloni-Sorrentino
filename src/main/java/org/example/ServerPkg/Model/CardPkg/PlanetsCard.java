@@ -8,9 +8,9 @@ import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.ForView.PlanetView;
 import org.example.ServerPkg.Model.Game;
-import org.example.ServerPkg.Model.Player;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
     }
 
     @Override
-    public void setCardState(Game game){
+    public void setCardState(Game game) throws RemoteException {
         do {
             playersIndex++;
         } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned());
@@ -67,18 +67,18 @@ public class PlanetsCard extends AdventureCard implements Serializable{
             game.Turn();
         } else {
             new GameView(game, new Exception("LAND ON PLANET " + game.getPlayers().get(playersIndex).getName()));
-            game.getPlayers().get(playersIndex).setPlayerState(new LandOnPlanetsState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new LandOnPlanetsState(game, game.getPlayers().get(playersIndex)));
         }
     }
 
     @Override
-    public void playCard(Game game, int numPlanet) {
+    public void playCard(Game game, int numPlanet) throws RemoteException {
         game.getPlayers().get(playersIndex).changeOnPlanet();
         if (changeGoodsFlag){
             this.currentPlanetIndex = numPlanet;
             this.planetsVisited[numPlanet] = true;
             new GameView(game, new Exception(game.getPlayers().get(playersIndex).getName() + " LANDED ON PLANET NUMBER " + currentPlanetIndex + "\n" + game.getPlayers().get(playersIndex).getName() + " MANAGE YOUR GOODS' EXCHANGE"));
-            game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game, game.getPlayers().get(playersIndex)));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));
             game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));

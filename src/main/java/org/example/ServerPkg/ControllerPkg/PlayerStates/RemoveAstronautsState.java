@@ -1,5 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyLandOnAbandonMessage;
+import org.example.MessagePkg.NotifyRemoveAstronautsMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Cabin;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
@@ -9,11 +12,15 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class RemoveAstronautsState extends PlayerState implements Serializable {
     private int astronautsRemoved;
-    public RemoveAstronautsState(Game game) {
-        super(game, null);
+    public RemoveAstronautsState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyRemoveAstronautsMessage message = new NotifyRemoveAstronautsMessage();
+        handler.sendMessage(message);
         this.astronautsRemoved=0;
     }
 
@@ -42,7 +49,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endRemoveAstronauts(Player player){
+    public void endRemoveAstronauts(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
         }
@@ -58,7 +65,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         removeLeftAstronauts(player, getGame());
         new GameView(getGame(), null);
         player.abandon(getGame());
@@ -66,7 +73,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void disconnect(Player p){
+    public void disconnect(Player p) throws RemoteException {
         removeLeftAstronauts(p, getGame());
         getGame().disconnectPlayer(p);
         p.abandon(getGame());

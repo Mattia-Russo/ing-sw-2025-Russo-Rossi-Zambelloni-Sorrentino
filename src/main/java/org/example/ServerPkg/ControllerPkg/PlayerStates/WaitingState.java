@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyWaitingStateMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.Exceptions.WaitingStateException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -8,11 +10,15 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class WaitingState extends PlayerState implements Serializable {
-    public WaitingState(Game game){
-        super(game, null);
+    public WaitingState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyWaitingStateMessage message = new NotifyWaitingStateMessage();
+        handler.sendMessage(message);
     }
 
     @Override
@@ -201,7 +207,7 @@ public class WaitingState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         player.abandon(getGame());
     }
     

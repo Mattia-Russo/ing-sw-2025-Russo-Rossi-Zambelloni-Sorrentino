@@ -62,7 +62,7 @@ public class Pirates extends Enemy implements Serializable {
     }
 
     @Override
-    public void setCardState(Game g) {
+    public void setCardState(Game g) throws RemoteException {
         if (!playerLost) {
             do {
                 currentPlayer++;
@@ -72,7 +72,7 @@ public class Pirates extends Enemy implements Serializable {
             if (currentPlayer < g.getPlayers().size()) {
                 if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getNumDoubleCannon() != 0) {
                     new GameView(g, new Exception("ACTIVATE CANNON  " + g.getPlayers().get(currentPlayer).getName()));
-                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
                 } else {
                     g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
                     this.playCard(g, null, null);
@@ -85,7 +85,7 @@ public class Pirates extends Enemy implements Serializable {
             if (cannonFireList.get(currentFire).type() == 0) {
                 if (p.getPlayerShipBoard().getIfShielded(cannonFireList.get(currentFire).direction())) {
                     new GameView(g, new Exception("ACTIVATE SHIELD " + g.getPlayers().get(currentPlayer).getName()));
-                    p.setPlayerState(new ActivateShieldsState(g));
+                    p.setPlayerState(new ActivateShieldsState(g, p));
                 } else {
                     this.playCard(g, null, null);
                 }
@@ -95,7 +95,7 @@ public class Pirates extends Enemy implements Serializable {
     }
 
     @Override
-    public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) {
+    public void playCard(Game g, ArrayList<Points> components, ArrayList<Points> batteries) throws RemoteException {
 
         if (!playerLost) { // chiamata arriva da setCardState, i components sono cannons
             try {
@@ -103,7 +103,7 @@ public class Pirates extends Enemy implements Serializable {
                 new GameView(g, null);
                 if (this.getCannonPower() < power) {
                     new GameView(g, new Exception("WIN ENEMY " + g.getPlayers().get(currentPlayer).getName()));
-                    g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WinEnemyState(g, g.getPlayers().get(currentPlayer)));
                 } else if (this.getCannonPower() > power) {
                     playerLost = true;
                     chooseRowOrCol(g.getPlayers().get(currentPlayer), g);
@@ -111,10 +111,11 @@ public class Pirates extends Enemy implements Serializable {
                 } else {
                     setCardState(g);
                 }
-            } catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e) {
+            } catch (InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException |
+                     RemoteException e) {
                 System.out.println("Error" + e.getMessage());
                 new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
-                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
             }
         } else { // chiamata arriva da ActivateShieldsState, components sono scudi
             int i = 0;
@@ -180,7 +181,7 @@ public class Pirates extends Enemy implements Serializable {
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                         System.out.println("Error" + e.getMessage());
                         new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
-                        g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
+                        g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g, p));
                 }
 
                 if (!shipWrecked) {

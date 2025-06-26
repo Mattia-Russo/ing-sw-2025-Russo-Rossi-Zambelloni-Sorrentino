@@ -263,10 +263,10 @@ public class Game implements Serializable {
         return this.deck;
     }
 
-    public void Turn() {
+    public void Turn() throws RemoteException {
         if (this.deck.isEmpty()){
             for (Player player : players) {
-                player.setPlayerState(new EndState(this));
+                player.setPlayerState(new EndState(this, player));
             }
             calculateFinalCredits();
             ArrayList<Player> winners = calculateWinners();
@@ -336,7 +336,7 @@ public class Game implements Serializable {
             }else if(gameMode == 1){
                 p.abandon(this);
                 new GameView(this, new Exception("YOU HAVE TO ABANDON " + p.getName()));
-                p.setPlayerState(new AbandonedState(this));
+                p.setPlayerState(new AbandonedState(this, p));
             }else {
                 p.setPlayerState(new WaitingState(this));
             }

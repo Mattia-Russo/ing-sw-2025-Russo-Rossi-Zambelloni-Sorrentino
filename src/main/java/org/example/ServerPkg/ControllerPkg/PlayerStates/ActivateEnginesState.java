@@ -1,5 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyActivateEnginesMessage;
+import org.example.MessagePkg.NotifyFixShipMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyEngineException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -8,14 +11,18 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ActivateEnginesState extends PlayerState implements Serializable {
     ArrayList<Points> engines;
     ArrayList<Points> batteries;
 
-    public ActivateEnginesState(Game game) {
-        super(game, null);
+    public ActivateEnginesState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyActivateEnginesMessage message = new NotifyActivateEnginesMessage();
+        handler.sendMessage(message);
         this.engines =null;
         this.batteries =null;
     }
@@ -35,7 +42,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
             new GameView( getGame(), new AlreadyBatteryException("Batteries already used" + player.getName()));
     }
 
-    public void endActivateEngines(Player player){
+    public void endActivateEngines(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
         }
@@ -43,7 +50,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         batteries = null;
         engines = null;
         player.abandon(getGame());
@@ -51,7 +58,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
     }
     
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
         engines =null;

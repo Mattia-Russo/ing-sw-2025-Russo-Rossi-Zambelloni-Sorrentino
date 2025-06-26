@@ -11,6 +11,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -79,7 +80,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endRemoveBestGoods(Player player){
+    public void endRemoveBestGoods(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
         }
@@ -91,7 +92,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         removeBestGoodsLeft(player, getGame());
         new GameView(getGame(), null);
         player.abandon(getGame());
@@ -99,7 +100,7 @@ public class RemoveBestGoodsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void disconnect(Player p){
+    public void disconnect(Player p) throws RemoteException {
         // rimuovere noi i good migliori
         removeBestGoodsLeft(p, getGame());
         getGame().disconnectPlayer(p);

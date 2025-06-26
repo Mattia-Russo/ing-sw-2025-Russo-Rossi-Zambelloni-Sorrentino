@@ -33,7 +33,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endActivateCannons(Player player){
+    public void endActivateCannons(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -41,7 +41,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endActivateEngines(Player player){
+    public void endActivateEngines(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -49,7 +49,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endActivateShields(Player player){
+    public void endActivateShields(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -61,15 +61,15 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endChangeGoods(Player player){
+    public void endChangeGoods(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void landOnAbandon(boolean landed, Player player){
+    public void landOnAbandon(boolean landed, Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void landOnPlanet(boolean landed, int numPlanet, Player player){
+    public void landOnPlanet(boolean landed, int numPlanet, Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -77,7 +77,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endRemoveAstronauts(Player player){
+    public void endRemoveAstronauts(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -89,11 +89,11 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void endRemoveBestGoods(Player player){
+    public void endRemoveBestGoods(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void acceptReward(boolean accept, Player player){
+    public void acceptReward(boolean accept, Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
@@ -157,7 +157,7 @@ public class PlayerState implements Serializable {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         new GameView(game, new IllegalStateException("You can't do this now " + player.getName()));
     }
 

@@ -85,7 +85,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game g) {
+    public void setCardState(Game g) throws RemoteException {
         if(setCurrentPlayer(g)){
             if (g.getPlayers().get(currentPlayer).getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteorIndex).direction(), rowOrCol) == null) {
                 protect = true;
@@ -100,12 +100,12 @@ public class MeteorCard extends AdventureCard implements Serializable {
         }
     }
 
-    private void Update(Game g, Player p) {
+    private void Update(Game g, Player p) throws RemoteException {
         if (meteorList.get(currentMeteorIndex).type() == 0) {
             if (p.getPlayerShipBoard().getIfExposed(meteorList.get(currentMeteorIndex).direction(), p.getPlayerShipBoard().getFirstComponent(meteorList.get(currentMeteorIndex).direction(), rowOrCol))) {
                 if (p.getPlayerShipBoard().getIfShielded(meteorList.get(currentMeteorIndex).direction())) {
                     new GameView(g, new Exception("ACTIVATE SHIELDS  " + p.getName()));
-                    p.setPlayerState(new ActivateShieldsState(g));
+                    p.setPlayerState(new ActivateShieldsState(g, p));
                 } else
                     this.playCard(g, null, null);
             } else {
@@ -119,7 +119,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     this.playCard(g, null, null);
                 } else if (p.getPlayerShipBoard().getIfDoubleCannon(Direction.NORTH, rowOrCol)) {
                     new GameView(g, new Exception("ACTIVATE CANNON  " + p.getName()));
-                    p.setPlayerState(new ActivateCannonsState(g));
+                    p.setPlayerState(new ActivateCannonsState(g, p));
                 } else {
                     this.playCard(g, null, null);
                 }
@@ -129,7 +129,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                     this.playCard(g, null, null);
                 } else if (p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteorIndex).direction(), rowOrCol) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteorIndex).direction(), rowOrCol - 1) || p.getPlayerShipBoard().getIfDoubleCannon(meteorList.get(currentMeteorIndex).direction(), rowOrCol + 1)) {
                     new GameView(g, new Exception("ACTIVATE CANNON  " + p.getName()));
-                    p.setPlayerState(new ActivateCannonsState(g));
+                    p.setPlayerState(new ActivateCannonsState(g, p));
                 } else {
                     this.playCard(g, null, null);
                 }
@@ -139,7 +139,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void playCard(Game g, ArrayList<Points> component, ArrayList<Points> battery) {
+    public void playCard(Game g, ArrayList<Points> component, ArrayList<Points> battery) throws RemoteException {
         Player p=g.getPlayers().get(currentPlayer);
         if(!protect){
             int i=0;
@@ -157,7 +157,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     new GameView(g, new Exception(e.getMessage() + "ACTIVATE SHIELDS " + p.getName()));
-                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateShieldsState(g, p));
                 }
             }else {
                 try{
@@ -171,7 +171,7 @@ public class MeteorCard extends AdventureCard implements Serializable {
                 }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
                     System.out.println("Error" + e.getMessage());
                     new GameView(g, new Exception(e.getMessage() + "ACTIVATE CANNONS " + p.getName()));
-                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, p));
                 }
 
             }

@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.Exceptions.TilesEndedExceptions;
 import org.example.ServerPkg.Utils.ShipboardLoader;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -89,9 +90,9 @@ public class Player implements Serializable {
         this.onPlanet = !onPlanet;
     }
 
-    public void abandon(Game game){
+    public void abandon(Game game) throws RemoteException {
         this.abandoned=true;
-        this.state = new AbandonedState(game);
+        this.state = new AbandonedState(game, this);
     }
 
     public void changePosition(int val){

@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class AbandonedShipTest extends TestCase {
@@ -77,7 +78,7 @@ public class AbandonedShipTest extends TestCase {
         assertTrue(p3.getState() instanceof WaitingState);
     }
 
-    public void testPlayCard() {
+    public void testPlayCard() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         Player p2 = new Player("b", null);
@@ -90,7 +91,7 @@ public class AbandonedShipTest extends TestCase {
         Game game = new Game(3, 2, 1, new GameController());
         game.getPlayers().addAll(players);
         game.setPlayersShipboard();
-        p1.setPlayerState(new LandOnAbandonState(game));
+        p1.setPlayerState(new LandOnAbandonState(game, p1));
         AbandonedShip card = new AbandonedShip(0,1, 2, 5, 3);
         game.setCard(card);
         card.setCardState(game);

@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.ForView.GoodsView;
 import org.example.ServerPkg.Model.Game;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class AbandonedStation extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game game) {
+    public void setCardState(Game game) throws RemoteException {
         do {
             playersIndex++;
         } while (playersIndex < game.getPlayers().size() && (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts || game.getPlayers().get(playersIndex).isAbandoned()));
@@ -74,24 +75,24 @@ public class AbandonedStation extends AdventureCard implements Serializable {
             game.Turn();
         } else {
             new GameView(game, new Exception("LAND ON ABANDON " + game.getPlayers().get(playersIndex).getName()));
-            game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game, game.getPlayers().get(playersIndex)));
         }
     }
 
     @Override
-    public void playCard(Game game) {
+    public void playCard(Game game) throws RemoteException {
         this.playCard(game, 0);
     }
 
     @Override
-    public void playCard(Game game, int ignore) {
+    public void playCard(Game game, int ignore) throws RemoteException {
         if (changeGoodsFlag){
             new GameView(game, new Exception("LAND ON ABANDON(Change goods) " + game.getPlayers().get(playersIndex).getName()));
-            game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game, game.getPlayers().get(playersIndex)));
         } else {
             game.getPlayers().get(playersIndex).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(playersIndex), -this.getLostDays()));
             game.adjustPlayerPositions();
-            game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game, game.getPlayers().get(playersIndex)));
             playersIndex = -1;
             this.changeGoodsFlag = true;
             game.Turn();

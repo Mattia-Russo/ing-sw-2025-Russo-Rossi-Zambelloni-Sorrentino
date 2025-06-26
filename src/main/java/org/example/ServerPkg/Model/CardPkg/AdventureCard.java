@@ -7,6 +7,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public abstract class AdventureCard implements Serializable {
@@ -22,15 +23,15 @@ public abstract class AdventureCard implements Serializable {
         return new AdventureCardView(null, 0, null,0, 0,0,0, null,null,null,null,0, null, null);
     }
 
-    public void setCardState(Game game) {}
+    public void setCardState(Game game) throws RemoteException {}
 
     public void playCard(Player disconnectingPlayer, Game game){}
 
-    public void playCard(Game game){}
+    public void playCard(Game game) throws RemoteException {}
 
-    public void playCard(Game game, int numPlanet){}
+    public void playCard(Game game, int numPlanet) throws RemoteException {}
 
-    public void playCard(Game game, ArrayList<Points> Engines, ArrayList<Points> Batteries){}
+    public void playCard(Game game, ArrayList<Points> Engines, ArrayList<Points> Batteries) throws RemoteException {}
 
     public int getCardLevel(){return cardLevel;}
 

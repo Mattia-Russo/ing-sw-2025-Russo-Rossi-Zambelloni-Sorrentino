@@ -1,19 +1,25 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyLandOnPlanetMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.PlanetAlreadyVisitedException;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class LandOnPlanetsState extends PlayerState implements Serializable {
-    public LandOnPlanetsState(Game game){
-        super(game, null);
+    public LandOnPlanetsState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyLandOnPlanetMessage message = new NotifyLandOnPlanetMessage();
+        handler.sendMessage(message);
     }
 
     @Override
-    public void landOnPlanet(boolean landed, int numPlanet, Player player){
+    public void landOnPlanet(boolean landed, int numPlanet, Player player) throws RemoteException {
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
         }
@@ -30,13 +36,13 @@ public class LandOnPlanetsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         player.abandon(getGame());
         landOnPlanet(false, 0, player);
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
         landOnPlanet(false, 0, disconnectingPlayer);

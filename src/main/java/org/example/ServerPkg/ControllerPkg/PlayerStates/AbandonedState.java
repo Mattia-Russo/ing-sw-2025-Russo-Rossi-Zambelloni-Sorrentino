@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyAbandonMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.AbandonedStateException;
 import org.example.ServerPkg.Model.Exceptions.EndStateException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -8,11 +10,15 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class AbandonedState extends PlayerState implements Serializable {
-    public AbandonedState(Game game){
-        super(game, null);
+    public AbandonedState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyAbandonMessage message = new NotifyAbandonMessage();
+        handler.sendMessage(message);
     }
 
     @Override

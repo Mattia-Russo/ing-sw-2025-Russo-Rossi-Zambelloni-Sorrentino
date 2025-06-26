@@ -1,5 +1,7 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyChangeGoodsMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ComponentsPkg.Storage;
@@ -10,10 +12,14 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class ChangeGoodsState extends PlayerState implements Serializable {
-    public ChangeGoodsState(Game game){
-        super(game, null);
+    public ChangeGoodsState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyChangeGoodsMessage message = new NotifyChangeGoodsMessage();
+        handler.sendMessage(message);
     }
 
     // point è la coordinata dello storage, numGood è la posizione del good da rimuovere
@@ -41,7 +47,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
             if(storage!=null) {
                 try {
                     Goods good = getGame().getCurrentCard().getGoodsList()[numGood];
-                    if (numGood < getGame().getCurrentCard().getGoodsList().length && numGood >= 0 && good != null) {
+                    if (numGood < getGame().getCurrentCard().getGoodsList().length && good != null) {
                         if(!good.isTaken()) {
                             storage.addGood(getGame().getCurrentCard().getGoodsList()[numGood]);
                             getGame().getCurrentCard().getGoodsList()[numGood] = null;
@@ -57,7 +63,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endChangeGoods(Player player){
+    public void endChangeGoods(Player player) throws RemoteException {
         getGame().getCurrentCard().setChangeGoodsFlag(false);
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
@@ -66,13 +72,13 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         player.abandon(getGame());
         endChangeGoods(player);
     }
   
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
         endChangeGoods(disconnectingPlayer);

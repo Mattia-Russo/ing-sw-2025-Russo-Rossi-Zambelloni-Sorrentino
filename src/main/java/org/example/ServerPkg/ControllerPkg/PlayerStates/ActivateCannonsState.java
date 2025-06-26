@@ -1,5 +1,8 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
+import org.example.MessagePkg.NotifyActivateCannonsMessage;
+import org.example.MessagePkg.NotifyFixShipMessage;
+import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyCannonException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -8,14 +11,18 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ActivateCannonsState extends PlayerState implements Serializable {
     private ArrayList<Points> cannons;
     private ArrayList<Points> batteries;
 
-    public ActivateCannonsState(Game game){
-        super(game, null);
+    public ActivateCannonsState(Game game, Player player) throws RemoteException {
+        super(game, player);
+        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
+        NotifyActivateCannonsMessage message = new NotifyActivateCannonsMessage();
+        handler.sendMessage(message);
         this.cannons=null;
         this.batteries=null;
     }
@@ -39,7 +46,7 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void endActivateCannons(Player player){
+    public void endActivateCannons(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
             player.setPlayerState(new WaitingState(getGame()));
         }
@@ -47,7 +54,7 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void AbandonGame(Player player){
+    public void AbandonGame(Player player) throws RemoteException {
         batteries = null;
         cannons = null;
         player.abandon(getGame());
@@ -55,7 +62,7 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
     }
 
     @Override
-    public void disconnect(Player disconnectingPlayer){
+    public void disconnect(Player disconnectingPlayer) throws RemoteException {
         getGame().disconnectPlayer(disconnectingPlayer);
         disconnectingPlayer.abandon(getGame());
         cannons=null;

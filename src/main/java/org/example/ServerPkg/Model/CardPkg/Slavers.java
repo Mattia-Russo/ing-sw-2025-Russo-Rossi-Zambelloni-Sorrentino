@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class Slavers extends Enemy implements Serializable {
     }
 
     @Override
-    public void setCardState(Game game) {
+    public void setCardState(Game game) throws RemoteException {
         do {
             playersIndex++;
         } while (playersIndex < game.getPlayers().size() && game.getPlayers().get(playersIndex).isAbandoned());
@@ -72,35 +73,35 @@ public class Slavers extends Enemy implements Serializable {
         } else {
             if(game.getPlayers().get(playersIndex).getPlayerShipBoard().getNumDoubleCannon()!=0) {
                 new GameView(game, new Exception("ACTIVATE CANNON  " + game.getPlayers().get(playersIndex).getName()));
-                game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
+                game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game, game.getPlayers().get(playersIndex)));
             }else
                 playCard(game, null, null);
         }
     }
 
     @Override
-    public void playCard(Game game, ArrayList<Points> cannons, ArrayList<Points> batteries) {
+    public void playCard(Game game, ArrayList<Points> cannons, ArrayList<Points> batteries) throws RemoteException {
         try {
             float power = game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalCannonPower(cannons, batteries);
             new GameView(game, null);
             if ( power > this.getCannonPower()) {
                 new GameView(game, new Exception("WIN ENEMY  " + game.getPlayers().get(playersIndex).getName()));
-                game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game));
+                game.getPlayers().get(playersIndex).setPlayerState(new WinEnemyState(game, game.getPlayers().get(playersIndex)));
             }else if(power == this.getCannonPower()){
                 this.setCardState(game);
             } else {
                 new GameView(game, new Exception("REMOVE ASTRONAUTS  " + game.getPlayers().get(playersIndex).getName()));
-                game.getPlayers().get(playersIndex).setPlayerState(new RemoveAstronautsState(game));
+                game.getPlayers().get(playersIndex).setPlayerState(new RemoveAstronautsState(game, game.getPlayers().get(playersIndex)));
             }
-        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException e){
+        }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException | RemoteException e){
             System.out.println("Error" + e.getMessage());
             new GameView(game, new Exception(e.getMessage() + "ACTIVATE CANNONS " + game.getPlayers().get(playersIndex).getName()));
-            game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new ActivateCannonsState(game, game.getPlayers().get(playersIndex)));
         }
     }
 
     @Override
-    public void playCard(Game game){
+    public void playCard(Game game) throws RemoteException {
         if (accept){
             Player p = game.getPlayers().get(playersIndex);
             p.changeCredits(getCredits());
@@ -112,8 +113,8 @@ public class Slavers extends Enemy implements Serializable {
     }
 
     @Override
-    public void playCard(Game game, int ignore){
-        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game));
+    public void playCard(Game game, int ignore) throws RemoteException {
+        game.getPlayers().get(playersIndex).setPlayerState(new WaitingState(game, game.getPlayers().get(playersIndex)));
         playersIndex = -1;
         game.Turn();
     }

@@ -8,6 +8,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class AbandonedShip extends AdventureCard implements Serializable {
     private final int Credits;
@@ -53,7 +54,7 @@ public class AbandonedShip extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game game){
+    public void setCardState(Game game) throws RemoteException {
         do{
             playersIndex++;
         } while (playersIndex < game.getPlayers().size() && (game.getPlayers().get(playersIndex).getPlayerShipBoard().getTotalAstronauts() < this.numAstronauts
@@ -63,17 +64,17 @@ public class AbandonedShip extends AdventureCard implements Serializable {
             game.Turn();
         } else {
             new GameView(game, new Exception("LAND ON ABANDON " + game.getPlayers().get(playersIndex).getName()));
-            game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game));
+            game.getPlayers().get(playersIndex).setPlayerState(new LandOnAbandonState(game, game.getPlayers().get(playersIndex)));
         }
     }
 
     @Override
-    public void playCard(Game game){
+    public void playCard(Game game) throws RemoteException {
         Player p = game.getPlayers().get(playersIndex);
         p.changeCredits(this.Credits);
         p.changePosition(-this.getLostDays() + game.getOccupiedPositions(p, -this.getLostDays()));
         new GameView(game, new Exception("REMOVE ASTRONAUTS " + game.getPlayers().get(playersIndex).getName()));
-        p.setPlayerState(new RemoveAstronautsState(game));
+        p.setPlayerState(new RemoveAstronautsState(game, p));
         this.playersIndex=game.getPlayers().size()-1;
     }
 }
