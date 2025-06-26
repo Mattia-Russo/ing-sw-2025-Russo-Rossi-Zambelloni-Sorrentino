@@ -55,8 +55,8 @@ public class NameRequestSceneController extends GuiController implements Initial
     @FXML
     private VBox controls;
 
-    private MediaPlayer mediaPlayer;
-    private MediaView mediaView;
+    //private MediaPlayer mediaPlayer;
+    //private MediaView mediaView;
     private ImageView titleImageView;
     private VBox nameInputSection;
     private HBox lobbyButtonsSection;
@@ -67,7 +67,7 @@ public class NameRequestSceneController extends GuiController implements Initial
         setupNameInputSection();
         setupLobbyButtonsSection();
         setupInitialState();
-        setupBackground();
+        //setupBackground();
         layoutComponents();
 
         Platform.runLater(() -> {
@@ -145,28 +145,28 @@ public class NameRequestSceneController extends GuiController implements Initial
         lobbyMessage.setVisible(false);
     }
 
-    private void setupBackground() {
-        try {
-            String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
-            Media backgroundMedia = new Media(videoPath);
-            mediaPlayer = new MediaPlayer(backgroundMedia);
-            mediaPlayer.setAutoPlay(true);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-            mediaView = new MediaView(mediaPlayer);
-
-            mediaView.fitWidthProperty().bind(borderPane.widthProperty());
-            mediaView.fitHeightProperty().bind(borderPane.heightProperty());
-            mediaView.setPreserveRatio(false);
-
-        } catch (Exception e) {
-            System.err.println("Error loading background video: " + e.getMessage());
-            mediaPlayer = null;
-            mediaView = null;
-        }
-
-        borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-    }
+//    private void setupBackground() {
+//        try {
+//            String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
+//            Media backgroundMedia = new Media(videoPath);
+//            mediaPlayer = new MediaPlayer(backgroundMedia);
+//            mediaPlayer.setAutoPlay(true);
+//            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//
+//            mediaView = new MediaView(mediaPlayer);
+//
+//            mediaView.fitWidthProperty().bind(borderPane.widthProperty());
+//            mediaView.fitHeightProperty().bind(borderPane.heightProperty());
+//            mediaView.setPreserveRatio(false);
+//
+//        } catch (Exception e) {
+//            System.err.println("Error loading background video: " + e.getMessage());
+//            mediaPlayer = null;
+//            mediaView = null;
+//        }
+//
+//        borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+//    }
 
     private void layoutComponents() {
         VBox mainContainer = new VBox(30);
@@ -180,13 +180,13 @@ public class NameRequestSceneController extends GuiController implements Initial
                 lobbyMessage
         );
 
-        if (mediaView != null) {
-            StackPane centerPane = new StackPane();
-            centerPane.getChildren().addAll(mediaView, mainContainer);
-            borderPane.setCenter(centerPane);
-        } else {
+//        if (mediaView != null) {
+//            StackPane centerPane = new StackPane();
+//            centerPane.getChildren().addAll(mediaView, mainContainer);
+//            borderPane.setCenter(centerPane);
+//        } else {
             borderPane.setCenter(mainContainer);
-        }
+//        }
     }
 
     @FXML

@@ -524,9 +524,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 shipBoardLevel = cachedGame.getShipBoardLevel();
             }
             if(shipBoardLevel==1) {
-                imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.png");
+                imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
             }else{
-                imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.png");
+                imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
             }
             if (imageStream == null) {
                 throw new IllegalArgumentException("Immagine della navicella non trovata!");
