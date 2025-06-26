@@ -304,36 +304,103 @@ public class AddAlienSceneController extends GuiController implements Initializa
     }
 
     private double[] calculateFlightboardPosition(int playerPosition, int gameMode) {
-        // Dimensioni approssimative della flightboard
+        // Get the actual dimensions of the flightboard ImageView
         double flightboardWidth = flightboardImageView.getFitWidth();
         double flightboardHeight = flightboardImageView.getFitHeight();
+        double offsetX = flightboardImageView.getLayoutX();
+        double offsetY = flightboardImageView.getLayoutY();
 
-        // La posizione 0 è la casella prima dell'1
-        // Assumendo che ci siano circa 30-40 caselle sulla flightboard
-        int totalPositions = 40; // Numero totale di caselle sulla flightboard
+        double x = 0;
+        double y = 0;
+        int absPos = 0;
 
-        // Calcola la posizione effettiva (posizione 0 = prima casella)
-        int effectivePosition = playerPosition + 1;
+        if(gameMode==0){
+            absPos = ((playerPosition % 18) + 18) % 18;
+            switch(absPos){
+                case 0:
+                    x = offsetX + flightboardWidth * 0.544;
+                    y = offsetY + flightboardHeight * 0.86;
+                    break;
+                case 1:
+                    x = offsetX + flightboardWidth * 0.64;
+                    y = offsetY + flightboardHeight * 0.82;
+                    break;
+                case 2:
+                    x = offsetX + flightboardWidth * 0.73;
+                    y = offsetY + flightboardHeight * 0.765;
 
-        double x, y;
+                case 3:
+                    x = offsetX + flightboardWidth * 0.81;
+                    y = offsetY + flightboardHeight * 0.67;
 
-        if (gameMode == 1) {
-            if (effectivePosition <= totalPositions / 2) {
-                x = (effectivePosition * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.25;
-            } else {
-                int reversePos = totalPositions - effectivePosition;
-                x = (reversePos * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.75;
+                case 4:
+                    x = offsetX + flightboardWidth * 0.86;
+                    y = offsetY + flightboardHeight * 0.48;
+
+                case 5:
+                    x = offsetX + flightboardWidth * 0.81;
+                    y = offsetY + flightboardHeight * 0.32;
+
+                case 6:
+                    x = offsetX + flightboardWidth * 0.73;
+                    y = offsetY + flightboardHeight * 0.234;
+
+                case 7:
+                    x = offsetX + flightboardWidth * 0.64;
+                    y = offsetY + flightboardHeight * 0.17;
+
+                case 8:
+                    x = offsetX + flightboardWidth * 0.544;
+                    y = offsetY + flightboardHeight * 0.15;
+
+                case 9:
+                    x = offsetX + flightboardWidth * 0.44;
+                    y = offsetY + flightboardHeight * 0.15;
+
+                case 10:
+                    x = offsetX + flightboardWidth * 0.35;
+                    y = offsetY + flightboardHeight * 0.17;
+
+                case 11:
+                    x = offsetX + flightboardWidth * 0.26;
+                    y = offsetY + flightboardHeight * 0.234;
+
+                case 12:
+                    x = offsetX + flightboardWidth * 0.17;
+                    y = offsetY + flightboardHeight * 0.32;
+
+                case 13:
+                    x = offsetX + flightboardWidth * 0.13;
+                    y = offsetY + flightboardHeight * 0.48;
+
+                case 14:
+                    x = offsetX + flightboardWidth * 0.44;
+                    y = offsetY + flightboardHeight * 0.67;
+
+                case 15:
+                    x = offsetX + flightboardWidth * 0.35;
+                    y = offsetY + flightboardHeight * 0.765;
+
+                case 16:
+                    x = offsetX + flightboardWidth * 0.26;
+                    y = offsetY + flightboardHeight * 0.82;
+
+                case 17:
+                    x = offsetX + flightboardWidth * 0.17;
+                    y = offsetY + flightboardHeight * 0.86;
             }
         } else {
-            if (effectivePosition <= totalPositions / 2) {
-                x = (effectivePosition * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.75;
-            } else {
-                int reversePos = totalPositions - effectivePosition;
-                x = (reversePos * flightboardWidth) / ((double) totalPositions / 2);
-                y = flightboardHeight * 0.25;
+            absPos = ((playerPosition % 24) + 24) % 24;
+            switch (absPos) {
+                case 0:
+                    x = offsetX + flightboardWidth * 0.61;
+                    y = (int) (offsetY + flightboardHeight / 2);
+                    break;
+                case 1:
+                    x = (int) (offsetX + flightboardWidth / 2 - 10);
+                    y = (int) (offsetY + flightboardHeight / 2 - 10);
+                    break;
+                case 2:
             }
         }
         return new double[]{x, y};

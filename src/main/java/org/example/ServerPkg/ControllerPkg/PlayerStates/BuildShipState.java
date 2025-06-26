@@ -160,6 +160,9 @@ public class BuildShipState extends PlayerState implements Serializable {
             if(p.getShipBuilt())
                 pos--;
         }
+        if(pos == 0){ // la prima posizione è più avanzata
+            pos++;
+        }
         player.setPosition(pos);
     }
 
