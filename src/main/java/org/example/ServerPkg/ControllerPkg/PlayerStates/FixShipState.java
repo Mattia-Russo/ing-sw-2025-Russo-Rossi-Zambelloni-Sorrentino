@@ -40,7 +40,7 @@ public class FixShipState extends PlayerState implements Serializable {
     public void endFixShip(Player player) throws RemoteException {
         player.setShipOK(true);
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
         getGame().checkAllPlayersShip();
     }

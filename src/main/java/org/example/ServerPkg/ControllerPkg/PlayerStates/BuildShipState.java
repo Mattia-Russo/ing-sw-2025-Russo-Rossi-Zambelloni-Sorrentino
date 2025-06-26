@@ -149,7 +149,7 @@ public class BuildShipState extends PlayerState implements Serializable {
                 if (!p.getShipBuilt()) {
                     return;
                 }
-                p.setPlayerState(new WaitingState(getGame()));
+                p.setPlayerState(new WaitingState(getGame(),p));
             }
         }
         getGame().checkAllPlayersShip();

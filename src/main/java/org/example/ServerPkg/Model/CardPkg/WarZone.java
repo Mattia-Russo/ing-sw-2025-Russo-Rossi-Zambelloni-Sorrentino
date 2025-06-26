@@ -111,7 +111,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g,  g.getPlayers().get(currentPlayer)));
                         } else {
-                            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g, g.getPlayers().get(currentPlayer)));
                             this.playCard(g, null, null);
                         }
                     }
@@ -133,7 +133,7 @@ public class WarZone extends AdventureCard implements Serializable {
                             new GameView(g, new Exception("ACTIVATE CANNONS " + g.getPlayers().get(currentPlayer).getName()));
                             g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
                         } else {
-                            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+                            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g, g.getPlayers().get(currentPlayer)));
                             this.playCard(g, null, null);
                         }
                     }

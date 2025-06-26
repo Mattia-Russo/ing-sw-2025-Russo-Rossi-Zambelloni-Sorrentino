@@ -7,6 +7,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.ShipBoard;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class Epidemic extends AdventureCard implements Serializable {
     private final int id;
@@ -33,12 +34,12 @@ public class Epidemic extends AdventureCard implements Serializable {
     }
 
     @Override
-    public void setCardState(Game g){
+    public void setCardState(Game g) throws RemoteException {
         this.playCard(g);
     }
 
     @Override
-    public void playCard(Game g){
+    public void playCard(Game g) throws RemoteException {
         for(int i=0; i<g.getPlayers().size(); i++){
             if(!g.getPlayers().get(i).isAbandoned()){
                 checkAdjacentCabins(g.getPlayers().get(i).getPlayerShipBoard());

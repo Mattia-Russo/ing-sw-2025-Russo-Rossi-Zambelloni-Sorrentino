@@ -30,7 +30,7 @@ public class Player implements Serializable {
     private Components currentTile;
     private ArrayList<AdventureCard> deckShowed;
 
-    public Player(String name, Game game){
+    public Player(String name, Game game) throws RemoteException {
         this.position = 0;
         this.posValid = false;
         this.playerShipBoard=null;
@@ -40,10 +40,10 @@ public class Player implements Serializable {
         this.numCredits=0;
         this.name=name;
         this.shipBuilt =false;
-        this.state = new WaitingState(game);
         this.shipOK=true;
         this.currentTile = null;
         this.deckShowed = null;
+        this.state = new WaitingState(game, this);
     }
 
     public void setRocketColour(String rocketColour){

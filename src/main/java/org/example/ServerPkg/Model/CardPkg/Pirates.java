@@ -74,7 +74,7 @@ public class Pirates extends Enemy implements Serializable {
                     new GameView(g, new Exception("ACTIVATE CANNON  " + g.getPlayers().get(currentPlayer).getName()));
                     g.getPlayers().get(currentPlayer).setPlayerState(new ActivateCannonsState(g, g.getPlayers().get(currentPlayer)));
                 } else {
-                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g, g.getPlayers().get(currentPlayer)));
                     this.playCard(g, null, null);
                 }
             } else {
@@ -191,7 +191,7 @@ public class Pirates extends Enemy implements Serializable {
                     } else {
                         playerLost = false;
                     }
-                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+                    g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g, g.getPlayers().get(currentPlayer)));
                     setCardState(g);
                 }
             }
@@ -199,20 +199,20 @@ public class Pirates extends Enemy implements Serializable {
     }
 
     @Override
-    public void playCard (Game game){
+    public void playCard (Game game) throws RemoteException {
         if (accept) {
             game.getPlayers().get(currentPlayer).changeCredits(this.credit);
             game.adjustPlayerPositions();
             game.getPlayers().get(currentPlayer).changePosition(-this.getLostDays() + game.getOccupiedPositions(game.getPlayers().get(currentPlayer), -this.getLostDays()));
             new GameView(game, null);
         }
-        game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(game));
+        game.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(game, game.getPlayers().get(currentPlayer)));
         currentPlayer = -1;
         game.Turn();
     }
 
     @Override
-    public void playCard (Player disconnectingPlayer, Game game){
+    public void playCard (Player disconnectingPlayer, Game game) throws RemoteException {
         currentPlayer = -1;
         game.Turn();
     }

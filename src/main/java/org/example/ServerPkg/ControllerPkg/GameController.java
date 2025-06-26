@@ -120,7 +120,7 @@ public class GameController implements Serializable{
         }else throw new InvalidLobbyStateException("can't call this method");
     }
 
-    private void addNewPlayer(String name){
+    private void addNewPlayer(String name) throws RemoteException {
         for(Player player : game.getPlayers()) {
             if(player.getName().equals(name)) {
                 throw new InvalidAddPlayerException("You are already in the game");
@@ -132,7 +132,7 @@ public class GameController implements Serializable{
         } else new GameView(game, new InvalidAddPlayerException("can't add any more players"));
     }
 
-    public void joinLobby(String name){
+    public void joinLobby(String name) throws RemoteException {
         if(lobbyState == LobbyState.GAME_READY) {
             if (game != null) {
                 addNewPlayer(name);

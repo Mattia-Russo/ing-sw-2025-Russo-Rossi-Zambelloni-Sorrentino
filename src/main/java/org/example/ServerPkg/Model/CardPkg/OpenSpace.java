@@ -56,7 +56,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
                 new GameView(g, new Exception("ACTIVATE ENGINES " + g.getPlayers().get(currentPlayer).getName()));
                 g.getPlayers().get(currentPlayer).setPlayerState(new ActivateEnginesState(g, g.getPlayers().get(currentPlayer)));
             }else {
-                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+                g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g, g.getPlayers().get(currentPlayer)));
                 this.playCard(g, null, null);
             }
         }
@@ -67,7 +67,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
         try {
             int enginePower = g.getPlayers().get(currentPlayer).getPlayerShipBoard().getTotalEnginePower(engines, batteries);
             g.getPlayers().get(currentPlayer).changePosition(enginePower + g.getOccupiedPositions(g.getPlayers().get(currentPlayer), enginePower));
-            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g));
+            g.getPlayers().get(currentPlayer).setPlayerState(new WaitingState(g, g.getPlayers().get(currentPlayer)));
             new GameView(g, null);
             setCardState(g);
         }catch(InvalidPositionException | InvalidParameterException | BatteriesLessThenCannonException |
@@ -78,7 +78,7 @@ public class OpenSpace extends AdventureCard implements Serializable {
         }
     }
 
-    private void checkEnginePower(ArrayList<Player> players, Game g){
+    private void checkEnginePower(ArrayList<Player> players, Game g) throws RemoteException {
         for (Player p : players) {
             if (!p.isAbandoned() && ((p.getPlayerShipBoard().getSingleEnginePower() == 0 && (p.getPlayerShipBoard().getNumDoubleEngines()==0 || p.getPlayerShipBoard().getTotalBattery() == 0)))){
                 p.abandon(g);
