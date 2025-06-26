@@ -40,6 +40,34 @@ public interface RMIClientInterface extends Remote, Handler {
     void notifyGameStarted() throws RemoteException;
 
     void goToAddAlien() throws RemoteException;
+
+    void goToAbandoned() throws RemoteException;
+
+    void goToActivateCannons() throws RemoteException;
+
+    void goToActivateEngines() throws RemoteException;
+
+    void goToActivateShields() throws RemoteException;
+
+    void goToChangeGoods() throws RemoteException;
+
+    void goToEndState() throws RemoteException;
+
+    void goToLandOnAbandon() throws RemoteException;
+
+    void goToLandOnPlanet() throws RemoteException;
+
+    void goToRemoveAstronauts() throws RemoteException;
+
+    void goToRemoveBestGoods() throws RemoteException;
+
+    void goToFixShip() throws RemoteException;
+
+    void goToShipWreck() throws RemoteException;
+
+    void goToWaitingState() throws RemoteException;
+
+    void goToWinEnemy() throws RemoteException;
 }
 
 // tutti i metodi chiamabili dal server che risiedono sul client

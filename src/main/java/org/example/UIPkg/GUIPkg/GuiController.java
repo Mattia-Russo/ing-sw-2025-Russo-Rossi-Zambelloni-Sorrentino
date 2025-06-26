@@ -1,10 +1,17 @@
 package org.example.UIPkg.GUIPkg;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import org.example.ServerPkg.Model.ComponentsPkg.Direction;
 import org.example.ServerPkg.Model.ForView.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,7 +23,8 @@ public abstract class GuiController {
     private GUI guiRoot;
     
     // Mappa statica per mantenere le immagini tra le scene
-    private static Map<String, List<ComponentImageInfo>> persistentShipboardImages = new HashMap<>();
+    private static final Map<String, List<ComponentImageInfo>> persistentShipboardImages = new HashMap<>();
+    private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
     
     // Riferimenti ai container delle immagini (da impostare nelle sottoclassi)
     protected Pane shipboardContainer;
@@ -220,5 +228,579 @@ public abstract class GuiController {
             System.err.println("Error loading flightboard image: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    protected void updatePlayerPositions(List<PlayerView> playersWithChangedPositions, GameView game, Pane flightboardContainer, List<ImageView> playerPositionImages, ImageView flightboardImageView) {
+        // Rimuovi prima tutte le immagini delle posizioni esistenti
+        clearPlayerPositions(playerPositionImages, flightboardContainer);
+
+        // Aggiungi tutti i giocatori con posizioni valide alla flightboard
+        for (PlayerView player : game.getPlayers()) {
+            if (player.isPosValid()) {
+                placePlayerOnFlightboard(player, game.getGameMode(), flightboardContainer, playerPositionImages, flightboardImageView);
+            }
+        }
+    }
+
+    private void placePlayerOnFlightboard(PlayerView player, int gameMode, Pane flightboardContainer, List<ImageView> playerPositionImages, ImageView flightboardImageView) {
+        if (!player.isPosValid()) {
+            return;
+        }
+
+        // Calcola la posizione sulla flightboard (x, y sono il centro desiderato della posizione)
+        double[] position = calculateFlightboardPosition(player.getPosition(), gameMode, flightboardImageView);
+        double x = position[0];
+        double y = position[1];
+
+        String imagePath = getPlayerColorImagePath(player.getRocketColour());
+
+        try {
+            InputStream playerImagePath = getClass().getResourceAsStream(imagePath);
+            assert playerImagePath != null;
+            Image playerImage = new Image(playerImagePath);
+            ImageView playerImageView = new ImageView(playerImage);
+
+            // Imposta le dimensioni dell'immagine
+            playerImageView.setFitWidth(20);
+            playerImageView.setFitHeight(20);
+            playerImageView.setPreserveRatio(true);
+
+            // *** MODIFICA QUI per centrare l'immagine (già discussa) ***
+            // Ottieni le dimensioni effettive dopo aver impostato fitWidth/Height
+            double markerWidth = playerImageView.getFitWidth();
+            double markerHeight = playerImageView.getFitHeight();
+
+            // Posiziona l'immagine sottraendo metà delle sue dimensioni
+            playerImageView.setLayoutX(x - (markerWidth / 2));
+            playerImageView.setLayoutY(y - (markerHeight / 2));
+
+            // Non è necessaria alcuna rotazione per un cerchio.
+
+            // Aggiungi l'immagine al container della flightboard
+            flightboardContainer.getChildren().add(playerImageView);
+
+            // Tieni traccia dell'immagine per poterla rimuovere successivamente
+            playerPositionImages.add(playerImageView);
+
+        } catch (Exception e) {
+            System.err.println("Errore nel caricare l'immagine del giocatore: " + imagePath);
+            e.printStackTrace();
+        }
+    }
+
+    private String getPlayerColorImagePath(String color) {
+        return switch (color) {
+            case "RED" -> "/org.example/cardboard/redCircle.jpg";
+            case "GREEN" -> "/org.example/cardboard/greenCircle.jpg";
+            case "YELLOW" -> "/org.example/cardboard/yellowCircle.jpg";
+            case "BLUE" -> "/org.example/cardboard/blueCircle.jpg";
+            default -> "/org.example/cardboard/redCircle.jpg"; // Default fallback
+        };
+    }
+
+    private double[] calculateFlightboardPosition(int playerPosition, int gameMode, ImageView flightboardImageView) {
+        double x = 0;
+        double y = 0;
+        int absPos;
+
+        // Dimensioni reali dell'immagine della nave blu: cardboard-3.jpg
+        double blue_board_width = 985.0;
+        double blue_board_height = 546.0;
+
+        // Dimensioni reali dell'immagine della nave viola: cardboard-5.jpg
+        double purple_board_width = 1055.0;
+        double purple_board_height = 639.0;
+
+        // Ottieni le dimensioni reali e gli offset dell'ImageView della flightboard
+        double flightboardWidth = flightboardImageView.getFitWidth();
+        double flightboardHeight = flightboardImageView.getFitHeight();
+        double offsetX = flightboardImageView.getLayoutX();
+        double offsetY = flightboardImageView.getLayoutY();
+
+        if (gameMode == 0) { // Nave blu (18 posizioni) - senso orario
+            absPos = ((playerPosition % 18) + 18) % 18;
+
+            // Coordinate corrette per centrare sui triangoli
+            // Basate sulle immagini fornite: pos 0, -2(16), -4(14), -5(13)
+            switch (absPos) {   // todo aggiustare le position del volo di prova
+                case 0: // Triangolo in basso a destra (dalle immagini)
+                    x = offsetX + flightboardWidth * (750.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (420.0 / blue_board_height);
+                    break;
+                case 1: // '1' marcato sulla scheda
+                    x = offsetX + flightboardWidth * (820.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (400.0 / blue_board_height);
+                    break;
+                case 2: // Continuando in senso orario
+                    x = offsetX + flightboardWidth * (880.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (350.0 / blue_board_height);
+                    break;
+                case 3:
+                    x = offsetX + flightboardWidth * (920.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / blue_board_height);
+                    break;
+                case 4:
+                    x = offsetX + flightboardWidth * (940.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / blue_board_height);
+                    break;
+                case 5:
+                    x = offsetX + flightboardWidth * (920.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (120.0 / blue_board_height);
+                    break;
+                case 6: // In alto a destra
+                    x = offsetX + flightboardWidth * (880.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (50.0 / blue_board_height);
+                    break;
+                case 7:
+                    x = offsetX + flightboardWidth * (820.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (30.0 / blue_board_height);
+                    break;
+                case 8:
+                    x = offsetX + flightboardWidth * (750.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (20.0 / blue_board_height);
+                    break;
+                case 9: // In alto al centro
+                    x = offsetX + flightboardWidth * (490.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (15.0 / blue_board_height);
+                    break;
+                case 10:
+                    x = offsetX + flightboardWidth * (240.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (20.0 / blue_board_height);
+                    break;
+                case 11:
+                    x = offsetX + flightboardWidth * (170.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (30.0 / blue_board_height);
+                    break;
+                case 12: // In alto a sinistra
+                    x = offsetX + flightboardWidth * (110.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (50.0 / blue_board_height);
+                    break;
+                case 13: // Posizione -5 dalle immagini (triangolo a sinistra)
+                    x = offsetX + flightboardWidth * (80.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (120.0 / blue_board_height);
+                    break;
+                case 14: // Posizione -4 dalle immagini (triangolo in basso a sinistra)
+                    x = offsetX + flightboardWidth * (65.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / blue_board_height);
+                    break;
+                case 15:
+                    x = offsetX + flightboardWidth * (80.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / blue_board_height);
+                    break;
+                case 16: // Posizione -2 dalle immagini (triangolo in basso)
+                    x = offsetX + flightboardWidth * (110.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (350.0 / blue_board_height);
+                    break;
+                case 17: // Posizione -1
+                    x = offsetX + flightboardWidth * (170.0 / blue_board_width);
+                    y = offsetY + flightboardHeight * (400.0 / blue_board_height);
+                    break;
+            }
+
+        } else if (gameMode == 1) { // Nave viola (24 posizioni) - senso orario
+            absPos = ((playerPosition % 24) + 24) % 24;
+
+            // Coordinate per la nave viola - aggiustate per centrare sui triangoli
+            switch (absPos) {
+                case 0: // Triangolo subito a sinistra del '1' marcato
+                    x = offsetX + flightboardWidth * (650.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (80.0 / purple_board_height);
+                    break;
+                case 1: // '1' marcato sulla scheda viola
+                    x = offsetX + flightboardWidth * (730.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (100.0 / purple_board_height);
+                    break;
+                case 2:
+                    x = offsetX + flightboardWidth * (800.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (130.0 / purple_board_height);
+                    break;
+                case 3:
+                    x = offsetX + flightboardWidth * (870.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / purple_board_height);
+                    break;
+                case 4:
+                    x = offsetX + flightboardWidth * (900.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / purple_board_height);
+                    break;
+                case 5:
+                    x = offsetX + flightboardWidth * (900.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (360.0 / purple_board_height);
+                    break;
+                case 6:
+                    x = offsetX + flightboardWidth * (870.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (430.0 / purple_board_height);
+                    break;
+                case 7:
+                    x = offsetX + flightboardWidth * (800.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (460.0 / purple_board_height);
+                    break;
+                case 8:
+                    x = offsetX + flightboardWidth * (730.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (500.0 / purple_board_height);
+                    break;
+                case 9:
+                    x = offsetX + flightboardWidth * (650.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (510.0 / purple_board_height);
+                    break;
+                case 10:
+                    x = offsetX + flightboardWidth * (560.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (520.0 / purple_board_height);
+                    break;
+                case 11:
+                    x = offsetX + flightboardWidth * (470.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (520.0 / purple_board_height);
+                    break;
+                case 12: // Centro in alto
+                    x = offsetX + flightboardWidth * (390.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (510.0 / purple_board_height);
+                    break;
+                case 13:
+                    x = offsetX + flightboardWidth * (330.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (500.0 / purple_board_height);
+                    break;
+                case 14:
+                    x = offsetX + flightboardWidth * (280.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (460.0 / purple_board_height);
+                    break;
+                case 15:
+                    x = offsetX + flightboardWidth * (230.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (430.0 / purple_board_height);
+                    break;
+                case 16:
+                    x = offsetX + flightboardWidth * (180.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (360.0 / purple_board_height);
+                    break;
+                case 17:
+                    x = offsetX + flightboardWidth * (180.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (280.0 / purple_board_height);
+                    break;
+                case 18:
+                    x = offsetX + flightboardWidth * (230.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (200.0 / purple_board_height);
+                    break;
+                case 19:
+                    x = offsetX + flightboardWidth * (280.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (130.0 / purple_board_height);
+                    break;
+                case 20:
+                    x = offsetX + flightboardWidth * (330.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (100.0 / purple_board_height);
+                    break;
+                case 21:
+                    x = offsetX + flightboardWidth * (390.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (80.0 / purple_board_height);
+                    break;
+                case 22:
+                    x = offsetX + flightboardWidth * (470.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (70.0 / purple_board_height);
+                    break;
+                case 23:
+                    x = offsetX + flightboardWidth * (560.0 / purple_board_width);
+                    y = offsetY + flightboardHeight * (70.0 / purple_board_height);
+                    break;
+            }
+        }
+
+        return new double[]{x, y};
+    }
+
+    private void clearPlayerPositions(List<ImageView> playerPositionImages, Pane flightboardContainer) {
+        // Rimuovi tutte le immagini delle posizioni dei giocatori precedenti
+        for (ImageView playerImage : playerPositionImages) {
+            flightboardContainer.getChildren().remove(playerImage);
+        }
+        playerPositionImages.clear();
+    }
+
+    protected void placeQuantityIndicatorsOnShipboard(ComponentsView component, int x, int y) {
+        try {
+            x = x - 4;
+            y = y - 5;
+
+            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
+            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
+
+            double basePosX = x * cellWidth;
+            double basePosY = y * cellHeight;
+
+            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
+            double centerX = basePosX + (cellWidth / 2);
+            double centerY = basePosY + (cellHeight / 2);
+
+            // Lista per tenere traccia delle posizioni occupate
+            int positionIndex = 0;
+            double[][] positions = {
+                    {centerX - indicatorSize/2, centerY - indicatorSize/2},           // Centro
+                    {centerX + indicatorSize*0.3, centerY - indicatorSize/2},         // Destra del centro
+                    {centerX - indicatorSize*0.8, centerY - indicatorSize/2},         // Sinistra del centro
+                    {centerX - indicatorSize/2, centerY + indicatorSize*0.3},         // Sotto il centro
+                    {centerX + indicatorSize*0.3, centerY + indicatorSize*0.3},       // Destra-sotto
+                    {centerX - indicatorSize*0.8, centerY + indicatorSize*0.3}        // Sinistra-sotto
+            };
+
+            // Astronauti
+            if (component.getNumAstronauts() > 0) {
+                for (int i = 0; i < component.getNumAstronauts() && positionIndex < positions.length; i++) {
+                    placeQuantityIndicator("/org.example/cardboard/Astronaut.jpg",
+                            positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                    positionIndex++;
+                }
+            }
+
+            // Alieni
+            if (component.getAlienColour() != null &&
+                    !component.getType().equals("LifeSupportSystem") &&
+                    positionIndex < positions.length) {
+                String alienImagePath = component.getAlienColour().toString().equalsIgnoreCase("brown") ?
+                        "/org.example/cardboard/brownAlien.jpg" : "/org.example/cardboard/purpleAlien.jpg";
+                placeQuantityIndicator(alienImagePath,
+                        positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                positionIndex++;
+            }
+
+            // Batterie
+            if (component.getNumBattery() > 0) {
+                for (int i = 0; i < component.getNumBattery() && positionIndex < positions.length; i++) {
+                    placeQuantityIndicator("/org.example/cardboard/battery.jpg",
+                            positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                    positionIndex++;
+                }
+            }
+
+            // Goods
+            if (component.getGoods() != null) {
+                for (int i = 0; i < component.getGoods().length && positionIndex < positions.length; i++) {
+                    if (component.getGoods()[i] != null) {
+                        String goodColor = component.getGoods()[i].getColour().toString().toLowerCase();
+                        String goodImagePath = "/org.example/cardboard/" + goodColor + "Good.jpg";
+                        placeQuantityIndicator(goodImagePath,
+                                positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
+                        positionIndex++;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error placing quantity indicators: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    protected void placeQuantityIndicator(String imagePath, double x, double y, double size) {
+        try {
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream == null) {
+                System.err.println("Indicator image not found: " + imagePath);
+                return;
+            }
+
+            Image indicatorImage = new Image(imageStream);
+            ImageView indicatorImageView = new ImageView(indicatorImage);
+
+            indicatorImageView.setFitWidth(size);
+            indicatorImageView.setFitHeight(size);
+            indicatorImageView.setPreserveRatio(true);
+            indicatorImageView.setX(x);
+            indicatorImageView.setY(y);
+
+            Platform.runLater(() -> shipboardContainer.getChildren().add(indicatorImageView));
+
+        } catch (Exception e) {
+            System.err.println("Error placing quantity indicator: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    protected void placeComponentOnShipboard(ComponentsView component, int x, int y) {
+        try {
+            JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
+            if (componentJson == null) {
+                System.err.println("Component with ID " + component.getId() + " not found in JSON.");
+                return;
+            }
+
+            String imagePath = componentJson.getString("img");
+            Direction direction = component.getDirection();
+            placeImageOnShipboard(imagePath, x, y, direction);
+            placeQuantityIndicatorsOnShipboard(component, x, y);
+        } catch (Exception e) {
+            System.err.println("Error placing component on shipboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void placeImageOnShipboard(String imagePath, int x, int y, Direction direction) {
+        try {
+            x = x - 4;
+            y = y - 5;
+
+            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
+            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
+
+            double posX = x * cellWidth;
+            double posY = y * cellHeight;
+
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream == null) {
+                System.err.println("Image not found: " + imagePath);
+                return;
+            }
+
+            Image componentImage = new Image(imageStream);
+            ImageView componentImageView = new ImageView(componentImage);
+
+            componentImageView.setFitWidth(cellWidth * 0.94);
+            componentImageView.setFitHeight(cellHeight * 0.94);
+            componentImageView.setPreserveRatio(true);
+
+            componentImageView.setX(posX + (cellWidth * 0.2));
+            componentImageView.setY(posY + (cellHeight * 0.2));
+
+            rotate(direction, componentImageView);
+
+            Platform.runLater(() -> shipboardContainer.getChildren().add(componentImageView));
+
+        } catch (Exception e) {
+            System.err.println("Error positioning image on shipboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void rotate(Direction direction, ImageView imageView) {
+        switch (direction) {
+            case WEST: imageView.setRotate(-90); break;
+            case EAST: imageView.setRotate(90); break;
+            case SOUTH: imageView.setRotate(180); break;
+            default: imageView.setRotate(0); break;
+        }
+    }
+
+    private JSONObject findComponentJsonById(String componentId) {
+        try (InputStream is = getClass().getResourceAsStream(COMPONENT_JSON_PATH)) {
+            if (is == null) {
+                System.err.println("JSON file not found: " + COMPONENT_JSON_PATH);
+                return null;
+            }
+
+            JSONArray jsonArray = new JSONArray(new JSONTokener(is));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                if (String.valueOf(json.getInt("id")).equals(componentId)) {
+                    return json;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading JSON file: " + e.getMessage());
+        }
+        return null;
+    }
+
+    protected void showValidationError(String message, Label label) {
+        Platform.runLater(() -> {
+            label.setText(message);
+            label.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
+            label.setVisible(true);
+        });
+    }
+
+    protected void showPlayerShipboard(String playerName, Label validationMessage, Button showOwnShipboardButton) {
+        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
+            System.err.println("No GameView available to show shipboard");
+            return;
+        }
+
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+
+        if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
+            System.err.println("Empty player list in cached GameView");
+            return;
+        }
+
+        PlayerView targetPlayer = null;
+
+        for (PlayerView player : cachedGame.getPlayers()) {
+            if (player.getName().equals(playerName)) {
+                targetPlayer = player;
+                break;
+            }
+        }
+
+        if (targetPlayer == null) {
+            System.err.println("Player " + playerName + " not found in current GameView");
+            if (cachedGame.getException() == null) {
+                showValidationError("Player " + playerName + " not found", validationMessage);
+            }
+            return;
+        }
+
+        Platform.runLater(() -> {
+            shipboardContainer.getChildren().clear();
+            shipboardContainer.getChildren().add(shipboardImageView);
+        });
+
+        if (targetPlayer.getShipboardView() != null) {
+            List<ComponentsView> playerComponents = getShipboardComponents(targetPlayer.getShipboardView());
+            updateShipBoardGUI(playerComponents);
+        }
+
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
+        showValidationError("Now showing " + playerName + "'s shipboard", validationMessage);
+    }
+
+    protected void updateShipBoardGUI(List<ComponentsView> newComponents) {
+        for (ComponentsView component : newComponents) {
+            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+        }
+    }
+
+    protected void loadShipboardTiles(PlayerView player) {
+        if (player != null && player.getShipboardView() != null) {
+            List<ComponentsView> existingComponents = new ArrayList<>(getShipboardComponents(player.getShipboardView()));
+            for (ComponentsView component : existingComponents) {
+                placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
+            }
+
+            // Aggiorna la GUI con i componenti esistenti
+            if (!existingComponents.isEmpty()) {
+                updateShipBoardGUI(existingComponents);
+            }
+        }
+    }
+
+    public void loadShipboardImage(Label validationMessage) {
+        try {
+            InputStream imageStream;
+            int shipBoardLevel = getGuiRoot().getShipBoardLevel();
+
+            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+                GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+                shipBoardLevel = cachedGame.getShipBoardLevel();
+            }
+
+            if(shipBoardLevel == 1) {
+                imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
+            } else {
+                imageStream = getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
+            }
+
+            if (imageStream == null) {
+                throw new IllegalArgumentException("Shipboard image not found!");
+            }
+
+            Image shipboardImage = new Image(imageStream);
+            shipboardImageView.setImage(shipboardImage);
+            shipboardImageView.setFitWidth(400);
+            shipboardImageView.setFitHeight(300);
+            shipboardImageView.setPreserveRatio(true);
+        } catch (Exception e) {
+            System.err.println("Error loading shipboard image: " + e.getMessage());
+            showValidationError("Error loading shipboard image!", validationMessage);
+        }
+    }
+
+    protected void hideValidationMessage(Label validationMessage) {
+        Platform.runLater(() -> validationMessage.setVisible(false));
     }
 }

@@ -20,9 +20,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
 
     public ActivateEnginesState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyActivateEnginesMessage message = new NotifyActivateEnginesMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToActivateEngines();
         this.engines =null;
         this.batteries =null;
     }

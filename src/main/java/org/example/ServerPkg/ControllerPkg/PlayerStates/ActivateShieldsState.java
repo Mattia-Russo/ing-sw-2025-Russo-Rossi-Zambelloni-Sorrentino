@@ -1,7 +1,6 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyActivateShieldsMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
+
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyShieldException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -19,9 +18,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
 
     public ActivateShieldsState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyActivateShieldsMessage message = new NotifyActivateShieldsMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToActivateShields();
         this.shields =null;
         this.batteries=null;
     }

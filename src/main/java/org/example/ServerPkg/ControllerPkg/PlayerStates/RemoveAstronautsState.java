@@ -1,8 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyLandOnAbandonMessage;
-import org.example.MessagePkg.NotifyRemoveAstronautsMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Cabin;
 import org.example.ServerPkg.Model.ComponentsPkg.Components;
 import org.example.ServerPkg.Model.Exceptions.*;
@@ -18,9 +15,7 @@ public class RemoveAstronautsState extends PlayerState implements Serializable {
     private int astronautsRemoved;
     public RemoveAstronautsState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyRemoveAstronautsMessage message = new NotifyRemoveAstronautsMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToRemoveAstronauts();
         this.astronautsRemoved=0;
     }
 

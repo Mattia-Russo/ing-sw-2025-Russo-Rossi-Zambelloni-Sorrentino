@@ -1,6 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.ComponentsPkg.Alien;
 import org.example.ServerPkg.Model.ComponentsPkg.AlienColour;
 import org.example.ServerPkg.Model.Exceptions.AlreadyAlienException;

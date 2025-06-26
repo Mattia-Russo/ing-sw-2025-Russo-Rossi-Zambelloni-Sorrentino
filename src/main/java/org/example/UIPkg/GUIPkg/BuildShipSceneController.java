@@ -146,7 +146,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
     public void setUp(GameView game){
         updateGui(game);
-        loadShipboardImage();
+        loadShipboardImage(validationMessage);
     }
 
     private void setupUI() {
@@ -352,22 +352,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         });
     }
 
-
-    private void updateShipBoardGUI(List<ComponentsView> newComponents) {
-        for (ComponentsView component : newComponents) {
-            placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
-
-            if(!isViewingOtherPlayerShipboard){
-                Points p = new Points(component.getPosX(), component.getPosY());
-                if(!occupiedCells.contains(p)){
-                  occupiedCells.add(p);
-                }
-            }
-        }
-
-        updateBookedComponentsDisplay();
-    }
-
     private void updateDiscoveredComponentsGUI(List<ComponentsView> newDiscoveredComponents) {
         Platform.runLater(() -> {
             if (!newDiscoveredComponents.isEmpty()) {
@@ -462,27 +446,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
         }
     }
 
-    private void placeComponentOnShipboard(ComponentsView component, int x, int y) {
-        try {
-            // Cerca il JSON del componente con l'ID corrispondente
-            JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
-
-            if (componentJson == null) {
-                System.err.println("Componente con ID " + component.getId() + " non trovato nel file JSON.");
-                return;
-            }
-
-            // Recupera il percorso dell'immagine dal JSON
-            String imagePath = componentJson.getString("img");
-            Direction direction = component.getDirection();
-
-            placeImageOnShipboard(imagePath, x, y, direction);
-        } catch (Exception e) {
-            System.err.println("Errore durante il piazzamento del componente sulla shipboard: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
     private void setupFieldValidation() {
         // Imposta i campi X e Y per accettare solo numeri
         setUpNumberField(xPositionField, yPositionField, discoveredIndexField);
@@ -512,35 +475,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 discoveredIndexField.setText(newValue.replaceAll("\\D", ""));
             }
         });
-    }
-
-    public void loadShipboardImage() {
-        try {
-            InputStream imageStream;
-
-            int shipBoardLevel = getGuiRoot().getShipBoardLevel();
-            if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
-                GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
-                shipBoardLevel = cachedGame.getShipBoardLevel();
-            }
-            if(shipBoardLevel==1) {
-                imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1.jpg");
-            }else{
-                imageStream=getClass().getResourceAsStream("/org.example/cardboard/cardboard-1b.jpg");
-            }
-            if (imageStream == null) {
-                throw new IllegalArgumentException("Immagine della navicella non trovata!");
-            }
-
-            Image shipboardImage = new Image(imageStream);
-            shipboardImageView.setImage(shipboardImage);
-            shipboardImageView.setFitWidth(400);
-            shipboardImageView.setFitHeight(300);
-            shipboardImageView.setPreserveRatio(true);
-        } catch (Exception e) {
-            System.err.println("Errore nel caricamento dell'immagine della navicella: " + e.getMessage());
-            showValidationError("Errore nel caricamento dell'immagine della navicella!");
-        }
     }
 
     private JSONObject findComponentJsonById(String componentId) {
@@ -603,14 +537,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             System.err.println("Errore durante il posizionamento dell'immagine sulla shipboard: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void showValidationError(String message) {
-        Platform.runLater(() -> {
-            validationMessage.setText(message);
-            validationMessage.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
-            validationMessage.setVisible(true);
-        });
     }
 
     private void hideValidationMessage() {
@@ -698,10 +624,10 @@ public class BuildShipSceneController extends GuiController implements Initializ
                 yPositionField.clear();
 
             }else{
-                showValidationError("Please, insert valid inputs for X and Y");
+                showValidationError("Please, insert valid inputs for X and Y", validationMessage);
             }
         } catch (NumberFormatException e) {
-            showValidationError("Please, insert valid inputs for X and Y");
+            showValidationError("Please, insert valid inputs for X and Y", validationMessage);
         }
 
     }
@@ -843,7 +769,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             System.err.println("Giocatore " + playerName + " non trovato nella GameView corrente");
             // Non mostrare errore all'utente se è una GameView con eccezione
             if (cachedGame.getException() == null) {
-                showValidationError("Player " + playerName + " not found");
+                showValidationError("Player " + playerName + " not found", validationMessage);
             }
             return;
         }
@@ -860,7 +786,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         showOwnShipboardButton.setVisible(true);
         showOwnShipboardButton.setDisable(false);
-        showValidationError("Now showing " + playerName + "'s shipboard");
+        showValidationError("Now showing " + playerName + "'s shipboard", validationMessage);
 
         if (!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
             Platform.runLater(() -> {
@@ -879,7 +805,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         String indexText = discoveredIndexField.getText().trim();
 
         if (indexText.isEmpty()) {
-            showValidationError("Please enter a valid index for the discovered component");
+            showValidationError("Please enter a valid index for the discovered component", validationMessage);
             return;
         }
 
@@ -890,7 +816,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
                 List<ComponentsView> discoveredComponents = getGuiRoot().getGameCache().getCachedGameView().getComponentsDiscovered();
                 if (index < 0 || index >= discoveredComponents.size()) {
-                    showValidationError("Index out of range. Valid range: 0-" + (discoveredComponents.size() - 1));
+                    showValidationError("Index out of range. Valid range: 0-" + (discoveredComponents.size() - 1), validationMessage);
                     return;
                 }
             }
@@ -913,7 +839,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             hideValidationMessage();
 
         } catch (NumberFormatException e) {
-            showValidationError("Please enter a valid number");
+            showValidationError("Please enter a valid number", validationMessage);
         }
     }
 
@@ -1055,7 +981,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         String indexText = bookedIndexField.getText().trim();
 
         if (indexText.isEmpty()) {
-            showValidationError("Please enter 0 or 1 for booked component index");
+            showValidationError("Please enter 0 or 1 for booked component index", validationMessage);
             return;
         }
 
@@ -1063,12 +989,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
             int index = Integer.parseInt(indexText);
 
             if (index < 0 || index > 1) {
-                showValidationError("Index must be 0 or 1");
+                showValidationError("Index must be 0 or 1", validationMessage);
                 return;
             }
 
             if (localBookedComponents[index] == null) {
-                showValidationError("No booked component at index " + index);
+                showValidationError("No booked component at index " + index, validationMessage);
                 return;
             }
 
@@ -1101,7 +1027,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             hideValidationMessage();
 
         } catch (NumberFormatException e) {
-            showValidationError("Please enter a valid number (0 or 1)");
+            showValidationError("Please enter a valid number (0 or 1)", validationMessage);
         }
     }
 
@@ -1129,7 +1055,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
         String indexText = deckIndexField.getText().trim();
 
         if (indexText.isEmpty()) {
-            showValidationError("Please enter a valid deck index (0-2)");
+            showValidationError("Please enter a valid deck index (0-2)", validationMessage);
             return;
         }
 
@@ -1137,7 +1063,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             int index = Integer.parseInt(indexText);
 
             if (index < 0 || index > 2) {
-                showValidationError("Deck index must be between 0 and 2");
+                showValidationError("Deck index must be between 0 and 2", validationMessage);
                 deckIndexField.clear();
                 return;
             }
@@ -1163,7 +1089,7 @@ public class BuildShipSceneController extends GuiController implements Initializ
             hideValidationMessage();
 
         } catch (NumberFormatException e) {
-            showValidationError("Please enter a valid number (0-2)");
+            showValidationError("Please enter a valid number (0-2)", validationMessage);
         }
     }
 

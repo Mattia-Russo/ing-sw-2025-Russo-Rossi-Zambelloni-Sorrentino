@@ -1,8 +1,5 @@
 package org.example.ServerPkg.ControllerPkg.PlayerStates;
 
-import org.example.MessagePkg.NotifyActivateCannonsMessage;
-import org.example.MessagePkg.NotifyFixShipMessage;
-import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.Model.Exceptions.AlreadyBatteryException;
 import org.example.ServerPkg.Model.Exceptions.AlreadyCannonException;
 import org.example.ServerPkg.Model.ForView.GameView;
@@ -20,9 +17,7 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
 
     public ActivateCannonsState(Game game, Player player) throws RemoteException {
         super(game, player);
-        Handler handler = game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName());
-        NotifyActivateCannonsMessage message = new NotifyActivateCannonsMessage();
-        handler.sendMessage(message);
+        game.getController().getNameServerMap().get(getPlayer().getName()).getHandlerByName(getPlayer().getName()).goToActivateCannons();
         this.cannons=null;
         this.batteries=null;
     }

@@ -4,7 +4,6 @@ import org.example.MessagePkg.Message;
 import org.example.MessagePkg.MessageGenerator;
 import org.example.ServerPkg.ConnectionsPkg.Handler;
 import org.example.ServerPkg.ControllerPkg.GameController;
-import org.example.ServerPkg.Model.Exceptions.*;
 import org.example.UIPkg.GameUpdater;
 
 import java.rmi.RemoteException;
@@ -79,4 +78,32 @@ public abstract class ClientProxy implements Handler {
     public void notifyGameStarted(){}
 
     public void goToAddAlien() throws RemoteException {}
+
+    public void goToAbandoned() throws RemoteException {}
+
+    public void goToActivateCannons() throws RemoteException {}
+
+    public void goToActivateEngines() throws RemoteException{}
+
+    public void goToActivateShields() throws RemoteException{}
+
+    public void goToChangeGoods() throws RemoteException{}
+
+    public void goToEndState() throws RemoteException {}
+
+    public void goToLandOnAbandon() throws RemoteException {}
+
+    public void goToLandOnPlanet() throws RemoteException{}
+
+    public void goToRemoveAstronauts() throws RemoteException {}
+
+    public void goToRemoveBestGoods() throws RemoteException{}
+
+    public void goToFixShip() throws RemoteException{}
+
+    public void goToShipWreck() throws RemoteException{}
+
+    public void goToWaitingState() throws RemoteException{}
+
+    public void goToWinEnemy() throws RemoteException {}
 }
