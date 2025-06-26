@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
 
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class SmugglersTest extends TestCase {
     private Smugglers smugglers;
     private  ArrayList<Player> players;
 
-    public void setUp() {
+    public void setUp() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
 
@@ -142,13 +143,13 @@ public class SmugglersTest extends TestCase {
         assertEquals(5,s.getGoodsLost());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         smugglers.setCardState(game);
         assertTrue(players.get(0).getState() instanceof ActivateCannonsState);
         assertTrue(players.get(1).getState() instanceof WaitingState);
     }
 
-    public void testPlayCard3Par() {
+    public void testPlayCard3Par() throws RemoteException {
         smugglers.setCardState(game);
         smugglers.playCard(game, null, null);
         assertTrue(players.get(0).getState() instanceof RemoveBestGoodsState);
@@ -163,7 +164,7 @@ public class SmugglersTest extends TestCase {
 
     }
 
-    public void testPlayCard1Par() {
+    public void testPlayCard1Par() throws RemoteException {
         smugglers .setCardState(game);
         smugglers.setAccept(true);
         smugglers.playCard(game);

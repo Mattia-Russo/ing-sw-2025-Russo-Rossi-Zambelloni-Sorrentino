@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class PiratesTest extends TestCase {
     private Player p1, p2;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws RemoteException {
         p1 = new Player("a", null);
         //p2 = new Player("b", null);
 
@@ -142,13 +143,13 @@ public class PiratesTest extends TestCase {
         assertEquals(2, p.getCannonFireList().size());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         card.setCardState(game);
         assertTrue(p1.getState() instanceof ActivateCannonsState);
 
     }
 
-    public void testPlayCard() {
+    public void testPlayCard() throws RemoteException {
         // setto la potenza di fuoco del player
         // modifico di conseguenza il valore di lost (chiamando playCard)
         // chiamo playCard con gli scudi che vuole attivare

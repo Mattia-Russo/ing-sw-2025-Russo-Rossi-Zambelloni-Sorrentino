@@ -77,19 +77,19 @@ public class AbandonedStationTest extends TestCase {
         assertTrue(players.get(0).getState() instanceof LandOnAbandonState);
         assertTrue(players.get(1).getState() instanceof WaitingState);
         assertTrue(players.get(2).getState() instanceof WaitingState);
-        players.get(0).setPlayerState(new WaitingState(game));
+        players.get(0).setPlayerState(new WaitingState(game, players.get(0)));
 
         card.setCardState(game);
         assertTrue(players.get(0).getState() instanceof WaitingState);
         assertTrue(players.get(1).getState() instanceof LandOnAbandonState);
         assertTrue(players.get(2).getState() instanceof WaitingState);
-        players.get(1).setPlayerState(new WaitingState(game));
+        players.get(1).setPlayerState(new WaitingState(game, players.get(1)));
 
         card.setCardState(game);
         assertTrue(players.get(0).getState() instanceof WaitingState);
         assertTrue(players.get(1).getState() instanceof WaitingState);
         assertTrue(players.get(2).getState() instanceof LandOnAbandonState);
-        players.get(2).setPlayerState(new WaitingState(game));
+        players.get(2).setPlayerState(new WaitingState(game, players.get(2)));
 
         assertTrue(players.get(0).getState() instanceof WaitingState);
         assertTrue(players.get(1).getState() instanceof WaitingState);

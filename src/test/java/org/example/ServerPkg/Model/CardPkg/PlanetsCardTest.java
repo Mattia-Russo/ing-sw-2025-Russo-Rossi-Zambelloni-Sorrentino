@@ -10,6 +10,7 @@ import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class PlanetsCardTest extends TestCase {
@@ -45,7 +46,7 @@ public class PlanetsCardTest extends TestCase {
         assertEquals(5, planetsList.getLostDays());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         Player p2 = new Player("b", null);
@@ -80,26 +81,26 @@ public class PlanetsCardTest extends TestCase {
         assertTrue(p1.getState() instanceof LandOnPlanetsState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p1.setPlayerState(new WaitingState(game));
+        p1.setPlayerState(new WaitingState(game, p1));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof LandOnPlanetsState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p2.setPlayerState(new WaitingState(game));
+        p2.setPlayerState(new WaitingState(game, p2));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof LandOnPlanetsState);
-        p3.setPlayerState(new WaitingState(game));
+        p3.setPlayerState(new WaitingState(game, p3));
 
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof WaitingState);
     }
 
-    public void testPlayCard() {
+    public void testPlayCard() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         Player p2 = new Player("b", null);

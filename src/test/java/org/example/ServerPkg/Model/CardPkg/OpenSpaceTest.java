@@ -11,11 +11,12 @@ import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class OpenSpaceTest extends TestCase {
 
-    public void testCheckEnginePower() {
+    public void testCheckEnginePower() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player( "a", null);
         Player p3 = new Player( "a", null);
@@ -53,7 +54,7 @@ public class OpenSpaceTest extends TestCase {
         assertTrue(p4.isAbandoned());*/
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         Player p2 = new Player("b", null);
@@ -82,7 +83,7 @@ public class OpenSpaceTest extends TestCase {
         assertTrue(p3.getState() instanceof ActivateEnginesState);*/
     }
 
-    public void testPlayCard() {
+    public void testPlayCard() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         Player p2 = new Player("b", null);

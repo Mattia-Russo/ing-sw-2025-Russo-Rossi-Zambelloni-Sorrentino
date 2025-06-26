@@ -35,7 +35,7 @@ public class AbandonedShipTest extends TestCase {
         assertEquals(3,a.getNumAstronauts());
     }
 
-    public void testSetCardState() {
+    public void testSetCardState() throws RemoteException {
         ArrayList<Player> players = new ArrayList<>();
         Player p1 = new Player("a", null);
         Player p2 = new Player("b", null);
@@ -59,19 +59,19 @@ public class AbandonedShipTest extends TestCase {
         assertTrue(p1.getState() instanceof LandOnAbandonState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p1.setPlayerState(new WaitingState(game));
+        p1.setPlayerState(new WaitingState(game, p1));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof LandOnAbandonState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p2.setPlayerState(new WaitingState(game));
+        p2.setPlayerState(new WaitingState(game, p1));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof LandOnAbandonState);
-        p3.setPlayerState(new WaitingState(game));
+        p3.setPlayerState(new WaitingState(game, p1));
 
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
