@@ -91,8 +91,8 @@ public class WaitingSceneController extends GuiController implements Initializab
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);
-            loadShipboardImage();
-            loadFlightboardImage();
+            loadShipBoardImage();
+            loadFlightBoardImage();
             loadCurrentCard(game);
             resetShowShipboardButtons();
 
@@ -129,7 +129,7 @@ public class WaitingSceneController extends GuiController implements Initializab
     }
 
     // Aggiungi questo metodo per caricare l'immagine della flightboard
-    public void loadFlightboardImage() {
+    public void loadFlightBoardImage() {
         try {
             String imagePath;
             if(getGuiRoot().getGameMode()==0){
@@ -211,8 +211,8 @@ public class WaitingSceneController extends GuiController implements Initializab
     public void updateGui(GameView game) {
         Platform.runLater(() -> {
             try {
-                loadShipboardImage();
-                loadFlightboardImage();
+                loadShipBoardImage();
+                loadFlightBoardImage();
 
                 for(String playerName : getGuiRoot().getPlayers()) {
                     if(!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
@@ -651,7 +651,7 @@ public class WaitingSceneController extends GuiController implements Initializab
         showValidationError("Now showing " + playerName + "'s shipboard");
     }
 
-    public void loadShipboardImage() {
+    public void loadShipBoardImage() {
         try {
             InputStream imageStream;
             int shipBoardLevel = getGuiRoot().getShipBoardLevel();

@@ -47,10 +47,6 @@ public abstract class AdventureCard implements Serializable {
 
     public void setChangeGoodsFlag(boolean changeGoodsFlag) {}
 
-    public boolean[] getPlanetsVisited(){
-        return null;
-    }
-
     public void setAccept(boolean accept) {}
 
     public int getNumGoodsLose(){
@@ -58,4 +54,8 @@ public abstract class AdventureCard implements Serializable {
     }
 
     public void setShipWrecked(boolean shipWrecked) {}
+
+    public ArrayList<Planet> getPlanetsList(){
+        return null;
+    }
 }

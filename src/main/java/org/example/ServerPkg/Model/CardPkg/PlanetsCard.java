@@ -17,7 +17,6 @@ import java.util.List;
 public class PlanetsCard extends AdventureCard implements Serializable{
     private final ArrayList<Planet> planets;
     private int playersIndex;
-    private final boolean[] planetsVisited;
     private boolean changeGoodsFlag;
     private int currentPlanetIndex;
     private final int id;
@@ -26,7 +25,6 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         super(cardLevel, numDays);
         this.planets=planets;
         this.playersIndex = -1;
-        this.planetsVisited = new boolean[planets.size()];
         this.changeGoodsFlag = true;
         this.currentPlanetIndex = -1;
         this.id = id;
@@ -76,7 +74,7 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         game.getPlayers().get(playersIndex).changeOnPlanet();
         if (changeGoodsFlag){
             this.currentPlanetIndex = numPlanet;
-            this.planetsVisited[numPlanet] = true;
+            planets.get(currentPlanetIndex).setIsVisited();
             new GameView(game, new Exception(game.getPlayers().get(playersIndex).getName() + " LANDED ON PLANET NUMBER " + currentPlanetIndex + "\n" + game.getPlayers().get(playersIndex).getName() + " MANAGE YOUR GOODS' EXCHANGE"));
             game.getPlayers().get(playersIndex).setPlayerState(new ChangeGoodsState(game, game.getPlayers().get(playersIndex)));
         } else {
@@ -97,11 +95,6 @@ public class PlanetsCard extends AdventureCard implements Serializable{
         return planets.get(currentPlanetIndex).getGoodsList();
     }
 
-    @Override
-    public boolean[] getPlanetsVisited(){
-        return planetsVisited;
-    }
-
     // usage only for tests
     public void setPlanetIndex(int planetIndex){
         this.currentPlanetIndex = planetIndex;
@@ -115,5 +108,9 @@ public class PlanetsCard extends AdventureCard implements Serializable{
     // usage only for tests
     public int getCurrentPlanetIndex(){
         return currentPlanetIndex;
+    }
+
+    public ArrayList<Planet> getPlanetsList(){
+        return planets;
     }
 }

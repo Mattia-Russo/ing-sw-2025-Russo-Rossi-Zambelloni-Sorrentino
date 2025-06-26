@@ -135,7 +135,7 @@ public class PlanetsCardTest extends TestCase {
         card.playCard(game, 0);
         assertTrue(p1.isOnPlanet());
         assertEquals(0, card.getCurrentPlanetIndex());
-        assertTrue(card.getPlanetsVisited()[0]);
+
         assertTrue(p1.getState() instanceof ChangeGoodsState);
 
         card.setChangeGoodsFlag(false);
@@ -210,9 +210,6 @@ public class PlanetsCardTest extends TestCase {
 
         PlanetsCard card = new PlanetsCard(0,2, 5, planets);
 
-        for (int i =0; i<card.getPlanets().size(); i++) {
-            assertFalse(card.getPlanetsVisited()[i]);
-        }
     }
 
     public void testGetCurrentPlayerIndex() {

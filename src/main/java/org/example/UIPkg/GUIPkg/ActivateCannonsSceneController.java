@@ -138,8 +138,8 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);
-            loadShipboardImage();
-            loadFlightboardImage();
+            loadShipBoardImage();
+            loadFlightBoardImage();
             resetShowShipboardButtons();
 
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
@@ -179,7 +179,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    public void loadFlightboardImage() {
+    public void loadFlightBoardImage() {
         try {
             String imagePath;
             if(getGuiRoot().getGameMode()==0){
@@ -204,8 +204,8 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     public void updateGui(GameView game) {
         Platform.runLater(() -> {
             try {
-                loadShipboardImage();
-                loadFlightboardImage();
+                loadShipBoardImage();
+                loadFlightBoardImage();
 
                 for(String playerName : getGuiRoot().getPlayers()) {
                     if(!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
@@ -378,7 +378,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    public void loadShipboardImage() {
+    public void loadShipBoardImage() {
         try {
             InputStream imageStream;
             int shipBoardLevel = getGuiRoot().getShipBoardLevel();

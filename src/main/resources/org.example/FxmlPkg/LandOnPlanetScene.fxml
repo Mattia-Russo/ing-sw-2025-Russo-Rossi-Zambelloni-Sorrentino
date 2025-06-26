@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.LandOnPlanetSceneController">
+    <center>
+        <VBox alignment="CENTER" spacing="20.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+            <!-- Layout orizzontale: Shipboard a sinistra, Flightboard a destra -->
+            <HBox alignment="CENTER" spacing="40.0">
+                <!-- Container per shipboard a sinistra -->
+                <VBox alignment="CENTER" spacing="10.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Shipboard" textFill="WHITE" />
+                    <Pane fx:id="shipboardContainer" maxHeight="300.0" maxWidth="400.0" minHeight="300.0" minWidth="400.0" prefHeight="300.0" prefWidth="400.0">
+                        <ImageView fx:id="shipboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                    </Pane>
+                </VBox>
+
+                <!-- Container per flightboard a destra -->
+                <VBox alignment="CENTER" spacing="10.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Flightboard" textFill="WHITE" />
+                    <Pane fx:id="flightboardContainer" prefHeight="300.0" prefWidth="400.0">
+                        <ImageView fx:id="flightboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                    </Pane>
+                </VBox>
+            </HBox>
+
+            <!-- Sezione per visualizzare le shipboard degli altri giocatori -->
+            <VBox spacing="10.0" style="-fx-padding: 10;">
+                <!-- Riga con la scritta e i pulsanti degli altri giocatori -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <Label style="-fx-font-weight: bold;" text="View Other Players' Shipboards:" textFill="WHITE" />
+                    <Button fx:id="showOwnShipboardButton" mnemonicParsing="false" onAction="#onShowOwnShipboard" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Show My Shipboard" visible="false" />
+                </HBox>
+
+                <!-- Riga separata per il pulsante personale -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Button fx:id="showPlayer2ShipboardButton" alignment="CENTER" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
+                </HBox>
+            </VBox>
+
+            <!-- Messaggio di validazione -->
+            <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false" />
+        </VBox>
+    </center>
+
+    <left>
+        <VBox alignment="CENTER" prefHeight="518.0" prefWidth="235.0" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
+            <VBox prefHeight="478.0" prefWidth="239.0" spacing="20.0">
+                <Label alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="201.0" text="Current card" textAlignment="CENTER" textFill="WHITE" />
+                <ImageView fx:id="currentCardImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="191.0" text="Insert the planet number or skip" textFill="WHITE" />
+            <TextField fx:id="planetNumberTextField" alignment="CENTER" promptText="Planet number" />
+
+                <!-- Bottoni per accept/reject reward -->
+                <VBox alignment="CENTER" spacing="10.0">
+                    <Button fx:id="LandButton" mnemonicParsing="false" onAction="#onLandButtonClick" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" text="Land" />
+                    <Button fx:id="SkipButton" mnemonicParsing="false" onAction="#onSkipButtonClick" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" text="Skip" />
+                </VBox>
+            </VBox>
+        </VBox>
+    </left>
+</BorderPane>
