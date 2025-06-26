@@ -5,6 +5,6 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 public class NotifyActivateShieldsMessage extends Message {
     @Override
     public void handle(GameController controller, String playerName){
-
+        getClient().getUserInterface().goToActivateShieldScene();
     }
 }

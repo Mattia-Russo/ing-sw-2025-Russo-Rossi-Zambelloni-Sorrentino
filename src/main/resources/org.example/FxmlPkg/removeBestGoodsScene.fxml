@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UIPkg.GUIPkg.RemoveBestGoodsSceneController">
+    <center>
+        <HBox alignment="CENTER" spacing="40.0">
+            <!-- Shipboard a sinistra -->
+            <VBox alignment="CENTER" spacing="10.0">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Shipboard" textFill="WHITE" />
+                <Pane fx:id="shipboardContainer" maxHeight="300.0" maxWidth="400.0" minHeight="300.0" minWidth="400.0" prefHeight="300.0" prefWidth="400.0">
+                    <ImageView fx:id="shipboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                </Pane>
+
+                <!-- Pulsanti per visualizzare altre shipboard -->
+                <VBox spacing="10.0" style="-fx-padding: 10;">
+                    <Label style="-fx-font-weight: bold;" text="View Other Players' Shipboards:" textFill="WHITE" />
+                    <HBox alignment="CENTER" spacing="15.0">
+                        <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        <Button fx:id="showPlayer2ShipboardButton" alignment="CENTER" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                        <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    </HBox>
+                    <Button fx:id="showOwnShipboardButton" mnemonicParsing="false" onAction="#onShowOwnShipboard" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Show My Shipboard" visible="false" />
+                </VBox>
+            </VBox>
+
+            <!-- Flightboard a destra -->
+            <VBox alignment="CENTER" spacing="10.0">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Flightboard" textFill="WHITE" />
+                <Pane fx:id="flightboardContainer" prefHeight="300.0" prefWidth="400.0">
+                    <ImageView fx:id="flightboardImageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                </Pane>
+            </VBox>
+        </HBox>
+    </center>
+
+    <left>
+        <ScrollPane fitToWidth="true" style="-fx-background: #2a2a2a;" vbarPolicy="AS_NEEDED">
+            <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Remove Best Goods" textFill="WHITE" />
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Contatori progresso -->
+                <VBox spacing="8.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 15; -fx-background-color: #3a3a3a;">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Removal Progress:" textFill="#FFD700" />
+                    <HBox alignment="CENTER" spacing="20.0">
+                        <VBox alignment="CENTER" spacing="5.0">
+                            <Label text="Goods Removed:" textFill="WHITE" style="-fx-font-size: 12px;" />
+                            <Label fx:id="goodsRemovedLabel" text="0" textFill="#4ECDC4" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5.0">
+                            <Label text="Batteries Removed:" textFill="WHITE" style="-fx-font-size: 12px;" />
+                            <Label fx:id="batteriesRemovedLabel" text="0" textFill="#FF6B6B" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5.0">
+                            <Label text="Total Required:" textFill="WHITE" style="-fx-font-size: 12px;" />
+                            <Label fx:id="totalRequiredLabel" text="0" textFill="#FFD700" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Input per coordinate X e Y per rimuovere beni -->
+                <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 10;">
+                    <Label style="-fx-font-weight: bold;" text="Remove Best Good" textFill="WHITE" />
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="X:" textFill="WHITE" />
+                        <TextField fx:id="goodXCoordinateField" prefWidth="50.0" />
+                    </HBox>
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="Y:" textFill="WHITE" />
+                        <TextField fx:id="goodYCoordinateField" prefWidth="50.0" />
+                    </HBox>
+
+                    <Label style="-fx-font-weight: bold;" text="Good Position in Storage" textFill="WHITE" />
+                    <TextField fx:id="goodPositionField" prefWidth="80.0" />
+
+                    <Button fx:id="removeBestGoodButton" mnemonicParsing="false" onAction="#onRemoveBestGood" prefWidth="150.0" style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-font-weight: bold;" text="Remove Best Good" />
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Sezione per rimuovere batterie -->
+                <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 10;">
+                    <Label style="-fx-font-weight: bold;" text="Remove Battery" textFill="WHITE" />
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="X:" textFill="WHITE" />
+                        <TextField fx:id="batteryXCoordinateField" prefWidth="50.0" />
+                    </HBox>
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="Y:" textFill="WHITE" />
+                        <TextField fx:id="batteryYCoordinateField" prefWidth="50.0" />
+                    </HBox>
+
+                    <Button fx:id="removeBatteryButton" mnemonicParsing="false" onAction="#onRemoveBattery" prefWidth="150.0" style="-fx-background-color: #FFA726; -fx-text-fill: white; -fx-font-weight: bold;" text="Remove Battery" />
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Sezione beni attuali ordinati per colore -->
+                <VBox spacing="10.0" style="-fx-border-color: #555; -fx-border-width: 1; -fx-padding: 15; -fx-background-color: #3a3a3a;">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Current Goods (Best to Worst):" textFill="#FFD700" />
+                    <ScrollPane fitToWidth="true" maxHeight="120.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
+                        <VBox fx:id="currentBestGoodsBox" spacing="5.0" style="-fx-background-color: transparent;">
+                            <!-- Will be populated dynamically with sorted goods -->
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
+
+                <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
+
+                <!-- Pulsanti azioni principali -->
+                <VBox spacing="10.0" alignment="CENTER">
+                    <Button fx:id="endRemoveBestGoodsButton" mnemonicParsing="false" onAction="#onEndRemoveBestGoods" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="End Remove Best Goods" />
+                    <Button fx:id="abandonGameButton" mnemonicParsing="false" onAction="#onAbandonGame" prefWidth="180.0" style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-font-weight: bold;" text="Abandon Game" />
+                </VBox>
+
+                <!-- Messaggi di stato -->
+                <Label fx:id="statusMessage" textFill="WHITE" wrapText="true" />
+                <Label fx:id="validationMessage" textFill="RED" visible="false" />
+                <Label fx:id="instructionMessage" text="Remove your best goods first, then batteries if needed." textFill="#FFD700" wrapText="true" style="-fx-font-style: italic;" />
+            </VBox>
+        </ScrollPane>
+    </left>
+</BorderPane>

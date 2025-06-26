@@ -27,9 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-
-public class ActivateCannonsSceneController extends GuiController implements Initializable {
-
+public class ActivateShieldsSceneController extends GuiController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
@@ -52,13 +50,13 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     private TextField yCoordinateField;
 
     @FXML
-    private Button activateCannonButton;
+    private Button activateShieldButton;
 
     @FXML
     private Button useBatteriesButton;
 
     @FXML
-    private Button endActivateCannonsButton;
+    private Button endActivateShieldButton;
 
     @FXML
     private Label statusMessage;
@@ -79,13 +77,13 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     private Button showOwnShipboardButton;
 
     @FXML
-    private VBox activatedCannonsBox;
+    private VBox activatedShieldsBox;
 
     @FXML
     private VBox usedBatteriesBox;
 
     @FXML
-    private Label activatedCannonsLabel;
+    private Label activatedShieldsLabel;
 
     @FXML
     private Label usedBatteriesLabel;
@@ -93,23 +91,23 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
-    private List<Points> doubleCannonCells;
+    private List<Points> ShieldsCells;
     private List<Points> batteryStorageCells;
-    private List<Points> activatedCannons;
+    private List<Points> activatedShields;
     private List<Points> usedBatteries;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
         validationMessage.setVisible(false);
-        statusMessage.setText("Insert coordinates to activate cannons or use batteries");
+        statusMessage.setText("Insert coordinates to activate shields or use batteries");
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
 
-        doubleCannonCells = new ArrayList<>();
+        ShieldsCells = new ArrayList<>();
         batteryStorageCells = new ArrayList<>();
-        activatedCannons = new ArrayList<>();
+        activatedShields = new ArrayList<>();
         usedBatteries = new ArrayList<>();
 
         updateSummaryLabels();
@@ -125,7 +123,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
             }
         });
 
-        allButtons = Arrays.asList(activateCannonButton, useBatteriesButton, endActivateCannonsButton);
+        allButtons = Arrays.asList(activateShieldButton, useBatteriesButton, endActivateShieldButton);
         saveButtonStates();
     }
 
@@ -138,8 +136,8 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);
-            loadShipBoardImage();
-            loadFlightBoardImage();
+            loadShipboardImage();
+            loadFlightboardImage();
             resetShowShipboardButtons();
 
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
@@ -165,8 +163,8 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
             List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
             for (ComponentsView component : existingComponents) {
                 // Verifica il tipo di componente e aggiunge alle liste appropriate
-                if ("DoubleCannon".equals(component.getType())) {
-                    doubleCannonCells.add(new Points(component.getPosX(), component.getPosY()));
+                if ("Shield".equals(component.getType())) {
+                    ShieldsCells.add(new Points(component.getPosX(), component.getPosY()));
                 } else if ("BatteryStorage".equals(component.getType())) {
                     batteryStorageCells.add(new Points(component.getPosX(), component.getPosY()));
                 }
@@ -179,7 +177,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    public void loadFlightBoardImage() {
+    public void loadFlightboardImage() {
         try {
             String imagePath;
             if(getGuiRoot().getGameMode()==0){
@@ -204,8 +202,8 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     public void updateGui(GameView game) {
         Platform.runLater(() -> {
             try {
-                loadShipBoardImage();
-                loadFlightBoardImage();
+                loadShipboardImage();
+                loadFlightboardImage();
 
                 for(String playerName : getGuiRoot().getPlayers()) {
                     if(!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
@@ -378,7 +376,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    public void loadShipBoardImage() {
+    public void loadShipboardImage() {
         try {
             InputStream imageStream;
             int shipBoardLevel = getGuiRoot().getShipBoardLevel();
@@ -624,18 +622,18 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
 
     private void updateSummaryLabels() {
         Platform.runLater(() -> {
-            activatedCannonsLabel.setText("Activated Cannons (" + activatedCannons.size() + "):");
+            activatedShieldsLabel.setText("Activated Shields (" + activatedShields.size() + "):");
             usedBatteriesLabel.setText("Used Batteries (" + usedBatteries.size() + "):");
 
             // Clear existing summary items
-            activatedCannonsBox.getChildren().clear();
+            activatedShieldsBox.getChildren().clear();
             usedBatteriesBox.getChildren().clear();
 
-            // Add activated cannons to summary
-            for (Points cannon : activatedCannons) {
-                Label cannonLabel = new Label("Cannon at (" + cannon.getX() + ", " + cannon.getY() + ")");
-                cannonLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-                activatedCannonsBox.getChildren().add(cannonLabel);
+            // Add activated shields to summary
+            for (Points shields : activatedShields) {
+                Label shieldsLabel = new Label("Shield at (" + shields.getX() + ", " + shields.getY() + ")");
+                shieldsLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+                activatedShieldsBox.getChildren().add(shieldsLabel);
             }
 
             // Add used batteries to summary
@@ -648,9 +646,9 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     }
 
     @FXML
-    public void onActivateCannon() throws RemoteException {
+    public void onActivateShield() throws RemoteException {
         if (isViewingOtherPlayerShipboard) {
-            showValidationError("Cannot activate cannons while viewing another player's shipboard");
+            showValidationError("Cannot activate shields while viewing another player's shipboard");
             return;
         }
 
@@ -660,24 +658,24 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
 
             Points targetPoint = new Points(x, y);
 
-            if (!doubleCannonCells.contains(targetPoint)) {
-                showValidationError("No double cannon found at coordinates (" + x + ", " + y + ")");
+            if (!ShieldsCells.contains(targetPoint)) {
+                showValidationError("No shield found at coordinates (" + x + ", " + y + ")");
                 return;
             }
 
-            if (activatedCannons.contains(targetPoint)) {
-                showValidationError("Cannon at (" + x + ", " + y + ") already activated");
+            if (activatedShields.contains(targetPoint)) {
+                showValidationError("Shield at (" + x + ", " + y + ") already activated");
                 return;
             }
 
             List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("activate_cannons", args);
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("activate_shields", args);
             getGuiRoot().getClient().sendMessage(message);
 
-            activatedCannons.add(targetPoint);
+            activatedShields.add(targetPoint);
             updateSummaryLabels();
             hideValidationMessage();
-            statusMessage.setText("Cannon activated at (" + x + ", " + y + ")");
+            statusMessage.setText("Shield activated at (" + x + ", " + y + ")");
 
             // Clear input fields
             xCoordinateField.clear();
@@ -730,10 +728,10 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     }
 
     @FXML
-    public void onEndActivateCannons() throws RemoteException {
+    public void onEndActivateShields() throws RemoteException {
         // Salva lo stato prima di cambiare scena
         saveCurrentShipboardState();
-        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_activate_cannons", new ArrayList<>());
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_activate_shields", new ArrayList<>());
         getGuiRoot().getClient().sendMessage(message);
     }
 }

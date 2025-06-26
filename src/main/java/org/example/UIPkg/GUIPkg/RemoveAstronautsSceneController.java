@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ActivateCannonsSceneController extends GuiController implements Initializable {
+public class RemoveAstronautsSceneController extends GuiController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
@@ -52,13 +52,13 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     private TextField yCoordinateField;
 
     @FXML
-    private Button activateCannonButton;
+    private Button removeAstronautButton;
 
     @FXML
-    private Button useBatteriesButton;
+    private Button endRemoveAstronautsButton;
 
     @FXML
-    private Button endActivateCannonsButton;
+    private Button abandonGameButton;
 
     @FXML
     private Label statusMessage;
@@ -79,39 +79,41 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     private Button showOwnShipboardButton;
 
     @FXML
-    private VBox activatedCannonsBox;
+    private VBox removedAstronautsBox;
 
     @FXML
-    private VBox usedBatteriesBox;
+    private Label removedFromCabinsLabel;
 
     @FXML
-    private Label activatedCannonsLabel;
+    private Label requiredAstronautsLabel;
 
     @FXML
-    private Label usedBatteriesLabel;
+    private Label removedAstronautsLabel;
+
+    @FXML
+    private Label remainingAstronautsLabel;
 
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
-    private List<Points> doubleCannonCells;
-    private List<Points> batteryStorageCells;
-    private List<Points> activatedCannons;
-    private List<Points> usedBatteries;
+    private List<Points> cabinCells;
+    private List<Points> removedFromCabins;
+    private int requiredAstronauts = 0;
+    private int astronautsRemoved = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
         validationMessage.setVisible(false);
-        statusMessage.setText("Insert coordinates to activate cannons or use batteries");
+        statusMessage.setText("Select cabin coordinates to remove astronauts");
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
 
-        doubleCannonCells = new ArrayList<>();
-        batteryStorageCells = new ArrayList<>();
-        activatedCannons = new ArrayList<>();
-        usedBatteries = new ArrayList<>();
+        cabinCells = new ArrayList<>();
+        removedFromCabins = new ArrayList<>();
 
+        updateRequirementLabels();
         updateSummaryLabels();
     }
 
@@ -125,7 +127,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
             }
         });
 
-        allButtons = Arrays.asList(activateCannonButton, useBatteriesButton, endActivateCannonsButton);
+        allButtons = Arrays.asList(removeAstronautButton, endRemoveAstronautsButton, abandonGameButton);
         saveButtonStates();
     }
 
@@ -138,9 +140,15 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);
-            loadShipBoardImage();
-            loadFlightBoardImage();
+            loadShipboardImage();
+            loadFlightboardImage();
             resetShowShipboardButtons();
+
+            // Update required astronauts from current card
+            if (game != null && game.getCurrentCard() != null) {
+                requiredAstronauts = game.getCurrentCard().getNumAstronauts();
+                updateRequirementLabels();
+            }
 
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                 for (PlayerView player : game.getPlayers()) {
@@ -164,11 +172,9 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         if (player != null && player.getShipboardView() != null) {
             List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
             for (ComponentsView component : existingComponents) {
-                // Verifica il tipo di componente e aggiunge alle liste appropriate
-                if ("DoubleCannon".equals(component.getType())) {
-                    doubleCannonCells.add(new Points(component.getPosX(), component.getPosY()));
-                } else if ("BatteryStorage".equals(component.getType())) {
-                    batteryStorageCells.add(new Points(component.getPosX(), component.getPosY()));
+                // Verifica se il componente è una cabina
+                if ("Cabin".equals(component.getType())) {
+                    cabinCells.add(new Points(component.getPosX(), component.getPosY()));
                 }
                 placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
             }
@@ -179,7 +185,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    public void loadFlightBoardImage() {
+    public void loadFlightboardImage() {
         try {
             String imagePath;
             if(getGuiRoot().getGameMode()==0){
@@ -204,8 +210,14 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     public void updateGui(GameView game) {
         Platform.runLater(() -> {
             try {
-                loadShipBoardImage();
-                loadFlightBoardImage();
+                loadShipboardImage();
+                loadFlightboardImage();
+
+                // Update required astronauts if game card info is available
+                if (game != null && game.getCurrentCard() != null) {
+                    requiredAstronauts = game.getCurrentCard().getNumAstronauts();
+                    updateRequirementLabels();
+                }
 
                 for(String playerName : getGuiRoot().getPlayers()) {
                     if(!playerName.equals(getGuiRoot().getClient().getPlayerName())) {
@@ -378,7 +390,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    public void loadShipBoardImage() {
+    public void loadShipboardImage() {
         try {
             InputStream imageStream;
             int shipBoardLevel = getGuiRoot().getShipBoardLevel();
@@ -622,35 +634,34 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         Platform.runLater(() -> validationMessage.setVisible(false));
     }
 
+    private void updateRequirementLabels() {
+        Platform.runLater(() -> {
+            requiredAstronautsLabel.setText("Astronauts to remove: " + requiredAstronauts);
+            removedAstronautsLabel.setText("Astronauts removed: " + astronautsRemoved);
+            remainingAstronautsLabel.setText("Remaining: " + (requiredAstronauts - astronautsRemoved));
+        });
+    }
+
     private void updateSummaryLabels() {
         Platform.runLater(() -> {
-            activatedCannonsLabel.setText("Activated Cannons (" + activatedCannons.size() + "):");
-            usedBatteriesLabel.setText("Used Batteries (" + usedBatteries.size() + "):");
+            removedFromCabinsLabel.setText("Removed from Cabins:");
 
             // Clear existing summary items
-            activatedCannonsBox.getChildren().clear();
-            usedBatteriesBox.getChildren().clear();
+            removedAstronautsBox.getChildren().clear();
 
-            // Add activated cannons to summary
-            for (Points cannon : activatedCannons) {
-                Label cannonLabel = new Label("Cannon at (" + cannon.getX() + ", " + cannon.getY() + ")");
-                cannonLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-                activatedCannonsBox.getChildren().add(cannonLabel);
-            }
-
-            // Add used batteries to summary
-            for (Points battery : usedBatteries) {
-                Label batteryLabel = new Label("Battery at (" + battery.getX() + ", " + battery.getY() + ")");
-                batteryLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-                usedBatteriesBox.getChildren().add(batteryLabel);
+            // Add removed astronauts info to summary
+            for (Points cabin : removedFromCabins) {
+                Label cabinLabel = new Label("Removed from cabin at (" + cabin.getX() + ", " + cabin.getY() + ")");
+                cabinLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+                removedAstronautsBox.getChildren().add(cabinLabel);
             }
         });
     }
 
     @FXML
-    public void onActivateCannon() throws RemoteException {
+    public void onRemoveAstronaut() throws RemoteException {
         if (isViewingOtherPlayerShipboard) {
-            showValidationError("Cannot activate cannons while viewing another player's shipboard");
+            showValidationError("Cannot remove astronauts while viewing another player's shipboard");
             return;
         }
 
@@ -660,24 +671,26 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
 
             Points targetPoint = new Points(x, y);
 
-            if (!doubleCannonCells.contains(targetPoint)) {
-                showValidationError("No double cannon found at coordinates (" + x + ", " + y + ")");
+            if (!cabinCells.contains(targetPoint)) {
+                showValidationError("No cabin found at coordinates (" + x + ", " + y + ")");
                 return;
             }
 
-            if (activatedCannons.contains(targetPoint)) {
-                showValidationError("Cannon at (" + x + ", " + y + ") already activated");
+            if (astronautsRemoved >= requiredAstronauts) {
+                showValidationError("You've already removed enough astronauts (" + requiredAstronauts + ")");
                 return;
             }
 
             List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("activate_cannons", args);
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("remove_astronauts", args);
             getGuiRoot().getClient().sendMessage(message);
 
-            activatedCannons.add(targetPoint);
+            removedFromCabins.add(targetPoint);
+            astronautsRemoved++;
+            updateRequirementLabels();
             updateSummaryLabels();
             hideValidationMessage();
-            statusMessage.setText("Cannon activated at (" + x + ", " + y + ")");
+            statusMessage.setText("Astronaut removed from cabin at (" + x + ", " + y + ")");
 
             // Clear input fields
             xCoordinateField.clear();
@@ -689,51 +702,29 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
     }
 
     @FXML
-    public void onUseBatteries() throws RemoteException {
-        if (isViewingOtherPlayerShipboard) {
-            showValidationError("Cannot use batteries while viewing another player's shipboard");
+    public void onEndRemoveAstronauts() throws RemoteException {
+        if (astronautsRemoved < requiredAstronauts) {
+            showValidationError("Cannot end this phase, you need to remove " + (requiredAstronauts - astronautsRemoved) + " more astronauts");
             return;
         }
 
-        try {
-            int x = Integer.parseInt(xCoordinateField.getText().trim());
-            int y = Integer.parseInt(yCoordinateField.getText().trim());
-
-            Points targetPoint = new Points(x, y);
-
-            if (!batteryStorageCells.contains(targetPoint)) {
-                showValidationError("No battery storage found at coordinates (" + x + ", " + y + ")");
-                return;
-            }
-
-            if (usedBatteries.contains(targetPoint)) {
-                showValidationError("Batteries at (" + x + ", " + y + ") already used");
-                return;
-            }
-
-            List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("use_batteries", args);
-            getGuiRoot().getClient().sendMessage(message);
-
-            usedBatteries.add(targetPoint);
-            updateSummaryLabels();
-            hideValidationMessage();
-            statusMessage.setText("Batteries used at (" + x + ", " + y + ")");
-
-            // Clear input fields
-            xCoordinateField.clear();
-            yCoordinateField.clear();
-
-        } catch(NumberFormatException e){
-            showValidationError("Please enter valid numbers for X and Y coordinates");
-        }
-    }
-
-    @FXML
-    public void onEndActivateCannons() throws RemoteException {
-        // Salva lo stato prima di cambiare scena
+        // Save state before changing scene
         saveCurrentShipboardState();
-        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_activate_cannons", new ArrayList<>());
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_remove_astronauts", new ArrayList<>());
         getGuiRoot().getClient().sendMessage(message);
+    }
+
+    @FXML
+    public void onAbandonGame() throws RemoteException {
+        // Confirm abandon game action
+        Platform.runLater(() -> {
+            try {
+                Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon", new ArrayList<>());
+                getGuiRoot().getClient().sendMessage(message);
+            } catch (RemoteException e) {
+                System.err.println("Error abandoning game: " + e.getMessage());
+                showValidationError("Error abandoning game");
+            }
+        });
     }
 }

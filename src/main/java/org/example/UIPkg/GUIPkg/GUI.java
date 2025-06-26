@@ -304,8 +304,45 @@ public class GUI extends UI {
         changeScene(GUIMain.ACTIVATE_CANNONS_SCENE);
     }
 
+    @Override
     public void goToWaitingScene(){
         preserveWindowSize();
         changeScene(GUIMain.WAITING_SCENE);
+    }
+
+    @Override
+    public void goToActivateEngineScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.ACTIVATE_ENGINES_SCENE);
+    }
+
+    @Override
+    public void goToActivateShieldScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.ACTIVATE_SHIELDS_SCENE);
+    }
+
+    @Override
+    public void goToAbandonScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.ABANDON_SCENE);
+    }
+
+    @Override
+    public void goToChangeGoodsScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.CHANGE_GOODS_SCENE);
+    }
+
+    @Override
+    public void goToRemoveAstronautScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.REMOVE_ASTRONAUTS_SCENE);
+    }
+
+    @Override
+    public void goToRemoveBestGoodsScene(){
+        preserveWindowSize();
+        changeScene(GUIMain.REMOVE_BEST_GOODS_SCENE);
     }
 }
