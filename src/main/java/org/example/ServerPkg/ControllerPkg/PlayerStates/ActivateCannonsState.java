@@ -48,7 +48,7 @@ public class ActivateCannonsState extends PlayerState implements Serializable {
     @Override
     public void endActivateCannons(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
         getGame().getCurrentCard().playCard(getGame(), cannons, batteries);
     }

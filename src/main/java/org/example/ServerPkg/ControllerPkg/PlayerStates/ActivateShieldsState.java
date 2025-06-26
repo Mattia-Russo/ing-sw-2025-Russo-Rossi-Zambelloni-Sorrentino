@@ -42,7 +42,7 @@ public class ActivateShieldsState extends PlayerState implements Serializable {
 
     public void endActivateShields(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
         getGame().getCurrentCard().playCard(getGame(), shields, batteries);
     }

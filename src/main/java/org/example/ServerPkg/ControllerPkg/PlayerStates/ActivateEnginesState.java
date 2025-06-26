@@ -44,7 +44,7 @@ public class ActivateEnginesState extends PlayerState implements Serializable {
 
     public void endActivateEngines(Player player) throws RemoteException {
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
         getGame().getCurrentCard().playCard(getGame(), engines, batteries);
     }

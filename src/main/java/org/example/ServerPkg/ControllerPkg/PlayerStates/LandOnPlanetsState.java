@@ -21,7 +21,7 @@ public class LandOnPlanetsState extends PlayerState implements Serializable {
     @Override
     public void landOnPlanet(boolean landed, int numPlanet, Player player) throws RemoteException {
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
 
         if(landed){

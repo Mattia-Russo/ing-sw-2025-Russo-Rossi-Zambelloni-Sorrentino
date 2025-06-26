@@ -66,7 +66,7 @@ public class ChangeGoodsState extends PlayerState implements Serializable {
     public void endChangeGoods(Player player) throws RemoteException {
         getGame().getCurrentCard().setChangeGoodsFlag(false);
         if(!player.isAbandoned()) {
-            player.setPlayerState(new WaitingState(getGame()));
+            player.setPlayerState(new WaitingState(getGame(), player));
         }
         getGame().getCurrentCard().playCard(getGame(), 0); // 0 è messo a caso, viene ignorato in questo caso
     }
