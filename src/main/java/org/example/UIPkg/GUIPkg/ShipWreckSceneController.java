@@ -77,7 +77,6 @@ public class ShipWreckSceneController extends GuiController implements Initializ
     private boolean isViewingOtherPlayerShipboard = false;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
-    private List<Points> occupiedCells = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,8 +88,6 @@ public class ShipWreckSceneController extends GuiController implements Initializ
 
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
-
-        occupiedCells = new ArrayList<>();
     }
 
     private void setupUI() {
@@ -142,7 +139,6 @@ public class ShipWreckSceneController extends GuiController implements Initializ
         if (player != null && player.getShipboardView() != null) {
             List<ComponentsView> existingComponents = new ArrayList<>(super.getShipboardComponents(player.getShipboardView()));
             for (ComponentsView component : existingComponents) {
-                occupiedCells.add(new Points(component.getPosX(), component.getPosY()));
                 placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
             }
 
@@ -471,7 +467,8 @@ public class ShipWreckSceneController extends GuiController implements Initializ
             double basePosX = x * cellWidth;
             double basePosY = y * cellHeight;
 
-            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.45;
+            double indicatorSize = Math.min(cellWidth, cellHeight) * 0.4;
+
             double centerX = basePosX + (cellWidth / 2);
             double centerY = basePosY + (cellHeight / 2);
 
@@ -597,6 +594,7 @@ public class ShipWreckSceneController extends GuiController implements Initializ
 
     @FXML
     public void onChoosePartClick() throws RemoteException {
+        confirmButton.setDisable(true);
         try {
             int x = Integer.parseInt(xCoordinateField.getText().trim());
             int y = Integer.parseInt(yCoordinateField.getText().trim());
@@ -611,6 +609,11 @@ public class ShipWreckSceneController extends GuiController implements Initializ
                 statusMessage.setText("Wreck Ship ended successfully!");
                 confirmButton.setDisable(true);
             }
+            List<String> args = Arrays.asList(String.valueOf(x), String.valueOf(y));
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("choose_wrecked", args);
+            getGuiRoot().getClient().sendMessage(message);
+            hideValidationMessage();
+            statusMessage.setText("Wreck Ship ended successfully!");
 
         } catch (NumberFormatException e) {
             showValidationError("Please enter valid numbers for X and Y coordinates");
