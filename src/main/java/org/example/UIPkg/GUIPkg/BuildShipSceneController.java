@@ -108,12 +108,26 @@ public class BuildShipSceneController extends GuiController implements Initializ
     @FXML
     private Label timerMessage;
 
+    @FXML
+    private TextField deckIndexField;
+
+    @FXML
+    private Button showDeckButton;
+
+    @FXML
+    private Button endShowDeckButton;
+
+    @FXML
+    private HBox deckCardsContainer;
+
     private List<Points> occupiedCells;
     private List<Button> allButtons;
     private List<Boolean> previousButtonStates;
     private ComponentsView[] localBookedComponents = new ComponentsView[2];
     private ImageView[] bookedComponentImages = new ImageView[2];
     private boolean isViewingOtherPlayerShipboard = false;
+    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
+    private boolean isShowingDeck = false;
 
     @Override
     public void setGui(GUI guiRoot) {
@@ -148,7 +162,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         allButtons = List.of(
                 pickComponentButton, discardComponentButton, rotateLeftButton, rotateRightButton,
-                placeComponentButton, pickDiscoveredButton, bookComponentButton, pickBookedButton
+                placeComponentButton, pickDiscoveredButton, bookComponentButton, pickBookedButton,
+                showDeckButton
         );
 
         discardComponentButton.setDisable(true);
@@ -159,6 +174,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showOwnShipboardButton.setVisible(false);
         pickDiscoveredButton.setDisable(true);
         bookComponentButton.setDisable(true);
+        showDeckButton.setDisable(false);
+        endShowDeckButton.setVisible(false);
+        deckCardsContainer.setVisible(false);
     }
 
     private void saveButtonStates() {
@@ -233,6 +251,20 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
         updateDiscoveredComponentsGUI(cachedGame.getComponentsDiscovered());
+
+        if (isShowingDeck) {
+            PlayerView currentPlayer = null;
+            for (PlayerView player : cachedGame.getPlayers()) {
+                if (player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
+                    currentPlayer = player;
+                    break;
+                }
+            }
+
+            if (currentPlayer != null && currentPlayer.getDeckShowed() != null && !currentPlayer.getDeckShowed().isEmpty()) {
+                displayDeckCards(currentPlayer.getDeckShowed());
+            }
+        }
     }
 
     private void updateCurrentTileGUI(ComponentsView currentTile) {
@@ -1095,5 +1127,124 @@ public class BuildShipSceneController extends GuiController implements Initializ
             //ToDo se game mode è 0 andare in add alien con tutti i bottoni disattivati
         }
 
+    }
+
+    @FXML
+    public void onShowDeckClick() throws RemoteException {
+        String indexText = deckIndexField.getText().trim();
+
+        if (indexText.isEmpty()) {
+            showValidationError("Please enter a valid deck index (0-2)");
+            return;
+        }
+
+        try {
+            int index = Integer.parseInt(indexText);
+
+            if (index < 0 || index > 2) {
+                showValidationError("Deck index must be between 0 and 2");
+                deckIndexField.clear();
+                return;
+            }
+
+            List<String> args = new ArrayList<>();
+            args.add(indexText);
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("show_deck", args);
+            getGuiRoot().getClient().sendMessage(message);
+
+            isShowingDeck = true;
+            saveButtonStates();
+            disableAllButtons();
+            showPlayer1ShipboardButton.setDisable(true);
+            showPlayer2ShipboardButton.setDisable(true);
+            showPlayer3ShipboardButton.setDisable(true);
+            turnTimerButton.setDisable(true);
+            endBuildShipButton.setDisable(true);
+            showDeckButton.setDisable(true);
+            endShowDeckButton.setVisible(true);
+            endShowDeckButton.setDisable(false);
+
+            deckIndexField.clear();
+            hideValidationMessage();
+
+        } catch (NumberFormatException e) {
+            showValidationError("Please enter a valid number (0-2)");
+        }
+    }
+
+    @FXML
+    public void onEndShowDeckClick() throws RemoteException {
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("end_show_deck", new ArrayList<>());
+        getGuiRoot().getClient().sendMessage(message);
+
+        isShowingDeck = false;
+        Platform.runLater(() -> {
+            deckCardsContainer.setVisible(false);
+            deckCardsContainer.getChildren().clear();
+            endShowDeckButton.setVisible(false);
+        });
+
+        restoreButtonStates();
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer2ShipboardButton.setDisable(false);
+        showPlayer3ShipboardButton.setDisable(false);
+        turnTimerButton.setDisable(false);
+        endBuildShipButton.setDisable(false);
+    }
+
+    private void displayDeckCards(List<AdventureCardView> deckCards) {
+        Platform.runLater(() -> {
+            deckCardsContainer.getChildren().clear();
+
+            Label titleLabel = new Label("Deck Cards:");
+            titleLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;");
+            deckCardsContainer.getChildren().add(titleLabel);
+
+            for (AdventureCardView card : deckCards) {
+                try {
+                    JSONObject cardJson = findCardJsonById(String.valueOf(card.getId()));
+                    if (cardJson != null) {
+                        String imagePath = cardJson.getString("img");
+
+                        InputStream imageStream = getClass().getResourceAsStream(imagePath);
+                        if (imageStream != null) {
+                            Image cardImage = new Image(imageStream);
+                            ImageView cardImageView = new ImageView(cardImage);
+
+                            cardImageView.setFitWidth(120);
+                            cardImageView.setFitHeight(180);
+                            cardImageView.setPreserveRatio(true);
+
+                            deckCardsContainer.getChildren().add(cardImageView);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
+                }
+            }
+
+            deckCardsContainer.setVisible(true);
+        });
+    }
+
+    private JSONObject findCardJsonById(String cardId) {
+        try (InputStream is = getClass().getResourceAsStream(CARDS_JSON_PATH)) {
+            if (is == null) {
+                System.err.println("File JSON delle carte non trovato: " + CARDS_JSON_PATH);
+                return null;
+            }
+
+            JSONArray jsonArray = new JSONArray(new JSONTokener(is));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                if (String.valueOf(json.getInt("id")).equals(cardId)) {
+                    return json;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Errore durante la lettura del file JSON delle carte: " + e.getMessage());
+        }
+        return null;
     }
 }
