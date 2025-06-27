@@ -151,6 +151,10 @@ public class AddAlienSceneController extends GuiController implements Initializa
             loadShipBoardImage();
             loadFlightBoardImage();
             resetShowShipboardButtons();
+
+            if(game.getException()!=null) {
+                showValidationError(game.getException().getMessage());
+            }
             
             // Aggiungi questa parte per caricare immediatamente le tile esistenti
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {

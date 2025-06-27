@@ -60,7 +60,7 @@
     <left>
         <VBox alignment="CENTER" prefHeight="518.0" prefWidth="235.0" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
             <VBox prefHeight="478.0" prefWidth="239.0" spacing="20.0">
-                <Label alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="201.0" text="Current card" textAlignment="CENTER" />
+                <Label alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="201.0" text="Current card" textAlignment="CENTER" textFill="WHITE"/>
                 <ImageView fx:id="currentCardImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
             </VBox>
         </VBox>

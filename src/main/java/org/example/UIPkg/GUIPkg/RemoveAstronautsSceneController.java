@@ -150,6 +150,10 @@ public class RemoveAstronautsSceneController extends GuiController implements In
             loadCurrentCard(game);
             resetShowShipboardButtons();
 
+            if(game.getException()!=null) {
+                showValidationError(game.getException().getMessage());
+            }
+
             // Update required astronauts from current card
             if (game != null && game.getCurrentCard() != null) {
                 requiredAstronauts = game.getCurrentCard().getNumAstronauts();

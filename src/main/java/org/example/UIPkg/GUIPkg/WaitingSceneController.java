@@ -96,6 +96,10 @@ public class WaitingSceneController extends GuiController implements Initializab
             loadCurrentCard(game);
             resetShowShipboardButtons();
 
+            if(game.getException()!=null) {
+                showValidationError(game.getException().getMessage());
+            }
+
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                 for (PlayerView player : game.getPlayers()) {
                     if(player.getName().equals(getGuiRoot().getClient().getPlayerName())) {
