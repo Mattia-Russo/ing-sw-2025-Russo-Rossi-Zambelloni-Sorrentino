@@ -217,7 +217,7 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
         if (player != null && player.getShipboardView() != null) {
             List<ComponentsView> components = super.getShipboardComponents(player.getShipboardView());
             for (ComponentsView component : components) {
-                if (Objects.equals(component.getType(), "Storage") || Objects.equals(component.getType(), "SpecialStorage")) {
+                if (Objects.equals(component.getType(), "Storage") || Objects.equals(component.getType(), "Special Storage")) {
                     storageComponents.add(new Points(component.getPosX(), component.getPosY()));
                 }
                 placeComponentOnShipboard(component, component.getPosX(), component.getPosY());
