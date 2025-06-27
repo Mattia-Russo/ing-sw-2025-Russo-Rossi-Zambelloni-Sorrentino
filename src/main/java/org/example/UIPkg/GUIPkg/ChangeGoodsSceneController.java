@@ -115,6 +115,10 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
             loadCurrentCard(game);
             resetShowShipboardButtons();
 
+            if(game.getException()!=null) {
+                showValidationError(game.getException().getMessage());
+            }
+
             if (game != null && game.getPlayers() != null) {
                 for (PlayerView player : game.getPlayers()) {
                     if (player.getName().equals(getGuiRoot().getClient().getPlayerName())) {

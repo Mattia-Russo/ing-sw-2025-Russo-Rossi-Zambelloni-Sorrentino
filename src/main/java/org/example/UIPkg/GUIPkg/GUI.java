@@ -71,9 +71,6 @@ public class GUI extends UI {
                         assert game != null;
                         GuiController controller = GUIMain.getGuiMain().getCurrentController();
                         controller.setUp(game);
-                        if(game.getException()!=null){
-                            manageNotification(new NotifyClientMessage(game.getException().getMessage()));
-                        }
                     }
                     Thread.sleep(2000);
                 }

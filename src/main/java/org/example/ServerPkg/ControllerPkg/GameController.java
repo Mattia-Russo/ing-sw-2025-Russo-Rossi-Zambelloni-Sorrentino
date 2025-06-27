@@ -154,7 +154,6 @@ public class GameController implements Serializable{
                             nameUsed.get(name).notifyLobbyCreated(name);
                             System.out.println("Lobby created successfully, numPl: " + numPlayers + " shipLev: " + shipBoardLevel + " gameMode: " + gameMode);
                             new GameSaver(this);
-                            new GameView(game, new Exception("Game created"));
                         }else notifyClient(name, "Ship board level must be 1 or 2");
                     }else notifyClient(name, "Game mode must be 0 or 1");
                 }else notifyClient(name, "MIN 2 MAX 4 PLAYERS");

@@ -150,6 +150,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
     public void setUp(GameView game){
         updateGui(game);
         loadShipBoardImage();
+        if(game.getException()!=null) {
+            showValidationError(game.getException().getMessage());
+        }
     }
 
     private void setupUI() {

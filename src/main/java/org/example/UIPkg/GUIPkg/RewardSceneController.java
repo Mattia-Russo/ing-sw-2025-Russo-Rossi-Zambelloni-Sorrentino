@@ -108,6 +108,10 @@ public class RewardSceneController extends GuiController implements Initializabl
             loadCurrentCard(game);
             resetShowShipboardButtons();
 
+            if(game.getException()!=null) {
+                showValidationError(game.getException().getMessage());
+            }
+
             // Carica immediatamente le tile esistenti
             if (game != null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
                 for (PlayerView player : game.getPlayers()) {
