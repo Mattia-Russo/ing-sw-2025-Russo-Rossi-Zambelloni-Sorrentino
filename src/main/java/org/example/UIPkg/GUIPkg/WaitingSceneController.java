@@ -817,9 +817,7 @@ public class WaitingSceneController extends GuiController implements Initializab
             }
 
             // Alieni
-            if (component.getAlienColour() != null &&
-                    !component.getType().equals("LifeSupportSystem") &&
-                    positionIndex < positions.length) {
+            if (component.getAlienColour() != null && !component.getType().equals("LifeSupportSystem") && positionIndex < positions.length) {
                 String alienImagePath = component.getAlienColour().toString().equalsIgnoreCase("brown") ?
                         "/org.example/cardboard/brownAlien.jpg" : "/org.example/cardboard/purpleAlien.jpg";
                 placeQuantityIndicator(alienImagePath,

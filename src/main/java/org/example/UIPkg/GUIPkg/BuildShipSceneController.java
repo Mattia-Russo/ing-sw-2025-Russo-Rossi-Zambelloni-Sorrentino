@@ -242,6 +242,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
 
         // Confronta la nuova GameView con quella cached
         GameViewCache.GameViewDifferences differences = getGuiRoot().getGameCache().compareAndUpdate(game);
+        for(ComponentsView component : differences.getNewShipboardComponents()) {
+            getGuiRoot().getImagesMap().put(component.getId(), getImageByComponent(component));
+        }
+        for(ComponentsView component : differences.getNewDiscoveredComponents()) {
+            getGuiRoot().getImagesMap().put(component.getId(), getImageByComponent(component));
+        }
 
         // Se ci sono differenze, aggiorna la GUI
         if (differences.hasChanges()) {
@@ -491,6 +497,64 @@ public class BuildShipSceneController extends GuiController implements Initializ
         }
     }
 
+    private void placeImageOnShipboard(String imagePath, int x, int y, Direction direction) {
+        try {
+            x=x-4;
+            y=y-5;
+
+            // Calcola le dimensioni e la posizione nella griglia
+            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
+            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
+
+            double posX = x * cellWidth;
+            double posY = y * cellHeight;
+
+            // Carica l'immagine
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream == null) {
+                System.err.println("Immagine non trovata nel percorso: " + imagePath);
+                return;
+            }
+
+            Image componentImage = new Image(imageStream);
+            ImageView componentImageView = new ImageView(componentImage);
+
+            // Dimensiona e posiziona l'immagine correttamente
+            componentImageView.setFitWidth(cellWidth * 0.94);
+            componentImageView.setFitHeight(cellHeight * 0.94);
+            componentImageView.setPreserveRatio(true);
+
+            componentImageView.setX(posX + (cellWidth * 0.2));
+            componentImageView.setY(posY + (cellHeight * 0.2));
+
+            rotate(direction, componentImageView);
+
+            Platform.runLater(() -> shipboardContainer.getChildren().add(componentImageView));
+        } catch (Exception e) {
+            System.err.println("Errore durante il posizionamento dell'immagine sulla shipboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private Image getImageByComponent(ComponentsView component){
+        JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
+
+        if (componentJson == null) {
+            System.err.println("Componente con ID " + component.getId() + " non trovato nel file JSON.");
+            return null;
+        }
+
+        // Recupera il percorso dell'immagine dal JSON
+        String imagePath = componentJson.getString("img");
+        InputStream imageStream = getClass().getResourceAsStream(imagePath);
+        if (imageStream == null) {
+            System.err.println("Immagine non trovata nel percorso: " + imagePath);
+            return null;
+        }
+
+        return new Image(imageStream);
+    }
+
     private void setupFieldValidation() {
         // Imposta i campi X e Y per accettare solo numeri
         setUpNumberField(xPositionField, yPositionField, discoveredIndexField);
@@ -571,46 +635,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
             System.err.println("Errore durante la lettura del file JSON: " + e.getMessage());
         }
         return null;
-    }
-
-    private void placeImageOnShipboard(String imagePath, int x, int y, Direction direction) {
-        try {
-            x=x-4;
-            y=y-5;
-
-            // Calcola le dimensioni e la posizione nella griglia
-            double cellWidth = shipboardImageView.getFitWidth() / 7.32;
-            double cellHeight = shipboardImageView.getFitHeight() / 5.52;
-
-            double posX = x * cellWidth;
-            double posY = y * cellHeight;
-
-            // Carica l'immagine
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream == null) {
-                System.err.println("Immagine non trovata nel percorso: " + imagePath);
-                return;
-            }
-
-            Image componentImage = new Image(imageStream);
-            ImageView componentImageView = new ImageView(componentImage);
-
-            // Dimensiona e posiziona l'immagine correttamente
-            componentImageView.setFitWidth(cellWidth * 0.94);
-            componentImageView.setFitHeight(cellHeight * 0.94);
-            componentImageView.setPreserveRatio(true);
-
-            componentImageView.setX(posX + (cellWidth * 0.2));
-            componentImageView.setY(posY + (cellHeight * 0.2));
-
-            rotate(direction, componentImageView);
-
-            Platform.runLater(() -> shipboardContainer.getChildren().add(componentImageView));
-
-        } catch (Exception e) {
-            System.err.println("Errore durante il posizionamento dell'immagine sulla shipboard: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 
     private void showValidationError(String message) {

@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -18,7 +19,9 @@ import org.example.UIPkg.UI;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -29,7 +32,7 @@ public class GUI extends UI {
     private int shipboardLevel;
     private int gameMode;
     private  List<String> playersList;
-    private GameViewCache gameCache;
+    private GameViewCache gameCache;    private final HashMap<Integer, Image> imagesMap = new HashMap<>();
 
     public GUI(Client client){
         super(client);
@@ -72,7 +75,7 @@ public class GUI extends UI {
                         GuiController controller = GUIMain.getGuiMain().getCurrentController();
                         controller.setUp(game);
                     }
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 }
             }catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -271,6 +274,10 @@ public class GUI extends UI {
         if (controller != null) {
             controller.updatePlayersList(updatedList);
         }
+    }
+
+    public Map<Integer, Image> getImagesMap() {
+        return this.imagesMap;
     }
 
     private void goToBuildShipScene(){

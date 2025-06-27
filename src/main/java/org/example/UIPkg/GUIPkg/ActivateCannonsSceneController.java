@@ -526,15 +526,10 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
 
     private void placeComponentOnShipboard(ComponentsView component, int x, int y) {
         try {
-            JSONObject componentJson = findComponentJsonById(String.valueOf(component.getId()));
-            if (componentJson == null) {
-                System.err.println("Component with ID " + component.getId() + " not found in JSON.");
-                return;
-            }
+            Image image = getGuiRoot().getImagesMap().get(component.getId());
 
-            String imagePath = componentJson.getString("img");
             Direction direction = component.getDirection();
-            placeImageOnShipboard(imagePath, x, y, direction);
+            placeImageOnShipboard(image, x, y, direction);
             placeQuantityIndicatorsOnShipboard(component, x, y);
         } catch (Exception e) {
             System.err.println("Error placing component on shipboard: " + e.getMessage());
@@ -542,7 +537,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
         }
     }
 
-    private void placeImageOnShipboard(String imagePath, int x, int y, Direction direction) {
+    private void placeImageOnShipboard(Image image, int x, int y, Direction direction) {
         try {
             x = x - 4;
             y = y - 5;
@@ -553,14 +548,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
             double posX = x * cellWidth;
             double posY = y * cellHeight;
 
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream == null) {
-                System.err.println("Image not found: " + imagePath);
-                return;
-            }
-
-            Image componentImage = new Image(imageStream);
-            ImageView componentImageView = new ImageView(componentImage);
+            ImageView componentImageView = new ImageView(image);
 
             componentImageView.setFitWidth(cellWidth * 0.94);
             componentImageView.setFitHeight(cellHeight * 0.94);
