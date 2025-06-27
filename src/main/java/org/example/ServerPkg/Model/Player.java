@@ -261,7 +261,7 @@ public class Player implements Serializable {
             getPlayerShipBoard().placeComponent(7, 6, new Cannon(101, 2, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
             getPlayerShipBoard().placeComponent(8, 5, new Cannon(101, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY}));
             getPlayerShipBoard().placeComponent(5, 6, new Cannon(101, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.EMPTY}));
-            getPlayerShipBoard().placeComponent(8, 6, new Cabin(60, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
+            getPlayerShipBoard().placeComponent(8, 6, new Cabin(35, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}));
             getPlayerShipBoard().placeComponent(9, 6, new Cannon(101, 1, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
             getPlayerShipBoard().placeComponent(4, 7, new Cannon(101, 1, Direction.WEST, new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.UNIVERSAL, Connector.UNIVERSAL}));
             getPlayerShipBoard().placeComponent(5, 7, new Shield(149, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL}, Direction.WEST));
