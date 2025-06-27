@@ -20,6 +20,11 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 public class ChangeGoodsSceneController extends GuiController implements Initializable {
+
+    private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
+
+    @FXML
+    private ImageView currentCardImageView;
     // UI Elements
     @FXML
     private BorderPane borderPane;
@@ -105,6 +110,7 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
             updateGui(game);
             loadShipboardImage();
             loadFlightboardImage();
+            loadCurrentCard(game);
             resetShowShipboardButtons();
 
             if (game != null && game.getPlayers() != null) {
@@ -126,6 +132,62 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
 
             updateCurrentGoodsDisplay();
         });
+    }
+
+    private void loadCurrentCard(GameView game) {
+        if (currentCardImageView == null) {
+            System.err.println("currentCardImageView is null - check FXML binding");
+            return;
+        }
+
+        try {
+            if (game != null && game.getCurrentCard() != null) {
+                JSONObject cardJson = findCardJsonById(String.valueOf(game.getCurrentCard().getId()));
+                if (cardJson != null) {
+                    String imagePath = cardJson.getString("img");
+                    InputStream imageStream = getClass().getResourceAsStream(imagePath);
+                    if (imageStream != null) {
+                        Image cardImage = new Image(imageStream);
+                        currentCardImageView.setImage(cardImage);
+                        currentCardImageView.setVisible(true);
+                    } else {
+                        System.err.println("Card image not found: " + imagePath);
+                        currentCardImageView.setVisible(false);
+                    }
+                } else {
+                    System.err.println("Card with ID " + game.getCurrentCard().getId() + " not found in JSON");
+                    currentCardImageView.setVisible(false);
+                }
+            } else {
+                // Nessuna carta corrente disponibile
+                currentCardImageView.setVisible(false);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading current card: " + e.getMessage());
+            e.printStackTrace();
+            currentCardImageView.setVisible(false);
+        }
+    }
+
+    private JSONObject findCardJsonById(String cardId) {
+        try (InputStream is = getClass().getResourceAsStream(CARDS_JSON_PATH)) {
+            if (is == null) {
+                System.err.println("JSON file not found: " + CARDS_JSON_PATH);
+                return null;
+            }
+
+            JSONArray jsonArray = new JSONArray(new JSONTokener(is));
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                if (String.valueOf(json.getInt("id")).equals(cardId)) {
+                    return json;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading cards JSON file: " + e.getMessage());
+        }
+        return null;
     }
 
     private void loadShipboardTiles(PlayerView player) {
