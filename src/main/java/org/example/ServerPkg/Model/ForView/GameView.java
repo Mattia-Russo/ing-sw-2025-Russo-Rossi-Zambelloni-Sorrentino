@@ -19,20 +19,18 @@ public class GameView implements Serializable{
     private final int gameMode;
 
     public GameView(Game game, Exception exception) {
-        if (exception == null){
-            for (Player p : game.getPlayers()) {
-                playersView.add(new PlayerView(p));
+        for (Player p : game.getPlayers()) {
+            playersView.add(new PlayerView(p));
+        }
+        if(game.getDiscoveredComponent() != null) {
+            for (Components c : game.getDiscoveredComponent()) {
+                this.componentsDiscoveredView.add(c.createView());
             }
-            if(game.getDiscoveredComponent() != null) {
-                for (Components c : game.getDiscoveredComponent()) {
-                    this.componentsDiscoveredView.add(c.createView());
-                }
-            }
-            if(game.getCurrentCard() != null) {
-                this.currentCard = game.getCurrentCard().createView();
-            }
-        }else
-            this.exception = exception;
+        }
+        if(game.getCurrentCard() != null) {
+            this.currentCard = game.getCurrentCard().createView();
+        }
+        this.exception = exception;
         this.lobbyState = game.getController().getLobbyState();
         this.shipBoardLevel = game.getShipBoardLevel();
         this.gameMode = game.getGameMode();
