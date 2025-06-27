@@ -71,6 +71,7 @@
             <Label fx:id="statusMessage" textFill="WHITE" wrapText="true" />
             <Label fx:id="validationMessage" textFill="RED" visible="false" />
         </VBox>
+        <Button fx:id="abandonGameButton" mnemonicParsing="false" onAction="#onAbandonGame" prefWidth="180.0" style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-font-weight: bold;" text="Abandon Game" />
     </left>
 </BorderPane>
 

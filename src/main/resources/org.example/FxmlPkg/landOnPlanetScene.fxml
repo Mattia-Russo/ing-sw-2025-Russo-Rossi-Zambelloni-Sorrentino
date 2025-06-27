@@ -71,6 +71,8 @@
                     <Button fx:id="SkipButton" mnemonicParsing="false" onAction="#onSkipButtonClick" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" text="Skip" />
                 </VBox>
             </VBox>
+
+            <Button fx:id="abandonGameButton" mnemonicParsing="false" onAction="#onAbandonGame" prefWidth="180.0" style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-font-weight: bold;" text="Abandon Game" />
         </VBox>
     </left>
 </BorderPane>

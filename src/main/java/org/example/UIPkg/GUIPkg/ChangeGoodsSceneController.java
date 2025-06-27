@@ -58,6 +58,8 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
     @FXML
     private Button showOwnShipboardButton;
 
+    @FXML
+    private Button abandonGameButton;
     // Status Messages
     @FXML
     private Label statusMessage;
@@ -253,6 +255,20 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
 
         } catch (NumberFormatException e) {
             showValidationError("Please enter valid numbers for coordinates and position");
+        }
+    }
+
+    @FXML
+    private void onAbandonGame() throws RemoteException {
+        // Mostra dialogo di conferma
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Abandon Game");
+        confirmAlert.setHeaderText("Are you sure you want to abandon the game?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon_game", new ArrayList<>());
+            getGuiRoot().getClient().sendMessage(message);
         }
     }
 

@@ -95,6 +95,7 @@
                 <!-- Pulsante fine turno -->
                 <VBox spacing="10.0">
                     <Button fx:id="endActivateCannonsButton" mnemonicParsing="false" onAction="#onEndActivateCannons" prefWidth="180.0" style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-weight: bold;" text="End Activate Cannons" />
+                    <Button fx:id="abandonGameButton" mnemonicParsing="false" onAction="#onAbandonGame" prefWidth="180.0" style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-font-weight: bold;" text="Abandon Game" />
                 </VBox>
 
                 <!-- Messaggi di stato -->

@@ -3,7 +3,9 @@ package org.example.UIPkg.GUIPkg;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +21,7 @@ import org.json.JSONTokener;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class LandOnAbandonSceneController extends GuiController implements Initializable {
@@ -52,6 +55,9 @@ public class LandOnAbandonSceneController extends GuiController implements Initi
 
     @FXML
     private ImageView flightboardImageView;
+
+    @FXML
+    private Button abandonGameButton;
 
     @FXML
     private Pane flightboardContainer;
@@ -119,6 +125,20 @@ public class LandOnAbandonSceneController extends GuiController implements Initi
                 }
             }
         });
+    }
+
+    @FXML
+    private void onAbandonGame() throws RemoteException {
+        // Mostra dialogo di conferma
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Abandon Game");
+        confirmAlert.setHeaderText("Are you sure you want to abandon the game?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon_game", new ArrayList<>());
+            getGuiRoot().getClient().sendMessage(message);
+        }
     }
 
     private void loadCurrentCard(GameView game) {
