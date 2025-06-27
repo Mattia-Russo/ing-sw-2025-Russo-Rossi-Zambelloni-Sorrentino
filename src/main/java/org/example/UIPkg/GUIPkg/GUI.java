@@ -74,9 +74,6 @@ public class GUI extends UI {
                         if(game.getException()!=null){
                             manageNotification(new NotifyClientMessage(game.getException().getMessage()));
                         }
-//                        if (game.getException() == null && game.getPlayers() != null && !game.getPlayers().isEmpty()) {
-//                            controller.updatePlayerShipboardButtons(game);
-//                        }
                     }
                     Thread.sleep(2000);
                 }

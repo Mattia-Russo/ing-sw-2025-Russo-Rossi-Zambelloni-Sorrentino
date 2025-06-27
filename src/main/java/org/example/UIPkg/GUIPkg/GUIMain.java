@@ -75,25 +75,26 @@ public class GUIMain extends Application {
     }
 
     public void goToFirstScene() {
-        List<String> FxmlFiles = new ArrayList<>(Arrays.asList(NAME_REQUEST_SCENE,
+        List<String> FxmlFiles = new ArrayList<>(Arrays.asList(
+                NAME_REQUEST_SCENE,
                 SETTINGS_SCENE,
                 WAITING_ROOM_SCENE,
                 BUILD_SHIP_SCENE,
                 ADD_ALIEN_SCENE,
-                FIX_SHIP_SCENE//,
-                // SHIP_WRECK_SCENE,
-                // ACTIVATE_CANNONS_SCENE,
-                // WAITING_SCENE,
-                // ACTIVATE_ENGINES_SCENE,
-                // ACTIVATE_SHIELDS_SCENE,
-                // ABANDON_SCENE,
-                // CHANGE_GOODS_SCENE,
-                // REMOVE_ASTRONAUTS_SCENE,
-                // REMOVE_BEST_GOODS_SCENE,
-                //REWARD_SCENE,
-                // LAND_ON_ABANDON_SCENE,
-                // LAND_ON_PLANET_SCENE,
-                // END_GAME_SCENE
+                FIX_SHIP_SCENE,
+                SHIP_WRECK_SCENE,
+                ACTIVATE_CANNONS_SCENE,
+                WAITING_SCENE,
+                ACTIVATE_ENGINES_SCENE,
+                ACTIVATE_SHIELDS_SCENE,
+                ABANDON_SCENE,
+                CHANGE_GOODS_SCENE,
+                REMOVE_ASTRONAUTS_SCENE,
+                REMOVE_BEST_GOODS_SCENE,
+                REWARD_SCENE,
+                LAND_ON_ABANDON_SCENE,
+                LAND_ON_PLANET_SCENE,
+                END_GAME_SCENE
         ));
         try{
             for(String fxmlFile : FxmlFiles){
@@ -147,7 +148,6 @@ public class GUIMain extends Application {
         }
         return null;
     }
-
 
     public Stage getStage() {
         return this.stage;
