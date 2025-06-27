@@ -684,7 +684,7 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
 
             if (component.getNumAstronauts() > 0) {
                 for (int i = 0; i < component.getNumAstronauts() && positionIndex < positions.length; i++) {
-                    placeQuantityIndicator("/org/example/cardboard/astronaut.jpg",
+                    placeQuantityIndicator("/org.example/cardboard/astronaut.jpg",
                             positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
                     positionIndex++;
                 }
@@ -692,7 +692,7 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
 
             if (component.getAlienColour() != null && positionIndex < positions.length) {
                 String alienImagePath = component.getAlienColour().toString().toLowerCase().equals("brown") ?
-                        "/org/example/cardboard/brownAlien.jpg" : "/org/example/cardboard/purpleAlien.jpg";
+                        "/org.example/cardboard/brownAlien.jpg" : "/org.example/cardboard/purpleAlien.jpg";
                 placeQuantityIndicator(alienImagePath,
                         positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
                 positionIndex++;
@@ -700,7 +700,7 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
 
             if (component.getNumBattery() > 0) {
                 for (int i = 0; i < component.getNumBattery() && positionIndex < positions.length; i++) {
-                    placeQuantityIndicator("/org/example/cardboard/battery.jpg",
+                    placeQuantityIndicator("/org.example/cardboard/battery.jpg",
                             positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
                     positionIndex++;
                 }
@@ -710,7 +710,7 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
                 for (int i = 0; i < component.getGoods().length && positionIndex < positions.length; i++) {
                     if (component.getGoods()[i] != null) {
                         String goodColor = component.getGoods()[i].getColour().toString().toLowerCase();
-                        String goodImagePath = "/org/example/cardboard/" + goodColor + "Good.jpg";
+                        String goodImagePath = "/org.example/cardboard/" + goodColor + "Good.jpg";
                         placeQuantityIndicator(goodImagePath,
                                 positions[positionIndex][0], positions[positionIndex][1], indicatorSize);
                         positionIndex++;
@@ -760,9 +760,9 @@ public class ChangeGoodsSceneController extends GuiController implements Initial
     }
 
     private JSONObject findComponentJsonById(String componentId) {
-        try (InputStream is = getClass().getResourceAsStream("/org/example/JsonPkg/tiles.json")) {
+        try (InputStream is = getClass().getResourceAsStream("/org.example/JsonPkg/tiles.json")) {
             if (is == null) {
-                System.err.println("JSON file not found: /org/example/JsonPkg/tiles.json");
+                System.err.println("JSON file not found: /org.example/JsonPkg/tiles.json");
                 return null;
             }
 
