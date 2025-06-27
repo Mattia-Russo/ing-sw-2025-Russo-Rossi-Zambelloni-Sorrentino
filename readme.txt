@@ -6,7 +6,8 @@ The server supports both TCP and RMI connections, and the client can choose whic
 
 ADVANCED FEATURES:
 - Test Flight: select Game Mode 0 if you want to play a test flight  
-- Persistence: the server periodically saves the game state in the designated folder
+- Persistence: the server periodically saves the game state in the designated folder and create a file with the current data and time
+    To reload a game saved you need to text: java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerServer-jar-with-dependencies.jar <nameFile>
 
 HOW TO START SERVER AND CLIENT:
 Server:
