@@ -136,7 +136,6 @@ public class GameController implements Serializable{
         if(lobbyState == LobbyState.GAME_READY) {
             if (game != null) {
                 addNewPlayer(name);
-                new GameView(game, new Exception("Player " + name + " joined"));
                 game.setGameUpdaters(gameUpdaters);
             } else throw new InvalidGameCreationException("You're the first player to join, create a lobby!");
         }else throw new InvalidLobbyStateException("Wait for the lobby to be set");
