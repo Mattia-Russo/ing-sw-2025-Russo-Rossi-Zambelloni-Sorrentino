@@ -1,6 +1,8 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.Model.Exceptions.RedGoodsNotAllowedException;
+import org.example.ServerPkg.Model.Exceptions.StorageFullException;
 
 
 import java.util.ArrayList;
@@ -65,10 +67,22 @@ public class StorageTest extends TestCase {
         Goods g2 = new Goods(GoodsColour.GREEN);
         Goods g3 = new Goods(GoodsColour.BLUE);
         Goods g4 = new Goods(GoodsColour.GREEN);
+        Goods g5 = new Goods(GoodsColour.RED);
+        try{
+            s1.addGood(g5);
+            fail();
+        }catch(RedGoodsNotAllowedException e){
 
+        }
         s1.addGood(g1);
         s1.addGood(g2);
         s1.addGood(g3);
+        try {
+            s1.addGood(g4);
+            fail();
+        }catch (StorageFullException ex){
+
+        }
     }
 
     public void testGetCapacity() {

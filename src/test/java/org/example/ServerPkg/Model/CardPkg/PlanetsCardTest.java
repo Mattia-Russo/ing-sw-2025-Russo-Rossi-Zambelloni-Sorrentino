@@ -7,11 +7,14 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.LandOnPlanetsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPkg.Goods;
 import org.example.ServerPkg.Model.ComponentsPkg.GoodsColour;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
+import org.example.ServerPkg.Model.ForView.PlanetView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlanetsCardTest extends TestCase {
 
@@ -81,19 +84,19 @@ public class PlanetsCardTest extends TestCase {
         assertTrue(p1.getState() instanceof LandOnPlanetsState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p1.setPlayerState(new WaitingState(game, p1));
+        p1.setPlayerState(new WaitingState(game,p1));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof LandOnPlanetsState);
         assertTrue(p3.getState() instanceof WaitingState);
-        p2.setPlayerState(new WaitingState(game, p2));
+        p2.setPlayerState(new WaitingState(game,p2));
 
         card.setCardState(game);
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
         assertTrue(p3.getState() instanceof LandOnPlanetsState);
-        p3.setPlayerState(new WaitingState(game, p3));
+        p3.setPlayerState(new WaitingState(game,p3));
 
         assertTrue(p1.getState() instanceof WaitingState);
         assertTrue(p2.getState() instanceof WaitingState);
@@ -136,7 +139,7 @@ public class PlanetsCardTest extends TestCase {
         card.playCard(game, 0);
         assertTrue(p1.isOnPlanet());
         assertEquals(0, card.getCurrentPlanetIndex());
-
+        assertTrue(card.getPlanetsVisited()[0]);
         assertTrue(p1.getState() instanceof ChangeGoodsState);
 
         card.setChangeGoodsFlag(false);
@@ -211,23 +214,46 @@ public class PlanetsCardTest extends TestCase {
 
         PlanetsCard card = new PlanetsCard(0,2, 5, planets);
 
+        for (int i =0; i<card.getPlanets().size(); i++) {
+            assertFalse(card.getPlanetsVisited()[i]);
+        }
     }
 
-    public void testGetCurrentPlayerIndex() {
-        Goods[] goods1 = new Goods[3];
-        goods1[0] = new Goods(GoodsColour.RED);
-        goods1[1] = new Goods(GoodsColour.YELLOW);
 
-        Goods[] goods2 = new Goods[3];
-        goods1[2] = new Goods(GoodsColour.GREEN);
 
-        Planet planet1 = new Planet(1, goods1);
-        Planet planet2 = new Planet(2, goods2);
+    public void testCreateView() {
+        // Creo i pianeti
+        Goods[] goods1 = new Goods[] {
+                new Goods(GoodsColour.GREEN),
+                new Goods(GoodsColour.RED)
+        };
+        Goods[] goods2 = new Goods[] {
+                new Goods(GoodsColour.YELLOW)
+        };
 
-        ArrayList<Planet> planets = new ArrayList<Planet>();
-        planets.add(planet1);
-        planets.add(planet2);
+        Planet p1 = new Planet(0, goods1);
+        Planet p2 = new Planet(1, goods2);
+        ArrayList<Planet> planets = new ArrayList<>();
+        planets.add(p1);
+        planets.add(p2);
 
-        PlanetsCard card = new PlanetsCard(0,2, 5, planets);
+        // Creo la carta
+        PlanetsCard card = new PlanetsCard(7, 1, 2, planets); // id = 7, cardLevel = 1, lostDays = 2
+
+        AdventureCardView view = card.createView();
+
+        String expectedCommand ="""
+               You are playing planet card, you can type:
+               land_on_planet true/false numPlanet true if you want to land, false otherwise; numPlanet is the number of Planet where you want to land
+               add_good x y numGood -> x,y are the coordinates of the storage where you want to add the good, numGood is the number of goods you want to add
+               remove_good x y numGood -> x,y are the coordinates of the storage where you want to remove the good, numGood is the number of goods you want to remove
+               end_change_goods -> if you want to terminate the exchanging goods phase""";;
+
+        assertEquals("PlanetCard", view.getType());
+        assertEquals(7, view.getId());
+        assertEquals(2, view.getLostDays());
+        assertEquals(expectedCommand, view.getCommands());
+        assertNotNull(view.getPlanetList());
+        assertEquals(2, view.getPlanetList().size());
     }
 }

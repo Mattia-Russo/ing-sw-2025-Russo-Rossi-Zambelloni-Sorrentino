@@ -2,8 +2,13 @@ package org.example.ServerPkg.Model;
 
 import junit.framework.TestCase;
 import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateCannonsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.AddAlienState;
+import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
+import org.example.ServerPkg.Model.CardPkg.AdventureCard;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
+import org.example.ServerPkg.Model.Exceptions.PlayerAbandonedException;
+import org.example.ServerPkg.Model.Exceptions.TilesEndedExceptions;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -150,6 +155,12 @@ public class PlayerTest extends TestCase {
 
         p.changePosition(-3);
         assertEquals(7, p.getPosition());
+        p.abandon(null);
+        try{
+            p.changePosition(4);
+        }catch (PlayerAbandonedException e){
+
+        }
     }
 
     public void testGetNumCredits() throws RemoteException {
@@ -208,6 +219,12 @@ public class PlayerTest extends TestCase {
             Components c = p.pickComponent(deck);
             assertTrue(deck.contains(c));
         }
+        try {
+            p.pickComponent(null);
+            fail();
+        }catch (TilesEndedExceptions e){
+
+        }
     }
 
     public void testCheckShip() throws RemoteException {
@@ -249,5 +266,196 @@ public class PlayerTest extends TestCase {
         TUI tui = new TUI(null);
         tui.DrawShipboard(players);*/
         assertTrue(p.checkShip());
+    }
+    public void testCheckShip2() throws RemoteException {
+        Player p = new Player( "a", null);
+        new Game(2, 2,1, new GameController());
+        p.setPlayerShipboard(1);
+        Cabin c= new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Cannon cannon= new Cannon(1,1,Direction.NORTH,new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        p.getPlayerShipBoard().placeComponent(7,8,cannon);
+        p.getPlayerShipBoard().placeComponent(7,7,c);
+        assertFalse(p.checkShip());
+    }
+    public void testCheckShip3() throws RemoteException {
+        Player p = new Player( "a", null);
+        new Game(2, 2,1, new GameController());
+        p.setPlayerShipboard(1);
+        Cabin c= new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        Engine Engine= new Engine(1,1,Direction.NORTH,new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        p.getPlayerShipBoard().placeComponent(7,7,Engine);
+        p.getPlayerShipBoard().placeComponent(7,8,c);
+        assertFalse(p.checkShip());
+    }
+
+
+    public void testSetRocketColour() throws RemoteException {
+        Player p= new Player("Gianmarco",null);
+        p.setRocketColour("Yellow");
+        assertEquals("Yellow",p.getRocketColour());
+    }
+
+    public void testGetRocketColour() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setRocketColour("BLUE");
+        assertEquals("BLUE", p.getRocketColour());
+    }
+
+    public void testSetPlayerShipboard() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setPlayerShipboard(1);
+        assertNotNull(p.getPlayerShipBoard());
+
+    }
+
+    public void testIsPosValid() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertFalse(p.isPosValid());
+        p.setPosition(5);
+        assertTrue(p.isPosValid());
+
+    }
+
+    public void testSetPosition() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setPosition(10);
+        assertEquals(10, p.getPosition());
+    }
+
+    public void testOpposite() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertEquals(Direction.SOUTH, p.opposite(Direction.NORTH));
+        assertEquals(Direction.NORTH, p.opposite(Direction.SOUTH));
+        assertEquals(Direction.WEST, p.opposite(Direction.EAST));
+        assertEquals(Direction.EAST, p.opposite(Direction.WEST));
+    }
+
+    public void testGetState() throws RemoteException {
+        Player p = new Player("Test", null);
+        WaitingState ws= new WaitingState(null,p);
+        p.setPlayerState(ws);
+        assertEquals(ws, p.getState());
+    }
+
+    public void testSetPlayerState() throws RemoteException {
+        Player p = new Player("Test", null);
+        ActivateCannonsState ac= new ActivateCannonsState(null,p);
+        p.setPlayerState(ac);
+        assertEquals(ac, p.getState());
+    }
+
+    public void testGetShipOK() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertTrue(p.getShipOK());
+        p.setShipOK(false);
+        assertFalse(p.getShipOK());
+    }
+
+    public void testSetShipOK() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setShipOK(false);
+        assertFalse(p.getShipOK());
+        p.setShipOK(true);
+        assertTrue(p.getShipOK());
+    }
+
+    public void testSetCurrentTile() throws RemoteException {
+        Player p = new Player("Test", null);
+        Cannon cannon = new Cannon(0,1,Direction.NORTH,new Connector[4]);
+        p.setCurrentTile(cannon);
+        assertEquals(cannon, p.getCurrentTile());
+    }
+
+    public void testGetCurrentTile() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertNull(p.getCurrentTile());
+        Engine engine = new Engine(0,1,Direction.NORTH,new Connector[4]);
+        p.setCurrentTile(engine);
+        assertEquals(engine, p.getCurrentTile());
+    }
+
+    public void testGetShipBuilt() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertFalse(p.getShipBuilt());
+        p.setShipBuilt();
+        assertTrue(p.getShipBuilt());
+    }
+
+    public void testSetShipBuilt() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setShipBuilt();
+        assertTrue(p.getShipBuilt());
+    }
+
+    public void testGetDeckShowed() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertNull(p.getDeckShowed());
+        ArrayList<AdventureCard> deck = new ArrayList<>();
+        p.setDeckShowed(deck);
+        assertEquals(deck, p.getDeckShowed());
+    }
+
+    public void testSetDeckShowed() throws RemoteException {
+        Player p = new Player("Test", null);
+        ArrayList<AdventureCard> deck = new ArrayList<>();
+        p.setDeckShowed(deck);
+        assertEquals(deck, p.getDeckShowed());
+    }
+
+    public void testSetReadyForCards() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setReadyForCards(true);
+        assertTrue(p.getReadyForCards());
+        p.setReadyForCards(false);
+        assertFalse(p.getReadyForCards());
+    }
+
+    public void testGetReadyForCards() throws RemoteException {
+        Player p = new Player("Test", null);
+        assertFalse(p.getReadyForCards());
+        p.setReadyForCards(true);
+        assertTrue(p.getReadyForCards());
+    }
+
+    public void testOpShip() throws RemoteException {
+        Player p = new Player("Test", null);
+        p.setPlayerShipboard(1);
+        Cabin c = new Cabin(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
+        p.getPlayerShipBoard().placeComponent(7,7, c);
+        assertNotNull(p.getPlayerShipBoard().getComponent(7,7));
+    }
+    public void testOpship2() throws RemoteException {
+        // 1. Crea un Player e una ShipBoard 11x11 (o la dimensione giusta del tuo gioco)
+        Player player = new Player("TestPlayer", null);
+        boolean[][] availablePositionMatrix = new boolean[11][11];
+        for (int i = 0; i < 11; i++)
+            for (int j = 0; j < 11; j++)
+                availablePositionMatrix[i][j] = true;
+        ShipBoard board = new ShipBoard(availablePositionMatrix, 11, 11);
+        player.setPlayerShipboard(2);
+
+        // 2. Inserisci una cabina centrale e almeno un altro componente altrove
+        Cabin central = new Cabin(0, true, Direction.NORTH,
+                new Connector[]{Connector.EMPTY, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        Cannon sideCannon = new Cannon(0, 1, Direction.NORTH,
+                new Connector[]{Connector.EMPTY, Connector.UNIVERSAL, Connector.EMPTY, Connector.EMPTY});
+
+        player.getPlayerShipBoard().placeComponent(8, 8, sideCannon); // fuori dal centro
+
+        // 3. Chiama il metodo
+        player.opShip(new Game(2,2,1,new GameController()));
+
+        // 4. Verifica: centrale non è stato rimosso, gli altri sì
+
+    }
+    public void testOpship1() throws RemoteException {
+        // 1. Crea un Player e una ShipBoard 11x11 (o la dimensione giusta del tuo gioco)
+        Player player = new Player("TestPlayer", null);
+        player.setPlayerShipboard(1);
+        // 3. Chiama il metodo
+        player.opShip(new Game(2,1,1,new GameController()));
+
+        // 4. Verifica: centrale non è stato rimosso, gli altri sì
+
     }
 }

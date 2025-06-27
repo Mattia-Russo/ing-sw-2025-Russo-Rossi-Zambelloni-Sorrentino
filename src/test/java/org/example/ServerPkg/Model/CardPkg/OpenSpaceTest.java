@@ -6,6 +6,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.AbandonedState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.ActivateEnginesState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -63,7 +64,12 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1, new GameController() );
+        Game game = new Game(3, 2, 1, new GameController() ){
+            @Override
+            public void Turn(){
+
+            }
+        };
         game.getPlayers().addAll(players);
         game.setPlayersShipboard();
         OpenSpace card = new OpenSpace(0,2, 0);
@@ -73,14 +79,8 @@ public class OpenSpaceTest extends TestCase {
         p2.abandon(game);
         p3.getPlayerShipBoard().setNumDoubleEngines(1);
 
-        /*card.setCardState(game);
-        assertTrue(p1.getState() instanceof ActivateEnginesState);
-
         card.setCardState(game);
-        assertTrue(p2.getState() instanceof AbandonedState);
 
-        card.setCardState(game);
-        assertTrue(p3.getState() instanceof ActivateEnginesState);*/
     }
 
     public void testPlayCard() throws RemoteException {
@@ -92,7 +92,12 @@ public class OpenSpaceTest extends TestCase {
         players.add(p2);
         players.add(p3);
 
-        Game game = new Game(3, 2, 1, new GameController());
+        Game game = new Game(3, 2, 1, new GameController()){
+            @Override
+            public void Turn(){
+
+            }
+        };
         game.getPlayers().addAll(players);
         game.setPlayersShipboard();
         OpenSpace card = new OpenSpace(0,2, 0);
@@ -116,6 +121,62 @@ public class OpenSpaceTest extends TestCase {
         card.playCard(game, engines, batteries);
 
 
+
+    }
+
+    public void testCreateView() {
+        OpenSpace card = new OpenSpace(42, 1, 3);
+
+        AdventureCardView view = card.createView();
+
+        String expectedCommand = """
+               You are playing the open space card, you can type:
+               activate_engines x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+               
+               end_activate_engines -> if you want to end the engine activation phase
+               """;
+
+        assertEquals("OpenSpace", view.getType());
+        assertEquals(42, view.getId());
+        assertEquals(3, view.getLostDays());
+        assertEquals(expectedCommand, view.getCommands());
+    }
+    public void testPlayCard_Exception_ActivateEnginesState() throws RemoteException {
+        Game game = new Game(2, 1, 1, new GameController()){
+            @Override
+            public void Turn(){
+
+            }
+        };
+        Player p1 = new Player("Mario", game);
+        game.getPlayers().add(p1);
+        game.setPlayersShipboard();
+
+        OpenSpace card = new OpenSpace(10, 1, 2);
+        // Forza currentPlayer su Mario
+        card.setCurrentPlayer(0);
+
+        // Esegui: deve entrare nel catch
+        card.playCard(game, new ArrayList<>(), new ArrayList<>());
+
+    }
+    public void testSetCardState_ElseBranch_WaitingStateAndPlayCard() throws RemoteException {
+        Game game = new Game(2, 1, 1, new GameController()){
+            @Override
+            public void Turn(){
+
+            }
+        };
+        Player p1 = new Player("Mario", game);
+        game.getPlayers().add(p1);
+        game.setPlayersShipboard();
+
+        OpenSpace card = new OpenSpace(11, 1, 2);
+        // currentPlayer a -1 per partire dal ciclo
+        card.setCurrentPlayer(-1);
+
+        card.setCardState(game);
 
     }
 }

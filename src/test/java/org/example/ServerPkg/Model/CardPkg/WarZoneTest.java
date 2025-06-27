@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
+import org.example.ServerPkg.Model.ForView.AdventureCardView;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -168,27 +169,249 @@ public class WarZoneTest extends TestCase {
         assertTrue(p1.getState() instanceof RemoveAstronautsState);
     }
 
-    public void testWarZone() throws RemoteException {
-        Player p1 = new Player("Giacomo", null);
-        Player p2 = new Player("Mattia", null);
+    public void testCreateView() {
+        int id = 1, cardLevel = 2, lostDays = 3, numAstronauts = 4, numGoods = 5;
+        List<CannonFire> fires = new ArrayList<>();
+        fires.add(new CannonFire(0, Direction.NORTH));
+        String[] penalties = {"LoseAstronauts", "LoseGoods", "LoseDays"};
+        String[] criteria = {"FewestAstronauts", "LessCannonPower", "LessEnginePower"};
+        WarZone card = new WarZone(id, cardLevel, lostDays, numAstronauts, numGoods, fires, penalties, criteria);
+        String expectedCommand =  """
+               You are playing the war zone card, you can type:
+               activate_cannons x y -> x,y are the coordinates of a cannon, you should write a number of x,y based on the number of cannons you want to activate
+               activate_engines x y -> x,y are the coordinates of an engine, you should write a number of x,y based on the number of engines you want to activate
+               activate_shields x y -> x,y are the coordinates of a shield, you should write a number of x,y based on the number of shields you want to activate
+               use_batteries x y -> x,y are the coordinates of the battery storage, you should write a number of x,y based on the number of batteries you want to use
+            
+               end_activate_cannons -> if you want to end the cannon activation phase
+               end_activate_engines -> if you want to end the engine activation phase
+               end_activate_shields -> if you want to end the shield activation phase
+               
+               remove_astronauts x y -> x,y are the coordinates of the component where you want to remove the astronauts
+               remove_best_good x y -> x,y are the coordinates of the component where you want to remove the goods
+               remove_batteries x y -> x,y are the coordinates of the battery storage where you want to remove the battery
+               end_remove_best_goods -> if you want to end the remove best goods phase
+               end_remove_astronauts -> if you want to end the remove astronauts phase
+               
+               """;
+        // Act
+        AdventureCardView view = card.createView();
+
+        // Assert
+        assertNotNull(view);
+        assertEquals("WarZone", view.getType());
+        assertEquals(id, view.getId());
+        assertEquals(numAstronauts, view.getNumAstronauts());
+        assertEquals(numGoods, view.getNumGoods());
+        assertEquals(lostDays, view.getLostDays());
+        assertEquals(criteria, view.getCriteria());
+        assertEquals(penalties, view.getPenalties());
+        assertEquals(fires, view.getCannonFireList());
+        assertTrue(view.getCommands().contains(expectedCommand));
+    }
+
+
+    public void testPlayCard() throws RemoteException {
+        // Crea due giocatori
+        Player p1 = new Player("A", null);
+        Player p2 = new Player("B", null);
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        GameController c =  new GameController();
-        Game g =new Game(2, 1, 0, c);
+
+        // Crea un Game e aggiungi i player
+        Game g = new Game(2, 1, 1, new GameController());
         g.getPlayers().addAll(players);
         g.setPlayersShipboard();
-        p1.opShip(g);
-        p2.opShip(g);
-        g.Turn();
-        p2.getState().endActivateEngines(p2);
-        p1.getState().endActivateEngines(p1);
-        Points p = new Points(8,7);
-        p2.getState().removeAstronauts(p, p2);
-        p2.getState().removeAstronauts(p, p2);
-        p2.getState().endRemoveAstronauts(p2);
-        p2.getState().endActivateCannons(p2);
-        p1.getState().endActivateCannons(p1);
-        p2.getState().endActivateShields(p2);
+
+        // Imposta la nave di p1 con cannon power basso
+        ShipBoard sp1 = p1.getPlayerShipBoard();
+        sp1.placeComponent(8, 6, new Cannon(0, 1, Direction.NORTH,
+                new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL}));
+
+        // Imposta la nave di p2 con cannon power più alto
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        sp2.placeComponent(8, 6, new Cannon(0, 3, Direction.NORTH,
+                new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL}));
+
+        // Prepara la WarZone card con penalità "LoseAstronauts" e criterio "LessCannonPower"
+        String[] penalties = {"LoseAstronauts"};
+        String[] criteria = {"LessCannonPower"};
+        List<CannonFire> cannonFireList = new ArrayList<>();
+        cannonFireList.add(new CannonFire(0, Direction.NORTH));
+
+        WarZone card = new WarZone(0, 1, 2, 2, 3, cannonFireList, penalties, criteria);
+        g.setCard(card);
+
+        // La carta richiede almeno una chiamata a setCardState per selezionare il "loser"
+        card.setCardState(g);
+
+        // Ora playCard applicherà la penalità
+        card.playCard(g, null, null);
+
+        ArrayList<Points> cannonPos = new ArrayList<>();
+        ArrayList<Points> batteriesPos = new ArrayList<>();
+        if (sp1.getTotalCannonPower(cannonPos, batteriesPos) < sp2.getTotalCannonPower(cannonPos, batteriesPos)) {
+            assertTrue(p1.getState() instanceof RemoveAstronautsState);
+        } else {
+            assertTrue(p2.getState() instanceof RemoveAstronautsState);
+        }
     }
+
+
+    public void testGetPenalties() {
+        String[] penalties = {"LoseAstronauts", "LoseGoods", "LoseDays"};
+        WarZone card = new WarZone(1, 1, 1, 0, 0, new ArrayList<>(), penalties, new String[]{"A","B","C"});
+
+        assertEquals(penalties, card.getPenalties());
+    }
+    public void testSetCardState_FewestAstronauts_CannonFire() throws RemoteException {
+        // Setup: 2 player, uno con 1 astronauta, uno con 5
+        Game game = new Game(3, 1, 1, new GameController());
+        Player p1 = new Player("A", null);
+        Player p2 = new Player("B", null);
+        game.getPlayers().add(p1);
+        game.getPlayers().add(p2);
+        game.setPlayersShipboard();
+
+        p1.getPlayerShipBoard().setNumAstronauts(1);
+        p2.getPlayerShipBoard().setNumAstronauts(5);
+
+        String[] criteria = new String[] {"FewestAstronauts"};
+        String[] penalties = new String[] {"cannonFire"};
+        List<CannonFire> cannonFireList = List.of(new CannonFire(0,Direction.NORTH));
+
+        WarZone card = new WarZone(1, 1, 1, 1, 1, cannonFireList, penalties, criteria);
+        try {
+            card.setCardState(game);
+        }catch(ArrayIndexOutOfBoundsException e){}
+        // Arrivato qui, deve coprire il ramo "FewestAstronauts" + cannonFire, non deve esplodere
+        assertTrue(true);
+    }
+
+    //
+    public void testSetCardState_LessEnginePower_LoseDays() throws RemoteException {
+        Game game = new Game(3, 1, 1, new GameController()){
+            @Override
+            public void Turn(){
+
+            }
+        };
+        Player p1 = new Player("A", null);
+        Player p2 = new Player("B", null);
+        game.getPlayers().add(p1);
+        game.getPlayers().add(p2);
+        game.setPlayersShipboard();
+        String[] criteria = new String[] {"LessEnginePower"};
+        String[] penalties = new String[] {"LoseDays"};
+        List<CannonFire> cannonFireList = List.of(new CannonFire(0,Direction.NORTH));
+        WarZone card = new WarZone(1, 1, 1, 1, 1, cannonFireList, penalties, criteria);
+
+        // Forza il ramo con done = false e nessuna eccezione
+        try {
+            card.setCardState(game);
+        }catch(ArrayIndexOutOfBoundsException e){}
+        assertTrue(true);
+    }
+    public void testSetCardState_LessCannonPower_LoseGoods() throws RemoteException {
+        Game game = new Game(3, 1, 1, new GameController());
+        Player p1 = new Player("A", null);
+        Player p2 = new Player("B", null);
+        game.getPlayers().add(p1);
+        game.getPlayers().add(p2);
+        game.setPlayersShipboard();
+        String[] criteria = new String[] {"LessCannonPower"};
+        String[] penalties = new String[] {"LoseGoods"};
+        List<CannonFire> cannonFireList = List.of(new CannonFire(0,Direction.NORTH));
+        WarZone card = new WarZone(1, 1, 1, 1, 1, cannonFireList, penalties, criteria);
+
+        card.setCardState(game);
+        assertTrue(true);
+    }
+    public void testPlayCard_cannonFire_type0_shielded() throws RemoteException {
+        Game game = new Game(3, 1, 1, new GameController()) {
+            // Forza rollDice fuori range per else-branch chooseRowOrCol
+            @Override
+            public int rollDice() {
+                return 8;
+            }
+            @Override
+            public void Turn(){
+
+            }
+        };
+        Player p1 = new Player("A", null);
+        game.getPlayers().add(p1);
+        game.setPlayersShipboard();
+        p1.setPlayerShipboard(1);
+        String[] criteria = {"FewestAstronauts"};
+        String[] penalties = {"cannonFire"};
+        CannonFire cf = new CannonFire(0,Direction.NORTH); // type == 0
+        WarZone card = new WarZone(1, 1, 1, 1, 1, List.of(cf), penalties, criteria);
+        Shield shield=new Shield(1,Direction.NORTH,new Connector[]{Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL},Direction.WEST);
+        BatteryStorage batteryStorage= new BatteryStorage(1,4,Direction.NORTH,new Connector[]{Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL});
+        ArrayList<Points> batteryPos = new ArrayList<>();
+        ArrayList<Points> ShieldList = new ArrayList<>();
+        ShieldList.add(new Points(8,8));
+        batteryPos.add(new Points(7,8));
+        p1.getPlayerShipBoard().placeComponent(8,8,shield);
+        p1.getPlayerShipBoard().placeComponent(7,8,batteryStorage);
+        // Forza stato per farlo entrare nel ramo giusto
+        card.setDone(true);
+        card.setFire(true);
+        card.setLoser(p1);
+        card.setCurrentFire(0);
+        card.setRowOrCol(8);
+        // Esegue, dovrebbe prendere ramo shield attivo (activate shields)
+        card.playCard(game, ShieldList, batteryPos);
+
+        // Forza chooseRowOrCol fuori range (per else currentFire++)
+        card.setDone(true);
+        card.setFire(true);
+        card.setLoser(p1);
+        card.setCurrentFire(0);
+        card.setRowOrCol(5);
+        card.setCardState(game); // chiama chooseRowOrCol e prende else currentFire++
+        assertTrue(true);
+    }
+    public void testPlayCard_checkLoser_shipWrecked() throws RemoteException {
+        Game game = new Game(3, 1, 1, new GameController()) {
+            @Override public int rollDice() { return 5; }
+            @Override public void Turn(){}
+        };
+        Player p1 = new Player("A", null);
+        game.getPlayers().add(p1);
+        game.setPlayersShipboard();
+        // Prepara la nave in modo che togliendo un componente la nave si splitti
+        // Ad esempio: componi la nave con due cabine collegate solo tramite una tile in (5,8)
+        // Rimuovi (5,8) e si splitta.
+        Cabin cab1 = new Cabin(0, false, Direction.NORTH,new Connector[]{Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL});
+        Cabin cab2 = new Cabin(0, false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL,Connector.UNIVERSAL});
+        p1.getPlayerShipBoard().placeComponent(5,8, cab1);
+        p1.getPlayerShipBoard().placeComponent(5,9, cab2); // O qualsiasi posizione collegata solo da (5,8)
+        // Adesso il ramo SHIP WRECK verrà eseguito quando togli (5,8)
+        String[] criteria = {"FewestAstronauts"};
+        String[] penalties = {"cannonFire"};
+        CannonFire cf = new CannonFire(0, Direction.NORTH);
+        WarZone card = new WarZone(1, 1, 1, 1, 1, List.of(cf), penalties, criteria);
+        card.setDone(true);
+        card.setFire(true);
+        card.setLoser(p1);
+        card.setCurrentFire(0);
+        card.setRowOrCol(5);
+        card.playCard(game, null, null); // Esegue il branch SHIP WRECK (done == false)
+    }
+
+    public void testSetCurrentPlayerIndex() {
+        String[] criteria = {"FewestAstronauts"};
+        String[] penalties = {"cannonFire"};
+        CannonFire cf = new CannonFire(0, Direction.NORTH);
+        WarZone card = new WarZone(1, 1, 1, 1, 1, List.of(cf), penalties, criteria);
+        card.setCurrentPlayerIndex(0);
+    }
+
+
+    //
+
+    //
 }

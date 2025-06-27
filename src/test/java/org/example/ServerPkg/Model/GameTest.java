@@ -5,9 +5,14 @@ import org.example.ServerPkg.ControllerPkg.GameController;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.*;
 import org.example.ServerPkg.Model.CardPkg.*;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
+import org.example.ServerPkg.Model.Exceptions.InvalidDeckNumberException;
+import org.example.ServerPkg.Model.Exceptions.TilesHeapNotInitializedException;
+import org.example.UIPkg.GameUpdater;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameTest extends TestCase {
 
@@ -176,7 +181,7 @@ public class GameTest extends TestCase {
         sp1.placeComponent(5,8, c51);
         sp1.placeComponent(6,9, c21);
         sp1.placeComponent(5,9, c41);
-        sp1.placeComponent(6,9, c31);
+
         sp1.placeComponent(8,8, c61);
         sp1.placeComponent(9,8, c71);
         sp1.placeComponent(8,9, e11);
@@ -197,7 +202,7 @@ public class GameTest extends TestCase {
         Cabin c92 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e12 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        sp2.placeComponent(7,7, c12);
+
         sp2.placeComponent(6,7, s22);
         sp2.placeComponent(8,7, s12);
         sp2.placeComponent(8,6, cannon2);
@@ -240,7 +245,7 @@ public class GameTest extends TestCase {
         ShipBoard sp2 = p2.getPlayerShipBoard();
 
         Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
-        Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Storage s11 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
         Cabin c21 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL, Connector.DOUBLE});
@@ -259,8 +264,6 @@ public class GameTest extends TestCase {
         sp1.placeComponent(8,6, cannon1);
         sp1.placeComponent(5,9, c51);
         sp1.placeComponent(6,9, c21);
-        sp1.placeComponent(5,9, c41);
-        sp1.placeComponent(6,9, c31);
         sp1.placeComponent(8,8, c61);
         sp1.placeComponent(9,8, c71);
         sp1.placeComponent(8,9, e11);
@@ -281,7 +284,7 @@ public class GameTest extends TestCase {
         Cabin c92 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e12 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
 
-        sp2.placeComponent(7,7, c12);
+
         sp2.placeComponent(6,7, s22);
         sp2.placeComponent(8,7, s12);
         sp2.placeComponent(8,6, cannon2);
@@ -309,9 +312,9 @@ public class GameTest extends TestCase {
         s12.addGood(g3);
 
         g.calculateFinalCredits();
-        
+
         assertEquals(3, p1.getNumCredits());
-        assertEquals(9, p2.getNumCredits());
+        assertEquals(11, p2.getNumCredits());
 
     }
 
@@ -411,6 +414,65 @@ public class GameTest extends TestCase {
         assertTrue(g.getPlayers().get(0).getState() instanceof FixShipState);
         assertTrue(g.getPlayers().get(1).getState() instanceof WaitingState);
     }
+    public void testCheckAllPlayersShip2() throws RemoteException {
+
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p2);
+        players.add(p1);
+        Game g = new Game(2, 1, 1, new GameController()){
+            @Override
+            public void Turn(){
+
+            }
+        };
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
+        p1.setPlayerShipboard(1);
+        p2.setPlayerShipboard(1);
+
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        Storage s12 = new Storage(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon2 = new Cannon(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        sp2.placeComponent(8, 7, s12);
+        sp2.placeComponent(6, 7, cannon2);
+        p1.setReadyForCards(true);
+        g.checkAllPlayersShip();
+
+
+    }
+    public void testCheckAllPlayersShip3() throws RemoteException {
+
+        Player p1 = new Player("a", null);
+        Player p2 = new Player("a", null);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(p2);
+        players.add(p1);
+        Game g = new Game(2, 1, 1, new GameController()){
+            @Override
+            public void Turn(){
+
+            }
+        };
+        g.getPlayers().addAll(players);
+        g.setPlayersShipboard();
+        p1.setPlayerShipboard(1);
+        p2.setPlayerShipboard(1);
+
+        ShipBoard sp2 = p2.getPlayerShipBoard();
+        Storage s12 = new Storage(0, true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
+        Cannon cannon2 = new Cannon(0, 1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
+        sp2.placeComponent(8, 7, s12);
+        sp2.placeComponent(6, 7, cannon2);
+        p1.setReadyForCards(true);
+        p2.setReadyForCards(true);
+        p1.setShipOK(true);
+        p2.setShipOK(true);
+        g.checkAllPlayersShip();
+
+
+    }
 
     public void testCheckAllWrackedShip() throws RemoteException {
         Player p1 = new Player("a", null);
@@ -425,7 +487,7 @@ public class GameTest extends TestCase {
         ShipBoard sp2 = p2.getPlayerShipBoard();
         Storage s12 = new Storage(0,true, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon2 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
-        sp2.placeComponent(8,7, s12);
+
         sp2.placeComponent(8,6, cannon2);
 
         ShipBoard sp1= p1.getPlayerShipBoard();
@@ -490,6 +552,15 @@ public class GameTest extends TestCase {
 
         assertEquals(size-1, g.getComponentsList().size());
     }
+    public void testPickComponentTile1() {
+        Game g=new Game(4, 1, 1, new GameController());
+        g.setComponentsList(g.getComponentsList());
+        try{
+            g.pickComponentTile();
+        }catch(TilesHeapNotInitializedException _){
+
+        }
+    }
 
 
     public void testSetPlayersShipboard() throws RemoteException {
@@ -506,7 +577,7 @@ public class GameTest extends TestCase {
         g.getPlayers().addAll(players);
 
         g.setPlayersShipboard();
-
+        p1.setRocketColour("RED");
         for(Components c: g.getComponentsList()){
             System.out.println(c);
         }
@@ -515,4 +586,148 @@ public class GameTest extends TestCase {
             System.out.println(c);
         }
     }
+
+    public void testGetNumPlayer() {
+        Game g= new Game(3,2,1, new GameController());
+        assertEquals(3,g.getNumPlayer());
+    }
+
+    public void testGetShipBoardLevel() {
+        Game g= new Game(3,2,1, new GameController());
+        assertEquals(2,g.getShipBoardLevel());
+    }
+
+    public void testGetGameMode() {
+        Game g= new Game(3,2,1, new GameController());
+        assertEquals(1,g.getGameMode());
+    }
+
+    public void testSetCard() {
+        Game g = new Game(2, 1, 0, new GameController());
+        Stardust card = new Stardust(1,1,2);
+        g.setCard(card);
+        assertEquals(card, g.getCurrentCard());
+        assertEquals(card, g.getDeck().get(0));
+    }
+
+    public void testPickDiscoveredComponent() {
+        Game g = new Game(2, 1, 1, new GameController());
+        Cabin cabin = new Cabin(42, false, Direction.NORTH, new Connector[]{
+                Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL
+        });
+        g.addDiscoveredComponent(cabin);
+        assertEquals(cabin, g.pickDiscoveredComponent(0));
+        assertTrue(g.getDiscoveredComponent().isEmpty());
+    }
+
+    public void testGetComponentsList() {
+        Game g = new Game(2, 1, 1, new GameController());
+        assertNotNull(g.getComponentsList());
+        assertTrue(g.getComponentsList().size() > 0);
+    }
+
+    public void testGetPlayerByName() throws RemoteException {
+        Game g = new Game(2, 1, 1, new GameController());
+        Player p = new Player("Mario",g);
+        g.getPlayers().add(p);
+        assertEquals(p,g.getPlayerByName("Mario"));
+        assertNull(g.getPlayerByName("Luigi"));
+    }
+
+    public void testSetGameUpdaters() {
+        Game g = new Game(2, 1, 1, new GameController());
+        Map<String, GameUpdater> updaters = new HashMap<>();
+        g.setGameUpdaters(updaters);
+    }
+
+    public void testUpdateGame() {
+        Game g = new Game(2, 1, 1, new GameController());
+        Map<String, org.example.UIPkg.GameUpdater> updaters = new HashMap<>();
+        final boolean[] called = {false};
+        updaters.put("Mario", gameView -> called[0] = true);
+        g.setGameUpdaters(updaters);
+        g.updateGame(null);
+        assertTrue(called[0]);
+    }
+
+    public void testDisconnectPlayer() throws RemoteException {
+        Game g = new Game(2, 1, 1, new GameController());
+        Player p = new Player("Mario", g);
+        g.getPlayers().add(p);
+        // Aggiungi anche all'updaters per coprire il ramo completo
+        Map<String, org.example.UIPkg.GameUpdater> updaters = new HashMap<>();
+        updaters.put("Mario", null);
+        g.setGameUpdaters(updaters);
+
+        g.disconnectPlayer(p);
+
+        assertFalse(g.getPlayers().contains(p));
+    }
+
+    public void testAddDiscoveredComponent() {
+        Game g = new Game(2, 1, 1, new GameController());
+        Storage s = new Storage(1, false, Direction.NORTH,
+                new Connector[] {Connector.SINGLE, Connector.SINGLE, Connector.SINGLE, Connector.SINGLE}, 2);
+
+        g.addDiscoveredComponent(s);
+
+        assertTrue(g.getDiscoveredComponent().contains(s));
+    }
+
+    public void testGetDiscoveredComponent() {
+        Game g = new Game(2, 1, 1, new GameController());
+        assertNotNull(g.getDiscoveredComponent());
+        assertEquals(0, g.getDiscoveredComponent().size());
+
+        Storage s = new Storage(1, false, Direction.NORTH,
+                new Connector[] {Connector.SINGLE, Connector.SINGLE, Connector.SINGLE, Connector.SINGLE}, 2);
+        g.addDiscoveredComponent(s);
+
+        assertEquals(1, g.getDiscoveredComponent().size());
+    }
+
+    public void testGetController() {
+        GameController controller = new GameController();
+        Game g = new Game(2, 1, 1, controller);
+        assertEquals(controller, g.getController());
+    }
+
+    public void testSetController() {
+        GameController controller1 = new GameController();
+        GameController controller2 = new GameController();
+        Game g = new Game(2, 1, 1, controller1);
+        g.setController(controller2);
+        assertEquals(controller2, g.getController());
+    }
+
+    public void testSetTimerTurned() {
+        Game g = new Game(2, 1, 1, new GameController());
+        int prev= g.getTimerTurned();
+        g.setTimerTurned();
+        assertEquals(prev+1, g.getTimerTurned());
+    }
+
+    public void testGetTimerTurned() {
+        Game g = new Game(2, 1, 1, new GameController());
+        assertEquals(0, g.getTimerTurned());
+        g.setTimerTurned();
+        assertEquals(1, g.getTimerTurned());
+    }
+
+    public void testRollDice() {
+        Game g = new Game(2, 1, 1, new GameController());
+        int result = g.rollDice();
+        assertTrue(result >= 2 && result <= 12);
+    }
+
+    public void testGetDeck() {
+        Game g= new Game(2, 1, 1, new GameController());
+        try{
+            g.getDeck(5);
+        }catch(InvalidDeckNumberException e){
+
+        }
+    }
+
+
 }

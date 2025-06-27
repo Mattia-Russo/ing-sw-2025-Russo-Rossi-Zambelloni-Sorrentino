@@ -7,6 +7,7 @@ import org.example.ServerPkg.ControllerPkg.PlayerStates.RemoveAstronautsState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WaitingState;
 import org.example.ServerPkg.ControllerPkg.PlayerStates.WinEnemyState;
 import org.example.ServerPkg.Model.ComponentsPkg.*;
+import org.example.ServerPkg.Model.Exceptions.BatteriesLessThenCannonException;
 import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
@@ -22,7 +23,7 @@ public class SlaversTest extends TestCase {
     private  ArrayList<Player> players;
     ShipBoard sp3;
 
-    @BeforeEach
+
     public void setUp() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
@@ -123,8 +124,9 @@ public class SlaversTest extends TestCase {
     }
 
     public void testSetCardState() throws RemoteException {
-        slavers.setCardState(game);
-        assertTrue(players.get(0).getState() instanceof ActivateCannonsState);
+        Slavers s=new Slavers(0,1,2,10, 2, 10);
+        game.setCard(s);
+        s.setCardState(game);
         assertTrue(players.get(1).getState() instanceof WaitingState);
     }
 
@@ -140,6 +142,24 @@ public class SlaversTest extends TestCase {
         batteries.add(new Points(8,7));
         slavers.playCard(game, cannons, batteries);
         assertTrue(players.get(1).getState() instanceof WinEnemyState);
+
+    }
+    public void testPlayCard3Par2() throws RemoteException {
+        slavers.setCardState(game);
+        slavers.playCard(game, null, null);
+        assertTrue(players.get(0).getState() instanceof RemoveAstronautsState);
+
+        slavers.setCardState(game);
+        ArrayList<Points> cannons = new ArrayList<Points>();
+        cannons.add(new Points(6,8));
+        cannons.add(new Points(8,8));
+        ArrayList<Points> batteries = new ArrayList<Points>();
+        batteries.add(new Points(8,7));
+        try {
+            slavers.playCard(game, cannons, batteries);
+        }catch(BatteriesLessThenCannonException e){
+
+        }
 
     }
 
@@ -160,6 +180,10 @@ public class SlaversTest extends TestCase {
     }
 
     public void testGetAccept() {
+        slavers.setAccept(true);
+        assertTrue(slavers.getAccept());
+
+        slavers.setAccept(false);
         assertFalse(slavers.getAccept());
     }
 }

@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
 public class EngineTest extends TestCase {
@@ -32,6 +33,7 @@ public class EngineTest extends TestCase {
         Cabin c9 = new Cabin(0,false, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e1 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.UNIVERSAL, Connector.UNIVERSAL, Connector.UNIVERSAL});
         Engine e2 = new Engine(0,1, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
+        Engine e3 = new Engine(0,2, Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.DOUBLE, Connector.EMPTY, Connector.DOUBLE});
 
         ShipBoard s = new ShipBoard(availablePositionMatrix, 7, 5);
 
@@ -48,12 +50,15 @@ public class EngineTest extends TestCase {
         s.placeComponent(8,9, e1);
         s.placeComponent(9,9, c9);
         s.placeComponent(7,8, c8);
+        s.placeComponent(6,6,e3);
 
         assertEquals(2, s.getSingleEnginePower());
         e1.remove(s);
         assertEquals(1, s.getSingleEnginePower());
         e2.remove(s);
         assertEquals(0, s.getSingleEnginePower());
+        e3.remove(s);
+        assertEquals(0, s.getNumDoubleEngines());
     }
 
     public void testPlace() {
@@ -111,4 +116,37 @@ public class EngineTest extends TestCase {
         assertTrue(e2.checkRightEngine(s));
         assertTrue(e3.checkRightEngine(s));
     }
+
+    public void testCreateView() {
+        int id = 42;
+        int power = 2;
+        Direction dir = Direction.WEST;
+        Connector[] connectors = new Connector[] {
+                Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY, Connector.UNIVERSAL
+        };
+
+        Engine engine = new Engine(id, power, dir, connectors);
+        engine.setPosition(9, 7);
+
+        // Act
+        ComponentsView view = engine.createView();
+
+        // Assert
+        assertNotNull(view);
+        assertEquals(9, view.getPosX());
+        assertEquals(7, view.getPosY());
+        assertEquals(dir, view.getDirection());
+        assertEquals(id, view.getId());
+        assertEquals("DoubleEngine", view.getType());
+        assertEquals(4, view.getConnectors().length);
+        assertEquals(Connector.DOUBLE, view.getConnectors()[0]);
+        assertEquals(Connector.SINGLE, view.getConnectors()[1]);
+        assertEquals(Connector.EMPTY, view.getConnectors()[2]);
+        assertEquals(Connector.UNIVERSAL, view.getConnectors()[3]);
+        assertEquals(0, view.getNumBattery());
+        assertEquals(0, view.getNumAstronauts());
+        assertNull(view.getGoods());
+        assertNull(view.getAlienColour());
+    }
+
 }

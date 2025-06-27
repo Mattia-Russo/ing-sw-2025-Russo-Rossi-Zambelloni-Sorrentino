@@ -8,7 +8,7 @@ import org.example.ServerPkg.Model.Game;
 import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.Points;
 import org.example.ServerPkg.Model.ShipBoard;
-
+import org.junit.jupiter.api.BeforeEach;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -18,7 +18,9 @@ public class SmugglersTest extends TestCase {
     private Game game;
     private Smugglers smugglers;
     private  ArrayList<Player> players;
+    ShipBoard sp3;
 
+    @BeforeEach
     public void setUp() throws RemoteException {
         Player p1 = new Player("a", null);
         Player p2 = new Player("a", null);
@@ -31,7 +33,7 @@ public class SmugglersTest extends TestCase {
         game=new Game(2,1,  1, new GameController());
         game.getPlayers().addAll(players);
         game.setPlayersShipboard();
-        List<Goods> goods= new ArrayList<>();
+        List<Goods> goods= new ArrayList<Goods>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
@@ -42,7 +44,7 @@ public class SmugglersTest extends TestCase {
         ShipBoard sp2 = p2.getPlayerShipBoard();
 
 
-        //Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
+        Cabin c11 = new Cabin(0,true, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL, Connector.DOUBLE});
         Storage s11 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.SINGLE}, 3);
         Cannon cannon1 = new Cannon(0,1, Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.UNIVERSAL});
         Storage s21 = new Storage(0,false, Direction.NORTH, new Connector[]{Connector.EMPTY, Connector.DOUBLE, Connector.SINGLE, Connector.EMPTY}, 2);
@@ -130,12 +132,11 @@ public class SmugglersTest extends TestCase {
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
         Smugglers s= new Smugglers(0,1,2,10, 5, goods);
-        assertEquals(goods,s.getGoodsList());
         assertEquals(3,s.getGoodsList().length);
     }
 
     public void testGetGoodsLost() {
-        List<Goods> goods= new ArrayList<>();
+        List<Goods> goods= new ArrayList<Goods>();
         goods.add(new Goods(GoodsColour.RED));
         goods.add(new Goods(GoodsColour.YELLOW));
         goods.add(new Goods(GoodsColour.GREEN));
@@ -186,5 +187,27 @@ public class SmugglersTest extends TestCase {
     public void testGetNumGoodsLose() {
         assertEquals(5, smugglers.getNumGoodsLose());
     }
+    public void testPlayCard_withInt_setsWaitingStateAndResetsIndex() throws RemoteException {
+        // Setup: Game con un solo player
+        Game game = new Game(1, 1, 1, new GameController()){
+            @Override
+            public void Turn(){
 
+            }
+        };
+        Player player = new Player("TestPlayer", game);
+        game.getPlayers().add(player);
+        game.setPlayersShipboard();
+
+        // Smugglers: settiamo l'indice sul player appena creato
+        Smugglers card = new Smugglers(1, 1, 1, 1, 1, new ArrayList<>());
+        // Forza l'indice
+        card.setPlayersIndex(0);
+
+        // Richiama il metodo
+        card.playCard(game, 0);
+
+        // Verifica: lo stato del player è WaitingState
+        assertTrue(player.getState() instanceof WaitingState);
+    }
 }

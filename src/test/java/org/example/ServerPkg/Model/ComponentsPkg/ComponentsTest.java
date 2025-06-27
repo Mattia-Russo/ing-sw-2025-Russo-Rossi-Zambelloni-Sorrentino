@@ -1,6 +1,10 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.ControllerPkg.GameController;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
+import org.example.ServerPkg.Model.Game;
+import org.example.ServerPkg.Model.Player;
 import org.example.ServerPkg.Model.ShipBoard;
 
 public class ComponentsTest extends TestCase {
@@ -141,4 +145,56 @@ public class ComponentsTest extends TestCase {
         Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
         assertNull(c.isBatteryStorage());
     }
+
+    public void testCreateView() {
+        Components comp = new Components(Direction.EAST, new Connector[]{Connector.UNIVERSAL, Connector.SINGLE, Connector.EMPTY, Connector.EMPTY});
+        comp.setPosition(9, 7);
+        ComponentsView view = comp.createView();
+
+        assertNotNull(view);
+        assertEquals(9, view.getPosX());
+        assertEquals(7, view.getPosY());
+        assertEquals(Direction.EAST, view.getDirection());
+        assertEquals(4, view.getConnectors().length);
+        assertEquals(Connector.UNIVERSAL, view.getConnectors()[0]);
+        assertEquals(Connector.SINGLE, view.getConnectors()[1]);
+        // id, type, numBattery, numAstronauts, goods, shieldedDirections, alienColour sono default/null
+        assertEquals(0, view.getId());
+        assertNull(view.getType());
+        assertEquals(0, view.getNumBattery());
+        assertEquals(0, view.getNumAstronauts());
+        assertNull(view.getGoods());
+        assertNull(view.getAlienColour());
+    }
+
+
+    public void testIsStorage() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isStorage());
+    }
+
+    public void testIsShield() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isShield());
+    }
+
+    public void testIsCabin() {
+        Components c = new Components(Direction.NORTH, new Connector[]{Connector.UNIVERSAL, Connector.EMPTY, Connector.SINGLE, Connector.DOUBLE});
+        assertNull(c.isCabin());
+    }
+
+    public void testSetBooked() {
+        Components comp = new Components(Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
+        assertFalse(comp.getBooked()); // all'inizio deve essere false
+        comp.setBooked();
+        assertTrue(comp.getBooked());
+    }
+
+    public void testGetBooked() {
+        Components comp = new Components(Direction.NORTH, new Connector[]{Connector.SINGLE, Connector.EMPTY, Connector.EMPTY, Connector.EMPTY});
+        assertFalse(comp.getBooked());
+        comp.setBooked();
+        assertTrue(comp.getBooked());
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.example.ServerPkg.Model.ComponentsPkg;
 
 import junit.framework.TestCase;
+import org.example.ServerPkg.Model.ForView.ComponentsView;
 import org.example.ServerPkg.Model.ShipBoard;
 
 public class ShieldTest extends TestCase {
@@ -145,5 +146,57 @@ public class ShieldTest extends TestCase {
         s.placeComponent(9,9, c9);
         s.placeComponent(7,8, c8);
         s.placeComponent(6, 6, e3);
+    }
+
+    public void testCreateView() {
+        int id = 5;
+        Direction dir1 = Direction.EAST;
+        Direction dir2 = Direction.NORTH;
+        Connector[] connectors = {Connector.SINGLE, Connector.EMPTY, Connector.DOUBLE, Connector.UNIVERSAL};
+        Shield shield = new Shield(id, dir1, connectors, dir2);
+        shield.setPosition(6, 8); // x, y
+
+        ComponentsView view = shield.createView();
+
+        assertEquals(6, view.getPosX());
+        assertEquals(8, view.getPosY());
+        assertEquals(id, view.getId());
+        assertEquals("Shield", view.getType());
+        assertEquals(dir1, view.getDirection());
+        assertEquals(dir2, view.getShieldedDirections()[1]);
+        // Verifica connettori
+        assertEquals(connectors.length, view.getConnectors().length);
+        for (int i = 0; i < connectors.length; i++) {
+            assertEquals(connectors[i], view.getConnectors()[i]);
+        }
+    }
+
+
+    public void testIsShield() {
+        Shield shield = new Shield(1, Direction.NORTH, new Connector[4], Direction.SOUTH);
+        assertSame(shield, shield.isShield());
+    }
+
+    public void testRightRotate() {
+        Shield shield = new Shield(1, Direction.NORTH, new Connector[4], Direction.SOUTH);
+        shield.setPosition(5, 7);
+
+        shield.rightRotate();
+        // Dopo rightRotate, la direzione deve essere EAST, direction2 deve seguire
+        assertEquals(Direction.EAST, shield.getDirection1());
+        shield.rightRotate();
+        assertEquals(Direction.SOUTH, shield.getDirection());
+
+    }
+
+    public void testLeftRotate() {
+        Shield shield = new Shield(1, Direction.NORTH, new Connector[4], Direction.SOUTH);
+        shield.setPosition(5, 7);
+
+        shield.leftRotate();
+        // Dopo rightRotate, la direzione deve essere EAST, direction2 deve seguire
+        assertEquals(Direction.WEST, shield.getDirection1());
+        shield.leftRotate();
+        assertEquals(Direction.SOUTH, shield.getDirection());
     }
 }
