@@ -89,6 +89,9 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private Button pickDiscoveredButton;
 
     @FXML
+    private Button opShip;
+
+    @FXML
     private VBox discoveredComponentsPanel;
 
     @FXML
@@ -163,9 +166,11 @@ public class BuildShipSceneController extends GuiController implements Initializ
         allButtons = List.of(
                 pickComponentButton, discardComponentButton, rotateLeftButton, rotateRightButton,
                 placeComponentButton, pickDiscoveredButton, bookComponentButton, pickBookedButton,
-                showDeckButton
+                showDeckButton, opShip
         );
 
+        opShip.setDisable(false);
+        opShip.setVisible(true);
         discardComponentButton.setDisable(true);
         rotateLeftButton.setDisable(true);
         rotateRightButton.setDisable(true);
@@ -1185,6 +1190,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showPlayer3ShipboardButton.setDisable(false);
         turnTimerButton.setDisable(false);
         endBuildShipButton.setDisable(false);
+    }
+
+    @FXML
+    public void onOpShipClick() throws RemoteException {
+        Message message = getGuiRoot().getClient().getMessageGenerator().generate("build_ship", new ArrayList<>());
+        getGuiRoot().getClient().sendMessage(message);
     }
 
     private void displayDeckCards(List<AdventureCardView> deckCards) {
