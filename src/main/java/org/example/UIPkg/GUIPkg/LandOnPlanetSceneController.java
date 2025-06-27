@@ -166,8 +166,22 @@ public class LandOnPlanetSceneController extends GuiController implements Initia
                     currentCardImageView.setVisible(false);
                 }
             } else {
-                // Nessuna carta corrente disponibile
-                currentCardImageView.setVisible(false);
+                JSONObject cardJson = findCardJsonById(String.valueOf(getGuiRoot().getGameCache().getCurrentCard().getId()));
+                if (cardJson != null) {
+                    String imagePath = cardJson.getString("img");
+                    InputStream imageStream = getClass().getResourceAsStream(imagePath);
+                    if (imageStream != null) {
+                        Image cardImage = new Image(imageStream);
+                        currentCardImageView.setImage(cardImage);
+                        currentCardImageView.setVisible(true);
+                    } else {
+                        System.err.println("Card image not found: " + imagePath);
+                        currentCardImageView.setVisible(false);
+                    }
+                } else {
+                    System.err.println("Card with ID " + getGuiRoot().getGameCache().getCurrentCard().getId() + " not found in JSON");
+                    currentCardImageView.setVisible(false);
+                }
             }
         } catch (Exception e) {
             System.err.println("Error loading current card: " + e.getMessage());
