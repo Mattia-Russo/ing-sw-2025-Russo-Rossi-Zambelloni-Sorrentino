@@ -14,15 +14,15 @@ java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerServer-jar-with-dependencies.jar
 
 Client TCP TUI:
 first command: chcp 65001 (to display colors)  
-second command: java "-Dfile.encoding=UTF-8" -jar target/GalaxyTruckerClient-jar-with-dependencies.jar tcp tui <ServerIp> 9191
+second command: java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerClient-jar-with-dependencies.jar tcp tui <ServerIp> 9191
 
 Client TCP GUI:
 java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerClient-jar-with-dependencies.jar tcp gui <ServerIp> 9191
 
 Client RMI TUI:
 first command: chcp 65001 (to display colors)  
-second command: java "-Dfile.encoding=UTF-8" -jar target/GalaxyTruckerClient-jar-with-dependencies.jar rmi tui <ServerIp> 3600
+second command: java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerClient-jar-with-dependencies.jar rmi tui <ServerIp> 3600
 
 Client RMI GUI:
-java "-Dfile.encoding=UTF-8" -jar target/GalaxyTruckerClient-jar-with-dependencies.jar rmi gui <ServerIp> 3600
+java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerClient-jar-with-dependencies.jar rmi gui <ServerIp> 3600
 
