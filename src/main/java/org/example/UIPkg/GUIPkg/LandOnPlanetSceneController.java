@@ -140,7 +140,7 @@ public class LandOnPlanetSceneController extends GuiController implements Initia
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon_game", new ArrayList<>());
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon", new ArrayList<>());
             getGuiRoot().getClient().sendMessage(message);
         }
     }
@@ -223,7 +223,7 @@ public class LandOnPlanetSceneController extends GuiController implements Initia
             int planetNum = Integer.parseInt(planetNumberTextField.getText());
             if(planetNum>=0 && planetNum<getGuiRoot().getGameCache().getCurrentCard().getPlanetList().size()) {
                 if(!getGuiRoot().getGameCache().getCurrentCard().getPlanetList().get(planetNum).isVisited()){
-                    Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_abandon", List.of("true", String.valueOf(planetNum)));
+                    Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_planet", List.of("true", String.valueOf(planetNum)));
                     getGuiRoot().getClient().sendMessage(message);
 
                     // Disabilita i bottoni per evitare click multipli
@@ -245,7 +245,7 @@ public class LandOnPlanetSceneController extends GuiController implements Initia
     @FXML
     public void onSkipButtonClick() {
         try {
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_abandon", List.of("false", "0")); // 0 verrà ignorato
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_planet", List.of("false", "0")); // 0 verrà ignorato
             getGuiRoot().getClient().sendMessage(message);
 
             // Disabilita i bottoni per evitare click multipli

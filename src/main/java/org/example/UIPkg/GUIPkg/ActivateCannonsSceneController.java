@@ -266,7 +266,7 @@ public class ActivateCannonsSceneController extends GuiController implements Ini
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon_game", new ArrayList<>());
+            Message message = getGuiRoot().getClient().getMessageGenerator().generate("abandon", new ArrayList<>());
             getGuiRoot().getClient().sendMessage(message);
         }
     }
