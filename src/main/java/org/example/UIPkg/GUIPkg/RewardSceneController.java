@@ -209,10 +209,6 @@ public class RewardSceneController extends GuiController implements Initializabl
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("accept_reward", List.of("true"));
             getGuiRoot().getClient().sendMessage(message);
 
-            // Disabilita i bottoni per evitare click multipli
-            acceptRewardButton.setDisable(true);
-            rejectRewardButton.setDisable(true);
-
             showValidationError("Reward accepted!");
         } catch (Exception e) {
             System.err.println("Error accepting reward: " + e.getMessage());
@@ -225,10 +221,6 @@ public class RewardSceneController extends GuiController implements Initializabl
         try {
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("accept_reward", List.of("false"));
             getGuiRoot().getClient().sendMessage(message);
-
-            // Disabilita i bottoni per evitare click multipli
-            acceptRewardButton.setDisable(true);
-            rejectRewardButton.setDisable(true);
 
             showValidationError("Reward rejected!");
         } catch (Exception e) {

@@ -222,10 +222,6 @@ public class LandOnAbandonSceneController extends GuiController implements Initi
         try {
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_abandon", List.of("true"));
             getGuiRoot().getClient().sendMessage(message);
-
-            // Disabilita i bottoni per evitare click multipli
-            LandButton.setDisable(true);
-            SkipButton.setDisable(true);
         } catch (Exception e) {
             System.err.println("Error landing on abandon: " + e.getMessage());
             showValidationError("Error landing on abandon!");
@@ -237,10 +233,6 @@ public class LandOnAbandonSceneController extends GuiController implements Initi
         try {
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_abandon", List.of("false"));
             getGuiRoot().getClient().sendMessage(message);
-
-            // Disabilita i bottoni per evitare click multipli
-            LandButton.setDisable(true);
-            SkipButton.setDisable(true);
         } catch (Exception e) {
             System.err.println("Error skipping abandon: " + e.getMessage());
             showValidationError("Error skipping abandon!");

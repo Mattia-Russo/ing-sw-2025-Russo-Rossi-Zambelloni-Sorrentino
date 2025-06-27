@@ -225,10 +225,6 @@ public class LandOnPlanetSceneController extends GuiController implements Initia
                 if(!getGuiRoot().getGameCache().getCurrentCard().getPlanetList().get(planetNum).isVisited()){
                     Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_planet", List.of("true", String.valueOf(planetNum)));
                     getGuiRoot().getClient().sendMessage(message);
-
-                    // Disabilita i bottoni per evitare click multipli
-                    LandButton.setDisable(true);
-                    SkipButton.setDisable(true);
                 } else {
                     showValidationError("Planet already visited!");
                 }
@@ -247,10 +243,6 @@ public class LandOnPlanetSceneController extends GuiController implements Initia
         try {
             Message message = getGuiRoot().getClient().getMessageGenerator().generate("land_on_planet", List.of("false", "0")); // 0 verrà ignorato
             getGuiRoot().getClient().sendMessage(message);
-
-            // Disabilita i bottoni per evitare click multipli
-            LandButton.setDisable(true);
-            SkipButton.setDisable(true);
         } catch (Exception e) {
             System.err.println("Error skipping planets: " + e.getMessage());
             showValidationError("Error skipping planets!");
