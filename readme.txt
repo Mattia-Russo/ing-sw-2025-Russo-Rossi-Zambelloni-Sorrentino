@@ -27,3 +27,4 @@ second command: java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerClient-jar-with-d
 Client RMI GUI:
 java "-Dfile.encoding=UTF-8" -jar GalaxyTruckerClient-jar-with-dependencies.jar rmi gui <ServerIp> 3600
 
+Ogni tanto la GUI crasha a causa di un utilizzo eccessivo della memoria
