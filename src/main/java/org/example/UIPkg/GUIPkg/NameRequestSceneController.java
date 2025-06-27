@@ -67,7 +67,7 @@ public class NameRequestSceneController extends GuiController implements Initial
         setupNameInputSection();
         setupLobbyButtonsSection();
         setupInitialState();
-        //setupBackground();
+        setupBackground();
         layoutComponents();
 
         Platform.runLater(() -> {
@@ -145,7 +145,7 @@ public class NameRequestSceneController extends GuiController implements Initial
         lobbyMessage.setVisible(false);
     }
 
-//    private void setupBackground() {
+    private void setupBackground() {
 //        try {
 //            String videoPath = Paths.get("src/main/resources/org.example/animatedBackgrounds/159088-818219574.mp4").toUri().toString();
 //            Media backgroundMedia = new Media(videoPath);
@@ -164,9 +164,9 @@ public class NameRequestSceneController extends GuiController implements Initial
 //            mediaPlayer = null;
 //            mediaView = null;
 //        }
-//
-//        borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-//    }
+
+        borderPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
 
     private void layoutComponents() {
         VBox mainContainer = new VBox(30);
@@ -185,7 +185,7 @@ public class NameRequestSceneController extends GuiController implements Initial
 //            centerPane.getChildren().addAll(mediaView, mainContainer);
 //            borderPane.setCenter(centerPane);
 //        } else {
-            borderPane.setCenter(mainContainer);
+        borderPane.setCenter(mainContainer);
 //        }
     }
 
