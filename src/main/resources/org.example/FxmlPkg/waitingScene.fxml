@@ -50,7 +50,7 @@
                     <Button fx:id="showPlayer3ShipboardButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" />
                 </HBox>
             </VBox>
-         <Label text="Wait for other players to end their actions" />
+         <Label text="Wait for other players to end their actions" textFill="WHITE"/>
 
             <!-- Messaggio di validazione -->
             <Label fx:id="validationMessage" text="Validation Message" textFill="RED" visible="false" />
