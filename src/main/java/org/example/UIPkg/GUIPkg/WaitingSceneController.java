@@ -834,7 +834,6 @@ public class WaitingSceneController extends GuiController implements Initializab
         }
     }
 
-
     private void placeQuantityIndicator(String imagePath, double x, double y, double size) {
         try {
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
@@ -900,15 +899,5 @@ public class WaitingSceneController extends GuiController implements Initializab
 
     private void hideValidationMessage() {
         Platform.runLater(() -> validationMessage.setVisible(false));
-    }
-
-    private boolean validateInputs(int x, int y){
-        if (getGuiRoot().getShipBoardLevel()==1) {
-            return x >= 5 && x <= 9 && y >= 5 && y <= 9 && (x != 5 || y != 5) && (x != 5 || y != 6) && (x != 6 || y != 5)
-                    && (x != 9 || y != 5) && (x != 9 || y != 6) && (x != 7 || y != 9);
-        }else {
-            return x >= 4 && x <= 10 && y >= 5 && y <= 9 && (x != 4 || y != 5) && (x != 4 || y != 6) && (x != 5 || y != 5) && (x != 7 || y != 9)
-                    && (x != 7 || y != 5) && (x != 10 || y != 5) && (x != 10 || y != 6) && (x != 9 || y != 5);
-        }
     }
 }

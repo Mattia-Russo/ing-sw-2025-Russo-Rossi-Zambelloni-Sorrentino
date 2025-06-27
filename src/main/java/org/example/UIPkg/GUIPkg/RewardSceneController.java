@@ -883,16 +883,6 @@ public class RewardSceneController extends GuiController implements Initializabl
         return null;
     }
 
-    private boolean validateInputs(int x, int y){
-        if (getGuiRoot().getShipBoardLevel()==1) {
-            return x >= 5 && x <= 9 && y >= 5 && y <= 9 && (x != 5 || y != 5) && (x != 5 || y != 6) && (x != 6 || y != 5)
-                    && (x != 9 || y != 5) && (x != 9 || y != 6) && (x != 7 || y != 9);
-        }else {
-            return x >= 4 && x <= 10 && y >= 5 && y <= 9 && (x != 4 || y != 5) && (x != 4 || y != 6) && (x != 5 || y != 5) && (x != 7 || y != 9)
-                    && (x != 7 || y != 5) && (x != 10 || y != 5) && (x != 10 || y != 6) && (x != 9 || y != 5);
-        }
-    }
-
     private void showValidationError(String message) {
         Platform.runLater(() -> {
             validationMessage.setText(message);
@@ -907,18 +897,70 @@ public class RewardSceneController extends GuiController implements Initializabl
     }
 
     private void showPlayerShipboard(String playerName) {
-        // Implementazione identica a WaitingSceneController
-        // [Copia il metodo completo da WaitingSceneController]
+        if (getGuiRoot().getGameCache() == null || !getGuiRoot().getGameCache().hasCachedGameView()) {
+            System.err.println("Nessuna GameView disponibile per mostrare la shipboard");
+            return;
+        }
+
+        GameView cachedGame = getGuiRoot().getGameCache().getCachedGameView();
+
+        // Verifica che ci siano giocatori nella GameView
+        if (cachedGame.getPlayers() == null || cachedGame.getPlayers().isEmpty()) {
+            System.err.println("Lista giocatori vuota nella GameView cached");
+            return;
+        }
+
+        PlayerView targetPlayer = null;
+
+        for (PlayerView player : cachedGame.getPlayers()) {
+            if (player.getName().equals(playerName)) {
+                targetPlayer = player;
+                break;
+            }
+        }
+
+        if (targetPlayer == null) {
+            System.err.println("Giocatore " + playerName + " non trovato nella GameView corrente");
+            // Non mostrare errore all'utente se è una GameView con eccezione
+            if (cachedGame.getException() == null) {
+                showValidationError("Player " + playerName + " not found");
+            }
+            return;
+        }
+
+        Platform.runLater(() -> {
+            shipboardContainer.getChildren().clear();
+            shipboardContainer.getChildren().add(shipboardImageView);
+        });
+
+        if (targetPlayer.getShipboardView() != null) {
+            List<ComponentsView> playerComponents = getShipboardComponents(targetPlayer.getShipboardView());
+            updateShipBoardGUI(playerComponents);
+        }
+
+        showOwnShipboardButton.setVisible(true);
+        showOwnShipboardButton.setDisable(false);
+        showValidationError("Now showing " + playerName + "'s shipboard");
     }
 
     private void resetShowShipboardButtons() {
-        // Implementazione identica a WaitingSceneController
-        // [Copia il metodo completo da WaitingSceneController]
+        showOwnShipboardButton.setDisable(false);
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer3ShipboardButton.setDisable(false);
+        showPlayer2ShipboardButton.setDisable(false);
+        showOwnShipboardButton.setVisible(false);
+        showPlayer1ShipboardButton.setVisible(true);
+        showPlayer2ShipboardButton.setVisible(false);
+        showPlayer3ShipboardButton.setVisible(false);
+        if(getGuiRoot().getPlayers().size()>=3){
+            showPlayer2ShipboardButton.setVisible(true);
+            if(getGuiRoot().getPlayers().size()==4){
+                showPlayer3ShipboardButton.setVisible(true);
+            }
+        }
     }
 
     private void hideValidationMessage() {
         Platform.runLater(() -> validationMessage.setVisible(false));
     }
-
-    // [Aggiungi tutti gli altri metodi di supporto necessari da WaitingSceneController]
 }

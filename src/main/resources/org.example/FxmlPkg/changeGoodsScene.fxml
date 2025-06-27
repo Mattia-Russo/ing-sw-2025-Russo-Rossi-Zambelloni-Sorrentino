@@ -44,8 +44,12 @@
     </center>
 
     <left>
-        <ScrollPane fitToWidth="true" style="-fx-background: #2a2a2a;" vbarPolicy="AS_NEEDED">
+        <ScrollPane fitToWidth="true" style="-fx-background: #2a2a2a;">
             <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #2a2a2a; -fx-padding: 20;">
+                <Label alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="201.0" text="Current card:"
+                       textAlignment="CENTER" textFill="WHITE"/>
+                <ImageView fx:id="currentCardImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+
                 <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Change Goods" textFill="WHITE" />
 
                 <Separator prefWidth="200.0" style="-fx-background-color: #555555;" />
