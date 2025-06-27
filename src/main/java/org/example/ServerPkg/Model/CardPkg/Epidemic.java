@@ -43,9 +43,9 @@ public class Epidemic extends AdventureCard implements Serializable {
         for(int i=0; i<g.getPlayers().size(); i++){
             if(!g.getPlayers().get(i).isAbandoned()){
                 checkAdjacentCabins(g.getPlayers().get(i).getPlayerShipBoard());
-                new GameView(g, null);
             }
         }
+        new GameView(g, null);
         g.Turn();
     }
 
