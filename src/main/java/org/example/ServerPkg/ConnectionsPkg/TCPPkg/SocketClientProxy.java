@@ -29,7 +29,7 @@ public class SocketClientProxy extends ClientProxy implements Runnable {
         out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
         this.clientAlive = System.currentTimeMillis();
-        //checkClientConnection();
+        //checkClientConnection();    UNCOMMENT WHEN DONE DEBUGGING
     }
 
     private void checkClientConnection(){

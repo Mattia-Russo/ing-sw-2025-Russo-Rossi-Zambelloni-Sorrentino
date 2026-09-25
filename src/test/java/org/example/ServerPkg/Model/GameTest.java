@@ -554,7 +554,7 @@ public class GameTest extends TestCase {
     }
     public void testPickComponentTile1() {
         Game g=new Game(4, 1, 1, new GameController());
-        g.setComponentsList(g.getComponentsList());
+        //g.setComponentsList(g.getComponentsList());
         try{
             g.pickComponentTile();
         }catch(TilesHeapNotInitializedException _){

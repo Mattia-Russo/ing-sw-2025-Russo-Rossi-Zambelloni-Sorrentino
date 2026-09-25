@@ -65,7 +65,7 @@ public class TCPClient implements Client {
 
         System.out.println("Connected to TCP server.");
 
-        startPingThread();
+        //startPingThread();         DECOMMENT WHEN NOT DEBUGGING
         //checkServerConnection();
         startListening();
         if(UI.equals("tui")){

@@ -367,4 +367,26 @@ public class WarZone extends AdventureCard implements Serializable {
     public String[] getCriteria() {
         return criteria;
     }
+
+    // for test
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public void setFire(boolean fire) {
+        this.fire = fire;
+    }
+
+    public void setLoser(Player player){
+        this.loser = loser;
+    }
+
+    public void setCurrentFire(int currentFire) {
+        this.currentFire = currentFire;
+    }
+
+    public void setRowOrCol(int rowOrCol) {
+        this.rowOrCol = rowOrCol;
+    }
 }

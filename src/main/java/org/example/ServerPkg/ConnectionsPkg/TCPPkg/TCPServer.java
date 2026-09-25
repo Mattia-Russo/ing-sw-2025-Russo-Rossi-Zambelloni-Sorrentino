@@ -79,7 +79,8 @@ public class TCPServer implements Server {
 
     private ClientProxy getClientProxy(String playerName){
         for (ClientProxy clientProxy : clientsProxies) {
-            if(clientProxy.getPlayerName().equals(playerName)){
+            String name = clientProxy.getPlayerName();
+            if(name != null && name.equals(playerName)){
                 return clientProxy;
             }
         }
