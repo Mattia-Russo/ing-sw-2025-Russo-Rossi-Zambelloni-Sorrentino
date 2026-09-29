@@ -138,12 +138,7 @@ public class AddAlienSceneController extends GuiController implements Initializa
         saveButtonStates();
     }
 
-    @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
-    // Aggiungi queste modifiche al AddAlienSceneController
+     // Aggiungi queste modifiche al AddAlienSceneController
     @Override
     public void setUp(GameView game) {
         Platform.runLater(() -> {

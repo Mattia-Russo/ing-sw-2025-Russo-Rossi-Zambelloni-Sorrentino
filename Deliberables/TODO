@@ -1,0 +1,13 @@
+- show deck in build ship phase doesn't work
+- on starting build ship scene the shipboard image grid isn't visualised
+- view other players shipboard button disappears
+- if I click too fast discard component and than pick component, the discard component remain disabled
+- in activate engines the player doesn't see view the positions on the leaderboard
+- show others' shipboard view doesn't work well
+- Error managing the message: Cannot invoke "org.example.ServerPkg.Model.ComponentsPkg.Goods.getColour()" because "good" is null
+- It seems a player can add only one good from a planet
+- edit change good scene: select position from the planet/whatever card + select position in the storage
+- Gui update on planet card not synchronized between all players
+- good added on the ship not of the same colour
+- remove astronauts view is without anything
+- end remove astronauts allow to end the phase and only after the server sends the message you can't do it

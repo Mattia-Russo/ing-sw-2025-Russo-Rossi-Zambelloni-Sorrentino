@@ -73,7 +73,7 @@ public class GUI extends UI {
                         GameView game = gameUpdatesQueue.poll();
                         assert game != null;
                         GuiController controller = GUIMain.getGuiMain().getCurrentController();
-                        controller.setUp(game);
+                        controller.cv wsd(game);
                     }
                     Thread.sleep(1000);
                 }

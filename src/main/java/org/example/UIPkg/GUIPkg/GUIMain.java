@@ -107,6 +107,7 @@ public class GUIMain extends Application {
                 }
                 GuiController controller = loader.getController();
                 controller.setGui(guiRoot);
+
                 controllerMap.put(fxmlFile, controller);
             }
         } catch (IOException e) {
@@ -125,7 +126,7 @@ public class GUIMain extends Application {
             if (newScene != null) {
                 currentScene = newScene;
                 stage.setScene(currentScene);
-                stage.centerOnScreen();
+                //stage.centerOnScreen();
                 stage.show();
             }
         });

@@ -81,11 +81,6 @@ public class WaitingSceneController extends GuiController implements Initializab
         });
     }
 
-    @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
     // Aggiungi queste modifiche al AddAlienSceneController
     @Override
     public void setUp(GameView game) {

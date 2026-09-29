@@ -131,11 +131,6 @@ public class ActivateEnginesSceneController extends GuiController implements Ini
     }
 
     @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
-    @Override
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);

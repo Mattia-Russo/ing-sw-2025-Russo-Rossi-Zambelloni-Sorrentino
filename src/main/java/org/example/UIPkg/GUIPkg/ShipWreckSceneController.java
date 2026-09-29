@@ -106,11 +106,6 @@ public class ShipWreckSceneController extends GuiController implements Initializ
     }
 
     @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
-    @Override
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);

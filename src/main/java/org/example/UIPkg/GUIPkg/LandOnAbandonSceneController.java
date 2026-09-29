@@ -95,11 +95,6 @@ public class LandOnAbandonSceneController extends GuiController implements Initi
     }
 
     @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
-    @Override
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);

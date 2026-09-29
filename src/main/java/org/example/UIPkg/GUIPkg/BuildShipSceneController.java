@@ -133,11 +133,6 @@ public class BuildShipSceneController extends GuiController implements Initializ
     private boolean isShowingDeck = false;
 
     @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupUI();
         validationMessage.setVisible(false);

@@ -95,11 +95,6 @@ public class RewardSceneController extends GuiController implements Initializabl
     }
 
     @Override
-    public void setGui(GUI guiRoot) {
-        super.setGui(guiRoot);
-    }
-
-    @Override
     public void setUp(GameView game) {
         Platform.runLater(() -> {
             updateGui(game);
