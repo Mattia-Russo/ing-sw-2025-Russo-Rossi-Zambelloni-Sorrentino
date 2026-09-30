@@ -9,8 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+import javafx.animation.PauseTransition;
+import javafx.stage.Popup;
 import javafx.util.Duration;
+
 import org.example.MessagePkg.ToClient.NotifyClientMessage;
 import org.example.ServerPkg.Model.ForView.GameView;
 import org.example.ServerPkg.Model.ForView.GameViewCache;
@@ -28,6 +30,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class GUI extends UI {
 
     private final BlockingQueue<GameView> gameUpdatesQueue;
+    private Popup currentPopup;
+    private PauseTransition currentPopupTimer;
     private int numPlayers;
     private int shipboardLevel;
     private int gameMode;
@@ -73,7 +77,7 @@ public class GUI extends UI {
                         GameView game = gameUpdatesQueue.poll();
                         assert game != null;
                         GuiController controller = GUIMain.getGuiMain().getCurrentController();
-                        controller.cv wsd(game);
+                        controller.setUp(game);
                     }
                     Thread.sleep(1000);
                 }
@@ -214,19 +218,20 @@ public class GUI extends UI {
     public void manageNotification(NotifyClientMessage notifyClientMessage) {
         Platform.runLater(() -> {
             Stage stage = GUIMain.getGuiMain().getStage();
-            Scene currentScene = stage.getScene();
-
-            if (currentScene != null) {
-                showNotificationOverlay(currentScene, notifyClientMessage.getMessage());
+            if (stage != null && stage.isShowing()) {
+                showNotification(stage, notifyClientMessage.getMessage());
             }
         });
     }
 
-    private void showNotificationOverlay(Scene scene, String message) {
-        Parent originalRoot = scene.getRoot();
+    private void showNotification(Stage stage, String message) {
+        // se ne arriva una nuova, chiudi la precedente
+        if (currentPopupTimer != null) currentPopupTimer.stop();
+        if (currentPopup != null) currentPopup.hide();
 
-        Label notificationLabel = new Label(message);
-        notificationLabel.setStyle(
+        Label label = new Label(message);
+        label.setMouseTransparent(true);
+        label.setStyle(
                 "-fx-background-color: transparent; " +
                         "-fx-text-fill: white; " +
                         "-fx-font-size: 18px; " +
@@ -235,19 +240,22 @@ public class GUI extends UI {
                         "-fx-effect: dropshadow(gaussian, black, 10, 0.8, 2, 2);"
         );
 
-        StackPane overlayRoot = new StackPane();
-        overlayRoot.getChildren().addAll(originalRoot, notificationLabel);
-        overlayRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0.2);");
-        StackPane.setAlignment(notificationLabel, javafx.geometry.Pos.CENTER);
+        Popup popup = new Popup();
+        popup.setAutoFix(false);
+        popup.setAutoHide(false);
+        popup.getContent().add(label);
+        popup.setOnShown(e -> {   // la larghezza è nota solo dopo lo show
+            popup.setX(stage.getX() + (stage.getWidth() - popup.getWidth()) / 2);
+            popup.setY(stage.getY() + (stage.getHeight() - popup.getHeight()) / 2);
+        });
+        popup.show(stage);
 
-        scene.setRoot(overlayRoot);
+        PauseTransition timer = new PauseTransition(Duration.seconds(3));
+        timer.setOnFinished(e -> popup.hide());
+        timer.play();
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e -> {
-            overlayRoot.getChildren().remove(originalRoot);
-            scene.setRoot(originalRoot);
-        }
-        ));
-        timeline.play();
+        currentPopup = popup;
+        currentPopupTimer = timer;
     }
 
     public void onGameStarted() {

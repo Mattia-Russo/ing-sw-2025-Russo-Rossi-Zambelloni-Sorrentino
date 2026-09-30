@@ -16,7 +16,7 @@ public class ShowDeckMessage extends Message {
     @Override
     public void handle(GameController controller, String playerName) throws RemoteException {
         if(checkClient()) {
-            Player player= controller.getGame().getPlayerByName(playerName);
+            Player player = controller.getGame().getPlayerByName(playerName);
             player.getState().showDeck(player, num);
         }
     }
