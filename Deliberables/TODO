@@ -1,6 +1,4 @@
-- lobby scene becomes white
-- on starting build ship scene the shipboard image grid isn't visualised
-- view other players shipboard button disappears - isn't visualized from the beginning
+- view other players shipboard button disappears - isn't visualized from the beginning -> try to send a gameview at the beginning with empty shipboards
 - if I click too fast discard component and than pick component, the discard component remain disabled
 - in activate engines the player doesn't see view the positions on the leaderboard
 - show others' shipboard view doesn't work well

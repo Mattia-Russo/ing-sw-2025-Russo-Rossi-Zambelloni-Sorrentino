@@ -25,11 +25,21 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.List;
+import java.util.Map;
 
 public class BuildShipSceneController extends GuiController implements Initializable {
 
     private static final String COMPONENT_JSON_PATH = "/org.example/JsonPkg/tiles.json";
     private static final String CARDS_JSON_PATH = "/org.example/JsonPkg/cards.json";
+
+    private static final Map<String, String> CABIN_IMAGES = Map.of(
+            "RED",    "/org.example/tiles/GT-new_tiles_16_for web52.jpg",
+            "GREEN",  "/org.example/tiles/GT-new_tiles_16_for web34.jpg",
+            "BLUE",   "/org.example/tiles/GT-new_tiles_16_for web33.jpg",
+            "YELLOW", "/org.example/tiles/GT-new_tiles_16_for web61.jpg"
+    );
+
+    private ImageView centralCabinView;
 
     @FXML
     private BorderPane borderPane;
@@ -145,6 +155,12 @@ public class BuildShipSceneController extends GuiController implements Initializ
     public void setUp(GameView game){
         updateGui(game);
         loadShipBoardImage();
+        if (!isViewingOtherPlayerShipboard && getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
+            PlayerView me = findPlayerByName(getGuiRoot().getGameCache().getCachedGameView(),getGuiRoot().getClient().getPlayerName());
+            if (me != null) {
+                placeCentralCabin(me);
+            }
+        }
         if(game.getException()!=null) {
             showValidationError(game.getException().getMessage());
         }
@@ -180,6 +196,37 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showDeckButton.setDisable(false);
         endShowDeckButton.setVisible(false);
         deckCardsContainer.setVisible(false);
+    }
+
+    private void placeCentralCabin(PlayerView player) {
+        Platform.runLater(() -> {
+            if (centralCabinView != null) {
+                shipboardContainer.getChildren().remove(centralCabinView);
+            }
+
+            String path = cabinImagePath(player);      // depends on how color is exposed
+            assert path != null;
+            InputStream is = getClass().getResourceAsStream(path);
+            if (is == null) { System.err.println("Cabin image not found: " + path); return; }
+
+            double cellW = shipboardImageView.getFitWidth() / 7.32;
+            double cellH = shipboardImageView.getFitHeight() / 5.52;
+            centralCabinView = new ImageView(new Image(is));
+            centralCabinView.setFitWidth(cellW * 0.94);
+            centralCabinView.setFitHeight(cellH * 0.94);
+            centralCabinView.setPreserveRatio(true);
+            centralCabinView.setX((7 - 4) * cellW + cellW * 0.2);
+            centralCabinView.setY((7 - 5) * cellH + cellH * 0.2);
+            shipboardContainer.getChildren().add(centralCabinView);
+        });
+    }
+
+    private String cabinImagePath(PlayerView player) {
+        String colour = player.getRocketColour();
+        if (colour == null) return null;
+        String path = CABIN_IMAGES.get(colour.trim().toUpperCase());
+        if (path == null) System.err.println("Unknown rocket colour: " + colour);
+        return path;
     }
 
     private void saveButtonStates() {
@@ -777,8 +824,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
         isViewingOtherPlayerShipboard = true;
         saveButtonStates();
         disableAllButtons();
-        showPlayer2ShipboardButton.setDisable(true);
-        showPlayer3ShipboardButton.setDisable(true);
+        showPlayer2ShipboardButton.setDisable(false);
+        showPlayer3ShipboardButton.setDisable(false);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer1ShipboardButton));
         showPlayer1ShipboardButton.setDisable(true);
     }
@@ -788,8 +835,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
         isViewingOtherPlayerShipboard = true;
         saveButtonStates();
         disableAllButtons();
-        showPlayer1ShipboardButton.setDisable(true);
-        showPlayer3ShipboardButton.setDisable(true);
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer3ShipboardButton.setDisable(false);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer2ShipboardButton));
         showPlayer2ShipboardButton.setDisable(true);
     }
@@ -799,8 +846,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
         isViewingOtherPlayerShipboard = true;
         saveButtonStates();
         disableAllButtons();
-        showPlayer1ShipboardButton.setDisable(true);
-        showPlayer2ShipboardButton.setDisable(true);
+        showPlayer1ShipboardButton.setDisable(false);
+        showPlayer2ShipboardButton.setDisable(false);
         showPlayerShipboard(getPlayerNameFromButton(showPlayer3ShipboardButton));
         showPlayer3ShipboardButton.setDisable(true);
     }
@@ -813,8 +860,8 @@ public class BuildShipSceneController extends GuiController implements Initializ
         showOwnShipboardButton.setDisable(true);
         showOwnShipboardButton.setVisible(false);
         showPlayer1ShipboardButton.setDisable(false);
-        showPlayer2ShipboardButton.setDisable(true);
-        showPlayer3ShipboardButton.setDisable(true);
+        showPlayer2ShipboardButton.setDisable(false);
+        showPlayer3ShipboardButton.setDisable(false);
 
         if (getGuiRoot().getGameCache() != null && getGuiRoot().getGameCache().hasCachedGameView()) {
             updatePlayerShipboardButtons(getGuiRoot().getGameCache().getCachedGameView());

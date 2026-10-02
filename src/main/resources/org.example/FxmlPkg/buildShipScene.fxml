@@ -39,7 +39,7 @@
                  <Label style="-fx-font-weight: bold;" text="View Other Players' Shipboards:" textFill="WHITE" />
                 <!-- Riga con la scritta e i pulsanti degli altri giocatori -->
                 <HBox alignment="CENTER_LEFT" spacing="15.0">
-                    <Button fx:id="showOwnShipboardButton" mnemonicParsing="false" onAction="#onShowOwnShipboard" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Show My Shipboard" />
+                    <Button fx:id="showOwnShipboardButton" disable="true" mnemonicParsing="false" onAction="#onShowOwnShipboard" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Show My Shipboard" />
                     <Button fx:id="showPlayer1ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer1Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" text="Show Player1's Shipboard" visible="false" />
                     <Button fx:id="showPlayer2ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer2Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" text="Show Player2's Shipboard" visible="false" />
                     <Button fx:id="showPlayer3ShipboardButton" mnemonicParsing="false" onAction="#onShowPlayer3Shipboard" style="-fx-background-color: #b0ae27; -fx-text-fill: white; -fx-font-weight: bold;" text="Show Player3's Shipboard" visible="false" />

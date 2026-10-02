@@ -291,6 +291,10 @@ public class GUI extends UI {
     private void goToBuildShipScene(){
         preserveWindowSize();
         changeScene(GUIMain.BUILD_SHIP_SCENE);
+        GuiController c = GUIMain.getGuiMain().getControllerMap().get(GUIMain.BUILD_SHIP_SCENE);
+        if (c instanceof BuildShipSceneController b) {
+            b.loadShipBoardImage();
+        }
     }
 
     @Override
