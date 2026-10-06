@@ -2,7 +2,7 @@
 
 This project is a Java-based implementation of the board game Galaxy Trucker, developed as a client/server application with a networked multiplayer flow.
 
-The repository includes both the game logic and generated deliverables, including packaged client and server JAR files together with Javadoc documentation.
+The repository includes the game logic and packaged deliverables, including client and server JAR files. The generated Javadoc is present but still incomplete and mostly empty, as the documentation work has not been finalized yet.
 
 ## Project status
 
@@ -17,14 +17,14 @@ The application is structured around a multiplayer game architecture, with:
 - message passing between clients and server
 - game logic for ship building, movement, combat, rewards, and end-of-game flow
 
-The repository also contains generated documentation under `Deliberables/Javadoc`, which provides an API overview of the main packages and classes.
+The repository also contains generated documentation under `Deliberables/Javadoc`, although this documentation is still incomplete and mostly empty because the Javadoc work has not been completed yet.
 
 ## Repository structure
 
 - `Deliberables/` — built artifacts and generated documentation
   - `GalaxyTruckerClient-jar-with-dependencies.jar`
   - `GalaxyTruckerServer-jar-with-dependencies.jar`
-  - `Javadoc/` — generated JavaDoc for the project
+  - `Javadoc/` — generated JavaDoc for the project (still unfinished / largely empty)
 - `.idea/` — IDE configuration files
 - `.gitignore` — repository ignore rules
 
@@ -39,7 +39,7 @@ The repository also contains generated documentation under `Deliberables/Javadoc
 
 ## Notes about the current state
 
-The codebase is functional in its current form, but it still contains issues that are being actively addressed. Some gameplay edge cases, synchronization issues, or logic inconsistencies may still require fixes before the project is considered complete.
+The codebase is functional in its current form, but it still contains issues that are being actively addressed. Some gameplay edge cases, synchronization issues, or logic inconsistencies may still require fixes before the project is considered complete. At the same time, the Javadocs are still unfinished and should be considered mostly empty for the time being.
 
 ## Running the project
 
@@ -60,7 +60,7 @@ A generated JavaDoc set is available in:
 Deliberables/Javadoc/Galaxy.Trucker/
 ```
 
-This documentation describes the main packages, classes, and interfaces for both client and server components.
+This documentation is still a work in progress and should be considered largely incomplete at the moment.
 
 ## Contributing
 
