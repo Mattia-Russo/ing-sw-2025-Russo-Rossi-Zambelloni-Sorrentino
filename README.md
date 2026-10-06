@@ -8,6 +8,8 @@ The repository includes the game logic and packaged deliverables, including clie
 
 This project is currently under active development. Some bugs and edge cases are still being resolved, and the codebase is not yet considered fully stable for final release.
 
+**Note:** The JAR files in `Deliberables/` are an older version from before the active bug-fixing process began. They may not reflect the current state of the project.
+
 ## Overview
 
 The application is structured around a multiplayer game architecture, with:
@@ -21,9 +23,9 @@ The repository also contains generated documentation under `Deliberables/Javadoc
 
 ## Repository structure
 
-- `Deliberables/` — built artifacts and generated documentation
-  - `GalaxyTruckerClient-jar-with-dependencies.jar`
-  - `GalaxyTruckerServer-jar-with-dependencies.jar`
+- `Deliberables/` — built artifacts and generated documentation (JAR files are outdated)
+  - `GalaxyTruckerClient-jar-with-dependencies.jar` — older version
+  - `GalaxyTruckerServer-jar-with-dependencies.jar` — older version
   - `Javadoc/` — generated JavaDoc for the project (still unfinished / largely empty)
 - `.idea/` — IDE configuration files
 - `.gitignore` — repository ignore rules
@@ -41,14 +43,18 @@ The repository also contains generated documentation under `Deliberables/Javadoc
 
 The codebase is functional in its current form, but it still contains issues that are being actively addressed. Some gameplay edge cases, synchronization issues, or logic inconsistencies may still require fixes before the project is considered complete. At the same time, the Javadocs are still unfinished and should be considered mostly empty for the time being.
 
+The JAR files provided in `Deliberables/` are from an earlier snapshot of the project and do not represent the current work-in-progress state. They should be rebuilt if you want to test the latest version of the code.
+
 ## Running the project
 
-The repository includes packaged executable JAR files under `Deliberables/`:
+The repository includes packaged executable JAR files under `Deliberables/`, however these are outdated:
 
 ```bash
 java -jar Deliberables/GalaxyTruckerServer-jar-with-dependencies.jar
 java -jar Deliberables/GalaxyTruckerClient-jar-with-dependencies.jar
 ```
+
+**Note:** For the latest version with bug fixes, you will need to rebuild the JAR files from the current source code.
 
 The exact startup procedure may depend on the environment and network configuration used for the game.
 
